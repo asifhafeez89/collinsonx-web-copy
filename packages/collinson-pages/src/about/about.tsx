@@ -1,14 +1,14 @@
 import { Layout, Page, Text, Code, Link } from '@vercel/examples-ui'
 import Navbar from '../components/navbar'
 
-export default function About() {
+export default function  About() {
   return (
     <Page>
       <Navbar />
       <Text variant="h1" className="mb-6">
         About
       </Text>
-      <Text>
+      {/* <Text>
         This is the about page, defined in{' '}
         <Code>packages/acme-pages/src/about</Code> and imported by{' '}
         <Code>apps/main/pages/about.tsx</Code>
@@ -19,9 +19,9 @@ export default function About() {
         they&apos;re part of the same Next.js app, even if their source lives
         externally. Navigating to <Link href="/docs">Docs (Multi Zones)</Link>{' '}
         requires a page refresh because it lives in a different Next.js app.
-      </Text>
+      </Text> */}
     </Page>
   )
 }
 
-About.Layout = Layout
+// About.Layout = Layout

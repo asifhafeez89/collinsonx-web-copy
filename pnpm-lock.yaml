@@ -14,6 +14,39 @@ importers:
       prettier: 2.8.3
       turbo: 1.7.0
 
+  apps/main:
+    specifiers:
+      '@collinson/design-system': workspace:*
+      '@collinson/pages': workspace:*
+      '@collinson/utils': workspace:*
+      '@types/react': latest
+      '@vercel/examples-ui': ^1.0.4
+      autoprefixer: ^10.4.12
+      eslint: ^8.11.0
+      eslint-config-collinson: workspace:*
+      next: latest
+      postcss: ^8.4.18
+      react: latest
+      react-dom: latest
+      tailwindcss: ^3.2.1
+      typescript: 4.8.4
+    dependencies:
+      '@collinson/design-system': link:../../packages/collinson-design-system
+      '@collinson/pages': link:../../packages/collinson-pages
+      '@collinson/utils': link:../../packages/collinson-utils
+      '@vercel/examples-ui': 1.0.4_gru2niblrprbai56sdagiiy5sa
+      next: 13.1.4_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@types/react': 18.0.27
+      autoprefixer: 10.4.13_postcss@8.4.21
+      eslint: 8.32.0
+      eslint-config-collinson: link:../../packages/eslint-config-collinson
+      postcss: 8.4.21
+      tailwindcss: 3.2.4_postcss@8.4.21
+      typescript: 4.8.4
+
   apps/search:
     specifiers:
       '@collinson/design-system': workspace:*

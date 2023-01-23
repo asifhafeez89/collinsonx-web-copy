@@ -11,7 +11,7 @@ const Navbar: FC<{ isDocsApp?: boolean }> = ({ isDocsApp }) =>
         <Link href="/">Docs</Link>
       </li>
       <li className="ml-4">
-        <Link href="/about">About Docs</Link>
+        <Link href="/seach">Search</Link>
       </li>
     </ul>
   ) : (
@@ -23,7 +23,7 @@ const Navbar: FC<{ isDocsApp?: boolean }> = ({ isDocsApp }) =>
         <Link href="/about">About</Link>
       </li>
       <li className="ml-4">
-        <A href="/docs">Docs (Multi Zones)</A>
+        <A href="/search">search</A>
       </li>
     </ul>
   )
