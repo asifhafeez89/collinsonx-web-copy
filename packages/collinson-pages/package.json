@@ -49,6 +49,9 @@
   "dependencies": {
     "@collinson/design-system": "workspace:*",
     "@collinson/utils": "workspace:*",
+    "@emotion/react": "^11.10.5",
+    "@mantine/core": "^5.10.1",
+    "@mantine/hooks": "^5.10.1",
     "@swc/helpers": "^0.4.12",
     "@vercel/examples-ui": "^1.0.4",
     "clsx": "^1.1.1"
