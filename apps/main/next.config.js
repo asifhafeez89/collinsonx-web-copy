@@ -1,4 +1,4 @@
-const { DOCS_URL } = process.env
+const { SEARCH_URL } = process.env
 
 module.exports = {
   async rewrites() {
@@ -7,12 +7,12 @@ module.exports = {
        * Rewrites for Multi Zones
        */
       {
-        source: '/docs',
-        destination: `${DOCS_URL}/docs`,
+        source: '/search',
+        destination: `${SEARCH_URL}/search`,
       },
       {
-        source: '/docs/:path*',
-        destination: `${DOCS_URL}/docs/:path*`,
+        source: '/search/:path*',
+        destination: `${SEARCH_URL}/search/:path*`,
       },
     ]
   },
