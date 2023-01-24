@@ -4,7 +4,7 @@ export default function Success() {
   return (
     <Stack mt={140} spacing={50} align="center" justify="space-between">
       <Title order={1} size={34} align="center">
-        You're in
+        You&apos;re in
       </Title>
       <Box
         sx={{
