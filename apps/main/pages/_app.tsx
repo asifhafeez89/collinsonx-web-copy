@@ -1,10 +1,25 @@
 import type { AppProps } from 'next/app';
 import { MantineProvider } from '@mantine/core';
-import Layout from '../components/Layout';
+import { NextPage } from 'next';
+import { ComponentType, ReactElement } from 'react';
+
+import DefaultLayout from '../components/Layout';
 import theme from '../config/theme';
 import Head from 'next/head';
 
-export default function MyApp({ Component, pageProps }: AppProps) {
+type Page<P = {}> = NextPage<P> & {
+  getLayout?: (page: ReactElement) => JSX.Element;
+  layout?: ComponentType;
+};
+
+type Props = AppProps & {
+  Component: Page;
+};
+
+export default function MyApp({ Component, pageProps }: Props) {
+  // Use the layout defined at the page level, if available
+  const getLayout = Component.getLayout ?? ((page) => page);
+  const Layout = Component.layout ?? DefaultLayout;
   return (
     <>
       <Head>
@@ -15,9 +30,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         />
       </Head>
       <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        {getLayout(<Component {...pageProps} />)}
       </MantineProvider>
     </>
   );
