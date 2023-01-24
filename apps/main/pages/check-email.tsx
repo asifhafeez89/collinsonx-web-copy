@@ -21,7 +21,11 @@ export default function CheckEmail() {
         </Text>
         <Text size={14}>
           Wrong email?{' '}
-          <Button variant="subtle" sx={{ fontSize: '14px' }} compact>
+          <Button
+            variant="subtle"
+            sx={{ fontSize: '14px', height: '20px' }}
+            compact
+          >
             Re-enter your address
           </Button>
         </Text>
