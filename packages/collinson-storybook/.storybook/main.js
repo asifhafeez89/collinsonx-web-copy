@@ -3,7 +3,7 @@ const path = require('path')
 module.exports = {
   stories: [
     {
-      directory: '../../acme-design-system/src/**',
+      directory: '../../collinson-design-system/src/**',
       files: '*.stories.*',
       // This config is not being used properly by <Story /> in MDX stories.
       // If it's not needed to have a prefix, removing it will fix the issue
