@@ -6,7 +6,7 @@
       "outputs": [".next/**", "dist/**", "storybook-static/**"]
     },
     "main#build": {
-      "dependsOn": ["^build", "$DOCS_URL"],
+      "dependsOn": ["^build", "$SEARCH_URL"],
       "outputs": [".next/**"]
     },
     "test": {
