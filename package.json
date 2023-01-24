@@ -9,7 +9,7 @@
   "scripts": {
     "build": "turbo run build",
     "build:main": "turbo run build --filter=main...",
-    "build:docs": "turbo run build --filter=docs...",
+    "build:search": "turbo run build --filter=search...",
     "dev": "turbo run dev",
     "start": "turbo run start",
     "clean": "turbo run clean && rm -rf node_modules",
