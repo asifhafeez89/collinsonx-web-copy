@@ -1,16 +1,15 @@
 import InputValidation from '@components/InputValidation';
-import {
-  Button,
-  Title,
-  Stack,
-  TextInput,
-  Text,
-  Box,
-  Flex,
-} from '@mantine/core';
+import { Button, Title, Stack, Text, Box, Flex } from '@mantine/core';
+import { useRouter } from 'next/router';
 import LoginCode from '../assets/login-code.svg';
 
 export default function CheckEmail() {
+  const router = useRouter();
+
+  const handleClickConfirm = () => {
+    router.push('/success');
+  };
+
   return (
     <Stack align="center">
       <Stack spacing={24} align="center">
@@ -28,7 +27,9 @@ export default function CheckEmail() {
         </Text>
       </Stack>
       <InputValidation />
-      <Button fullWidth>Confirm</Button>
+      <Button onClick={handleClickConfirm} fullWidth>
+        Confirm
+      </Button>
       <Flex mt={58} align="center" direction="column">
         <Box
           sx={{
