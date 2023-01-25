@@ -14,7 +14,7 @@ pnpm install
 
 ### Clean dependencies
 ```
-pnpn run clean
+pnpm run clean
 ```
 
 ### Run local development environment
@@ -24,5 +24,5 @@ pnpm run dev
 
 ### Build production bundles
 ```
-pnpn run build
+pnpm run build
 ```
