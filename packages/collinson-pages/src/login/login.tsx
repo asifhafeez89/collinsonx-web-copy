@@ -2,7 +2,7 @@ import { Button, Title, Stack, TextInput, Box, Flex } from '@mantine/core';
 
 import { useRouter } from 'next/router';
 import LayoutLogin from '@collinson/design-system/layoutLogin';
-import LoginImage from '../assets/login.svg';
+// import LoginImage from '../assets/login.svg';
 
 export default function Home() {
   const router = useRouter();
@@ -32,7 +32,7 @@ export default function Home() {
             maxHeight: '304px',
           }}
         >
-          <LoginImage />
+          {/* <LoginImage /> */}
         </Box>
       </Flex>
     </Stack>

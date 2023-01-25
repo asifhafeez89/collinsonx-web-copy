@@ -52,6 +52,7 @@
     "react-dom": "^18.2.0"
   },
   "dependencies": {
-    "@storybook/builder-webpack5": "^6.5.15"
+    "@storybook/builder-webpack5": "^6.5.15",
+    "@svgr/webpack": "^6.5.1"
   }
 }
