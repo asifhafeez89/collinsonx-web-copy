@@ -1,14 +1,20 @@
+import Image from 'next/image';
+
 interface ImageProps {
-    variation: string;
+    src: string;
+    alt: string;
 }
 
-const Image = ({variation}:ImageProps) => {
+const CLImage = ({src, alt}:ImageProps) => {
     
     return (
-        <div>
-            Test
-        </div>
+        <Image
+            src={src}
+            alt={alt}
+            width={300}
+            height={300}
+        />
     );
 }
 
-export default Image; 
+export default CLImage; 
