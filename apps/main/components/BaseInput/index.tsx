@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Group } from '@mantine/core';
 import BaseInput from './BaseInput';
+
 export default function InputValidation() {
   const [code, setCode] = useState([]);
   return (

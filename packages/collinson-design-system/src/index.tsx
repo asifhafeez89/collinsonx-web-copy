@@ -1,3 +1,3 @@
-export { default as Button } from './button'
-export { default as Quote } from './quote'
-export { default as Searchbar } from './searchbar'
+ export { default as LayoutLogin } from './layoutLogin';
+ export { default as BaseInput } from './baseInput';
+ export { default as Image } from './climage';

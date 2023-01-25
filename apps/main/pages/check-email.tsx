@@ -1,4 +1,4 @@
-import InputValidation from '@components/InputValidation';
+import InputValidation from '@components/BaseInput';
 import LayoutLogin from '@components/Layout/LayoutLogin';
 import { Button, Title, Stack, Text, Box, Flex } from '@mantine/core';
 import { useRouter } from 'next/router';
