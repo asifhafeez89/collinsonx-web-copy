@@ -1,4 +1,5 @@
 import InputValidation from '@components/InputValidation';
+import LayoutLogin from '@components/Layout/LayoutLogin';
 import { Button, Title, Stack, Text, Box, Flex } from '@mantine/core';
 import { useRouter } from 'next/router';
 import LoginCode from '../assets/login-code.svg';
@@ -8,6 +9,9 @@ export default function CheckEmail() {
 
   const handleClickConfirm = () => {
     router.push('/success');
+  };
+  const handleClickReenter = () => {
+    router.push('/');
   };
 
   return (
@@ -23,17 +27,18 @@ export default function CheckEmail() {
           Wrong email?{' '}
           <Button
             variant="subtle"
-            sx={{ fontSize: '14px', height: '20px' }}
+            sx={{ fontSize: '14px', height: '20px', color: 'white' }}
+            onClick={handleClickReenter}
             compact
           >
             Re-enter your address
           </Button>
         </Text>
+        <InputValidation />
+        <Button onClick={handleClickConfirm} fullWidth>
+          Confirm
+        </Button>
       </Stack>
-      <InputValidation />
-      <Button onClick={handleClickConfirm} fullWidth>
-        Confirm
-      </Button>
       <Flex mt={58} align="center" direction="column">
         <Box
           sx={{
@@ -48,3 +53,5 @@ export default function CheckEmail() {
     </Stack>
   );
 }
+
+CheckEmail.getLayout = (page: JSX.Element) => <LayoutLogin>{page}</LayoutLogin>;

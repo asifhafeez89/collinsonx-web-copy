@@ -1,5 +1,7 @@
-import { Flex, Stack, Title, Box } from '@mantine/core';
+import LayoutLogin from '@components/Layout/LayoutLogin';
+import { Stack, Title, Box } from '@mantine/core';
 import LoginSuccess from '../assets/login-success.svg';
+
 export default function Success() {
   return (
     <Stack mt={140} spacing={50} align="center" justify="space-between">
@@ -18,3 +20,5 @@ export default function Success() {
     </Stack>
   );
 }
+
+Success.getLayout = (page: JSX.Element) => <LayoutLogin>{page}</LayoutLogin>;

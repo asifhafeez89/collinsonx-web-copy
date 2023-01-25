@@ -1,5 +1,7 @@
 import { Button, Title, Stack, TextInput, Box, Flex } from '@mantine/core';
+
 import { useRouter } from 'next/router';
+import LayoutLogin from '../components/Layout/LayoutLogin';
 import LoginImage from '../assets/login.svg';
 
 export default function Home() {
@@ -36,3 +38,5 @@ export default function Home() {
     </Stack>
   );
 }
+
+Home.getLayout = (page: JSX.Element) => <LayoutLogin>{page}</LayoutLogin>;
