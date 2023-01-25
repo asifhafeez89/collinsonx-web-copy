@@ -1,14 +1,24 @@
-import type { AppProps } from 'next/app'
-import type { LayoutProps } from '@vercel/examples-ui/layout'
-import { getLayout } from '@vercel/examples-ui'
-import '@vercel/examples-ui/globals.css'
+import type { AppProps } from 'next/app';
+import { MantineProvider } from '@mantine/core';
+import Layout from '../components/Layout';
+import theme from '../config/theme';
+import Head from 'next/head';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
-  const Layout = getLayout<LayoutProps>(Component)
-
   return (
-    <Layout title="Microfrontends" path="solutions/microfrontends">
-      <Component {...pageProps} />
-    </Layout>
-  )
+    <>
+      <Head>
+        <title>CollinsonX</title>
+        <meta
+          name="viewport"
+          content="minimum-scale=1, initial-scale=1, width=device-width"
+        />
+      </Head>
+      <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </MantineProvider>
+    </>
+  );
 }

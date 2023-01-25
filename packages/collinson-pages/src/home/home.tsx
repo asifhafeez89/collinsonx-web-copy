@@ -20,6 +20,7 @@ export default function Home() {
       <Navbar />
       <Text variant="h1" className="mb-6">
         Home
+        <Button>Kokolala</Button>
       </Text>
      
     </Page>
