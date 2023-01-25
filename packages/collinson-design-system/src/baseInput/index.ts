@@ -1,2 +1,2 @@
-export { default } from './baseInput'
 export * from './baseInput'
+export * from './baseInputs'

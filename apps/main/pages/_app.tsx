@@ -6,6 +6,8 @@ import { ComponentType, ReactElement } from 'react';
 import theme from '../config/theme';
 import Head from 'next/head';
 
+import  { DefaultLayout } from '@collinson/design-system';
+
 type Page<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactElement) => JSX.Element;
   layout?: ComponentType;
@@ -15,9 +17,11 @@ type Props = AppProps & {
   Component: Page;
 };
 
+
 export default function MyApp({ Component, pageProps }: Props) {
   // Use the layout defined at the page level, if available
-
+  const getLayout = Component.getLayout ?? ((page) => page);
+  const Layout = Component.layout ?? DefaultLayout;
   return (
     <>
       <Head>
@@ -28,7 +32,7 @@ export default function MyApp({ Component, pageProps }: Props) {
         />
       </Head>
       <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
-        <Component {...pageProps} />
+        {getLayout(<Component {...pageProps} />)}
       </MantineProvider>
     </>
   );

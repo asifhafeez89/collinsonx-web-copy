@@ -1,9 +1,11 @@
 import { Button, Title, Stack, Text, Box, Flex } from '@mantine/core';
 import { useRouter } from 'next/router';
 
-import { LayoutLogin, BaseInput, Image } from '@collinson/design-system';
+import { LayoutLogin } from '@collinson/design-system';
+import BaseInputs from '@collinson/design-system/baseInput/baseInputs';
+import LoginCode from '../assets/login-code.svg';
 
-const CheckEmail = ()  => {
+export default function CheckEmail() {
   const router = useRouter();
 
   const handleClickConfirm = () => {
@@ -34,7 +36,7 @@ const CheckEmail = ()  => {
                 Re-enter your address
             </Button>
             </Text>
-            <BaseInput />
+            <BaseInputs />
             <Button onClick={handleClickConfirm} fullWidth>
             Confirm
             </Button>
@@ -47,7 +49,7 @@ const CheckEmail = ()  => {
                 maxHeight: '304px',
             }}
             >
-             {/* <LoginCode /> */}
+             <LoginCode />
             </Box>
         </Flex>
         </Stack>
@@ -55,4 +57,4 @@ const CheckEmail = ()  => {
   );
 }
 
-export default CheckEmail;
+CheckEmail.getLayout = (page: JSX.Element) => <LayoutLogin>{page}</LayoutLogin>;
