@@ -53,6 +53,7 @@
   },
   "dependencies": {
     "@storybook/builder-webpack5": "^6.5.15",
+    "@storybook/manager-webpack5": "^6.5.15",
     "@svgr/webpack": "^6.5.1"
   }
 }
