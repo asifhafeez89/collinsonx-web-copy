@@ -10,8 +10,15 @@ const theme: MantineThemeOverride = {
   defaultRadius: 4,
   globalStyles: ({ colors }) => ({
     body: {
+      height: '100%',
       backgroundColor: colors.dark[6],
       color: colors.white[0],
+    },
+    html: {
+      height: '100%',
+    },
+    '#__next': {
+      height: '100%',
     },
   }),
   components: {
