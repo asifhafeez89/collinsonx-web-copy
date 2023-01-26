@@ -1,7 +1,7 @@
 import { Button, Title, Stack, TextInput, Box, Flex } from '@mantine/core';
 
 import { useRouter } from 'next/router';
-import LayoutLogin from '@collinson/design-system/layoutLogin';
+import LayoutLogin from '../components/LayoutLogin';
 import LoginImage from '../assets/login.svg';
 
 export default function Home() {

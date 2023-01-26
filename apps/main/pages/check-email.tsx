@@ -1,7 +1,7 @@
 import { Button, Title, Stack, Text, Box, Flex } from '@mantine/core';
 import { useRouter } from 'next/router';
 
-import { LayoutLogin } from '@collinson/design-system';
+import LayoutLogin from '../components/LayoutLogin';
 import BaseInputs from '@collinson/design-system/baseInput/baseInputs';
 import LoginCode from '../assets/login-code.svg';
 
@@ -17,42 +17,42 @@ export default function CheckEmail() {
 
   return (
     <LayoutLogin>
-        <Stack align="center">
+      <Stack align="center">
         <Stack spacing={24} align="center">
-            <Title order={1} size={20}>
+          <Title order={1} size={20}>
             Check your email
-            </Title>
-            <Text align="center">
+          </Title>
+          <Text align="center">
             We have sent a confirmation code to john@doe.com.
-            </Text>
-            <Text size={14}>
+          </Text>
+          <Text size={14}>
             Wrong email?{' '}
             <Button
-                variant="subtle"
-                sx={{ fontSize: '14px', height: '20px', color: 'white' }}
-                onClick={handleClickReenter}
-                compact
+              variant="subtle"
+              sx={{ fontSize: '14px', height: '20px', color: 'white' }}
+              onClick={handleClickReenter}
+              compact
             >
-                Re-enter your address
+              Re-enter your address
             </Button>
-            </Text>
-            <BaseInputs />
-            <Button onClick={handleClickConfirm} fullWidth>
+          </Text>
+          <BaseInputs />
+          <Button onClick={handleClickConfirm} fullWidth>
             Confirm
-            </Button>
+          </Button>
         </Stack>
         <Flex mt={58} align="center" direction="column">
-            <Box
+          <Box
             sx={{
-                width: '100%',
-                maxWidth: '342px',
-                maxHeight: '304px',
+              width: '100%',
+              maxWidth: '342px',
+              maxHeight: '304px',
             }}
-            >
-             <LoginCode />
-            </Box>
+          >
+            <LoginCode />
+          </Box>
         </Flex>
-        </Stack>
+      </Stack>
     </LayoutLogin>
   );
 }
