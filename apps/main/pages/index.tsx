@@ -1,14 +1,40 @@
-import { Button, Title, Stack, TextInput, Box, Flex } from '@mantine/core';
+import {
+  Button,
+  Title,
+  Stack,
+  TextInput,
+  TextInputProps,
+  Box,
+  Flex,
+} from '@mantine/core';
 
 import { useRouter } from 'next/router';
 import LayoutLogin from '../components/LayoutLogin';
 import LoginImage from '../assets/login.svg';
+import { useState } from 'react';
+
+function validateEmail(input: string) {
+  return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input);
+}
 
 export default function Home() {
   const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [loginError, setLoginError] = useState('');
+
   const handleClickContinue = () => {
-    router.push('/check-email');
+    if (!validateEmail(email.trim())) {
+      setLoginError('Invalid email');
+    } else {
+      router.push('/check-email');
+    }
   };
+
+  const handleChangeEmail: TextInputProps['onChange'] = (e) => {
+    setLoginError('');
+    setEmail(e.target.value);
+  };
+
   return (
     <>
       <div
@@ -39,6 +65,11 @@ export default function Home() {
             Login to your account
           </Title>
           <TextInput
+            autoFocus
+            type="email"
+            value={email}
+            error={loginError}
+            onChange={handleChangeEmail}
             placeholder="Your email address"
             label="Your email address"
             withAsterisk
