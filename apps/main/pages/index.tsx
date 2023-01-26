@@ -31,8 +31,6 @@ export default function Home() {
             position: 'relative',
             width: '100%',
             height: '100%',
-            maxWidth: '342px',
-            maxHeight: '304px',
           }}
         >
           <Box sx={{ zIndex: 1, position: 'relative' }}>
