@@ -6,7 +6,7 @@ import { ComponentType, ReactElement } from 'react';
 import theme from '../config/theme';
 import Head from 'next/head';
 
-import  { DefaultLayout } from '@collinson/design-system';
+import DefaultLayout from '../components/Layout';
 
 type Page<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactElement) => JSX.Element;
@@ -16,7 +16,6 @@ type Page<P = {}> = NextPage<P> & {
 type Props = AppProps & {
   Component: Page;
 };
-
 
 export default function MyApp({ Component, pageProps }: Props) {
   // Use the layout defined at the page level, if available
