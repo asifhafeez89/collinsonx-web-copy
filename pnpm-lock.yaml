@@ -24,6 +24,7 @@ importers:
       '@mantine/core': ^5.10.1
       '@mantine/hooks': ^5.10.1
       '@mantine/next': ^5.10.1
+      '@next/font': ^13.1.5
       '@svgr/webpack': ^6.5.1
       '@types/react': latest
       '@vercel/examples-ui': ^1.0.4
@@ -45,6 +46,7 @@ importers:
       '@mantine/core': 5.10.1_pl7c6tg3txk3em5brrn6d2cdkm
       '@mantine/hooks': 5.10.1_react@18.2.0
       '@mantine/next': 5.10.1_qoprtljvsltba6pjuevay7hrvy
+      '@next/font': 13.1.5
       '@svgr/webpack': 6.5.1
       '@vercel/examples-ui': 1.0.4_s6zlkfvllybxhmcq5pkr2zsuza
       next: 13.1.5_biqbaboplfbrettd7655fr4n2y
@@ -899,7 +901,6 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/helper-plugin-utils': 7.20.2
-    dev: false
 
   /@babel/plugin-syntax-jsx/7.18.6_@babel+core@7.20.12:
     resolution: {integrity: sha512-6mmljtAedFGTWu2p/8WIORGwy+61PLgOMPOdazc7YoJ9ZCWUyFy3A6CpPkRKLKD1ToAesxX8KGEViAiLo9N+7Q==}
@@ -1904,7 +1905,6 @@ packages:
       find-root: 1.1.0
       source-map: 0.5.7
       stylis: 4.1.3
-    dev: false
 
   /@emotion/babel-plugin/11.10.5_@babel+core@7.20.12:
     resolution: {integrity: sha512-xE7/hyLHJac7D2Ve9dKroBBZqBT7WuPQmWcq7HSGb84sUuP4mlOWoB8dvVfD9yk5DHkU1m6RW7xSoDtnQHNQeA==}
@@ -1924,6 +1924,7 @@ packages:
       find-root: 1.1.0
       source-map: 0.5.7
       stylis: 4.1.3
+    dev: true
 
   /@emotion/cache/11.10.5:
     resolution: {integrity: sha512-dGYHWyzTdmK+f2+EnIGBpkz1lKc4Zbj2KHd4cX3Wi8/OWr5pKslNjc3yABKH4adRGCvSX4VDC0i04mrrq0aiRA==}
@@ -1962,7 +1963,6 @@ packages:
       '@types/react': 18.0.27
       hoist-non-react-statics: 3.3.2
       react: 18.2.0
-    dev: false
 
   /@emotion/react/11.10.5_@types+react@18.0.27:
     resolution: {integrity: sha512-TZs6235tCJ/7iF6/rvTaOH4oxQg2gMAcdHemjwLKIjKz4rRuYe1HJ2TQJKnAcRAfOUDdU8XoDadCe1rl72iv8A==}
@@ -2010,6 +2010,7 @@ packages:
       '@types/react': 18.0.27
       hoist-non-react-statics: 3.3.2
       react: 18.2.0
+    dev: true
 
   /@emotion/serialize/1.1.1:
     resolution: {integrity: sha512-Zl/0LFggN7+L1liljxXdsVSVlg6E/Z/olVWpfxUTxOAmi8NU7YoeWeLfi1RmnB2TATHoaWwIBRoL+FvAJiTUQA==}
@@ -2439,7 +2440,7 @@ packages:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
     dependencies:
-      '@emotion/react': 11.10.5_yxdp3dl3eazy3vwpbmv4fq727a
+      '@emotion/react': 11.10.5_3stiutgnnbnfnf3uowm5cip22i
       '@emotion/server': 11.10.0
       '@mantine/styles': 5.10.1_sogmqz4enknxtkxk3k5s6bqwnq
       html-react-parser: 1.4.12_react@18.2.0
@@ -2465,7 +2466,7 @@ packages:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
     dependencies:
-      '@emotion/react': 11.10.5_yxdp3dl3eazy3vwpbmv4fq727a
+      '@emotion/react': 11.10.5_3stiutgnnbnfnf3uowm5cip22i
       clsx: 1.1.1
       csstype: 3.0.9
       react: 18.2.0
@@ -2575,6 +2576,10 @@ packages:
     resolution: {integrity: sha512-uj4+btoFG1lUCI0wx5onI/6VBAb70TJ6WkoT7xtOO54cIh+8a+gSpLpBKHghbMQuF4Tk6bPv05twB/uxyUHT8A==}
     dependencies:
       glob: 7.1.7
+    dev: false
+
+  /@next/font/13.1.5:
+    resolution: {integrity: sha512-6M5R6yC3JkdJiqo/YJxDp6+0vDn0smXOAzl8uHt4qmDS2u53ji/19K0HM51d+5kg8xntDi+N2hw7YjaU9inkNA==}
     dev: false
 
   /@next/swc-android-arm-eabi/13.1.5:
