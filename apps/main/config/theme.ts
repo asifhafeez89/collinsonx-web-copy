@@ -3,7 +3,6 @@ import { MantineThemeOverride } from '@mantine/core';
 import { Open_Sans } from '@next/font/google';
 
 const openSans = Open_Sans({
-  variable: '--open-sans',
   style: ['normal'],
   subsets: ['latin'],
 });
