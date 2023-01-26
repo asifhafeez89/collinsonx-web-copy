@@ -4,7 +4,6 @@ import { Open_Sans } from '@next/font/google';
 
 const openSans = Open_Sans({
   variable: '--open-sans',
-  weight: ['400', '600', '700'],
   style: ['normal'],
   subsets: ['latin'],
 });
@@ -23,6 +22,7 @@ const theme: MantineThemeOverride = {
       height: '100%',
       backgroundColor: colors.dark[6],
       color: colors.white[0],
+      fontWeight: 400,
     },
     html: {
       height: '100%',
@@ -31,6 +31,11 @@ const theme: MantineThemeOverride = {
       height: '100%',
     },
   }),
+  headings: {
+    // properties for all headings
+    fontFamily: openSans.style.fontFamily,
+    fontWeight: 600,
+  },
   components: {
     InputWrapper: {
       styles: ({ colors }) => ({
@@ -51,6 +56,10 @@ const theme: MantineThemeOverride = {
           borderRadius: 0,
           color: colors.dark[6],
         },
+        label: {
+          fontFamily: openSans.style.fontFamily,
+          fontWeight: 600,
+        },
       }),
     },
     TextInput: {
@@ -62,6 +71,10 @@ const theme: MantineThemeOverride = {
           backgroundColor: colors.white[0],
           borderRadius: 0,
           color: colors.dark[6],
+        },
+        label: {
+          fontFamily: openSans.style.fontFamily,
+          fontWeight: 600,
         },
       }),
     },
