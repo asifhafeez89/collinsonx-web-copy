@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "pnpm build:swc -w",
     "build": "rm -rf dist && pnpm build:swc && pnpm types",
-    "build:swc": "pnpm copy-tailwind && swc src -d dist",
-    "copy-tailwind": "npx mkdirp dist && cp src/tailwind.cjs dist/tailwind.cjs",
+    "build:swc": "pnpm copy-assets && swc src -d dist",
+    "copy-assets": "npx mkdirp dist && cp -R src/assets dist/",
     "types": "tsc --emitDeclarationOnly",
     "lint": "TIMING=1 eslint \"**/*.{ts,tsx,js,jsx}\" --fix",
     "clean": "rm -rf ./dist && rm -rf .turbo"

@@ -8,8 +8,11 @@ interface LayoutProps {
 
 export default function LayoutLogin({ children }: LayoutProps) {
   return (
-    <Container mt={40} sx={{ maxWidth: '375px' }}>
-      <Stack spacing={24}>
+    <Container
+      pt={40}
+      sx={{ maxWidth: '375px', height: '100%', overflow: 'hidden' }}
+    >
+      <Stack spacing={24} sx={{ height: '100%' }}>
         <Center>
           <Logo />
         </Center>
