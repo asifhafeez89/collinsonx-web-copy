@@ -1,4 +1,4 @@
-import LayoutLogin from '@components/Layout/LayoutLogin';
+import LayoutLogin from '@collinson/design-system/layoutLogin/layoutLogin';
 import { Stack, Title, Box } from '@mantine/core';
 import LoginSuccess from '../assets/login-success.svg';
 
