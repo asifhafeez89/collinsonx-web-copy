@@ -1,5 +1,14 @@
 import { MantineThemeOverride } from '@mantine/core';
 
+import { Open_Sans } from '@next/font/google';
+
+const openSans = Open_Sans({
+  variable: '--open-sans',
+  weight: ['400', '600', '700'],
+  style: ['normal'],
+  subsets: ['latin'],
+});
+
 const theme: MantineThemeOverride = {
   colorScheme: 'dark',
   colors: {
@@ -8,6 +17,7 @@ const theme: MantineThemeOverride = {
   primaryColor: 'white',
   primaryShade: 0,
   defaultRadius: 4,
+  fontFamily: openSans.style.fontFamily,
   globalStyles: ({ colors }) => ({
     body: {
       height: '100%',
