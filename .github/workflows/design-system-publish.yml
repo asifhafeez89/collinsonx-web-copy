@@ -3,7 +3,7 @@
 
 name: Design System Publish
 
-on: [workflow_dispatch]
+on: workflow_dispatch
 
 jobs:
   build:
@@ -13,7 +13,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-      - working-directory: scripts
+      - working-directory: packages/collinson-design-system/
       - run: pnpm i --frozen-lockfile
       - run: pnpm run build
 
@@ -29,7 +29,7 @@ jobs:
         with:
           node-version: 18
           registry-url: https://npm.pkg.github.com/
-      - working-directory: scripts
+      - working-directory: packages/collinson-design-system/
       - run: pnpm i --frozen-lockfile
       - run: echo npm publish
         env:
