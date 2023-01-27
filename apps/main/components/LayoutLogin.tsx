@@ -1,3 +1,4 @@
+import { withTheme } from '@emotion/react';
 import { Center, Container, Stack } from '@mantine/core';
 
 import Logo from '../assets/logo.svg';
@@ -10,7 +11,12 @@ export default function LayoutLogin({ children }: LayoutProps) {
   return (
     <Container
       pt={40}
-      sx={{ maxWidth: '375px', height: '100%', overflow: 'hidden' }}
+      sx={{ 
+          maxWidth: '375px', 
+          height: '100%', 
+          overflow: 'hidden',
+          border: '1px solid white' 
+      }}
     >
       <Stack spacing={24} sx={{ height: '100%' }}>
         <Center>

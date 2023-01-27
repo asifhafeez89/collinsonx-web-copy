@@ -1,4 +1,5 @@
 import { Container } from '@mantine/core';
+
 interface LayoutProps {
   children: JSX.Element;
 }

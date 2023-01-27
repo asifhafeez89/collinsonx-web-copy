@@ -19,6 +19,7 @@ export default function Home() {
           overflow: 'hidden',
           width: '100%',
           height: '50%',
+          border: '1px solid white'
         }}
       >
         <div

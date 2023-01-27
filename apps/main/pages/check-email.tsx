@@ -2,7 +2,7 @@ import { Button, Title, Stack, Text, Box, Flex } from '@mantine/core';
 import { useRouter } from 'next/router';
 
 import LayoutLogin from '../components/LayoutLogin';
-import BaseInputs from '@collinson/design-system/baseInput/baseInputs';
+import { Octcode } from '@collinson/design-system'
 import LoginCode from '../assets/login-code.svg';
 
 export default function CheckEmail() {
@@ -16,8 +16,10 @@ export default function CheckEmail() {
   };
 
   return (
-    <LayoutLogin>
-      <Stack align="center">
+    <>
+      <Stack align="center"
+         sx={{ position: 'relative', zIndex: '1000' }}
+      >
         <Stack spacing={24} align="center">
           <Title order={1} size={20}>
             Check your email
@@ -36,7 +38,7 @@ export default function CheckEmail() {
               Re-enter your address
             </Button>
           </Text>
-          <BaseInputs />
+          <Octcode />
           <Button onClick={handleClickConfirm} fullWidth>
             Confirm
           </Button>
@@ -53,8 +55,57 @@ export default function CheckEmail() {
           </Box>
         </Flex>
       </Stack>
-    </LayoutLogin>
+     <div
+        style={{
+           position: 'absolute',
+           bottom: 0,
+           left: 0,
+           overflow: 'hidden',
+           width: '100%',
+           height: '50%',
+           border: '1px solid white'
+         }}
+       >
+         <div
+           style={{
+             backgroundColor: '#47D4B1',
+             width: '54vh',
+             height: '54vh',
+             position: 'absolute',
+             zIndex: '100',
+             right: '-90px',
+             bottom: '-50px',
+             borderRadius: '50%',
+           }}
+         />
+       </div>
+    </>
   );
 }
+
+{/* <div
+        style={{
+          position: 'relative',
+          width: '100%',
+          height: '100%',
+          bottom: '-10px',
+          zIndex: '100'
+        }}
+      >
+         <div
+          style={{
+            backgroundColor: '#47D4B1',
+            width: '55vh',
+            height: '52vh',
+            position: 'absolute',
+            zIndex: '100',
+            right: '-110px',
+            bottom: '-30px',
+            borderRadius: '50%',
+          }}
+        />
+      </div> */}
+
+
 
 CheckEmail.getLayout = (page: JSX.Element) => <LayoutLogin>{page}</LayoutLogin>;
