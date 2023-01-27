@@ -2,7 +2,7 @@ import { Button, Title, Stack, Text, Box, Flex } from '@mantine/core';
 import { useRouter } from 'next/router';
 
 import LayoutLogin from '../components/LayoutLogin';
-import { Octcode } from '@collinson/design-system'
+import { AOthCode } from '@collinson/design-system'
 import LoginCode from '../assets/login-code.svg';
 
 export default function CheckEmail() {
@@ -38,7 +38,7 @@ export default function CheckEmail() {
               Re-enter your address
             </Button>
           </Text>
-          <Octcode />
+          <AOthCode handleCodeChange={(code) => console.log(code)} />
           <Button onClick={handleClickConfirm} fullWidth>
             Confirm
           </Button>
@@ -62,8 +62,7 @@ export default function CheckEmail() {
            left: 0,
            overflow: 'hidden',
            width: '100%',
-           height: '50%',
-           border: '1px solid white'
+           height: '50%'
          }}
        >
          <div

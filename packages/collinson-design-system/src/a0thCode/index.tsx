@@ -2,19 +2,17 @@ import React, { useState } from 'react';
 import AuthCode from 'react-auth-code-input';
 import styled from '@emotion/styled';
 
-const CodeWrapper = styled.div`
+const CodeWrapper = styled.div`    
     input {
         width: 45px;
         height: 45px;
         padding: 0;
-        font-size: 24px;
+        font-size: 1rem;
         text-align: center;
-        margin-right: 11px;
+        margin-right: 10px;
         text-transform: uppercase;
         color: #494949;
-        font-family: SF Pro Text,SF Pro Icons,Helvetica Neue,Helvetica,Arial,sans-serif;
         border: 1px solid #d6d6d6;
-        border-radius: 4px;
         background: #fff;
         background-clip: padding-box;
     }
@@ -24,10 +22,13 @@ const CodeWrapper = styled.div`
     }
 `;
 
-export default function Octcode({ ...props }) {
-    const [result, setResult] = useState();
+interface AOthCodeProps  {
+    handleCodeChange: (code: string) => void;
+}
+
+export default function AOthCode({ handleCodeChange }: AOthCodeProps) {
     const handleOnChange = (res: string) => {
-        setResult(res);
+        handleCodeChange(res)
     };
 
     return (

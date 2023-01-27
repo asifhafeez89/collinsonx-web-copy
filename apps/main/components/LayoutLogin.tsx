@@ -14,8 +14,7 @@ export default function LayoutLogin({ children }: LayoutProps) {
       sx={{ 
           maxWidth: '375px', 
           height: '100%', 
-          overflow: 'hidden',
-          border: '1px solid white' 
+          overflow: 'hidden'
       }}
     >
       <Stack spacing={24} sx={{ height: '100%' }}>

@@ -15,6 +15,7 @@ const theme: MantineThemeOverride = {
   primaryColor: 'white',
   primaryShade: 0,
   defaultRadius: 4,
+  spacing: { xs: 15, sm: 20, md: 25, lg: 30, xl: 40 },
   fontFamily: openSans.style.fontFamily,
   globalStyles: ({ colors }) => ({
     body: {
