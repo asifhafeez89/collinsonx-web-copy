@@ -19,6 +19,7 @@
     "@mantine/core": "^5.10.1",
     "@mantine/hooks": "^5.10.1",
     "@mantine/next": "^5.10.1",
+    "@next/font": "^13.1.5",
     "@svgr/webpack": "^6.5.1",
     "@vercel/examples-ui": "^1.0.4",
     "next": "latest",

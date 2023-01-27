@@ -24,6 +24,7 @@ importers:
       '@mantine/core': ^5.10.1
       '@mantine/hooks': ^5.10.1
       '@mantine/next': ^5.10.1
+      '@next/font': ^13.1.5
       '@svgr/webpack': ^6.5.1
       '@types/react': latest
       '@vercel/examples-ui': ^1.0.4
@@ -46,6 +47,7 @@ importers:
       '@mantine/core': 5.10.1_pl7c6tg3txk3em5brrn6d2cdkm
       '@mantine/hooks': 5.10.1_react@18.2.0
       '@mantine/next': 5.10.1_qoprtljvsltba6pjuevay7hrvy
+      '@next/font': 13.1.5
       '@svgr/webpack': 6.5.1
       '@vercel/examples-ui': 1.0.4_s6zlkfvllybxhmcq5pkr2zsuza
       next: 13.1.5_biqbaboplfbrettd7655fr4n2y
@@ -2634,6 +2636,10 @@ packages:
     resolution: {integrity: sha512-uj4+btoFG1lUCI0wx5onI/6VBAb70TJ6WkoT7xtOO54cIh+8a+gSpLpBKHghbMQuF4Tk6bPv05twB/uxyUHT8A==}
     dependencies:
       glob: 7.1.7
+    dev: false
+
+  /@next/font/13.1.5:
+    resolution: {integrity: sha512-6M5R6yC3JkdJiqo/YJxDp6+0vDn0smXOAzl8uHt4qmDS2u53ji/19K0HM51d+5kg8xntDi+N2hw7YjaU9inkNA==}
     dev: false
 
   /@next/swc-android-arm-eabi/13.1.5:
