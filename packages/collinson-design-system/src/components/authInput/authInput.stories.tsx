@@ -1,26 +1,26 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import AOthCode from './index';
+import AuthInput from './index';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-  title: 'Example/AOthCode',
-  component: AOthCode,
+  title: 'Example/AuthInput',
+  component: AuthInput,
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {
     backgroundColor: { control: 'color' },
   },
-} as ComponentMeta<typeof AOthCode>;
+} as ComponentMeta<typeof AuthInput>;
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<typeof AOthCode> = (args) => (
-  <AOthCode {...args}> Re-enter your address </AOthCode>
+const Template: ComponentStory<typeof AuthInput> = (args) => (
+  <AuthInput {...args}> Re-enter your address </AuthInput>
 );
 
 export const Primary = Template.bind({});
 // // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Primary.args = {
   primary: true,
-  label: 'AOthCode',
+  label: 'AuthInput',
 };

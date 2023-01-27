@@ -22,11 +22,11 @@ const CodeWrapper = styled.div`
     }
 `;
 
-interface AOthCodeProps  {
+interface AuthInputProps  {
     handleCodeChange: (code: string) => void;
 }
 
-export default function AOthCode({ handleCodeChange }: AOthCodeProps) {
+export default function AuthInput({ handleCodeChange }: AuthInputProps) {
     const handleOnChange = (res: string) => {
         handleCodeChange(res)
     };

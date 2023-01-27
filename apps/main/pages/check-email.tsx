@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 import LayoutLogin from '../components/LayoutLogin';
 
-import { AOthCode } from '@collinson/design-system'
+import { AuthInput } from '@collinson/design-system'
 
 import { LoginCode } from '@collinson/design-system/assets/login';
 
@@ -40,7 +40,7 @@ export default function CheckEmail() {
               Re-enter your address
             </Button>
           </Text>
-          <AOthCode handleCodeChange={(code) => console.log(code)} />
+          <AuthInput handleCodeChange={(code) => console.log(code)} />
           <Button onClick={handleClickConfirm} fullWidth>
             Confirm
           </Button>
