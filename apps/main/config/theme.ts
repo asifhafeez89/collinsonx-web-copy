@@ -46,6 +46,9 @@ const theme: MantineThemeOverride = {
         required: {
           color: colors.red[6],
         },
+        error: {
+          color: colors.red[6],
+        },
       }),
     },
     Input: {
@@ -55,10 +58,21 @@ const theme: MantineThemeOverride = {
           height: '50px',
           borderRadius: 0,
           color: colors.dark[6],
+          '::placeholder': {
+            color: colors.gray[5],
+          },
         },
         label: {
           fontFamily: openSans.style.fontFamily,
           fontWeight: 600,
+        },
+        invalid: {
+          borderColor: colors.red[6],
+          borderWidth: 2,
+          color: colors.dark[6],
+          '::placeholder': {
+            color: colors.gray[5],
+          },
         },
       }),
     },

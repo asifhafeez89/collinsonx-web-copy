@@ -2,6 +2,7 @@ import { Button, Title, Stack, Text, Box, Flex } from '@mantine/core';
 import { useRouter } from 'next/router';
 
 import LayoutLogin from '../components/LayoutLogin';
+
 import { AOthCode } from '@collinson/design-system'
 import LoginCode from '../assets/login-code.svg';
 
