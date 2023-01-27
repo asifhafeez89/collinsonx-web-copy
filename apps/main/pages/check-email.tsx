@@ -4,7 +4,8 @@ import { useRouter } from 'next/router';
 import LayoutLogin from '../components/LayoutLogin';
 
 import { AOthCode } from '@collinson/design-system'
-import LoginCode from '../assets/login-code.svg';
+
+import { LoginCode } from '@collinson/design-system/assets/login';
 
 export default function CheckEmail() {
   const router = useRouter();
@@ -69,12 +70,12 @@ export default function CheckEmail() {
          <div
            style={{
              backgroundColor: '#47D4B1',
-             width: '54vh',
-             height: '54vh',
+             width: '55vh',
+             height: '55vh',
              position: 'absolute',
              zIndex: '100',
              right: '-90px',
-             bottom: '-50px',
+             bottom: '-60px',
              borderRadius: '50%',
            }}
          />

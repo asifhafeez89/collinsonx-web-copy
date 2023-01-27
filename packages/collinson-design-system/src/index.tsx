@@ -1,2 +1,2 @@
-export { default as Button } from './button';
-export { default as AOthCode } from './a0thCode';
+export { default as Button } from './components/button';
+export { default as AOthCode } from './components/a0thCode';
