@@ -1,9 +1,8 @@
 import React, { FC, useState } from 'react';
 import { Burger, UnstyledButton, Drawer, List } from '@mantine/core';
 import Link from 'next/link';
-// import logo from '@collinson/design-system/assets/icons.png';
-// import Image from 'next/image';
-// import { IconBell, IconSearch } from '@tabler/icons';
+import { Logo } from '@collinson/design-system/assets/logo';
+import { Search } from '@collinson/design-system/assets/icons/index';
 import { useStyles } from './styles';
 
 export const Header: FC = () => {
@@ -16,16 +15,12 @@ export const Header: FC = () => {
     <>
       <header className={classes.header}>
         <a href="/" className={classes.logo}>
-          {/* <Image src={logo} alt="Collinson ExperienceX" /> */}
+          <Logo />
         </a>
 
         <nav className={classes.nav}>
           <UnstyledButton>
-            {/* <IconBell color={'#ffffff'} /> */}
-          </UnstyledButton>
-
-          <UnstyledButton>
-            {/* <IconSearch color={'#ffffff'} /> */}
+            <Search />
           </UnstyledButton>
 
           <Burger
