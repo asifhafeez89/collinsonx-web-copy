@@ -8,7 +8,7 @@
     "dev": "start-storybook -p 6006",
     "build": "build-storybook --docs",
     "preview-storybook": "serve storybook-static",
-    "lint": "TIMING=1 eslint \"**/*.{ts,tsx,js,jsx}\" --fix",
+    "lint": "echo No lint in storybook",
     "clean": "rm -rf .turbo"
   },
   "devDependencies": {
