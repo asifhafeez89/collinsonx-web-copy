@@ -1,13 +1,10 @@
 import { MantineThemeOverride } from '@mantine/core';
 
-import { Open_Sans } from '@next/font/google';
+type ThemeOptions = {
+  fontFamily: string;
+};
 
-const openSans = Open_Sans({
-  style: ['normal'],
-  subsets: ['latin'],
-});
-
-const theme: MantineThemeOverride = {
+const theme = ({ fontFamily }: ThemeOptions): MantineThemeOverride => ({
   colorScheme: 'dark',
   colors: {
     white: ['#FFF'],
@@ -16,7 +13,7 @@ const theme: MantineThemeOverride = {
   primaryShade: 0,
   defaultRadius: 4,
   spacing: { xs: 15, sm: 20, md: 25, lg: 30, xl: 40 },
-  fontFamily: openSans.style.fontFamily,
+  fontFamily,
   globalStyles: ({ colors }) => ({
     body: {
       height: '100%',
@@ -33,7 +30,7 @@ const theme: MantineThemeOverride = {
   }),
   headings: {
     // properties for all headings
-    fontFamily: openSans.style.fontFamily,
+    fontFamily,
     fontWeight: 600,
   },
   components: {
@@ -63,7 +60,7 @@ const theme: MantineThemeOverride = {
           },
         },
         label: {
-          fontFamily: openSans.style.fontFamily,
+          fontFamily,
           fontWeight: 600,
         },
         invalid: {
@@ -87,7 +84,7 @@ const theme: MantineThemeOverride = {
           color: colors.dark[6],
         },
         label: {
-          fontFamily: openSans.style.fontFamily,
+          fontFamily,
           fontWeight: 600,
         },
       }),
@@ -102,6 +99,6 @@ const theme: MantineThemeOverride = {
       }),
     },
   },
-};
+});
 
 export default theme;
