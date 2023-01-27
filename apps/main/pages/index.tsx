@@ -11,7 +11,7 @@ import {
 import { useRouter } from 'next/router';
 import LayoutLogin from '../components/LayoutLogin';
 import { Login as LoginImage } from '@collinson/design-system/assets/login';
-import { useState } from 'react';
+import { KeyboardEventHandler, useState } from 'react';
 
 function validateEmail(input: string) {
   return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input);
@@ -26,13 +26,19 @@ export default function Home() {
     if (!validateEmail(email.trim())) {
       setLoginError('Invalid email');
     } else {
-      router.push('/check-email');
+      router.push({ pathname: '/check-email', query: { email } });
     }
   };
 
   const handleChangeEmail: TextInputProps['onChange'] = (e) => {
     setLoginError('');
     setEmail(e.target.value);
+  };
+
+  const handleEnterKey: KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (e.key === 'Enter') {
+      handleClickContinue();
+    }
   };
 
   return (
@@ -44,7 +50,7 @@ export default function Home() {
           left: 0,
           overflow: 'hidden',
           width: '100%',
-          height: '50%'
+          height: '50%',
         }}
       >
         <div
@@ -70,6 +76,7 @@ export default function Home() {
             value={email}
             error={loginError}
             onChange={handleChangeEmail}
+            onKeyUp={handleEnterKey}
             placeholder="Your email address"
             label="Your email address"
             withAsterisk

@@ -3,31 +3,30 @@ import { useRouter } from 'next/router';
 
 import LayoutLogin from '../components/LayoutLogin';
 
-import { AuthInput } from '@collinson/design-system'
-
+import { AuthInput } from '@collinson/design-system';
 import { LoginCode } from '@collinson/design-system/assets/login';
 
 export default function CheckEmail() {
   const router = useRouter();
+  const { email } = router.query;
 
   const handleClickConfirm = () => {
     router.push('/success');
   };
+
   const handleClickReenter = () => {
     router.push('/');
   };
 
   return (
     <>
-      <Stack align="center"
-         sx={{ position: 'relative', zIndex: 1000 }}
-      >
+      <Stack align="center" sx={{ position: 'relative', zIndex: 1000 }}>
         <Stack spacing={24} align="center">
           <Title order={1} size={20}>
             Check your email
           </Title>
           <Text align="center">
-            We have sent a confirmation code to john@doe.com.
+            We have sent a confirmation code to {email}.
           </Text>
           <Text size={14}>
             Wrong email?{' '}
@@ -57,34 +56,35 @@ export default function CheckEmail() {
           </Box>
         </Flex>
       </Stack>
-     <div
+      <div
         style={{
-           position: 'absolute',
-           bottom: 0,
-           left: 0,
-           overflow: 'hidden',
-           width: '100%',
-           height: '50%'
-         }}
-       >
-         <div
-           style={{
-             backgroundColor: '#47D4B1',
-             width: '55vh',
-             height: '55vh',
-             position: 'absolute',
-             zIndex: '100',
-             right: '-90px',
-             bottom: '-60px',
-             borderRadius: '50%',
-           }}
-         />
-       </div>
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          overflow: 'hidden',
+          width: '100%',
+          height: '50%',
+        }}
+      >
+        <div
+          style={{
+            backgroundColor: '#47D4B1',
+            width: '55vh',
+            height: '55vh',
+            position: 'absolute',
+            zIndex: '100',
+            right: '-90px',
+            bottom: '-60px',
+            borderRadius: '50%',
+          }}
+        />
+      </div>
     </>
   );
 }
 
-{/* <div
+{
+  /* <div
         style={{
           position: 'relative',
           width: '100%',
@@ -105,8 +105,7 @@ export default function CheckEmail() {
             borderRadius: '50%',
           }}
         />
-      </div> */}
-
-
+      </div> */
+}
 
 CheckEmail.getLayout = (page: JSX.Element) => <LayoutLogin>{page}</LayoutLogin>;
