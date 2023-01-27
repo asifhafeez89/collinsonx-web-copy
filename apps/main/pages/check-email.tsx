@@ -18,7 +18,7 @@ export default function CheckEmail() {
   return (
     <>
       <Stack align="center"
-         sx={{ position: 'relative', zIndex: '1000' }}
+         sx={{ position: 'relative', zIndex: 1000 }}
       >
         <Stack spacing={24} align="center">
           <Title order={1} size={20}>
