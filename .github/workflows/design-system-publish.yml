@@ -8,18 +8,23 @@ on: workflow_dispatch
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/collinson-design-system/
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-      - working-directory: packages/collinson-design-system/
       - run: pnpm i --frozen-lockfile
       - run: pnpm run build
 
   publish-gpr:
     needs: build
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/collinson-design-system/
     permissions:
       contents: read
       packages: write
@@ -29,7 +34,6 @@ jobs:
         with:
           node-version: 18
           registry-url: https://npm.pkg.github.com/
-      - working-directory: packages/collinson-design-system/
       - run: pnpm i --frozen-lockfile
       - run: echo npm publish
         env:
