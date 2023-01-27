@@ -1,23 +1,73 @@
 import { Stack, Title, Box } from '@mantine/core';
 import { LoginSuccess } from '@collinson/design-system/assets/login';
 import LayoutLogin from '../components/LayoutLogin';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 export default function Success() {
+  const router = useRouter();
+  useEffect(() => {
+    setTimeout(() => {
+      router.push('/landing');
+    }, 1000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
-    <Stack mt={140} spacing={50} align="center" justify="space-between">
-      <Title order={1} size={34} align="center">
-        You&apos;re in
-      </Title>
-      <Box
-        sx={{
+    <>
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
           width: '100%',
-          maxWidth: '342px',
-          maxHeight: '304px',
+          height: '100%',
+          overflow: 'hidden',
         }}
       >
-        <LoginSuccess />
-      </Box>
-    </Stack>
+        <div
+          style={{
+            backgroundColor: '#47D4B1',
+            width: '120vw',
+            height: '120vw',
+            position: 'absolute',
+            top: 'calc(50% - 60vw)',
+            left: '-10vw',
+            zIndex: -1,
+            borderRadius: '50%',
+          }}
+        />
+      </div>
+      <Stack spacing={32} align="center" justify="space-between">
+        <Title
+          order={1}
+          size={34}
+          align="center"
+          color="#000"
+          sx={{ fontWeight: 700, marginTop: '66px' }}
+        >
+          You&apos;re in
+        </Title>
+        <Title
+          order={2}
+          align="center"
+          color="#000"
+          sx={{ fontWeight: 700, width: '209px' }}
+        >
+          Let&apos;s find your next experience
+        </Title>
+        <Box
+          sx={{
+            zIndex: 1,
+            position: 'relative',
+            bottom: '16px',
+            height: '289px',
+            marginTop: '42px',
+          }}
+        >
+          <LoginSuccess />
+        </Box>
+      </Stack>
+    </>
   );
 }
 
