@@ -1,4 +1,4 @@
-import { Center, Container, Stack } from '@mantine/core';
+import { Container, Stack } from '@mantine/core';
 
 interface LayoutProps {
   children: JSX.Element;
@@ -15,7 +15,6 @@ export default function LayoutLogin({ children }: LayoutProps) {
       }}
     >
       <Stack spacing={24} sx={{ height: '100%' }}>
-        <Center></Center>
         {children}
       </Stack>
     </Container>
