@@ -44,7 +44,7 @@ export default function Home() {
           left: 0,
           overflow: 'hidden',
           width: '100%',
-          height: '50%',
+          height: '50%'
         }}
       >
         <div

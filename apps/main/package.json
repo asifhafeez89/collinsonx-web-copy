@@ -24,7 +24,8 @@
     "@vercel/examples-ui": "^1.0.4",
     "next": "latest",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "styled-components": "^5.3.6"
   },
   "devDependencies": {
     "@types/react": "latest",

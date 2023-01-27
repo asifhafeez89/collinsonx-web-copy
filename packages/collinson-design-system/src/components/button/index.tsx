@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button as MantineButton } from '@mantine/core';
+
 import Bell from '../../assets/icons/bell.svg';
 
 /**
