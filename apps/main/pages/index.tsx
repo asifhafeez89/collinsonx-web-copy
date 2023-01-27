@@ -1,8 +1,8 @@
 import { Button, Title, Stack, TextInput, Box, Flex } from '@mantine/core';
+import { Login as LoginImage } from '@collinson/design-system/assets/login';
 
 import { useRouter } from 'next/router';
 import LayoutLogin from '../components/LayoutLogin';
-import LoginImage from '../assets/login.svg';
 
 export default function Home() {
   const router = useRouter();

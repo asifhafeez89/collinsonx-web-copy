@@ -2,8 +2,8 @@ import { Button, Title, Stack, Text, Box, Flex } from '@mantine/core';
 import { useRouter } from 'next/router';
 
 import LayoutLogin from '../components/LayoutLogin';
-import BaseInputs from '@collinson/design-system/baseInput/baseInputs';
-import LoginCode from '../assets/login-code.svg';
+import BaseInputs from '@collinson/design-system/components/baseInput/baseInputs';
+import { LoginCode } from '@collinson/design-system/assets/login';
 
 export default function CheckEmail() {
   const router = useRouter();
