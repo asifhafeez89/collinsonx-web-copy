@@ -58,10 +58,10 @@ export default function Success() {
         <Box
           sx={{
             zIndex: 1,
-            position: 'relative',
+            position: 'absolute',
             bottom: '16px',
             height: '289px',
-            marginTop: '42px',
+            width: '375px',
           }}
         >
           <LoginSuccess />
