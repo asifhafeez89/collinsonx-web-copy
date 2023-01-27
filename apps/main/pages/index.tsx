@@ -10,7 +10,7 @@ import {
 
 import { useRouter } from 'next/router';
 import LayoutLogin from '../components/LayoutLogin';
-import LoginImage from '../assets/login.svg';
+import { Login as LoginImage } from '@collinson/design-system/assets/login';
 import { useState } from 'react';
 
 function validateEmail(input: string) {

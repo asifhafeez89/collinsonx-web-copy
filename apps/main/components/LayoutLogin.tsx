@@ -1,6 +1,6 @@
 import { Center, Container, Stack } from '@mantine/core';
 
-import Logo from '../assets/logo.svg';
+import { Logo } from '@collinson/design-system/assets/logo';
 
 interface LayoutProps {
   children: JSX.Element;
