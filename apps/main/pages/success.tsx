@@ -8,7 +8,7 @@ export default function Success() {
   const router = useRouter();
   useEffect(() => {
     setTimeout(() => {
-      router.push('/landing');
+      //router.push('/landing');
     }, 1000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -58,10 +58,10 @@ export default function Success() {
         <Box
           sx={{
             zIndex: 1,
-            position: 'relative',
+            position: 'absolute',
             bottom: '16px',
             height: '289px',
-            marginTop: '42px',
+            width: '375px',
           }}
         >
           <LoginSuccess />
