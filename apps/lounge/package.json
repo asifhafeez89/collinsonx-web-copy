@@ -1,12 +1,12 @@
 {
-  "name": "search",
+  "name": "lounge",
   "repository": "https://github.com/vercel/examples.git",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3010",
+    "dev": "next dev -p 3001",
     "build": "next build",
-    "start": "next start -p 3010",
+    "start": "next start -p 3001",
     "lint": "next lint",
     "clean": "rm -rf .next && rm -rf .turbo"
   },
@@ -14,7 +14,13 @@
     "@collinson/design-system": "workspace:*",
     "@collinson/pages": "workspace:*",
     "@collinson/utils": "workspace:*",
-    "@vercel/examples-ui": "^1.0.4",
+    "@emotion/react": "^11.10.5",
+    "@emotion/server": "^11.10.0",
+    "@mantine/core": "^5.10.1",
+    "@mantine/hooks": "^5.10.1",
+    "@mantine/next": "^5.10.1",
+    "@next/font": "^13.1.5",
+    "@svgr/webpack": "^6.5.1",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest"

@@ -1,4 +1,4 @@
-const { SEARCH_URL } = process.env;
+const { LOUNGE_URL, SEARCH_URL } = process.env;
 
 module.exports = {
   webpack(config) {
@@ -15,6 +15,14 @@ module.exports = {
       /**
        * Rewrites for Multi Zones
        */
+      {
+        source: '/lounge',
+        destination: `${LOUNGE_URL}/lounge`,
+      },
+      {
+        source: '/lounge/:path*',
+        destination: `${LOUNGE_URL}/lounge/:path*`,
+      },
       {
         source: '/search',
         destination: `${SEARCH_URL}/search`,

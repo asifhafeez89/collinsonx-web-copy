@@ -8,7 +8,7 @@ export default function Success() {
   const router = useRouter();
   useEffect(() => {
     setTimeout(() => {
-      router.push('/landing');
+      router.push('/lounge');
     }, 1000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
