@@ -30,9 +30,9 @@ const ContentWrapper = styled.div`
 interface CardProps {
     title: String,
     subtitle: String,
-    pictureUrl: string
+    pictureUrl: string,
+    handleClick: () => void
 }
-
 
 /**
  * Primary UI component for user interaction
@@ -41,6 +41,7 @@ export default function Card({
         title, 
         subtitle,
         pictureUrl,
+        handleClick,
         ...props 
 }: CardProps) {
   return (
@@ -56,6 +57,7 @@ export default function Card({
                  color="dark" 
                  useIcon={false} 
                  fullWidth={true}
+                 handleClick={handleClick}
             > 
                  Book Lounge
             </Button>

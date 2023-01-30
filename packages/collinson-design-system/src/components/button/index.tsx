@@ -3,19 +3,22 @@ import { Button as MantineButton, ButtonProps as MantineBProps } from '@mantine/
 
 import Bell from '../../assets/icons/bell.svg';
 
-interface ButtonProps {
+interface ButtonProps extends MantineBProps{
   useIcon: Boolean,
-  props: MantineBProps,
-  children?:  string
+  handleClick: () => void;
 }
 
 /**
  * Primary UI component for user interaction
  */
-export default function Button({ useIcon,  ...props }: ButtonProps) {
+export default function Button({ 
+    useIcon, 
+    handleClick,
+     ...props 
+}: ButtonProps) {
   return (
     <>
-      <MantineButton {...props} leftIcon={useIcon && <Bell />} />
+      <MantineButton {...props} leftIcon={useIcon && <Bell />}  onClick={handleClick} />
     </>
   );
 }
