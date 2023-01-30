@@ -1,30 +1,48 @@
-// import { Layout, Page, Text, Code, Link } from '@vercel/examples-ui'
-// import Navbar from '@collinson/pages/components/navbar';
-// import { Searchbar} from "@collinson/design-system";
+import { useState } from 'react';
+import { Container, Text, Box, Center } from '@mantine/core';
 
-export default function Index() {
+import {
+  default as SearchInput,
+  SearchInputProps,
+} from '@collinson/design-system/components/searchInput';
+
+import { EmptyStateSearch } from '@collinson/design-system/assets/graphics';
+
+export default function Search() {
+  const [value, setValue] = useState('');
+  const handleClickClear = () => {
+    setValue('');
+  };
+  const handleChange: SearchInputProps['onChange'] = (e) => {
+    setValue(e.target.value);
+  };
+
   return (
-    <>
-      Test
-      {/* <Searchbar /> */}
-    </>
-  )
+    <Container p={16} sx={{ maxWidth: '375px', height: '100%' }}>
+      <SearchInput
+        placeholder="Search for airport or lounge"
+        value={value}
+        onChange={handleChange}
+        onClickClear={handleClickClear}
+      />
+      {!value && (
+        <>
+          <Text
+            mt={38}
+            mx="auto"
+            w={235}
+            align="center"
+            color="#000"
+            sx={{ fontSize: '18px' }}
+          >
+            Search by airport, city or lounge to find the perfect experience for
+            your trip
+          </Text>
+          <Box m="38px" w={263} h={282}>
+            <EmptyStateSearch />
+          </Box>
+        </>
+      )}
+    </Container>
+  );
 }
-
-   // <Page>
-    //   <Navbar isDocsApp />
-    //   <Text variant="h1" className="mb-6">
-    //     Docs
-    //   </Text>
-    //   <Text className="mb-4">
-    //     This is the index page in the docs app (
-    //     <Code>apps/docs/pages/index.tsx</Code>).
-    //   </Text>
-    //   <Text>
-    //     Navigations between <Link href="/docs">Docs</Link> and{' '}
-    //     <Link href="/docs/about">About Docs</Link> are client-side transitions
-    //     because they&apos;re part of the same Next.js app. Navigating to{' '}
-    //     <Link href="/docs">Home (Multi Zones)</Link> requires a page refresh
-    //     because it lives in a different Next.js app.
-    //   </Text>
-    // </Page>
