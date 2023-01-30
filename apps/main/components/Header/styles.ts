@@ -34,6 +34,7 @@ export const useStyles = createStyles(() => ({
   },
   drawer: {
     backgroundColor: '#ffffff',
+    padding: '24px !important',
   },
   closeButton: {
     color: '#25262b',
