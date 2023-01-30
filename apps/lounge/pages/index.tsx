@@ -5,9 +5,8 @@ import {
   Flex,
 } from '@mantine/core';
 
-import { Button, Card } from '@collinson/design-system'
+import { Button, Card, Layout } from '@collinson/design-system';
 import { Search } from '@collinson/design-system/assets/icons';
-
 
 export default function Landing() {
   const router = useRouter();
@@ -51,9 +50,9 @@ export default function Landing() {
         </Stack>
         <Flex mt={10} align="center" direction="column">
           {
-            lounges.map(lounge => {
+            lounges.map((lounge, i) => {
               return (
-                <Card {...lounge} handleClick={() => console.log()} />
+                <Card {...lounge} handleClick={() => console.log()} key={i} />
               )
             })
           }
@@ -62,4 +61,4 @@ export default function Landing() {
   </>;
 }
 
-Landing.getLayout = (page: JSX.Element) => {page};
+Landing.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;

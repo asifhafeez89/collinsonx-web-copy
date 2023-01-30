@@ -1,5 +1,5 @@
 import { Container } from '@mantine/core';
-import Header from './header';
+import { Header } from '@collinson/design-system/index';
 
 interface LayoutProps {
   children: JSX.Element;

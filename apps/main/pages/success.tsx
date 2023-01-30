@@ -1,5 +1,5 @@
 import { Stack, Title, Box } from '@mantine/core';
-import { LoginSuccess } from '@collinson/design-system/assets/graphics';
+import { LoginSuccess } from '@collinson/design-system/assets/graphics/index';
 import LayoutLogin from '../components/LayoutLogin';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
@@ -58,10 +58,10 @@ export default function Success() {
         <Box
           sx={{
             zIndex: 1,
-            position: 'absolute',
+            position: 'relative',
             bottom: '16px',
             height: '289px',
-            width: '375px',
+            marginTop: '42px',
           }}
         >
           <LoginSuccess />
