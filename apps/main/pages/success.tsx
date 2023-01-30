@@ -1,5 +1,5 @@
 import { Stack, Title, Box } from '@mantine/core';
-import { LoginSuccess } from '@collinson/design-system/assets/login';
+import { LoginSuccess } from '@collinson/design-system/assets/graphics/index';
 import LayoutLogin from '../components/LayoutLogin';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
