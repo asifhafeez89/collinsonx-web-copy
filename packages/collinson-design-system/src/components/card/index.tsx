@@ -7,7 +7,8 @@ const CardWrapper = styled.div`
     transition: 0.3s;
     border-radius: 5px; /* 5px rounded corners */
     border: 1px solid #E9ECEF;
-    padding: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
 
     h3 {
         padding-bottom: 0px;
