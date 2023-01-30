@@ -7,6 +7,8 @@ export const useStyles = createStyles(() => ({
     justifyContent: 'space-between',
     padding: 15,
     alignItems: 'center',
+    position: 'relative',
+    zIndex: 251, // Higher than menu overlay
   },
   logo: {
     display: 'inline-block',
@@ -20,5 +22,20 @@ export const useStyles = createStyles(() => ({
     ['button']: {
       marginLeft: 15,
     },
+  },
+  itemWrapper: {
+    width: '100%',
+    borderBottom: '1px solid #cccccc',
+    padding: '15px 0',
+  },
+  itemIcon: {
+    width: 24,
+    height: 24,
+  },
+  drawer: {
+    backgroundColor: '#ffffff',
+  },
+  closeButton: {
+    color: '#25262b',
   },
 }));

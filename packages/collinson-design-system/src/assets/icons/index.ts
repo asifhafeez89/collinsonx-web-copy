@@ -1,6 +1,7 @@
 export { default as Bell } from './bell.svg';
 export { default as BurgerNav } from './burger-nav.svg';
 export { default as Cart } from './cart.svg';
+export { default as Chat } from './chat.svg';
 export { default as Check } from './check.svg';
 export { default as ChevronLeft } from './chevron-left.svg';
 export { default as ChevronRight } from './chevron-right.svg';
