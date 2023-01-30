@@ -7,23 +7,6 @@ export interface SearchInputProps extends TextInputProps {
   onClickClear: () => void;
 }
 
-/*
-const StyledTextInput = styled(TextInput)`
-  border-radius: 8px;
-  height: 42px;
-  fontsize: 16px;
-  background-color: ${({ colors }) => colors.gray[1]};
-  border-color: ${({ colors }) => colors.gray[1]};
-  &:focus: {
-    height: 50px;
-    border-color: ${({ colors }) => colors.gray[4]};
-    backgroundcolor: #fff;
-    &::placeholder: {
-      color: transparent;
-    }
-  }
-`;*/
-
 const useStyles = createStyles(({ colors }) => ({
   input: {
     borderRadius: '8px',
