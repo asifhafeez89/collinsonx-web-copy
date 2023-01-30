@@ -7,13 +7,13 @@ export interface SearchInputProps extends TextInputProps {
   onClickClear: () => void;
 }
 
-const useStyles = createStyles(({ colors }) => ({
+const useStyles = createStyles(({ colors }, { value }: { value: string }) => ({
   input: {
     borderRadius: '8px',
-    height: '42px',
+    height: value ? '50px' : '42px',
     fontSize: '16px',
-    backgroundColor: colors.gray[1],
-    borderColor: colors.gray[1],
+    backgroundColor: value ? '#FFF' : colors.gray[1],
+    borderColor: value ? colors.gray[4] : colors.gray[1],
     '&:focus': {
       height: '50px',
       borderColor: colors.gray[4],
@@ -30,12 +30,11 @@ export default function SearchInput({
   value,
   ...props
 }: SearchInputProps) {
-  const { classes } = useStyles();
+  const { classes } = useStyles({ value });
 
   return (
     <TextInput
       {...props}
-      autoFocus
       value={value}
       classNames={{ input: classes.input }}
       rightSection={

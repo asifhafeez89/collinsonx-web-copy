@@ -18,7 +18,6 @@ type Props = AppProps & {
 export default function MyApp({ Component, pageProps }: Props) {
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page);
-  const Layout = Component.layout ?? DefaultLayout;
   return (
     <>
       <Head>

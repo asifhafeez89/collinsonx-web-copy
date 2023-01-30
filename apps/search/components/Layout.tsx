@@ -25,7 +25,6 @@ export default function Layout({ children }: LayoutProps) {
         p={16}
         sx={{
           maxWidth: '375px',
-          height: '100%',
         }}
       >
         {children}
