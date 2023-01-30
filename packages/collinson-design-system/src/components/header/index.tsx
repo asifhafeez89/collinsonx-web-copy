@@ -9,8 +9,7 @@ import {
   Avatar,
   Text,
 } from '@mantine/core';
-import { useRouter } from 'next/router';
-import { Logo } from '@collinson/design-system/assets/logo';
+import { Logo } from '../../assets/logo/';
 import {
   Search,
   Home,
@@ -18,20 +17,14 @@ import {
   Cart,
   Chat,
   ChevronRight,
-} from '@collinson/design-system/assets/icons/index';
+} from '../../assets/icons/index';
 import { useStyles } from './styles';
 
-export const Header: FC = () => {
+const Header: FC = () => {
   const { classes } = useStyles();
-  const router = useRouter();
 
   const [menuOpened, setMenuOpened] = useState(false);
   const title = menuOpened ? 'Close navigation' : 'Open navigation';
-
-  const handleGoToProfile = () => {
-    router.push('/profile');
-    setMenuOpened(false);
-  };
 
   return (
     <>
@@ -118,7 +111,6 @@ export const Header: FC = () => {
             borderTop: '1px solid #cccccc',
             paddingTop: 15,
           }}
-          onClick={handleGoToProfile}
         >
           <Avatar
             src={null}
@@ -134,12 +126,14 @@ export const Header: FC = () => {
               paddingLeft: 10,
             }}
           >
-            <Text fz="sm" color={'#25262b'}>
-              Jayne Bloggs
-            </Text>
-            <Text fz="sm" color={'#25262b'}>
-              j.bloggs@collinson.co.uk
-            </Text>
+            <Anchor size="sm" href="/profile">
+              <Text fz="sm" color={'#25262b'}>
+                Jayne Bloggs
+              </Text>
+              <Text fz="sm" color={'#25262b'}>
+                j.bloggs@collinson.co.uk
+              </Text>
+            </Anchor>
           </Box>
           <ChevronRight color={'#25262b'} />
         </Box>
@@ -147,3 +141,5 @@ export const Header: FC = () => {
     </>
   );
 };
+
+export default Header;
