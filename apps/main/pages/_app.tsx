@@ -5,9 +5,7 @@ import { ComponentType, ReactElement } from 'react';
 
 import Head from 'next/head';
 
-import { theme } from '@collinson/design-system';
-import { default as DefaultLayout } from '@collinson/design-system/components/Layout';
-
+import { theme, Layout as DefaultLayout } from '@collinson/design-system';
 
 import { Open_Sans } from '@next/font/google';
 
