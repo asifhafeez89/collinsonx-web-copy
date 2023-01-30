@@ -109,8 +109,15 @@ importers:
       '@collinson/design-system': workspace:*
       '@collinson/pages': workspace:*
       '@collinson/utils': workspace:*
+      '@emotion/react': ^11.10.5
+      '@emotion/server': ^11.10.0
+      '@emotion/styled': ^11.10.5
+      '@mantine/core': ^5.10.2
+      '@mantine/hooks': ^5.10.2
+      '@mantine/next': ^5.10.2
+      '@next/font': ^13.1.5
+      '@svgr/webpack': ^6.5.1
       '@types/react': latest
-      '@vercel/examples-ui': ^1.0.4
       autoprefixer: ^10.4.12
       eslint: ^8.11.0
       eslint-config-collinson: workspace:*
@@ -123,7 +130,14 @@ importers:
       '@collinson/design-system': link:../../packages/collinson-design-system
       '@collinson/pages': link:../../packages/collinson-pages
       '@collinson/utils': link:../../packages/collinson-utils
-      '@vercel/examples-ui': 1.0.4_3vryta7zmbcsw4rrqf4axjqggm
+      '@emotion/react': 11.10.5_3stiutgnnbnfnf3uowm5cip22i
+      '@emotion/server': 11.10.0
+      '@emotion/styled': 11.10.5_jrh5enlbqfbnumycmktdqgd6se
+      '@mantine/core': 5.10.2_bgdfy3qhwgihjpd7hjoiv47mfe
+      '@mantine/hooks': 5.10.2_react@18.2.0
+      '@mantine/next': 5.10.2_frkyvidol3cyjondljhrqtyp5u
+      '@next/font': 13.1.5
+      '@svgr/webpack': 6.5.1
       next: 13.1.6_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -5273,21 +5287,6 @@ packages:
     dependencies:
       '@swc/helpers': 0.4.14
       clsx: 1.2.1
-      sugar-high: 0.4.6
-    dev: false
-
-  /@vercel/examples-ui/1.0.4_3vryta7zmbcsw4rrqf4axjqggm:
-    resolution: {integrity: sha512-yfCHFn478904BLa9iwvoTPCEBGzxd7MOFHmuVgYPBQemNqO4bjdU3i51qFcYYMQJxOjYfk/1cGCxEBJ4UGE2Zg==}
-    peerDependencies:
-      next: '*'
-      react: ^17.0.2 || ^18.0.0-0
-      react-dom: ^17.0.2 || ^18.0.0-0
-    dependencies:
-      '@swc/helpers': 0.4.14
-      clsx: 1.2.1
-      next: 13.1.6_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
       sugar-high: 0.4.6
     dev: false
 
