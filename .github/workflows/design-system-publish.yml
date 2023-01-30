@@ -31,7 +31,7 @@ jobs:
         working-directory: packages/collinson-design-system/
     permissions:
       contents: read
-      packages: admin
+      packages: write
     steps:
       - uses: actions/checkout@v3
       - uses: pnpm/action-setup@v2
