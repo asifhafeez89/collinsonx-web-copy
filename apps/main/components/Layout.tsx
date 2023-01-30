@@ -1,5 +1,5 @@
 import { Container } from '@mantine/core';
-// import { Header } from './Header/';
+import { Header } from './Header/index';
 
 interface LayoutProps {
   children: JSX.Element;
@@ -8,7 +8,7 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   return (
     <Container px={0}>
-      {/* <Header /> */}
+      <Header />
       <main>{children}</main>
     </Container>
   );
