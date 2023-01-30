@@ -5,6 +5,7 @@ export { default as Check } from './check.svg';
 export { default as ChevronLeft } from './chevron-left.svg';
 export { default as ChevronRight } from './chevron-right.svg';
 export { default as Clock } from './clock.svg';
+export { default as Close } from './close.svg';
 export { default as ExperienceX } from './experience-x.svg';
 export { default as Filter } from './filter.svg';
 export { default as Home } from './home.svg';

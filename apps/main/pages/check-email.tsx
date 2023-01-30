@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import LayoutLogin from '../components/LayoutLogin';
 
 import { AuthInput } from '@collinson/design-system';
-import { LoginCode } from '@collinson/design-system/assets/login';
+import { LoginCode } from '@collinson/design-system/assets/graphics';
 
 export default function CheckEmail() {
   const router = useRouter();
