@@ -7,6 +7,7 @@ import {
 } from '@collinson/design-system/components/searchInput';
 
 import { EmptyStateSearch } from '@collinson/design-system/assets/graphics';
+import Layout from '../components/Layout';
 
 export default function Search() {
   const [value, setValue] = useState('');
@@ -46,3 +47,5 @@ export default function Search() {
     </Container>
   );
 }
+
+Search.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;

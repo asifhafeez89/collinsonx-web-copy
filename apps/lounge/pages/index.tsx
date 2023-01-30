@@ -5,8 +5,9 @@ import {
   Flex,
 } from '@mantine/core';
 
-import { Button, Card, Layout } from '@collinson/design-system';
+import { Button, Card } from '@collinson/design-system';
 import { Search } from '@collinson/design-system/assets/icons';
+import Layout from '../components/Layout';
 
 export default function Landing() {
   const router = useRouter();
@@ -35,7 +36,6 @@ export default function Landing() {
   ];
 
   const handleClickSearch = () => {
-
   }
 
   return <>
