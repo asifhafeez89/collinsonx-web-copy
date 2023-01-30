@@ -1,19 +1,35 @@
 import type { AppProps } from 'next/app';
-import '@vercel/examples-ui/globals.css';
+import { NextPage } from 'next';
+import { ComponentType, ReactElement } from 'react';
 
-export default function MyApp({ Component, pageProps }: AppProps) {
+import Head from 'next/head';
+
+import { default as DefaultLayout } from '../components/Layout';
+
+type Page<P = {}> = NextPage<P> & {
+  getLayout?: (page: ReactElement) => JSX.Element;
+  layout?: ComponentType;
+};
+
+type Props = AppProps & {
+  Component: Page;
+};
+
+export default function MyApp({ Component, pageProps }: Props) {
+  // Use the layout defined at the page level, if available
+  const getLayout = Component.getLayout ?? ((page) => page);
+  const Layout = Component.layout ?? DefaultLayout;
+  
   return (
-    // <Layout
-    //   title="Monorepo"
-    //   path="solutions/monorepo"
-    //   deployButton={{
-    //     repositoryUrl:
-    //       'https://github.com/vercel/examples/tree/main/solutions/reduce-image-bandwidth-usage',
-    //   }}
-    // >
     <>
-      <Component {...pageProps} />
+      <Head>
+        <title>CollinsonX</title>
+        <meta
+          name="viewport"
+          content="minimum-scale=1, initial-scale=1, width=device-width"
+        />
+      </Head>
+      {getLayout(<Component {...pageProps} />)}
     </>
-    // </Layout>
   );
 }

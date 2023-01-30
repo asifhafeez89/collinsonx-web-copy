@@ -1,15 +1,22 @@
 import React from 'react';
-import { Button as MantineButton } from '@mantine/core';
+import { Button as MantineButton, ButtonProps as MantineBProps } from '@mantine/core';
 
-import Bell from '../../assets/icons/bell.svg';
+interface ButtonProps extends MantineBProps{
+  handleClick: () => void;
+  icon: React.ReactNode;
+}
 
 /**
  * Primary UI component for user interaction
  */
-export default function Button({ ...props }) {
+export default function Button({ 
+    handleClick,
+    icon,
+     ...props 
+}: ButtonProps) {
   return (
     <>
-      <MantineButton {...props} leftIcon={<Bell />} />
+      <MantineButton {...props} leftIcon={icon && icon}  onClick={handleClick} />
     </>
   );
 }
