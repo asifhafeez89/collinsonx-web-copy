@@ -9,7 +9,6 @@ import {
   Avatar,
   Text,
 } from '@mantine/core';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Logo } from '@collinson/design-system/assets/logo';
 import {
