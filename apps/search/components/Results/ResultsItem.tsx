@@ -1,4 +1,4 @@
-import { Flex } from '@mantine/core';
+import { Flex } from '@collinson/design-system/core';
 
 export interface ResultsItemProps {
   leftIcon: JSX.Element;

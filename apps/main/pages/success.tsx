@@ -1,11 +1,8 @@
-import { Stack, Title, Box } from '@mantine/core';
-import {
-  LoginSuccess,
-  Login,
-} from '@collinson/design-system/assets/graphics/index';
-import LayoutLogin from '../components/LayoutLogin';
+import { Stack, Title, Box } from '@collinson/design-system/core';
+import { LoginSuccess } from '@collinson/design-system/assets/graphics/index';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import LayoutLogin from '../components/LayoutLogin';
 
 export default function Success() {
   const router = useRouter();
@@ -13,7 +10,7 @@ export default function Success() {
     setTimeout(() => {
       router.push('/lounge');
     }, 1000);
-  }, []);
+  }, [router]);
   return (
     <>
       <div

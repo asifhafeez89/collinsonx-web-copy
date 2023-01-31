@@ -1,4 +1,11 @@
-import { Button, Title, Stack, Text, Box, Flex } from '@mantine/core';
+import {
+  Button,
+  Title,
+  Stack,
+  Text,
+  Box,
+  Flex,
+} from '@collinson/design-system/core';
 import { useRouter } from 'next/router';
 
 import LayoutLogin from '../components/LayoutLogin';

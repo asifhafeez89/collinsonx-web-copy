@@ -1,13 +1,4 @@
-import { Container, MantineProvider } from '@mantine/core';
-
-import { Header, themeLight } from '@collinson/design-system';
-
-import { Open_Sans } from '@next/font/google';
-
-const openSans = Open_Sans({
-  style: ['normal'],
-  subsets: ['latin'],
-});
+import { Container } from '@collinson/design-system/core';
 
 interface LayoutProps {
   children: JSX.Element;
@@ -15,20 +6,13 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   return (
-    <MantineProvider
-      theme={themeLight({ fontFamily: openSans.style.fontFamily })}
-      withGlobalStyles
-      withNormalizeCSS
+    <Container
+      p={16}
+      sx={{
+        maxWidth: '375px',
+      }}
     >
-      <Header />
-      <Container
-        p={16}
-        sx={{
-          maxWidth: '375px',
-        }}
-      >
-        {children}
-      </Container>
-    </MantineProvider>
+      {children}
+    </Container>
   );
 }

@@ -1,5 +1,5 @@
 import { ComponentPropsWithoutRef } from 'react';
-import { Input } from '@mantine/core';
+import { Input } from '@collinson/design-system/core';
 
 type BaseInputProps = ComponentPropsWithoutRef<typeof Input>;
 export default function BaseInput(props: BaseInputProps) {

@@ -9,7 +9,7 @@ import Layout from '@components/Layout';
 import EmptyStateResults from '@components/EmptyStateResults';
 import Results from '@components/Results';
 import resultsMock from '@components/Results/resultsMock';
-import { Stack } from '@mantine/core';
+import { Stack } from '@collinson/design-system/core';
 
 export default function Search() {
   const [value, setValue] = useState('');

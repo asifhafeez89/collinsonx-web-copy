@@ -1,10 +1,19 @@
 import type { AppProps } from 'next/app';
 import { NextPage } from 'next';
 import { ComponentType, ReactElement } from 'react';
+import { MantineProvider } from '@collinson/design-system/core';
 
 import Head from 'next/head';
 
-import { default as DefaultLayout } from '../components/Layout';
+import { themeLight } from '@collinson/design-system/themes';
+import { Header } from '@collinson/design-system';
+
+import { Open_Sans } from '@next/font/google';
+
+const openSans = Open_Sans({
+  style: ['normal'],
+  subsets: ['latin'],
+});
 
 type Page<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactElement) => JSX.Element;
@@ -27,7 +36,14 @@ export default function MyApp({ Component, pageProps }: Props) {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
-      {getLayout(<Component {...pageProps} />)}
+      <MantineProvider
+        theme={themeLight({ fontFamily: openSans.style.fontFamily })}
+        withGlobalStyles
+        withNormalizeCSS
+      >
+        <Header />
+        {getLayout(<Component {...pageProps} />)}
+      </MantineProvider>
     </>
   );
 }

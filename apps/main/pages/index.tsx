@@ -6,12 +6,12 @@ import {
   TextInputProps,
   Box,
   Flex,
-} from '@mantine/core';
+} from '@collinson/design-system/core';
 
 import { useRouter } from 'next/router';
-import LayoutLogin from '../components/LayoutLogin';
 import { Login as LoginImage } from '@collinson/design-system/assets/graphics';
 import { KeyboardEventHandler, useState } from 'react';
+import LayoutLogin from '../components/LayoutLogin';
 
 function validateEmail(input: string) {
   return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input);
