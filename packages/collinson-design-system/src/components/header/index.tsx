@@ -6,8 +6,6 @@ import {
   List,
   Box,
   Anchor,
-  Avatar,
-  Text,
 } from '@mantine/core';
 import { Logo } from '../../assets/logo/';
 import { Search, ChevronRight } from '../../assets/icons/index';
@@ -20,7 +18,7 @@ export type HeaderItem = {
 };
 
 interface HeaderProps {
-  items: HeaderItem[];
+  items?: HeaderItem[];
 }
 
 const Header = ({ items }: HeaderProps) => {
@@ -74,21 +72,28 @@ const Header = ({ items }: HeaderProps) => {
         </div>
 
         <div className={classes.drawerList}>
-          <List
-            classNames={{
-              itemWrapper: classes.itemWrapper,
-              itemIcon: classes.itemIcon,
-            }}
-            onClick={() => setMenuOpened(false)}
-          >
-            {items.map(({ link, label, icon }) => (
-              <List.Item key={`headerItem-${link}`} icon={icon}>
-                <Anchor variant="text" color={'#25262b'} size="sm" href={link}>
-                  {label}
-                </Anchor>
-              </List.Item>
-            ))}
-          </List>
+          {(items?.length ?? 0 > 0) && (
+            <List
+              classNames={{
+                itemWrapper: classes.itemWrapper,
+                itemIcon: classes.itemIcon,
+              }}
+              onClick={() => setMenuOpened(false)}
+            >
+              {items?.map(({ link, label, icon }) => (
+                <List.Item key={`headerItem-${link}`} icon={icon}>
+                  <Anchor
+                    variant="text"
+                    color={'#25262b'}
+                    size="sm"
+                    href={link}
+                  >
+                    {label}
+                  </Anchor>
+                </List.Item>
+              ))}
+            </List>
+          )}
         </div>
         <Box
           sx={{
