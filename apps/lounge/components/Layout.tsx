@@ -1,4 +1,4 @@
-import { Container, MantineProvider } from '@mantine/core';
+import { Container, MantineProvider } from '@collinson/design-system/core';
 
 import { Header, themeLight } from '@collinson/design-system';
 
@@ -15,21 +15,14 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   return (
-    <MantineProvider
-      theme={themeLight({ fontFamily: openSans.style.fontFamily })}
-      withGlobalStyles
-      withNormalizeCSS
+    <Container
+      p={16}
+      sx={{
+        maxWidth: '375px',
+        height: '100%',
+      }}
     >
-      <Header />
-      <Container
-        p={16}
-        sx={{
-          maxWidth: '375px',
-          height: '100%',
-        }}
-      >
-        {children}
-      </Container>
-    </MantineProvider>
+      {children}
+    </Container>
   );
 }

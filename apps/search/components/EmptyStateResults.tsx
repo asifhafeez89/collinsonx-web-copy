@@ -1,4 +1,4 @@
-import { Text, Box } from '@mantine/core';
+import { Text, Box } from '@collinson/design-system/core';
 
 import { EmptyStateSearch } from '@collinson/design-system/assets/graphics';
 export default function EmptyStateResults() {

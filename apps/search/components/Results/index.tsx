@@ -1,4 +1,4 @@
-import { Box, Flex, Stack, Title, Text } from '@mantine/core';
+import { Box, Flex, Stack, Title, Text } from '@collinson/design-system/core';
 import { MapPin, Coffee } from '@collinson/design-system/assets/icons';
 import ResultsItem from './ResultsItem';
 

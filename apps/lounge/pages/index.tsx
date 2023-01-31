@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { Title, Stack, Flex } from '@mantine/core';
+import { Title, Stack, Flex } from '@collinson/design-system/core';
 
 import { Button, Card } from '@collinson/design-system';
 import { Filter } from '@collinson/design-system/assets/icons';
