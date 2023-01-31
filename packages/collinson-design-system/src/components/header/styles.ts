@@ -8,7 +8,6 @@ export const useStyles = createStyles(() => ({
     padding: 15,
     alignItems: 'center',
     position: 'relative',
-    zIndex: 251, // Higher than menu overlay
   },
   logo: {
     display: 'inline-block',
