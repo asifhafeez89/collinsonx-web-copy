@@ -4,7 +4,7 @@ import { ComponentType, ReactElement } from 'react';
 
 import Head from 'next/head';
 
-import { default as DefaultLayout } from '../components/Layout';
+import { default as DefaultLayout } from '../components/LayoutLogin';
 
 type Page<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactElement) => JSX.Element;

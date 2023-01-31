@@ -93,7 +93,7 @@ export default function Home() {
               height: '100%',
             }}
           >
-            <Box sx={{ zIndex: 1, position: 'relative' }}>
+            <Box sx={{ position: 'relative' }}>
               <LoginImage />
             </Box>
           </Box>

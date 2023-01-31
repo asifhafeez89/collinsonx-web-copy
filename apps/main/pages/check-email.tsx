@@ -20,7 +20,7 @@ export default function CheckEmail() {
 
   return (
     <>
-      <Stack align="center" sx={{ position: 'relative', zIndex: 1000 }}>
+      <Stack align="center" sx={{ position: 'relative', zIndex: 2 }}>
         <Stack spacing={24} align="center">
           <Title order={1} size={20}>
             Check your email
@@ -72,7 +72,6 @@ export default function CheckEmail() {
             width: '55vh',
             height: '55vh',
             position: 'absolute',
-            zIndex: '100',
             right: '-90px',
             bottom: '-60px',
             borderRadius: '50%',
@@ -81,31 +80,6 @@ export default function CheckEmail() {
       </div>
     </>
   );
-}
-
-{
-  /* <div
-        style={{
-          position: 'relative',
-          width: '100%',
-          height: '100%',
-          bottom: '-10px',
-          zIndex: '100'
-        }}
-      >
-         <div
-          style={{
-            backgroundColor: '#47D4B1',
-            width: '55vh',
-            height: '52vh',
-            position: 'absolute',
-            zIndex: '100',
-            right: '-110px',
-            bottom: '-30px',
-            borderRadius: '50%',
-          }}
-        />
-      </div> */
 }
 
 CheckEmail.getLayout = (page: JSX.Element) => <LayoutLogin>{page}</LayoutLogin>;

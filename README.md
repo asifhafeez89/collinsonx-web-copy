@@ -48,3 +48,11 @@ Example of adding dependencies to a package:
 ```
 pnpm i @mantine/core --filter @collinson/design-system
 ```
+
+### Typescript errors
+
+If you are getting typescript definition errors in VSCode (ie cannot find references/no exported member) when trying to access design system packages then:
+Ctrl-P
+Type `> Typescript: Restart TS Server`
+
+This should resolve the issue.
