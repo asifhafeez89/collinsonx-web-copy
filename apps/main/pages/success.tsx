@@ -1,5 +1,8 @@
 import { Stack, Title, Box } from '@mantine/core';
-import { LoginSuccess } from '@collinson/design-system/assets/graphics/index';
+import {
+  LoginSuccess,
+  Login,
+} from '@collinson/design-system/assets/graphics/index';
 import LayoutLogin from '../components/LayoutLogin';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
@@ -10,7 +13,6 @@ export default function Success() {
     setTimeout(() => {
       router.push('/lounge');
     }, 1000);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>
@@ -43,7 +45,7 @@ export default function Success() {
           size={34}
           align="center"
           color="#000"
-          sx={{ fontWeight: 700, marginTop: '66px' }}
+          sx={{ fontWeight: 700, marginTop: '50%' }}
         >
           You&apos;re in
         </Title>
@@ -60,8 +62,9 @@ export default function Success() {
             zIndex: 1,
             position: 'relative',
             bottom: '16px',
-            height: '289px',
+            width: '290px',
             marginTop: '42px',
+            height: '375px',
           }}
         >
           <LoginSuccess />
