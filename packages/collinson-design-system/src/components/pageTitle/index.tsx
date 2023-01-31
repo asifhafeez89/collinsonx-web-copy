@@ -28,7 +28,9 @@ export default function PageTitle({ title, url }: IPageTitle) {
       >
         <ChevronLeft color={'#000000'} />
       </Box>
-      <Title size={20}>{title}</Title>
+      <Title size={20} color={'#000000'}>
+        {title}
+      </Title>
     </Box>
   );
 }

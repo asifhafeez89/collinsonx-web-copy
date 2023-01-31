@@ -22,7 +22,7 @@ export default {
 } as ComponentMeta<typeof Lounge>;
 
 const Template: ComponentStory<typeof Lounge> = (args) => (
-  <Box sx={{ padding: 0 }}>
+  <Box sx={{ padding: 0, maxWidth: '375px' }}>
     <Lounge {...data} />
   </Box>
 );

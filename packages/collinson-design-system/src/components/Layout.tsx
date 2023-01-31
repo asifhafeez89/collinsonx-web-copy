@@ -7,7 +7,14 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   return (
-    <Container px={0}>
+    <Container
+      px={0}
+      sx={{
+        maxWidth: '375px',
+        height: '100%',
+        backgroundColor: '#ffffff',
+      }}
+    >
       <Header />
       <main>{children}</main>
     </Container>

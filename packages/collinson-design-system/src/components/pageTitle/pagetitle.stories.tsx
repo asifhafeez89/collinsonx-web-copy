@@ -18,7 +18,7 @@ export default {
 } as ComponentMeta<typeof PageTitle>;
 
 const Template: ComponentStory<typeof PageTitle> = (args) => (
-  <Box sx={{ padding: 0 }}>
+  <Box sx={{ padding: 0, maxWidth: '375px' }}>
     <PageTitle {...data} />
   </Box>
 );

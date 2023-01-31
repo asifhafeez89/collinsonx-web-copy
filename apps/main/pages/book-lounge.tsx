@@ -16,7 +16,9 @@ export default function BookLounge() {
       <PageTitle title={'Club Aspire Lounge'} url={'/explore-lounges'} />
       <Lounge {...data} />
       <Box>
-        <Title size={16}>Facilities</Title>
+        <Title size={16} color={'#000000'}>
+          Facilities
+        </Title>
         <SimpleGrid cols={2}>
           <List>
             <List.Item>Air conditioning</List.Item>
@@ -29,7 +31,9 @@ export default function BookLounge() {
         </SimpleGrid>
       </Box>
       <Box>
-        <Title size={16}>Conditions</Title>
+        <Title size={16} color={'#000000'}>
+          Conditions
+        </Title>
         <List>
           <List.Item>
             Access is permitted no more than 3 hours prior to scheduled flight.
