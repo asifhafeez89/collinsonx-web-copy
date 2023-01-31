@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { Title, Stack, Flex } from '@mantine/core';
 
 import { Button, Card } from '@collinson/design-system';
-import { Search } from '@collinson/design-system/assets/icons';
+import { Filter } from '@collinson/design-system/assets/icons';
 import Layout from '../components/Layout';
 
 export default function Landing() {
@@ -46,12 +46,12 @@ export default function Landing() {
           </Title>
           <Button
             handleClick={handleClickSearch}
-            icon={<Search />}
+            icon={<Filter />}
             variant="outline"
             fullWidth
             color="dark"
           >
-            Confirm
+            Filter
           </Button>
         </Stack>
         <Flex mt={10} align="center" direction="column">
