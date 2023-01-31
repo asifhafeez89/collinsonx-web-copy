@@ -11,6 +11,7 @@ export default function SelectInput({
         <>
             <Select
                 {...props}
+                styles={{label: {color: 'black'}}}
             />
 
         </>

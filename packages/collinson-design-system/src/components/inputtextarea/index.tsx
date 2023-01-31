@@ -9,7 +9,7 @@ export default function InputTextArea({
 }:TextareaProps) {
     return (
         <>
-            <Textarea {...props} />
+            <Textarea {...props} styles={{label: {color: 'black'}}} />
         </>
     );
 }

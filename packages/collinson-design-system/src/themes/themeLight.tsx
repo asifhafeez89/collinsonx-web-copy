@@ -9,8 +9,8 @@ const theme = ({ fontFamily }: ThemeOptions): MantineThemeOverride => ({
   colors: {
     white: ['#FFF'],
   },
-  primaryColor: 'white',
-  primaryShade: 0,
+  primaryColor: 'dark',
+  primaryShade: 6,
   defaultRadius: 4,
   spacing: { xs: 15, sm: 20, md: 25, lg: 30, xl: 40 },
   fontFamily,
@@ -18,7 +18,7 @@ const theme = ({ fontFamily }: ThemeOptions): MantineThemeOverride => ({
     body: {
       height: '100%',
       color: colors.dark[6],
-      backgroundCololor: colors.white[0],
+      backgroundColor: colors.white[0],
       fontWeight: 400,
     },
     html: {
