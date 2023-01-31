@@ -41,7 +41,7 @@ const Header: FC = () => {
           <Burger
             color={'#ffffff'}
             opened={menuOpened}
-            onClick={() => setMenuOpened((o) => !o)}
+            onClick={() => setMenuOpened(true)}
             title={title}
           />
         </nav>
@@ -53,63 +53,80 @@ const Header: FC = () => {
         onClose={() => setMenuOpened(false)}
         padding="xl"
         size="xl"
+        withCloseButton={false}
         classNames={{
           drawer: classes.drawer,
           closeButton: classes.closeButton,
         }}
       >
-        <List
-          classNames={{
-            itemWrapper: classes.itemWrapper,
-            itemIcon: classes.itemIcon,
-          }}
-          onClick={() => setMenuOpened(false)}
-        >
-          <List.Item icon={<Home color={'#25262b'} />}>
-            <Anchor variant="text" color={'#25262b'} size="sm" href="/landing">
-              Home
-            </Anchor>
-          </List.Item>
-          <List.Item icon={<Lounge color={'#25262b'} />}>
-            <Anchor
-              variant="text"
-              color={'#25262b'}
-              size="sm"
-              href="/explore-lounges"
-            >
-              Explore lounges
-            </Anchor>
-          </List.Item>
-          <List.Item icon={<Cart color={'#25262b'} />}>
-            <Anchor
-              variant="text"
-              color={'#25262b'}
-              size="sm"
-              href="/booking-management"
-            >
-              Booking management
-            </Anchor>
-          </List.Item>
-          <List.Item icon={<Chat color={'#25262b'} />}>
-            <Anchor
-              variant="text"
-              color={'#25262b'}
-              size="sm"
-              href="/travel-companion"
-            >
-              AI Travel companion
-            </Anchor>
-          </List.Item>
-        </List>
+        <div className={classes.drawerHeader}>
+          <Logo />
+          <Burger
+            color={'#ffffff'}
+            opened={menuOpened}
+            onClick={() => setMenuOpened(false)}
+            title={title}
+          />
+        </div>
+
+        <div className={classes.drawerList}>
+          <List
+            classNames={{
+              itemWrapper: classes.itemWrapper,
+              itemIcon: classes.itemIcon,
+            }}
+            onClick={() => setMenuOpened(false)}
+          >
+            <List.Item icon={<Home color={'#25262b'} />}>
+              <Anchor
+                variant="text"
+                color={'#25262b'}
+                size="sm"
+                href="/landing"
+              >
+                Home
+              </Anchor>
+            </List.Item>
+            <List.Item icon={<Lounge color={'#25262b'} />}>
+              <Anchor
+                variant="text"
+                color={'#25262b'}
+                size="sm"
+                href="/explore-lounges"
+              >
+                Explore lounges
+              </Anchor>
+            </List.Item>
+            <List.Item icon={<Cart color={'#25262b'} />}>
+              <Anchor
+                variant="text"
+                color={'#25262b'}
+                size="sm"
+                href="/booking-management"
+              >
+                Booking management
+              </Anchor>
+            </List.Item>
+            <List.Item icon={<Chat color={'#25262b'} />}>
+              <Anchor
+                variant="text"
+                color={'#25262b'}
+                size="sm"
+                href="/travel-companion"
+              >
+                AI Travel companion
+              </Anchor>
+            </List.Item>
+          </List>
+        </div>
+        <div style={{ height: '100%' }} />
         <Box
           sx={{
-            width: 'calc(100% - 48px)',
-            position: 'fixed',
-            bottom: 24,
+            width: '100%',
             display: 'flex',
             justifyContent: 'space-around',
             borderTop: '1px solid #cccccc',
-            paddingTop: 15,
+            padding: 15,
           }}
         >
           <Avatar
