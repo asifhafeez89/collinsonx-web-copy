@@ -46,11 +46,17 @@ export const useStyles = createStyles(() => ({
     display: 'flex',
     flexDirection: 'column',
     flexWrap: 'nowrap',
+    justifyContent: 'flex-start',
   },
   drawerList: {
     padding: '0 15px 0 15px !important',
   },
   closeButton: {
     color: '#25262b',
+  },
+  drawerBody: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
   },
 }));

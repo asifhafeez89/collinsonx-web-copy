@@ -10,17 +10,20 @@ import {
   Text,
 } from '@mantine/core';
 import { Logo } from '../../assets/logo/';
-import {
-  Search,
-  Home,
-  Lounge,
-  Cart,
-  Chat,
-  ChevronRight,
-} from '../../assets/icons/index';
+import { Search, ChevronRight } from '../../assets/icons/index';
 import { useStyles } from './styles';
 
-const Header: FC = () => {
+export type HeaderItem = {
+  label: string;
+  link: string;
+  icon: React.ReactElement;
+};
+
+interface HeaderProps {
+  items: HeaderItem[];
+}
+
+const Header = ({ items }: HeaderProps) => {
   const { classes } = useStyles();
 
   const [menuOpened, setMenuOpened] = useState(false);
@@ -57,6 +60,7 @@ const Header: FC = () => {
         classNames={{
           drawer: classes.drawer,
           closeButton: classes.closeButton,
+          body: classes.drawerBody,
         }}
       >
         <div className={classes.drawerHeader}>
@@ -77,49 +81,15 @@ const Header: FC = () => {
             }}
             onClick={() => setMenuOpened(false)}
           >
-            <List.Item icon={<Home color={'#25262b'} />}>
-              <Anchor
-                variant="text"
-                color={'#25262b'}
-                size="sm"
-                href="/landing"
-              >
-                Home
-              </Anchor>
-            </List.Item>
-            <List.Item icon={<Lounge color={'#25262b'} />}>
-              <Anchor
-                variant="text"
-                color={'#25262b'}
-                size="sm"
-                href="/explore-lounges"
-              >
-                Explore lounges
-              </Anchor>
-            </List.Item>
-            <List.Item icon={<Cart color={'#25262b'} />}>
-              <Anchor
-                variant="text"
-                color={'#25262b'}
-                size="sm"
-                href="/booking-management"
-              >
-                Booking management
-              </Anchor>
-            </List.Item>
-            <List.Item icon={<Chat color={'#25262b'} />}>
-              <Anchor
-                variant="text"
-                color={'#25262b'}
-                size="sm"
-                href="/travel-companion"
-              >
-                AI Travel companion
-              </Anchor>
-            </List.Item>
+            {items.map(({ link, label, icon }) => (
+              <List.Item key={`headerItem-${link}`} icon={icon}>
+                <Anchor variant="text" color={'#25262b'} size="sm" href={link}>
+                  {label}
+                </Anchor>
+              </List.Item>
+            ))}
           </List>
         </div>
-        <div style={{ height: '100%' }} />
         <Box
           sx={{
             width: '100%',
@@ -127,14 +97,15 @@ const Header: FC = () => {
             justifyContent: 'space-around',
             borderTop: '1px solid #cccccc',
             padding: 15,
+            marginTop: 'auto',
           }}
         >
-          <Avatar
+          {/* <Avatar
             src={null}
             radius="xl"
             alt="no image here"
             color={'#25262b'}
-          />
+          /> */}
           <Box
             sx={{
               display: 'flex',
@@ -143,6 +114,10 @@ const Header: FC = () => {
               paddingLeft: 10,
             }}
           >
+            <Anchor variant="text" color={'#25262b'} size="sm" href="/">
+              Logout
+            </Anchor>
+            {/* 
             <Anchor size="sm" href="/profile">
               <Text fz="sm" color={'#25262b'}>
                 Jayne Bloggs
@@ -150,7 +125,7 @@ const Header: FC = () => {
               <Text fz="sm" color={'#25262b'}>
                 j.bloggs@collinson.co.uk
               </Text>
-            </Anchor>
+            </Anchor> */}
           </Box>
           <ChevronRight color={'#25262b'} />
         </Box>
