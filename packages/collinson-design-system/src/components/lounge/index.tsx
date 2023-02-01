@@ -3,38 +3,38 @@ import { MapPin, Clock } from '../../assets/icons/index';
 
 interface ILounge {
   image?: string;
-  location: string;
+  terminal?: string;
   airport: string;
-  details?: string;
-  openingTimes: string;
-  openDays: string;
+  loungeName?: string;
+  openingTimes?: string;
+  openDays?: string;
 }
 
 export default function Lounge({
   image,
-  location,
   airport,
-  details,
+  terminal,
+  loungeName,
   openingTimes,
   openDays,
 }: ILounge) {
   return (
     <>
       {image && <Image src={image} alt={airport} />}
-      {details && <Text color={'#000000'}>{details}</Text>}
+      {loungeName && <Text color={'#000000'}>{loungeName}</Text>}
       <SimpleGrid cols={2}>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <MapPin color={'#000000'} />
           <Box sx={{ paddingLeft: '5px' }}>
-            <Text color={'#000000'}>{location}</Text>
             <Text color={'#000000'}>{airport}</Text>
+            <Text color={'#000000'}>{terminal}</Text>
           </Box>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Clock color={'#000000'} />
           <Box sx={{ paddingLeft: '5px' }}>
-            <Text color={'#000000'}>{openingTimes}</Text>
-            <Text color={'#000000'}>{openDays}</Text>
+            <Text color={'#000000'}>{openingTimes ?? '09:00-2:00'}</Text>
+            <Text color={'#000000'}>{openDays ?? 'Monday - Sunday'}</Text>
           </Box>
         </Box>
       </SimpleGrid>

@@ -56,7 +56,7 @@ export default function MyApp({ Component, pageProps }: Props) {
             },
             {
               label: 'Explore lounges',
-              link: '/lounges',
+              link: '/lounge',
               icon: <Lounge color="#25262b" />,
             },
             {
