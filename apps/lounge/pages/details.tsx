@@ -1,4 +1,5 @@
-import { Layout, Lounge, PageTitle } from '@collinson/design-system/index';
+import { Lounge, PageTitle } from '@collinson/design-system/index';
+import Layout from '../components/Layout';
 import {
   UnstyledButton,
   Title,
@@ -8,6 +9,7 @@ import {
   List,
   Divider,
 } from '@collinson/design-system/core';
+import { useRouter } from 'next/router';
 
 const data = {
   image:
@@ -19,6 +21,11 @@ const data = {
 };
 
 export default function BookLounge() {
+  const router = useRouter();
+
+  const handleBook = () => {
+    router.push('/book')
+  };
   return (
     <Stack sx={{ padding: '0 15px' }}>
       <PageTitle title={'Club Aspire Lounge'} url={'/explore-lounges'} />
@@ -54,6 +61,7 @@ export default function BookLounge() {
       </Box>
       <Box>
         <UnstyledButton
+          onClick= {handleBook}
           sx={{
             borderRadius: 8,
             background: '#000000',

@@ -6,6 +6,9 @@ type ThemeOptions = {
 
 const theme = ({ fontFamily }: ThemeOptions): MantineThemeOverride => ({
   colorScheme: 'light',
+  colors: {
+    white: ['#FFF'],
+  },
   primaryColor: 'dark',
   primaryShade: 6,
   defaultRadius: 4,

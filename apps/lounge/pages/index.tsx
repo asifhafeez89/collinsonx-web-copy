@@ -6,8 +6,6 @@ import { Filter } from '@collinson/design-system/assets/icons';
 import Layout from '../components/Layout';
 
 export default function Landing() {
-  const router = useRouter();
-
   const lounges = [
     {
       title: 'London Heathrow',

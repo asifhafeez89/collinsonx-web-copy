@@ -1,25 +1,28 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import Button from './index';
+import SelectInput from './index';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-  title: 'Example/Button',
-  component: Button,
+  title: 'Example/SelectInput',
+  component: SelectInput,
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {
     backgroundColor: { control: 'color' },
   },
-} as ComponentMeta<typeof Button>;
+} as ComponentMeta<typeof SelectInput>;
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<typeof Button> = (args) => (
-  <Button {...args}> Re-enter your address </Button>
+const Template: ComponentStory<typeof SelectInput> = (args) => (
+  <SelectInput {...args} />
 );
 
 export const Primary = Template.bind({});
 // // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Primary.args = {
-  label: 'Button',
+    label:"Date",
+    placeholder:"hh:ss",
+    data:['00:00','01:00']
 };
+

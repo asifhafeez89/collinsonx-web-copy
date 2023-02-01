@@ -14,3 +14,4 @@ export { default as Lounge } from './lounge.svg';
 export { default as MapPin } from './map-pin.svg';
 export { default as Search } from './search.svg';
 export { default as Coffee } from './coffee.svg';
+export { default as Calendar } from './calendar.svg';

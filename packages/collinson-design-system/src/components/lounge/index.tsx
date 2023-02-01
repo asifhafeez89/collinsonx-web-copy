@@ -5,6 +5,7 @@ interface ILounge {
   image?: string;
   location: string;
   airport: string;
+  details?: string;
   openingTimes: string;
   openDays: string;
 }
@@ -13,12 +14,14 @@ export default function Lounge({
   image,
   location,
   airport,
+  details,
   openingTimes,
   openDays,
 }: ILounge) {
   return (
     <>
       {image && <Image src={image} alt={airport} />}
+      {details && <Text color={'#000000'}>{details}</Text>}
       <SimpleGrid cols={2}>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <MapPin color={'#000000'} />
