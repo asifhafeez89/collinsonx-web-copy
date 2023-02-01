@@ -27,7 +27,7 @@ export default function Landing() {
         <PageTitle title={'Club Aspire Lounge'} url={'/lounge/details'} />
         <Lounge {...data} />
         <Flex direction="column">
-          <Paper  mt={30} radius="md">
+          <Paper  mt={10} radius="md">
             <InputLabel 
               placeholder="dd/mm/yyyy"
               label="Date"
@@ -53,7 +53,9 @@ export default function Landing() {
                placeholder="Your comment"
                label="Your comment"
                description="Add any considerations for lounge staff"
-               minRows={3}
+               autosize
+               minRows={2}
+               maxRows={4}
             />
           </Paper>
           <Paper mt={30} radius="md">
