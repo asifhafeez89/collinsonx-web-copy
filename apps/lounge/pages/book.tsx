@@ -19,7 +19,10 @@ export default function Landing() {
   const loungeDetails: LoungeType = JSON.parse(lounge as string);
 
   const handleBook = () => {
-    router.push('/confirm');
+    router.push({
+      pathname: '/confirm',
+      query: { lounge: JSON.stringify(lounge) },
+    });
   };
 
   return (

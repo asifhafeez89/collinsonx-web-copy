@@ -1,8 +1,4 @@
-import {
-  Stack,
-  Flex,
-  Paper,
-} from '@collinson/design-system/core';
+import { Stack, Flex, Paper } from '@collinson/design-system/core';
 import Layout from '../components/Layout';
 import { useRouter } from 'next/router';
 
@@ -12,14 +8,17 @@ import {
   PageTitle,
   Lounge,
 } from '@collinson/design-system';
+import { LoungeType } from 'lounges';
 
 export default function Landing() {
   const router = useRouter();
+  const { lounge } = router.query;
+  const loungeDetails: LoungeType = JSON.parse(lounge as string);
 
   const handleConfirm = () => {
-    router.push('/success')
+    router.push('/success');
   };
-  
+
   const data = {
     location: 'London',
     airport: 'Heathrow T5',
@@ -32,8 +31,11 @@ export default function Landing() {
   return (
     <>
       <Stack sx={{ position: 'relative' }}>
-        <PageTitle title={'Club Aspire Lounge'} url={'/lounge/book'} />
-        <Lounge {...data} />
+        <PageTitle title={'Confirm details'} url={'/lounge/book'} />
+        <Lounge
+          airport={loungeDetails.airport}
+          terminal={loungeDetails.terminal}
+        />
         <Flex direction="column">
           <Paper mt={30} radius="md">
             <FieldLabel

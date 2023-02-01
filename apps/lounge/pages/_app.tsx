@@ -51,7 +51,7 @@ export default function MyApp({ Component, pageProps }: Props) {
           items={[
             {
               label: 'Home',
-              link: '/',
+              link: '/lounge',
               icon: <Home color="#25262b" />,
             },
             {
