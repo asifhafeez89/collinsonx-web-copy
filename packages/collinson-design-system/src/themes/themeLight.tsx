@@ -6,11 +6,8 @@ type ThemeOptions = {
 
 const theme = ({ fontFamily }: ThemeOptions): MantineThemeOverride => ({
   colorScheme: 'light',
-  colors: {
-    white: ['#FFF'],
-  },
-  primaryColor: 'white',
-  primaryShade: 0,
+  primaryColor: 'dark',
+  primaryShade: 6,
   defaultRadius: 4,
   spacing: { xs: 15, sm: 20, md: 25, lg: 30, xl: 40 },
   fontFamily,
@@ -18,7 +15,7 @@ const theme = ({ fontFamily }: ThemeOptions): MantineThemeOverride => ({
     body: {
       height: '100%',
       color: colors.dark[6],
-      backgroundCololor: colors.white[0],
+      backgroundCololor: 'white',
       fontWeight: 400,
     },
     html: {
@@ -38,7 +35,7 @@ const theme = ({ fontFamily }: ThemeOptions): MantineThemeOverride => ({
       styles: ({ colors }) => ({
         label: {
           fontSize: '18px',
-          color: colors.white[0],
+          color: 'white',
         },
         required: {
           color: colors.red[6],
@@ -51,7 +48,7 @@ const theme = ({ fontFamily }: ThemeOptions): MantineThemeOverride => ({
     Input: {
       styles: ({ colors }) => ({
         input: {
-          backgroundColor: colors.white[0],
+          backgroundColor: 'white',
           height: '50px',
           borderRadius: 0,
           borderColor: colors.gray[4],
@@ -80,22 +77,13 @@ const theme = ({ fontFamily }: ThemeOptions): MantineThemeOverride => ({
           padding: '11px',
           fontSize: '18px',
           height: '50px',
-          backgroundColor: colors.white[0],
+          backgroundColor: 'white',
           borderRadius: 0,
           color: colors.dark[6],
         },
         label: {
           fontFamily,
           fontWeight: 600,
-        },
-      }),
-    },
-    Button: {
-      styles: ({ colors }) => ({
-        root: {
-          height: '53px',
-          fontSize: '18px',
-          color: colors.dark[6],
         },
       }),
     },
