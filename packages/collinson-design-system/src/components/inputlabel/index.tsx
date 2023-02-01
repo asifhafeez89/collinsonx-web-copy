@@ -1,12 +1,12 @@
 import React from 'react';
-import {InputProps, TextInput } from '@mantine/core';
+import {TextInputProps, TextInput } from '@mantine/core';
 
 /**
  * Primary UI component for user interaction
  */
 export default function InputLabel({ 
      ...props
-}:InputProps) {
+}:TextInputProps) {
   return (
     <>
        <TextInput  {...props} styles={{label: {color: 'black'}}}/>
