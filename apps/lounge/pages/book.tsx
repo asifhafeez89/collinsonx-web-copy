@@ -52,7 +52,7 @@ export default function Landing() {
               variant="filled"
               icon={null}
               fullWidth
-              color="dark"
+              color="light"
             >
               Confirm details
             </Button>
