@@ -13,7 +13,6 @@ import {
   Cart,
   Chat,
   Home,
-  Lounge,
 } from '@collinson/design-system/assets/icons';
 
 const openSans = Open_Sans({
@@ -53,11 +52,6 @@ export default function MyApp({ Component, pageProps }: Props) {
               label: 'Home',
               link: '/lounge',
               icon: <Home color="#25262b" />,
-            },
-            {
-              label: 'Explore lounges',
-              link: '/lounge',
-              icon: <Lounge color="#25262b" />,
             },
             {
               label: 'My trips',
