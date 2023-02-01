@@ -9,7 +9,7 @@ export default function InputLabel({
 }:TextInputProps) {
   return (
     <>
-       <TextInput  {...props} styles={{label: {color: 'black'}}}/>
+       <TextInput  {...props} styles={{label: {color: '#000000'}}}/>
     </>
   );
 }
