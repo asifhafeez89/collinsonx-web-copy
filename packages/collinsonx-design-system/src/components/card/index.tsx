@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import Button from '../button';
 
 const CardWrapper = styled.div`
-  width: 300px;
+  width: 100%;
   transition: 0.3s;
   border-radius: 5px; /* 5px rounded corners */
   border: 1px solid #e9ecef;
