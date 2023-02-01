@@ -1,5 +1,5 @@
-import { Box, Flex, Stack, Title, Text } from '@collinson/design-system/core';
-import { MapPin, Coffee } from '@collinson/design-system/assets/icons';
+import { Box, Flex, Stack, Title, Text } from '@collinsonx/design-system/core';
+import { MapPin, Coffee } from '@collinsonx/design-system/assets/icons';
 import ResultsItem from './ResultsItem';
 
 type Airport = {

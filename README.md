@@ -46,7 +46,7 @@ pnpm i @mantine/core --filter main
 Example of adding dependencies to a package:
 
 ```
-pnpm i @mantine/core --filter @collinson/design-system
+pnpm i @mantine/core --filter @collinsonx/design-system
 ```
 
 ### Typescript errors

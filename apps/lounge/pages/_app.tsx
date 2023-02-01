@@ -1,20 +1,15 @@
 import type { AppProps } from 'next/app';
 import { NextPage } from 'next';
 import { ComponentType, ReactElement } from 'react';
-import { MantineProvider } from '@collinson/design-system/core';
+import { MantineProvider } from '@collinsonx/design-system/core';
 
 import Head from 'next/head';
 
-import { themeLight } from '@collinson/design-system/themes';
-import { Header } from '@collinson/design-system';
+import { themeLight } from '@collinsonx/design-system/themes';
+import { Header } from '@collinsonx/design-system';
 
 import { Open_Sans } from '@next/font/google';
-import {
-  Cart,
-  Chat,
-  Home,
-  Lounge,
-} from '@collinson/design-system/assets/icons';
+import { Cart, Chat, Home } from '@collinsonx/design-system/assets/icons';
 
 const openSans = Open_Sans({
   style: ['normal'],
@@ -51,13 +46,8 @@ export default function MyApp({ Component, pageProps }: Props) {
           items={[
             {
               label: 'Home',
-              link: '/',
+              link: '/lounge',
               icon: <Home color="#25262b" />,
-            },
-            {
-              label: 'Explore lounges',
-              link: '/lounges',
-              icon: <Lounge color="#25262b" />,
             },
             {
               label: 'My trips',

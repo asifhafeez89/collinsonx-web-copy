@@ -1,4 +1,4 @@
-import { Lounge, PageTitle } from '@collinson/design-system/index';
+import { Lounge, PageTitle } from '@collinsonx/design-system/index';
 import Layout from '../components/Layout';
 import {
   UnstyledButton,
@@ -8,8 +8,9 @@ import {
   SimpleGrid,
   List,
   Divider,
-} from '@collinson/design-system/core';
+} from '@collinsonx/design-system/core';
 import { useRouter } from 'next/router';
+import { LoungeType } from 'lounges';
 
 const data = {
   image:
@@ -22,14 +23,25 @@ const data = {
 
 export default function BookLounge() {
   const router = useRouter();
+  const lounge = router?.query?.lounge ?? '{}';
+  const loungeDetails: LoungeType = JSON.parse(lounge as string);
 
   const handleBook = () => {
-    router.push('/book')
+    router.push({
+      pathname: '/book',
+      query: { lounge: JSON.stringify(loungeDetails) },
+    });
   };
+
   return (
     <Stack sx={{ padding: '0 15px' }}>
-      <PageTitle title={'Club Aspire Lounge'} url={'/explore-lounges'} />
-      <Lounge {...data} />
+      <PageTitle title={loungeDetails.loungeName} url={'/lounge'} />
+      <Lounge
+        image={loungeDetails.pictureUrl}
+        airport={loungeDetails.airport}
+        terminal={loungeDetails.terminal}
+        loungeName={loungeDetails.loungeName}
+      />
       <Divider color={'gray'} />
       <Box>
         <Title size={16} color={'#000000'}>
@@ -61,7 +73,7 @@ export default function BookLounge() {
       </Box>
       <Box>
         <UnstyledButton
-          onClick= {handleBook}
+          onClick={handleBook}
           sx={{
             borderRadius: 8,
             background: '#000000',

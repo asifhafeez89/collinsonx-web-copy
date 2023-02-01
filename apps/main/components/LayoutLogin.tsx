@@ -1,6 +1,5 @@
-import { Center, Container, Stack } from '@collinson/design-system/core';
-import { Logo } from '@collinson/design-system/assets/logo';
-
+import { Center, Container, Stack } from '@collinsonx/design-system/core';
+import { Logo } from '@collinsonx/design-system/assets/logo';
 import { Open_Sans } from '@next/font/google';
 
 const openSans = Open_Sans({

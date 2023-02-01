@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Group } from '@collinson/design-system/core';
+import { Group } from '@collinsonx/design-system/core';
 import BaseInput from './BaseInput';
 
 export default function InputValidation() {

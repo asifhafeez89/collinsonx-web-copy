@@ -1,4 +1,4 @@
-import { Container } from '@collinson/design-system/core';
+import { Container } from '@collinsonx/design-system/core';
 
 interface LayoutProps {
   children: JSX.Element;

@@ -1,7 +1,5 @@
-import { Container, MantineProvider } from '@collinson/design-system/core';
-
-import { Header, themeLight } from '@collinson/design-system';
-
+import { Container, MantineProvider } from '@collinsonx/design-system/core';
+import { Header, themeLight } from '@collinsonx/design-system';
 import { Open_Sans } from '@next/font/google';
 
 const openSans = Open_Sans({

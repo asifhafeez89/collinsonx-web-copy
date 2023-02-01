@@ -1,6 +1,6 @@
-import { Text, Box } from '@collinson/design-system/core';
+import { Text, Box } from '@collinsonx/design-system/core';
 
-import { EmptyStateSearch } from '@collinson/design-system/assets/graphics';
+import { EmptyStateSearch } from '@collinsonx/design-system/assets/graphics';
 export default function EmptyStateResults() {
   return (
     <>

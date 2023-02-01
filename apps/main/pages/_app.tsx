@@ -1,11 +1,11 @@
 import type { AppProps } from 'next/app';
 import { NextPage } from 'next';
 import { ComponentType, ReactElement } from 'react';
-import { MantineProvider } from '@collinson/design-system/core';
+import { MantineProvider } from '@collinsonx/design-system/core';
 
 import Head from 'next/head';
 
-import { themeDark } from '@collinson/design-system/themes';
+import { themeDark } from '@collinsonx/design-system/themes';
 
 import { Open_Sans } from '@next/font/google';
 

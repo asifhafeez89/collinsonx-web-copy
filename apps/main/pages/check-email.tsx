@@ -5,13 +5,13 @@ import {
   Text,
   Box,
   Flex,
-} from '@collinson/design-system/core';
+} from '@collinsonx/design-system/core';
 import { useRouter } from 'next/router';
 
 import LayoutLogin from '../components/LayoutLogin';
 
-import { AuthInput } from '@collinson/design-system';
-import { LoginCode } from '@collinson/design-system/assets/graphics';
+import { AuthInput } from '@collinsonx/design-system';
+import { LoginCode } from '@collinsonx/design-system/assets/graphics';
 
 export default function CheckEmail() {
   const router = useRouter();
