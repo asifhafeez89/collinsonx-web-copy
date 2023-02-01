@@ -12,7 +12,7 @@ import { LoungeType } from 'lounges';
 
 export default function Landing() {
   const router = useRouter();
-  const { lounge } = router.query;
+  const lounge = router?.query?.lounge ?? '{}';
   const loungeDetails: LoungeType = JSON.parse(lounge as string);
 
   const handleConfirm = () => {
