@@ -9,6 +9,12 @@ import { themeLight } from '@collinson/design-system/themes';
 import { Header } from '@collinson/design-system';
 
 import { Open_Sans } from '@next/font/google';
+import {
+  Cart,
+  Chat,
+  Home,
+  Lounge,
+} from '@collinson/design-system/assets/icons';
 
 const openSans = Open_Sans({
   style: ['normal'],
@@ -41,7 +47,30 @@ export default function MyApp({ Component, pageProps }: Props) {
         withGlobalStyles
         withNormalizeCSS
       >
-        <Header />
+        <Header
+          items={[
+            {
+              label: 'Home',
+              link: '/',
+              icon: <Home color="#25262b" />,
+            },
+            {
+              label: 'Explore lounges',
+              link: '/lounges',
+              icon: <Lounge color="#25262b" />,
+            },
+            {
+              label: 'My trips',
+              link: '/bookings',
+              icon: <Cart color="#25262b" />,
+            },
+            {
+              label: 'AI Travel companion',
+              link: '/companion',
+              icon: <Chat color="#25262b" />,
+            },
+          ]}
+        />
         {getLayout(<Component {...pageProps} />)}
       </MantineProvider>
     </>

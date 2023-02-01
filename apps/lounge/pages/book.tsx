@@ -1,31 +1,38 @@
 
-import { Title, Stack, Flex , Paper} from '@collinson/design-system/core';
+import { Title, Stack, Flex , Paper, Divider} from '@collinson/design-system/core';
 import Layout from '../components/Layout';
 
-import {InputLabel, InputSelect, InputTextArea, Button} from '@collinson/design-system';
-import { Clock } from '@collinson/design-system/assets/icons';
+import {InputLabel, InputSelect, InputTextArea, Button, PageTitle, Lounge} from '@collinson/design-system';
+import { Clock, Calendar } from '@collinson/design-system/assets/icons';
+import { useRouter } from 'next/router';
 
 export default function Landing() {
-
+  const router = useRouter();
+  
   const handleBook = () => {
-
+    router.push('/confirm')
   }
+
+  const data = {
+    location: 'London',
+    airport: 'Heathrow T5',
+    openingTimes: '07:00 - 22:00',
+    openDays: 'Monday - Sunday',
+  };
+  
 
   return (
     <>
       <Stack sx={{ position: 'relative' }}>
-        <Stack>
-          <Title order={1} size={20} align="center">
-            Ready for your next experience?
-          </Title>
-        </Stack>
+        <PageTitle title={'Club Aspire Lounge'} url={'/lounge/details'} />
+        <Lounge {...data} />
         <Flex direction="column">
           <Paper  mt={30} radius="md">
             <InputLabel 
               placeholder="dd/mm/yyyy"
               label="Date"
               withAsterisk 
-              icon={<Clock size={14} />}
+              icon={<Calendar size={14} />}
             />
           </Paper>
           <Paper  mt={30} radius="md">
@@ -44,6 +51,7 @@ export default function Landing() {
                placeholder="Your comment"
                label="Your comment"
                withAsterisk
+               minRows={3}
             />
           </Paper>
           <Paper mt={30} radius="md">
@@ -53,14 +61,19 @@ export default function Landing() {
               icon={null}
               fullWidth
               color="light"
+              sx={{
+                borderRadius: 8,
+                background: '#000000',
+                color: '#ffffff',
+                padding: '12px 24px',
+                width: '100%',
+                textAlign: 'center',
+                fontSize: '18px',
+              }}
             >
               Confirm details
             </Button>
           </Paper>
-
-
-
-
         </Flex>
       </Stack>
     </>

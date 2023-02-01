@@ -12,7 +12,8 @@ interface FieldLabelProps {
  */
 export default function FieldLabel({ 
     title,
-    value
+    value,
+    handleClick
 }: FieldLabelProps) {
 
    const Wrapper = styled.div`    
@@ -23,7 +24,9 @@ export default function FieldLabel({
    `;
 
   return (
-    <Wrapper>
+    <Wrapper
+      onClick={handleClick}
+    >
         <h3>{title}</h3>
         <p>{value}</p>
     </Wrapper>
