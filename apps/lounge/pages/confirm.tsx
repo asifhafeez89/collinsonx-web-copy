@@ -1,4 +1,4 @@
-import { Stack, Flex, Paper } from '@collinson/design-system/core';
+import { Stack, Flex, Paper } from '@collinsonx/design-system/core';
 import Layout from '../components/Layout';
 import { useRouter } from 'next/router';
 
@@ -7,7 +7,7 @@ import {
   Button,
   PageTitle,
   Lounge,
-} from '@collinson/design-system';
+} from '@collinsonx/design-system';
 import { LoungeType } from 'lounges';
 
 export default function Landing() {

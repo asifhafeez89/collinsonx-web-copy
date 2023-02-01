@@ -16,7 +16,7 @@
     "jsx": "preserve",
     "paths": {
       "@lib/*": ["lib/*"],
-      "@collinson/design-system/*": ["collinson/design-system/*"],
+      "@collinsonx/design-system/*": ["collinsonx/design-system/*"],
       "@components": ["components/index"],
       "@components/*": ["components/*"]
     },

@@ -1,4 +1,4 @@
-import { Stack, Flex, Paper } from '@collinson/design-system/core';
+import { Stack, Flex, Paper } from '@collinsonx/design-system/core';
 import Layout from '../components/Layout';
 
 import {
@@ -8,8 +8,8 @@ import {
   Button,
   PageTitle,
   Lounge,
-} from '@collinson/design-system';
-import { Clock, Calendar } from '@collinson/design-system/assets/icons';
+} from '@collinsonx/design-system';
+import { Clock, Calendar } from '@collinsonx/design-system/assets/icons';
 import { useRouter } from 'next/router';
 import { LoungeType } from 'lounges';
 

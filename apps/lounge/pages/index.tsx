@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
-import { Title, Stack, Flex } from '@collinson/design-system/core';
+import { Title, Stack, Flex } from '@collinsonx/design-system/core';
 
-import { Button, Card } from '@collinson/design-system';
-import { Filter } from '@collinson/design-system/assets/icons';
+import { Button, Card } from '@collinsonx/design-system';
+import { Filter } from '@collinsonx/design-system/assets/icons';
 import Layout from '../components/Layout';
 import { lounges, LoungeType } from '../lounges';
 

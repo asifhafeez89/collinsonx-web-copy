@@ -1,7 +1,7 @@
 import Layout from '../components/Layout';
-import { BookingSuccess as BookingSuccessGraphic } from '@collinson/design-system/assets/graphics';
-import { Flex, Text } from '@collinson/design-system/core';
-import { Button } from '@collinson/design-system';
+import { BookingSuccess as BookingSuccessGraphic } from '@collinsonx/design-system/assets/graphics';
+import { Flex, Text } from '@collinsonx/design-system/core';
+import { Button } from '@collinsonx/design-system';
 import { useRouter } from 'next/router';
 
 export default function BookingSuccess() {

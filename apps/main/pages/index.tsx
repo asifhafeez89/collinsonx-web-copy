@@ -6,10 +6,10 @@ import {
   TextInputProps,
   Box,
   Flex,
-} from '@collinson/design-system/core';
+} from '@collinsonx/design-system/core';
 
 import { useRouter } from 'next/router';
-import { Login as LoginImage } from '@collinson/design-system/assets/graphics';
+import { Login as LoginImage } from '@collinsonx/design-system/assets/graphics';
 import { KeyboardEventHandler, useState } from 'react';
 import LayoutLogin from '../components/LayoutLogin';
 

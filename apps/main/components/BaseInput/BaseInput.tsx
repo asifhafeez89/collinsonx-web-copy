@@ -1,5 +1,5 @@
 import { ComponentPropsWithoutRef } from 'react';
-import { Input } from '@collinson/design-system/core';
+import { Input } from '@collinsonx/design-system/core';
 
 type BaseInputProps = ComponentPropsWithoutRef<typeof Input>;
 export default function BaseInput(props: BaseInputProps) {

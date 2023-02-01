@@ -1,5 +1,5 @@
 {
-  "name": "@collinson/utils",
+  "name": "@collinsonx/utils",
   "version": "0.0.1",
   "repository": "https://github.com/vercel/examples.git",
   "license": "MIT",
@@ -50,7 +50,7 @@
   ],
   "devDependencies": {
     "eslint": "^8.16.0",
-    "eslint-config-collinson": "workspace:*",
+    "eslint-config-collinsonx": "workspace:*",
     "tsup": "^5.12.8",
     "typescript": "^4.5.5"
   }

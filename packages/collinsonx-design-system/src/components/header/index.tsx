@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Burger, Drawer, List, Box, Anchor } from '@mantine/core';
-import { Logo } from '../../assets/logo/';
+import { Logo } from '../../assets/logo';
 import { Search, ChevronRight } from '../../assets/icons/index';
 import { useStyles } from './styles';
 

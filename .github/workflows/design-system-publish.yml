@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: packages/collinson-design-system/
+        working-directory: packages/collinsonx-design-system/
     steps:
       - uses: actions/checkout@v3
       - uses: pnpm/action-setup@v2
@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: packages/collinson-design-system/
+        working-directory: packages/collinsonx-design-system/
     permissions:
       contents: read
       packages: write
@@ -41,7 +41,7 @@ jobs:
         with:
           node-version: 18
           registry-url: https://npm.pkg.github.com/
-          scope: '@collinson'
+          scope: '@collinsonx'
       - run: pnpm i --frozen-lockfile
       - run: npm publish
         env:

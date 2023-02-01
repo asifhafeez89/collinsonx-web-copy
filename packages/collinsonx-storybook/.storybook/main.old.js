@@ -3,7 +3,7 @@ const path = require('path')
 module.exports = {
   stories: [
     {
-      directory: '../../collinson-design-system/src/**',
+      directory: '../../collinsonx-design-system/src/**',
       files: '*.stories.*'
     },
   ],

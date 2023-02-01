@@ -1,4 +1,4 @@
-import { Lounge, PageTitle } from '@collinson/design-system/index';
+import { Lounge, PageTitle } from '@collinsonx/design-system/index';
 import Layout from '../components/Layout';
 import {
   UnstyledButton,
@@ -8,7 +8,7 @@ import {
   SimpleGrid,
   List,
   Divider,
-} from '@collinson/design-system/core';
+} from '@collinsonx/design-system/core';
 import { useRouter } from 'next/router';
 import { LoungeType } from 'lounges';
 

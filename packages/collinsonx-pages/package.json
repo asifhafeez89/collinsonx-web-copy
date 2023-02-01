@@ -1,5 +1,5 @@
 {
-  "name": "@collinson/pages",
+  "name": "@collinsonx/pages",
   "version": "0.0.1",
   "repository": "https://github.com/vercel/examples.git",
   "license": "MIT",
@@ -47,8 +47,8 @@
     "react-dom": "^17.0.0 || ^18.0.0-0"
   },
   "dependencies": {
-    "@collinson/design-system": "workspace:*",
-    "@collinson/utils": "workspace:*",
+    "@collinsonx/design-system": "workspace:*",
+    "@collinsonx/utils": "workspace:*",
     "@emotion/react": "^11.10.5",
     "@mantine/core": "^5.10.1",
     "@mantine/hooks": "^5.10.1",
@@ -62,7 +62,7 @@
     "@types/react": "latest",
     "chokidar": "^3.5.3",
     "eslint": "^8.16.0",
-    "eslint-config-collinson": "workspace:*",
+    "eslint-config-collinsonx": "workspace:*",
     "typescript": "^4.5.5"
   }
 }

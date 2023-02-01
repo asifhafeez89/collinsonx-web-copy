@@ -1,4 +1,4 @@
-import { createGetInitialProps } from '@collinson/design-system/next';
+import { createGetInitialProps } from '@collinsonx/design-system/next';
 import Document, { Head, Html, Main, NextScript } from 'next/document';
 
 const getInitialProps = createGetInitialProps();

@@ -11,9 +11,9 @@
     "clean": "rm -rf .next && rm -rf .turbo"
   },
   "dependencies": {
-    "@collinson/design-system": "workspace:*",
-    "@collinson/pages": "workspace:*",
-    "@collinson/utils": "workspace:*",
+    "@collinsonx/design-system": "workspace:*",
+    "@collinsonx/pages": "workspace:*",
+    "@collinsonx/utils": "workspace:*",
     "@next/font": "^13.1.5",
     "@svgr/webpack": "^6.5.1",
     "next": "latest",
@@ -24,7 +24,7 @@
     "@types/react": "latest",
     "autoprefixer": "^10.4.12",
     "eslint": "^8.11.0",
-    "eslint-config-collinson": "workspace:*",
+    "eslint-config-collinsonx": "workspace:*",
     "postcss": "^8.4.18",
     "typescript": "4.8.4"
   }

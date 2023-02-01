@@ -3,13 +3,13 @@ import { useState } from 'react';
 import {
   default as SearchInput,
   SearchInputProps,
-} from '@collinson/design-system/components/searchInput';
+} from '@collinsonx/design-system/components/searchInput';
 
 import Layout from '@components/Layout';
 import EmptyStateResults from '@components/EmptyStateResults';
 import Results from '@components/Results';
 import resultsMock from '@components/Results/resultsMock';
-import { Stack } from '@collinson/design-system/core';
+import { Stack } from '@collinsonx/design-system/core';
 
 export default function Search() {
   const [value, setValue] = useState('');

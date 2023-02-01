@@ -1,4 +1,4 @@
-import { Flex } from '@collinson/design-system/core';
+import { Flex } from '@collinsonx/design-system/core';
 
 export interface ResultsItemProps {
   leftIcon: JSX.Element;

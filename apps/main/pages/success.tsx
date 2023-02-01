@@ -1,5 +1,5 @@
-import { Stack, Title, Box } from '@collinson/design-system/core';
-import { LoginSuccess } from '@collinson/design-system/assets/graphics/index';
+import { Stack, Title, Box } from '@collinsonx/design-system/core';
+import { LoginSuccess } from '@collinsonx/design-system/assets/graphics/index';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import LayoutLogin from '../components/LayoutLogin';
