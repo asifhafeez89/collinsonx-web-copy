@@ -1,4 +1,9 @@
-import { Stack, Flex, Paper } from '@collinsonx/design-system/core';
+import {
+  Stack,
+  Flex,
+  Paper,
+  UnstyledButton,
+} from '@collinsonx/design-system/core';
 import Layout from '../components/Layout';
 import { useRouter } from 'next/router';
 
@@ -19,66 +24,51 @@ export default function Landing() {
     router.push('/success');
   };
 
-  const data = {
-    location: 'London',
-    airport: 'Heathrow T5',
-    details:
-      'The lounge will receive your request and send confirmation once they have reviewed availability.',
-    openingTimes: '07:00 - 22:00',
-    openDays: 'Monday - Sunday',
-  };
-
   return (
-    <>
-      <Stack sx={{ position: 'relative' }}>
-        <PageTitle title={'Confirm details'} url={'/lounge/book'} />
-        <Lounge
-          airport={loungeDetails.airport}
-          terminal={loungeDetails.terminal}
-        />
-        <Flex direction="column">
-          <Paper mt={30} radius="md">
-            <FieldLabel
-              title="Date"
-              value="12/6/2023"
-              handleClick={() => router.push('/book')}
-            />
-          </Paper>
-          <Paper mt={30} radius="md">
-            <FieldLabel
-              title="Time of arrival"
-              value="08:30"
-              handleClick={() => router.push('/book')}
-            />
-          </Paper>
-          <Paper mt={30} radius="md">
-            <FieldLabel
-              title="Additional requirements"
-              value="None"
-              handleClick={() => router.push('/book')}
-            />
-          </Paper>
-          <Button
-            handleClick={handleConfirm}
-            variant="filled"
-            icon={null}
-            fullWidth
-            color="dark"
-            sx={{
-              borderRadius: 8,
-              background: '#000000',
-              color: '#ffffff',
-              padding: '12px 24px',
-              width: '100%',
-              textAlign: 'center',
-              fontSize: '18px',
-            }}
-          >
-            Confirm details
-          </Button>
-        </Flex>
-      </Stack>
-    </>
+    <Stack sx={{ position: 'relative' }}>
+      <PageTitle title={'Confirm details'} url={'/lounge/book'} />
+      <Lounge
+        airport={loungeDetails.airport}
+        terminal={loungeDetails.terminal}
+      />
+      <Flex direction="column">
+        <Paper mt={30} radius="md">
+          <FieldLabel
+            title="Date"
+            value="12/6/2023"
+            handleClick={() => router.push('/book')}
+          />
+        </Paper>
+        <Paper mt={30} radius="md">
+          <FieldLabel
+            title="Time of arrival"
+            value="08:30"
+            handleClick={() => router.push('/book')}
+          />
+        </Paper>
+        <Paper mt={30} radius="md">
+          <FieldLabel
+            title="Additional requirements"
+            value="None"
+            handleClick={() => router.push('/book')}
+          />
+        </Paper>
+        <UnstyledButton
+          onClick={handleConfirm}
+          sx={{
+            borderRadius: 8,
+            background: '#000000',
+            color: '#ffffff',
+            padding: '12px 24px',
+            width: '100%',
+            textAlign: 'center',
+            fontSize: '18px',
+          }}
+        >
+          Send booking to lounge
+        </UnstyledButton>
+      </Flex>
+    </Stack>
   );
 }
 
