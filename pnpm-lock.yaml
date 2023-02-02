@@ -23,6 +23,7 @@ importers:
       '@svgr/webpack': ^6.5.1
       '@types/react': latest
       autoprefixer: ^10.4.12
+      dayjs: ^1.11.7
       eslint: ^8.11.0
       eslint-config-collinsonx: workspace:*
       next: latest
@@ -36,6 +37,7 @@ importers:
       '@collinsonx/utils': link:../../packages/collinsonx-utils
       '@next/font': 13.1.5
       '@svgr/webpack': 6.5.1
+      dayjs: 1.11.7
       next: 13.1.6_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -7067,7 +7069,6 @@ packages:
 
   /dayjs/1.11.7:
     resolution: {integrity: sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==}
-    dev: true
 
   /debug/2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
