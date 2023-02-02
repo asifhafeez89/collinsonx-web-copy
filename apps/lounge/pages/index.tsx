@@ -18,37 +18,35 @@ export default function Landing() {
   };
 
   return (
-    <>
-      <Stack align="center" sx={{ position: 'relative' }}>
-        <Stack spacing={24} align="center">
-          <Title order={1} size={20} align="center">
-            Ready for your next experience?
-          </Title>
-          <Button
-            handleClick={handleClickSearch}
-            icon={<Filter />}
-            variant="outline"
-            fullWidth
-            color="dark"
-          >
-            Filter
-          </Button>
-        </Stack>
-        <Flex mt={10} align="center" direction="column">
-          {lounges.map((lounge, i) => {
-            return (
-              <Card
-                title={lounge.loungeName}
-                subtitle={`${lounge.airport} ${lounge.terminal}`}
-                pictureUrl={lounge.pictureUrl}
-                handleClick={() => goToLoungeDetails(lounge)}
-                key={i}
-              />
-            );
-          })}
-        </Flex>
+    <Stack align="stretch" sx={{ position: 'relative' }}>
+      <Stack spacing={24} align="stretch">
+        <Title order={1} size={20} align="center">
+          Ready for your next experience?
+        </Title>
+        <Button
+          handleClick={handleClickSearch}
+          icon={<Filter />}
+          variant="outline"
+          fullWidth
+          color="dark"
+        >
+          Filter
+        </Button>
       </Stack>
-    </>
+      <Flex mt={10} align="stretch" direction="column">
+        {lounges.map((lounge, i) => {
+          return (
+            <Card
+              title={lounge.loungeName}
+              subtitle={`${lounge.airport} ${lounge.terminal}`}
+              pictureUrl={lounge.pictureUrl}
+              handleClick={() => goToLoungeDetails(lounge)}
+              key={i}
+            />
+          );
+        })}
+      </Flex>
+    </Stack>
   );
 }
 

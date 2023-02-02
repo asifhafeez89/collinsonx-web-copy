@@ -34,13 +34,12 @@ export default function BookLounge() {
   };
 
   return (
-    <Stack sx={{ padding: '0 15px' }}>
+    <Stack align="stretch">
       <PageTitle title={loungeDetails.loungeName} url={'/lounge'} />
       <Lounge
         image={loungeDetails.pictureUrl}
         airport={loungeDetails.airport}
         terminal={loungeDetails.terminal}
-        loungeName={loungeDetails.loungeName}
       />
       <Divider color={'gray'} />
       <Box>
