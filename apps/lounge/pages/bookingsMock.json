@@ -1,0 +1,23 @@
+[
+  {
+    "id": "booking_1",
+    "status": "confirmed",
+    "lounge": { "label": "Club Aspire Lounge", "id": "club_aspire_lounge" },
+    "airport": { "label": "London Heathrow TS", "id": "london_heathrow_ts" },
+    "date": "2023-06-12"
+  },
+  {
+    "id": "booking_2",
+    "status": "pending",
+    "lounge": { "label": "Club Aspire Lounge", "id": "club_aspire_lounge" },
+    "airport": { "label": "London Heathrow TS", "id": "london_heathrow_ts" },
+    "date": "2023-06-12"
+  },
+  {
+    "id": "booking_3",
+    "status": "declined",
+    "lounge": { "label": "Club Aspire Lounge", "id": "club_aspire_lounge" },
+    "airport": { "label": "London Heathrow TS", "id": "london_heathrow_ts" },
+    "date": "2023-06-12"
+  }
+]
