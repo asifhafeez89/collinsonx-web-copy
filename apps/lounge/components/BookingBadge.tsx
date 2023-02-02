@@ -17,8 +17,10 @@ const useStyles = createStyles(({ colors }) => {
       borderRadius: 8,
       textTransform: 'none',
       fontSize: 16,
-      height: 41,
+      height: 'auto',
       fontWeight: 600,
+    },
+    inner: {
       padding: '8px 16px',
     },
     declined: {
@@ -46,7 +48,7 @@ export default function BookingBadge({
   return (
     <MBadge
       {...props}
-      className={cx(classes.root, {
+      className={cx(classes.root, classes.inner, {
         [classes.declined]: status === 'declined',
         [classes.pending]: status === 'pending',
         [classes.confirmed]: status === 'confirmed',
