@@ -6,7 +6,7 @@ import Layout from '@components/Layout';
 import { useState } from 'react';
 
 import mockData from './bookingsMock.json';
-import imgUrl from './bookingsMockImage';
+import imgUrl from '../components/bookingsMockImage';
 import { BookingCardProps } from '../components/BookingCard';
 import BookingCardConfirmed from '../components/BookingCardConfirmed';
 
