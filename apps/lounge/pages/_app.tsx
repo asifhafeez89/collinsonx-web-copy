@@ -11,7 +11,7 @@ import { Header } from '@collinsonx/design-system';
 import { Open_Sans } from '@next/font/google';
 import { Cart, Chat, Home } from '@collinsonx/design-system/assets/icons';
 
-import Client from '@collinsonx/utils/grahql';
+import Client from '@collinsonx/utils/provider';
 
 const openSans = Open_Sans({
   style: ['normal'],

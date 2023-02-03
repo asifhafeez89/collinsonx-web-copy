@@ -12,12 +12,13 @@ import { useRouter } from 'next/router';
 import { Login as LoginImage } from '@collinsonx/design-system/assets/graphics';
 import { KeyboardEventHandler, useState } from 'react';
 import LayoutLogin from '../components/LayoutLogin';
+import { client, gql } from '@collinsonx/utils/apollo';
 
 function validateEmail(input: string) {
   return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input);
 }
 
-export default function Home() {
+export default function Home(props: unknown) {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [loginError, setLoginError] = useState('');
@@ -101,6 +102,23 @@ export default function Home() {
       </Stack>
     </>
   );
+}
+export async function getStaticProps() {
+  const { data } = await client.query({
+    query: gql`
+      query Lounges {
+        lounges {
+          loungeName
+        }
+      }
+    `,
+  });
+
+  return {
+    props: {
+      lounges: data.lounges.slice(0, 4),
+    },
+  };
 }
 
 Home.getLayout = (page: JSX.Element) => <LayoutLogin>{page}</LayoutLogin>;

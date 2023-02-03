@@ -9,7 +9,7 @@ import { themeDark } from '@collinsonx/design-system/themes';
 
 import { Open_Sans } from '@next/font/google';
 
-import Client from '@collinsonx/utils/grahql';
+import Client from '@collinsonx/utils/provider';
 
 const openSans = Open_Sans({
   style: ['normal'],
