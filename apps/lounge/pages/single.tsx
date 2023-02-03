@@ -51,7 +51,7 @@ export default function SingleBooking() {
             {data.airport}
           </Text>
         </Box>
-        <Status status={data.status} />
+        <Status status={'confirmed'} />
         <Stack spacing={17} sx={{ border: '1px solid #E9ECEF', padding: 17 }}>
           <Box>
             <Title size={18}>Date</Title>
