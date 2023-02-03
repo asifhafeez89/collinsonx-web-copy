@@ -108,7 +108,10 @@ export async function getStaticProps() {
     query: gql`
       query Lounges {
         lounges {
-          loungeName
+          lounges {
+            id
+            name
+          }
         }
       }
     `,

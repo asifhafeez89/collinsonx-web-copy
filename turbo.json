@@ -9,6 +9,10 @@
       "dependsOn": ["^build", "$SEARCH_URL", "$LOUNGE_URL"],
       "outputs": [".next/**"]
     },
+    "@collinsonx/utils#build": {
+      "dependsOn": ["$GRAPHQL_API_URL"],
+      "outputs": [".next/**"]
+    },
     "test": {
       "dependsOn": ["^build"],
       "outputs": []
