@@ -9,6 +9,8 @@ import { themeDark } from '@collinsonx/design-system/themes';
 
 import { Open_Sans } from '@next/font/google';
 
+import Client from '@collinsonx/utils/provider';
+
 const openSans = Open_Sans({
   style: ['normal'],
   subsets: ['latin'],
@@ -35,13 +37,15 @@ export default function MyApp({ Component, pageProps }: Props) {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
-      <MantineProvider
-        theme={themeDark({ fontFamily: openSans.style.fontFamily })}
-        withGlobalStyles
-        withNormalizeCSS
-      >
-        {getLayout(<Component {...pageProps} />)}
-      </MantineProvider>
+      <Client>
+        <MantineProvider
+          theme={themeDark({ fontFamily: openSans.style.fontFamily })}
+          withGlobalStyles
+          withNormalizeCSS
+        >
+          {getLayout(<Component {...pageProps} />)}
+        </MantineProvider>
+      </Client>
     </>
   );
 }

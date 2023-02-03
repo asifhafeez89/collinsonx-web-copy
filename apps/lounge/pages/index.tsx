@@ -3,10 +3,13 @@ import { Title, Stack, Flex } from '@collinsonx/design-system/core';
 
 import { Button, Card } from '@collinsonx/design-system';
 import { Filter } from '@collinsonx/design-system/assets/icons';
+
+import { gql, client } from '@collinsonx/utils/apollo';
+
 import Layout from '../components/Layout';
 import { lounges, LoungeType } from '../lounges';
 
-export default function Landing() {
+export default function Landing(props: unknown) {
   const router = useRouter();
 
   const handleClickSearch = () => {};
@@ -48,6 +51,25 @@ export default function Landing() {
       </Flex>
     </Stack>
   );
+}
+
+export async function getInitialProps() {
+  const { data } = await client.query({
+    query: gql`
+      query Lounges {
+        lounges {
+          id
+          name
+        }
+      }
+    `,
+  });
+
+  return {
+    props: {
+      lounges: data.lounges.slice(0, 4),
+    },
+  };
 }
 
 Landing.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;
