@@ -12,15 +12,6 @@ import {
 import { useRouter } from 'next/router';
 import { LoungeType } from 'lounges';
 
-const data = {
-  image:
-    'https://no1lounges.com/content/images/product/airport-lounges/club-aspire/London-Heathrow-Airport-Terminal-5-Club-Aspire-Lounge-05142021_111414.jpg',
-  location: 'London',
-  airport: 'Heathrow T5',
-  openingTimes: '07:00 - 22:00',
-  openDays: 'Monday - Sunday',
-};
-
 export default function BookLounge() {
   const router = useRouter();
   const lounge = router?.query?.lounge ?? '{}';

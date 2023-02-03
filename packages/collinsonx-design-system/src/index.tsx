@@ -9,4 +9,5 @@ export { default as FieldLabel } from './components/fieldlabel';
 export { default as Lounge } from './components/lounge';
 export { default as PageTitle } from './components/pageTitle';
 export { default as Header } from './components/header';
+export { default as Status } from './components/status';
 export * from './themes';
