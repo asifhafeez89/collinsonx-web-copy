@@ -20,8 +20,6 @@ export default function Landing(props: unknown) {
     });
   };
 
-  console.log('props ', props);
-
   return (
     <Stack align="stretch" sx={{ position: 'relative' }}>
       <Stack spacing={24} align="stretch">
