@@ -53,7 +53,7 @@ export default function Landing(props: unknown) {
   );
 }
 
-export async function getStaticProps() {
+export async function getInitialProps() {
   const { data } = await client.query({
     query: gql`
       query Lounges {
