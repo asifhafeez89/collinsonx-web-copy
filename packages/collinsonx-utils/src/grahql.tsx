@@ -10,10 +10,10 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-interface CollinsonXClientProps {
+interface ClientProps {
   children: JSX.Element;
 }
 
-export default function CollinsonXClient({ children }: CollinsonXClientProps) {
+export default function Client({ children }: ClientProps) {
   return <ApolloProvider client={client}>{children}</ApolloProvider>;
 }

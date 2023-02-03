@@ -11,7 +11,7 @@ import { Header } from '@collinsonx/design-system';
 import { Open_Sans } from '@next/font/google';
 import { Cart, Chat, Home } from '@collinsonx/design-system/assets/icons';
 
-import CollinsonXClient from '@collinsonx/utils/grahql';
+import Client from '@collinsonx/utils/grahql';
 
 const openSans = Open_Sans({
   style: ['normal'],
@@ -39,7 +39,7 @@ export default function MyApp({ Component, pageProps }: Props) {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
-      <CollinsonXClient>
+      <Client>
         <MantineProvider
           theme={themeLight({ fontFamily: openSans.style.fontFamily })}
           withGlobalStyles
@@ -66,7 +66,7 @@ export default function MyApp({ Component, pageProps }: Props) {
           />
           {getLayout(<Component {...pageProps} />)}
         </MantineProvider>
-      </CollinsonXClient>
+      </Client>
     </>
   );
 }
