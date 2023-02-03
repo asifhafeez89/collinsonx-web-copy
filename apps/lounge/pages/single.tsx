@@ -18,17 +18,6 @@ const data = {
 // https://www.investopedia.com/thmb/LCLGYbEdJwzFQbTsFSDiM-hx42U=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/qr-code-bc94057f452f4806af70fd34540f72ad.png
 
 export default function SingleBooking() {
-  let statusBtn;
-  if (data.status === 'pending') {
-    statusBtn = <Status />;
-  }
-  if (data.status === 'confirmed') {
-    statusBtn = <Status confirmed />;
-  }
-  if (data.status === 'declined') {
-    statusBtn = <Status declined />;
-  }
-
   let image;
   if (data.imageUrl) {
     image = <Image src={data.imageUrl} alt={data.lounge} />;
@@ -62,7 +51,7 @@ export default function SingleBooking() {
             {data.airport}
           </Text>
         </Box>
-        {statusBtn}
+        <Status status={data.status} />
         <Stack spacing={17} sx={{ border: '1px solid #E9ECEF', padding: 17 }}>
           <Box>
             <Title size={18}>Date</Title>
