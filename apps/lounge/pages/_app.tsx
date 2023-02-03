@@ -11,6 +11,8 @@ import { Header } from '@collinsonx/design-system';
 import { Open_Sans } from '@next/font/google';
 import { Cart, Chat, Home } from '@collinsonx/design-system/assets/icons';
 
+import CollinsonXClient from '@collinsonx/utils/grahql';
+
 const openSans = Open_Sans({
   style: ['normal'],
   subsets: ['latin'],
@@ -37,32 +39,34 @@ export default function MyApp({ Component, pageProps }: Props) {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
-      <MantineProvider
-        theme={themeLight({ fontFamily: openSans.style.fontFamily })}
-        withGlobalStyles
-        withNormalizeCSS
-      >
-        <Header
-          items={[
-            {
-              label: 'Home',
-              link: '/lounge',
-              icon: <Home color="#25262b" />,
-            },
-            {
-              label: 'My trips',
-              link: '/bookings',
-              icon: <Cart color="#25262b" />,
-            },
-            {
-              label: 'AI Travel companion',
-              link: '/companion',
-              icon: <Chat color="#25262b" />,
-            },
-          ]}
-        />
-        {getLayout(<Component {...pageProps} />)}
-      </MantineProvider>
+      <CollinsonXClient>
+        <MantineProvider
+          theme={themeLight({ fontFamily: openSans.style.fontFamily })}
+          withGlobalStyles
+          withNormalizeCSS
+        >
+          <Header
+            items={[
+              {
+                label: 'Home',
+                link: '/lounge',
+                icon: <Home color="#25262b" />,
+              },
+              {
+                label: 'My trips',
+                link: '/bookings',
+                icon: <Cart color="#25262b" />,
+              },
+              {
+                label: 'AI Travel companion',
+                link: '/companion',
+                icon: <Chat color="#25262b" />,
+              },
+            ]}
+          />
+          {getLayout(<Component {...pageProps} />)}
+        </MantineProvider>
+      </CollinsonXClient>
     </>
   );
 }
