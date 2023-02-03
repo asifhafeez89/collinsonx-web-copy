@@ -28,6 +28,8 @@ const typeDefs = gql`
     loungeOperator: String
     conditions: String
     objectID: String
+    openingHours: String
+    facilities: String
   }
 
   type Query {
