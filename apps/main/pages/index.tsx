@@ -12,7 +12,6 @@ import { useRouter } from 'next/router';
 import { Login as LoginImage } from '@collinsonx/design-system/assets/graphics';
 import { KeyboardEventHandler, useState } from 'react';
 import LayoutLogin from '../components/LayoutLogin';
-import { client, gql } from '@collinsonx/utils/apollo';
 
 function validateEmail(input: string) {
   return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input);
@@ -102,26 +101,6 @@ export default function Home(props: unknown) {
       </Stack>
     </>
   );
-}
-export async function getInitialProps() {
-  const { data } = await client.query({
-    query: gql`
-      query Lounges {
-        lounges {
-          lounges {
-            id
-            name
-          }
-        }
-      }
-    `,
-  });
-
-  return {
-    props: {
-      lounges: data.lounges.slice(0, 4),
-    },
-  };
 }
 
 Home.getLayout = (page: JSX.Element) => <LayoutLogin>{page}</LayoutLogin>;

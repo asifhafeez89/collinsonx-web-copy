@@ -23,6 +23,7 @@ const typeDefs = gql`
     id: String
     name: String
     images: [Image]
+    location: String
     additionInformation: String
     loungeOperator: String
     conditions: String

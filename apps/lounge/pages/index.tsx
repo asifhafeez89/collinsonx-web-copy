@@ -7,13 +7,13 @@ import { Filter } from '@collinsonx/design-system/assets/icons';
 import { gql, client } from '@collinsonx/utils/apollo';
 
 import Layout from '../components/Layout';
-import { lounges, LoungeType } from '../lounges';
+import { LoungeData } from '@collinsonx/utils/types/lounge';
 
-export default function Landing(props: unknown) {
+export default function Landing({ lounges }: { lounges: LoungeData[] }) {
   const router = useRouter();
 
   const handleClickSearch = () => {};
-  const goToLoungeDetails = (lounge: LoungeType) => {
+  const goToLoungeDetails = (lounge: LoungeData) => {
     router.push({
       pathname: '/details',
       query: { lounge: JSON.stringify(lounge) },
@@ -38,13 +38,14 @@ export default function Landing(props: unknown) {
       </Stack>
       <Flex mt={10} align="stretch" direction="column">
         {lounges.map((lounge, i) => {
+          const { name, location, id, images } = lounge;
           return (
             <Card
-              title={lounge.loungeName}
-              subtitle={`${lounge.airport} ${lounge.terminal}`}
-              pictureUrl={lounge.pictureUrl}
+              title={name}
+              subtitle={location}
+              pictureUrl={images?.[0].url ?? ''}
               handleClick={() => goToLoungeDetails(lounge)}
-              key={i}
+              key={id}
             />
           );
         })}
@@ -53,23 +54,25 @@ export default function Landing(props: unknown) {
   );
 }
 
-export async function getInitialProps() {
+Landing.getInitialProps = async () => {
   const { data } = await client.query({
     query: gql`
       query Lounges {
         lounges {
           id
           name
+          location
+          images {
+            url
+          }
         }
       }
     `,
   });
 
   return {
-    props: {
-      lounges: data.lounges.slice(0, 4),
-    },
+    lounges: data.lounges,
   };
-}
+};
 
 Landing.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;
