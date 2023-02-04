@@ -29,7 +29,7 @@ const typeDefs = gql`
     conditions: String
     objectID: String
     openingHours: String
-    facilities: String
+    facilities: [String]
   }
 
   type Query {
