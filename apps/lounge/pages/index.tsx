@@ -1,9 +1,7 @@
 import { useRouter } from 'next/router';
 import { Title, Stack, Flex } from '@collinsonx/design-system/core';
-
 import { Button, Card } from '@collinsonx/design-system';
 import { Filter } from '@collinsonx/design-system/assets/icons';
-
 import { gql, client } from '@collinsonx/utils/apollo';
 
 import Layout from '../components/Layout';
@@ -16,7 +14,7 @@ export default function Landing({ lounges }: { lounges: LoungeData[] }) {
   const goToLoungeDetails = (lounge: LoungeData) => {
     router.push({
       pathname: '/details',
-      query: { lounge: JSON.stringify(lounge) },
+      query: { id: lounge.id },
     });
   };
 

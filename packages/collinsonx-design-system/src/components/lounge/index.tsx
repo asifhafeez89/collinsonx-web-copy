@@ -3,7 +3,6 @@ import { MapPin, Clock } from '../../assets/icons/index';
 
 interface ILounge {
   image?: string;
-  terminal?: string;
   airport: string;
   loungeName?: string;
   openingTimes?: string;
@@ -13,7 +12,6 @@ interface ILounge {
 export default function Lounge({
   image,
   airport,
-  terminal,
   loungeName,
   openingTimes,
   openDays,
@@ -27,14 +25,12 @@ export default function Lounge({
           <MapPin color={'#000000'} />
           <Box sx={{ paddingLeft: '5px' }}>
             <Text color={'#000000'}>{airport}</Text>
-            <Text color={'#000000'}>{terminal}</Text>
           </Box>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Clock color={'#000000'} />
           <Box sx={{ paddingLeft: '5px' }}>
-            <Text color={'#000000'}>{openingTimes ?? '09:00-2:00'}</Text>
-            <Text color={'#000000'}>{openDays ?? 'Monday - Sunday'}</Text>
+            <Text color={'#000000'}>{openingTimes}</Text>
           </Box>
         </Box>
       </SimpleGrid>
