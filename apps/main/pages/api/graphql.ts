@@ -34,7 +34,7 @@ const typeDefs = gql`
 
   type Query {
     lounges: [Lounge]
-    lounge(id: String!): Lounge
+    lounge(id: String!): [Lounge]
   }
 `;
 
@@ -46,7 +46,7 @@ const resolvers = {
         console.log(id, itemId);
         // WHY IS id UNDEFINED?
         return id === itemId;
-      }),
+      })?.[0],
   },
 };
 
