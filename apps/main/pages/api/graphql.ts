@@ -41,12 +41,16 @@ const typeDefs = gql`
 const resolvers = {
   Query: {
     lounges: () => data,
-    lounge: (id: string) =>
-      data.filter(({ id: itemId }) => {
-        console.log(id, itemId);
-        // WHY IS id UNDEFINED?
-        return id === itemId;
-      })?.[0],
+    lounge: (id: any) => {
+      console.log('args', id);
+      return (
+        data.filter(({ id: itemId }) => {
+          console.log(id, itemId);
+          // WHY IS id UNDEFINED?
+          return id === itemId;
+        })?.[0] ?? { id }
+      );
+    },
   },
 };
 
