@@ -34,22 +34,19 @@ const typeDefs = gql`
 
   type Query {
     lounges: [Lounge]
-    lounge(id: String!): [Lounge]
+    lounge(id: String!): Lounge
   }
 `;
 
 const resolvers = {
   Query: {
     lounges: () => data,
-    lounge: (id: any) => {
-      console.log('args', id);
-      return (
-        data.filter(({ id: itemId }) => {
-          console.log(id, itemId);
-          // WHY IS id UNDEFINED?
-          return id === itemId;
-        })?.[0] ?? { id }
-      );
+    lounge: (parent: any, args: any) => {
+      const { id } = args;
+      const l = data.filter(({ id: itemId }) => {
+        return id === itemId;
+      });
+      return l?.[0] ?? null;
     },
   },
 };
