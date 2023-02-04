@@ -2,10 +2,11 @@ import { useRouter } from 'next/router';
 import { Title, Stack, Flex } from '@collinsonx/design-system/core';
 import { Button, Card } from '@collinsonx/design-system';
 import { Filter } from '@collinsonx/design-system/assets/icons';
-import { gql, client } from '@collinsonx/utils/apollo';
 
 import Layout from '../components/Layout';
 import { LoungeData } from '@collinsonx/utils/types/lounge';
+import { client } from '@collinsonx/utils/apollo';
+import getLounges  from '../gql/getLounges';
 
 export default function Landing({ lounges }: { lounges: LoungeData[] }) {
   const router = useRouter();
@@ -52,24 +53,15 @@ export default function Landing({ lounges }: { lounges: LoungeData[] }) {
   );
 }
 
-Landing.getInitialProps = async () => {
+export async function getServerSideProps() {
   const { data } = await client.query({
-    query: gql`
-      query Lounges {
-        lounges {
-          id
-          name
-          location
-          images {
-            url
-          }
-        }
-      }
-    `,
+    query: getLounges
   });
-
+  
   return {
-    lounges: data.lounges,
+    props: {
+      lounges: data.lounges,
+    }
   };
 };
 

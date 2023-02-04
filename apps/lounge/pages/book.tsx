@@ -5,40 +5,48 @@ import {
   UnstyledButton,
 } from '@collinsonx/design-system/core';
 import Layout from '../components/Layout';
-
+import { client } from '@collinsonx/utils/apollo';
+import getLounge  from '../gql/getLounge';
 import {
   InputLabel,
   InputSelect,
   InputTextArea,
-  Button,
   PageTitle,
   Lounge,
 } from '@collinsonx/design-system';
 import { Clock, Calendar } from '@collinsonx/design-system/assets/icons';
 import { useRouter } from 'next/router';
-import { LoungeType } from 'lounges';
+import { LoungeData } from '@collinsonx/utils/types/lounge';
+import { NextPageContext } from 'next';
 
-export default function Landing() {
+interface BookLoungeProps {
+  lounge: LoungeData,
+  loading: boolean
+}
+
+export default function Book(props: BookLoungeProps) {
   const router = useRouter();
-  const lounge = router?.query?.lounge ?? '{}';
-  const loungeDetails: LoungeType = JSON.parse(lounge as string);
+  const {lounge, loading}  = props;
 
   const handleBook = () => {
     router.push({
       pathname: '/confirm',
-      query: { lounge: JSON.stringify(lounge) },
+      query: { id: lounge.id},
     });
   };
 
   return (
-    <Stack sx={{ position: 'relative' }}>
+    <>
+      {loading && !lounge && <div>loading...</div>}
+      {!loading && lounge && <Stack sx={{ position: 'relative' }}>
       <PageTitle
-        title={`Book ${loungeDetails.loungeName}`}
+        title={`Book ${lounge?.name}`}
         url={'/lounge/details'}
       />
       <Lounge
-        airport={loungeDetails.airport}
-        terminal={loungeDetails.terminal}
+        airport={lounge?.location}
+        loungeName={lounge?.name}
+        openingTimes={lounge?.openingHours}
       />
       <Flex direction="column">
         <Paper mt={10} radius="md">
@@ -113,8 +121,33 @@ export default function Landing() {
           </UnstyledButton>
         </Paper>
       </Flex>
-    </Stack>
+      </Stack>
+    }
+    </>
   );
 }
 
-Landing.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;
+type Lounge = {
+  id: string
+}
+
+interface QueryProps  extends NextPageContext{
+  lounge: Lounge
+}
+
+export async function getServerSideProps({query}: QueryProps) {
+  const  loungeId = query?.id ?? '';
+
+  const {data, loading} =  await client.query({
+    query: getLounge(loungeId as string)
+  });
+
+  return {
+    props: {
+      lounge: data?.lounge,
+      loading: loading,
+    }
+  };
+};
+
+Book.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;
