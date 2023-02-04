@@ -44,6 +44,7 @@ const resolvers = {
     lounge: (id: string) =>
       data.filter(({ id: itemId }) => {
         console.log(id, itemId);
+        // WHY IS id UNDEFINED?
         return id === itemId;
       }),
   },
