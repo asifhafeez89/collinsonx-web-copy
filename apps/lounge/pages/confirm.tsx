@@ -37,32 +37,31 @@ export default function Landing(props: BookLoungeProps) {
       {loading && !lounge && <div>loading...</div>}
       {!loading && lounge &&
           <Stack sx={{ position: 'relative' }}>
-            <PageTitle title={'Confirm details'} url={'/lounge/book'} />
+            <PageTitle title={'Confirm details'} url={`/lounge/book?id=${lounge.id}`} />
             <Lounge 
-              image={lounge?.images?.[0]?.url} 
               airport={lounge?.location}
-              openingTimes={lounge?.openingHours}
+              openingTimes={lounge?.openingHours.substring(1, 20)}
             />
             <Flex direction="column">
               <Paper mt={30} radius="md">
                 <FieldLabel
                   title="Date"
                   value="12/6/2023"
-                  handleClick={() => router.push('/book')}
+                  handleClick={() => router.push(`/book?id=${lounge.id}`)}
                 />
               </Paper>
               <Paper mt={30} radius="md">
                 <FieldLabel
                   title="Time of arrival"
                   value="08:30"
-                  handleClick={() => router.push('/book')}
+                  handleClick={() => router.push(`/book?id=${lounge.id}`)}
                 />
               </Paper>
               <Paper mt={30} radius="md">
                 <FieldLabel
                   title="Additional requirements"
                   value="None"
-                  handleClick={() => router.push('/book')}
+                  handleClick={() => router.push(`/book?id=${lounge.id}`)}
                 />
               </Paper>
               <UnstyledButton

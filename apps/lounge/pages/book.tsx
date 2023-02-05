@@ -41,12 +41,12 @@ export default function Book(props: BookLoungeProps) {
       {!loading && lounge && <Stack sx={{ position: 'relative' }}>
       <PageTitle
         title={`Book ${lounge?.name}`}
-        url={'/lounge/details'}
+        url={`/lounge/details?id=${lounge.id}`}
       />
       <Lounge
         airport={lounge?.location}
         loungeName={lounge?.name}
-        openingTimes={lounge?.openingHours}
+        openingTimes={lounge?.openingHours.substring(1, 20)}
       />
       <Flex direction="column">
         <Paper mt={10} radius="md">

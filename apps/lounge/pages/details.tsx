@@ -36,11 +36,11 @@ export default function BookLounge(props: BookLoungeProps) {
     <>
       {loading && !lounge && <div>loading...</div>}
       {!loading && lounge && <Stack align="stretch">
-        <PageTitle title={lounge?.name} url={'/lounge'} />
+        <PageTitle title={lounge?.name} url={`/lounge`} />
         <Lounge 
           image={lounge?.images?.[0]?.url} 
           airport={lounge?.location}
-          openingTimes={lounge?.openingHours}
+          openingTimes={lounge?.openingHours.substring(1, 20)}
         />
         <Divider color={'gray'} />
         <Box>
