@@ -1,6 +1,6 @@
 import { Lounge, PageTitle } from '@collinsonx/design-system/index';
 import { client } from '@collinsonx/utils/apollo';
-import getLounge from '../gql/getLounge';
+import getLounge from '@collinsonx/utils/queries/getLounges';
 
 import Layout from '../components/Layout';
 import {

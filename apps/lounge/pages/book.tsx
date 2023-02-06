@@ -6,7 +6,7 @@ import {
 } from '@collinsonx/design-system/core';
 import Layout from '../components/Layout';
 import { client } from '@collinsonx/utils/apollo';
-import getLounge from '../gql/getLounge';
+import getLounge from '@collinsonx/utils/queries/getLounge';
 import {
   InputSelect,
   InputTextArea,

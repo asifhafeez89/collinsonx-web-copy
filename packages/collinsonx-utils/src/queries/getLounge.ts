@@ -1,4 +1,4 @@
-import { gql } from '@collinsonx/utils/apollo';
+import { gql } from '../apollo';
 
 const getLounge = (loungeId: string) => gql`
     query Lounge {

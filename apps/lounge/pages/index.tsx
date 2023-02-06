@@ -6,7 +6,7 @@ import { Filter } from '@collinsonx/design-system/assets/icons';
 import Layout from '../components/Layout';
 import { LoungeData } from '@collinsonx/utils/types/lounge';
 import { client } from '@collinsonx/utils/apollo';
-import getLounges  from '../gql/getLounges';
+import getLounges from '@collinsonx/utils/queries/getLounges';
 
 export default function Landing({ lounges }: { lounges: LoungeData[] }) {
   const router = useRouter();
@@ -55,14 +55,14 @@ export default function Landing({ lounges }: { lounges: LoungeData[] }) {
 
 export async function getServerSideProps() {
   const { data } = await client.query({
-    query: getLounges
+    query: getLounges,
   });
-  
+
   return {
     props: {
       lounges: data.lounges,
-    }
+    },
   };
-};
+}
 
 Landing.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;
