@@ -13,7 +13,7 @@ import {
   PageTitle,
   Lounge,
 } from '@collinsonx/design-system';
-import getLounge from 'gql/getLounge';
+import getLounge from '@collinsonx/utils/queries/getLounge';
 import { client } from '@collinsonx/utils/apollo';
 import { NextPageContext } from 'next';
 import { LoungeData } from '@collinsonx/utils/types/lounge';
