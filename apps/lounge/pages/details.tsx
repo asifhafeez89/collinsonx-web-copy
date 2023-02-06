@@ -106,7 +106,8 @@ export async function getServerSideProps({ query }: QueryProps) {
   const loungeId = query?.id ?? '';
 
   const { data, loading } = await client.query({
-    query: getLounge(loungeId as string),
+    query: getLounge,
+    variables: { id: loungeId },
   });
 
   return {
