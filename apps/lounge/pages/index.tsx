@@ -36,7 +36,7 @@ export default function Landing({ lounges }: { lounges: LoungeData[] }) {
         </Button>
       </Stack>
       <Flex mt={10} align="stretch" direction="column">
-        {lounges.map((lounge, i) => {
+        {lounges?.map((lounge, i) => {
           const { name, location, id, images } = lounge;
           return (
             <Card
