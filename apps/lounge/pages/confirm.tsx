@@ -43,7 +43,7 @@ export default function Landing(props: BookLoungeProps) {
           <Lounge
             image={lounge?.images?.[0]?.url}
             airport={lounge?.location}
-            openingTimes={lounge?.openingHours}
+            openingTimes={lounge?.openingHours.substring(1, 20)}
           />
           <Flex direction="column">
             <Paper mt={30} radius="md">
