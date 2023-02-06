@@ -13,63 +13,99 @@ import {
   PageTitle,
   Lounge,
 } from '@collinsonx/design-system';
-import { LoungeType } from 'lounges';
+import getLounge from 'gql/getLounge';
+import { client } from '@collinsonx/utils/apollo';
+import { NextPageContext } from 'next';
+import { LoungeData } from '@collinsonx/utils/types/lounge';
 
-export default function Landing() {
+interface BookLoungeProps {
+  lounge: LoungeData;
+  loading: boolean;
+}
+
+export default function Landing(props: BookLoungeProps) {
   const router = useRouter();
-  const lounge = router?.query?.lounge ?? '{}';
-  const loungeDetails: LoungeType = JSON.parse(lounge as string);
+
+  const { lounge, loading } = props;
 
   const handleConfirm = () => {
     router.push('/success');
   };
 
   return (
-    <Stack sx={{ position: 'relative' }}>
-      <PageTitle title={'Confirm details'} url={'/lounge/book'} />
-      <Lounge
-        airport={loungeDetails.airport}
-        terminal={loungeDetails.terminal}
-      />
-      <Flex direction="column">
-        <Paper mt={30} radius="md">
-          <FieldLabel
-            title="Date"
-            value="12/6/2023"
-            handleClick={() => router.push('/book')}
+    <>
+      {loading && !lounge && <div>loading...</div>}
+      {!loading && lounge && (
+        <Stack sx={{ position: 'relative' }}>
+          <PageTitle title={'Confirm details'} url={'/lounge/book'} />
+          <Lounge
+            image={lounge?.images?.[0]?.url}
+            airport={lounge?.location}
+            openingTimes={lounge?.openingHours}
           />
-        </Paper>
-        <Paper mt={30} radius="md">
-          <FieldLabel
-            title="Time of arrival"
-            value="08:30"
-            handleClick={() => router.push('/book')}
-          />
-        </Paper>
-        <Paper mt={30} radius="md">
-          <FieldLabel
-            title="Additional requirements"
-            value="None"
-            handleClick={() => router.push('/book')}
-          />
-        </Paper>
-        <UnstyledButton
-          onClick={handleConfirm}
-          sx={{
-            borderRadius: 8,
-            background: '#000000',
-            color: '#ffffff',
-            padding: '12px 24px',
-            width: '100%',
-            textAlign: 'center',
-            fontSize: '18px',
-          }}
-        >
-          Send booking to lounge
-        </UnstyledButton>
-      </Flex>
-    </Stack>
+          <Flex direction="column">
+            <Paper mt={30} radius="md">
+              <FieldLabel
+                title="Date"
+                value="12/6/2023"
+                handleClick={() => router.push('/book')}
+              />
+            </Paper>
+            <Paper mt={30} radius="md">
+              <FieldLabel
+                title="Time of arrival"
+                value="08:30"
+                handleClick={() => router.push('/book')}
+              />
+            </Paper>
+            <Paper mt={30} radius="md">
+              <FieldLabel
+                title="Additional requirements"
+                value="None"
+                handleClick={() => router.push('/book')}
+              />
+            </Paper>
+            <UnstyledButton
+              onClick={handleConfirm}
+              sx={{
+                borderRadius: 8,
+                background: '#000000',
+                color: '#ffffff',
+                padding: '12px 24px',
+                width: '100%',
+                textAlign: 'center',
+                fontSize: '18px',
+              }}
+            >
+              Send booking to lounge
+            </UnstyledButton>
+          </Flex>
+        </Stack>
+      )}
+    </>
   );
+}
+type Lounge = {
+  id: string;
+};
+
+interface QueryProps extends NextPageContext {
+  lounge: Lounge;
+}
+
+export async function getServerSideProps({ query }: QueryProps) {
+  const loungeId = query?.id ?? '';
+
+  const { data, loading } = await client.query({
+    query: getLounge(loungeId as string),
+  });
+
+  return {
+    props: {
+      lounge: data?.lounge,
+      loading: loading,
+    },
+  };
 }
 
 Landing.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;

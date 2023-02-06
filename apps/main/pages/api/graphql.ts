@@ -23,20 +23,31 @@ const typeDefs = gql`
     id: String
     name: String
     images: [Image]
+    location: String
     additionInformation: String
     loungeOperator: String
     conditions: String
     objectID: String
+    openingHours: String
+    facilities: [String]
   }
 
   type Query {
     lounges: [Lounge]
+    lounge(id: String!): Lounge
   }
 `;
 
 const resolvers = {
   Query: {
     lounges: () => data,
+    lounge: (parent: any, args: any) => {
+      const { id } = args;
+      const l = data.filter(({ id: itemId }) => {
+        return id === itemId;
+      });
+      return l?.[0] ?? null;
+    },
   },
 };
 

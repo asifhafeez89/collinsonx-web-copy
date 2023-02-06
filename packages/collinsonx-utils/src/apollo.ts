@@ -7,4 +7,4 @@ export const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-export { gql, ApolloProvider } from '@apollo/client';
+export { gql, ApolloProvider, useQuery } from '@apollo/client';
