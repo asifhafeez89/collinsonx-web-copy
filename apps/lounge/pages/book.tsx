@@ -104,7 +104,6 @@ export default function Book(props: BookLoungeProps) {
   };
 
   const onAdditionalRequests = (e: any) => {
-    console.log(e);
     setAdditionalRequests(e.target.value);
   };
 
