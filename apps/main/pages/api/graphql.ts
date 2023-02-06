@@ -2,7 +2,8 @@ import { ApolloServer } from '@apollo/server';
 import { startServerAndCreateNextHandler } from '@as-integrations/next';
 import { gql } from 'graphql-tag';
 
-import data from './experiences.json';
+import lounges from './experiences.json';
+import bookings from './bookings.json';
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against
 // your data.
@@ -32,18 +33,36 @@ const typeDefs = gql`
     facilities: [String]
   }
 
+  type Booking {
+    id: String
+    loungeId: String
+    bookingState: String
+    reservationDate: String
+    additionalRequests: String
+  }
+
   type Query {
     lounges: [Lounge]
     lounge(id: String!): Lounge
+    bookings: [Booking]
+    booking(id: String!): Booking
   }
 `;
 
 const resolvers = {
   Query: {
-    lounges: () => data,
+    lounges: () => lounges,
     lounge: (parent: any, args: any) => {
       const { id } = args;
-      const l = data.filter(({ id: itemId }) => {
+      const l = lounges.filter(({ id: itemId }) => {
+        return id === itemId;
+      });
+      return l?.[0] ?? null;
+    },
+    bookings: () => bookings,
+    booking: (parent: any, args: any) => {
+      const { id } = args;
+      const l = bookings.filter(({ id: itemId }) => {
         return id === itemId;
       });
       return l?.[0] ?? null;
