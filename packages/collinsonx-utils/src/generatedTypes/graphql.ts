@@ -19,7 +19,7 @@ export type Booking = {
   additionalRequests?: Maybe<Scalars['String']>;
   bookingState?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
-  loungeId?: Maybe<Scalars['String']>;
+  lounge?: Maybe<Lounge>;
   reservationDate?: Maybe<Scalars['String']>;
 };
 
@@ -52,6 +52,7 @@ export type Query = {
   __typename?: 'Query';
   booking?: Maybe<Booking>;
   bookings?: Maybe<Array<Maybe<Booking>>>;
+  getLoungesByName?: Maybe<Array<Maybe<Lounge>>>;
   lounge?: Maybe<Lounge>;
   lounges?: Maybe<Array<Maybe<Lounge>>>;
 };
@@ -62,11 +63,18 @@ export type QueryBookingArgs = {
 };
 
 
+export type QueryGetLoungesByNameArgs = {
+  loungeName: Scalars['String'];
+};
+
+
 export type QueryLoungeArgs = {
   id: Scalars['String'];
 };
 
-export type LoungeQueryVariables = Exact<{ [key: string]: never; }>;
+export type LoungeQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
 
 
 export type LoungeQuery = { __typename?: 'Query', lounge?: { __typename?: 'Lounge', name?: string | null, location?: string | null, openingHours?: string | null, conditions?: string | null, facilities?: Array<string | null> | null, id?: string | null, images?: Array<{ __typename?: 'Image', url?: string | null, height?: number | null, width?: number | null } | null> | null } | null };
@@ -76,6 +84,14 @@ export type LoungesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type LoungesQuery = { __typename?: 'Query', lounges?: Array<{ __typename?: 'Lounge', id?: string | null, name?: string | null, location?: string | null, images?: Array<{ __typename?: 'Image', url?: string | null } | null> | null } | null> | null };
 
+export type GetLoungesByNameQueryVariables = Exact<{
+  loungeName: Scalars['String'];
+}>;
 
-export const LoungeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Lounge"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lounge"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"StringValue","value":"","block":false}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"openingHours"}},{"kind":"Field","name":{"kind":"Name","value":"conditions"}},{"kind":"Field","name":{"kind":"Name","value":"facilities"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"images"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"width"}}]}}]}}]}}]} as unknown as DocumentNode<LoungeQuery, LoungeQueryVariables>;
+
+export type GetLoungesByNameQuery = { __typename?: 'Query', getLoungesByName?: Array<{ __typename?: 'Lounge', name?: string | null, location?: string | null, openingHours?: string | null, conditions?: string | null, facilities?: Array<string | null> | null, id?: string | null, images?: Array<{ __typename?: 'Image', url?: string | null, height?: number | null, width?: number | null } | null> | null } | null> | null };
+
+
+export const LoungeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Lounge"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lounge"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"openingHours"}},{"kind":"Field","name":{"kind":"Name","value":"conditions"}},{"kind":"Field","name":{"kind":"Name","value":"facilities"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"images"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"width"}}]}}]}}]}}]} as unknown as DocumentNode<LoungeQuery, LoungeQueryVariables>;
 export const LoungesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Lounges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lounges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"images"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}}]} as unknown as DocumentNode<LoungesQuery, LoungesQueryVariables>;
+export const GetLoungesByNameDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getLoungesByName"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"loungeName"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getLoungesByName"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"loungeName"},"value":{"kind":"Variable","name":{"kind":"Name","value":"loungeName"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"openingHours"}},{"kind":"Field","name":{"kind":"Name","value":"conditions"}},{"kind":"Field","name":{"kind":"Name","value":"facilities"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"images"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"width"}}]}}]}}]}}]} as unknown as DocumentNode<GetLoungesByNameQuery, GetLoungesByNameQueryVariables>;
