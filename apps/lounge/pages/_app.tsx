@@ -53,7 +53,7 @@ export default function MyApp({ Component, pageProps }: Props) {
               },
               {
                 label: 'My trips',
-                link: '/bookings',
+                link: '/lounge/bookings',
                 icon: <Cart color="#25262b" />,
               },
               {

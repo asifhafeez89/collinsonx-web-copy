@@ -7,7 +7,8 @@ export enum BookingState {
 }
 
 export type BookingData = {
-  lounge: LoungeData;
+  id: string;
+  loungeId: string;
   bookingState: BookingState;
   reservationDate: Date;
   additionalRequests?: string;

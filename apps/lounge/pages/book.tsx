@@ -18,7 +18,47 @@ import { Clock, Calendar } from '@collinsonx/design-system/assets/icons';
 import { useRouter } from 'next/router';
 import { LoungeData } from '@collinsonx/utils/types/lounge';
 import { NextPageContext } from 'next';
-import { useState } from 'react';
+import { ChangeEventHandler, useState } from 'react';
+
+const HOURS = [
+  '00',
+  '01',
+  '02',
+  '03',
+  '04',
+  '05',
+  '06',
+  '07',
+  '08',
+  '09',
+  '10',
+  '11',
+  '12',
+  '13',
+  '14',
+  '15',
+  '16',
+  '17',
+  '18',
+  '19',
+  '20',
+  '21',
+  '22',
+  '23',
+];
+
+function createTimeSlots() {
+  const times: string[] = [];
+  HOURS.forEach((item) => {
+    times.push(`${item}:00`);
+    times.push(`${item}:15`);
+    times.push(`${item}:30`);
+    times.push(`${item}:45`);
+  });
+  return times;
+}
+
+const timeSlots = createTimeSlots();
 
 interface BookLoungeProps {
   lounge: LoungeData;
@@ -29,18 +69,42 @@ export default function Book(props: BookLoungeProps) {
   const router = useRouter();
   const { lounge, loading } = props;
   const [reservationDate, setReservationDate] = useState<Date>();
+  const [additionalRequests, setAdditionalRequests] = useState('');
 
   const onDateChange = (newDate: Date) => {
-    setReservationDate(newDate);
+    if (reservationDate) {
+      const d = reservationDate;
+      d.setDate(newDate.getDate());
+      d.setMonth(newDate.getMonth());
+      d.setFullYear(newDate.getFullYear());
+      setReservationDate(d);
+    } else {
+      setReservationDate(newDate);
+    }
   };
 
-  const onTimeChange = () => {};
+  const onTimeChange = (newTime: string) => {
+    const [hour, minutes] = newTime.split(':');
+    let d = reservationDate ?? new Date();
+
+    d.setHours(Number.parseInt(hour));
+    d.setMinutes(Number.parseInt(minutes));
+    setReservationDate(d);
+  };
 
   const handleBook = () => {
     router.push({
       pathname: '/confirm',
-      query: { id: lounge.id },
+      query: {
+        id: lounge.id,
+        reservationDate: JSON.stringify(reservationDate),
+        additionalRequests,
+      },
     });
+  };
+
+  const onAdditionalRequests = (e: any) => {
+    setAdditionalRequests(e.target.value);
   };
 
   return (
@@ -48,7 +112,10 @@ export default function Book(props: BookLoungeProps) {
       {loading && !lounge && <div>loading...</div>}
       {!loading && lounge && (
         <Stack sx={{ position: 'relative' }}>
-          <PageTitle title={`Book ${lounge?.name}`} url={'/lounge/details'} />
+          <PageTitle
+            title={`Book ${lounge?.name}`}
+            url={`/lounge/details?id=${lounge.id}`}
+          />
           <Lounge
             airport={lounge?.location}
             loungeName={lounge?.name}
@@ -78,32 +145,7 @@ export default function Book(props: BookLoungeProps) {
                 description="Please check lounge conditions for access times"
                 icon={<Clock size={14} />}
                 onChange={onTimeChange}
-                data={[
-                  '00:00',
-                  '01:00',
-                  '02:00',
-                  '03:00',
-                  '04:00',
-                  '05:00',
-                  '06:00',
-                  '07:00',
-                  '08:00',
-                  '09:00',
-                  '10:00',
-                  '11:00',
-                  '12:00',
-                  '13:00',
-                  '14:00',
-                  '15:00',
-                  '16:00',
-                  '17:00',
-                  '18:00',
-                  '19:00',
-                  '20:00',
-                  '21:00',
-                  '22:00',
-                  '23:00',
-                ]}
+                data={timeSlots}
                 required={true}
               />
             </Paper>
@@ -115,6 +157,7 @@ export default function Book(props: BookLoungeProps) {
                 autosize
                 minRows={2}
                 maxRows={4}
+                onChange={onAdditionalRequests}
               />
             </Paper>
             <Paper mt={30} radius="md">
