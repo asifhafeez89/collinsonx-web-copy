@@ -1,6 +1,6 @@
 import { Lounge, PageTitle } from '@collinsonx/design-system/index';
 import { client } from '@collinsonx/utils/apollo';
-import getLounge from '../gql/getLounge';
+import { getLounge } from '@collinsonx/utils/queries';
 
 import Layout from '../components/Layout';
 import {
@@ -106,7 +106,8 @@ export async function getServerSideProps({ query }: QueryProps) {
   const loungeId = query?.id ?? '';
 
   const { data, loading } = await client.query({
-    query: getLounge(loungeId as string),
+    query: getLounge,
+    variables: { id: loungeId },
   });
 
   return {

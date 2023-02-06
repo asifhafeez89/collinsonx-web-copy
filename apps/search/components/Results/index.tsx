@@ -1,22 +1,10 @@
 import { Box, Flex, Stack, Title, Text } from '@collinsonx/design-system/core';
 import { MapPin, Coffee } from '@collinsonx/design-system/assets/icons';
 import ResultsItem from './ResultsItem';
-
-type Airport = {
-  id: string;
-  label: string;
-};
-type Lounge = {
-  id: string;
-  label: string;
-  airport: Airport;
-};
+import { LoungeData } from '@collinsonx/utils/types/lounge';
 
 interface ResultsProps {
-  data: {
-    airports: Airport[];
-    lounges: Lounge[];
-  };
+  data: LoungeData[];
 }
 
 export default function Results({ data }: ResultsProps) {
@@ -27,9 +15,9 @@ export default function Results({ data }: ResultsProps) {
           Airports
         </Title>
         <Box>
-          {data.airports.map((item) => (
+          {data.map((item) => (
             <ResultsItem key={item.id} leftIcon={<MapPin />}>
-              <Text>{item.label}</Text>
+              <Text>{item.location}</Text>
             </ResultsItem>
           ))}
         </Box>
@@ -39,14 +27,11 @@ export default function Results({ data }: ResultsProps) {
           Lounges
         </Title>
         <Box>
-          {data.lounges.map((item) => (
-            <ResultsItem
-              key={`${item.id}_${item.airport.id}`}
-              leftIcon={<Coffee />}
-            >
+          {data.map((item) => (
+            <ResultsItem key={`${item.id}`} leftIcon={<Coffee />}>
               <Flex direction="column">
-                <Text>{item.label}</Text>
-                <Text sx={{ fontWeight: 400 }}>{item.airport.label}</Text>
+                <Text>{item.name}</Text>
+                <Text sx={{ fontWeight: 400 }}>{item.location}</Text>
               </Flex>
             </ResultsItem>
           ))}

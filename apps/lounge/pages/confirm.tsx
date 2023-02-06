@@ -13,7 +13,7 @@ import {
   PageTitle,
   Lounge,
 } from '@collinsonx/design-system';
-import getLounge from 'gql/getLounge';
+import { getLounge } from '@collinsonx/utils/queries';
 import { client } from '@collinsonx/utils/apollo';
 import { NextPageContext } from 'next';
 import { LoungeData } from '@collinsonx/utils/types/lounge';
@@ -103,7 +103,8 @@ export async function getServerSideProps({ query }: QueryProps) {
   const loungeId = query?.id ?? '';
 
   const { data, loading } = await client.query({
-    query: getLounge(loungeId as string),
+    query: getLounge,
+    variables: { id: loungeId },
   });
 
   return {
