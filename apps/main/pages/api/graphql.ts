@@ -4,12 +4,8 @@ import { gql } from 'graphql-tag';
 
 import lounges from './experiences.json';
 import bookings from './bookings.json';
-// A schema is a collection of type definitions (hence "typeDefs")
-// that together define the "shape" of queries that are executed against
-// your data.
-const typeDefs = gql`
-  # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
 
+const typeDefs = gql`
   type Image {
     altText: String
     width: Int
@@ -69,17 +65,18 @@ const resolvers = {
       })),
     booking: (parent: any, args: any) => {
       const { id } = args;
-      const l = bookings
-        .filter(({ id: itemId }) => {
-          return id === itemId;
-        })
-        .map((item) => ({
-          id: item.id,
-          lounge: lounges.find(({ id }) => id === item.loungeId),
-          bookingState: item.bookingState,
-          reservationDate: item.reservationDate,
-          additionalRequests: item.additionalRequests,
-        }));
+      const l =
+        bookings
+          .filter(({ id: itemId }) => {
+            return id === itemId;
+          })
+          ?.map((item) => ({
+            id: item.id,
+            lounge: lounges.find(({ id }) => id === item.loungeId),
+            bookingState: item.bookingState,
+            reservationDate: item.reservationDate,
+            additionalRequests: item.additionalRequests,
+          })) ?? [];
       return l?.[0] ?? null;
     },
   },
