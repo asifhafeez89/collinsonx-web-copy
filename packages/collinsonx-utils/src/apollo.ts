@@ -7,7 +7,7 @@ const graphqlUrl = `${protocol}${hostname ?? 'localhost:3000'}${
   process.env.GRAPHQL_API_URL ?? process.env.NEXT_PUBLIC_GRAPHQL_API_URL
 }`;
 
-console.log('---', graphqlUrl);
+console.info('---', graphqlUrl);
 
 export const client = new ApolloClient({
   uri: graphqlUrl,

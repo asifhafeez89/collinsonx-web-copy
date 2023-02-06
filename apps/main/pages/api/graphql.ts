@@ -58,9 +58,12 @@ const resolvers = {
     },
     getLoungesByName: (parent: any, args: any) => {
       const { loungeName } = args;
-      const l = lounges.filter(({ name: itemName }) => {
-        return itemName.toLowerCase().includes(loungeName.toLowerCase());
-      });
+      const searchTerm = loungeName.toLowerCase();
+      const l = lounges.filter(
+        ({ name, location }) =>
+          name.toLowerCase().includes(searchTerm) ||
+          location.toLowerCase().includes(searchTerm)
+      );
       return l ?? null;
     },
     bookings: () =>
