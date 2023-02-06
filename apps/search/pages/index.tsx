@@ -36,10 +36,6 @@ export default function Search() {
     setValue(e.target.value);
   };
 
-  console.log(value);
-  console.log(results);
-  console.log(data);
-
   return (
     <Stack spacing={16}>
       <SearchInput
