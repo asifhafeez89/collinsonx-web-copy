@@ -25,7 +25,6 @@ interface BookLoungeProps {
 
 export default function Landing(props: BookLoungeProps) {
   const router = useRouter();
-
   const { lounge, loading } = props;
 
   const handleConfirm = () => {
@@ -37,7 +36,10 @@ export default function Landing(props: BookLoungeProps) {
       {loading && !lounge && <div>loading...</div>}
       {!loading && lounge && (
         <Stack sx={{ position: 'relative' }}>
-          <PageTitle title={'Confirm details'} url={'/lounge/book'} />
+          <PageTitle
+            title={'Confirm details'}
+            url={`/lounge/book?id=${lounge.id}`}
+          />
           <Lounge
             image={lounge?.images?.[0]?.url}
             airport={lounge?.location}
@@ -85,6 +87,7 @@ export default function Landing(props: BookLoungeProps) {
     </>
   );
 }
+
 type Lounge = {
   id: string;
 };
