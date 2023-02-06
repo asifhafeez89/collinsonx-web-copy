@@ -1,5 +1,3 @@
-import { LoungeData } from './lounge';
-
 export enum BookingState {
   PENDING = 'Booking pending',
   DECLINED = 'Booking declined',
