@@ -14,20 +14,11 @@
   "sideEffects": false,
   "type": "module",
   "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
-    },
-    "./*": {
-      "import": [
-        "./dist/*.js",
-        "./dist/*/index.js"
-      ],
-      "require": [
-        "./dist/*.cjs",
-        "./dist/*/index.cjs"
-      ]
-    }
+    ".": "./dist/index.js",
+    "./*": [
+      "./dist/*.js",
+      "./dist/*/index.js"
+    ]
   },
   "typesVersions": {
     "*": {

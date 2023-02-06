@@ -46,6 +46,7 @@ const typeDefs = gql`
     lounge(id: String!): Lounge
     bookings: [Booking]
     booking(id: String!): Booking
+    getLoungesByName(loungeName: String!): [Lounge]
   }
 `;
 
@@ -58,6 +59,13 @@ const resolvers = {
         return id === itemId;
       });
       return l?.[0] ?? null;
+    },
+    getLoungesByName: (parent: any, args: any) => {
+      const { loungeName } = args;
+      const l = lounges.filter(({ name: itemName }) => {
+        return itemName.toLowerCase().includes(loungeName.toLowerCase());
+      });
+      return l ?? null;
     },
     bookings: () => bookings,
     booking: (parent: any, args: any) => {

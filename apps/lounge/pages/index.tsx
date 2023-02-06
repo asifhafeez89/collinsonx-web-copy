@@ -6,7 +6,7 @@ import { Filter } from '@collinsonx/design-system/assets/icons';
 import Layout from '../components/Layout';
 import { LoungeData } from '@collinsonx/utils/types/lounge';
 import { client } from '@collinsonx/utils/apollo';
-import getLounges from '@collinsonx/utils/queries/getLounges';
+import { getLounges } from '@collinsonx/utils/queries';
 
 export default function Landing({ lounges }: { lounges: LoungeData[] }) {
   const router = useRouter();
