@@ -35,7 +35,7 @@ const typeDefs = gql`
 
   type Booking {
     id: String
-    loungeId: String
+    lounge: Lounge
     bookingState: String
     reservationDate: String
     additionalRequests: String
@@ -59,12 +59,27 @@ const resolvers = {
       });
       return l?.[0] ?? null;
     },
-    bookings: () => bookings,
+    bookings: () =>
+      bookings.map((item) => ({
+        id: item.id,
+        lounge: lounges.find(({ id }) => id === item.loungeId),
+        bookingState: item.bookingState,
+        reservationDate: item.reservationDate,
+        additionalRequests: item.additionalRequests,
+      })),
     booking: (parent: any, args: any) => {
       const { id } = args;
-      const l = bookings.filter(({ id: itemId }) => {
-        return id === itemId;
-      });
+      const l = bookings
+        .filter(({ id: itemId }) => {
+          return id === itemId;
+        })
+        .map((item) => ({
+          id: item.id,
+          lounge: lounges.find(({ id }) => id === item.loungeId),
+          bookingState: item.bookingState,
+          reservationDate: item.reservationDate,
+          additionalRequests: item.additionalRequests,
+        }));
       return l?.[0] ?? null;
     },
   },
