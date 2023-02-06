@@ -17,6 +17,7 @@ import getLounge from 'gql/getLounge';
 import { client } from '@collinsonx/utils/apollo';
 import { NextPageContext } from 'next';
 import { LoungeData } from '@collinsonx/utils/types/lounge';
+import dayjs from 'dayjs';
 
 interface BookLoungeProps {
   lounge: LoungeData;
@@ -26,8 +27,15 @@ interface BookLoungeProps {
 export default function Landing(props: BookLoungeProps) {
   const router = useRouter();
   const { lounge, loading } = props;
+  const r = router?.query?.reservationDate ?? '';
+  const reservationDate: Date = JSON.parse(r as string);
+
+  const { additionalRequests } = router?.query ?? 'None';
 
   const handleConfirm = () => {
+    // Send to email service
+    // TODO
+
     router.push('/success');
   };
 
@@ -46,27 +54,21 @@ export default function Landing(props: BookLoungeProps) {
             openingTimes={lounge?.openingHours.substring(1, 20)}
           />
           <Flex direction="column">
-            <Paper mt={30} radius="md">
-              <FieldLabel
-                title="Date"
-                value="12/6/2023"
-                handleClick={() => router.push('/book')}
-              />
-            </Paper>
-            <Paper mt={30} radius="md">
-              <FieldLabel
-                title="Time of arrival"
-                value="08:30"
-                handleClick={() => router.push('/book')}
-              />
-            </Paper>
-            <Paper mt={30} radius="md">
-              <FieldLabel
-                title="Additional requirements"
-                value="None"
-                handleClick={() => router.push('/book')}
-              />
-            </Paper>
+            <FieldLabel
+              title="Date"
+              value={dayjs(reservationDate).format('DD/MM/YYYY')}
+              handleClick={() => router.push('/book')}
+            />
+            <FieldLabel
+              title="Time of arrival"
+              value={dayjs(reservationDate).format('HH:mm')}
+              handleClick={() => router.push('/book')}
+            />
+            <FieldLabel
+              title="Additional requirements"
+              value={additionalRequests as string}
+              handleClick={() => router.push('/book')}
+            />
             <UnstyledButton
               onClick={handleConfirm}
               sx={{
@@ -77,6 +79,7 @@ export default function Landing(props: BookLoungeProps) {
                 width: '100%',
                 textAlign: 'center',
                 fontSize: '18px',
+                marginBottom: '1rem',
               }}
             >
               Send booking to lounge

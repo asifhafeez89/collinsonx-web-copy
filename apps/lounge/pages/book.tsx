@@ -18,7 +18,7 @@ import { Clock, Calendar } from '@collinsonx/design-system/assets/icons';
 import { useRouter } from 'next/router';
 import { LoungeData } from '@collinsonx/utils/types/lounge';
 import { NextPageContext } from 'next';
-import { useState } from 'react';
+import { ChangeEventHandler, useState } from 'react';
 
 const HOURS = [
   '00',
@@ -69,6 +69,7 @@ export default function Book(props: BookLoungeProps) {
   const router = useRouter();
   const { lounge, loading } = props;
   const [reservationDate, setReservationDate] = useState<Date>();
+  const [additionalRequests, setAdditionalRequests] = useState('');
 
   const onDateChange = (newDate: Date) => {
     if (reservationDate) {
@@ -92,11 +93,19 @@ export default function Book(props: BookLoungeProps) {
   };
 
   const handleBook = () => {
-    console.log(reservationDate);
     router.push({
       pathname: '/confirm',
-      query: { id: lounge.id },
+      query: {
+        id: lounge.id,
+        reservationDate: JSON.stringify(reservationDate),
+        additionalRequests,
+      },
     });
+  };
+
+  const onAdditionalRequests = (e: any) => {
+    console.log(e);
+    setAdditionalRequests(e.target.value);
   };
 
   return (
@@ -149,6 +158,7 @@ export default function Book(props: BookLoungeProps) {
                 autosize
                 minRows={2}
                 maxRows={4}
+                onChange={onAdditionalRequests}
               />
             </Paper>
             <Paper mt={30} radius="md">
