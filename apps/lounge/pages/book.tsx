@@ -52,7 +52,7 @@ export default function Book(props: BookLoungeProps) {
           <Lounge
             airport={lounge?.location}
             loungeName={lounge?.name}
-            openingTimes={lounge?.openingHours}
+            openingTimes={lounge?.openingHours.substring(1, 20)}
           />
           <Flex direction="column">
             <Paper mt={10} radius="md">
