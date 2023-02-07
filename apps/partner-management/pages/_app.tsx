@@ -2,15 +2,9 @@ import type { AppProps } from 'next/app';
 import { NextPage } from 'next';
 import { ComponentType, ReactElement } from 'react';
 import { MantineProvider } from '@collinsonx/design-system/core';
-
 import Head from 'next/head';
-
 import { themeLight } from '@collinsonx/design-system/themes';
-import { Header } from '@collinsonx/design-system';
-
 import { Be_Vietnam_Pro } from '@next/font/google';
-import { Cart, Chat, Home } from '@collinsonx/design-system/assets/icons';
-
 import Client from '@collinsonx/utils/provider';
 
 const beVietnamPro = Be_Vietnam_Pro({
@@ -46,25 +40,6 @@ export default function MyApp({ Component, pageProps }: Props) {
           withGlobalStyles
           withNormalizeCSS
         >
-          <Header
-            items={[
-              {
-                label: 'Home',
-                link: '/lounge',
-                icon: <Home color="#112132" />,
-              },
-              {
-                label: 'My trips',
-                link: '/lounge/bookings',
-                icon: <Cart color="#112132" />,
-              },
-              {
-                label: 'AI Travel companion',
-                link: '/companion',
-                icon: <Chat color="#112132" />,
-              },
-            ]}
-          />
           {getLayout(<Component {...pageProps} />)}
         </MantineProvider>
       </Client>

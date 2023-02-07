@@ -1,76 +1,146 @@
-import { useState, useEffect } from 'react';
-import {
-  default as SearchInput,
-  SearchInputProps,
-} from '@collinsonx/design-system/components/searchInput';
 import Layout from '@components/Layout';
-import EmptyStateResults from '@components/EmptyStateResults';
-import Results from '@components/Results';
-import { Stack } from '@collinsonx/design-system/core';
-import { useLazyQuery } from '@collinsonx/utils/apollo';
-import { getLoungesByName } from '@collinsonx/utils/queries';
-import { LoungeData } from '@collinsonx/utils/types/lounge';
-import { useRouter } from 'next/router';
+import { bookings } from './bookings.json';
+import dayjs from 'dayjs';
 
-export default function Search() {
-  const router = useRouter();
-  const [value, setValue] = useState('');
+type Booking = {
+  id: string;
+  name: string;
+  reservation_date: string;
+  booking_status: string;
+};
 
-  const [searchLounges, { data, loading, error }] = useLazyQuery(
-    getLoungesByName,
-    {
-      variables: { loungeName: value },
-    }
-  );
+const ulStyle = {
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'row',
+  listStyle: 'none',
+  margin: 0,
+  padding: '1rem',
+  justifyContent: 'stretch',
+};
 
-  const [results, setResults] = useState<LoungeData[]>([]);
+const liStyle = {
+  margin: 0,
+  marginRight: '1rem',
+  padding: 0,
+  width: '100%',
+  flex: '1 1',
+};
 
-  useEffect(() => {
-    if ((value?.length ?? 0) > 1) {
-      searchLounges({
-        variables: { loungeName: value },
-      });
-    } else {
-      setResults([]);
-    }
-  }, [value, searchLounges]);
+function getColour(status: string) {
+  switch (status) {
+    case 'PENDING':
+      return {
+        backgroundColor: '#FEF3DA',
+        borderColor: '#FAB005',
+      };
+    case 'CONFIRMED':
+      return {
+        backgroundColor: '#EEF9E7',
+        borderColor: '#54C50D',
+      };
+    case 'DECLINED':
+    default:
+      return {
+        backgroundColor: '#FDECEC',
+        borderColor: '#F03E3E',
+      };
+  }
+}
 
-  useEffect(() => {
-    if (data && !loading && !error) {
-      setResults(data.getLoungesByName);
-    }
-  }, [data, loading, error]);
-
-  const handleClickClear = () => {
-    setValue('');
-  };
-
-  const handleChange: SearchInputProps['onChange'] = (e) => {
-    setValue(e.target.value);
-  };
-
-  const handleItemClick = (id: string) => {
-    router.push({
-      pathname: '/lounge/details',
-      query: { id },
-    });
-  };
-
+export default function PartnerManagement() {
   return (
-    <Stack spacing={16}>
-      <SearchInput
-        placeholder="Search for airport or lounge"
-        value={value}
-        onChange={handleChange}
-        onClickClear={handleClickClear}
-      />
-      {results.length > 0 ? (
-        <Results data={results} onClick={handleItemClick} />
-      ) : (
-        <EmptyStateResults />
-      )}
-    </Stack>
+    <>
+      <h1 style={{ margin: 0, padding: 0, marginBottom: '1rem' }}>
+        Lounge booking management
+      </h1>
+      <h2
+        style={{
+          margin: 0,
+          padding: 0,
+          marginBottom: '1rem',
+          fontWeight: 'normal',
+        }}
+      >
+        Club Aspire Lounge
+      </h2>
+      <div>
+        <ul
+          style={{
+            ...ulStyle,
+            background: 'rgba(71, 212, 177, 0.1)',
+            fontWeight: '600',
+            borderWidth: '1px 1px 0 1px',
+            borderStyle: 'solid',
+            borderColor: '#ADB5BD',
+          }}
+        >
+          <li style={liStyle}>Customer name</li>
+          <li style={liStyle}>Date of booking</li>
+          <li style={liStyle}>Time of booking</li>
+          <li style={liStyle}>Booking status</li>
+          <li style={liStyle}>Action</li>
+        </ul>
+      </div>
+      <ul
+        style={{
+          ...ulStyle,
+          flexDirection: 'column',
+          padding: 0,
+          borderWidth: '0 1px 1px 1px',
+          borderStyle: 'solid',
+          borderColor: '#ADB5BD',
+        }}
+      >
+        {(bookings as Booking[]).map(
+          ({ id, name, reservation_date, booking_status }, index) => (
+            <ul
+              key={id}
+              style={{
+                ...ulStyle,
+                padding: '1rem',
+                backgroundColor: index % 2 ? '#F5F5F5' : '#fff',
+                alignItems: 'center',
+              }}
+            >
+              <li style={liStyle}>{name}</li>
+              <li style={liStyle}>
+                {dayjs(reservation_date).format('DD/MM/YYYY')}
+              </li>
+              <li style={liStyle}>{dayjs(reservation_date).format('hh:mm')}</li>
+              <li
+                style={{
+                  ...liStyle,
+                  color: '#000',
+                  padding: '0.25rem',
+                  textAlign: 'center',
+                  borderRadius: 6,
+                  borderWidth: 2,
+                  borderStyle: 'solid',
+                  backgroundColor: getColour(booking_status).backgroundColor,
+                  borderColor: getColour(booking_status).borderColor,
+                }}
+              >
+                Booking {booking_status.toLowerCase()}
+              </li>
+              <li
+                style={{
+                  ...liStyle,
+                  backgroundColor: '#000',
+                  color: '#fff',
+                  padding: '0.25rem',
+                  textAlign: 'center',
+                  borderRadius: '1rem',
+                }}
+              >
+                Customer arrived
+              </li>
+            </ul>
+          )
+        )}
+      </ul>
+    </>
   );
 }
 
-Search.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;
+PartnerManagement.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;
