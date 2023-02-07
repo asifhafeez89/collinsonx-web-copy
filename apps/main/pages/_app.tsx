@@ -7,13 +7,14 @@ import Head from 'next/head';
 
 import { themeDark } from '@collinsonx/design-system/themes';
 
-import { Open_Sans } from '@next/font/google';
+import { Be_Vietnam_Pro } from '@next/font/google';
 
 import Client from '@collinsonx/utils/provider';
 
-const openSans = Open_Sans({
+const beVietnamPro = Be_Vietnam_Pro({
   style: ['normal'],
   subsets: ['latin'],
+  weight: ['400', '600', '700'],
 });
 
 type Page<P = {}> = NextPage<P> & {
@@ -39,7 +40,7 @@ export default function MyApp({ Component, pageProps }: Props) {
       </Head>
       <Client>
         <MantineProvider
-          theme={themeDark({ fontFamily: openSans.style.fontFamily })}
+          theme={themeDark({ fontFamily: beVietnamPro.style.fontFamily })}
           withGlobalStyles
           withNormalizeCSS
         >

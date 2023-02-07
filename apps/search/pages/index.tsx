@@ -31,7 +31,7 @@ export default function Search() {
     } else {
       setResults([]);
     }
-  }, [value]);
+  }, [value, searchLounges]);
 
   useEffect(() => {
     if (data && !loading && !error) {

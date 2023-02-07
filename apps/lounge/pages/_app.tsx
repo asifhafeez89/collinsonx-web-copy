@@ -7,14 +7,15 @@ import Head from 'next/head';
 import { themeLight } from '@collinsonx/design-system/themes';
 import { Header } from '@collinsonx/design-system';
 
-import { Open_Sans } from '@next/font/google';
+import { Be_Vietnam_Pro } from '@next/font/google';
 import { Cart, Chat, Home } from '@collinsonx/design-system/assets/icons';
 
 import Client from '@collinsonx/utils/provider';
 
-const openSans = Open_Sans({
+const beVietnamPro = Be_Vietnam_Pro({
   style: ['normal'],
   subsets: ['latin'],
+  weight: ['400', '600', '700'],
 });
 
 type Page<P = {}> = NextPage<P> & {
@@ -40,7 +41,7 @@ export default function MyApp({ Component, pageProps }: Props) {
       </Head>
       <Client>
         <MantineProvider
-          theme={themeLight({ fontFamily: openSans.style.fontFamily })}
+          theme={themeLight({ fontFamily: beVietnamPro.style.fontFamily })}
           withGlobalStyles
           withNormalizeCSS
         >
@@ -49,17 +50,17 @@ export default function MyApp({ Component, pageProps }: Props) {
               {
                 label: 'Home',
                 link: '/lounge',
-                icon: <Home color="#25262b" />,
+                icon: <Home color="#112132" />,
               },
               {
                 label: 'My trips',
                 link: '/lounge/bookings',
-                icon: <Cart color="#25262b" />,
+                icon: <Cart color="#112132" />,
               },
               {
                 label: 'AI Travel companion',
                 link: '/companion',
-                icon: <Chat color="#25262b" />,
+                icon: <Chat color="#112132" />,
               },
             ]}
           />

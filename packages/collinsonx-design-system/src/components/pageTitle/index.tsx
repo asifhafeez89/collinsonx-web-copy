@@ -16,7 +16,7 @@ export default function PageTitle({ title, url }: IPageTitle) {
         component="a"
         href={url}
         sx={{
-          border: '1px solid #25262B',
+          border: '1px solid #112132',
           borderRadius: 8,
           width: 40,
           height: 40,
