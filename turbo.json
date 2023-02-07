@@ -23,6 +23,12 @@
         "@collinsonx/design-system#build"
       ]
     },
+    "partner-management#dev": {
+      "dependsOn": [
+        "@collinsonx/utils#build",
+        "@collinsonx/design-system#build"
+      ]
+    },
     "main#build": {
       "dependsOn": [
         "^build",
