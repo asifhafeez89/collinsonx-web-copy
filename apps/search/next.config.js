@@ -1,3 +1,5 @@
+const { LOUNGE_URL } = process.env;
+
 module.exports = {
   basePath: '/search',
   webpack(config) {
@@ -7,5 +9,17 @@ module.exports = {
       use: ['@svgr/webpack'],
     });
     return config;
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/lounge',
+        destination: `${LOUNGE_URL}/lounge`,
+      },
+      {
+        source: '/lounge/:path*',
+        destination: `${LOUNGE_URL}/lounge/:path*`,
+      },
+    ];
   },
 };

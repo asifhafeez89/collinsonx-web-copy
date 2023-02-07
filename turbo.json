@@ -9,6 +9,10 @@
       "dependsOn": ["^build", "$SEARCH_URL", "$LOUNGE_URL"],
       "outputs": [".next/**"]
     },
+    "search#build": {
+      "dependsOn": ["^build", "$LOUNGE_URL"],
+      "outputs": [".next/**"]
+    },
     "test": {
       "dependsOn": ["^build"],
       "outputs": []
