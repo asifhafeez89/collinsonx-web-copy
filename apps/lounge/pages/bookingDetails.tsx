@@ -7,6 +7,7 @@ import { client } from '@collinsonx/utils/apollo';
 import { getBooking } from '@collinsonx/utils/queries';
 import { Booking, Lounge } from '@collinsonx/utils/generatedTypes/graphql';
 import dayjs from 'dayjs';
+import { BookingStatus } from '@components/BookingBadge';
 
 interface BookingDetailProps {
   booking: Booking;
@@ -53,7 +54,7 @@ export default function BookingDetails({
             {location}
           </Text>
         </Box>
-        <Status status={bookingState ?? 'PENDING'} />
+        <Status status={(bookingState as BookingStatus) ?? 'PENDING'} />
         <Stack spacing={17} sx={{ border: '1px solid #E9ECEF', padding: 17 }}>
           <Box>
             <Title size={18}>Date</Title>

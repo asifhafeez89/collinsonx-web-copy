@@ -11,6 +11,7 @@ import { NextPageContext } from 'next';
 import { Booking } from '@collinsonx/utils/generatedTypes/graphql';
 import { client } from '@collinsonx/utils/apollo';
 import { getBookings } from '@collinsonx/utils/queries';
+import { BookingStatus } from '@components/BookingBadge';
 
 type DataStatus = 'empty' | 'hasData';
 
@@ -20,7 +21,6 @@ interface BookingsDetailProps {
 }
 
 export default function Bookings({ bookings, loading }: BookingsDetailProps) {
-  // toggle for demo purposes - change to 'empty' to view empty state
   const [status, setStatus] = useState<DataStatus>('hasData');
   const router = useRouter();
 
@@ -56,7 +56,7 @@ export default function Bookings({ bookings, loading }: BookingsDetailProps) {
               name={booking?.lounge?.name ?? ''}
               location={booking?.lounge?.location ?? ''}
               imgUrl={booking?.lounge?.images?.[0]?.url ?? ''}
-              status={booking?.bookingState ?? 'PENDING'}
+              status={(booking?.bookingState as BookingStatus) ?? 'PENDING'}
               date={booking?.reservationDate ?? ''}
             />
           ))}
