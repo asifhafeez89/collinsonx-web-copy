@@ -1,6 +1,7 @@
 import Layout from '@components/Layout';
 import { bookings } from './bookings.json';
 import dayjs from 'dayjs';
+import { CSSProperties } from 'react';
 
 type Booking = {
   id: string;
@@ -9,7 +10,7 @@ type Booking = {
   booking_status: string;
 };
 
-const ulStyle = {
+const ulStyle: CSSProperties = {
   width: '100%',
   display: 'flex',
   flexDirection: 'row',
@@ -19,7 +20,7 @@ const ulStyle = {
   justifyContent: 'stretch',
 };
 
-const liStyle = {
+const liStyle: CSSProperties = {
   margin: 0,
   marginRight: '1rem',
   padding: 0,
@@ -66,7 +67,6 @@ export default function PartnerManagement() {
       </h2>
       <div>
         <ul
-          //@ts-ignore
           style={{
             ...ulStyle,
             background: 'rgba(71, 212, 177, 0.1)',
@@ -97,7 +97,6 @@ export default function PartnerManagement() {
           ({ id, name, reservation_date, booking_status }, index) => (
             <ul
               key={id}
-              //@ts-ignore
               style={{
                 ...ulStyle,
                 padding: '1rem',
