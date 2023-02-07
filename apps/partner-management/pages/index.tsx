@@ -1,7 +1,9 @@
 import Layout from '@components/Layout';
-import { bookings } from './bookings.json';
+import bookingsMock from './bookings.json';
 import dayjs from 'dayjs';
 import { CSSProperties } from 'react';
+
+const { bookings } = bookingsMock;
 
 type Booking = {
   id: string;
