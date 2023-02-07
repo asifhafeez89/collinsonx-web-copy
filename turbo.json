@@ -33,6 +33,10 @@
       ],
       "outputs": [".next/**"]
     },
+    "search#build": {
+      "dependsOn": ["^build", "$LOUNGE_URL"],
+      "outputs": [".next/**"]
+    },
     "test": {
       "dependsOn": ["^build"],
       "outputs": []

@@ -10,8 +10,10 @@ import { Stack } from '@collinsonx/design-system/core';
 import { useLazyQuery } from '@collinsonx/utils/apollo';
 import { getLoungesByName } from '@collinsonx/utils/queries';
 import { LoungeData } from '@collinsonx/utils/types/lounge';
+import { useRouter } from 'next/router';
 
 export default function Search() {
+  const router = useRouter();
   const [value, setValue] = useState('');
 
   const [searchLounges, { data, loading, error }] = useLazyQuery(
@@ -42,8 +44,16 @@ export default function Search() {
   const handleClickClear = () => {
     setValue('');
   };
+
   const handleChange: SearchInputProps['onChange'] = (e) => {
     setValue(e.target.value);
+  };
+
+  const handleItemClick = (id: string) => {
+    router.push({
+      pathname: '/lounge/details',
+      query: { id },
+    });
   };
 
   return (
@@ -54,7 +64,11 @@ export default function Search() {
         onChange={handleChange}
         onClickClear={handleClickClear}
       />
-      {results.length > 0 ? <Results data={results} /> : <EmptyStateResults />}
+      {results.length > 0 ? (
+        <Results data={results} onClick={handleItemClick} />
+      ) : (
+        <EmptyStateResults />
+      )}
     </Stack>
   );
 }

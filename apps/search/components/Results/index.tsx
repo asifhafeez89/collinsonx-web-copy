@@ -5,9 +5,10 @@ import { LoungeData } from '@collinsonx/utils/types/lounge';
 
 interface ResultsProps {
   data: LoungeData[];
+  onClick: (id: string) => void;
 }
 
-export default function Results({ data }: ResultsProps) {
+export default function Results({ data, onClick }: ResultsProps) {
   return (
     <Stack spacing={16} pt={16}>
       <Box>
@@ -28,7 +29,11 @@ export default function Results({ data }: ResultsProps) {
         </Title>
         <Box>
           {data.map((item) => (
-            <ResultsItem key={`${item.id}`} leftIcon={<Coffee />}>
+            <ResultsItem
+              key={`${item.id}`}
+              leftIcon={<Coffee />}
+              onClick={() => onClick && onClick(item.id)}
+            >
               <Flex direction="column">
                 <Text>{item.name}</Text>
                 <Text sx={{ fontWeight: 400 }}>{item.location}</Text>
