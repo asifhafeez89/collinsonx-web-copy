@@ -54,20 +54,13 @@ export default function Landing({ lounges }: { lounges: LoungeData[] }) {
 }
 
 export async function getServerSideProps() {
-  let lounges = [];
-
-  try {
-    const { data } = await client.query({
-      query: getLounges,
-    });
-    lounges = data?.lounges;
-  } catch (err) {
-    console.error(err);
-  }
+  const { data } = await client.query({
+    query: getLounges,
+  });
 
   return {
     props: {
-      lounges,
+      lounges: data.lounges,
     },
   };
 }
