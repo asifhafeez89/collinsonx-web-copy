@@ -66,6 +66,7 @@ export default function PartnerManagement() {
       </h2>
       <div>
         <ul
+          //@ts-ignore
           style={{
             ...ulStyle,
             background: 'rgba(71, 212, 177, 0.1)',
@@ -96,6 +97,7 @@ export default function PartnerManagement() {
           ({ id, name, reservation_date, booking_status }, index) => (
             <ul
               key={id}
+              //@ts-ignore
               style={{
                 ...ulStyle,
                 padding: '1rem',
