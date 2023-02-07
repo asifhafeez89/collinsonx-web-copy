@@ -1,10 +1,11 @@
 import { Center, Container, Stack } from '@collinsonx/design-system/core';
 import { Logo } from '@collinsonx/design-system/assets/logo';
-import { Open_Sans } from '@next/font/google';
+import { Be_Vietnam_Pro } from '@next/font/google';
 
-const openSans = Open_Sans({
+const beVietnamPro = Be_Vietnam_Pro({
   style: ['normal'],
   subsets: ['latin'],
+  weight: ['400', '600', '700'],
 });
 
 interface LayoutProps {

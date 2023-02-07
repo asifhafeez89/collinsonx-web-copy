@@ -28,7 +28,7 @@ const Header = ({ items }: HeaderProps) => {
         </a>
 
         <nav className={classes.nav}>
-          <Anchor variant="text" color={'#25262b'} size="sm" href="/search">
+          <Anchor variant="text" color={'#112132'} size="sm" href="/search">
             <Search color={'#ffffff'} />
           </Anchor>
 
@@ -77,7 +77,7 @@ const Header = ({ items }: HeaderProps) => {
                 <List.Item key={`headerItem-${link}`} icon={icon}>
                   <Anchor
                     variant="text"
-                    color={'#25262b'}
+                    color={'#112132'}
                     size="sm"
                     href={link}
                   >
@@ -102,7 +102,7 @@ const Header = ({ items }: HeaderProps) => {
             src={null}
             radius="xl"
             alt="no image here"
-            color={'#25262b'}
+            color={'#112132'}
           /> */}
           <Box
             sx={{
@@ -112,20 +112,20 @@ const Header = ({ items }: HeaderProps) => {
               paddingLeft: 10,
             }}
           >
-            <Anchor variant="text" color={'#25262b'} size="sm" href="/">
+            <Anchor variant="text" color={'#112132'} size="sm" href="/">
               Logout
             </Anchor>
             {/* 
             <Anchor size="sm" href="/profile">
-              <Text fz="sm" color={'#25262b'}>
+              <Text fz="sm" color={'#112132'}>
                 Jayne Bloggs
               </Text>
-              <Text fz="sm" color={'#25262b'}>
+              <Text fz="sm" color={'#112132'}>
                 j.bloggs@collinson.co.uk
               </Text>
             </Anchor> */}
           </Box>
-          <ChevronRight color={'#25262b'} />
+          <ChevronRight color={'#112132'} />
         </Box>
       </Drawer>
     </>

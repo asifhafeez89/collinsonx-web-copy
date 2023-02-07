@@ -6,7 +6,13 @@
       "outputs": [".next/**", "dist/**", "storybook-static/**"]
     },
     "main#build": {
-      "dependsOn": ["^build", "$SEARCH_URL", "$LOUNGE_URL"],
+      "dependsOn": [
+        "^build",
+        "$SEARCH_URL",
+        "$LOUNGE_URL",
+        "$GRAPHQL_API_URL",
+        "$NEXT_PUBLIC_GRAPHQL_API_URL"
+      ],
       "outputs": [".next/**"]
     },
     "test": {
