@@ -76,6 +76,10 @@ const resolvers = {
       })),
     booking: (parent: any, args: any) => {
       const { id } = args;
+      console.log(
+        '-------------------------------------------------------------'
+      );
+      console.log(id, bookings);
       const l =
         bookings
           .filter(({ id: itemId }) => {

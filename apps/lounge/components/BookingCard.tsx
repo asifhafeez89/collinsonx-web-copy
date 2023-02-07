@@ -26,26 +26,24 @@ const ContentWrapper = styled.div`
   border-radius: 5px 5px 0 0;
 `;
 
-type Resource = {
-  label: string;
-  id: string;
-};
-
 export interface BookingCardProps {
   id: string;
-  lounge: Resource;
-  airport: Resource;
+  name: string;
+  location: string;
   imgUrl: string;
   status: BookingStatus;
   date: string;
+  onClick: (bookingId: string) => void;
 }
 
 export default function BookingCard({
-  lounge,
-  airport,
+  id,
+  name,
+  location,
   imgUrl,
   status,
   date,
+  onClick,
 }: BookingCardProps) {
   return (
     <CardWrapper>
@@ -61,19 +59,21 @@ export default function BookingCard({
           }}
         >
           <Box sx={{ position: 'absolute', right: 8, top: 8 }}>
-            <BookingBadge status={status}>Booking {status}</BookingBadge>
+            <BookingBadge status={status}>
+              Booking {status.toLowerCase()}
+            </BookingBadge>
           </Box>
         </Box>
 
         <ContentWrapper>
           <Stack spacing={8}>
             <Title fw={600} size={18}>
-              {lounge.label}
+              {name}
             </Title>
 
             <Group spacing={8}>
               <MapPin />
-              <Text>{airport.label}</Text>
+              <Text>{location}</Text>
             </Group>
 
             <Title fw={600} size={18}>
@@ -84,7 +84,12 @@ export default function BookingCard({
           </Stack>
         </ContentWrapper>
 
-        <Button variant="outline" color="dark" fullWidth={true}>
+        <Button
+          variant="outline"
+          color="dark"
+          fullWidth={true}
+          onClick={() => onClick(id)}
+        >
           View details
         </Button>
       </Stack>

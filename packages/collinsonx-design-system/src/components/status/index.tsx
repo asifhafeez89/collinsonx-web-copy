@@ -1,6 +1,6 @@
 import { Text } from '@mantine/core';
 
-type Status = 'pending' | 'confirmed' | 'declined';
+type Status = 'PENDING' | 'CONFIRMED' | 'DECLINED';
 type IStatus = {
   status: Status;
 };
@@ -27,7 +27,7 @@ export default function Status({ status }: IStatus) {
       {`Booking pending`}
     </Text>
   );
-  if (status === 'confirmed') {
+  if (status === 'CONFIRMED') {
     button = (
       <Text
         sx={{
@@ -40,7 +40,7 @@ export default function Status({ status }: IStatus) {
       </Text>
     );
   }
-  if (status === 'declined') {
+  if (status === 'DECLINED') {
     button = (
       <Text
         sx={{
