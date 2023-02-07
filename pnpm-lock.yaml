@@ -94,6 +94,41 @@ importers:
       postcss: 8.4.21
       typescript: 4.9.4
 
+  apps/partner-management:
+    specifiers:
+      '@collinsonx/design-system': workspace:*
+      '@collinsonx/pages': workspace:*
+      '@collinsonx/utils': workspace:*
+      '@next/font': ^13.1.5
+      '@svgr/webpack': ^6.5.1
+      '@types/react': ^18.0.0
+      autoprefixer: ^10.4.12
+      dayjs: ^1.11.7
+      eslint: ^8.11.0
+      eslint-config-collinsonx: workspace:*
+      next: ^13.1.0
+      postcss: ^8.4.18
+      react: ^18.2.0
+      react-dom: ^18.2.0
+      typescript: 4.9.4
+    dependencies:
+      '@collinsonx/design-system': link:../../packages/collinsonx-design-system
+      '@collinsonx/pages': link:../../packages/collinsonx-pages
+      '@collinsonx/utils': link:../../packages/collinsonx-utils
+      '@next/font': 13.1.5
+      '@svgr/webpack': 6.5.1
+      dayjs: 1.11.7
+      next: 13.1.6_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@types/react': 18.0.27
+      autoprefixer: 10.4.13_postcss@8.4.21
+      eslint: 8.32.0
+      eslint-config-collinsonx: link:../../packages/eslint-config-collinsonx
+      postcss: 8.4.21
+      typescript: 4.9.4
+
   apps/search:
     specifiers:
       '@collinsonx/design-system': workspace:*
@@ -280,7 +315,7 @@ importers:
       typescript: ^4.9.4
     dependencies:
       eslint: 8.32.0
-      eslint-config-next: 13.1.7-canary.5_7uibuqfxkfaozanbtbziikiqje
+      eslint-config-next: 13.1.7-canary.7_7uibuqfxkfaozanbtbziikiqje
       eslint-config-prettier: 8.6.0_eslint@8.32.0
       eslint-config-turbo: 0.0.7_eslint@8.32.0
     devDependencies:
@@ -3074,7 +3109,7 @@ packages:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
       '@graphql-tools/utils': 9.2.0
-      tslib: 2.4.1
+      tslib: 2.5.0
     dev: false
 
   /@graphql-tools/merge/8.3.17_graphql@16.6.0:
@@ -3626,8 +3661,8 @@ packages:
   /@next/env/13.1.6:
     resolution: {integrity: sha512-s+W9Fdqh5MFk6ECrbnVmmAOwxKQuhGMT7xXHrkYIBMBcTiOqNWhv5KbJIboKR5STXxNXl32hllnvKaffzFaWQg==}
 
-  /@next/eslint-plugin-next/13.1.7-canary.5:
-    resolution: {integrity: sha512-eos4nOVrTaxXYm5waTlyiI9vhpy3YTHBSL3a/iLBGnGTCuaehMfoUxe7HsJJlXdKh26bC5hqA4TcqCAmRaJ5Lg==}
+  /@next/eslint-plugin-next/13.1.7-canary.7:
+    resolution: {integrity: sha512-qpJ+Q4hkN72x+0/0wTbWnFJa1oDGGB1DOGJA2H6NxthjQXQtNtrl/BFmXl2F/WW+A7aIyg8RgQ6EuLMJv8UIGg==}
     dependencies:
       glob: 7.1.7
     dev: false
@@ -3814,7 +3849,7 @@ packages:
       open: 8.4.0
       picocolors: 1.0.0
       tiny-glob: 0.2.9
-      tslib: 2.4.1
+      tslib: 2.5.0
     dev: false
 
   /@pmmmwh/react-refresh-webpack-plugin/0.5.10_ohj47mxwagpoxvu7nhhwxzphqm:
@@ -9546,8 +9581,8 @@ packages:
       source-map: 0.6.1
     dev: false
 
-  /eslint-config-next/13.1.7-canary.5_7uibuqfxkfaozanbtbziikiqje:
-    resolution: {integrity: sha512-HXLf3vDxiQk6XXRV+enXlxrFLPNxVU9JPMBVD0ifpPwT2/qnBKLSNDMU+NJ1nig358UdC5JhADxGUS0bqOLipw==}
+  /eslint-config-next/13.1.7-canary.7_7uibuqfxkfaozanbtbziikiqje:
+    resolution: {integrity: sha512-Fy/K/4u5Pvt1IGNu1u4AnVN5xFXby5AfU+Bv24R2a+c6O9DM3dCF3lxyTeptismapP14pgl4+glzMojB39OqCg==}
     peerDependencies:
       eslint: ^7.23.0 || ^8.0.0
       typescript: '>=3.3.1'
@@ -9555,7 +9590,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@next/eslint-plugin-next': 13.1.7-canary.5
+      '@next/eslint-plugin-next': 13.1.7-canary.7
       '@rushstack/eslint-patch': 1.2.0
       '@typescript-eslint/parser': 5.49.0_7uibuqfxkfaozanbtbziikiqje
       eslint: 8.32.0
@@ -15694,7 +15729,7 @@ packages:
     engines: {node: ^14.18.0 || >=16.0.0}
     dependencies:
       '@pkgr/utils': 2.3.1
-      tslib: 2.4.1
+      tslib: 2.5.0
     dev: false
 
   /tapable/1.1.3:
