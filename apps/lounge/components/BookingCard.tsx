@@ -12,6 +12,9 @@ import {
 import BookingBadge, { BookingStatus } from './BookingBadge';
 import { MapPin } from '@collinsonx/design-system/assets/icons';
 
+// import generated types in the following way:
+// import { Booking} from '@collinsonx/utils/generatedTypes/graphql';
+
 const CardWrapper = styled.div`
   width: 343px;
   transition: 0.3s;
