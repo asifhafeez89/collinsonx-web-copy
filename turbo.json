@@ -5,6 +5,24 @@
       "dependsOn": ["^build"],
       "outputs": [".next/**", "dist/**", "storybook-static/**"]
     },
+    "main#dev": {
+      "dependsOn": [
+        "@collinsonx/utils#build",
+        "@collinsonx/design-system#build"
+      ]
+    },
+    "search#dev": {
+      "dependsOn": [
+        "@collinsonx/utils#build",
+        "@collinsonx/design-system#build"
+      ]
+    },
+    "lounge#dev": {
+      "dependsOn": [
+        "@collinsonx/utils#build",
+        "@collinsonx/design-system#build"
+      ]
+    },
     "main#build": {
       "dependsOn": ["^build", "$SEARCH_URL", "$LOUNGE_URL"],
       "outputs": [".next/**"]
