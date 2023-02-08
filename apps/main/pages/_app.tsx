@@ -6,9 +6,14 @@ import Head from 'next/head';
 import { themeDark } from '@collinsonx/design-system/themes';
 import { Be_Vietnam_Pro } from '@next/font/google';
 import Client from '@collinsonx/utils/provider';
-import SuperTokens from 'supertokens-web-js';
-import Session from 'supertokens-web-js/recipe/session';
-import Passwordless from 'supertokens-web-js/recipe/passwordless'
+import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react'
+
+import { frontendConfig } from '../config/frontendConfig'
+
+if (typeof window !== 'undefined') {
+  // we only want to call this init function on the frontend, so we check typeof window !== 'undefined'
+  SuperTokensReact.init(frontendConfig())
+}
 
 const beVietnamPro = Be_Vietnam_Pro({
   style: ['normal'],
@@ -25,16 +30,6 @@ type Props = AppProps & {
   Component: Page;
 };
 
-if (typeof window !== "undefined") {
-  SuperTokens.init({
-    appInfo: {
-      apiDomain: window.location.origin,
-      apiBasePath: "/api/remote/auth",
-      appName: '...',
-    },
-    recipeList: [Session.init(), Passwordless.init()],
-  });
-}
 
 export default function MyApp({ Component, pageProps }: Props) {
   // Use the layout defined at the page level, if available
@@ -48,15 +43,17 @@ export default function MyApp({ Component, pageProps }: Props) {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
-      <Client>
-        <MantineProvider
-          theme={themeDark({ fontFamily: beVietnamPro.style.fontFamily })}
-          withGlobalStyles
-          withNormalizeCSS
-        >
-          {getLayout(<Component {...pageProps} />)}
-        </MantineProvider>
-      </Client>
+      <SuperTokensWrapper>
+        <Client>
+          <MantineProvider
+            theme={themeDark({ fontFamily: beVietnamPro.style.fontFamily })}
+            withGlobalStyles
+            withNormalizeCSS
+          >
+            {getLayout(<Component {...pageProps} />)}
+          </MantineProvider>
+        </Client>
+      </SuperTokensWrapper>
     </>
   );
 }
