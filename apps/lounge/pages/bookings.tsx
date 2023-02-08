@@ -5,16 +5,33 @@ import BookingEmptyState from '@components/BookingEmptyState';
 import Layout from '@components/Layout';
 import { useState } from 'react';
 
-import mockData from './bookingsMock.json';
-import imgUrl from '../components/bookingsMockImage';
-import { BookingCardProps } from '../components/BookingCard';
 import BookingCardConfirmed from '../components/BookingCardConfirmed';
+import { useRouter } from 'next/router';
+import { NextPageContext } from 'next';
+import { Booking } from '@collinsonx/utils/generatedTypes/graphql';
+import { client } from '@collinsonx/utils/apollo';
+import { getBookings } from '@collinsonx/utils/queries';
+import { BookingStatus } from '@components/BookingBadge';
 
 type DataStatus = 'empty' | 'hasData';
 
-export default function Bookings() {
-  // toggle for demo purposes - change to 'empty' to view empty state
+interface BookingsDetailProps {
+  bookings: Booking[];
+  loading: boolean;
+}
+
+export default function Bookings({ bookings, loading }: BookingsDetailProps) {
   const [status, setStatus] = useState<DataStatus>('hasData');
+  const router = useRouter();
+
+  const onViewBookingDetails = (id: string) => {
+    router.push({
+      pathname: '/bookingDetails',
+      query: {
+        id,
+      },
+    });
+  };
 
   return (
     <Box>
@@ -24,22 +41,48 @@ export default function Bookings() {
       {status === 'empty' && <BookingEmptyState />}
       {status === 'hasData' && (
         <>
-          {mockData.map((booking) =>
-            booking.status === 'confirmed' ? (
-              <BookingCardConfirmed key={booking.id} {...booking} />
-            ) : (
-              <BookingCard
-                key={booking.id}
-                {...booking}
-                status={booking.status as BookingCardProps['status']}
-                imgUrl={imgUrl}
-              />
-            )
-          )}
+          <BookingCardConfirmed
+            key={bookings?.[0]?.id}
+            name={bookings?.[0]?.lounge?.name ?? ''}
+            location={bookings?.[0]?.lounge?.location ?? ''}
+            date={bookings?.[0]?.reservationDate ?? ''}
+            status={bookings?.[0]?.bookingState ?? 'PENDING'}
+          />
+          {bookings?.map((booking) => (
+            <BookingCard
+              onClick={onViewBookingDetails}
+              key={booking.id}
+              id={booking.id ?? ''}
+              name={booking?.lounge?.name ?? ''}
+              location={booking?.lounge?.location ?? ''}
+              imgUrl={booking?.lounge?.images?.[0]?.url ?? ''}
+              status={(booking?.bookingState as BookingStatus) ?? 'PENDING'}
+              date={booking?.reservationDate ?? ''}
+            />
+          ))}
         </>
       )}
     </Box>
   );
+}
+
+interface QueryProps extends NextPageContext {
+  bookings: Booking[];
+}
+
+export async function getServerSideProps({ query }: QueryProps) {
+  const bookingId = query?.id ?? '';
+
+  const { data, loading } = await client.query({
+    query: getBookings,
+    variables: { id: bookingId },
+  });
+  return {
+    props: {
+      bookings: data?.bookings,
+      loading: loading,
+    },
+  };
 }
 
 Bookings.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;

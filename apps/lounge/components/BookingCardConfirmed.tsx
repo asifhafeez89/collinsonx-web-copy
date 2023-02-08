@@ -24,22 +24,18 @@ const ContentWrapper = styled.div`
   border-radius: 5px 5px 0 0;
 `;
 
-type Resource = {
-  label: string;
-  id: string;
-};
-
 export interface BookingCardConfirmedProps {
-  id: string;
-  lounge: Resource;
-  airport: Resource;
+  name: string;
+  location: string;
   date: string;
+  status: string;
 }
 
 export default function BookingCardConfirmed({
-  lounge,
-  airport,
+  name,
+  location,
   date,
+  status,
 }: BookingCardConfirmedProps) {
   return (
     <CardWrapper>
@@ -51,18 +47,18 @@ export default function BookingCardConfirmed({
           sx={({ colors }) => ({ backgroundColor: colors.cyan[6] })}
         >
           <Flex color="#000" direction="row" justify="space-between">
-            <Text fw={600}>Booking confirmed</Text>
+            <Text fw={600}>Booking {status.toLowerCase()}</Text>
             <ChevronRight />
           </Flex>
         </Box>
         <Flex p={16} direction="row" justify="space-between">
           <Stack spacing={8}>
             <Title fw={600} size={18}>
-              {lounge.label}
+              {name}
             </Title>
             <Group spacing={8}>
               <MapPin />
-              <Text>{airport.label}</Text>
+              <Text>{location}</Text>
             </Group>
           </Stack>
 
