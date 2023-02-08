@@ -39,8 +39,22 @@ export default function Lounge({
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Clock color={'#000000'} />
-          <Box sx={{ paddingLeft: '5px' }}>
-            <Text color={'#000000'}>{openingTimes}</Text>
+          <Box
+            sx={{
+              paddingLeft: '5px',
+            }}
+          >
+            <Text
+              color={'#000000'}
+              sx={{
+                width: '130px',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+              }}
+            >
+              {openingTimes}
+            </Text>
           </Box>
         </Box>
       </SimpleGrid>
