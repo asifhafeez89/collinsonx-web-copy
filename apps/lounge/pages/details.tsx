@@ -1,6 +1,6 @@
 import { Lounge, PageTitle } from '@collinsonx/design-system/index';
 import { client } from '@collinsonx/utils/apollo';
-import { getLounge, getSearchExperiences } from '@collinsonx/utils/queries';
+import { getSearchExperiences } from '@collinsonx/utils/queries';
 
 import Layout from '../components/Layout';
 import {
@@ -39,7 +39,11 @@ export default function BookLounge(props: BookLoungeProps) {
         <Stack align="stretch">
           <PageTitle title={lounge?.name} url={`/lounge`} />
           <Lounge
-            image={lounge?.images.length ? lounge.images[0].url : ''}
+            image={
+              lounge?.images.length
+                ? lounge.images[0].url
+                : 'https://cdn03.collinson.cn/lounge-media/image/BHX6-13756.jpg'
+            }
             airport={lounge?.location}
             openingTimes={(lounge.openingHours as unknown as string[])
               .join(',')

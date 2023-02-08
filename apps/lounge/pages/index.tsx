@@ -42,7 +42,11 @@ export default function Landing({ lounges }: { lounges: LoungeData[] }) {
             <Card
               title={name}
               subtitle={location}
-              pictureUrl={images.length ? images[0].url : ''}
+              pictureUrl={
+                images.length
+                  ? images[0].url
+                  : 'https://cdn03.collinson.cn/lounge-media/image/BHX6-13756.jpg'
+              }
               handleClick={() => goToLoungeDetails(lounge)}
               key={id}
             />

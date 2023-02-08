@@ -14,11 +14,11 @@ import {
   Lounge,
   DatePicker,
 } from '@collinsonx/design-system';
-import { Clock, Calendar } from '@collinsonx/design-system/assets/icons';
+import { Clock } from '@collinsonx/design-system/assets/icons';
 import { useRouter } from 'next/router';
 import { LoungeData } from '@collinsonx/utils/types/lounge';
 import { NextPageContext } from 'next';
-import { ChangeEventHandler, useState } from 'react';
+import { useState } from 'react';
 
 const HOURS = [
   '00',
