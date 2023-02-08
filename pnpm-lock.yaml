@@ -72,6 +72,7 @@ importers:
       postcss: ^8.4.18
       react: ^18.2.0
       react-dom: ^18.2.0
+      supertokens-web-js: ^0.5.0
       typescript: 4.9.4
     dependencies:
       '@apollo/server': 4.3.2_graphql@16.6.0
@@ -86,6 +87,7 @@ importers:
       next: 13.1.6_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      supertokens-web-js: 0.5.0
     devDependencies:
       '@types/react': 18.0.27
       autoprefixer: 10.4.13_postcss@8.4.21
@@ -7641,6 +7643,13 @@ packages:
 
   /browser-assert/1.2.1:
     resolution: {integrity: sha512-nfulgvOR6S4gt9UKCeGJOuSGBPGiFT6oQ/2UBnvTY/5aQ1PnksW72fhZkM30DzoRRv2WpwZf1vHHEr3mtuXIWQ==}
+    dev: false
+
+  /browser-tabs-lock/1.2.15:
+    resolution: {integrity: sha512-J8K9vdivK0Di+b8SBdE7EZxDr88TnATing7XoLw6+nFkXMQ6sVBh92K3NQvZlZU91AIkFRi0w3sztk5Z+vsswA==}
+    requiresBuild: true
+    dependencies:
+      lodash: 4.17.21
     dev: false
 
   /browserify-aes/1.2.0:
@@ -15657,6 +15666,24 @@ packages:
       pirates: 4.0.5
       ts-interface-checker: 0.1.13
     dev: true
+
+  /supertokens-js-override/0.0.4:
+    resolution: {integrity: sha512-r0JFBjkMIdep3Lbk3JA+MpnpuOtw4RSyrlRAbrzMcxwiYco3GFWl/daimQZ5b1forOiUODpOlXbSOljP/oyurg==}
+    dev: false
+
+  /supertokens-web-js/0.5.0:
+    resolution: {integrity: sha512-qlpgWLnHBor98k5wY97vzG7ouVOb/eeWOCKgaid055MUVPQr2gTEDrlKJN9I+Z4Vj6Dmblg1vC/cUbR/cx1TGw==}
+    dependencies:
+      supertokens-js-override: 0.0.4
+      supertokens-website: 16.0.1
+    dev: false
+
+  /supertokens-website/16.0.1:
+    resolution: {integrity: sha512-IOiMVABP9d95lGoCKuZPQxx6hJCaETFIpLsspULbqwDpgSj7K2UkBWTTZeAxdKkEpaOJW9i2GcF2AgNTuYOjWw==}
+    dependencies:
+      browser-tabs-lock: 1.2.15
+      supertokens-js-override: 0.0.4
+    dev: false
 
   /supports-color/5.5.0:
     resolution: {integrity: sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==}

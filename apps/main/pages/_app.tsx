@@ -2,14 +2,13 @@ import type { AppProps } from 'next/app';
 import { NextPage } from 'next';
 import { ComponentType, ReactElement } from 'react';
 import { MantineProvider } from '@collinsonx/design-system/core';
-
 import Head from 'next/head';
-
 import { themeDark } from '@collinsonx/design-system/themes';
-
 import { Be_Vietnam_Pro } from '@next/font/google';
-
 import Client from '@collinsonx/utils/provider';
+import SuperTokens from 'supertokens-web-js';
+import Session from 'supertokens-web-js/recipe/session';
+import Passwordless from 'supertokens-web-js/recipe/passwordless'
 
 const beVietnamPro = Be_Vietnam_Pro({
   style: ['normal'],
@@ -25,6 +24,15 @@ type Page<P = {}> = NextPage<P> & {
 type Props = AppProps & {
   Component: Page;
 };
+
+SuperTokens.init({
+  appInfo: {
+    apiDomain: 'https://authz.lifestyle-x.io',
+    apiBasePath: '/',
+    appName: '...',
+  },
+  recipeList: [Session.init(), Passwordless.init()],
+});
 
 export default function MyApp({ Component, pageProps }: Props) {
   // Use the layout defined at the page level, if available
