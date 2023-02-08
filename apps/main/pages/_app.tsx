@@ -25,14 +25,16 @@ type Props = AppProps & {
   Component: Page;
 };
 
-SuperTokens.init({
-  appInfo: {
-    apiDomain: 'https://authz.lifestyle-x.io',
-    apiBasePath: '/',
-    appName: '...',
-  },
-  recipeList: [Session.init(), Passwordless.init()],
-});
+if (typeof window !== "undefined") {
+  SuperTokens.init({
+    appInfo: {
+      apiDomain: window.location.origin,
+      apiBasePath: "/api/remote/auth",
+      appName: '...',
+    },
+    recipeList: [Session.init(), Passwordless.init()],
+  });
+}
 
 export default function MyApp({ Component, pageProps }: Props) {
   // Use the layout defined at the page level, if available
