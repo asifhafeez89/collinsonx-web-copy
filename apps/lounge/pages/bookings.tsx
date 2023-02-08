@@ -77,7 +77,6 @@ export async function getServerSideProps({ query }: QueryProps) {
     query: getBookings,
     variables: { id: bookingId },
   });
-  console.log(data, bookingId);
   return {
     props: {
       bookings: data?.bookings,

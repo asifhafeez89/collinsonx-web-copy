@@ -21,8 +21,6 @@ export default function BookingDetails({
   if (loading) {
     return <div>Loading</div>;
   }
-  console.log(booking, loading);
-
   const { lounge, reservationDate, additionalRequests, bookingState } = booking;
   const { name, location, images } = lounge as Lounge;
 
@@ -87,7 +85,6 @@ export async function getServerSideProps({ query }: QueryProps) {
     query: getBooking,
     variables: { id: bookingId },
   });
-  console.log(data, bookingId);
   return {
     props: {
       booking: data?.booking,
