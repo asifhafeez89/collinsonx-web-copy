@@ -5,10 +5,10 @@ import {
   createStyles,
 } from '@collinsonx/design-system/core';
 
-export type BookingStatus = 'pending' | 'declined' | 'confirmed';
+export type BookingStatus = 'PENDING' | 'DECLINED' | 'CONFIRMED';
 
 export interface BadgeProps extends MBadgeProps {
-  status: 'pending' | 'confirmed' | 'declined';
+  status: 'PENDING' | 'CONFIRMED' | 'DECLINED';
 }
 
 const useStyles = createStyles(({ colors }) => {
@@ -49,9 +49,9 @@ export default function BookingBadge({
     <MBadge
       {...props}
       className={cx(classes.root, classes.inner, {
-        [classes.declined]: status === 'declined',
-        [classes.pending]: status === 'pending',
-        [classes.confirmed]: status === 'confirmed',
+        [classes.declined]: status === 'DECLINED',
+        [classes.pending]: status === 'PENDING',
+        [classes.confirmed]: status === 'CONFIRMED',
       })}
     >
       <Box>{children}</Box>
