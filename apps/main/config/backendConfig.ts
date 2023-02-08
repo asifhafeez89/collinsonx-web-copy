@@ -1,25 +1,24 @@
-import ThirdPartyNode from 'supertokens-node/recipe/thirdparty'
-import SessionNode from 'supertokens-node/recipe/session'
-import { appInfo } from './appInfo'
-import { TypeInput } from "supertokens-node/types";
+require("dotenv").config();
 
-export const backendConfig = (): TypeInput => {
+import PasswordlessNode from "supertokens-node/recipe/passwordless";
+import SessionNode from "supertokens-node/recipe/session";
+import { appInfo } from "./appInfo";
+
+export const backendConfig = () => {
   return {
     framework: "express",
     supertokens: {
-        connectionURI: "https://authz.lifestyle-x.io",
-      // apiKey: <API_KEY(if configured)>,
+      connectionURI: "https://try.supertokens.com",
+      // apiKey: "IF YOU HAVE AN API KEY FOR THE CORE, ADD IT HERE",
     },
     appInfo,
     recipeList: [
-      ThirdPartyNode.init({
-        signInAndUpFeature: {
-          providers: [
-],
-        }
+      PasswordlessNode.init({
+        flowType: "USER_INPUT_CODE_AND_MAGIC_LINK",
+        contactMethod: "EMAIL",
       }),
       SessionNode.init(),
     ],
     isInServerlessEnv: true,
-  }
-}
+  };
+};

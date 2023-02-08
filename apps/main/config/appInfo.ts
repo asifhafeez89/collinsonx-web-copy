@@ -1,9 +1,11 @@
+const port = process.env.APP_PORT || 3000
+
+const apiBasePath = '/api/auth/'
+
 
 export const appInfo = {
-    // learn more about this on https://supertokens.com/docs/thirdpartyemailpassword/appinfo
-    appName: "CollinsonX",
-    apiDomain: "https://authz.lifestyle-x.io",
-    websiteDomain: "https://localhost:3000",
-    apiBasePath: "/api/",
-    websiteBasePath: "/auth"
-  }
+  appName: 'Retell',
+  apiBasePath: "/api/auth",
+  apiDomain: 'https://authz.lifestyle-x.io',
+  websiteDomain: window.location.origin,
+}

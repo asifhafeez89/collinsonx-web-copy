@@ -66,6 +66,7 @@ importers:
       autoprefixer: ^10.4.12
       eslint: ^8.11.0
       eslint-config-collinsonx: workspace:*
+      express: ^4.18.2
       graphql: ^16.6.0
       graphql-tag: ^2.12.6
       next: ^13.1.0
@@ -85,6 +86,7 @@ importers:
       '@collinsonx/utils': link:../../packages/collinsonx-utils
       '@next/font': 13.1.5
       '@svgr/webpack': 6.5.1
+      express: 4.18.2
       graphql: 16.6.0
       graphql-tag: 2.12.6_graphql@16.6.0
       next: 13.1.6_biqbaboplfbrettd7655fr4n2y

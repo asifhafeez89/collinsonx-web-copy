@@ -6,12 +6,12 @@ import Head from 'next/head';
 import { themeDark } from '@collinsonx/design-system/themes';
 import { Be_Vietnam_Pro } from '@next/font/google';
 import Client from '@collinsonx/utils/provider';
-import SuperTokensReact, { SuperTokensWrapper } from 'supertokens-auth-react'
-
+import SuperTokensReact from 'supertokens-auth-react'
 import { frontendConfig } from '../config/frontendConfig'
 
 if (typeof window !== 'undefined') {
-  // we only want to call this init function on the frontend, so we check typeof window !== 'undefined'
+  // we only want to call this init function on the frontend, so 
+  // we check typeof window !== 'undefined'
   SuperTokensReact.init(frontendConfig())
 }
 
@@ -43,7 +43,6 @@ export default function MyApp({ Component, pageProps }: Props) {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
-      <SuperTokensWrapper>
         <Client>
           <MantineProvider
             theme={themeDark({ fontFamily: beVietnamPro.style.fontFamily })}
@@ -53,7 +52,6 @@ export default function MyApp({ Component, pageProps }: Props) {
             {getLayout(<Component {...pageProps} />)}
           </MantineProvider>
         </Client>
-      </SuperTokensWrapper>
     </>
   );
 }
