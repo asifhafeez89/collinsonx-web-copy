@@ -48,7 +48,7 @@ export default function BookLounge(props: BookLoungeProps) {
             openingTimes={
               (lounge.openingHours as unknown as string[])
                 ?.join(',')
-                .substring(1, 20) ?? '-'
+                .substring(0, 20) ?? '-'
             }
           />
           <Divider color={'gray'} />
@@ -56,20 +56,27 @@ export default function BookLounge(props: BookLoungeProps) {
             <Title size={16} color={'#000000'}>
               Facilities
             </Title>
-            <SimpleGrid cols={2}>
-              <List sx={{ color: '#000000' }}>
-                {lounge.facilities?.map((item) => (
-                  <List.Item key={item}>{item}</List.Item>
-                ))}
-              </List>
-            </SimpleGrid>
+            <List
+              sx={{
+                color: '#000000',
+                display: 'flex',
+                width: '100%',
+                flexWrap: 'wrap',
+              }}
+            >
+              {lounge.facilities?.map((item) => (
+                <List.Item key={item} sx={{ flex: '1 0 49.33%' }}>
+                  {item}
+                </List.Item>
+              ))}
+            </List>
           </Box>
           <Box>
             <Title size={16} color={'#000000'}>
               Conditions
             </Title>
             <List sx={{ color: '#000000' }}>
-              {lounge.conditions.split('\n').map((item, index) => (
+              {lounge.conditions.split('-').map((item, index) => (
                 <List.Item key={index}>{item}</List.Item>
               ))}
             </List>

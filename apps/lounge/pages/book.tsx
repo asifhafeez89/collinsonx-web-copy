@@ -122,7 +122,7 @@ export default function Book(props: BookLoungeProps) {
             openingTimes={
               (lounge.openingHours as unknown as string[])
                 ?.join(',')
-                .substring(1, 20) ?? '-'
+                .substring(0, 20) ?? '-'
             }
           />
           <Flex direction="column">
