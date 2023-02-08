@@ -45,9 +45,11 @@ export default function BookLounge(props: BookLoungeProps) {
                 : 'https://cdn03.collinson.cn/lounge-media/image/BHX6-13756.jpg'
             }
             airport={lounge?.location}
-            openingTimes={(lounge.openingHours as unknown as string[])
-              .join(',')
-              .substring(1, 20)}
+            openingTimes={
+              (lounge.openingHours as unknown as string[])
+                ?.join(',')
+                .substring(1, 20) ?? '-'
+            }
           />
           <Divider color={'gray'} />
           <Box>
