@@ -1,6 +1,6 @@
 import { Lounge, PageTitle } from '@collinsonx/design-system/index';
 import { client } from '@collinsonx/utils/apollo';
-import { getLounge } from '@collinsonx/utils/queries';
+import { getLounge, getSearchExperiences } from '@collinsonx/utils/queries';
 
 import Layout from '../components/Layout';
 import {
@@ -39,9 +39,11 @@ export default function BookLounge(props: BookLoungeProps) {
         <Stack align="stretch">
           <PageTitle title={lounge?.name} url={`/lounge`} />
           <Lounge
-            image={lounge?.images?.[0]?.url}
+            image={lounge?.images.length ? lounge.images[0].url : ''}
             airport={lounge?.location}
-            openingTimes={lounge?.openingHours.substring(1, 20)}
+            openingTimes={(lounge.openingHours as unknown as string[])
+              .join(',')
+              .substring(1, 20)}
           />
           <Divider color={'gray'} />
           <Box>
@@ -50,12 +52,9 @@ export default function BookLounge(props: BookLoungeProps) {
             </Title>
             <SimpleGrid cols={2}>
               <List sx={{ color: '#000000' }}>
-                <List.Item>Air conditioning</List.Item>
-                <List.Item>Disabled access</List.Item>
-              </List>
-              <List sx={{ color: '#000000' }}>
-                <List.Item>WiFi</List.Item>
-                <List.Item>Television</List.Item>
+                {lounge.facilities?.map((item) => (
+                  <List.Item key={item}>{item}</List.Item>
+                ))}
               </List>
             </SimpleGrid>
           </Box>
@@ -64,13 +63,9 @@ export default function BookLounge(props: BookLoungeProps) {
               Conditions
             </Title>
             <List sx={{ color: '#000000' }}>
-              <List.Item>
-                Access is permitted no more than 3 hours prior to scheduled
-                flight.
-              </List.Item>
-              <List.Item>
-                Access may be restricted due to space constraints
-              </List.Item>
+              {lounge.conditions.split('\n').map((item, index) => (
+                <List.Item key={index}>{item}</List.Item>
+              ))}
             </List>
           </Box>
           <UnstyledButton
@@ -106,13 +101,13 @@ export async function getServerSideProps({ query }: QueryProps) {
   const loungeId = query?.id ?? '';
 
   const { data, loading } = await client.query({
-    query: getLounge,
-    variables: { id: loungeId },
+    query: getSearchExperiences,
+    variables: { query: loungeId },
   });
 
   return {
     props: {
-      lounge: data?.lounge,
+      lounge: data.searchExperiences.length ? data.searchExperiences[0] : {},
       loading: loading,
     },
   };

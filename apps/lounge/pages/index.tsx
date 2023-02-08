@@ -6,7 +6,7 @@ import { Filter } from '@collinsonx/design-system/assets/icons';
 import Layout from '../components/Layout';
 import { LoungeData } from '@collinsonx/utils/types/lounge';
 import { client } from '@collinsonx/utils/apollo';
-import { getLounges } from '@collinsonx/utils/queries';
+import { getSearchExperiences } from '@collinsonx/utils/queries';
 
 export default function Landing({ lounges }: { lounges: LoungeData[] }) {
   const router = useRouter();
@@ -42,7 +42,7 @@ export default function Landing({ lounges }: { lounges: LoungeData[] }) {
             <Card
               title={name}
               subtitle={location}
-              pictureUrl={images?.[0].url ?? ''}
+              pictureUrl={images.length ? images[0].url : ''}
               handleClick={() => goToLoungeDetails(lounge)}
               key={id}
             />
@@ -55,12 +55,12 @@ export default function Landing({ lounges }: { lounges: LoungeData[] }) {
 
 export async function getServerSideProps() {
   const { data } = await client.query({
-    query: getLounges,
+    query: getSearchExperiences,
   });
 
   return {
     props: {
-      lounges: data.lounges,
+      lounges: data.searchExperiences,
     },
   };
 }
