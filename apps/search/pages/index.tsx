@@ -8,7 +8,7 @@ import EmptyStateResults from '@components/EmptyStateResults';
 import Results from '@components/Results';
 import { Stack } from '@collinsonx/design-system/core';
 import { useLazyQuery } from '@collinsonx/utils/apollo';
-import { getLoungesByName } from '@collinsonx/utils/queries';
+import { getSearchExperiences } from '@collinsonx/utils/queries';
 import { LoungeData } from '@collinsonx/utils/types/lounge';
 import { useRouter } from 'next/router';
 
@@ -17,18 +17,18 @@ export default function Search() {
   const [value, setValue] = useState('');
 
   const [searchLounges, { data, loading, error }] = useLazyQuery(
-    getLoungesByName,
+    getSearchExperiences,
     {
-      variables: { loungeName: value },
+      variables: { query: value },
     }
   );
 
   const [results, setResults] = useState<LoungeData[]>([]);
 
   useEffect(() => {
-    if ((value?.length ?? 0) > 1) {
+    if (value.length > 2) {
       searchLounges({
-        variables: { loungeName: value },
+        variables: { query: value },
       });
     } else {
       setResults([]);
@@ -37,7 +37,7 @@ export default function Search() {
 
   useEffect(() => {
     if (data && !loading && !error) {
-      setResults(data.getLoungesByName);
+      setResults(data.searchExperiences);
     }
   }, [data, loading, error]);
 

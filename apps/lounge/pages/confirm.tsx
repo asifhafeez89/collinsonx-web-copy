@@ -1,19 +1,9 @@
-import {
-  Stack,
-  Flex,
-  Paper,
-  UnstyledButton,
-} from '@collinsonx/design-system/core';
+import { Stack, Flex, UnstyledButton } from '@collinsonx/design-system/core';
 import Layout from '../components/Layout';
 import { useRouter } from 'next/router';
 
-import {
-  FieldLabel,
-  Button,
-  PageTitle,
-  Lounge,
-} from '@collinsonx/design-system';
-import { getLounge } from '@collinsonx/utils/queries';
+import { FieldLabel, PageTitle, Lounge } from '@collinsonx/design-system';
+import { getSearchExperiences } from '@collinsonx/utils/queries';
 import { client } from '@collinsonx/utils/apollo';
 import { NextPageContext } from 'next';
 import { LoungeData } from '@collinsonx/utils/types/lounge';
@@ -49,9 +39,15 @@ export default function Landing(props: BookLoungeProps) {
             url={`/lounge/book?id=${lounge.id}`}
           />
           <Lounge
-            image={lounge?.images?.[0]?.url}
+            image={
+              lounge?.images.length
+                ? lounge.images[0].url
+                : 'https://cdn03.collinson.cn/lounge-media/image/BHX6-13756.jpg'
+            }
             airport={lounge?.location}
-            openingTimes={lounge?.openingHours.substring(1, 20)}
+            openingTimes={(lounge.openingHours as unknown as string[])
+              .join(',')
+              .substring(1, 20)}
           />
           <Flex direction="column">
             <FieldLabel
@@ -103,13 +99,13 @@ export async function getServerSideProps({ query }: QueryProps) {
   const loungeId = query?.id ?? '';
 
   const { data, loading } = await client.query({
-    query: getLounge,
-    variables: { id: loungeId },
+    query: getSearchExperiences,
+    variables: { query: loungeId },
   });
 
   return {
     props: {
-      lounge: data?.lounge,
+      lounge: data.searchExperiences.length ? data.searchExperiences[0] : {},
       loading: loading,
     },
   };

@@ -8,6 +8,7 @@ import { getBooking } from '@collinsonx/utils/queries';
 import { Booking, Lounge } from '@collinsonx/utils/generatedTypes/graphql';
 import dayjs from 'dayjs';
 import { BookingStatus } from '@components/BookingBadge';
+import bookings from './bookingsMock.json';
 
 interface BookingDetailProps {
   booking: Booking;
@@ -81,16 +82,25 @@ interface QueryProps extends NextPageContext {
 export async function getServerSideProps({ query }: QueryProps) {
   const bookingId = query?.id ?? '';
 
-  const { data, loading } = await client.query({
-    query: getBooking,
-    variables: { id: bookingId },
-  });
-  return {
-    props: {
-      booking: data?.booking,
-      loading: loading,
-    },
-  };
+  try {
+    const { data, loading } = await client.query({
+      query: getBooking,
+      variables: { id: bookingId },
+    });
+    return {
+      props: {
+        booking: data?.booking,
+        loading: loading,
+      },
+    };
+  } catch (err) {
+    return {
+      props: {
+        booking: bookings.find((item) => item.id === bookingId),
+        loading: false,
+      },
+    };
+  }
 }
 
 BookingDetails.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;

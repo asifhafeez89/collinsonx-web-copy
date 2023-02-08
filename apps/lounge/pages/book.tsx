@@ -6,7 +6,7 @@ import {
 } from '@collinsonx/design-system/core';
 import Layout from '../components/Layout';
 import { client } from '@collinsonx/utils/apollo';
-import { getLounge } from '@collinsonx/utils/queries';
+import { getSearchExperiences } from '@collinsonx/utils/queries';
 import {
   InputSelect,
   InputTextArea,
@@ -14,11 +14,11 @@ import {
   Lounge,
   DatePicker,
 } from '@collinsonx/design-system';
-import { Clock, Calendar } from '@collinsonx/design-system/assets/icons';
+import { Clock } from '@collinsonx/design-system/assets/icons';
 import { useRouter } from 'next/router';
 import { LoungeData } from '@collinsonx/utils/types/lounge';
 import { NextPageContext } from 'next';
-import { ChangeEventHandler, useState } from 'react';
+import { useState } from 'react';
 
 const HOURS = [
   '00',
@@ -119,7 +119,9 @@ export default function Book(props: BookLoungeProps) {
           <Lounge
             airport={lounge?.location}
             loungeName={lounge?.name}
-            openingTimes={lounge?.openingHours.substring(1, 20)}
+            openingTimes={(lounge.openingHours as unknown as string[])
+              .join(',')
+              .substring(1, 20)}
           />
           <Flex direction="column">
             <Paper mt={10} radius="md">
@@ -195,13 +197,13 @@ export async function getServerSideProps({ query }: QueryProps) {
   const loungeId = query?.id ?? '';
 
   const { data, loading } = await client.query({
-    query: getLounge,
-    variables: { id: loungeId },
+    query: getSearchExperiences,
+    variables: { query: loungeId },
   });
 
   return {
     props: {
-      lounge: data?.lounge,
+      lounge: data.searchExperiences.length ? data.searchExperiences[0] : {},
       loading: loading,
     },
   };
