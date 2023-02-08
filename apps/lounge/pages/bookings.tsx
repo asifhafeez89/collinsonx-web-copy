@@ -12,6 +12,7 @@ import { Booking } from '@collinsonx/utils/generatedTypes/graphql';
 import { client } from '@collinsonx/utils/apollo';
 import { getBookings } from '@collinsonx/utils/queries';
 import { BookingStatus } from '@components/BookingBadge';
+import bookings from './bookingsMock.json';
 
 type DataStatus = 'empty' | 'hasData';
 
@@ -73,16 +74,25 @@ interface QueryProps extends NextPageContext {
 export async function getServerSideProps({ query }: QueryProps) {
   const bookingId = query?.id ?? '';
 
-  const { data, loading } = await client.query({
-    query: getBookings,
-    variables: { id: bookingId },
-  });
-  return {
-    props: {
-      bookings: data?.bookings,
-      loading: loading,
-    },
-  };
+  try {
+    const { data, loading } = await client.query({
+      query: getBookings,
+      variables: { id: bookingId },
+    });
+    return {
+      props: {
+        bookings: data?.bookings,
+        loading: loading,
+      },
+    };
+  } catch (err) {
+    return {
+      props: {
+        bookings: bookings,
+        loading: false,
+      },
+    };
+  }
 }
 
 Bookings.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;

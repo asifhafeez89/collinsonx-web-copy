@@ -1,23 +1,90 @@
 [
   {
-    "id": "booking_1",
-    "status": "confirmed",
-    "lounge": { "label": "Club Aspire Lounge", "id": "club_aspire_lounge" },
-    "airport": { "label": "London Heathrow TS", "id": "london_heathrow_ts" },
-    "date": "2023-06-12"
+    "id": "abc-123",
+    "lounge": {
+      "id": "f051bad9-7148-40b3-847a-3eadbde88635",
+      "name": "likely Lounge",
+      "location": "Judahside",
+      "facilities": ["artist"],
+      "openingHours": [
+        "Enim rerum odit.",
+        "Earum alias aperiam iusto autem aperiam quibusdam atque sunt laboriosam."
+      ],
+      "conditions": "Tempora quis consequatur autem velit.\nDebitis doloremque fuga veritatis.",
+      "images": [
+        {
+          "url": "https://cdn03.collinson.cn/lounge-media/image/BHX6-13756.jpg"
+        }
+      ]
+    },
+    "bookingState": "PENDING",
+    "reservationDate": "2023-02-11 10:30",
+    "additionalRequests": "asdasd"
   },
   {
-    "id": "booking_2",
-    "status": "pending",
-    "lounge": { "label": "Club Aspire Lounge", "id": "club_aspire_lounge" },
-    "airport": { "label": "London Heathrow TS", "id": "london_heathrow_ts" },
-    "date": "2023-06-12"
+    "id": "xyz-456",
+    "lounge": {
+      "id": "69236d28-9b92-44ff-8ddb-6f08983f53b5",
+      "name": "upbeat Lounge",
+      "location": "Predovicside",
+      "facilities": [
+        "wraparound",
+        "website",
+        "catamaran",
+        "spear",
+        "threshold",
+        "motorcar",
+        "surface",
+        "republican",
+        "earrings",
+        "misunderstand"
+      ],
+      "openingHours": [
+        "Praesentium vel sint ab provident.",
+        "Suscipit inventore blanditiis sequi maxime quidem."
+      ],
+      "conditions": "Cum quos hic dolores deserunt.\nItaque in ratione eligendi.\nEnim numquam unde ad.\nExpedita nesciunt consequatur quisquam.",
+      "images": [
+        {
+          "url": "https://cdn03.collinson.cn/lounge-media/image/BHX6-13756.jpg"
+        }
+      ]
+    },
+    "bookingState": "DECLINED",
+    "reservationDate": "2023-03-19 17:30",
+    "additionalRequests": ""
   },
   {
-    "id": "booking_3",
-    "status": "declined",
-    "lounge": { "label": "Club Aspire Lounge", "id": "club_aspire_lounge" },
-    "airport": { "label": "London Heathrow TS", "id": "london_heathrow_ts" },
-    "date": "2023-06-12"
+    "id": "qwe-485",
+    "lounge": {
+      "id": "69236d28-9b92-44ff-8ddb-6f08983f53b5",
+      "name": "upbeat Lounge",
+      "location": "Predovicside",
+      "facilities": [
+        "wraparound",
+        "website",
+        "catamaran",
+        "spear",
+        "threshold",
+        "motorcar",
+        "surface",
+        "republican",
+        "earrings",
+        "misunderstand"
+      ],
+      "openingHours": [
+        "Praesentium vel sint ab provident.",
+        "Suscipit inventore blanditiis sequi maxime quidem."
+      ],
+      "conditions": "Cum quos hic dolores deserunt.\nItaque in ratione eligendi.\nEnim numquam unde ad.\nExpedita nesciunt consequatur quisquam.",
+      "images": [
+        {
+          "url": "https://cdn03.collinson.cn/lounge-media/image/BHX6-13756.jpg"
+        }
+      ]
+    },
+    "bookingState": "CONFIRMED",
+    "reservationDate": "2023-03-19 19:00",
+    "additionalRequests": ""
   }
 ]
