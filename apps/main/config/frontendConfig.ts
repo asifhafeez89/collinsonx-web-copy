@@ -7,7 +7,7 @@ export const frontendConfig = () => {
     appInfo,
     recipeList: [
       PasswordlessReact.init({
-        contactMethod: "EMAIL",
+        contactMethod: "EMAIL_OR_PHONE",
       }),
       SessionReact.init(),
     ],
