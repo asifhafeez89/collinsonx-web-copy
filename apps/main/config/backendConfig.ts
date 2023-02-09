@@ -6,7 +6,7 @@ import { appInfo } from './appInfo';
 
 export const backendConfig = () => {
   return {
-    framework: 'express',
+    framework: 'express' as const,
     supertokens: {
       connectionURI: 'https://try.supertokens.com',
       // connectionURI: "https://authz.lifestyle-x.io",
