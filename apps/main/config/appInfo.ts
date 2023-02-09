@@ -1,8 +1,8 @@
-const port = process.env.APP_PORT || 3000
+import { AppInfoUserInput } from 'supertokens-auth-react/lib/build/types';
 
-export const appInfo = {
-  appName: 'Retell',
-  apiBasePath: "/api/auth",
+export const appInfo: AppInfoUserInput = {
+  appName: 'CollinsonX',
+  apiBasePath: '/api/auth',
   apiDomain: 'http://localhost:3000',
-  websiteDomain: 'http://localhost:3000'
-}
+  websiteDomain: 'http://localhost:3000',
+};
