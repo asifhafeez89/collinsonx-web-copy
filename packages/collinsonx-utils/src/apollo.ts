@@ -8,12 +8,14 @@ import { onError } from '@apollo/link-error';
 
 const port = process.env.APP_PORT || 3000;
 
+/*
 const domain =
   process.env.NEXT_PUBLIC_SITE_DOMAIN_URL ||
   process.env.NEXT_PUBLIC_VERCEL_URL ||
   `http://localhost:${port}`;
+  */
 
-const graphqlUrl = `${domain}/graphql`;
+const graphqlUrl = `https://collinsonx-web-main-alpha.vercel.app/graphql`;
 
 const httpLink = new HttpLink({
   uri: graphqlUrl,

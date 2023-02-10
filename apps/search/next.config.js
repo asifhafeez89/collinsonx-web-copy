@@ -1,4 +1,4 @@
-const { LOUNGE_URL } = process.env;
+const { LOUNGE_URL, PRODUCTION_API_URL } = process.env;
 
 module.exports = {
   basePath: '/search',
@@ -19,6 +19,10 @@ module.exports = {
       {
         source: '/lounge/:path*',
         destination: `${LOUNGE_URL}/lounge/:path*`,
+      },
+      {
+        source: '/graphql',
+        destination: `${PRODUCTION_API_URL}`,
       },
     ];
   },

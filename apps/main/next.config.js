@@ -1,4 +1,4 @@
-const { LOUNGE_URL, SEARCH_URL, PRODUCTION_API_URL, AUTH_API_URL } =
+const { PRODUCTION_API_URL, LOUNGE_URL, SEARCH_URL, AUTH_API_URL } =
   process.env;
 
 module.exports = {
