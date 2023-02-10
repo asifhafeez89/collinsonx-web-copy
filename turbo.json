@@ -30,13 +30,7 @@
       ]
     },
     "main#build": {
-      "dependsOn": [
-        "^build",
-        "$SEARCH_URL",
-        "$LOUNGE_URL",
-        "$GRAPHQL_API_URL",
-        "$NEXT_PUBLIC_GRAPHQL_API_URL"
-      ],
+      "dependsOn": ["^build", "$SEARCH_URL", "$LOUNGE_URL"],
       "outputs": [".next/**"]
     },
     "search#build": {
