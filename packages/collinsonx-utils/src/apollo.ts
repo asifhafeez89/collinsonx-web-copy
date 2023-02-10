@@ -6,8 +6,14 @@ import {
 } from '@apollo/client';
 import { onError } from '@apollo/link-error';
 
-const graphqlUrl =
-  process.env.GRAPHQL_API_URL ?? process.env.NEXT_PUBLIC_GRAPHQL_API_URL;
+const port = process.env.APP_PORT || 3000;
+
+const domain =
+  process.env.NEXT_PUBLIC_SITE_DOMAIN_URL ||
+  process.env.NEXT_PUBLIC_VERCEL_URL ||
+  `http://localhost:${port}`;
+
+const graphqlUrl = `${domain}/api/remote/graphql`;
 
 const httpLink = new HttpLink({
   uri: graphqlUrl,
