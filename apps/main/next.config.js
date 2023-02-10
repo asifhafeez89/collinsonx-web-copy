@@ -1,4 +1,4 @@
-const { LOUNGE_URL, SEARCH_URL, PRODUCTION_API_URL } = process.env;
+const { LOUNGE_URL, SEARCH_URL, PRODUCTION_API_URL, AUTH_API_URL } = process.env;
 
 module.exports = {
   webpack(config) {
@@ -34,6 +34,10 @@ module.exports = {
       {
         source: '/api/remote/graphql',
         destination: `${PRODUCTION_API_URL}/api/graphql`,
+      },
+      {
+        source: '/api/remote/auth/:path*',
+        destination: `${AUTH_API_URL}`,
       },
     ];
   },

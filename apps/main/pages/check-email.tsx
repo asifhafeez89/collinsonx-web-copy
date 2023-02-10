@@ -7,18 +7,49 @@ import {
   Flex,
 } from '@collinsonx/design-system/core';
 import { useRouter } from 'next/router';
-
+import { consumeCode } from 'supertokens-web-js/recipe/passwordless';
 import LayoutLogin from '../components/LayoutLogin';
 
 import { AuthInput } from '@collinsonx/design-system';
 import { LoginCode } from '@collinsonx/design-system/assets/graphics';
+import { useEffect, useState } from 'react';
 
 export default function CheckEmail() {
   const router = useRouter();
   const { email } = router.query;
+  const [code, setCode] = useState<string>();
 
-  const handleClickConfirm = () => {
-    router.push('/success');
+  const handleClickConfirm = async () => {
+    if (code?.length === 6) {
+      let response = await consumeCode({
+        userInputCode: code,
+      });
+
+      if (response.status === 'OK') {
+        // if (response.createdNewUser) {
+        //   // user sign up success
+        // } else {
+        //   // user sign in success
+        // }
+        router.push('/success');
+      } else if (response.status === 'INCORRECT_USER_INPUT_CODE_ERROR') {
+        // the user entered an invalid OTP
+        window.alert(
+          'Wrong OTP! Please try again. Number of attempts left: ' +
+            (response.maximumCodeInputAttempts -
+              response.failedCodeInputAttemptCount)
+        );
+      } else if (response.status === 'EXPIRED_USER_INPUT_CODE_ERROR') {
+        // it can come here if the entered OTP was correct, but has expired because
+        // it was generated too long ago.
+        window.alert(
+          'Old OTP entered. Please regenerate a new one and try again'
+        );
+      } else {
+        // this can happen if the user tried an incorrect OTP too many times.
+        window.alert('Login failed. Please try again');
+      }
+    }
   };
 
   const handleClickReenter = () => {
@@ -46,7 +77,7 @@ export default function CheckEmail() {
               Re-enter your address
             </Button>
           </Text>
-          <AuthInput handleCodeChange={(code) => console.log(code)} />
+          <AuthInput handleCodeChange={(code) => setCode(code)} />
           <Button onClick={handleClickConfirm} fullWidth>
             Confirm
           </Button>
@@ -59,7 +90,7 @@ export default function CheckEmail() {
               maxHeight: '304px',
             }}
           >
-            <LoginCode />
+            <LoginCode handleOnChange={(code: string) => setCode(code)} />
           </Box>
         </Flex>
       </Stack>

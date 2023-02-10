@@ -2,14 +2,19 @@ import type { AppProps } from 'next/app';
 import { NextPage } from 'next';
 import { ComponentType, ReactElement } from 'react';
 import { MantineProvider } from '@collinsonx/design-system/core';
-
 import Head from 'next/head';
-
 import { themeDark } from '@collinsonx/design-system/themes';
-
 import { Be_Vietnam_Pro } from '@next/font/google';
-
 import Client from '@collinsonx/utils/provider';
+import SuperTokensReact from 'supertokens-auth-react';
+import { frontendConfig } from '../config/frontendConfig';
+import { SuperTokensConfig } from 'supertokens-auth-react/lib/build/types';
+
+if (typeof window !== 'undefined') {
+  // we only want to call this init function on the frontend, so
+  // we check typeof window !== 'undefined'
+  SuperTokensReact.init(frontendConfig() as SuperTokensConfig);
+}
 
 const beVietnamPro = Be_Vietnam_Pro({
   style: ['normal'],
