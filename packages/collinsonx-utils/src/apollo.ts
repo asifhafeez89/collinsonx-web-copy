@@ -8,9 +8,13 @@ import { onError } from '@apollo/link-error';
 
 const port = process.env.APP_PORT || 3000;
 
+const previewUrl = process.env.NEXT_PUBLIC_VERCEL_URL
+  ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+  : '';
+
 const domain =
   process.env.NEXT_PUBLIC_SITE_DOMAIN_URL ||
-  process.env.NEXT_PUBLIC_VERCEL_URL ||
+  previewUrl ||
   `http://localhost:${port}`;
 
 const graphqlUrl = `${domain}/api/remote/graphql`;
