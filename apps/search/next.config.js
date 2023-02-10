@@ -1,4 +1,4 @@
-const { LOUNGE_URL } = process.env;
+const { LOUNGE_URL, PRODUCTION_API_URL } = process.env;
 
 module.exports = {
   basePath: '/search',

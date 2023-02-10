@@ -1,3 +1,5 @@
+const { PRODUCTION_API_URL } = process.env;
+
 module.exports = {
   basePath: '/lounge',
   webpack(config) {

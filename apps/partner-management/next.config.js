@@ -1,3 +1,5 @@
+const { PRODUCTION_API_URL } = process.env;
+
 module.exports = {
   webpack(config) {
     config.module.rules.push({
