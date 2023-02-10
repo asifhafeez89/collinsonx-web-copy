@@ -13,7 +13,7 @@ const domain =
   process.env.NEXT_PUBLIC_VERCEL_URL ||
   `http://localhost:${port}`;
 
-const graphqlUrl = `${domain}/api/remote/graphql`;
+const graphqlUrl = `${domain}/graphql`;
 
 const httpLink = new HttpLink({
   uri: graphqlUrl,
@@ -33,7 +33,8 @@ export const client = new ApolloClient({
         );
       if (networkError)
         console.log(
-          `[Network error]: ${networkError}. Backend is unreachable. Is it running?`
+          `[Network error]: ${networkError}. Backend is unreachable. Is it running?`,
+          `[Graphql URL]: ${graphqlUrl}`
         );
     }),
     httpLink,
