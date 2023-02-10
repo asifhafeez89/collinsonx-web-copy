@@ -7,4 +7,20 @@ module.exports = {
     });
     return config;
   },
+  async rewrites() {
+    return [
+      {
+        source: '/lounge',
+        destination: `${LOUNGE_URL}/lounge`,
+      },
+      {
+        source: '/lounge/:path*',
+        destination: `${LOUNGE_URL}/lounge/:path*`,
+      },
+      {
+        source: '/graphql',
+        destination: `${PRODUCTION_API_URL}`,
+      },
+    ];
+  },
 };

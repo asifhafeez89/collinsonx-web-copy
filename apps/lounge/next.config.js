@@ -9,4 +9,12 @@ module.exports = {
 
     return config;
   },
-}
+  async rewrites() {
+    return [
+      {
+        source: '/graphql',
+        destination: `${PRODUCTION_API_URL}`,
+      },
+    ];
+  },
+};

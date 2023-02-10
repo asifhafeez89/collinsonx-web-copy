@@ -20,6 +20,10 @@ module.exports = {
         source: '/lounge/:path*',
         destination: `${LOUNGE_URL}/lounge/:path*`,
       },
+      {
+        source: '/graphql',
+        destination: `${PRODUCTION_API_URL}`,
+      },
     ];
   },
 };
