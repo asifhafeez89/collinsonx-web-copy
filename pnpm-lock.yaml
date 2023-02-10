@@ -294,6 +294,7 @@ importers:
   packages/collinsonx-utils:
     specifiers:
       '@apollo/client': ^3.7.6
+      '@apollo/link-error': 2.0.0-beta.3
       '@graphql-codegen/cli': ^3.0.0
       '@graphql-codegen/client-preset': ^2.0.0
       '@graphql-typed-document-node/core': ^3.1.1
@@ -306,6 +307,7 @@ importers:
       typescript: ^4.9.4
     dependencies:
       '@apollo/client': 3.7.6_graphql@16.6.0
+      '@apollo/link-error': 2.0.0-beta.3_graphql@16.6.0
       graphql: 16.6.0
     devDependencies:
       '@graphql-codegen/cli': 3.0.0_fi2unsm2uqmoikyi4dmwfwvz5i
@@ -382,6 +384,19 @@ packages:
       ts-invariant: 0.10.3
       tslib: 2.4.1
       zen-observable-ts: 1.2.5
+    dev: false
+
+  /@apollo/link-error/2.0.0-beta.3_graphql@16.6.0:
+    resolution: {integrity: sha512-blNBBi9+4SEfb4Bhn8cYqGFhb0C7MjqLiRwNdUqwGefl1w+G8Ze8pCLHAyPxXLcslirtht9LY0i6ZOpCzSXHCg==}
+    dependencies:
+      '@apollo/client': 3.7.6_graphql@16.6.0
+      tslib: 1.14.1
+    transitivePeerDependencies:
+      - graphql
+      - graphql-ws
+      - react
+      - react-dom
+      - subscriptions-transport-ws
     dev: false
 
   /@apollo/protobufjs/1.2.6:
