@@ -1,10 +1,4 @@
-import {
-  ApolloClient,
-  ApolloLink,
-  HttpLink,
-  InMemoryCache,
-} from '@apollo/client';
-import { onError } from '@apollo/link-error';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
 
 const port = process.env.APP_PORT || 3000;
 
@@ -19,29 +13,9 @@ const domain =
 
 const graphqlUrl = `${domain}/graphql`;
 
-const httpLink = new HttpLink({
-  uri: graphqlUrl,
-  headers: {},
-});
-
 export const client = new ApolloClient({
+  uri: graphqlUrl,
   cache: new InMemoryCache(),
-  ssrMode: typeof window === 'undefined',
-  link: ApolloLink.from([
-    onError(({ graphQLErrors, networkError }) => {
-      if (graphQLErrors)
-        graphQLErrors.forEach(({ message, locations, path }) =>
-          console.log(
-            `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-          )
-        );
-      if (networkError)
-        console.log(
-          `[Network error]: ${networkError}. Backend is unreachable. Is it running?`
-        );
-    }),
-    httpLink,
-  ]),
 });
 
 export { gql, ApolloProvider, useQuery, useLazyQuery } from '@apollo/client';
