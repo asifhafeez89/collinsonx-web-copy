@@ -1,4 +1,4 @@
-const { PRODUCTION_API_URL, LOUNGE_URL } = process.env;
+const { PRODUCTION_API_URL } = process.env;
 
 module.exports = {
   webpack(config) {
@@ -11,14 +11,6 @@ module.exports = {
   },
   async rewrites() {
     return [
-      {
-        source: '/lounge',
-        destination: `${LOUNGE_URL}/lounge`,
-      },
-      {
-        source: '/lounge/:path*',
-        destination: `${LOUNGE_URL}/lounge/:path*`,
-      },
       {
         source: '/graphql',
         destination: `${PRODUCTION_API_URL}`,
