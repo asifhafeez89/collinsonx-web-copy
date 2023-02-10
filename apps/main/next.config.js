@@ -33,7 +33,7 @@ module.exports = {
         destination: `${SEARCH_URL}/search/:path*`,
       },
       {
-        source: '/api/remote/graphql',
+        source: '/graphql',
         destination: `${PRODUCTION_API_URL}`,
       },
       {

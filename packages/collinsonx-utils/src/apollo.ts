@@ -17,7 +17,7 @@ const domain =
   previewUrl ||
   `http://localhost:${port}`;
 
-const graphqlUrl = `${domain}/api/remote/graphql`;
+const graphqlUrl = `${domain}/graphql`;
 
 const httpLink = new HttpLink({
   uri: graphqlUrl,
