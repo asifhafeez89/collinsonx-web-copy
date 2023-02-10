@@ -33,7 +33,8 @@ export const client = new ApolloClient({
         );
       if (networkError)
         console.log(
-          `[Network error]: ${networkError}. Backend is unreachable. Is it running?`
+          `[Network error]: ${networkError}. Backend is unreachable. Is it running?`,
+          `[Graphql URL]: ${graphqlUrl}`
         );
     }),
     httpLink,
