@@ -1,4 +1,5 @@
-const { PRODUCTION_API_URL } = process.env;
+const { PRODUCTION_API_URL, LOUNGE_URL, SEARCH_URL, AUTH_API_URL } =
+  process.env;
 
 module.exports = {
   webpack(config) {
