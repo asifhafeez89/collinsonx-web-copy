@@ -3,9 +3,10 @@ import supertokens from 'supertokens-node';
 import { middleware } from 'supertokens-node/framework/express';
 import { superTokensNextWrapper } from 'supertokens-node/nextjs';
 import { Request, Response } from 'express';
-import { backendConfig } from '../../../config/backendConfig';
 
-supertokens.init(backendConfig());
+// import { backendConfig } from '../../../config/backendConfig';
+
+// supertokens.init(backendConfig());
 
 export default async function superTokens(req: Request, res: Response) {
   await superTokensNextWrapper(

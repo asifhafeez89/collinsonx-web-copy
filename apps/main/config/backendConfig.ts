@@ -8,8 +8,8 @@ export const backendConfig = () => {
   return {
     framework: 'express' as const,
     supertokens: {
-      connectionURI: 'https://try.supertokens.com',
-      // connectionURI: "https://authz.lifestyle-x.io",
+     //  connectionURI: 'https://try.supertokens.com',
+      connectionURI: "https://authz.lifestyle-x.io",
       // apiKey: "IF YOU HAVE AN API KEY FOR THE CORE, ADD IT HERE",
     },
     appInfo,
