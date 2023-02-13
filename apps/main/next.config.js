@@ -1,4 +1,4 @@
-const { LOUNGE_URL, SEARCH_URL, AUTH_API_URL } = process.env;
+const { LOUNGE_URL, SEARCH_URL } = process.env;
 
 module.exports = {
   webpack(config) {
@@ -30,10 +30,6 @@ module.exports = {
       {
         source: '/search/:path*',
         destination: `${SEARCH_URL}/search/:path*`,
-      },
-      {
-        source: '/api/remote/auth/:path*',
-        destination: `${AUTH_API_URL}`,
       },
     ];
   },
