@@ -1,5 +1,5 @@
 import ErrorPage from '@collinsonx/pages/error';
-import LayoutLogin from '@components/LayoutLogin';
+import Layout from '@components/Layout';
 
 interface GenericErrorProps {
   statusCode: number;
@@ -7,9 +7,9 @@ interface GenericErrorProps {
 
 export default function GenericError(props: GenericErrorProps) {
   return (
-    <LayoutLogin>
+    <Layout>
       <ErrorPage {...props} />
-    </LayoutLogin>
+    </Layout>
   );
 }
 

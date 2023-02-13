@@ -20,6 +20,11 @@
       "./dist/*/index.js"
     ]
   },
+  "peerDependencies": {
+    "next": "*",
+    "react": "^17.0.0 || ^18.0.0-0",
+    "react-dom": "^17.0.0 || ^18.0.0-0"
+  },
   "files": [
     "dist"
   ],

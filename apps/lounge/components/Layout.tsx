@@ -2,6 +2,8 @@ import { Container, MantineProvider } from '@collinsonx/design-system/core';
 import { Header, themeLight } from '@collinsonx/design-system';
 import { Be_Vietnam_Pro } from '@next/font/google';
 
+import { Cart, Chat, Home } from '@collinsonx/design-system/assets/icons';
+
 const beVietnamPro = Be_Vietnam_Pro({
   style: ['normal'],
   subsets: ['latin'],
@@ -14,14 +16,35 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   return (
-    <Container
-      p={16}
-      sx={{
-        maxWidth: '375px',
-        height: '100%',
-      }}
-    >
-      {children}
-    </Container>
+    <>
+      <Header
+        items={[
+          {
+            label: 'Home',
+            link: '/lounge',
+            icon: <Home color="#112132" />,
+          },
+          {
+            label: 'My trips',
+            link: '/lounge/bookings',
+            icon: <Cart color="#112132" />,
+          },
+          {
+            label: 'AI Travel companion',
+            link: '/companion',
+            icon: <Chat color="#112132" />,
+          },
+        ]}
+      />
+      <Container
+        p={16}
+        sx={{
+          maxWidth: '375px',
+          height: '100%',
+        }}
+      >
+        {children}
+      </Container>
+    </>
   );
 }
