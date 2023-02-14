@@ -1,98 +1,29 @@
-import { ApolloServer } from '@apollo/server';
-import { startServerAndCreateNextHandler } from '@as-integrations/next';
-import { gql } from 'graphql-tag';
+import httpProxy from 'http-proxy';
+import { ServerResponse } from 'http';
+import { NextApiRequest } from 'next';
 
-import lounges from './experiences.json';
-import bookings from './bookings.json';
+const proxy = httpProxy.createProxyServer();
 
-const typeDefs = gql`
-  type Image {
-    altText: String
-    width: Int
-    contentType: String
-    url: String
-    height: Int
-  }
-
-  type Lounge {
-    experienceCategory: String
-    type: String
-    id: String
-    name: String
-    images: [Image]
-    location: String
-    additionInformation: String
-    loungeOperator: String
-    conditions: String
-    objectID: String
-    openingHours: String
-    facilities: [String]
-  }
-
-  type Booking {
-    id: String
-    lounge: Lounge
-    bookingState: String
-    reservationDate: String
-    additionalRequests: String
-  }
-
-  type Query {
-    lounges: [Lounge]
-    lounge(id: String!): Lounge
-    bookings: [Booking]
-    booking(id: String!): Booking
-    getLoungesByName(loungeName: String!): [Lounge]
-  }
-`;
-
-const resolvers = {
-  Query: {
-    lounges: () => lounges,
-    lounge: (parent: any, args: any) => {
-      const { id } = args;
-      const l = lounges.filter(({ id: itemId }) => {
-        return id === itemId;
-      });
-      return l?.[0] ?? null;
-    },
-    getLoungesByName: (parent: any, args: any) => {
-      const { loungeName } = args;
-      const searchTerm = loungeName.toLowerCase();
-      const l = lounges.filter(
-        ({ name, location }) =>
-          name.toLowerCase().includes(searchTerm) ||
-          location.toLowerCase().includes(searchTerm)
-      );
-      return l ?? null;
-    },
-    bookings: () =>
-      bookings.map((item) => ({
-        id: item.id,
-        lounge: lounges.find(({ id }) => id === item.loungeId),
-        bookingState: item.bookingState,
-        reservationDate: item.reservationDate,
-        additionalRequests: item.additionalRequests,
-      })),
-    booking: (parent: any, args: any) => {
-      const { id } = args;
-      const l =
-        bookings
-          .filter(({ id: itemId }) => {
-            return id === itemId;
-          })
-          ?.map((item) => ({
-            id: item.id,
-            lounge: lounges.find(({ id }) => id === item.loungeId),
-            bookingState: item.bookingState,
-            reservationDate: item.reservationDate,
-            additionalRequests: item.additionalRequests,
-          })) ?? [];
-      return l?.[0] ?? null;
-    },
+export const config = {
+  api: {
+    bodyParser: false,
   },
 };
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const handler = (req: NextApiRequest, res: ServerResponse) => {
+  return new Promise((resolve, reject) => {
+    proxy.web(
+      req,
+      res,
+      { target: process.env.PRODUCTION_API_URL, changeOrigin: true },
+      (err) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(res);
+      }
+    );
+  });
+};
 
-export default startServerAndCreateNextHandler(server);
+export default handler;
