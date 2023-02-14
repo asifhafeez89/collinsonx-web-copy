@@ -16,7 +16,7 @@ import {
 } from '@collinsonx/design-system';
 import { Clock } from '@collinsonx/design-system/assets/icons';
 import { useRouter } from 'next/router';
-import { LoungeData } from '@collinsonx/utils/types/lounge';
+import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
 import { NextPageContext } from 'next';
 import { useState } from 'react';
 
@@ -61,7 +61,7 @@ function createTimeSlots() {
 const timeSlots = createTimeSlots();
 
 interface BookLoungeProps {
-  lounge: LoungeData;
+  lounge: Experience;
   loading: boolean;
 }
 
@@ -117,8 +117,8 @@ export default function Book(props: BookLoungeProps) {
             url={`/lounge/details?id=${lounge.id}`}
           />
           <Lounge
-            airport={lounge?.location}
-            loungeName={lounge?.name}
+            airport={lounge?.location ?? '-'}
+            loungeName={lounge?.name ?? '-'}
             openingTimes={
               (lounge.openingHours as unknown as string[])
                 ?.join(',')

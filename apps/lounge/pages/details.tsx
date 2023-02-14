@@ -1,6 +1,7 @@
 import { Lounge, PageTitle } from '@collinsonx/design-system/index';
 import { client } from '@collinsonx/utils/apollo';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
+import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
 
 import Layout from '../components/Layout';
 import {
@@ -14,10 +15,9 @@ import {
 } from '@collinsonx/design-system/core';
 import { useRouter } from 'next/router';
 import { NextPageContext } from 'next';
-import { LoungeData } from '@collinsonx/utils/types/lounge';
 
 interface BookLoungeProps {
-  lounge: LoungeData;
+  lounge: Experience;
   loading: boolean;
 }
 
@@ -37,14 +37,15 @@ export default function BookLounge(props: BookLoungeProps) {
       {loading && !lounge && <div>loading...</div>}
       {!loading && lounge && (
         <Stack align="stretch">
-          <PageTitle title={lounge?.name} url={`/lounge`} />
+          <PageTitle title={lounge?.name ?? '-'} url={`/lounge`} />
           <Lounge
             image={
-              lounge?.images.length
-                ? lounge.images[0].url
+              lounge.images && lounge.images.length
+                ? lounge.images[0]?.url ||
+                  'https://cdn03.collinson.cn/lounge-media/image/BHX6-13756.jpg'
                 : 'https://cdn03.collinson.cn/lounge-media/image/BHX6-13756.jpg'
             }
-            airport={lounge?.location}
+            airport={lounge?.location ?? '-'}
             openingTimes={
               (lounge.openingHours as unknown as string[])
                 ?.join(',')
@@ -76,9 +77,12 @@ export default function BookLounge(props: BookLoungeProps) {
               Conditions
             </Title>
             <List sx={{ color: '#000000' }}>
-              {lounge.conditions.split('-').map((item, index) => (
-                <List.Item key={index}>{item}</List.Item>
-              ))}
+              {lounge.conditions ??
+                ''
+                  .split('-')
+                  .map((item, index) => (
+                    <List.Item key={index}>{item}</List.Item>
+                  ))}
             </List>
           </Box>
           <UnstyledButton

@@ -20,3 +20,5 @@ export function matchingTextColor(color: string) {
 
   return yiq >= 128 ? '#000' : '#fff';
 }
+
+export * from './generatedTypes/graphql';

@@ -9,7 +9,7 @@ import Results from '@components/Results';
 import { Stack } from '@collinsonx/design-system/core';
 import { useLazyQuery } from '@collinsonx/utils/apollo';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
-import { LoungeData } from '@collinsonx/utils/types/lounge';
+import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
 import { useRouter } from 'next/router';
 
 export default function Search() {
@@ -23,7 +23,7 @@ export default function Search() {
     }
   );
 
-  const [results, setResults] = useState<LoungeData[]>([]);
+  const [results, setResults] = useState<Experience[]>([]);
 
   useEffect(() => {
     if (value.length > 2) {
