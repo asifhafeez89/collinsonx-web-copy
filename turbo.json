@@ -30,7 +30,12 @@
       ]
     },
     "main#build": {
-      "dependsOn": ["^build", "$SEARCH_URL", "$LOUNGE_URL"],
+      "dependsOn": [
+        "^build",
+        "$SEARCH_URL",
+        "$LOUNGE_URL",
+        "$PRODUCTION_API_URL"
+      ],
       "outputs": [".next/**"]
     },
     "search#build": {

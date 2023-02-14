@@ -1,5 +1,3 @@
-const { PRODUCTION_API_URL } = process.env;
-
 module.exports = {
   basePath: '/lounge',
   webpack(config) {
@@ -10,13 +8,5 @@ module.exports = {
     });
 
     return config;
-  },
-  async rewrites() {
-    return [
-      {
-        source: '/graphql',
-        destination: `${PRODUCTION_API_URL}`,
-      },
-    ];
   },
 };
