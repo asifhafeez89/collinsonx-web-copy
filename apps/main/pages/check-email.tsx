@@ -7,7 +7,7 @@ import {
   Flex,
 } from '@collinsonx/design-system/core';
 import { useRouter } from 'next/router';
-import { consumeCode } from 'supertokens-web-js/recipe/passwordless';
+import { consumePasswordlessCode } from 'supertokens-auth-react/recipe/thirdpartypasswordless';
 import LayoutLogin from '../components/LayoutLogin';
 
 import { AuthInput } from '@collinsonx/design-system';
@@ -21,7 +21,7 @@ export default function CheckEmail() {
 
   const handleClickConfirm = async () => {
     if (code?.length === 6) {
-      let response = await consumeCode({
+      let response = await consumePasswordlessCode({
         userInputCode: code,
       });
 

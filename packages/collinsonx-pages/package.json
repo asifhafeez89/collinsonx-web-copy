@@ -48,8 +48,7 @@
   },
   "dependencies": {
     "@collinsonx/design-system": "workspace:*",
-    "@collinsonx/utils": "workspace:*",
-    "apollo-server-micro": "^3.11.1"
+    "@collinsonx/utils": "workspace:*"
   },
   "devDependencies": {
     "@swc/cli": "^0.1.57",

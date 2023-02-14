@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 import { Login as LoginImage } from '@collinsonx/design-system/assets/graphics';
 import { KeyboardEventHandler, useState } from 'react';
 import LayoutLogin from '../components/LayoutLogin';
-import { createCode } from "supertokens-web-js/recipe/passwordless";
+import {createPasswordlessCode } from "supertokens-auth-react/recipe/thirdpartypasswordless";
 
 function validateEmail(input: string) {
   return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input);
@@ -29,7 +29,7 @@ export default function Home(props: unknown) {
     } else {
      
       try {
-        await createCode({
+        await createPasswordlessCode({
             email
         });
         router.push({ pathname: '/check-email', query: { email } });
