@@ -9,6 +9,7 @@ import { themeLight } from '@collinsonx/design-system/themes';
 import { Be_Vietnam_Pro } from '@next/font/google';
 
 import Client from '@collinsonx/utils/provider';
+import { SuperTokensWrapper } from "supertokens-auth-react";
 
 const beVietnamPro = Be_Vietnam_Pro({
   style: ['normal'],
@@ -38,13 +39,15 @@ export default function MyApp({ Component, pageProps }: Props) {
         />
       </Head>
       <Client>
-        <MantineProvider
-          theme={themeLight({ fontFamily: beVietnamPro.style.fontFamily })}
-          withGlobalStyles
-          withNormalizeCSS
-        >
-          {getLayout(<Component {...pageProps} />)}
-        </MantineProvider>
+        <SuperTokensWrapper>
+          <MantineProvider
+            theme={themeLight({ fontFamily: beVietnamPro.style.fontFamily })}
+            withGlobalStyles
+            withNormalizeCSS
+          >
+            {getLayout(<Component {...pageProps} />)}
+          </MantineProvider>
+        </SuperTokensWrapper>
       </Client>
     </>
   );

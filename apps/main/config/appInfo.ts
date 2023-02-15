@@ -13,3 +13,5 @@ export const appInfo: AppInfoUserInput = {
   apiDomain: "https://authz.lifestyle-x.io",
   websiteDomain: domain,
 };
+
+console.log(appInfo);

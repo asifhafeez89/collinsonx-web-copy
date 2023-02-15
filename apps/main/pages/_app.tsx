@@ -8,7 +8,7 @@ import { Be_Vietnam_Pro } from '@next/font/google';
 import Client from '@collinsonx/utils/provider';
 import { frontendConfig } from '../config/frontendConfig';
 import { SuperTokensConfig } from 'supertokens-auth-react/lib/build/types';
-import Session from 'supertokens-auth-react/recipe/session'
+import { SuperTokensWrapper } from "supertokens-auth-react";
 
 import SuperTokensReact from 'supertokens-auth-react'
 
@@ -25,7 +25,7 @@ const beVietnamPro = Be_Vietnam_Pro({
 });
 
 type Page<P = {}> = NextPage<P> & {
-  getLayout?: (page: ReactElement) => JSX.Element;
+  getLayout?: (page: ReactElemenpt) => JSX.Element;
   layout?: ComponentType;
 };
 
@@ -47,13 +47,15 @@ export default function MyApp({ Component, pageProps }: Props) {
         />
       </Head>
       <Client>
-        <MantineProvider
-          theme={themeDark({ fontFamily: beVietnamPro.style.fontFamily })}
-          withGlobalStyles
-          withNormalizeCSS
-        >
-           {getLayout(<Component {...pageProps} />)}
-        </MantineProvider>
+        <SuperTokensWrapper>
+          <MantineProvider
+            theme={themeDark({ fontFamily: beVietnamPro.style.fontFamily })}
+            withGlobalStyles
+            withNormalizeCSS
+          >
+            {getLayout(<Component {...pageProps} />)}
+          </MantineProvider>
+        </SuperTokensWrapper>
       </Client>
     </>
   );

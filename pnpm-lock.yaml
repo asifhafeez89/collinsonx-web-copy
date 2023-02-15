@@ -30,6 +30,7 @@ importers:
       postcss: ^8.4.18
       react: ^18.2.0
       react-dom: ^18.2.0
+      supertokens-auth-react: 0.28.1
       typescript: 4.9.4
     dependencies:
       '@collinsonx/design-system': link:../../packages/collinsonx-design-system
@@ -41,6 +42,7 @@ importers:
       next: 13.1.6_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      supertokens-auth-react: 0.28.1_5ndqzdd6t4rivxsukjv3i3ak2q
     devDependencies:
       '@types/react': 18.0.27
       autoprefixer: 10.4.13_postcss@8.4.21
