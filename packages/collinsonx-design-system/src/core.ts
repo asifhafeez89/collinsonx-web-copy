@@ -1,1 +1,1 @@
-export * from '@mantine/core';
+export * from '@collinsonx/utils/core';

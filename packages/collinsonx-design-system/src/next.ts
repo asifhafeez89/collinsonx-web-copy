@@ -1,1 +1,1 @@
-export * from '@mantine/next';
+export * from '@collinsonx/utils/next';

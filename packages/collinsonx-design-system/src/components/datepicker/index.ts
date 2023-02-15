@@ -1,3 +1,1 @@
-import { DatePicker } from '@mantine/dates';
-
-export default DatePicker;
+export { default } from '@collinsonx/utils/datepicker';

@@ -50,13 +50,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.20.12",
-    "@emotion/react": "^11.10.5",
-    "@emotion/server": "^11.10.0",
-    "@emotion/styled": "^11.10.5",
-    "@mantine/core": "^5.10.2",
-    "@mantine/dates": "^5.10.3",
-    "@mantine/hooks": "^5.10.2",
-    "@mantine/next": "^5.10.2",
+    "@collinsonx/utils": "workspace:*",
     "@swc/helpers": "^0.4.12",
     "clsx": "^1.1.1",
     "react-auth-code-input": "^3.2.1"

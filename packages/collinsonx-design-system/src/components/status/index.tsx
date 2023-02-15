@@ -1,4 +1,4 @@
-import { Text } from '@mantine/core';
+import { Text } from '@collinsonx/utils/core';
 
 type Status = 'PENDING' | 'CONFIRMED' | 'DECLINED';
 type IStatus = {
