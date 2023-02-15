@@ -28,7 +28,6 @@ export default function Book(props: BookLoungeProps) {
   const handleSubmit: BookingFormProps['onSubmit'] = (values) => {
     setFormValues(values);
 
-    console.log(values.date);
     if (values.date) {
       setStep('confirm');
     }
