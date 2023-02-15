@@ -5,20 +5,20 @@ import { useRouter } from 'next/router';
 import { FieldLabel, PageTitle, Lounge } from '@collinsonx/design-system';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
 import { client } from '@collinsonx/utils/apollo';
+import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
 import { NextPageContext } from 'next';
-import { LoungeData } from '@collinsonx/utils/types/lounge';
 import dayjs from 'dayjs';
 
 interface BookLoungeProps {
-  lounge: LoungeData;
+  lounge: Experience;
   loading: boolean;
 }
 
 export default function Landing(props: BookLoungeProps) {
   const router = useRouter();
   const { lounge, loading } = props;
-  const r = router?.query?.reservationDate ?? '';
-  const reservationDate: Date = JSON.parse(r as string);
+  const r = (router?.query?.reservationDate as string) ?? '{}';
+  const reservationDate: Date = JSON.parse(r);
 
   const { additionalRequests } = router?.query ?? 'None';
 
@@ -40,11 +40,12 @@ export default function Landing(props: BookLoungeProps) {
           />
           <Lounge
             image={
-              lounge?.images.length
-                ? lounge.images[0].url
+              lounge.images && lounge.images.length
+                ? lounge.images[0]?.url ??
+                  'https://cdn03.collinson.cn/lounge-media/image/BHX6-13756.jpg'
                 : 'https://cdn03.collinson.cn/lounge-media/image/BHX6-13756.jpg'
             }
-            airport={lounge?.location}
+            airport={lounge?.location ?? '-'}
             openingTimes={
               (lounge.openingHours as unknown as string[])
                 ?.join(',')
