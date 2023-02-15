@@ -29,6 +29,12 @@
         "@collinsonx/design-system#build"
       ]
     },
+    "@collinsox/storybook#dev": {
+      "dependsOn": ["@collinsonx/utils#build"]
+    },
+    "@collinsox/design-system#dev": {
+      "dependsOn": ["@collinsonx/utils#build"]
+    },
     "main#build": {
       "dependsOn": [
         "^build",
