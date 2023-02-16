@@ -23,11 +23,11 @@ export const globalTypes = {
     defaultValue: 'light',
     toolbar: {
       // The icon for the toolbar item
-      icon: 'circlehollow',
+      // icon: 'circlehollow',
       // Array of options
       items: [
-        { value: 'light', icon: 'circlehollow', title: 'light' },
-        { value: 'dark', icon: 'circle', title: 'dark' },
+        { value: 'light', title: 'Default' },
+        { value: 'dark', title: 'Dark' },
       ],
       // Property that specifies if the name of the item will be displayed
       showName: true,
