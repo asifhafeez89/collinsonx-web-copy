@@ -6,7 +6,11 @@ const withTheme = (StoryFn, context) => {
   const storyTheme = theme === 'dark' ? themeDark : themeLight;
 
   return (
-    <MantineProvider theme={storyTheme} withGlobalStyles withNormalizeCSS>
+    <MantineProvider
+      theme={storyTheme({ fontFamily: 'sans-serif' })}
+      withGlobalStyles
+      withNormalizeCSS
+    >
       <StoryFn />
     </MantineProvider>
   );
