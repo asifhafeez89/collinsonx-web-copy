@@ -7,7 +7,7 @@ const withTheme = (StoryFn, context) => {
 
   return (
     <MantineProvider
-      theme={storyTheme({ fontFamily: 'sans-serif' })}
+      theme={storyTheme({ fontFamily: 'Be Vietnam Pro' })}
       withGlobalStyles
       withNormalizeCSS
     >
