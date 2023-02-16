@@ -21,10 +21,12 @@ import {
       router.push('/');
     }
     
+    console.log(sessionContext);
+
     return (
       <>
           <SessionAuth>
-            Test
+            <div onClick={() => logoutClicked()}>Signout</div>
           </SessionAuth>
       </>
     );

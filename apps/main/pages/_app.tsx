@@ -16,6 +16,10 @@ if (typeof window !== 'undefined') {
   // we only want to call this init function on the frontend, so
   // we check typeof window !== 'undefined'
   SuperTokensReact.init(frontendConfig() as SuperTokensConfig);
+
+  const addSessionToWindowEvent = new CustomEvent('AddFrontendConfig', { detail: {config: frontendConfig} });
+
+  window.dispatchEvent(addSessionToWindowEvent);
 }
 
 const beVietnamPro = Be_Vietnam_Pro({
@@ -25,7 +29,7 @@ const beVietnamPro = Be_Vietnam_Pro({
 });
 
 type Page<P = {}> = NextPage<P> & {
-  getLayout?: (page: ReactElemenpt) => JSX.Element;
+  getLayout?: (page: ReactElement) => JSX.Element;
   layout?: ComponentType;
 };
 
