@@ -4,7 +4,7 @@ import {
   } from '@collinsonx/design-system/core';  
   import LayoutLogin from '../components/LayoutLogin';
   import { SessionAuth, useSessionContext } from "supertokens-auth-react/recipe/session";
-  import { signOut } from "supertokens-auth-react/recipe/emailpassword";
+  import ThirdPartyPasswordless from "supertokens-auth-react/recipe/thirdpartypasswordless";
   import { useRouter } from 'next/router';
 
   interface TestProps {
@@ -18,7 +18,7 @@ import {
 
     
     async function logoutClicked() {
-      await signOut();
+      await ThirdPartyPasswordless.signOut();
       router.push('/');
     }
     
