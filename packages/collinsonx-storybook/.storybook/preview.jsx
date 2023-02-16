@@ -1,6 +1,5 @@
 import { MantineProvider } from '@collinsonx/utils/core';
 import { themeLight, themeDark } from '@collinsonx/utils/themes';
-import React from 'react';
 
 const withTheme = (StoryFn, context) => {
   const theme = context.parameters.theme || context.globals.theme;
