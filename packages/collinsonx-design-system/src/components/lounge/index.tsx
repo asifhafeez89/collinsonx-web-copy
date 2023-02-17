@@ -1,4 +1,4 @@
-import { Text, Box, SimpleGrid, Image } from '@mantine/core';
+import { Text, Box, SimpleGrid, Image } from '@collinsonx/utils/core';
 import { MapPin, Clock } from '../../assets/icons/index';
 
 interface ILounge {

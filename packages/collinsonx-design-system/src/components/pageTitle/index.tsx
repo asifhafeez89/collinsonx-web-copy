@@ -1,4 +1,4 @@
-import { Title, Box } from '@mantine/core';
+import { Title, Box } from '@collinsonx/utils/core';
 import { ChevronLeft } from '../../assets/icons/index';
 
 interface IPageTitle {

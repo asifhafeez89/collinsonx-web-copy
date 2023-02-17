@@ -1,4 +1,4 @@
-import { Container } from '@mantine/core';
+import { Container } from '@collinsonx/utils/core';
 import Header from './header';
 
 interface LayoutProps {

@@ -2,7 +2,7 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import Header from './index';
-import { Box } from '@mantine/core';
+import { Box } from '@collinsonx/utils/core';
 
 export default {
   title: 'Example/Header',

@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from '@emotion/styled';
+import styled from '@collinsonx/utils/styled';
 import Button from '../button';
 
 const CardWrapper = styled.div`

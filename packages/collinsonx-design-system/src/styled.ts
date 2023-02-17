@@ -1,1 +1,1 @@
-export { default as default } from '@emotion/styled';
+export { default } from '@collinsonx/utils/styled';
