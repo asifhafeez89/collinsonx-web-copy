@@ -1,38 +1,30 @@
-import LayoutLogin from '../components/Layout';
-import { doesSessionExist, useSessionContext, getUserId } from "supertokens-auth-react/recipe/session";
-import ThirdPartyPasswordless from "supertokens-auth-react/recipe/thirdpartypasswordless";
+import Layout from '../components/Layout';
 import { useRouter } from 'next/router';
-import { useEffect, useId } from 'react';
+import useAuth from '../components/hooks/useAuth';
 
-interface TestProps {
-  loggedIn: boolean;
-  userId: string;
-}
-
-export default function Home({loggedIn}: TestProps) {
-  useEffect(() => {
-   init();
-  }, [])
+export default function Home() {
   
-  async function init() {
-    const userId = await getUserId();
-    const sessionState = await doesSessionExist();
+  const router = useRouter();
+  const [ isLoggedIn, userId, logout ] = useAuth();
 
-  }
+  console.log(userId);
+  console.log(isLoggedIn);
 
-  async function logoutClicked() {
-    await ThirdPartyPasswordless.signOut();
+  const handleLogout = async () => {
+    if (typeof logout === 'function') {
+       await logout();
+    }
+    router.push({
+      pathname: '/',
+    });
   }
-  
 
   return (
     <>
-    fff<div onClick={() => logoutClicked()}>Signout</div>
-        {/* { && <div>
-          <div onClick={() => logoutClicked()}>Signout</div>
-        </div>} */}
+     {isLoggedIn && <div onClick={handleLogout}>Signout</div>}
     </>
   );
 }
 
-Home.getLayout = (page: JSX.Element) => <LayoutLogin>{page}</LayoutLogin>;
+Home.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;
+  
