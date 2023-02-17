@@ -1,4 +1,4 @@
-import { AppInfoUserInput } from 'supertokens-auth-react/lib/build/types';
+import type { AppInfoUserInput } from '@collinsonx/utils/supertokens';
 
 const port = process.env.APP_PORT || 3000;
 const domain =
@@ -10,6 +10,6 @@ const domain =
 export const appInfo: AppInfoUserInput = {
   appName: 'CollinsonX',
   apiBasePath: '/',
-  apiDomain: "https://authz.lifestyle-x.io",
+  apiDomain: 'https://authz.lifestyle-x.io',
   websiteDomain: domain,
 };

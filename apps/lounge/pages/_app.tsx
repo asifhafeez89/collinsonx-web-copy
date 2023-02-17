@@ -10,18 +10,16 @@ import { Be_Vietnam_Pro } from '@next/font/google';
 
 import Client from '@collinsonx/utils/provider';
 import { frontendConfig } from '../config/frontendConfig';
-import { SuperTokensConfig } from 'supertokens-auth-react/lib/build/types';
-import { SuperTokensWrapper } from "supertokens-auth-react";
-
-import SuperTokensReact from 'supertokens-auth-react'
+import SuperTokensReact, {
+  SuperTokensWrapper,
+  SuperTokensConfig,
+} from '@collinsonx/utils/supertokens';
 
 if (typeof window !== 'undefined') {
   // we only want to call this init function on the frontend, so
   // we check typeof window !== 'undefined'
   SuperTokensReact.init(frontendConfig() as SuperTokensConfig);
 }
-
-
 
 const beVietnamPro = Be_Vietnam_Pro({
   style: ['normal'],
@@ -52,15 +50,15 @@ export default function MyApp({ Component, pageProps }: Props) {
         />
       </Head>
       <Client>
-          <SuperTokensWrapper>
-            <MantineProvider
-              theme={themeLight({ fontFamily: beVietnamPro.style.fontFamily })}
-              withGlobalStyles
-              withNormalizeCSS
-            >
-              {getLayout(<Component {...pageProps} />)}
-            </MantineProvider>
-          </SuperTokensWrapper>
+        <SuperTokensWrapper>
+          <MantineProvider
+            theme={themeLight({ fontFamily: beVietnamPro.style.fontFamily })}
+            withGlobalStyles
+            withNormalizeCSS
+          >
+            {getLayout(<Component {...pageProps} />)}
+          </MantineProvider>
+        </SuperTokensWrapper>
       </Client>
     </>
   );

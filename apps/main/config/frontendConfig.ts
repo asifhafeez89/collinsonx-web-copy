@@ -1,5 +1,4 @@
-import ThirdPartyPasswordless from 'supertokens-auth-react/recipe/thirdpartypasswordless'
-import Session from 'supertokens-auth-react/recipe/session';
+import { ThirdPartyPasswordless, Session } from '@collinsonx/utils/supertokens';
 import { appInfo } from './appInfo';
 
 export const frontendConfig = () => {
@@ -9,7 +8,7 @@ export const frontendConfig = () => {
       ThirdPartyPasswordless.init({
         contactMethod: 'EMAIL',
       }),
-      Session.init({ sessionScope: '.lifestyle-x.io'}),
+      Session.init({ sessionScope: '.lifestyle-x.io' }),
     ],
   };
 };
