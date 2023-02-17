@@ -1,7 +1,10 @@
-import { ActionIcon, TextInput, TextInputProps } from '@mantine/core';
+import {
+  ActionIcon,
+  TextInput,
+  TextInputProps,
+  createStyles,
+} from '@collinsonx/utils/core';
 import { Close } from '../../assets/icons';
-
-import { createStyles } from '@mantine/core';
 
 export interface SearchInputProps extends TextInputProps {
   onClickClear: () => void;

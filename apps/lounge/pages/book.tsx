@@ -1,115 +1,45 @@
-import {
-  Stack,
-  Flex,
-  Paper,
-  UnstyledButton,
-} from '@collinsonx/design-system/core';
-import Layout from '../components/Layout';
+import { Stack } from '@collinsonx/design-system/core';
+import Layout from '@components/Layout';
 import { client } from '@collinsonx/utils/apollo';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
-import {
-  InputSelect,
-  InputTextArea,
-  PageTitle,
-  Lounge,
-  DatePicker,
-} from '@collinsonx/design-system';
-import { Clock } from '@collinsonx/design-system/assets/icons';
-import { useRouter } from 'next/router';
-import { LoungeData } from '@collinsonx/utils/types/lounge';
+import { PageTitle, Lounge } from '@collinsonx/design-system';
+import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
 import { NextPageContext } from 'next';
 import { useState } from 'react';
+import BookingForm, { BookingFormProps } from '@components/BookingForm';
+import { BookingFormValue } from '@components/BookingForm/index';
+import BookingFormConfirm from '@components/BookingForm/BookingFormConfirm';
+import { useRouter } from 'next/router';
 
-const HOURS = [
-  '00',
-  '01',
-  '02',
-  '03',
-  '04',
-  '05',
-  '06',
-  '07',
-  '08',
-  '09',
-  '10',
-  '11',
-  '12',
-  '13',
-  '14',
-  '15',
-  '16',
-  '17',
-  '18',
-  '19',
-  '20',
-  '21',
-  '22',
-  '23',
-];
-
-function createTimeSlots() {
-  const times: string[] = [];
-  HOURS.forEach((item) => {
-    times.push(`${item}:00`);
-    times.push(`${item}:15`);
-    times.push(`${item}:30`);
-    times.push(`${item}:45`);
-  });
-  return times;
-}
-
-const timeSlots = createTimeSlots();
-
-interface BookLoungeProps {
-  lounge: LoungeData;
+export interface BookLoungeProps {
+  lounge: Experience;
   loading: boolean;
 }
 
-export default function Book(props: BookLoungeProps) {
-  const router = useRouter();
-  const { lounge, loading } = props;
-  const [reservationDate, setReservationDate] = useState<Date>();
-  const [additionalRequests, setAdditionalRequests] = useState('');
+type Step = 'form' | 'confirm';
 
-  const onDateChange = (newDate: Date) => {
-    if (reservationDate) {
-      const d = reservationDate;
-      d.setDate(newDate.getDate());
-      d.setMonth(newDate.getMonth());
-      d.setFullYear(newDate.getFullYear());
-      setReservationDate(d);
-    } else {
-      setReservationDate(newDate);
+export default function Book(props: BookLoungeProps) {
+  const { lounge, loading } = props;
+  const router = useRouter();
+
+  const [step, setStep] = useState<Step>('form');
+  const [formValues, setFormValues] = useState<BookingFormValue>();
+
+  const handleSubmit: BookingFormProps['onSubmit'] = (values) => {
+    setFormValues(values);
+
+    if (values.date) {
+      setStep('confirm');
     }
   };
 
-  const onTimeChange = (newTime: string) => {
-    const [hour, minutes] = newTime.split(':');
-    let d = reservationDate ?? new Date();
-
-    d.setHours(Number.parseInt(hour));
-    d.setMinutes(Number.parseInt(minutes));
-    setReservationDate(d);
-  };
-
-  const handleBook = () => {
-    router.push({
-      pathname: '/confirm',
-      query: {
-        id: lounge.id,
-        reservationDate: JSON.stringify(reservationDate),
-        additionalRequests,
-      },
-    });
-  };
-
-  const onAdditionalRequests = (e: any) => {
-    setAdditionalRequests(e.target.value);
+  const handleClickConfirm = () => {
+    router.push('/success');
   };
 
   return (
     <>
-      {loading && !lounge && <div>loading...</div>}
+      {loading && <div>loading...</div>}
       {!loading && lounge && (
         <Stack sx={{ position: 'relative' }}>
           <PageTitle
@@ -117,70 +47,29 @@ export default function Book(props: BookLoungeProps) {
             url={`/lounge/details?id=${lounge.id}`}
           />
           <Lounge
-            airport={lounge?.location}
-            loungeName={lounge?.name}
+            airport={lounge?.location ?? '-'}
+            loungeName={step === 'form' ? lounge?.name ?? '-' : undefined}
             openingTimes={
               (lounge.openingHours as unknown as string[])
                 ?.join(',')
                 .substring(0, 20) ?? '-'
             }
+            image={
+              step === 'confirm'
+                ? lounge.images && lounge.images.length
+                  ? lounge.images[0]?.url ??
+                    'https://cdn03.collinson.cn/lounge-media/image/BHX6-13756.jpg'
+                  : 'https://cdn03.collinson.cn/lounge-media/image/BHX6-13756.jpg'
+                : undefined
+            }
           />
-          <Flex direction="column">
-            <Paper mt={10} radius="md">
-              <DatePicker
-                placeholder="Pick date"
-                label="Date"
-                withAsterisk
-                inputFormat="DD/MM/YYYY"
-                labelFormat="DD/MM/YYYY"
-                styles={{
-                  label: {
-                    color: 'black',
-                    fontWeight: 600,
-                  },
-                }}
-                onChange={onDateChange}
-              />
-            </Paper>
-            <Paper mt={30} radius="md">
-              <InputSelect
-                label="Time of arrival"
-                withAsterisk
-                description="Please check lounge conditions for access times"
-                icon={<Clock size={14} />}
-                onChange={onTimeChange}
-                data={timeSlots}
-                required={true}
-              />
-            </Paper>
-            <Paper mt={30} radius="md">
-              <InputTextArea
-                placeholder="Your comment"
-                label="Your comment"
-                description="Add any considerations for lounge staff"
-                autosize
-                minRows={2}
-                maxRows={4}
-                onChange={onAdditionalRequests}
-              />
-            </Paper>
-            <Paper mt={30} radius="md">
-              <UnstyledButton
-                onClick={handleBook}
-                sx={{
-                  borderRadius: 8,
-                  background: '#000000',
-                  color: '#ffffff',
-                  padding: '12px 24px',
-                  width: '100%',
-                  textAlign: 'center',
-                  fontSize: '18px',
-                }}
-              >
-                Confirm details
-              </UnstyledButton>
-            </Paper>
-          </Flex>
+          {step === 'form' && <BookingForm onSubmit={handleSubmit} />}
+          {step === 'confirm' && formValues && (
+            <BookingFormConfirm
+              {...formValues}
+              onClickConfim={handleClickConfirm}
+            />
+          )}
         </Stack>
       )}
     </>
@@ -196,7 +85,7 @@ interface QueryProps extends NextPageContext {
 }
 
 export async function getServerSideProps({ query }: QueryProps) {
-  const loungeId = query?.id ?? '';
+  const loungeId = query.id;
 
   const { data, loading } = await client.query({
     query: getSearchExperiences,

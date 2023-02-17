@@ -12,94 +12,92 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  Date: any;
+  ObjectID: any;
+  _Any: any;
+  federation__FieldSet: any;
+  link__Import: any;
 };
 
-export type Booking = {
-  __typename?: 'Booking';
-  additionalRequests?: Maybe<Scalars['String']>;
-  bookingState?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['String']>;
-  lounge?: Maybe<Lounge>;
-  reservationDate?: Maybe<Scalars['String']>;
+export type Experience = {
+  __typename?: 'Experience';
+  additionalInformation?: Maybe<Scalars['String']>;
+  category?: Maybe<ExperienceCategory>;
+  conditions?: Maybe<Scalars['String']>;
+  directions?: Maybe<Scalars['String']>;
+  facilities?: Maybe<Array<Maybe<Scalars['String']>>>;
+  id: Scalars['ID'];
+  images?: Maybe<Array<Maybe<Image>>>;
+  location?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  objectID?: Maybe<Scalars['ObjectID']>;
+  openingHours?: Maybe<Array<Maybe<Scalars['String']>>>;
+  operator?: Maybe<Operator>;
+  type?: Maybe<ExperienceType>;
 };
+
+export enum ExperienceCategory {
+  AirportExperience = 'AIRPORT_EXPERIENCE'
+}
+
+export enum ExperienceType {
+  Lounge = 'LOUNGE'
+}
 
 export type Image = {
   __typename?: 'Image';
   altText?: Maybe<Scalars['String']>;
   contentType?: Maybe<Scalars['String']>;
   height?: Maybe<Scalars['Int']>;
+  id: Scalars['ID'];
   url?: Maybe<Scalars['String']>;
   width?: Maybe<Scalars['Int']>;
 };
 
-export type Lounge = {
-  __typename?: 'Lounge';
-  additionInformation?: Maybe<Scalars['String']>;
-  conditions?: Maybe<Scalars['String']>;
-  experienceCategory?: Maybe<Scalars['String']>;
-  facilities?: Maybe<Array<Maybe<Scalars['String']>>>;
-  id?: Maybe<Scalars['String']>;
-  images?: Maybe<Array<Maybe<Image>>>;
-  location?: Maybe<Scalars['String']>;
-  loungeOperator?: Maybe<Scalars['String']>;
+export type Operator = {
+  __typename?: 'Operator';
+  experiences?: Maybe<Array<Maybe<Experience>>>;
+  id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
-  objectID?: Maybe<Scalars['String']>;
-  openingHours?: Maybe<Scalars['String']>;
-  type?: Maybe<Scalars['String']>;
 };
 
 export type Query = {
   __typename?: 'Query';
-  booking?: Maybe<Booking>;
-  bookings?: Maybe<Array<Maybe<Booking>>>;
-  getLoungesByName?: Maybe<Array<Maybe<Lounge>>>;
-  lounge?: Maybe<Lounge>;
-  lounges?: Maybe<Array<Maybe<Lounge>>>;
+  _entities: Array<Maybe<_Entity>>;
+  _service: _Service;
+  searchExperiences?: Maybe<Array<Maybe<Experience>>>;
 };
 
 
-export type QueryBookingArgs = {
-  id: Scalars['String'];
+export type Query_EntitiesArgs = {
+  representations: Array<Scalars['_Any']>;
 };
 
 
-export type QueryGetLoungesByNameArgs = {
-  loungeName: Scalars['String'];
+export type QuerySearchExperiencesArgs = {
+  query?: InputMaybe<Scalars['String']>;
 };
 
+export type _Entity = Experience | Image | Operator;
 
-export type QueryLoungeArgs = {
-  id: Scalars['String'];
+export type _Service = {
+  __typename?: '_Service';
+  sdl?: Maybe<Scalars['String']>;
 };
 
-export type BookingQueryVariables = Exact<{
-  id: Scalars['String'];
+export enum Link__Purpose {
+  /** `EXECUTION` features provide metadata necessary for operation execution. */
+  Execution = 'EXECUTION',
+  /** `SECURITY` features provide metadata necessary to securely resolve fields. */
+  Security = 'SECURITY'
+}
+
+export type SearchExperiencesQueryVariables = Exact<{
+  query?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type BookingQuery = { __typename?: 'Query', booking?: { __typename?: 'Booking', id?: string | null, additionalRequests?: string | null, bookingState?: string | null, reservationDate?: string | null, lounge?: { __typename?: 'Lounge', name?: string | null, location?: string | null, id?: string | null, images?: Array<{ __typename?: 'Image', url?: string | null, height?: number | null, width?: number | null } | null> | null } | null } | null };
-
-export type LoungeQueryVariables = Exact<{
-  id: Scalars['String'];
-}>;
+export type SearchExperiencesQuery = { __typename?: 'Query', searchExperiences?: Array<{ __typename?: 'Experience', id: string, name?: string | null, location?: string | null, facilities?: Array<string | null> | null, openingHours?: Array<string | null> | null, conditions?: string | null, images?: Array<{ __typename?: 'Image', altText?: string | null, url?: string | null, height?: number | null, width?: number | null, id: string } | null> | null } | null> | null };
 
 
-export type LoungeQuery = { __typename?: 'Query', lounge?: { __typename?: 'Lounge', name?: string | null, location?: string | null, openingHours?: string | null, conditions?: string | null, facilities?: Array<string | null> | null, id?: string | null, images?: Array<{ __typename?: 'Image', url?: string | null, height?: number | null, width?: number | null } | null> | null } | null };
-
-export type LoungesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type LoungesQuery = { __typename?: 'Query', lounges?: Array<{ __typename?: 'Lounge', id?: string | null, name?: string | null, location?: string | null, images?: Array<{ __typename?: 'Image', url?: string | null } | null> | null } | null> | null };
-
-export type GetLoungesByNameQueryVariables = Exact<{
-  loungeName: Scalars['String'];
-}>;
-
-
-export type GetLoungesByNameQuery = { __typename?: 'Query', getLoungesByName?: Array<{ __typename?: 'Lounge', name?: string | null, location?: string | null, openingHours?: string | null, conditions?: string | null, facilities?: Array<string | null> | null, id?: string | null, images?: Array<{ __typename?: 'Image', url?: string | null, height?: number | null, width?: number | null } | null> | null } | null> | null };
-
-
-export const BookingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Booking"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"booking"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"additionalRequests"}},{"kind":"Field","name":{"kind":"Name","value":"bookingState"}},{"kind":"Field","name":{"kind":"Name","value":"reservationDate"}},{"kind":"Field","name":{"kind":"Name","value":"lounge"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"images"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"width"}}]}}]}}]}}]}}]} as unknown as DocumentNode<BookingQuery, BookingQueryVariables>;
-export const LoungeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Lounge"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lounge"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"openingHours"}},{"kind":"Field","name":{"kind":"Name","value":"conditions"}},{"kind":"Field","name":{"kind":"Name","value":"facilities"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"images"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"width"}}]}}]}}]}}]} as unknown as DocumentNode<LoungeQuery, LoungeQueryVariables>;
-export const LoungesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Lounges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"lounges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"images"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}}]} as unknown as DocumentNode<LoungesQuery, LoungesQueryVariables>;
-export const GetLoungesByNameDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getLoungesByName"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"loungeName"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getLoungesByName"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"loungeName"},"value":{"kind":"Variable","name":{"kind":"Name","value":"loungeName"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"openingHours"}},{"kind":"Field","name":{"kind":"Name","value":"conditions"}},{"kind":"Field","name":{"kind":"Name","value":"facilities"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"images"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"width"}}]}}]}}]}}]} as unknown as DocumentNode<GetLoungesByNameQuery, GetLoungesByNameQueryVariables>;
+export const SearchExperiencesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SearchExperiences"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"query"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"searchExperiences"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"query"},"value":{"kind":"Variable","name":{"kind":"Name","value":"query"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"location"}},{"kind":"Field","name":{"kind":"Name","value":"facilities"}},{"kind":"Field","name":{"kind":"Name","value":"openingHours"}},{"kind":"Field","name":{"kind":"Name","value":"conditions"}},{"kind":"Field","name":{"kind":"Name","value":"images"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"altText"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<SearchExperiencesQuery, SearchExperiencesQueryVariables>;

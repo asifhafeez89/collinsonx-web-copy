@@ -1,10 +1,10 @@
 import { Box, Flex, Stack, Title, Text } from '@collinsonx/design-system/core';
 import { MapPin, Coffee } from '@collinsonx/design-system/assets/icons';
 import ResultsItem from './ResultsItem';
-import { LoungeData } from '@collinsonx/utils/types/lounge';
+import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
 
 interface ResultsProps {
-  data: LoungeData[];
+  data: Experience[];
   onClick: (id: string) => void;
 }
 

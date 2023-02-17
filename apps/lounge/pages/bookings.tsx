@@ -8,13 +8,14 @@ import { useState } from 'react';
 import BookingCardConfirmed from '../components/BookingCardConfirmed';
 import { useRouter } from 'next/router';
 import { NextPageContext } from 'next';
-import { Booking } from '@collinsonx/utils/generatedTypes/graphql';
 import { client } from '@collinsonx/utils/apollo';
 import { getBookings } from '@collinsonx/utils/queries';
 import { BookingStatus } from '@components/BookingBadge';
 import bookings from './bookingsMock.json';
 
 type DataStatus = 'empty' | 'hasData';
+
+type Booking = (typeof bookings)[number];
 
 interface BookingsDetailProps {
   bookings: Booking[];

@@ -13,10 +13,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel-plugin for production.
  */
 const documents = {
-    "\n  query Booking($id: String!) {\n    booking(id: $id) {\n      id\n      additionalRequests\n      bookingState\n      reservationDate\n      lounge {\n        name\n        location\n        id\n        images {\n          url\n          height\n          width\n        }\n      }\n    }\n  }\n": types.BookingDocument,
-    "\n  query Lounge($id: String!) {\n    lounge(id: $id) {\n      name\n      location\n      openingHours\n      conditions\n      facilities\n      id\n      images {\n        url\n        height\n        width\n      }\n    }\n  }\n": types.LoungeDocument,
-    "\n  query Lounges {\n    lounges {\n      id\n      name\n      location\n      images {\n        url\n      }\n    }\n  }\n": types.LoungesDocument,
-    "\n  query getLoungesByName($loungeName: String!) {\n    getLoungesByName(loungeName: $loungeName) {\n      name\n      location\n      openingHours\n      conditions\n      facilities\n      id\n      images {\n        url\n        height\n        width\n      }\n    }\n  }\n": types.GetLoungesByNameDocument,
+    "\n  query SearchExperiences($query: String) {\n    searchExperiences(query: $query) {\n      id\n      name\n      location\n      facilities\n      openingHours\n      conditions\n      images {\n        altText\n        url\n        height\n        width\n        id\n      }\n    }\n  }\n": types.SearchExperiencesDocument,
 };
 
 /**
@@ -36,19 +33,7 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query Booking($id: String!) {\n    booking(id: $id) {\n      id\n      additionalRequests\n      bookingState\n      reservationDate\n      lounge {\n        name\n        location\n        id\n        images {\n          url\n          height\n          width\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  query Booking($id: String!) {\n    booking(id: $id) {\n      id\n      additionalRequests\n      bookingState\n      reservationDate\n      lounge {\n        name\n        location\n        id\n        images {\n          url\n          height\n          width\n        }\n      }\n    }\n  }\n"];
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "\n  query Lounge($id: String!) {\n    lounge(id: $id) {\n      name\n      location\n      openingHours\n      conditions\n      facilities\n      id\n      images {\n        url\n        height\n        width\n      }\n    }\n  }\n"): (typeof documents)["\n  query Lounge($id: String!) {\n    lounge(id: $id) {\n      name\n      location\n      openingHours\n      conditions\n      facilities\n      id\n      images {\n        url\n        height\n        width\n      }\n    }\n  }\n"];
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "\n  query Lounges {\n    lounges {\n      id\n      name\n      location\n      images {\n        url\n      }\n    }\n  }\n"): (typeof documents)["\n  query Lounges {\n    lounges {\n      id\n      name\n      location\n      images {\n        url\n      }\n    }\n  }\n"];
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "\n  query getLoungesByName($loungeName: String!) {\n    getLoungesByName(loungeName: $loungeName) {\n      name\n      location\n      openingHours\n      conditions\n      facilities\n      id\n      images {\n        url\n        height\n        width\n      }\n    }\n  }\n"): (typeof documents)["\n  query getLoungesByName($loungeName: String!) {\n    getLoungesByName(loungeName: $loungeName) {\n      name\n      location\n      openingHours\n      conditions\n      facilities\n      id\n      images {\n        url\n        height\n        width\n      }\n    }\n  }\n"];
+export function graphql(source: "\n  query SearchExperiences($query: String) {\n    searchExperiences(query: $query) {\n      id\n      name\n      location\n      facilities\n      openingHours\n      conditions\n      images {\n        altText\n        url\n        height\n        width\n        id\n      }\n    }\n  }\n"): (typeof documents)["\n  query SearchExperiences($query: String) {\n    searchExperiences(query: $query) {\n      id\n      name\n      location\n      facilities\n      openingHours\n      conditions\n      images {\n        altText\n        url\n        height\n        width\n        id\n      }\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

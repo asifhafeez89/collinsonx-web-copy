@@ -29,12 +29,19 @@
         "@collinsonx/design-system#build"
       ]
     },
+    "@collinsox/storybook#dev": {
+      "dependsOn": ["@collinsonx/utils#build"]
+    },
+    "@collinsox/design-system#dev": {
+      "dependsOn": ["@collinsonx/utils#build"]
+    },
     "main#build": {
       "dependsOn": [
         "^build",
         "$SEARCH_URL",
         "$LOUNGE_URL",
-        "$PRODUCTION_API_URL"
+        "$PRODUCTION_API_URL",
+        "$APP_PORT"
       ],
       "outputs": [".next/**"]
     },

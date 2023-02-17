@@ -5,10 +5,11 @@ import { Title, Stack, Box, Image, Text } from '@collinsonx/design-system/core';
 import { NextPageContext } from 'next';
 import { client } from '@collinsonx/utils/apollo';
 import { getBooking } from '@collinsonx/utils/queries';
-import { Booking, Lounge } from '@collinsonx/utils/generatedTypes/graphql';
 import dayjs from 'dayjs';
 import { BookingStatus } from '@components/BookingBadge';
 import bookings from './bookingsMock.json';
+
+type Booking = (typeof bookings)[number];
 
 interface BookingDetailProps {
   booking: Booking;
@@ -23,7 +24,7 @@ export default function BookingDetails({
     return <div>Loading</div>;
   }
   const { lounge, reservationDate, additionalRequests, bookingState } = booking;
-  const { name, location, images } = lounge as Lounge;
+  const { name, location, images } = lounge;
 
   return (
     <Stack>

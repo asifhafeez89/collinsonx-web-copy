@@ -4,15 +4,15 @@ import { Button, Card } from '@collinsonx/design-system';
 import { Filter } from '@collinsonx/design-system/assets/icons';
 
 import Layout from '../components/Layout';
-import { LoungeData } from '@collinsonx/utils/types/lounge';
+import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
 import { client } from '@collinsonx/utils/apollo';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
 
-export default function Landing({ lounges }: { lounges: LoungeData[] }) {
+export default function Landing({ lounges }: { lounges: Experience[] }) {
   const router = useRouter();
 
   const handleClickSearch = () => {};
-  const goToLoungeDetails = (lounge: LoungeData) => {
+  const goToLoungeDetails = (lounge: Experience) => {
     router.push({
       pathname: '/details',
       query: { id: lounge.id },
@@ -40,11 +40,12 @@ export default function Landing({ lounges }: { lounges: LoungeData[] }) {
           const { name, location, id, images } = lounge;
           return (
             <Card
-              title={name}
-              subtitle={location}
+              title={name || '-'}
+              subtitle={location || '-'}
               pictureUrl={
-                images.length
-                  ? images[0].url
+                images && images.length
+                  ? images[0]?.url ||
+                    'https://cdn03.collinson.cn/lounge-media/image/BHX6-13756.jpg'
                   : 'https://cdn03.collinson.cn/lounge-media/image/BHX6-13756.jpg'
               }
               handleClick={() => goToLoungeDetails(lounge)}
