@@ -7,10 +7,6 @@ export default function Home() {
   const router = useRouter();
   const [ isLoggedIn, userId, logout ] = useAuth();
 
-  console.log(userId);
-  console.log(isLoggedIn);
-
-
   const handleLogout = async () => {
     if (typeof logout === 'function') {
        await logout();
