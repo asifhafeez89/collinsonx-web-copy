@@ -12,7 +12,7 @@ import LayoutLogin from '../components/LayoutLogin';
 
 import { AuthInput } from '@collinsonx/design-system';
 import { LoginCode } from '@collinsonx/design-system/assets/graphics';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export default function CheckEmail() {
   const router = useRouter();
@@ -78,7 +78,15 @@ export default function CheckEmail() {
             </Button>
           </Text>
           <AuthInput handleCodeChange={(code) => setCode(code)} />
-          <Button onClick={handleClickConfirm} fullWidth>
+          <Button
+            onClick={handleClickConfirm}
+            fullWidth
+            sx={{
+              padding: 8,
+              height: 44,
+              borderRadius: 4,
+            }}
+          >
             Confirm
           </Button>
         </Stack>
@@ -90,7 +98,7 @@ export default function CheckEmail() {
               maxHeight: '304px',
             }}
           >
-            <LoginCode handleOnChange={(code: string) => setCode(code)} />
+            <LoginCode />
           </Box>
         </Flex>
       </Stack>

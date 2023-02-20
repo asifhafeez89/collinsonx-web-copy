@@ -1,1 +1,1 @@
-export { themeDark, themeLight } from '@collinsonx/utils/themes';
+export { themeDark, experienceX } from '@collinsonx/utils/themes';

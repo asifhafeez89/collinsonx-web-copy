@@ -3,14 +3,14 @@ import { NextPage } from 'next';
 import { ComponentType, ReactElement, useEffect } from 'react';
 import { MantineProvider } from '@collinsonx/design-system/core';
 import Head from 'next/head';
-import { themeDark } from '@collinsonx/design-system/themes';
+import { experienceX } from '@collinsonx/design-system/themes';
 import { Be_Vietnam_Pro } from '@next/font/google';
 import Client from '@collinsonx/utils/provider';
 import { frontendConfig } from '../config/frontendConfig';
 import { SuperTokensConfig } from 'supertokens-auth-react/lib/build/types';
-import Session from 'supertokens-auth-react/recipe/session'
+import Session from 'supertokens-auth-react/recipe/session';
 
-import SuperTokensReact from 'supertokens-auth-react'
+import SuperTokensReact from 'supertokens-auth-react';
 
 if (typeof window !== 'undefined') {
   // we only want to call this init function on the frontend, so
@@ -33,8 +33,9 @@ type Props = AppProps & {
   Component: Page;
 };
 
+const theme = experienceX({ fontFamily: beVietnamPro.style.fontFamily });
+
 export default function MyApp({ Component, pageProps }: Props) {
-  
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page);
   return (
@@ -46,13 +47,22 @@ export default function MyApp({ Component, pageProps }: Props) {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
+
       <Client>
         <MantineProvider
-          theme={themeDark({ fontFamily: beVietnamPro.style.fontFamily })}
-          withGlobalStyles
-          withNormalizeCSS
+          theme={{
+            ...theme,
+            globalStyles: ({ colors }) => ({
+              ...theme.globalStyles,
+              body: {
+                backgroundColor: colors.splashColor[0],
+                color: '#FFF',
+                margin: 0,
+              },
+            }),
+          }}
         >
-           {getLayout(<Component {...pageProps} />)}
+          {getLayout(<Component {...pageProps} />)}
         </MantineProvider>
       </Client>
     </>

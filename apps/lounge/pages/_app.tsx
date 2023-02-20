@@ -4,7 +4,7 @@ import { ComponentType, ReactElement } from 'react';
 import { MantineProvider } from '@collinsonx/design-system/core';
 import Head from 'next/head';
 
-import { themeLight } from '@collinsonx/design-system/themes';
+import { experienceX } from '@collinsonx/design-system/themes';
 
 import { Be_Vietnam_Pro } from '@next/font/google';
 
@@ -39,7 +39,7 @@ export default function MyApp({ Component, pageProps }: Props) {
       </Head>
       <Client>
         <MantineProvider
-          theme={themeLight({ fontFamily: beVietnamPro.style.fontFamily })}
+          theme={experienceX({ fontFamily: beVietnamPro.style.fontFamily })}
           withGlobalStyles
           withNormalizeCSS
         >

@@ -1,5 +1,5 @@
 import { Container, MantineProvider } from '@collinsonx/design-system/core';
-import { Header, themeLight } from '@collinsonx/design-system';
+import { Header, experienceX } from '@collinsonx/design-system';
 import { Be_Vietnam_Pro } from '@next/font/google';
 
 import { Cart, Chat, Home } from '@collinsonx/design-system/assets/icons';

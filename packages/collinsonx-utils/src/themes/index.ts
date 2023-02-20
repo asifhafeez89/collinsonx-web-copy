@@ -1,2 +1,2 @@
 export { default as themeDark } from './themeDark';
-export { default as themeLight } from './themeLight';
+export { default as experienceX } from './experienceX';

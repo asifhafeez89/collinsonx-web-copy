@@ -75,13 +75,19 @@ const theme = ({ fontFamily }: ThemeOptions): MantineThemeOverride => ({
     },
     TextInput: {
       styles: ({ colors }) => ({
+        root: {
+          borderRadius: '4px',
+        },
         input: {
-          padding: '11px',
+          padding: '11px 16px',
           fontSize: '18px',
           height: '50px',
           backgroundColor: colors.white[0],
-          borderRadius: 0,
+          borderColor: colors.gray[4],
           color: colors.dark[6],
+          '::placeholder': {
+            color: colors.gray[6],
+          },
         },
         label: {
           fontFamily,

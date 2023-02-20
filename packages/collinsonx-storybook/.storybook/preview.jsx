@@ -1,16 +1,17 @@
 import { MantineProvider } from '@collinsonx/utils/core';
-import { themeLight, themeDark } from '@collinsonx/utils/themes';
+import { experienceX, themeDark } from '@collinsonx/utils/themes';
+
+const themes = {
+  experienceX: () => experienceX({ fontFamily: 'Be Vietnam Pro' }),
+  dark: () => themeDark({ fontFamily: 'Be Vietnam Pro' }),
+};
 
 const withTheme = (StoryFn, context) => {
-  const theme = context.parameters.theme || context.globals.theme;
-  const storyTheme = theme === 'dark' ? themeDark : themeLight;
+  const themeName = context.parameters.theme || context.globals.theme;
+  const storyTheme = themes[themeName] ?? experienceX;
 
   return (
-    <MantineProvider
-      theme={storyTheme({ fontFamily: 'Be Vietnam Pro' })}
-      withGlobalStyles
-      withNormalizeCSS
-    >
+    <MantineProvider theme={storyTheme()} withGlobalStyles withNormalizeCSS>
       <StoryFn />
     </MantineProvider>
   );
@@ -26,7 +27,7 @@ export const globalTypes = {
       // icon: 'circlehollow',
       // Array of options
       items: [
-        { value: 'light', title: 'Default' },
+        { value: 'experienceX', title: 'Experience X' },
         { value: 'dark', title: 'Dark' },
       ],
       // Property that specifies if the name of the item will be displayed

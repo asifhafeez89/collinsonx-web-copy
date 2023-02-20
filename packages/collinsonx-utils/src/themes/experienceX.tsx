@@ -5,12 +5,13 @@ type ThemeOptions = {
 };
 
 const theme = ({ fontFamily }: ThemeOptions): MantineThemeOverride => ({
-  colorScheme: 'light',
   colors: {
-    white: ['#FFF'],
+    brandColor: ['#946A00'],
+    splashColor: ['#112232'],
   },
-  primaryColor: 'dark',
-  primaryShade: 6,
+  colorScheme: 'light',
+  primaryColor: 'brandColor',
+  primaryShade: 0,
   defaultRadius: 4,
   spacing: { xs: 15, sm: 20, md: 25, lg: 30, xl: 40 },
   fontFamily,
@@ -18,7 +19,6 @@ const theme = ({ fontFamily }: ThemeOptions): MantineThemeOverride => ({
     body: {
       height: '100%',
       color: colors.dark[6],
-      backgroundCololor: 'white',
       fontWeight: 400,
     },
     html: {
@@ -77,12 +77,20 @@ const theme = ({ fontFamily }: ThemeOptions): MantineThemeOverride => ({
     TextInput: {
       styles: ({ colors }) => ({
         input: {
-          padding: '11px',
+          padding: '11px 16px',
           fontSize: '18px',
           height: '50px',
-          backgroundColor: 'white',
-          borderRadius: 0,
+          backgroundColor: colors.white,
+          borderRadius: 4,
+          borderColor: colors.gray[4],
           color: colors.dark[6],
+          '::placeholder': {
+            color: colors.gray[6],
+          },
+          ':focus': {
+            color: colors.dark[6],
+            borderColor: colors.dark[6],
+          },
         },
         label: {
           fontFamily,

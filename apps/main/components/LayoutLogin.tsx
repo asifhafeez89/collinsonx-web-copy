@@ -16,6 +16,7 @@ export default function LayoutLogin({ children }: LayoutProps) {
   return (
     <Container
       pt={40}
+      px={16}
       sx={{
         maxWidth: '375px',
         height: '100%',
