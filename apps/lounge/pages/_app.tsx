@@ -14,6 +14,8 @@ import SuperTokensReact, {
   SuperTokensWrapper,
   SuperTokensConfig,
 } from '@collinsonx/utils/supertokens';
+import {SysAuth, Logout} from '@collinsonx/utils/components';
+
 
 if (typeof window !== 'undefined') {
   // we only want to call this init function on the frontend, so
@@ -51,13 +53,15 @@ export default function MyApp({ Component, pageProps }: Props) {
       </Head>
       <Client>
         <SuperTokensWrapper>
-          <MantineProvider
-            theme={themeLight({ fontFamily: beVietnamPro.style.fontFamily })}
-            withGlobalStyles
-            withNormalizeCSS
-          >
-            {getLayout(<Component {...pageProps} />)}
-          </MantineProvider>
+          <SysAuth>
+            <MantineProvider
+              theme={themeLight({ fontFamily: beVietnamPro.style.fontFamily })}
+              withGlobalStyles
+              withNormalizeCSS
+            >
+              {getLayout(<Component {...pageProps} />)}
+            </MantineProvider>
+          </SysAuth>
         </SuperTokensWrapper>
       </Client>
     </>

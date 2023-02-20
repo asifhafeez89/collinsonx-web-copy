@@ -1,27 +1,11 @@
+import React from 'react'
 import Layout from '../components/Layout';
-import { useRouter } from 'next/router';
-import useAuth from '@collinsonx/utils/hooks/useAuth';
+import {SysAuth, Logout} from '@collinsonx/utils/components';
 
 export default function Home() {
-  const router = useRouter();
-  const [isLoggedIn, userId, logout] = useAuth({
-    onExpiredSession: () => {
-      router.push({
-        pathname: '/',
-      });
-    },
-  });
-
-  const handleLogout = async () => {
-    if (typeof logout === 'function') {
-      await logout();
-    }
-    router.push({
-      pathname: '/',
-    });
-  };
-
-  return <>{isLoggedIn && <div onClick={handleLogout}>Signout</div>}</>;
+  return <SysAuth>
+    <Logout />
+  </SysAuth>
 }
 
 Home.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;

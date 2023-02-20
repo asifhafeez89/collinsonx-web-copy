@@ -6,7 +6,7 @@ import {
 } from '../supertokens';
 
 interface Props {
-  onExpiredSession: () => void;
+  onExpiredSession?: () => void;
 }
 
 const useAuth = ({ onExpiredSession }: Props) => {
@@ -20,11 +20,9 @@ const useAuth = ({ onExpiredSession }: Props) => {
     setIsLoggedIn(sessionState);
 
     if (!sessionState) {
-      onExpiredSession();
-      /*
-      router.push({
-        pathname: '/',
-      });*/
+      if(onExpiredSession) {
+        onExpiredSession();
+      }
     }
   }, [onExpiredSession, setUserId, setIsLoggedIn]);
 

@@ -1,1 +1,1 @@
-export { default } from '@collinsonx/utils/datepicker';
+export { default } from '@collinsonx/utils/components/datepicker';
