@@ -90,7 +90,7 @@ export default function CheckEmail() {
               maxHeight: '304px',
             }}
           >
-            <LoginCode handleOnChange={(code: string) => setCode(code)} />
+            <LoginCode />
           </Box>
         </Flex>
       </Stack>
