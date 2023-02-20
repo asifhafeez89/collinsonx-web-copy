@@ -14,12 +14,13 @@ const useAuth = ({ onExpiredSession }: Props) => {
   const [userId, setUserId] = useState<String | null>(null);
 
   const init = useCallback(async () => {
-    const userId = await getUserId();
     const sessionState = await doesSessionExist();
-    setUserId(userId);
     setIsLoggedIn(sessionState);
 
-    if (!sessionState) {
+    if (sessionState) {
+      const userId = await getUserId();
+      setUserId(userId);
+    } else {
       onExpiredSession();
       /*
       router.push({
