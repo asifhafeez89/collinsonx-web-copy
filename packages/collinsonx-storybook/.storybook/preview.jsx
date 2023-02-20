@@ -21,7 +21,7 @@ export const globalTypes = {
   theme: {
     name: 'Theme',
     description: 'Global theme for components',
-    defaultValue: 'light',
+    defaultValue: 'experienceX',
     toolbar: {
       // The icon for the toolbar item
       // icon: 'circlehollow',
