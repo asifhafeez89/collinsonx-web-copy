@@ -1,15 +1,17 @@
-import { MantineThemeOverride } from '@mantine/core';
+import { ColorSchemeProvider, MantineThemeOverride } from '@mantine/core';
 
 type ThemeOptions = {
   fontFamily: string;
 };
 
 const theme = ({ fontFamily }: ThemeOptions): MantineThemeOverride => ({
-  colorScheme: 'dark',
   colors: {
-    white: ['#FFF'],
+    brandColor: ['#D3DAE1'],
+    splashColor: ['#858B91'],
+    brandBlue: ['#006FCF'],
   },
-  primaryColor: 'white',
+  colorScheme: 'light',
+  primaryColor: 'brandColor',
   primaryShade: 0,
   defaultRadius: 4,
   spacing: { xs: 15, sm: 20, md: 25, lg: 30, xl: 40 },
@@ -17,8 +19,7 @@ const theme = ({ fontFamily }: ThemeOptions): MantineThemeOverride => ({
   globalStyles: ({ colors }) => ({
     body: {
       height: '100%',
-      backgroundColor: colors.dark[6],
-      color: colors.white[0],
+      color: colors.black,
       fontWeight: 400,
     },
     html: {
@@ -38,7 +39,7 @@ const theme = ({ fontFamily }: ThemeOptions): MantineThemeOverride => ({
       styles: ({ colors }) => ({
         label: {
           fontSize: '18px',
-          color: colors.white[0],
+          color: 'white',
         },
         required: {
           color: colors.red[6],
@@ -51,9 +52,10 @@ const theme = ({ fontFamily }: ThemeOptions): MantineThemeOverride => ({
     Input: {
       styles: ({ colors }) => ({
         input: {
-          backgroundColor: colors.white[0],
+          backgroundColor: 'white',
           height: '50px',
           borderRadius: 0,
+          borderColor: colors.gray[4],
           color: colors.dark[6],
           '::placeholder': {
             color: colors.gray[5],
@@ -75,32 +77,25 @@ const theme = ({ fontFamily }: ThemeOptions): MantineThemeOverride => ({
     },
     TextInput: {
       styles: ({ colors }) => ({
-        root: {
-          borderRadius: '4px',
-        },
         input: {
           padding: '11px 16px',
           fontSize: '18px',
           height: '50px',
-          backgroundColor: colors.white[0],
+          backgroundColor: colors.white,
+          borderRadius: 4,
           borderColor: colors.gray[4],
           color: colors.dark[6],
           '::placeholder': {
             color: colors.gray[6],
           },
+          ':focus': {
+            color: colors.dark[6],
+            borderColor: colors.dark[6],
+          },
         },
         label: {
           fontFamily,
           fontWeight: 600,
-        },
-      }),
-    },
-    Button: {
-      styles: ({ colors }) => ({
-        root: {
-          height: '53px',
-          fontSize: '18px',
-          color: colors.dark[6],
         },
       }),
     },

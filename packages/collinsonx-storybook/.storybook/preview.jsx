@@ -1,9 +1,16 @@
 import { MantineProvider } from '@collinsonx/utils/core';
-import { experienceX, themeDark } from '@collinsonx/utils/themes';
+import {
+  experienceX,
+  dinersClub,
+  amexBlack,
+  amexPlatinum,
+} from '@collinsonx/utils/themes';
 
 const themes = {
   experienceX: () => experienceX({ fontFamily: 'Be Vietnam Pro' }),
-  dark: () => themeDark({ fontFamily: 'Be Vietnam Pro' }),
+  dinersClub: () => dinersClub({ fontFamily: 'Gotham Book' }),
+  amexBlack: () => amexBlack({ fontFamily: 'Benton Sans' }),
+  amexPlatinum: () => amexPlatinum({ fontFamily: 'Benton Sans' }),
 };
 
 const withTheme = (StoryFn, context) => {
@@ -27,11 +34,14 @@ export const globalTypes = {
       // icon: 'circlehollow',
       // Array of options
       items: [
-        { value: 'experienceX', title: 'Experience X' },
-        { value: 'dark', title: 'Dark' },
+        { title: 'Experience X', value: 'experienceX' },
+        { title: 'Diners Club', value: 'dinersClub' },
+        { title: 'AMEX Black', value: 'amexBlack' },
+        { title: 'AMEX Platinum', value: 'amexPlatinum' },
       ],
       // Property that specifies if the name of the item will be displayed
       showName: true,
+      dynamicTitle: true,
     },
   },
 };
