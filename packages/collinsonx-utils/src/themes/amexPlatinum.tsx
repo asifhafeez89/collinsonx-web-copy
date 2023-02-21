@@ -80,7 +80,11 @@ const theme = (
     Button: {
       styles: ({ colors }) => ({
         root: {
-          backgroundColor: colors.white,
+          backgroundColor: '#FFF',
+          color: '#000',
+        },
+        label: {
+          color: '#000',
         },
       }),
     },
