@@ -1,10 +1,12 @@
-import { ColorSchemeProvider, MantineThemeOverride } from '@mantine/core';
+import { MantineThemeOverride } from '@mantine/core';
 
 type ThemeOptions = {
-  fontFamily: string;
+  fontFamily?: string;
 };
 
-const theme = ({ fontFamily }: ThemeOptions): MantineThemeOverride => ({
+const theme = (
+  { fontFamily }: ThemeOptions = { fontFamily: 'Gotham' }
+): MantineThemeOverride => ({
   colors: {
     brandColor: ['#034E98'],
     splashColor: ['#044F99'],
@@ -72,6 +74,13 @@ const theme = ({ fontFamily }: ThemeOptions): MantineThemeOverride => ({
           },
         },
       }),
+    },
+    Button: {
+      styles: {
+        root: {
+          fontWeight: 700,
+        },
+      },
     },
     TextInput: {
       styles: ({ colors }) => ({

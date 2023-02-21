@@ -1,17 +1,19 @@
 import { ColorSchemeProvider, MantineThemeOverride } from '@mantine/core';
 
 type ThemeOptions = {
-  fontFamily: string;
+  fontFamily?: string;
 };
 
-const theme = ({ fontFamily }: ThemeOptions): MantineThemeOverride => ({
+const theme = (
+  { fontFamily }: ThemeOptions = { fontFamily: 'BentonSans Book' }
+): MantineThemeOverride => ({
   colors: {
+    mainColor: ['#FFF'],
     brandColor: ['#D3DAE1'],
     splashColor: ['#858B91'],
     brandBlue: ['#006FCF'],
   },
-  colorScheme: 'light',
-  primaryColor: 'brandColor',
+  primaryColor: 'mainColor',
   primaryShade: 0,
   defaultRadius: 4,
   spacing: { xs: 15, sm: 20, md: 25, lg: 30, xl: 40 },
@@ -72,6 +74,13 @@ const theme = ({ fontFamily }: ThemeOptions): MantineThemeOverride => ({
           '::placeholder': {
             color: colors.gray[5],
           },
+        },
+      }),
+    },
+    Button: {
+      styles: ({ colors }) => ({
+        root: {
+          backgroundColor: colors.white,
         },
       }),
     },

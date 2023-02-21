@@ -1,10 +1,12 @@
-import { ColorSchemeProvider, MantineThemeOverride } from '@mantine/core';
+import { MantineThemeOverride } from '@mantine/core';
 
 type ThemeOptions = {
-  fontFamily: string;
+  fontFamily?: string;
 };
 
-const theme = ({ fontFamily }: ThemeOptions): MantineThemeOverride => ({
+const theme = (
+  { fontFamily }: ThemeOptions = { fontFamily: 'Be Vietnam Pro' }
+): MantineThemeOverride => ({
   colors: {
     brandColor: ['#946A00'],
     splashColor: ['#112232'],

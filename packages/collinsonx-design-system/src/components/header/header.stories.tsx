@@ -5,7 +5,7 @@ import Header from './index';
 import { Box } from '@collinsonx/utils/core';
 
 export default {
-  title: 'Components/Header',
+  title: 'Theme/Header',
   component: Header,
   argTypes: {
     backgroundColor: { control: 'color' },

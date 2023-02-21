@@ -9,10 +9,10 @@ import {
 import '../style.css';
 
 const themes = {
-  experienceX: () => experienceX({ fontFamily: 'Be Vietnam Pro' }),
-  dinersClub: () => dinersClub({ fontFamily: 'Gotham' }),
-  amexBlack: () => amexBlack({ fontFamily: 'BentonSans Book' }),
-  amexPlatinum: () => amexPlatinum({ fontFamily: 'BentonSans Book' }),
+  experienceX,
+  dinersClub,
+  amexBlack,
+  amexPlatinum,
 };
 
 const withTheme = (StoryFn, context) => {
