@@ -12,6 +12,8 @@
     "build:search": "turbo run build --filter=search...",
     "build:lounge": "turbo run build --filter=lounge...",
     "build:partner-management": "turbo run build --filter=partner-management...",
+    "test": "turbo run test",
+    "build:utils": "turbo run jest --filter=utils...",
     "dev": "turbo run dev",
     "start": "turbo run start",
     "clean": "turbo run clean && rm -rf node_modules",
