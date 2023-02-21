@@ -21,15 +21,15 @@ const Template: ComponentStory<typeof Status> = (args) => (
 
 export const Pending = Template.bind({});
 Pending.args = {
-  status: 'pending',
+  status: 'PENDING',
 };
 
 export const Confirmed = Template.bind({});
 Confirmed.args = {
-  status: 'confirmed',
+  status: 'CONFIRMED',
 };
 
 export const Declined = Template.bind({});
 Declined.args = {
-  status: 'declined',
+  status: 'DECLINED',
 };
