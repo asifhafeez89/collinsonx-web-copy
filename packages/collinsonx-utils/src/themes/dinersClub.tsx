@@ -19,7 +19,6 @@ const theme = ({ fontFamily }: ThemeOptions): MantineThemeOverride => ({
     body: {
       height: '100%',
       color: colors.dark[6],
-      fontWeight: 400,
     },
     html: {
       height: '100%',

@@ -6,11 +6,13 @@ import {
   amexPlatinum,
 } from '@collinsonx/utils/themes';
 
+import '../style.css';
+
 const themes = {
   experienceX: () => experienceX({ fontFamily: 'Be Vietnam Pro' }),
-  dinersClub: () => dinersClub({ fontFamily: 'Gotham Book' }),
-  amexBlack: () => amexBlack({ fontFamily: 'Benton Sans' }),
-  amexPlatinum: () => amexPlatinum({ fontFamily: 'Benton Sans' }),
+  dinersClub: () => dinersClub({ fontFamily: 'Gotham' }),
+  amexBlack: () => amexBlack({ fontFamily: 'BentonSans Book' }),
+  amexPlatinum: () => amexPlatinum({ fontFamily: 'BentonSans Book' }),
 };
 
 const withTheme = (StoryFn, context) => {
@@ -26,12 +28,13 @@ const withTheme = (StoryFn, context) => {
 
 export const globalTypes = {
   theme: {
-    name: 'Theme',
+    title: 'Theme',
     description: 'Global theme for components',
     defaultValue: 'experienceX',
     toolbar: {
       // The icon for the toolbar item
-      // icon: 'circlehollow',
+      //icon: 'circlehollow',
+      title: 'Theme',
       // Array of options
       items: [
         { title: 'Experience X', value: 'experienceX' },
@@ -39,8 +42,6 @@ export const globalTypes = {
         { title: 'AMEX Black', value: 'amexBlack' },
         { title: 'AMEX Platinum', value: 'amexPlatinum' },
       ],
-      // Property that specifies if the name of the item will be displayed
-      showName: true,
       dynamicTitle: true,
     },
   },

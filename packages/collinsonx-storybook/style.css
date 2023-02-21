@@ -1,0 +1,32 @@
+@font-face {
+  font-family: 'BentonSans Book';
+  src: url('./public/fonts/BentonSansBook/BentonSansBook.otf')
+    format('opentype');
+}
+
+@font-face {
+  font-family: 'BentonSans Medium';
+  src: url('./public/fonts/BentonSansMedium/BentonSans Medium.otf')
+    format('opentype');
+}
+
+@font-face {
+  font-family: 'Gotham';
+  src: url('./public/fonts/Gotham/Gotham-Black.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Gotham';
+  src: url('./public/fonts/Gotham/Gotham-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Gotham';
+  src: url('./public/fonts/Gotham/Gotham-Light.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+}
