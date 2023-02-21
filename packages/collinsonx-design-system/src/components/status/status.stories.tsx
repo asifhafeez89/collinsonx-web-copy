@@ -5,7 +5,7 @@ import Status from './index';
 import { Box } from '@collinsonx/utils/core';
 
 export default {
-  title: 'Example/Status',
+  title: 'Components/Status',
   component: Status,
 } as ComponentMeta<typeof Status>;
 

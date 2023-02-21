@@ -5,7 +5,7 @@ import FieldLabel from './index';
 import { Box } from '@mantine/core';
 
 export default {
-  title: 'Example/FieldLabel',
+  title: 'Components/FieldLabel',
   component: FieldLabel,
   argTypes: {
     backgroundColor: { control: 'color' },
@@ -22,5 +22,5 @@ export const Primary = Template.bind({});
 Primary.args = {
   primary: true,
   title: 'Date',
-  value: '12/6/2023'
+  value: '12/6/2023',
 };
