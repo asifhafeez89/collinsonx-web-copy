@@ -4,6 +4,7 @@ import { Be_Vietnam_Pro } from '@next/font/google';
 import { LogoExperienceX } from '@collinsonx/design-system/assets/logo';
 
 import { Cart, Chat, Home } from '@collinsonx/design-system/assets/icons';
+import useAuth from '@collinsonx/utils/hooks/useAuth';
 
 const beVietnamPro = Be_Vietnam_Pro({
   style: ['normal'],
@@ -16,9 +17,20 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: LayoutProps) {
+  const [isLoggedIn, userId, logout] = useAuth({});
+
+  const handleLogout = async () => {
+    if (typeof logout === 'function') {
+      console.log('---- Logout await');
+      await logout();
+      console.log('---- Logout redirect');
+      window.location.href = '/';
+    }
+  };
   return (
     <>
       <Header
+        onClickSignout={handleLogout}
         logo={<LogoExperienceX />}
         items={[
           {
