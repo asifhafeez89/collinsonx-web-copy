@@ -3,7 +3,7 @@ import {
   doesSessionExist,
   getUserId,
   ThirdPartyPasswordless,
-  Session
+  Session,
 } from '../supertokens';
 
 interface Props {
@@ -15,32 +15,25 @@ const useAuth = ({ onExpiredSession }: Props) => {
   const [userId, setUserId] = useState<String | null>(null);
 
   const init = useCallback(async () => {
-    console.log('------- useAuth: init');
     const sessionState = await doesSessionExist();
     setIsLoggedIn(sessionState);
-    console.log('------- useAuth: session', sessionState);
 
     if (sessionState) {
-      console.log('------- useAuth: getuserid');
       const userId = await getUserId();
-      console.log('------- useAuth: getuserid', userId);
       setUserId(userId);
     } else {
-      console.log('------- useAuth: onExpired');
-      if(onExpiredSession) {
+      if (onExpiredSession) {
         onExpiredSession();
       }
-      
     }
   }, [onExpiredSession]);
 
   useEffect(() => {
-    console.log('------- useAuth: useEffect');
     init();
   }, []);
 
   const logout = () => {
-    return Session.signOut();
+    Session.signOut();
   };
 
   return [isLoggedIn, userId, logout];

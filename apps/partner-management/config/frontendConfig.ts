@@ -1,6 +1,8 @@
 import { ThirdPartyPasswordless, Session } from '@collinsonx/utils/supertokens';
 import { appInfo } from './appInfo';
 
+const sessionScope = process.env.NEXT_PUBLIC_SESSION_SCOPE;
+
 export const frontendConfig = () => {
   return {
     appInfo,
@@ -8,7 +10,7 @@ export const frontendConfig = () => {
       ThirdPartyPasswordless.init({
         contactMethod: 'EMAIL',
       }),
-      Session.init({ sessionScope: '.lifestyle-x.io' }),
+      Session.init({ sessionScope }),
     ],
   };
 };
