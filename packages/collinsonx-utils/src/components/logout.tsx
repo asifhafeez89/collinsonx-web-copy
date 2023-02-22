@@ -13,7 +13,7 @@ const Logout = ({ children }: LogoutProps) => {
       console.log('---- Logout await');
       await logout();
       console.log('---- Logout redirect');
-      window.location.href = '/';
+      // window.location.href = '/';
     }
   };
 
