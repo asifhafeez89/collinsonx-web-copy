@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Burger, Drawer, List, Box, Anchor } from '@collinsonx/utils/core';
+import Signout from '@collinsonx/utils/components/logout';
 import { Logo } from '../../assets/logo';
 import { Search, ChevronRight } from '../../assets/icons/index';
 import { useStyles } from './styles';
@@ -113,7 +114,7 @@ const Header = ({ items }: HeaderProps) => {
             }}
           >
             <Anchor variant="text" color={'#112132'} size="sm" href="/">
-              Logout
+             <Signout />
             </Anchor>
             {/* 
             <Anchor size="sm" href="/profile">
