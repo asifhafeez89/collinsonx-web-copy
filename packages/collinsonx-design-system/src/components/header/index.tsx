@@ -112,7 +112,7 @@ const Header = ({ items }: HeaderProps) => {
               <span
                 style={{
                   color: '#112132',
-                  marginLeft: '0.5rem',
+                  marginLeft: '1rem',
                   marginRight: '0.5rem',
                   flex: '1 1 100%',
                 }}

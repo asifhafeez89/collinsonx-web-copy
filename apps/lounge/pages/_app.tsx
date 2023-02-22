@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app';
 import { NextPage } from 'next';
-import { ComponentType, ReactElement, use, useEffect } from 'react';
+import { ComponentType, ReactElement } from 'react';
 import { MantineProvider } from '@collinsonx/design-system/core';
 import Head from 'next/head';
 
@@ -14,8 +14,7 @@ import SuperTokensReact, {
   SuperTokensWrapper,
   SuperTokensConfig,
 } from '@collinsonx/utils/supertokens';
-import {SysAuth, Logout} from '@collinsonx/utils/components';
-
+import { SysAuth, Logout } from '@collinsonx/utils/components';
 
 if (typeof window !== 'undefined') {
   // we only want to call this init function on the frontend, so
