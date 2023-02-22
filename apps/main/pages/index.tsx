@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 import { Login as LoginImage } from '@collinsonx/design-system/assets/graphics';
 import { KeyboardEventHandler, useState } from 'react';
 import LayoutLogin from '../components/LayoutLogin';
-import { createPasswordlessCode } from 'supertokens-auth-react/recipe/thirdpartypasswordless';
+import { createPasswordlessCode } from '@collinsonx/utils/supertokens';
 
 function validateEmail(input: string) {
   return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input);

@@ -10,6 +10,12 @@ import { experienceX } from '@collinsonx/design-system/themes';
 import { Be_Vietnam_Pro } from '@next/font/google';
 
 import Client from '@collinsonx/utils/provider';
+import { SysAuth, Logout } from '@collinsonx/utils/components';
+import { frontendConfig } from '../config/frontendConfig';
+import SuperTokensReact, {
+  SuperTokensWrapper,
+  SuperTokensConfig,
+} from '@collinsonx/utils/supertokens';
 
 const beVietnamPro = Be_Vietnam_Pro({
   style: ['normal'],
@@ -26,6 +32,12 @@ type Props = AppProps & {
   Component: Page;
 };
 
+if (typeof window !== 'undefined') {
+  // we only want to call this init function on the frontend, so
+  // we check typeof window !== 'undefined'
+  SuperTokensReact.init(frontendConfig() as SuperTokensConfig);
+}
+
 export default function MyApp({ Component, pageProps }: Props) {
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page);
@@ -39,13 +51,17 @@ export default function MyApp({ Component, pageProps }: Props) {
         />
       </Head>
       <Client>
-        <MantineProvider
-          theme={experienceX({ fontFamily: beVietnamPro.style.fontFamily })}
-          withGlobalStyles
-          withNormalizeCSS
-        >
-          {getLayout(<Component {...pageProps} />)}
-        </MantineProvider>
+        <SuperTokensWrapper>
+          <SysAuth>
+            <MantineProvider
+              theme={experienceX({ fontFamily: beVietnamPro.style.fontFamily })}
+              withGlobalStyles
+              withNormalizeCSS
+            >
+              {getLayout(<Component {...pageProps} />)}
+            </MantineProvider>
+          </SysAuth>
+        </SuperTokensWrapper>
       </Client>
     </>
   );

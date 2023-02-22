@@ -6,7 +6,11 @@ import Head from 'next/head';
 import { experienceX } from '@collinsonx/design-system/themes';
 import { Be_Vietnam_Pro } from '@next/font/google';
 import Client from '@collinsonx/utils/provider';
-
+// import SuperTokensReact, {
+//   SuperTokensConfig,
+//   SuperTokensWrapper,
+// } from '@collinsonx/utils/supertokens';
+// import { SysAuth, Logout } from '@collinsonx/utils/components';
 const beVietnamPro = Be_Vietnam_Pro({
   style: ['normal'],
   subsets: ['latin'],
@@ -35,6 +39,8 @@ export default function MyApp({ Component, pageProps }: Props) {
         />
       </Head>
       <Client>
+        {/* <SuperTokensWrapper> */}
+        {/* <SysAuth> */}
         <MantineProvider
           theme={experienceX({ fontFamily: beVietnamPro.style.fontFamily })}
           withGlobalStyles
@@ -42,6 +48,8 @@ export default function MyApp({ Component, pageProps }: Props) {
         >
           {getLayout(<Component {...pageProps} />)}
         </MantineProvider>
+        {/* </SysAuth> */}
+        {/* </SuperTokensWrapper> */}
       </Client>
     </>
   );

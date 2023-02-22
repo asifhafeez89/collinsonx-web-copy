@@ -7,7 +7,7 @@ import {
   Flex,
 } from '@collinsonx/design-system/core';
 import { useRouter } from 'next/router';
-import { consumePasswordlessCode } from 'supertokens-auth-react/recipe/thirdpartypasswordless';
+import { consumePasswordlessCode } from '@collinsonx/utils/supertokens';
 import LayoutLogin from '../components/LayoutLogin';
 
 import { AuthInput } from '@collinsonx/design-system';

@@ -1,16 +1,16 @@
 import type { AppProps } from 'next/app';
 import { NextPage } from 'next';
-import { ComponentType, ReactElement, useEffect } from 'react';
+import { ComponentType, ReactElement } from 'react';
 import { MantineProvider } from '@collinsonx/design-system/core';
 import Head from 'next/head';
 import { experienceX } from '@collinsonx/design-system/themes';
 import { Be_Vietnam_Pro } from '@next/font/google';
 import Client from '@collinsonx/utils/provider';
 import { frontendConfig } from '../config/frontendConfig';
-import { SuperTokensConfig } from 'supertokens-auth-react/lib/build/types';
-import Session from 'supertokens-auth-react/recipe/session';
-
-import SuperTokensReact from 'supertokens-auth-react';
+import SuperTokensReact, {
+  SuperTokensConfig,
+  SuperTokensWrapper,
+} from '@collinsonx/utils/supertokens';
 
 if (typeof window !== 'undefined') {
   // we only want to call this init function on the frontend, so
@@ -49,21 +49,25 @@ export default function MyApp({ Component, pageProps }: Props) {
       </Head>
 
       <Client>
-        <MantineProvider
-          theme={{
-            ...theme,
-            globalStyles: ({ colors }) => ({
-              ...theme.globalStyles,
-              body: {
-                backgroundColor: colors.splashColor[0],
-                color: '#FFF',
-                margin: 0,
-              },
-            }),
-          }}
-        >
-          {getLayout(<Component {...pageProps} />)}
-        </MantineProvider>
+        <SuperTokensWrapper>
+          <MantineProvider
+            theme={{
+              ...theme,
+              globalStyles: ({ colors }) => ({
+                ...theme.globalStyles,
+                body: {
+                  backgroundColor: colors.splashColor[0],
+                  color: '#FFF',
+                  margin: 0,
+                },
+              }),
+            }}
+            withGlobalStyles
+            withNormalizeCSS
+          >
+            {getLayout(<Component {...pageProps} />)}
+          </MantineProvider>
+        </SuperTokensWrapper>
       </Client>
     </>
   );
