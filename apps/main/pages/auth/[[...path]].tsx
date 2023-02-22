@@ -1,7 +1,6 @@
 import dynamic from 'next/dynamic';
 import React, { useEffect } from 'react';
-import SuperTokens from 'supertokens-auth-react';
-import { redirectToAuth } from 'supertokens-auth-react';
+import SuperTokens, { redirectToAuth } from '@collinsonx/utils/supertokens';
 
 const SuperTokensComponentNoSSR = dynamic<
   React.ComponentProps<typeof SuperTokens.getRoutingComponent>

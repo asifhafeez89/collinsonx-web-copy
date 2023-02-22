@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 import { Login as LoginImage } from '@collinsonx/design-system/assets/graphics';
 import { KeyboardEventHandler, useState } from 'react';
 import LayoutLogin from '../components/LayoutLogin';
-import {createPasswordlessCode } from "supertokens-auth-react/recipe/thirdpartypasswordless";
+import { createPasswordlessCode } from '@collinsonx/utils/supertokens';
 
 function validateEmail(input: string) {
   return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input);
@@ -27,21 +27,20 @@ export default function Home(props: unknown) {
     if (!validateEmail(email.trim())) {
       setLoginError('Invalid email');
     } else {
-     
       try {
         await createPasswordlessCode({
-            email
+          email,
         });
         router.push({ pathname: '/check-email', query: { email } });
       } catch (err: any) {
         console.log(err);
-          if (err.isSuperTokensGeneralError === true) {
-              // this may be a custom error message sent from the API by you,
-              // or if the input email / phone number is not valid.
-              window.alert(err.message);
-          } else {
-              window.alert("Oops! Something went wrong.");
-          }
+        if (err.isSuperTokensGeneralError === true) {
+          // this may be a custom error message sent from the API by you,
+          // or if the input email / phone number is not valid.
+          window.alert(err.message);
+        } else {
+          window.alert('Oops! Something went wrong.');
+        }
       }
     }
   };
@@ -118,6 +117,5 @@ export default function Home(props: unknown) {
     </>
   );
 }
-
 
 Home.getLayout = (page: JSX.Element) => <LayoutLogin>{page}</LayoutLogin>;

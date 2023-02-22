@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Burger, Drawer, List, Box, Anchor } from '@collinsonx/utils/core';
+import Signout from '@collinsonx/utils/components/logout';
 import { Logo } from '../../assets/logo';
-import { Search, ChevronRight } from '../../assets/icons/index';
+import { Search, ChevronRight, Logout } from '../../assets/icons/index';
 import { useStyles } from './styles';
 
 export type HeaderItem = {
@@ -92,40 +93,35 @@ const Header = ({ items }: HeaderProps) => {
           sx={{
             width: '100%',
             display: 'flex',
-            justifyContent: 'space-around',
+            justifyContent: 'stretch',
             borderTop: '1px solid #cccccc',
             padding: 15,
             marginTop: 'auto',
           }}
         >
-          {/* <Avatar
-            src={null}
-            radius="xl"
-            alt="no image here"
-            color={'#112132'}
-          /> */}
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              flex: 2,
-              paddingLeft: 10,
-            }}
-          >
-            <Anchor variant="text" color={'#112132'} size="sm" href="/">
-              Logout
-            </Anchor>
-            {/* 
-            <Anchor size="sm" href="/profile">
-              <Text fz="sm" color={'#112132'}>
-                Jayne Bloggs
-              </Text>
-              <Text fz="sm" color={'#112132'}>
-                j.bloggs@collinson.co.uk
-              </Text>
-            </Anchor> */}
-          </Box>
-          <ChevronRight color={'#112132'} />
+          <Signout>
+            <div
+              style={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+              }}
+            >
+              <Logout color={'#112132'} />
+              <span
+                style={{
+                  color: '#112132',
+                  marginLeft: '1rem',
+                  marginRight: '0.5rem',
+                  flex: '1 1 100%',
+                }}
+              >
+                Signout
+              </span>
+              <ChevronRight color={'#112132'} />
+            </div>
+          </Signout>
         </Box>
       </Drawer>
     </>

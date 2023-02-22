@@ -1,8 +1,9 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-
-import Header from './index';
 import { Box } from '@collinsonx/utils/core';
+
+// import Header from './index';
+const Header = () => <div>Header disabled</div>;
 
 export default {
   title: 'Example/Header',
@@ -13,9 +14,7 @@ export default {
 } as ComponentMeta<typeof Header>;
 
 const Template: ComponentStory<typeof Header> = (args) => (
-  <Box sx={{ padding: 0 }}>
-    <Header />
-  </Box>
+  <Box sx={{ padding: 0 }}>{/* <Header /> */}</Box>
 );
 
 export const Primary = Template.bind({});

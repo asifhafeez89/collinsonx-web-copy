@@ -7,12 +7,12 @@ import {
   Flex,
 } from '@collinsonx/design-system/core';
 import { useRouter } from 'next/router';
-import { consumePasswordlessCode } from 'supertokens-auth-react/recipe/thirdpartypasswordless';
+import { consumePasswordlessCode } from '@collinsonx/utils/supertokens';
 import LayoutLogin from '../components/LayoutLogin';
 
 import { AuthInput } from '@collinsonx/design-system';
 import { LoginCode } from '@collinsonx/design-system/assets/graphics';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export default function CheckEmail() {
   const router = useRouter();
@@ -90,7 +90,7 @@ export default function CheckEmail() {
               maxHeight: '304px',
             }}
           >
-            <LoginCode handleOnChange={(code: string) => setCode(code)} />
+            <LoginCode />
           </Box>
         </Flex>
       </Stack>
