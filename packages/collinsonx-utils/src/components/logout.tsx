@@ -10,7 +10,9 @@ const Logout = ({ children }: LogoutProps) => {
 
   const handleLogout = async () => {
     if (typeof logout === 'function') {
+      console.log('---- Logout await');
       await logout();
+      console.log('---- Logout redirect');
       window.location.href = '/';
     }
   };
