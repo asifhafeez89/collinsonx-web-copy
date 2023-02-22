@@ -1,5 +1,5 @@
 import { Center, Container, Stack } from '@collinsonx/design-system/core';
-import { Logo } from '@collinsonx/design-system/assets/logo';
+import { LogoExperienceX } from '@collinsonx/design-system/assets/logo';
 import { Be_Vietnam_Pro } from '@next/font/google';
 
 const beVietnamPro = Be_Vietnam_Pro({
@@ -25,7 +25,7 @@ export default function LayoutLogin({ children }: LayoutProps) {
     >
       <Stack spacing={24} sx={{ height: '100%' }}>
         <Center>
-          <Logo />
+          <LogoExperienceX />
         </Center>
         {children}
       </Stack>

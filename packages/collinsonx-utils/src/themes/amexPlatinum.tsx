@@ -8,6 +8,8 @@ const theme = (
   { fontFamily }: ThemeOptions = { fontFamily: 'BentonSans Book' }
 ): MantineThemeOverride => ({
   colors: {
+    headerNavBg: ['#D3DAE1'],
+    headerNavColor: ['#000'],
     mainColor: ['#FFF'],
     brandColor: ['#D3DAE1'],
     splashColor: ['#858B91'],

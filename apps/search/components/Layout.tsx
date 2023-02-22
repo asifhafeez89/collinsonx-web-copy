@@ -1,6 +1,7 @@
 import { Header } from '@collinsonx/design-system';
 import { Cart, Chat, Home } from '@collinsonx/design-system/assets/icons';
 import { Container } from '@collinsonx/design-system/core';
+import { LogoExperienceX } from '@collinsonx/design-system/assets/logo';
 
 interface LayoutProps {
   children: JSX.Element;
@@ -10,6 +11,7 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <>
       <Header
+        logo={<LogoExperienceX />}
         items={[
           {
             label: 'Home',

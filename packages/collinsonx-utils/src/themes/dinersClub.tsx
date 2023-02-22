@@ -8,6 +8,8 @@ const theme = (
   { fontFamily }: ThemeOptions = { fontFamily: 'Gotham' }
 ): MantineThemeOverride => ({
   colors: {
+    headerNavBg: ['#FFF'],
+    headerNavColor: ['#000'],
     brandColor: ['#034E98'],
     splashColor: ['#044F99'],
   },
