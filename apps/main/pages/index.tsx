@@ -96,8 +96,24 @@ export default function Home(props: unknown) {
             label="Your email address"
             withAsterisk
           />
-          <Button fullWidth onClick={handleClickContinue}>
-            Continue
+          <Button
+            fullWidth
+            onClick={handleClickContinue}
+            sx={({ colors }) => ({
+              padding: 8,
+              height: 44,
+              borderRadius: 4,
+              backgroundColor: '#FFF',
+              color: colors.dark[6],
+              ':active': {
+                backgroundColor: '#FFF',
+              },
+              ':hover': {
+                backgroundColor: '#FFF',
+              },
+            })}
+          >
+            Login
           </Button>
         </Stack>
         <Flex align="center" direction="column">

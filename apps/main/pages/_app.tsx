@@ -3,7 +3,7 @@ import { NextPage } from 'next';
 import { ComponentType, ReactElement } from 'react';
 import { MantineProvider } from '@collinsonx/design-system/core';
 import Head from 'next/head';
-import { themeDark } from '@collinsonx/design-system/themes';
+import { experienceX } from '@collinsonx/design-system/themes';
 import { Be_Vietnam_Pro } from '@next/font/google';
 import Client from '@collinsonx/utils/provider';
 import { frontendConfig } from '../config/frontendConfig';
@@ -33,6 +33,8 @@ type Props = AppProps & {
   Component: Page;
 };
 
+const theme = experienceX({ fontFamily: beVietnamPro.style.fontFamily });
+
 export default function MyApp({ Component, pageProps }: Props) {
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page);
@@ -45,10 +47,21 @@ export default function MyApp({ Component, pageProps }: Props) {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
+
       <Client>
         <SuperTokensWrapper>
           <MantineProvider
-            theme={themeDark({ fontFamily: beVietnamPro.style.fontFamily })}
+            theme={{
+              ...theme,
+              globalStyles: ({ colors }) => ({
+                ...theme.globalStyles,
+                body: {
+                  backgroundColor: colors.splashColor[0],
+                  color: '#FFF',
+                  margin: 0,
+                },
+              }),
+            }}
             withGlobalStyles
             withNormalizeCSS
           >

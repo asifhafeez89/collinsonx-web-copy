@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
-import { Burger, Drawer, List, Box, Anchor } from '@collinsonx/utils/core';
-import Signout from '@collinsonx/utils/components/logout';
-import { Logo } from '../../assets/logo';
+import {
+  Burger,
+  Drawer,
+  List,
+  Box,
+  Anchor,
+  Text,
+  useMantineTheme,
+} from '@collinsonx/utils/core';
 import { Search, ChevronRight, Logout } from '../../assets/icons/index';
 import { useStyles } from './styles';
 
@@ -13,10 +19,14 @@ export type HeaderItem = {
 
 interface HeaderProps {
   items?: HeaderItem[];
+  logo: JSX.Element;
+  onClickSignout?: () => void;
 }
 
-const Header = ({ items }: HeaderProps) => {
+const Header = ({ items, logo, onClickSignout }: HeaderProps) => {
   const { classes } = useStyles();
+
+  const theme = useMantineTheme();
 
   const [menuOpened, setMenuOpened] = useState(false);
   const title = menuOpened ? 'Close navigation' : 'Open navigation';
@@ -25,23 +35,20 @@ const Header = ({ items }: HeaderProps) => {
     <>
       <header className={classes.header}>
         <a href="/" className={classes.logo}>
-          <Logo />
+          {logo}
         </a>
-
         <nav className={classes.nav}>
-          <Anchor variant="text" color={'#112132'} size="sm" href="/search">
-            <Search color={'#ffffff'} />
+          <Anchor variant="text" size="sm" href="/search">
+            <Search />
           </Anchor>
-
           <Burger
-            color={'#ffffff'}
+            color={theme.colors.headerNavColor[0]}
             opened={menuOpened}
             onClick={() => setMenuOpened(true)}
             title={title}
           />
         </nav>
       </header>
-
       <Drawer
         opened={menuOpened}
         position="right"
@@ -56,7 +63,7 @@ const Header = ({ items }: HeaderProps) => {
         }}
       >
         <div className={classes.drawerHeader}>
-          <Logo />
+          {logo}
           <Burger
             color={'#ffffff'}
             opened={menuOpened}
@@ -99,29 +106,28 @@ const Header = ({ items }: HeaderProps) => {
             marginTop: 'auto',
           }}
         >
-          <Signout>
-            <div
-              style={{
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'flex-start',
-                alignItems: 'center',
+          <Box
+            onClick={onClickSignout}
+            sx={{
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+            }}
+          >
+            <Logout color={'#112132'} />
+            <Text
+              sx={{
+                color: '#112132',
+                marginLeft: '1rem',
+                marginRight: '0.5rem',
+                flex: '1 1 100%',
               }}
             >
-              <Logout color={'#112132'} />
-              <span
-                style={{
-                  color: '#112132',
-                  marginLeft: '1rem',
-                  marginRight: '0.5rem',
-                  flex: '1 1 100%',
-                }}
-              >
-                Signout
-              </span>
-              <ChevronRight color={'#112132'} />
-            </div>
-          </Signout>
+              Signout
+            </Text>
+            <ChevronRight color={'#112132'} />
+          </Box>
         </Box>
       </Drawer>
     </>

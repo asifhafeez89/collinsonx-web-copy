@@ -14,7 +14,7 @@ const data = {
 };
 
 export default {
-  title: 'Example/Lounge',
+  title: 'Components/Lounge',
   component: Lounge,
   argTypes: {
     backgroundColor: { control: 'color' },

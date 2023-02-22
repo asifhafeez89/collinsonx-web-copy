@@ -5,7 +5,7 @@ import Status from './index';
 import { Box } from '@collinsonx/utils/core';
 
 export default {
-  title: 'Example/Status',
+  title: 'Components/Status',
   component: Status,
 } as ComponentMeta<typeof Status>;
 
@@ -21,15 +21,15 @@ const Template: ComponentStory<typeof Status> = (args) => (
 
 export const Pending = Template.bind({});
 Pending.args = {
-  status: 'pending',
+  status: 'PENDING',
 };
 
 export const Confirmed = Template.bind({});
 Confirmed.args = {
-  status: 'confirmed',
+  status: 'CONFIRMED',
 };
 
 export const Declined = Template.bind({});
 Declined.args = {
-  status: 'declined',
+  status: 'DECLINED',
 };

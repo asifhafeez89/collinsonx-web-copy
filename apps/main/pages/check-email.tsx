@@ -78,7 +78,15 @@ export default function CheckEmail() {
             </Button>
           </Text>
           <AuthInput handleCodeChange={(code) => setCode(code)} />
-          <Button onClick={handleClickConfirm} fullWidth>
+          <Button
+            onClick={handleClickConfirm}
+            fullWidth
+            sx={{
+              padding: 8,
+              height: 44,
+              borderRadius: 4,
+            }}
+          >
             Confirm
           </Button>
         </Stack>
