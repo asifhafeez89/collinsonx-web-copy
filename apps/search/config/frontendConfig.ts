@@ -8,7 +8,7 @@ export const frontendConfig = () => {
       ThirdPartyPasswordless.init({
         contactMethod: 'EMAIL',
       }),
-      Session.init({ sessionScope: '.lifestyle-x.io' }),
+      Session.init({ sessionScope: '.localhost' }),
     ],
   };
 };

@@ -3,11 +3,11 @@ import useAuth from '../hooks/useAuth';
 import { Button } from '@mantine/core';
 
 const Logout = () => {
-  const [isLoggedIn, logout] = useAuth({});
+  const [isLoggedIn, userId, logout] = useAuth({});
 
     const handleLogout = async () => {
         if (typeof logout === 'function') {
-        await logout();
+           await logout();
         }
         window.location.href="/"
     };
