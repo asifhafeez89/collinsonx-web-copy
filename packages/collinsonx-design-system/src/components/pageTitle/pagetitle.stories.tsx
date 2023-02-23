@@ -10,7 +10,7 @@ const data = {
 };
 
 export default {
-  title: 'Example/PageTitle',
+  title: 'Components/PageTitle',
   component: PageTitle,
   argTypes: {
     backgroundColor: { control: 'color' },

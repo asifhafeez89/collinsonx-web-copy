@@ -5,7 +5,7 @@ import AuthInput from './index';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-  title: 'Example/AuthInput',
+  title: 'Components/AuthInput',
   component: AuthInput,
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {

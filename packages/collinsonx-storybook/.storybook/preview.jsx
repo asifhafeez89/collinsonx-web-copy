@@ -1,16 +1,26 @@
 import { MantineProvider } from '@collinsonx/utils/core';
-import { themeLight, themeDark } from '@collinsonx/utils/themes';
+import {
+  experienceX,
+  dinersClub,
+  amexBlack,
+  amexPlatinum,
+} from '@collinsonx/utils/themes';
+
+import '../style.css';
+
+const themes = {
+  experienceX,
+  dinersClub,
+  amexBlack,
+  amexPlatinum,
+};
 
 const withTheme = (StoryFn, context) => {
-  const theme = context.parameters.theme || context.globals.theme;
-  const storyTheme = theme === 'dark' ? themeDark : themeLight;
+  const themeName = context.parameters.theme || context.globals.theme;
+  const storyTheme = themes[themeName] ?? experienceX;
 
   return (
-    <MantineProvider
-      theme={storyTheme({ fontFamily: 'Be Vietnam Pro' })}
-      withGlobalStyles
-      withNormalizeCSS
-    >
+    <MantineProvider theme={storyTheme()} withGlobalStyles withNormalizeCSS>
       <StoryFn />
     </MantineProvider>
   );
@@ -18,19 +28,21 @@ const withTheme = (StoryFn, context) => {
 
 export const globalTypes = {
   theme: {
-    name: 'Theme',
+    title: 'Theme',
     description: 'Global theme for components',
-    defaultValue: 'light',
+    defaultValue: 'experienceX',
     toolbar: {
       // The icon for the toolbar item
-      // icon: 'circlehollow',
+      //icon: 'circlehollow',
+      title: 'Theme',
       // Array of options
       items: [
-        { value: 'light', title: 'Default' },
-        { value: 'dark', title: 'Dark' },
+        { title: 'Experience X', value: 'experienceX' },
+        { title: 'Diners Club', value: 'dinersClub' },
+        { title: 'AMEX Black', value: 'amexBlack' },
+        { title: 'AMEX Platinum', value: 'amexPlatinum' },
       ],
-      // Property that specifies if the name of the item will be displayed
-      showName: true,
+      dynamicTitle: true,
     },
   },
 };

@@ -1,1 +1,6 @@
-export { themeDark, themeLight } from '@collinsonx/utils/themes';
+export {
+  dinersClub,
+  amexBlack,
+  amexPlatinum,
+  experienceX,
+} from '@collinsonx/utils/themes';

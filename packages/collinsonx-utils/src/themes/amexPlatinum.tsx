@@ -1,24 +1,29 @@
 import { ColorSchemeProvider, MantineThemeOverride } from '@mantine/core';
 
 type ThemeOptions = {
-  fontFamily: string;
+  fontFamily?: string;
 };
 
-const theme = ({ fontFamily }: ThemeOptions): MantineThemeOverride => ({
-  colorScheme: 'light',
+const theme = (
+  { fontFamily }: ThemeOptions = { fontFamily: 'BentonSans Book' }
+): MantineThemeOverride => ({
   colors: {
-    white: ['#FFF'],
+    headerNavBg: ['#D3DAE1'],
+    headerNavColor: ['#000'],
+    mainColor: ['#FFF'],
+    brandColor: ['#D3DAE1'],
+    splashColor: ['#858B91'],
+    brandBlue: ['#006FCF'],
   },
-  primaryColor: 'dark',
-  primaryShade: 6,
+  primaryColor: 'mainColor',
+  primaryShade: 0,
   defaultRadius: 4,
   spacing: { xs: 15, sm: 20, md: 25, lg: 30, xl: 40 },
   fontFamily,
   globalStyles: ({ colors }) => ({
     body: {
       height: '100%',
-      color: colors.dark[6],
-      backgroundCololor: 'white',
+      color: colors.black,
       fontWeight: 400,
     },
     html: {
@@ -74,15 +79,34 @@ const theme = ({ fontFamily }: ThemeOptions): MantineThemeOverride => ({
         },
       }),
     },
+    Button: {
+      styles: ({ colors }) => ({
+        root: {
+          backgroundColor: '#FFF',
+          color: '#000',
+        },
+        label: {
+          color: '#000',
+        },
+      }),
+    },
     TextInput: {
       styles: ({ colors }) => ({
         input: {
-          padding: '11px',
+          padding: '11px 16px',
           fontSize: '18px',
           height: '50px',
-          backgroundColor: 'white',
-          borderRadius: 0,
+          backgroundColor: colors.white,
+          borderRadius: 4,
+          borderColor: colors.gray[4],
           color: colors.dark[6],
+          '::placeholder': {
+            color: colors.gray[6],
+          },
+          ':focus': {
+            color: colors.dark[6],
+            borderColor: colors.dark[6],
+          },
         },
         label: {
           fontFamily,

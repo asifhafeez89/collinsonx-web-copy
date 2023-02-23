@@ -41,7 +41,6 @@ export default function Success() {
           order={1}
           size={34}
           align="center"
-          color="#000"
           sx={{ fontWeight: 700, marginTop: '50%' }}
         >
           You&apos;re in
@@ -49,7 +48,6 @@ export default function Success() {
         <Title
           order={2}
           align="center"
-          color="#000"
           sx={{ fontWeight: 700, width: '209px' }}
         >
           Let&apos;s find your next experience
