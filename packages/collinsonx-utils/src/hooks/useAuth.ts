@@ -32,9 +32,7 @@ const useAuth = ({ onExpiredSession }: Props) => {
     init();
   }, []);
 
-  const logout = () => {
-    Session.signOut();
-  };
+  const logout = () => Session.signOut();
 
   return [isLoggedIn, userId, logout];
 };
