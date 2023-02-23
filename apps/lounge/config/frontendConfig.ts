@@ -1,8 +1,8 @@
 import { ThirdPartyPasswordless, Session } from '@collinsonx/utils/supertokens';
 import { appInfo } from './appInfo';
 
-const sessionScope = process.env.NEXT_PUBLIC_SESSION_SCOPE;
-console.log(sessionScope);
+const sessionTokenFrontendDomain = process.env.NEXT_PUBLIC_SESSION_SCOPE;
+console.log(sessionTokenFrontendDomain);
 
 export const frontendConfig = () => {
   return {
@@ -11,7 +11,7 @@ export const frontendConfig = () => {
       ThirdPartyPasswordless.init({
         contactMethod: 'EMAIL',
       }),
-      Session.init({ sessionScope }),
+      Session.init({ sessionTokenFrontendDomain }),
     ],
   };
 };
