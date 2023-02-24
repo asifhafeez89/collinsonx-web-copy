@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "jsx": "react",
+        "module": "ESNext",
+        "baseUrl": "./packages",
+        "paths": {
+            "@collinsonx-design-system/*": [
+                "src/*"
+            ],
+            "@collinsonx-util/*": [
+                "src/*"
+            ]
+        }
+    },
+    "files": [],
+    "type": "module",
+    "references": [
+        {
+            "path": "packages/collinsonx-design-system/"
+        },
+        {
+            "path": "packages/collinsonx-utils/"
+        }
+    ]
+}
