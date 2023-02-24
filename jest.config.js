@@ -1,38 +1,22 @@
+const path = require('path')
 
-
-const path = require("path");
-const { lstatSync, readdirSync } = require("fs");
-
-// get listing of packages in mono repo
-const basePath = path.resolve(__dirname, "packages");
-const packages = readdirSync(basePath).filter((name) =>
-  lstatSync(path.join(basePath, name)).isDirectory()
-);
+const fromRoot = d => path.join(__dirname, d)
 
 module.exports = {
-  preset: "ts-jest",
-  testEnvironment: "node",
+  roots: [fromRoot('apps/next-app'), fromRoot('apps/server')],
+  resetMocks: true,
+  coveragePathIgnorePatterns: [],
+  collectCoverageFrom: ['<rootDir>/src/**/*.{js,ts,tsx}'],
+  coverageThreshold: null,
+  testEnvironment: 'jsdom',
   transform: {
-    '^.+\\.(js|jsx|ts|tsx|mjs)$': 'babel-jest',
+    '^.+\\.tsx?$': 'esbuild-jest',
+    '^.+\\.jsx?$': 'esbuild-jest',
   },
-  transformIgnorePatterns: ['<rootDir>/node_modules/'],
+  setupFilesAfterEnv: ['@testing-library/jest-dom'],
+  moduleDirectories: ['node_modules'],
+  moduleFileExtensions: ['js', 'jsx', 'json', 'ts', 'tsx'],
   moduleNameMapper: {
-    "^.+\\.(css|less|scss)$": "babel-jest",
-    // automatically generated list of our packages from packages directory.
-    // will tell jest where to find source code for @ahoopen/ packages, it points to the src instead of dist.
-    ...packages.reduce(
-      (acc, name) => ({
-        ...acc,
-        [`@collinsonx-${name}(.*)$`]: `<rootDir>/packages/./${name}/src/$1`,
-      }),
-      {}
-    ),
+    '@src/(.*)': fromRoot('apps/next-app/src/$1'),
   },
-  modulePathIgnorePatterns: [
-    ...packages.reduce(
-      (acc, name) => [...acc, `<rootDir>/packages/${name}/dist`],
-      []
-    ),
-  ],
-  
-};
+}
