@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Button /> renders text-primary 1`] = `
+<button
+  className="mantine-UnstyledButton-root mantine-Button-root mantine-b61g2y"
+  data-button={true}
+  onClick={[MockFunction]}
+  type="button"
+>
+  <div
+    className="mantine-3xbgk5 mantine-Button-inner"
+  >
+    <span
+      className="mantine-qo1k2 mantine-Button-label"
+      style={
+        {
+          "textTransform": undefined,
+        }
+      }
+    />
+  </div>
+</button>
+`;
