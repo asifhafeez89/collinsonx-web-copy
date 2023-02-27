@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<InputLabel /> renders textinput 1`] = `
+<div
+  className="mantine-InputWrapper-root mantine-TextInput-root mantine-1m3pqry"
+>
+  <label
+    className="mantine-InputWrapper-label mantine-TextInput-label mantine-1kp8kyo"
+    htmlFor="mantine-r0"
+    id="mantine-r0-label"
+  >
+    Full name
+    <span
+      aria-hidden={true}
+      className="mantine-u5apz8 mantine-InputWrapper-required mantine-TextInput-required"
+    >
+       *
+    </span>
+  </label>
+  <div
+    className="mantine-Input-wrapper mantine-TextInput-wrapper mantine-12sbrde"
+  >
+    <input
+      aria-invalid={false}
+      className="mantine-Input-input mantine-TextInput-input mantine-1g14e8k"
+      id="mantine-r0"
+      placeholder="Your name"
+      type="text"
+    />
+  </div>
+</div>
+`;

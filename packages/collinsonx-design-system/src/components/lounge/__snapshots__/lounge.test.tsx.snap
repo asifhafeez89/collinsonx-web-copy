@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Lounge /> renders Lounge 1`] = `
+[
+  <div
+    className="mantine-Image-root mantine-15po0m8"
+    style={
+      {
+        "width": "100%",
+      }
+    }
+  >
+    <figure
+      className="mantine-11nhzn5 mantine-Image-figure"
+    >
+      <div
+        className="mantine-qqmv3w mantine-Image-imageWrapper"
+      >
+        <img
+          alt="LA"
+          className="mantine-3y8yz3 mantine-Image-image"
+          onError={[Function]}
+          src="image.png"
+          style={
+            {
+              "height": "auto",
+              "objectFit": "cover",
+              "width": "100%",
+            }
+          }
+        />
+      </div>
+    </figure>
+  </div>,
+  <div
+    className="mantine-Text-root mantine-16zcv3h"
+  >
+    Totally lounge
+  </div>,
+  <div
+    className="mantine-SimpleGrid-root mantine-vt6ont"
+  >
+    <div
+      className="mantine-1a78l0v"
+    >
+      <test-file-stub
+        color="#000000"
+      />
+      <div
+        className="mantine-2rwq4h"
+      >
+        <div
+          className="mantine-Text-root mantine-15e5w66"
+        >
+          LA
+        </div>
+      </div>
+    </div>
+    <div
+      className="mantine-1a78l0v"
+    >
+      <test-file-stub
+        color="#000000"
+      />
+      <div
+        className="mantine-2rwq4h"
+      >
+        <div
+          className="mantine-Text-root mantine-15e5w66"
+        >
+          10:00 - 12:00
+        </div>
+      </div>
+    </div>
+  </div>,
+]
+`;

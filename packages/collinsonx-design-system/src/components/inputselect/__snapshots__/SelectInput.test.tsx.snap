@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SelectInput /> renders SelectInput 1`] = `
+<div
+  className="mantine-InputWrapper-root mantine-Select-root mantine-1m3pqry"
+>
+  <label
+    className="mantine-InputWrapper-label mantine-Select-label mantine-1kp8kyo"
+    htmlFor="mantine-r0"
+    id="mantine-r0-label"
+  >
+    Your favorite framework/library
+  </label>
+  <div
+    aria-controls="mantine-r0"
+    aria-expanded={false}
+    aria-haspopup="listbox"
+    aria-owns={null}
+    className=""
+    onMouseLeave={[Function]}
+    role="combobox"
+    tabIndex={-1}
+  >
+    <input
+      disabled={false}
+      type="hidden"
+      value=""
+    />
+    <div
+      className="mantine-Input-wrapper mantine-Select-wrapper mantine-12sbrde"
+    >
+      <input
+        aria-activedescendant={null}
+        aria-autocomplete="list"
+        aria-controls={null}
+        aria-invalid={false}
+        autoComplete="off"
+        className="mantine-Input-input mantine-Select-input mantine-ye2q1m"
+        data-mantine-stop-propagation={false}
+        disabled={false}
+        id="mantine-r0"
+        name={null}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onMouseDown={[Function]}
+        placeholder="Pick one"
+        readOnly={true}
+        required={false}
+        type="search"
+        value=""
+      />
+      <div
+        className="mantine-uquezq mantine-Input-rightSection mantine-Select-rightSection"
+      >
+        <svg
+          data-chevron={true}
+          fill="none"
+          height={18}
+          style={
+            {
+              "color": "#868e96",
+            }
+          }
+          viewBox="0 0 15 15"
+          width={18}
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            clipRule="evenodd"
+            d="M4.93179 5.43179C4.75605 5.60753 4.75605 5.89245 4.93179 6.06819C5.10753 6.24392 5.39245 6.24392 5.56819 6.06819L7.49999 4.13638L9.43179 6.06819C9.60753 6.24392 9.89245 6.24392 10.0682 6.06819C10.2439 5.89245 10.2439 5.60753 10.0682 5.43179L7.81819 3.18179C7.73379 3.0974 7.61933 3.04999 7.49999 3.04999C7.38064 3.04999 7.26618 3.0974 7.18179 3.18179L4.93179 5.43179ZM10.0682 9.56819C10.2439 9.39245 10.2439 9.10753 10.0682 8.93179C9.89245 8.75606 9.60753 8.75606 9.43179 8.93179L7.49999 10.8636L5.56819 8.93179C5.39245 8.75606 5.10753 8.75606 4.93179 8.93179C4.75605 9.10753 4.75605 9.39245 4.93179 9.56819L7.18179 11.8182C7.35753 11.9939 7.64245 11.9939 7.81819 11.8182L10.0682 9.56819Z"
+            fill="currentColor"
+            fillRule="evenodd"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+`;

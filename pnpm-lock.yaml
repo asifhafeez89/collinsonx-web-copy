@@ -374,9 +374,9 @@ importers:
       typescript: ^4.9.4
     dependencies:
       eslint: 8.32.0
-      eslint-config-next: 13.1.7-canary.28_7uibuqfxkfaozanbtbziikiqje
+      eslint-config-next: 13.2.2-canary.1_7uibuqfxkfaozanbtbziikiqje
       eslint-config-prettier: 8.6.0_eslint@8.32.0
-      eslint-config-turbo: 0.0.8_eslint@8.32.0
+      eslint-config-turbo: 0.0.9_eslint@8.32.0
     devDependencies:
       typescript: 4.9.4
 
@@ -3666,8 +3666,8 @@ packages:
   /@next/env/13.1.6:
     resolution: {integrity: sha512-s+W9Fdqh5MFk6ECrbnVmmAOwxKQuhGMT7xXHrkYIBMBcTiOqNWhv5KbJIboKR5STXxNXl32hllnvKaffzFaWQg==}
 
-  /@next/eslint-plugin-next/13.1.7-canary.28:
-    resolution: {integrity: sha512-ZU9iKacN+QunstQnk7p+9NILoHlUTg5T2vVXZKkRfOLBRuvNp2fhn49u1egbH8f1e/z+egAXbK2O/VwIbElRzQ==}
+  /@next/eslint-plugin-next/13.2.2-canary.1:
+    resolution: {integrity: sha512-Db1iv0NtoyfwDu5RBC/Or3DyxujJx2l8dQFvLzqPkBJ+jOEexuOyM5zcXDVCo4iCr3Yd0acqUmGki9hJ391Y6w==}
     dependencies:
       glob: 7.1.7
     dev: false
@@ -9765,8 +9765,8 @@ packages:
     optionalDependencies:
       source-map: 0.6.1
 
-  /eslint-config-next/13.1.7-canary.28_7uibuqfxkfaozanbtbziikiqje:
-    resolution: {integrity: sha512-z2cm0z9cgI1RmoMK69HCDJyQLy1LCkbMfGueYyNKrIB5ZwmD8ngRua9SRsGebf+VkYo1bED6Yzzog4DLGOZLfQ==}
+  /eslint-config-next/13.2.2-canary.1_7uibuqfxkfaozanbtbziikiqje:
+    resolution: {integrity: sha512-rQnzv8G6VFz2caA5Qf0i43EnwR2kd+nKfStEorcmO23CCO32zQMhiGmH3I4MpkI7d6kzQ6C6Wsxd6PNrLLbEbw==}
     peerDependencies:
       eslint: ^7.23.0 || ^8.0.0
       typescript: '>=3.3.1'
@@ -9774,7 +9774,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@next/eslint-plugin-next': 13.1.7-canary.28
+      '@next/eslint-plugin-next': 13.2.2-canary.1
       '@rushstack/eslint-patch': 1.2.0
       '@typescript-eslint/parser': 5.49.0_7uibuqfxkfaozanbtbziikiqje
       eslint: 8.32.0
@@ -9799,13 +9799,13 @@ packages:
       eslint: 8.32.0
     dev: false
 
-  /eslint-config-turbo/0.0.8_eslint@8.32.0:
-    resolution: {integrity: sha512-ijj6uv0QX2kWahg3OYnTK1/q4MueXsqY2uE4MP9yeUA5CzVhL7GU+biKlv1BfMMqPltixHUcpZoW4yyNLCnMiw==}
+  /eslint-config-turbo/0.0.9_eslint@8.32.0:
+    resolution: {integrity: sha512-j1cTdx3tRmKo0csyfQKhpuT8dynK9oddbK5nmrShoMpXI2qMbxHLYH7MWAid4FmJN8rYympy3VKw5U63Yazycg==}
     peerDependencies:
       eslint: '>6.6.0'
     dependencies:
       eslint: 8.32.0
-      eslint-plugin-turbo: 0.0.8_eslint@8.32.0
+      eslint-plugin-turbo: 0.0.9_eslint@8.32.0
     dev: false
 
   /eslint-import-resolver-node/0.3.7:
@@ -9959,8 +9959,8 @@ packages:
       string.prototype.matchall: 4.0.8
     dev: false
 
-  /eslint-plugin-turbo/0.0.8_eslint@8.32.0:
-    resolution: {integrity: sha512-pExSCmjWw/KFKb3/0PVqxiWb30FbcwDEf6kKv3alvNBSVEzDHalyAGHc9klbLSG+nFmbkfNE3Ky/UHDryCqt8g==}
+  /eslint-plugin-turbo/0.0.9_eslint@8.32.0:
+    resolution: {integrity: sha512-fEsuSnYU3GLtT+s66mUuzDL1LaSieIx5uk3tPO0ToGv7hI2XzOfP24aPkQItTBGl7kq2JaVkRzPwcnfz8hkp0w==}
     peerDependencies:
       eslint: '>6.6.0'
     dependencies:
@@ -10601,16 +10601,6 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       tslib: 1.14.1
-    dev: false
-
-  /follow-redirects/1.15.2:
-    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
     dev: false
 
   /follow-redirects/1.15.2_debug@4.3.4:
@@ -11584,7 +11574,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.2
+      follow-redirects: 1.15.2_debug@4.3.4
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
