@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Status /> renders Status 1`] = `
+<div
+  className="mantine-Text-root mantine-1xk0dk8"
+>
+  Booking pending
+</div>
+`;

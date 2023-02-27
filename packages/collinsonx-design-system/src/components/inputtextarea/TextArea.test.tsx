@@ -23,7 +23,7 @@ describe('<Textarea />', () => {
         expect(tree).toMatchSnapshot();
     });
 
-    it('can tyoe ', async () => {
+    it('can type ', async () => {
         render(
             <>
              <TextArea
