@@ -13,6 +13,7 @@
     "build:lounge": "turbo run build --filter=lounge...",
     "build:partner-management": "turbo run build --filter=partner-management...",
     "test": "turbo run test",
+    "test:watch": "turbo run test:watch",
     "build:utils": "turbo run jest --filter=utils...",
     "e2e:dev": "turbo run e2e:dev",
     "e2e:start": "turbo run e2e:start",

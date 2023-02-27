@@ -21,7 +21,8 @@
     "types": "tsc --emitDeclarationOnly",
     "lint": "TIMING=1 eslint \"**/*.{ts,tsx,js,jsx}\" --fix",
     "clean": "rm -rf ./dist && rm -rf .turbo",
-    "test": "jest"
+    "test": "jest --env=jsdom",
+    "test:watch": "jest --env=jsdom --watchAll"
   },
   "sideEffects": false,
   "exports": {
@@ -53,6 +54,7 @@
     "@collinsonx/utils": "workspace:*",
     "@swc/helpers": "^0.4.12",
     "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.4.3",
     "clsx": "^1.1.1",
     "react-auth-code-input": "^3.2.1",
     "react-test-renderer": "^18.2.0",
@@ -92,7 +94,7 @@
     ],
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
-   },
+    },
     "coverageDirectory": "coverage"
   }
 }

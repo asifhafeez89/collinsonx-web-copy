@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<FieldLabel /> renders fieldlabel 1`] = `
+<div
+  className="css-1a39ig5"
+  onClick={[MockFunction]}
+>
+  <h3>
+    Time of arrival
+  </h3>
+  <p>
+    test
+  </p>
+</div>
+`;

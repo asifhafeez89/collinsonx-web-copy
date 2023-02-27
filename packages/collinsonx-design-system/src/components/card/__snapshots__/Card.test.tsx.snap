@@ -1,68 +1,50 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Card component renders Conatiner 1`] = `
-[
-  <style
-    dangerouslySetInnerHTML={
+<div
+  className="css-nycf1o"
+>
+  <img
+    alt="Avatar"
+    src=""
+    style={
       {
-        "__html": ".css-nycf1o{width:100%;-webkit-transition:0.3s;transition:0.3s;border-radius:5px;border:1px solid #e9ecef;padding:1rem;margin-bottom:1rem;}.css-nycf1o h3{padding-bottom:0px;margin-bottom:0px;}.css-nycf1o p{margin-top:0px;}.css-nycf1o:hover{box-shadow:10 8px 16px 10 rgba(0, 0, 0, 0.2);}",
+        "width": "100%",
       }
     }
-    data-emotion="css nycf1o"
-  />,
+  />
   <div
-    className="css-nycf1o"
+    className="css-nm2cxd"
   >
-    <img
-      alt="Avatar"
-      src=""
-      style={
-        {
-          "width": "100%",
-        }
-      }
-    />
-    <style
-      dangerouslySetInnerHTML={
-        {
-          "__html": ".css-nm2cxd{border-radius:5px 5px 0 0;}",
-        }
-      }
-      data-emotion="css nm2cxd"
-    />
-    <div
-      className="css-nm2cxd"
+    <h3>
+      My lounge
+    </h3>
+    <p>
+      Athens International Airport
+    </p>
+  </div>
+  <div>
+    <button
+      className="mantine-UnstyledButton-root mantine-Button-root mantine-b61g2y"
+      data-button={true}
+      onClick={[Function]}
+      type="button"
     >
-      <h3>
-        My lounge
-      </h3>
-      <p>
-        Athens International Airport
-      </p>
-    </div>
-    <div>
-      <button
-        className="mantine-UnstyledButton-root mantine-Button-root mantine-b61g2y"
-        data-button={true}
-        onClick={[Function]}
-        type="button"
+      <div
+        className="mantine-3xbgk5 mantine-Button-inner"
       >
-        <div
-          className="mantine-3xbgk5 mantine-Button-inner"
-        >
-          <span
-            className="mantine-qo1k2 mantine-Button-label"
-            style={
-              {
-                "textTransform": undefined,
-              }
+        <span
+          className="mantine-qo1k2 mantine-Button-label"
+          style={
+            {
+              "textTransform": undefined,
             }
-          >
-            Book Lounge
-          </span>
-        </div>
-      </button>
-    </div>
-  </div>,
-]
+          }
+        >
+          Book Lounge
+        </span>
+      </div>
+    </button>
+  </div>
+</div>
 `;

@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Datepicker /> renders datepicker 1`] = `
+<div
+  className="mantine-InputWrapper-root mantine-DatePicker-root mantine-1m3pqry"
+>
+  <label
+    className="mantine-InputWrapper-label mantine-DatePicker-label mantine-mwxeal"
+    htmlFor="mantine-r0"
+    id="mantine-r0-label"
+  >
+    Date
+    <span
+      aria-hidden={true}
+      className="mantine-u5apz8 mantine-InputWrapper-required mantine-DatePicker-required"
+    >
+       *
+    </span>
+  </label>
+  <div
+    className="mantine-2uofp0 mantine-DatePicker-wrapper"
+  >
+    <div
+      className="mantine-Input-wrapper mantine-DatePicker-wrapper mantine-12sbrde"
+    >
+      <input
+        aria-invalid={false}
+        autoComplete="off"
+        className="mantine-DatePicker-input mantine-Input-input mantine-DatePicker-input mantine-1y9bl4z"
+        disabled={false}
+        id="mantine-r0"
+        name="date"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        placeholder="Pick date"
+        readOnly={true}
+        value=""
+      />
+    </div>
+  </div>
+</div>
+`;

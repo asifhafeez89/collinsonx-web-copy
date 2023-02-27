@@ -42,7 +42,7 @@ const Header = ({ items, logo, onClickSignout }: HeaderProps) => {
             <Search />
           </Anchor>
           <Burger
-            color={theme.colors.headerNavColor[0]}
+            color={theme.colors?.headerNavColor[0]}
             opened={menuOpened}
             onClick={() => setMenuOpened(true)}
             title={title}

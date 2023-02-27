@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Button /> renders text-primary 1`] = `
+exports[`<Button /> renders outline variant 1`] = `
 <button
   className="mantine-UnstyledButton-root mantine-Button-root mantine-b61g2y"
   data-button={true}
