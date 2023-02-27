@@ -1,4 +1,8 @@
-import { ThirdPartyPasswordless, Session } from '@collinsonx/utils/supertokens';
+import {
+  ThirdPartyPasswordless,
+  Session,
+  InputType,
+} from '@collinsonx/utils/supertokens';
 import { appInfo } from './appInfo';
 
 const sessionTokenFrontendDomain = process.env.NEXT_PUBLIC_SESSION_SCOPE;
@@ -11,7 +15,7 @@ export const frontendConfig = () => {
       ThirdPartyPasswordless.init({
         contactMethod: 'EMAIL',
       }),
-      Session.init({ sessionTokenFrontendDomain }),
+      Session.init({ sessionTokenFrontendDomain } as InputType),
     ],
   };
 };
