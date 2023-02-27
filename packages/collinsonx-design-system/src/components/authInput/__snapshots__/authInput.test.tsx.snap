@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AuthInput /> renders AuthInput 1`] = `
+<div
+  className="css-53w5oo"
+>
+  <div>
+    <input
+      aria-label="Character 1."
+      autoComplete="one-time-code"
+      inputMode="text"
+      maxLength={1}
+      onChange={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onPaste={[Function]}
+      pattern="[a-zA-Z0-9]{1}"
+      type="text"
+    />
+    <input
+      aria-label="Character 2."
+      autoComplete="off"
+      inputMode="text"
+      maxLength={1}
+      onChange={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onPaste={[Function]}
+      pattern="[a-zA-Z0-9]{1}"
+      type="text"
+    />
+    <input
+      aria-label="Character 3."
+      autoComplete="off"
+      inputMode="text"
+      maxLength={1}
+      onChange={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onPaste={[Function]}
+      pattern="[a-zA-Z0-9]{1}"
+      type="text"
+    />
+    <input
+      aria-label="Character 4."
+      autoComplete="off"
+      inputMode="text"
+      maxLength={1}
+      onChange={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onPaste={[Function]}
+      pattern="[a-zA-Z0-9]{1}"
+      type="text"
+    />
+    <input
+      aria-label="Character 5."
+      autoComplete="off"
+      inputMode="text"
+      maxLength={1}
+      onChange={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onPaste={[Function]}
+      pattern="[a-zA-Z0-9]{1}"
+      type="text"
+    />
+    <input
+      aria-label="Character 6."
+      autoComplete="off"
+      inputMode="text"
+      maxLength={1}
+      onChange={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onPaste={[Function]}
+      pattern="[a-zA-Z0-9]{1}"
+      type="text"
+    />
+  </div>
+</div>
+`;
