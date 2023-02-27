@@ -5,6 +5,12 @@
       "dependsOn": ["^build"],
       "outputs": [".next/**", "dist/**", "storybook-static/**"]
     },
+    "e2e:dev": {
+      "cache": false
+    },
+    "e2e:start": {
+      "dependsOn": ["^build"]
+    },
     "main#dev": {
       "dependsOn": [
         "@collinsonx/utils#build",
