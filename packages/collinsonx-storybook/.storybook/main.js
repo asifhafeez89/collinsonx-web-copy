@@ -9,6 +9,7 @@ module.exports = {
   core: {
     builder: 'webpack5',
   },
+  staticDirs: ['../public'],
   webpackFinal: async (config, { configType }) => {
     config.module.rules = [
       ...config.module.rules.map((rule) => {

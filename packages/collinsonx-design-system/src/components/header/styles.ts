@@ -1,6 +1,6 @@
 import { createStyles } from '@collinsonx/utils/core';
 
-export const useStyles = createStyles(() => ({
+export const useStyles = createStyles((theme) => ({
   drawerHeader: {
     backgroundColor: '#112132',
     padding: 15,
@@ -11,7 +11,7 @@ export const useStyles = createStyles(() => ({
     alignItems: 'center',
   },
   header: {
-    backgroundColor: '#112132',
+    backgroundColor: theme.colors.headerNavBg[0],
     display: 'flex',
     justifyContent: 'space-between',
     padding: 15,
@@ -26,8 +26,9 @@ export const useStyles = createStyles(() => ({
   nav: {
     display: 'flex',
     alignItems: 'center',
+    color: theme.colors.headerNavColor[0],
 
-    ['button']: {
+    button: {
       marginLeft: 15,
     },
   },

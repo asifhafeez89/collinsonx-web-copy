@@ -1,0 +1,16 @@
+{
+  "name": "@collinsonx/tests-e2e",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "e2e:dev": "playwright test",
+    "e2e:start": "start-server-and-test \"(cd ../../apps/main && npm run start)\" http://localhost:3000 \"playwright test\""
+  },
+  "dependencies": {
+    "main": "workspace:*",
+    "start-server-and-test": "^1.15.4"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.31.1"
+  }
+}

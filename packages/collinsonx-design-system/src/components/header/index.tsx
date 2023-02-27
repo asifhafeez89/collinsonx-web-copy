@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
-import { Burger, Drawer, List, Box, Anchor } from '@collinsonx/utils/core';
-import { Logo } from '../../assets/logo';
-import { Search, ChevronRight } from '../../assets/icons/index';
+import {
+  Burger,
+  Drawer,
+  List,
+  Box,
+  Anchor,
+  Text,
+  useMantineTheme,
+} from '@collinsonx/utils/core';
+import { Search, ChevronRight, Logout } from '../../assets/icons/index';
 import { useStyles } from './styles';
 
 export type HeaderItem = {
@@ -12,10 +19,14 @@ export type HeaderItem = {
 
 interface HeaderProps {
   items?: HeaderItem[];
+  logo: JSX.Element;
+  onClickSignout?: () => void;
 }
 
-const Header = ({ items }: HeaderProps) => {
+const Header = ({ items, logo, onClickSignout }: HeaderProps) => {
   const { classes } = useStyles();
+
+  const theme = useMantineTheme();
 
   const [menuOpened, setMenuOpened] = useState(false);
   const title = menuOpened ? 'Close navigation' : 'Open navigation';
@@ -24,23 +35,20 @@ const Header = ({ items }: HeaderProps) => {
     <>
       <header className={classes.header}>
         <a href="/" className={classes.logo}>
-          <Logo />
+          {logo}
         </a>
-
         <nav className={classes.nav}>
-          <Anchor variant="text" color={'#112132'} size="sm" href="/search">
-            <Search color={'#ffffff'} />
+          <Anchor variant="text" size="sm" href="/search">
+            <Search />
           </Anchor>
-
           <Burger
-            color={'#ffffff'}
+            color={theme.colors.headerNavColor[0]}
             opened={menuOpened}
             onClick={() => setMenuOpened(true)}
             title={title}
           />
         </nav>
       </header>
-
       <Drawer
         opened={menuOpened}
         position="right"
@@ -55,7 +63,7 @@ const Header = ({ items }: HeaderProps) => {
         }}
       >
         <div className={classes.drawerHeader}>
-          <Logo />
+          {logo}
           <Burger
             color={'#ffffff'}
             opened={menuOpened}
@@ -92,40 +100,34 @@ const Header = ({ items }: HeaderProps) => {
           sx={{
             width: '100%',
             display: 'flex',
-            justifyContent: 'space-around',
+            justifyContent: 'stretch',
             borderTop: '1px solid #cccccc',
             padding: 15,
             marginTop: 'auto',
           }}
         >
-          {/* <Avatar
-            src={null}
-            radius="xl"
-            alt="no image here"
-            color={'#112132'}
-          /> */}
           <Box
+            onClick={onClickSignout}
             sx={{
+              width: '100%',
               display: 'flex',
-              flexDirection: 'column',
-              flex: 2,
-              paddingLeft: 10,
+              justifyContent: 'flex-start',
+              alignItems: 'center',
             }}
           >
-            <Anchor variant="text" color={'#112132'} size="sm" href="/">
-              Logout
-            </Anchor>
-            {/* 
-            <Anchor size="sm" href="/profile">
-              <Text fz="sm" color={'#112132'}>
-                Jayne Bloggs
-              </Text>
-              <Text fz="sm" color={'#112132'}>
-                j.bloggs@collinson.co.uk
-              </Text>
-            </Anchor> */}
+            <Logout color={'#112132'} />
+            <Text
+              sx={{
+                color: '#112132',
+                marginLeft: '1rem',
+                marginRight: '0.5rem',
+                flex: '1 1 100%',
+              }}
+            >
+              Signout
+            </Text>
+            <ChevronRight color={'#112132'} />
           </Box>
-          <ChevronRight color={'#112132'} />
         </Box>
       </Drawer>
     </>

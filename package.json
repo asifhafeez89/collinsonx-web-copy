@@ -14,6 +14,8 @@
     "build:partner-management": "turbo run build --filter=partner-management...",
     "test": "turbo run test",
     "build:utils": "turbo run jest --filter=utils...",
+    "e2e:dev": "turbo run e2e:dev",
+    "e2e:start": "turbo run e2e:start",
     "dev": "turbo run dev",
     "start": "turbo run start",
     "clean": "turbo run clean && rm -rf node_modules",

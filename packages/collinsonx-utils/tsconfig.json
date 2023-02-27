@@ -16,6 +16,6 @@
     "isolatedModules": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "../../apps/lounge/components/hooks"],
+  "include": ["src"],
   "exclude": ["node_modules", "dist"]
 }

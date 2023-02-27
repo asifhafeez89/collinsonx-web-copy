@@ -5,12 +5,12 @@ import { MantineProvider } from '@collinsonx/design-system/core';
 
 import Head from 'next/head';
 
-import { themeLight } from '@collinsonx/design-system/themes';
+import { experienceX } from '@collinsonx/design-system/themes';
 
 import { Be_Vietnam_Pro } from '@next/font/google';
 
 import Client from '@collinsonx/utils/provider';
-import {SysAuth, Logout} from '@collinsonx/utils/components';
+import { SysAuth, Logout } from '@collinsonx/utils/components';
 import { frontendConfig } from '../config/frontendConfig';
 import SuperTokensReact, {
   SuperTokensWrapper,
@@ -54,7 +54,7 @@ export default function MyApp({ Component, pageProps }: Props) {
         <SuperTokensWrapper>
           <SysAuth>
             <MantineProvider
-              theme={themeLight({ fontFamily: beVietnamPro.style.fontFamily })}
+              theme={experienceX({ fontFamily: beVietnamPro.style.fontFamily })}
               withGlobalStyles
               withNormalizeCSS
             >

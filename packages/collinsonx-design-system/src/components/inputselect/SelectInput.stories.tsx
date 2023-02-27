@@ -5,7 +5,7 @@ import SelectInput from './index';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-  title: 'Example/SelectInput',
+  title: 'Components/SelectInput',
   component: SelectInput,
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {
@@ -21,8 +21,7 @@ const Template: ComponentStory<typeof SelectInput> = (args) => (
 export const Primary = Template.bind({});
 // // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Primary.args = {
-    label:"Date",
-    placeholder:"hh:ss",
-    data:['00:00','01:00']
+  label: 'Date',
+  placeholder: 'hh:ss',
+  data: ['00:00', '01:00'],
 };
-

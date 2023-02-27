@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import AuthCode from 'react-auth-code-input';
 import styled from '@collinsonx/utils/styled';
 

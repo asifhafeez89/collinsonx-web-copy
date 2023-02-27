@@ -5,7 +5,7 @@ import InputLabel from './index';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-  title: 'Example/InputLabel',
+  title: 'Components/InputLabel',
   component: InputLabel,
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {
@@ -23,4 +23,3 @@ export const Primary = Template.bind({});
 Primary.args = {
   label: 'Input Label',
 };
-
