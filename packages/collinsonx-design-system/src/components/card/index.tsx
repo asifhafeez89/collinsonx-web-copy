@@ -55,7 +55,6 @@ export default function Card({
       <div>
         <Button
           variant="outline"
-          color="dark"
           fullWidth={true}
           handleClick={handleClick}
           icon={null}

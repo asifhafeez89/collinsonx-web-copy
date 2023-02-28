@@ -30,7 +30,6 @@ export default function Landing({ lounges }: { lounges: Experience[] }) {
           icon={<Filter />}
           variant="outline"
           fullWidth
-          color="dark"
         >
           Filter
         </Button>
