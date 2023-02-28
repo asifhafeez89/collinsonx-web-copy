@@ -108,6 +108,8 @@ const Header = ({ items, logo, onClickSignout }: HeaderProps) => {
         >
           <Box
             onClick={onClickSignout}
+            className="logout"
+            role="button"
             sx={{
               width: '100%',
               display: 'flex',

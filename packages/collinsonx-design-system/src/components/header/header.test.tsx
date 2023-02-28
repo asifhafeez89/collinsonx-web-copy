@@ -5,6 +5,7 @@ import { Cart, Chat, Home } from '../../assets/icons';
 import { LogoExperienceX } from '../../assets/logo';
 import { MantineProvider, MantineThemeOverride } from '../../core';
 import Header from '.';
+import userEvent from '@testing-library/user-event';
 
 const mockFn = jest.fn();
 
@@ -13,12 +14,8 @@ describe('<Header />', () => {
     jest.resetAllMocks();
   });
 
-  type ThemeOptions = {
-    fontFamily?: string;
-  };
-
-  it('renders header', () => {
-    const tree = renderer.create(
+  it('renders header', async () => {
+    const { container } = render(
       <>
         <MantineProvider
           theme={{
@@ -57,8 +54,18 @@ describe('<Header />', () => {
       </>
     );
 
-    screen.debug();
+    const inputs = container.querySelectorAll('.mantine-Burger-root');
 
-    // expect(tree.toJSON()).toMatchSnapshot();
+    fireEvent.click(inputs[0]);
+
+    await waitFor(() => {
+      screen.debug();
+
+      fireEvent.click(screen.getByText(/Signout/i));
+    });
+
+    await waitFor(() => {
+      expect(mockFn).toHaveBeenCalledTimes(1);
+    });
   });
 });
