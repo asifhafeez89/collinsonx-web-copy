@@ -2,8 +2,9 @@ import { useRouter } from 'next/router';
 import { Title, Stack, Flex } from '@collinsonx/design-system/core';
 import { Button, Card } from '@collinsonx/design-system';
 import { Filter } from '@collinsonx/design-system/assets/icons';
+import LoungeImage from '@components/LoungeImage';
+import Layout from '@components/Layout';
 
-import Layout from '../components/Layout';
 import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
 import { client } from '@collinsonx/utils/apollo';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
@@ -41,11 +42,8 @@ export default function Landing({ lounges }: { lounges: Experience[] }) {
             <Card
               title={name || '-'}
               subtitle={location || '-'}
-              pictureUrl={
-                images && images.length
-                  ? images[0]?.url ||
-                    'https://cdn03.collinson.cn/lounge-media/image/BHX6-13756.jpg'
-                  : 'https://cdn03.collinson.cn/lounge-media/image/BHX6-13756.jpg'
+              ImageComponent={
+                <LoungeImage width={309} height={232} images={images} />
               }
               handleClick={() => goToLoungeDetails(lounge)}
               key={id}

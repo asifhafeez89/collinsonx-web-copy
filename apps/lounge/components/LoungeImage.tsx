@@ -1,12 +1,12 @@
 import NextImage from 'next/image';
 import { Image, Maybe } from '@collinsonx/utils/generatedTypes/graphql';
 
-export interface ImageComponentProps {
+export interface LoungeImageProps {
   images?: Maybe<Maybe<Image>[]>;
   width: number;
   height: number;
 }
-const ImageComponent = ({ images, width, height }: ImageComponentProps) => {
+const LoungeImage = ({ images, width, height }: LoungeImageProps) => {
   if (images && images.length) {
     if (images[0] !== null) {
       const { url, altText } = images[0];
@@ -32,4 +32,4 @@ const ImageComponent = ({ images, width, height }: ImageComponentProps) => {
   );
 };
 
-export default ImageComponent;
+export default LoungeImage;
