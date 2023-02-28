@@ -87,12 +87,7 @@ export default function BookingCard({
           </Stack>
         </ContentWrapper>
 
-        <Button
-          variant="outline"
-          color="dark"
-          fullWidth={true}
-          onClick={() => onClick(id)}
-        >
+        <Button variant="outline" fullWidth={true} onClick={() => onClick(id)}>
           View details
         </Button>
       </Stack>
