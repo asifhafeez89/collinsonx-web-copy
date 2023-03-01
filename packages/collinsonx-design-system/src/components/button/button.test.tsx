@@ -4,13 +4,13 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import  Button  from '.';
 
+
 const mockFn = jest.fn();
 
 describe('<Button />', () => {
-    beforeEach(() => {
-        jest.resetAllMocks();
-    });
-
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
 
     it('renders outline variant', () => {
         const tree = renderer
@@ -49,3 +49,4 @@ describe('<Button />', () => {
 
     })
 })
+
