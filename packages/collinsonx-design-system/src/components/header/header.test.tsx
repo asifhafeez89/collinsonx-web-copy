@@ -59,8 +59,6 @@ describe('<Header />', () => {
     fireEvent.click(inputs[0]);
 
     await waitFor(() => {
-      screen.debug();
-
       fireEvent.click(screen.getByText(/Signout/i));
     });
 
