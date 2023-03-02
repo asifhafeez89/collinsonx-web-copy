@@ -179,55 +179,6 @@ importers:
       postcss: 8.4.21
       typescript: 4.9.4
 
-  apps/search:
-    specifiers:
-      '@collinsonx/design-system': workspace:*
-      '@collinsonx/pages': workspace:*
-      '@collinsonx/utils': workspace:*
-      '@emotion/react': ^11.10.5
-      '@emotion/server': ^11.10.0
-      '@emotion/styled': ^11.10.5
-      '@mantine/core': ^5.10.4
-      '@mantine/dates': ^5.10.3
-      '@mantine/hooks': ^5.10.2
-      '@mantine/next': ^5.10.2
-      '@next/font': ^13.1.5
-      '@svgr/webpack': ^6.5.1
-      '@types/react': ^18.0.0
-      autoprefixer: ^10.4.12
-      dayjs: ^1.11.7
-      eslint: ^8.11.0
-      eslint-config-collinsonx: workspace:*
-      next: ^13.1.0
-      postcss: ^8.4.18
-      react: ^18.2.0
-      react-dom: ^18.2.0
-      typescript: 4.9.4
-    dependencies:
-      '@collinsonx/design-system': link:../../packages/collinsonx-design-system
-      '@collinsonx/pages': link:../../packages/collinsonx-pages
-      '@collinsonx/utils': link:../../packages/collinsonx-utils
-      '@emotion/react': 11.10.5_3stiutgnnbnfnf3uowm5cip22i
-      '@emotion/server': 11.10.0
-      '@emotion/styled': 11.10.6_jrh5enlbqfbnumycmktdqgd6se
-      '@mantine/core': 5.10.4_zmkgabs5g3um572vzpszamufea
-      '@mantine/dates': 5.10.4_cshids4fm2bh7nhcqqy7euof4e
-      '@mantine/hooks': 5.10.4_react@18.2.0
-      '@mantine/next': 5.10.4_frkyvidol3cyjondljhrqtyp5u
-      '@next/font': 13.1.5
-      '@svgr/webpack': 6.5.1
-      dayjs: 1.11.7
-      next: 13.1.6_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    devDependencies:
-      '@types/react': 18.0.27
-      autoprefixer: 10.4.13_postcss@8.4.21
-      eslint: 8.32.0
-      eslint-config-collinsonx: link:../../packages/eslint-config-collinsonx
-      postcss: 8.4.21
-      typescript: 4.9.4
-
   packages/collinsonx-design-system:
     specifiers:
       '@babel/core': ^7.20.12
@@ -911,7 +862,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/template': 7.20.7
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.0
 
   /@babel/helper-function-name/7.21.0:
     resolution: {integrity: sha512-HfK1aMRanKHpxemaY2gqBmL04iAPOPRj7DxtNbiDOrJK+gdwkiNRVpCpUJYbUT+aZyemKN8brqTOxzCaG6ExRg==}
@@ -924,7 +875,7 @@ packages:
     resolution: {integrity: sha512-UlJQPkFqFULIcyW5sbzgbkxn2FKRgwWiRexcuaR8RNJRy8+LLveqPjwZV/bwrLZCN0eUHD/x8D0heK1ozuoo6Q==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.0
 
   /@babel/helper-member-expression-to-functions/7.21.0:
     resolution: {integrity: sha512-Muu8cdZwNN6mRRNG6lAYErJ5X3bRevgYR2O8wN0yn7jJSnGDu6eG59RfT29JHxGUovyfrh6Pj0XzmR7drNVL3Q==}
@@ -999,7 +950,7 @@ packages:
     resolution: {integrity: sha512-+0woI/WPq59IrqDYbVGfshjT5Dmk/nnbdpcF8SnMhhXObpTq2KNBdLFRFrkVdbDOyUmHBCxzm5FHV1rACIkIbA==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.0
 
   /@babel/helper-skip-transparent-expression-wrappers/7.20.0:
     resolution: {integrity: sha512-5y1JYeNKfvnT8sZcK9DVRtpTbGiomYIHviSP3OQWmDPU3DeH4a1ZlT/N2lyQ5P8egjcRaT/Y9aNqUxK0WsnIIg==}
@@ -3044,10 +2995,10 @@ packages:
       '@babel/parser': 7.20.13
       '@babel/plugin-syntax-import-assertions': 7.20.0_@babel+core@7.20.12
       '@babel/traverse': 7.20.13
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.0
       '@graphql-tools/utils': 9.2.0_graphql@16.6.0
       graphql: 16.6.0
-      tslib: 2.4.1
+      tslib: 2.5.0
     transitivePeerDependencies:
       - '@babel/core'
       - supports-color
@@ -3061,7 +3012,7 @@ packages:
       '@graphql-tools/utils': 9.2.0_graphql@16.6.0
       graphql: 16.6.0
       resolve-from: 5.0.0
-      tslib: 2.4.1
+      tslib: 2.5.0
     dev: true
 
   /@graphql-tools/json-file-loader/7.4.16_graphql@16.6.0:
@@ -6157,7 +6108,7 @@ packages:
   /@types/http-proxy/1.17.9:
     resolution: {integrity: sha512-QsbSjA/fSk7xB+UXlCT3wHBy5ai9wOcNDWwZAtud+jXhwOM3l+EYZh8Lng4+/6n8uar0J7xILzqftJdJ/Wdfkw==}
     dependencies:
-      '@types/node': 18.11.18
+      '@types/node': 18.13.0
     dev: true
 
   /@types/is-ci/3.0.0:
@@ -6257,10 +6208,6 @@ packages:
   /@types/node/16.18.11:
     resolution: {integrity: sha512-3oJbGBUWuS6ahSnEq1eN2XrCyf4YsWI8OyCvo7c64zQJNplk3mO84t53o8lfTk+2ji59g5ycfc6qQ3fdHliHuA==}
     dev: false
-
-  /@types/node/18.11.18:
-    resolution: {integrity: sha512-DHQpWGjyQKSHj3ebjFI/wRKcqQcdR+MoFBygntYOZytCqNfkd2ZC4ARDJ2DQqhjH5p85Nnd3jhUJIXrszFX/JA==}
-    dev: true
 
   /@types/node/18.13.0:
     resolution: {integrity: sha512-gC3TazRzGoOnoKAhUx+Q0t8S9Tzs74z7m0ipwGpSqQrleP14hKxP4/JUeEQcD3W1/aIpnWl8pHowI7WokuZpXg==}
@@ -12610,7 +12557,7 @@ packages:
       '@babel/plugin-syntax-jsx': 7.18.6_@babel+core@7.20.12
       '@babel/plugin-syntax-typescript': 7.20.0_@babel+core@7.20.12
       '@babel/traverse': 7.20.13
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.0
       '@jest/expect-utils': 29.4.3
       '@jest/transform': 29.4.3
       '@jest/types': 29.4.3
