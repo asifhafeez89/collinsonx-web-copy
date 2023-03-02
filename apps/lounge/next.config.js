@@ -9,4 +9,14 @@ module.exports = {
 
     return config;
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn03.collinson.cn',
+        port: '',
+        pathname: '/lounge-media/image/**',
+      },
+    ],
+  },
 };

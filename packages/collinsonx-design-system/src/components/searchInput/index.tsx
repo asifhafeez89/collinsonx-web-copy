@@ -3,7 +3,7 @@ import {
   TextInput,
   TextInputProps,
   createStyles,
-} from '@collinsonx/utils/core';
+} from '@mantine/core';
 import { Close } from '../../assets/icons';
 
 export interface SearchInputProps extends TextInputProps {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { SelectProps, Select } from '@collinsonx/utils/core';
+import { SelectProps, Select } from '@mantine/core';
 
 /**
  * Primary UI component for user interaction

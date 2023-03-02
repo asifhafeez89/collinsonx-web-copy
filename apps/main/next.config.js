@@ -1,4 +1,4 @@
-const { LOUNGE_URL, SEARCH_URL } = process.env;
+const { LOUNGE_URL } = process.env;
 
 module.exports = {
   webpack(config) {
@@ -23,14 +23,16 @@ module.exports = {
         source: '/lounge/:path*',
         destination: `${LOUNGE_URL}/lounge/:path*`,
       },
-      {
-        source: '/search',
-        destination: `${SEARCH_URL}/search`,
-      },
-      {
-        source: '/search/:path*',
-        destination: `${SEARCH_URL}/search/:path*`,
-      },
     ];
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn03.collinson.cn',
+        port: '',
+        pathname: '/lounge-media/image/**',
+      },
+    ],
   },
 };

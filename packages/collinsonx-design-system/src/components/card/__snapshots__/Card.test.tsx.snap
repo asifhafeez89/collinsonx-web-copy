@@ -1,18 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Card component renders Conatiner 1`] = `
+exports[`Card component renders Container 1`] = `
 <div
   className="css-nycf1o"
 >
-  <img
-    alt="Avatar"
-    src=""
-    style={
-      {
-        "width": "100%",
-      }
-    }
-  />
   <div
     className="css-nm2cxd"
   >

@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { Box } from '@collinsonx/utils/core';
+import { Box } from '@mantine/core';
 
 import Header from './index';
 import { LogoExperienceX, LogoDinersClub, LogoAmex } from '../../assets/logo';

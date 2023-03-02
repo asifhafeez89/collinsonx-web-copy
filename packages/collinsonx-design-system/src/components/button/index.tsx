@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Button as MantineButton,
   ButtonProps as MantineBProps,
-} from '@collinsonx/utils/core';
+} from '@mantine/core';
 
 interface ButtonProps extends MantineBProps {
   handleClick: () => void;

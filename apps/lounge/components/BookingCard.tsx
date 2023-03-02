@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from '@collinsonx/design-system/styled';
+import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import {
   Box,
@@ -11,6 +11,7 @@ import {
 } from '@collinsonx/design-system/core';
 import BookingBadge, { BookingStatus } from './BookingBadge';
 import { MapPin } from '@collinsonx/design-system/assets/icons';
+import NextImage from 'next/image';
 
 // import generated types in the following way:
 // import { Booking} from '@collinsonx/utils/generatedTypes/graphql';
@@ -57,10 +58,9 @@ export default function BookingCard({
           sx={{
             position: 'relative',
             borderRadius: 4,
-            background: `url("${imgUrl}")`,
-            backgroundSize: 'cover',
           }}
         >
+          <NextImage fill src={imgUrl} alt={name} />
           <Box sx={{ position: 'absolute', right: 8, top: 8 }}>
             <BookingBadge status={status}>
               Booking {status.toLowerCase()}

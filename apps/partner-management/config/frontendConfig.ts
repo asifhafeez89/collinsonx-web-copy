@@ -6,7 +6,6 @@ import {
 import { appInfo } from './appInfo';
 
 const sessionTokenFrontendDomain = process.env.NEXT_PUBLIC_SESSION_SCOPE;
-console.log(sessionTokenFrontendDomain);
 
 export const frontendConfig = () => {
   return {

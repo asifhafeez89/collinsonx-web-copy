@@ -25,8 +25,8 @@
       "@collinsonx/design-system/*": [
         "collinsonx/design-system/*"
       ],
-      "@collinsonx/utils/themes": [
-        "collinsonx/utils/themes"
+      "@collinsonx/design-system/themes": [
+        "collinsonx/design-system/themes*"
       ],
       "@components": [
         "components/index"

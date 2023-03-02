@@ -1,10 +1,10 @@
-import { MantineProvider } from '@collinsonx/utils/core';
+import { MantineProvider } from '@mantine/core';
 import {
   experienceX,
   dinersClub,
   amexBlack,
   amexPlatinum,
-} from '@collinsonx/utils/themes';
+} from '../../collinsonx-design-system/src/themes';
 
 import '../style.css';
 

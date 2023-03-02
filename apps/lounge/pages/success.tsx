@@ -1,4 +1,4 @@
-import Layout from '../components/Layout';
+import Layout from '@components/Layout';
 import { BookingSuccess as BookingSuccessGraphic } from '@collinsonx/design-system/assets/graphics';
 import { Flex, Text } from '@collinsonx/design-system/core';
 import { Button } from '@collinsonx/design-system';
