@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInputProps, TextInput } from '@collinsonx/utils/core';
+import { TextInputProps, TextInput } from '@mantine/core';
 
 /**
  * Primary UI component for user interaction

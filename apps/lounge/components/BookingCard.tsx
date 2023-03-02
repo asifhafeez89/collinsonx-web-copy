@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from '@collinsonx/design-system/styled';
+import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import {
   Box,

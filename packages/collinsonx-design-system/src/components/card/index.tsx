@@ -1,4 +1,4 @@
-import styled from '@collinsonx/utils/styled';
+import styled from '@emotion/styled';
 import Button from '../button';
 
 const CardWrapper = styled.div`

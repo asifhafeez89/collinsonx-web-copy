@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextareaProps, Textarea } from '@collinsonx/utils/core';
+import { TextareaProps, Textarea } from '@mantine/core';
 
 /**
  * Primary UI component for user interaction
