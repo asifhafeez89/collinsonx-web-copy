@@ -17,12 +17,6 @@
         "@collinsonx/design-system#build"
       ]
     },
-    "search#dev": {
-      "dependsOn": [
-        "@collinsonx/utils#build",
-        "@collinsonx/design-system#build"
-      ]
-    },
     "lounge#dev": {
       "dependsOn": [
         "@collinsonx/utils#build",
@@ -44,17 +38,12 @@
     "main#build": {
       "dependsOn": [
         "^build",
-        "$SEARCH_URL",
         "$LOUNGE_URL",
         "$PRODUCTION_API_URL",
         "$APP_PORT",
         "$NEXT_PUBLIC_SESSION_THEME",
         "$NEXT_PUBLIC_SESSION_SCOPE"
       ],
-      "outputs": [".next/**"]
-    },
-    "search#build": {
-      "dependsOn": ["^build", "$LOUNGE_URL"],
       "outputs": [".next/**"]
     },
     "test": {

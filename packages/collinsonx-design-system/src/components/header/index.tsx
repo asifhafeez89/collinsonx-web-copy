@@ -38,7 +38,7 @@ const Header = ({ items, logo, onClickSignout }: HeaderProps) => {
           {logo}
         </a>
         <nav className={classes.nav}>
-          <Anchor variant="text" size="sm" href="/search">
+          <Anchor variant="text" size="sm" href="/lounge/search">
             <Search />
           </Anchor>
           <Burger
