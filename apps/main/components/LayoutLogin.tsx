@@ -1,5 +1,5 @@
 import { Center, Container, Stack } from '@collinsonx/design-system/core';
-import { getThemeKey } from '@lib/index';
+import { getThemeKey } from '../lib/index';
 
 import {
   LogoExperienceX,

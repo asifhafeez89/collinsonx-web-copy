@@ -25,7 +25,7 @@ exports[`Card component renders Conatiner 1`] = `
   </div>
   <div>
     <button
-      className="mantine-UnstyledButton-root mantine-Button-root mantine-b61g2y"
+      className="mantine-UnstyledButton-root mantine-Button-root mantine-n5myvg"
       data-button={true}
       onClick={[Function]}
       type="button"

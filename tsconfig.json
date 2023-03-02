@@ -23,7 +23,7 @@
       "skipLibCheck": true,
       "strict": true,
       "typeRoots": ["../../node_modules/@types"],
-      "jsx": "preserve",
+      "jsx": "react-jsx",
       "noEmit": true,
       "target": "es5"
     }
