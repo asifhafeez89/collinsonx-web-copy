@@ -65,19 +65,18 @@
   ],
   "jest": {
     "transform": {
-      "^.+\\.(ts|tsx|js|jsx)$": "ts-jest"
+      "^.+\\.(ts|tsx|js|jsx)$": [
+        "ts-jest",
+        {
+          "tsconfig": "./tsconfig.jest.json"
+        }
+      ]
     },
-    "testPathIgnorePatterns": ["<rootDir>/.next/", "<rootDir>/node_modules/"],
+    "testPathIgnorePatterns": [
+      "<rootDir>/.next/",
+      "<rootDir>/node_modules/"
+    ],
     "preset": "ts-jest",
-    "testEnvironment": "node",
-    "globals": {
-      "ts-jest": {
-        "useBabelrc": true,
-        "tsConfigFile": "./tsconfig.jest.json"
-      }
-    },
-    "moduleNameMapper": {
-      "^@collinsonx/(.*)$": "<rootDir>/collinsonx/design-system/$1"
-   }
+    "testEnvironment": "node"
   }
 }
