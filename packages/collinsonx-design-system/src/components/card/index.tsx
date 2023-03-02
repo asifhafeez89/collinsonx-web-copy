@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from '@collinsonx/utils/styled';
 import Button from '../button';
 
@@ -31,7 +30,7 @@ const ContentWrapper = styled.div`
 interface CardProps {
   title: String;
   subtitle: String;
-  pictureUrl: string;
+  ImageComponent?: JSX.Element;
   handleClick: () => void;
 }
 
@@ -41,13 +40,13 @@ interface CardProps {
 export default function Card({
   title,
   subtitle,
-  pictureUrl,
   handleClick,
+  ImageComponent,
   ...props
 }: CardProps) {
   return (
     <CardWrapper>
-      <img src={pictureUrl} alt="Avatar" style={{ width: '100%' }} />
+      {ImageComponent}
       <ContentWrapper>
         <h3>{title}</h3>
         <p>{subtitle}</p>
