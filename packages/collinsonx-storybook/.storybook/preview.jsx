@@ -4,7 +4,7 @@ import {
   dinersClub,
   amexBlack,
   amexPlatinum,
-} from '@collinsonx/utils/themes';
+} from '../../collinsonx-design-system/src/themes';
 
 import '../style.css';
 
