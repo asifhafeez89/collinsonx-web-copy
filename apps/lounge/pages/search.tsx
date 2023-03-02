@@ -51,7 +51,7 @@ export default function Search() {
 
   const handleItemClick = (id: string) => {
     router.push({
-      pathname: '/lounge/details',
+      pathname: '/details',
       query: { id },
     });
   };
