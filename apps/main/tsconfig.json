@@ -22,7 +22,7 @@
       "@lib/*": [
         "lib/*"
       ],
-      "@collinsonx/*": ["../../packages/collinsonx-design-system/src"],
+      "@collinsonx/*": ["./node_modules/@collinsonx/design-system"],
       "@components": [
         "components/index"
       ],
