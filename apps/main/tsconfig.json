@@ -22,7 +22,7 @@
       "@lib/*": [
         "lib/*"
       ],
-      "@collinsonx/*": ["/collinsonx/design-system/*"],
+      "@collinsonx/*": ["../../packages/collinsonx-design-system/src"],
       "@components": [
         "components/index"
       ],
@@ -39,9 +39,5 @@
   ],
   "exclude": [
     "node_modules"
-  ],
-		"baseUrl": ".",
-		"paths": {
-			"@/*": ["./*"],
-		},
+  ]
 }
