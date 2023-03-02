@@ -43,7 +43,14 @@
   "peerDependencies": {
     "dayjs": "^1.11.7",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "@emotion/react": "^11.10.5",
+    "@emotion/server": "^11.10.0",
+    "@emotion/styled": "^11.10.5",
+    "@mantine/core": "^5.10.4",
+    "@mantine/dates": "^5.10.3",
+    "@mantine/hooks": "^5.10.2",
+    "@mantine/next": "^5.10.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
@@ -53,6 +60,13 @@
     "@types/node": "^18.13.0",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
+    "@emotion/react": "^11.10.5",
+    "@emotion/server": "^11.10.0",
+    "@emotion/styled": "^11.10.5",
+    "@mantine/core": "^5.10.4",
+    "@mantine/dates": "^5.10.3",
+    "@mantine/hooks": "^5.10.2",
+    "@mantine/next": "^5.10.2",
     "dayjs": "^1.11.7",
     "eslint": "^8.16.0",
     "eslint-config-collinsonx": "workspace:*",
@@ -64,13 +78,6 @@
   "dependencies": {
     "@apollo/client": "^3.7.6",
     "@apollo/link-error": "2.0.0-beta.3",
-    "@emotion/react": "^11.10.5",
-    "@emotion/server": "^11.10.0",
-    "@emotion/styled": "^11.10.5",
-    "@mantine/core": "^5.10.4",
-    "@mantine/dates": "^5.10.3",
-    "@mantine/hooks": "^5.10.2",
-    "@mantine/next": "^5.10.2",
     "graphql": "^16.6.0",
     "supertokens-auth-react": "0.31.1",
     "supertokens-web-js": "^0.5.0"
