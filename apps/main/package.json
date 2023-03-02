@@ -62,5 +62,22 @@
   "moduleDirectories": [
     "node_modules",
     "src"
-  ]
+  ],
+  "jest": {
+    "transform": {
+      "^.+\\.(ts|tsx|js|jsx)$": "ts-jest"
+    },
+    "testPathIgnorePatterns": ["<rootDir>/.next/", "<rootDir>/node_modules/"],
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "globals": {
+      "ts-jest": {
+        "useBabelrc": true,
+        "tsConfigFile": "./tsconfig.jest.json"
+      }
+    },
+    "moduleNameMapper": {
+      "^@collinsonx/(.*)$": "<rootDir>/collinsonx/design-system/$1"
+   }
+  }
 }
