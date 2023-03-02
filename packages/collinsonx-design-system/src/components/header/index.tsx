@@ -7,7 +7,7 @@ import {
   Anchor,
   Text,
   useMantineTheme,
-} from '@collinsonx/utils/core';
+} from '@mantine/core';
 import { Search, ChevronRight, Logout } from '../../assets/icons/index';
 import { useStyles } from './styles';
 

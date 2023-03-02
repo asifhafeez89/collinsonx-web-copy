@@ -1,4 +1,4 @@
-import { Container } from '@collinsonx/utils/core';
+import { Container } from '@mantine/core';
 import Header from './header';
 import { LogoExperienceX } from '../assets/logo';
 

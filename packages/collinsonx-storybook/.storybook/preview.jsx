@@ -1,4 +1,4 @@
-import { MantineProvider } from '@collinsonx/utils/core';
+import { MantineProvider } from '@mantine/core';
 import {
   experienceX,
   dinersClub,

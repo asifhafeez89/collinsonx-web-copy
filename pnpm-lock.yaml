@@ -401,16 +401,9 @@ importers:
       '@apollo/client': ^3.7.6
       '@apollo/link-error': 2.0.0-beta.3
       '@babel/core': ^7.20.12
-      '@emotion/react': ^11.10.5
-      '@emotion/server': ^11.10.0
-      '@emotion/styled': ^11.10.5
       '@graphql-codegen/cli': ^3.0.0
       '@graphql-codegen/client-preset': ^2.0.0
       '@graphql-typed-document-node/core': ^3.1.1
-      '@mantine/core': ^5.10.4
-      '@mantine/dates': ^5.10.3
-      '@mantine/hooks': ^5.10.2
-      '@mantine/next': ^5.10.2
       '@types/node': ^18.13.0
       '@types/react': ^18.0.27
       '@types/react-dom': ^18.0.10
@@ -432,16 +425,9 @@ importers:
       supertokens-web-js: 0.5.0
     devDependencies:
       '@babel/core': 7.20.12
-      '@emotion/react': 11.10.5_yxdp3dl3eazy3vwpbmv4fq727a
-      '@emotion/server': 11.10.0
-      '@emotion/styled': 11.10.6_jrh5enlbqfbnumycmktdqgd6se
       '@graphql-codegen/cli': 3.0.0_7ixxmew6muipdzczodrbpy5xim
       '@graphql-codegen/client-preset': 2.0.0_graphql@16.6.0
       '@graphql-typed-document-node/core': 3.1.1_graphql@16.6.0
-      '@mantine/core': 5.10.4_zmkgabs5g3um572vzpszamufea
-      '@mantine/dates': 5.10.4_cshids4fm2bh7nhcqqy7euof4e
-      '@mantine/hooks': 5.10.4_react@18.2.0
-      '@mantine/next': 5.10.4_vavbdtuajfyku5chqvt5ands7q
       '@types/node': 18.13.0
       '@types/react': 18.0.27
       '@types/react-dom': 18.0.10
@@ -3628,22 +3614,6 @@ packages:
     transitivePeerDependencies:
       - '@emotion/react'
       - '@emotion/server'
-
-  /@mantine/next/5.10.4_vavbdtuajfyku5chqvt5ands7q:
-    resolution: {integrity: sha512-EkMB7h/hC9kX+CBFkv0tan7Xip4SSNoccSOFxBKTRSKxpiN8M9DtQevFTzX7c7Kz+NirGcvUMlPr9+xAXLghTA==}
-    peerDependencies:
-      next: '*'
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-    dependencies:
-      '@mantine/ssr': 5.10.4_vavbdtuajfyku5chqvt5ands7q
-      '@mantine/styles': 5.10.4_sogmqz4enknxtkxk3k5s6bqwnq
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    transitivePeerDependencies:
-      - '@emotion/react'
-      - '@emotion/server'
-    dev: true
 
   /@mantine/ssr/5.10.4_vavbdtuajfyku5chqvt5ands7q:
     resolution: {integrity: sha512-DDJdo5iDfjLBHBCuXucCO4KGxJfbEK60yRLe/YBVn9jLIrR2x0sKODjxB/yNb46ULQ0sqhLNGD6OjP/qORQ4hw==}

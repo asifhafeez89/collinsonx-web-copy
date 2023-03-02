@@ -7,7 +7,7 @@ import {
 
 import { Be_Vietnam_Pro } from '@next/font/google';
 
-import { MantineThemeOverride } from '@collinsonx/utils/core';
+import { MantineThemeOverride } from '@mantine/core';
 
 const beVietnamPro = Be_Vietnam_Pro({
   style: ['normal'],

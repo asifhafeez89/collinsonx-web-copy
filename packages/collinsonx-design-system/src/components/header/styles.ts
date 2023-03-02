@@ -1,4 +1,4 @@
-import { createStyles } from '@collinsonx/utils/core';
+import { createStyles } from '@mantine/core';
 
 export const useStyles = createStyles((theme) => ({
   drawerHeader: {

@@ -1,6 +1,6 @@
 import React from 'react';
 import AuthCode from 'react-auth-code-input';
-import styled from '@collinsonx/utils/styled';
+import styled from '@emotion/styled';
 
 const CodeWrapper = styled.div`
   input {
