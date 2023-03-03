@@ -31,4 +31,11 @@ module.exports = {
   // moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
   //   prefix: '<rootDir>/',
   // }),
+  coverageDirectory: 'coverage',
+  collectCoverage: true,
+  collectCoverageFrom: [
+    '**/*.{ts,tsx}',
+    '!**/coverage/**',
+    '!**/node_modules/**',
+  ],
 };
