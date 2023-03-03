@@ -21,7 +21,7 @@ const logos = {
 
 const themeKey = getThemeKey();
 
-const Logo = logos[themeKey as keyof typeof logos];
+const Logo = logos[themeKey as keyof typeof logos] ?? LogoExperienceX;
 
 export default function LayoutLogin({ children }: LayoutProps) {
   return (
