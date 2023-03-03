@@ -15,7 +15,7 @@ module.exports = {
     'tsx'
   ],
   transform: {
-      "^.+\\.(ts|tsx|js|jsx)$": "ts-jest"
+      "^.+\\.(ts|tsx|js|jsx)$": "ts-jest",
   },
   testPathIgnorePatterns: ["<rootDir>/.next/", "<rootDir>/node_modules/"],
   preset: "ts-jest",

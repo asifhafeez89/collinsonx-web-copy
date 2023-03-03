@@ -2,26 +2,26 @@ import { Center, Container, Stack } from '@mantine/core';
 import React from 'react';
 import { getThemeKey } from '../lib/index';
 
-// import {
-//   LogoExperienceX,
-//   LogoAmex,
-//   LogoDinersClubWhite,
-// } from '@collinsonx/design-system/assets/logo';
+import {
+  LogoExperienceX,
+  LogoAmex,
+  LogoDinersClubWhite,
+} from '@collinsonx/design-system/assets/logo';
 
 interface LayoutProps {
   children: JSX.Element;
 }
 
-// const logos = {
-//   experienceX: LogoExperienceX,
-//   amexBlack: LogoAmex,
-//   amexPlatinum: LogoAmex,
-//   dinersClub: LogoDinersClubWhite,
-// };
+const logos = {
+  experienceX: LogoExperienceX,
+  amexBlack: LogoAmex,
+  amexPlatinum: LogoAmex,
+  dinersClub: LogoDinersClubWhite,
+};
 
 const themeKey = getThemeKey();
 
-// const Logo = logos[themeKey as keyof typeof logos];
+const Logo = logos[themeKey as keyof typeof logos];
 
 export default function LayoutLogin({ children }: LayoutProps) {
   return (
@@ -35,7 +35,9 @@ export default function LayoutLogin({ children }: LayoutProps) {
       }}
     >
       <Stack spacing={24} sx={{ height: '100%' }}>
-        <Center>{/* <Logo /> */}</Center>
+        <Center>
+          <Logo />{' '}
+        </Center>
         {children}
       </Stack>
     </Container>
