@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SearchInput /> renders SearchInput 1`] = `
+<div
+  className="mantine-InputWrapper-root mantine-TextInput-root mantine-1m3pqry"
+>
+  <div
+    className="mantine-Input-wrapper mantine-TextInput-wrapper mantine-12sbrde"
+  >
+    <input
+      aria-invalid={false}
+      className="mantine-Input-input mantine-TextInput-input mantine-vfiulu"
+      id="mantine-r0"
+      onChange={[MockFunction]}
+      placeholder="Search for airport or lounge"
+      type="text"
+      value="Hello"
+    />
+    <div
+      className="mantine-1n9cu5e mantine-Input-rightSection mantine-TextInput-rightSection"
+    >
+      <button
+        aria-label="Clear"
+        className="mantine-UnstyledButton-root mantine-ActionIcon-root mantine-fgtxfh"
+        onClick={[MockFunction]}
+        type="button"
+      >
+        <test-file-stub />
+      </button>
+    </div>
+  </div>
+</div>
+`;

@@ -1,5 +1,6 @@
 import { createStyles } from '@mantine/core';
 
+
 export const useStyles = createStyles((theme) => ({
   drawerHeader: {
     backgroundColor: '#112132',
@@ -11,7 +12,7 @@ export const useStyles = createStyles((theme) => ({
     alignItems: 'center',
   },
   header: {
-    backgroundColor: theme.colors.headerNavBg[0],
+    backgroundColor:  theme.colors?.headerNavBg[0],
     display: 'flex',
     justifyContent: 'space-between',
     padding: 15,

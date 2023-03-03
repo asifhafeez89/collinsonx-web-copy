@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PageTitle /> renders PageTitle 1`] = `
+<header
+  className="mantine-1fvi2kf"
+>
+  <a
+    className="mantine-1e5u164"
+    href="https://bbc.co.uk"
+  >
+    <test-file-stub
+      color="#000000"
+    />
+  </a>
+  <h1
+    className="mantine-Text-root mantine-Title-root mantine-57g7lp"
+  >
+    test
+  </h1>
+</header>
+`;

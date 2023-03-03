@@ -42,7 +42,7 @@ const Header = ({ items, logo, onClickSignout }: HeaderProps) => {
             <Search />
           </Anchor>
           <Burger
-            color={theme.colors.headerNavColor[0]}
+            color={theme.colors?.headerNavColor[0]}
             opened={menuOpened}
             onClick={() => setMenuOpened(true)}
             title={title}
@@ -108,6 +108,8 @@ const Header = ({ items, logo, onClickSignout }: HeaderProps) => {
         >
           <Box
             onClick={onClickSignout}
+            className="logout"
+            role="button"
             sx={{
               width: '100%',
               display: 'flex',

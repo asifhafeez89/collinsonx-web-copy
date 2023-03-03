@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LayoutLogin /> renders outline variant 1`] = `
+<div
+  className="mantine-Container-root mantine-1ne5wbx"
+>
+  <div
+    className="mantine-Stack-root mantine-f7tv2s"
+  >
+    <div
+      className="mantine-8od8ev"
+    >
+      svg
+       
+    </div>
+    <div />
+  </div>
+</div>
+`;

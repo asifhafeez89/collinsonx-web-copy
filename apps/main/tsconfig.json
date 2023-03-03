@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "target": "es5",
+    "target": "ES6",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -16,7 +16,9 @@
     "jsx": "preserve",
     "paths": {
       "@lib/*": ["lib/*"],
-      "@collinsonx/design-system/*": ["collinsonx/design-system/*"],
+      "@collinson/design-system/*": ["collinson/design-system/*"],
+      "@collinson/utils/*": ["collinson/utils/*"],
+      "@collinson/pages/*": ["collinson/pages/*"],
       "@components": ["components/index"],
       "@components/*": ["components/*"]
     },
