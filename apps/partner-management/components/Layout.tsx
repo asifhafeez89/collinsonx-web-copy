@@ -1,4 +1,3 @@
-import { Center, Container, Stack } from '@collinsonx/design-system/core';
 import { LogoExperienceX } from '@collinsonx/design-system/assets/logo';
 import { Be_Vietnam_Pro } from '@next/font/google';
 
@@ -31,7 +30,7 @@ export default function LayoutLogin({ children }: LayoutProps) {
       >
         <LogoExperienceX />
       </header>
-      <main style={{ padding: '2rem', margin: 0 }}>{children}</main>
+      <main style={{ padding: '40px', margin: 0 }}>{children}</main>
     </div>
   );
 }
