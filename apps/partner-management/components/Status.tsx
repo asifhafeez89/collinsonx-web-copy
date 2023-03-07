@@ -5,9 +5,10 @@ import {
   Declined,
 } from '@collinsonx/design-system/assets/icons';
 
-export type Status = 'PENDING' | 'CONFIRMED' | 'DECLINED';
-export type BookingStatusProps = {
-  status: Status;
+export type type = 'warning' | 'success' | 'danger';
+export type typeProps = {
+  type: type;
+  children: JSX.Element | string;
 };
 
 const styles = {
@@ -15,16 +16,20 @@ const styles = {
   borderRadius: 4,
   display: 'flex',
   alignItems: 'center',
+  justifyContent: 'center',
   gap: 10,
-  height: 38,
+  height: 44,
   fontSize: 14,
   fontWeight: 500,
-  width: 'fit-content',
   color: '#000000',
 };
 
+interface Props {
+  children: JSX.Element | string;
+}
+
 const statusMap = {
-  PENDING: (
+  warning: ({ children }: Props) => (
     <Box
       sx={{
         ...styles,
@@ -33,10 +38,10 @@ const statusMap = {
       }}
     >
       <Pending />
-      <Text>Booking pending</Text>
+      <Text>{children}</Text>
     </Box>
   ),
-  CONFIRMED: (
+  success: ({ children }: Props) => (
     <Box
       sx={{
         ...styles,
@@ -45,10 +50,10 @@ const statusMap = {
       }}
     >
       <Confirmed />
-      <Text>Booking confirmed</Text>
+      <Text>{children}</Text>
     </Box>
   ),
-  DECLINED: (
+  danger: ({ children }: Props) => (
     <Box
       sx={{
         ...styles,
@@ -57,11 +62,12 @@ const statusMap = {
       }}
     >
       <Declined />
-      <Text>Booking declined</Text>
+      <Text>{children}</Text>
     </Box>
   ),
 };
 
-export default function BookingStatus({ status }: BookingStatusProps) {
-  return statusMap[status];
+export default function type({ type, children }: typeProps) {
+  const Component = statusMap[type];
+  return <Component>{children}</Component>;
 }

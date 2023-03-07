@@ -19,3 +19,4 @@ export { default as Logout } from './logout.svg';
 export { default as Pending } from './pending.svg';
 export { default as Confirmed } from './confirmed.svg';
 export { default as Declined } from './declined.svg';
+export { default as BackArrow } from './back-arrow.svg';

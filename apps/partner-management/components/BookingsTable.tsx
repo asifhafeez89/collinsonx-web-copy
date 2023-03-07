@@ -2,13 +2,15 @@ import { Table } from '@collinsonx/design-system/core';
 import styled from '@collinsonx/design-system/styled';
 
 const BookingsTable = styled(Table)`
-  border: 1px solid #d1d1d1;
+  color: #333333;
+  border: 1px solid #e9e9e9;
   border-top: 0;
   tr {
-    height: 50px;
+    height: 78px;
   }
   thead tr {
-    background: rgba(71, 212, 177, 0.1);
+    height: 50px;
+    background: #eae1cc;
   }
   tbody {
     tr:nth-of-type(even) {
@@ -18,8 +20,7 @@ const BookingsTable = styled(Table)`
 
   thead th + th,
   thead tr th:last-child {
-    border-left: 1px solid;
-    border-left: 1px solid #d1d1d1;
+    border-left: 1px solid #dad1bb;
   }
 
   tbody tr td {

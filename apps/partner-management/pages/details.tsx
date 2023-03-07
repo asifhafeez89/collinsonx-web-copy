@@ -3,7 +3,7 @@ import bookingsMock from './bookings.json';
 import { Title, Text } from '@collinsonx/design-system/core';
 const { bookings, lounge } = bookingsMock;
 
-export default function Overview() {
+export default function Details() {
   return (
     <>
       <Title mb={8} size={32}>
@@ -16,4 +16,4 @@ export default function Overview() {
   );
 }
 
-Overview.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;
+Details.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;
