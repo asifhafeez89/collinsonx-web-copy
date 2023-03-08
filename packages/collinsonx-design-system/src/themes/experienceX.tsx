@@ -1,4 +1,4 @@
-import { MantineThemeOverride } from '@mantine/core';
+import { ButtonStylesParams, MantineThemeOverride } from '@mantine/core';
 
 type ThemeOptions = {
   fontFamily?: string;
@@ -99,6 +99,13 @@ const theme = (
         label: {
           fontFamily,
           fontWeight: 600,
+        },
+      }),
+    },
+    Button: {
+      styles: (theme, params: ButtonStylesParams) => ({
+        root: {
+          borderColor: params.variant === 'default' ? '#25262B' : undefined,
         },
       }),
     },

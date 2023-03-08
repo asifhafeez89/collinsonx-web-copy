@@ -92,7 +92,7 @@ export default function Bookings({ type }: BookingsProps) {
             <Button
               sx={{ width: '100%' }}
               onClick={() => handleClickCheckIn(props.row.id)}
-              variant="outline"
+              variant="default"
             >
               Check customer in
             </Button>

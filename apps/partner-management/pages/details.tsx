@@ -16,6 +16,7 @@ import {
 } from '@collinsonx/design-system/assets/icons';
 import DetailsSection from '@components/DetailsSection';
 import DetailsKeyValue from '@components/DetailsKeyValue';
+import BookingButton from '@components/DetailsButton';
 const { bookings, lounge } = bookingsMock;
 
 export default function Details() {
@@ -81,8 +82,12 @@ export default function Details() {
               </DetailsKeyValue>
             </DetailsSection>
             <Flex w="100%" justify="flex-end" gap={32}>
-              <Button onClick={handleClickDecline}>Decline</Button>
-              <Button onClick={handleClickConfirm}>Confirm</Button>
+              <BookingButton variant="danger" onClick={handleClickDecline}>
+                Decline
+              </BookingButton>
+              <BookingButton variant="success" onClick={handleClickConfirm}>
+                Confirm
+              </BookingButton>
             </Flex>
           </Stack>
         </Grid.Col>

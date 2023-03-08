@@ -11,6 +11,7 @@ import {
 import OverviewCard from '@components/OverviewCard';
 import OverviewMetric from '../components/OverviewMetric';
 import OverviewSeparator from '@components/OverviewSeparator';
+import Link from 'next/link';
 const { bookings, lounge } = bookingsMock;
 
 type Status = 'PENDING' | 'CONFIRMED' | 'DECLINED';
@@ -35,7 +36,22 @@ export default function Overview() {
           <Stack spacing={24}>
             <OverviewCard title="Pending bookings" variant="warning">
               {/* demo purposes */}
-              <>{true ? 'You have no pending bookings' : <></>}</>
+              <>
+                {false ? (
+                  'You have no pending bookings'
+                ) : (
+                  <OverviewMetric
+                    label="Recent bookings"
+                    value={totalBookings.PENDING.length}
+                  >
+                    <Link href="/bookings/pending">
+                      <Button variant="default" sx={{ width: 'fit-content' }}>
+                        View all
+                      </Button>
+                    </Link>
+                  </OverviewMetric>
+                )}
+              </>
             </OverviewCard>
             <OverviewCard title="Declined bookings" variant="danger">
               {!totalBookings.DECLINED.length ? (
@@ -45,9 +61,11 @@ export default function Overview() {
                   label="Recent cancelled"
                   value={totalBookings.DECLINED.length}
                 >
-                  <Button variant="outline" sx={{ width: 'fit-content' }}>
-                    View all
-                  </Button>
+                  <Link href="/bookings/declined">
+                    <Button variant="default" sx={{ width: 'fit-content' }}>
+                      View all
+                    </Button>
+                  </Link>
                 </OverviewMetric>
               )}
             </OverviewCard>
@@ -64,9 +82,11 @@ export default function Overview() {
                     label="Today's bookings"
                     value={totalBookings.CONFIRMED.length}
                   >
-                    <Button variant="outline" sx={{ width: 'fit-content' }}>
-                      Today&apos;s bookings
-                    </Button>
+                    <Link href="/bookings/confirmed">
+                      <Button variant="default" sx={{ width: 'fit-content' }}>
+                        Today&apos;s bookings
+                      </Button>
+                    </Link>
                   </OverviewMetric>
                   <Flex justify="center">
                     <OverviewSeparator />
@@ -75,9 +95,11 @@ export default function Overview() {
                     label="All bookings"
                     value={totalBookings.CONFIRMED.length}
                   >
-                    <Button variant="outline" sx={{ width: 'fit-content' }}>
-                      View all
-                    </Button>
+                    <Link href="/bookings/confirmed">
+                      <Button variant="default" sx={{ width: 'fit-content' }}>
+                        View all
+                      </Button>
+                    </Link>
                   </OverviewMetric>
                 </Flex>
               )}
