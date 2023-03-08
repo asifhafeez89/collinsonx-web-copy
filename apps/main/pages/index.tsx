@@ -81,7 +81,7 @@ export default function Home(props: unknown) {
         >
           <div
             style={{
-              backgroundColor: '#47D4B1',
+              backgroundColor: '#946A00',
               width: '150vh',
               height: '150vh',
               position: 'absolute',
@@ -115,14 +115,6 @@ export default function Home(props: unknown) {
               padding: 8,
               height: 44,
               borderRadius: 4,
-              backgroundColor: '#FFF',
-              color: colors.dark[6],
-              ':active': {
-                backgroundColor: '#FFF',
-              },
-              ':hover': {
-                backgroundColor: '#FFF',
-              },
             })}
           >
             Login

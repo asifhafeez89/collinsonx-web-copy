@@ -9,7 +9,7 @@ import { ComponentProps, useState } from 'react';
 import dayjs from 'dayjs';
 
 export interface BookingFormValue {
-  date: string;
+  date: Date;
   comment: string;
 }
 export interface BookingFormProps {
@@ -38,15 +38,25 @@ function formatDate(date: Date) {
 }
 
 export default function BookingForm({ onSubmit }: BookingFormProps) {
-  const [date, setDate] = useState<string>();
+  const [date, setDate] = useState<Date>(new Date());
+  const [time, setTime] = useState('00:00');
   const [comment, setComment] = useState('');
 
   const onChangeDate = (newDate: Date) => {
-    setDate(formatDate(newDate) + ' ' + '00:00');
+    newDate.setSeconds(0);
+    newDate.setHours(date.getHours());
+    newDate.setMinutes(date.getMinutes());
+    setDate(newDate);
   };
 
   const onChangeTime = (newTime: string) => {
-    setDate((date ?? formatDate(new Date())).substring(0, 10) + ' ' + newTime);
+    const d = new Date(date);
+    const [h, m] = newTime.split(':');
+    d.setHours(Number.parseInt(h, 10));
+    d.setMinutes(Number.parseInt(m, 10));
+    d.setSeconds(0);
+    setDate(d);
+    setTime(newTime);
   };
 
   const onChangeComment: ComponentProps<typeof InputTextArea>['onChange'] = (
@@ -62,7 +72,7 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
     });
   };
 
-  const valueTime = date ? date.substring(11) : undefined;
+  console.log(date);
 
   return (
     <Flex direction="column">
@@ -74,7 +84,7 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
           clearable={false}
           inputFormat={DATE_FORMAT}
           labelFormat={DATE_FORMAT}
-          value={date ? new Date(date) : undefined}
+          value={date}
           styles={{
             label: {
               color: 'black',
@@ -90,7 +100,7 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
           withAsterisk
           description="Please check lounge conditions for access times"
           icon={<Clock size={14} />}
-          value={valueTime}
+          value={time}
           data={TIME_SLOTS}
           onChange={onChangeTime}
           required
