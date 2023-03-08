@@ -8,10 +8,11 @@ const beVietnamPro = Be_Vietnam_Pro({
 });
 
 interface LayoutProps {
+  subHeader?: JSX.Element;
   children: JSX.Element;
 }
 
-export default function LayoutLogin({ children }: LayoutProps) {
+export default function LayoutLogin({ children, subHeader }: LayoutProps) {
   return (
     <div
       style={{
@@ -30,7 +31,8 @@ export default function LayoutLogin({ children }: LayoutProps) {
       >
         <LogoExperienceX />
       </header>
-      <main style={{ padding: '40px', margin: 0 }}>{children}</main>
+      {subHeader}
+      <main style={{ padding: '32px 40px', margin: 0 }}>{children}</main>
     </div>
   );
 }
