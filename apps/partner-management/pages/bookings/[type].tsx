@@ -111,8 +111,6 @@ export default function Bookings({ type }: BookingsProps) {
     getCoreRowModel: getCoreRowModel(),
   });
 
-  console.log(date, dayjs(date).format());
-
   return (
     <>
       <Stack spacing={32}>
