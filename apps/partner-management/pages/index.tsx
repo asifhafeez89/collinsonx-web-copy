@@ -1,5 +1,5 @@
 import Layout from '@components/Layout';
-import bookingsMock from './bookings.json';
+import bookingsMock from 'bookings.json';
 import {
   Title,
   Text,

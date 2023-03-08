@@ -2,7 +2,7 @@ import { Box, Stack, Text } from '@collinsonx/design-system/core';
 
 export interface DetailsKeyValueProps {
   label: string | JSX.Element | JSX.Element[];
-  children: JSX.Element | string;
+  children: JSX.Element | string | number;
 }
 const DetailsKeyValue = ({ label, children }: DetailsKeyValueProps) => {
   return (

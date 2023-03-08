@@ -1,5 +1,5 @@
 import Layout from '@components/Layout';
-import bookingsMock from '../bookings.json';
+import bookingsMock from 'bookings.json';
 import { ComponentProps, useMemo, useState } from 'react';
 import {
   Title,
@@ -9,6 +9,8 @@ import {
   Stack,
   Flex,
   ActionIcon,
+  Modal,
+  Checkbox,
 } from '@collinsonx/design-system/core';
 import { DatePicker } from '@collinsonx/design-system';
 import {
@@ -19,9 +21,14 @@ import {
 } from '@tanstack/react-table';
 import BookingsTable from '@components/BookingsTable';
 import Status from '@components/Status';
+import Details from '@components/Details';
 import { GetServerSideProps } from 'next';
 import dayjs from 'dayjs';
-import { BackArrow, Calendar } from '@collinsonx/design-system/assets/icons';
+import {
+  BackArrow,
+  Calendar,
+  Close,
+} from '@collinsonx/design-system/assets/icons';
 import Link from 'next/link';
 
 const { bookings, lounge } = bookingsMock;
@@ -56,9 +63,17 @@ const widthColMap = {
 const DATE_FORMAT = 'DD/MM/YYYY';
 
 export default function Bookings({ type }: BookingsProps) {
+  const [opened, setOpened] = useState(false);
+
   const [data, setData] = useState(() => [...bookings]);
   const [date, setDate] = useState(dayjs(new Date()).format(DATE_FORMAT));
-  const handleClickCheckIn = (id: string) => {};
+  const [checkIn, setCheckIn] = useState(false);
+  const handleClickClose = () => {
+    setOpened(false);
+  };
+  const handleClickCheckIn = (id: string) => {
+    setOpened(true);
+  };
 
   const title = titleMap[type];
 
@@ -113,6 +128,61 @@ export default function Bookings({ type }: BookingsProps) {
 
   return (
     <>
+      <Modal
+        opened={opened}
+        withCloseButton={false}
+        onClose={handleClickClose}
+        padding={0}
+        size={712}
+      >
+        <ActionIcon
+          color="dark.6"
+          onClick={handleClickClose}
+          sx={{
+            position: 'absolute',
+            top: 40,
+            right: 40,
+          }}
+        >
+          <Close w={24} h={24} />
+        </ActionIcon>
+        <Box p={40} pt={80}>
+          <Details
+            booking={{
+              id: 'foobar',
+              name: 'Alyssa Grant',
+              date_of_birth: '01/01/1990',
+              flight: 'BA7647',
+              reservation_date: '12/06/2023',
+              reservation_time: '08:00am (GMT)',
+              adults: 2,
+              children: 0,
+              booking_status: 'PENDING',
+              checked_in: false,
+            }}
+          >
+            <Box p={32} bg="#FFF3BF" sx={{ borderRadius: 4 }}>
+              <Title w={600} size={16}>
+                Ask the below before check in
+              </Title>
+              <Text mt={4}>
+                &#x2022; Check customer boarding pass and passport
+              </Text>
+              <Checkbox
+                mt={4}
+                py={17}
+                checked={checkIn}
+                onClick={() => setCheckIn((checked) => !checked)}
+                label="Confirmed I have checked"
+                sx={{ label: { paddingLeft: 8 } }}
+              />
+              <Button variant="default" disabled={!checkIn}>
+                Check in
+              </Button>
+            </Box>
+          </Details>
+        </Box>
+      </Modal>
       <Stack spacing={32}>
         <Box sx={{ borderBottom: '1px solid #E1E1E1' }}>
           <Flex gap={16} align="center" mb={8}>
