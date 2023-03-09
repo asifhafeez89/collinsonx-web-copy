@@ -31,7 +31,7 @@ function createTimeSlots() {
 }
 
 const TIME_SLOTS = createTimeSlots();
-const DATE_FORMAT = 'MM/DD/YYYY';
+const DATE_FORMAT = 'DD/MM/YYYY';
 
 function formatDate(date: Date) {
   return dayjs(date).format(DATE_FORMAT);
@@ -67,12 +67,10 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
 
   const handleClickConfirm = () => {
     onSubmit({
-      date: date!,
+      date: date,
       comment,
     });
   };
-
-  console.log(date);
 
   return (
     <Flex direction="column">
