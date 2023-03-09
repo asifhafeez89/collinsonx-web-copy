@@ -230,7 +230,7 @@ export default function Bookings({ type }: BookingsProps) {
             placeholder="Pick a date"
             clearable={false}
             inputFormat={DATE_FORMAT}
-            value={dayjs(date).toDate()}
+            defaultValue={dayjs(date).toDate()}
             onChange={handleChangeDate}
           />
         </Flex>
