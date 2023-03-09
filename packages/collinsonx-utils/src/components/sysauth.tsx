@@ -9,7 +9,6 @@ const SysAuth = ({ children }: SysAuthProps) => {
   const [isLoggedIn, userId, logout] = useAuth({
     onExpiredSession: () => {
       if (window) {
-        console.log('---- SysAuth redirect');
         window.location.href = '/';
       }
     },

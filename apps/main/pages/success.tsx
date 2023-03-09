@@ -25,7 +25,7 @@ export default function Success() {
       >
         <div
           style={{
-            backgroundColor: '#47D4B1',
+            backgroundColor: '#946A00',
             width: '120vw',
             height: '120vw',
             position: 'absolute',

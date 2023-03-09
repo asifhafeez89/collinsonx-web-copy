@@ -1,9 +1,10 @@
 import { Flex, UnstyledButton } from '@collinsonx/design-system/core';
 
 import { FieldLabel } from '@collinsonx/design-system';
+import dayjs from 'dayjs';
 
 export interface BookingFormConfirmProps {
-  date: string;
+  date: Date;
   comment: string;
   onClickConfim: () => void;
 }
@@ -16,13 +17,17 @@ export default function BookingFormConfirm({
   const handleClickConfim = () => {
     onClickConfim();
   };
-  const [valueDate, valueTime] = date.split(':');
+
   return (
     <Flex direction="column">
-      <FieldLabel title="Date" value={valueDate} handleClick={() => {}} />
+      <FieldLabel
+        title="Date"
+        value={dayjs(date).format('DD/MM/YYYY')}
+        handleClick={() => {}}
+      />
       <FieldLabel
         title="Time of arrival"
-        value={valueTime}
+        value={dayjs(date).format('HH:mm')}
         handleClick={() => {}}
       />
       <FieldLabel

@@ -28,7 +28,7 @@ export default function BookingDetails({
 
   return (
     <Stack>
-      <PageTitle title={`Book ${name}`} url={'/lounge/bookings'} />
+      <PageTitle title={`Book ${name}`} url={'/bookings'} />
       <Stack sx={{ border: '1px solid #E9ECEF', padding: 17 }}>
         <Box
           sx={{

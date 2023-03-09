@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
 import {
   Burger,
   Drawer,
@@ -34,9 +35,9 @@ const Header = ({ items, logo, onClickSignout }: HeaderProps) => {
   return (
     <>
       <header className={classes.header}>
-        <a href="/" className={classes.logo}>
+        <Link href="/" className={classes.logo}>
           {logo}
-        </a>
+        </Link>
         <nav className={classes.nav}>
           <Anchor variant="text" size="sm" href="/lounge/search">
             <Search />

@@ -5,10 +5,7 @@ import { getSearchExperiences } from '@collinsonx/utils/queries';
 import { PageTitle, Lounge } from '@collinsonx/design-system';
 import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
 import { NextPageContext } from 'next';
-import { useState } from 'react';
 import BookingForm, { BookingFormProps } from '@components/BookingForm';
-import { BookingFormValue } from '@components/BookingForm/index';
-import BookingFormConfirm from '@components/BookingForm/BookingFormConfirm';
 import { useRouter } from 'next/router';
 
 export interface BookLoungeProps {
@@ -16,25 +13,20 @@ export interface BookLoungeProps {
   loading: boolean;
 }
 
-type Step = 'form' | 'confirm';
-
 export default function Book(props: BookLoungeProps) {
   const { lounge, loading } = props;
   const router = useRouter();
 
-  const [step, setStep] = useState<Step>('form');
-  const [formValues, setFormValues] = useState<BookingFormValue>();
-
   const handleSubmit: BookingFormProps['onSubmit'] = (values) => {
-    setFormValues(values);
-
     if (values.date) {
-      setStep('confirm');
+      router.push({
+        pathname: '/bookReview',
+        query: {
+          lounge: JSON.stringify(lounge),
+          formValues: JSON.stringify(values),
+        },
+      });
     }
-  };
-
-  const handleClickConfirm = () => {
-    router.push('/success');
   };
 
   return (
@@ -44,32 +36,24 @@ export default function Book(props: BookLoungeProps) {
         <Stack sx={{ position: 'relative' }}>
           <PageTitle
             title={`Book ${lounge?.name}`}
-            url={`/lounge/details?id=${lounge.id}`}
+            url={`/details?id=${lounge.id}`}
           />
           <Lounge
             airport={lounge?.location ?? '-'}
-            loungeName={step === 'form' ? lounge?.name ?? '-' : undefined}
+            loungeName={lounge?.name ?? '-'}
             openingTimes={
               (lounge.openingHours as unknown as string[])
                 ?.join(',')
                 .substring(0, 20) ?? '-'
             }
             image={
-              step === 'confirm'
-                ? lounge.images && lounge.images.length
-                  ? lounge.images[0]?.url ??
-                    'https://cdn03.collinson.cn/lounge-media/image/BHX6-13756.jpg'
-                  : 'https://cdn03.collinson.cn/lounge-media/image/BHX6-13756.jpg'
-                : undefined
+              lounge.images && lounge.images.length
+                ? lounge.images[0]?.url ??
+                  'https://cdn03.collinson.cn/lounge-media/image/BHX6-13756.jpg'
+                : 'https://cdn03.collinson.cn/lounge-media/image/BHX6-13756.jpg'
             }
           />
-          {step === 'form' && <BookingForm onSubmit={handleSubmit} />}
-          {step === 'confirm' && formValues && (
-            <BookingFormConfirm
-              {...formValues}
-              onClickConfim={handleClickConfirm}
-            />
-          )}
+          <BookingForm onSubmit={handleSubmit} />
         </Stack>
       )}
     </>
