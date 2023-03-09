@@ -5,12 +5,18 @@ exports[`<PageTitle /> renders PageTitle 1`] = `
   className="mantine-1fvi2kf"
 >
   <a
-    className="mantine-1e5u164"
     href="https://bbc.co.uk"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    onTouchStart={[Function]}
   >
-    <test-file-stub
-      color="#000000"
-    />
+    <div
+      className="mantine-1e5u164"
+    >
+      <test-file-stub
+        color="#000000"
+      />
+    </div>
   </a>
   <h1
     className="mantine-Text-root mantine-Title-root mantine-57g7lp"
