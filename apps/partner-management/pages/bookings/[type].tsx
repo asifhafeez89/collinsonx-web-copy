@@ -66,7 +66,7 @@ export default function Bookings({ type }: BookingsProps) {
   const [opened, setOpened] = useState(false);
 
   const [data, setData] = useState(() => [...bookings]);
-  const [date, setDate] = useState(dayjs(new Date()).format(DATE_FORMAT));
+  const [date, setDate] = useState(dayjs(new Date()).format());
   const [checkIn, setCheckIn] = useState(false);
   const handleClickClose = () => {
     setOpened(false);
@@ -80,7 +80,7 @@ export default function Bookings({ type }: BookingsProps) {
   const handleChangeDate: ComponentProps<typeof DatePicker>['onChange'] = (
     date
   ) => {
-    setDate(dayjs(date).format(DATE_FORMAT));
+    setDate(dayjs(date).format());
   };
 
   const columns = useMemo(
