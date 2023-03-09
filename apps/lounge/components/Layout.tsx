@@ -21,9 +21,7 @@ export default function Layout({ children }: LayoutProps) {
 
   const handleLogout = async () => {
     if (typeof logout === 'function') {
-      console.log('---- Logout await');
       await logout();
-      console.log('---- Logout redirect');
       window.location.href = '/';
     }
   };
