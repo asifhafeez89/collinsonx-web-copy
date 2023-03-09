@@ -37,7 +37,7 @@ export default function BookLounge(props: BookLoungeProps) {
       {loading && !lounge && <div>loading...</div>}
       {!loading && lounge && (
         <Stack align="stretch">
-          <PageTitle title={lounge?.name ?? '-'} url={`/lounge`} />
+          <PageTitle title={lounge?.name ?? '-'} url={`/`} />
           <Lounge
             image={
               lounge.images && lounge.images.length

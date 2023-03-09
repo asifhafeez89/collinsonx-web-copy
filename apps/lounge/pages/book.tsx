@@ -44,7 +44,7 @@ export default function Book(props: BookLoungeProps) {
         <Stack sx={{ position: 'relative' }}>
           <PageTitle
             title={`Book ${lounge?.name}`}
-            url={`/lounge/details?id=${lounge.id}`}
+            url={`/details?id=${lounge.id}`}
           />
           <Lounge
             airport={lounge?.location ?? '-'}
