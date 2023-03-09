@@ -69,6 +69,7 @@ export default function Bookings({ type }: BookingsProps) {
   const [date, setDate] = useState(dayjs(new Date()).format());
   const [checkIn, setCheckIn] = useState(false);
   const handleClickClose = () => {
+    setCheckIn(false);
     setOpened(false);
   };
   const handleClickCheckIn = (id: string) => {
@@ -172,7 +173,7 @@ export default function Bookings({ type }: BookingsProps) {
                 mt={4}
                 py={17}
                 checked={checkIn}
-                onClick={() => setCheckIn((checked) => !checked)}
+                onChange={(e) => setCheckIn(e.target.checked)}
                 label="Confirmed I have checked"
                 sx={{ label: { paddingLeft: 8 } }}
               />
