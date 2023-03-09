@@ -1,63 +1,126 @@
 {
+  "lounge": {
+    "name": "Club Aspire Lounge"
+  },
   "bookings": [
     {
       "id": "9cd601d6-a6af-4742-a539-b8adbff825f6",
       "name": "Oren Moseby",
+      "date_of_birth": "01/01/1990",
       "reservation_date": "3/6/2023",
+      "reservation_time": "08:00am",
+      "checked_in": false,
+      "flight": "BA7647",
+      "adults": 2,
+      "children": 0,
       "booking_status": "PENDING"
     },
     {
       "id": "d0e40b2f-f54b-4ff1-b37b-78d7b087fcea",
       "name": "Janie Coslitt",
+      "date_of_birth": "01/01/1990",
       "reservation_date": "7/23/2023",
+      "reservation_time": "08:00am",
+      "checked_in": true,
+      "flight": "BA7647",
+      "adults": 1,
+      "children": 0,
       "booking_status": "CONFIRMED"
     },
     {
       "id": "571b4f7f-8d9d-44f7-99ae-df120932878a",
       "name": "Lazare Deaconson",
+      "date_of_birth": "01/01/1990",
       "reservation_date": "9/2/2023",
+      "reservation_time": "08:00am",
+      "checked_in": true,
+      "flight": "BA7647",
+      "adults": 2,
+      "children": 0,
       "booking_status": "CONFIRMED"
     },
     {
       "id": "59c84316-8f73-483a-b419-70008d39eeae",
       "name": "Ab MacNockater",
+      "date_of_birth": "01/01/1990",
       "reservation_date": "2/18/2023",
+      "reservation_time": "08:00am",
+      "checked_in": false,
+      "flight": "BA7647",
+      "adults": 1,
+      "children": 0,
       "booking_status": "CONFIRMED"
     },
     {
       "id": "5ff10bb5-6157-4b22-b25f-fd81269879ff",
       "name": "Kelcy Queripel",
+      "date_of_birth": "01/01/1990",
       "reservation_date": "6/1/2023",
+      "reservation_time": "08:00am",
+      "checked_in": false,
+      "flight": "BA7647",
+      "adults": 2,
+      "children": 0,
       "booking_status": "DECLINED"
     },
     {
       "id": "53371849-c713-41e0-8f88-f03e16ba4077",
       "name": "Tomaso Ruler",
+      "date_of_birth": "01/01/1990",
       "reservation_date": "7/15/2023",
+      "reservation_time": "08:00am",
+      "checked_in": false,
+      "flight": "BA7647",
+      "adults": 1,
+      "children": 0,
       "booking_status": "PENDING"
     },
     {
       "id": "338b70b2-cf43-4563-b7fe-2e0ef7de056d",
       "name": "Katharyn Ewell",
+      "date_of_birth": "01/01/1990",
       "reservation_date": "5/20/2023",
+      "reservation_time": "08:00am",
+      "checked_in": false,
+      "flight": "BA7647",
+      "adults": 2,
+      "children": 0,
       "booking_status": "CONFIRMED"
     },
     {
       "id": "e3bc68c7-484a-4bf7-bafa-3dd54f4872b8",
       "name": "Alfonse Bigham",
+      "date_of_birth": "01/01/1990",
       "reservation_date": "2/7/2023",
+      "reservation_time": "08:00am",
+      "checked_in": false,
+      "flight": "BA7647",
+      "adults": 2,
+      "children": 0,
       "booking_status": "CONFIRMED"
     },
     {
       "id": "e84ef535-40a7-49d4-9910-6e784ebe2659",
       "name": "Shep Gergely",
+      "date_of_birth": "01/01/1990",
       "reservation_date": "8/22/2023",
+      "reservation_time": "08:00am",
+      "checked_in": false,
+      "flight": "BA7647",
+      "adults": 2,
+      "children": 0,
       "booking_status": "DECLINED"
     },
     {
       "id": "007d8671-39e4-4476-a6e6-0ba112fda429",
       "name": "Ruthy Linning",
+      "date_of_birth": "01/01/1990",
       "reservation_date": "8/4/2023",
+      "reservation_time": "08:00am",
+      "checked_in": false,
+      "flight": "BA7647",
+      "adults": 1,
+      "children": 0,
       "booking_status": "CONFIRMED"
     }
   ]

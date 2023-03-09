@@ -14,7 +14,7 @@ import Client from '@collinsonx/utils/provider';
 const beVietnamPro = Be_Vietnam_Pro({
   style: ['normal'],
   subsets: ['latin'],
-  weight: ['400', '600', '700'],
+  weight: ['300', '400', '500', '600', '700'],
 });
 
 type Page<P = {}> = NextPage<P> & {

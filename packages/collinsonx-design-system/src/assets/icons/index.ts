@@ -16,3 +16,7 @@ export { default as Search } from './search.svg';
 export { default as Coffee } from './coffee.svg';
 export { default as Calendar } from './calendar.svg';
 export { default as Logout } from './logout.svg';
+export { default as Pending } from './pending.svg';
+export { default as Confirmed } from './confirmed.svg';
+export { default as Declined } from './declined.svg';
+export { default as BackArrow } from './back-arrow.svg';

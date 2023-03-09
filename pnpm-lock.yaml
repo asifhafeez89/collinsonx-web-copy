@@ -168,6 +168,7 @@ importers:
       '@mantine/next': ^5.10.2
       '@next/font': ^13.1.5
       '@svgr/webpack': ^6.5.1
+      '@tanstack/react-table': ^8.7.9
       '@types/react': ^18.0.0
       autoprefixer: ^10.4.12
       dayjs: ^1.11.7
@@ -191,6 +192,7 @@ importers:
       '@mantine/next': 5.10.5_a7hn2ezcj5vhoyhoix22hbrmtq
       '@next/font': 13.2.3
       '@svgr/webpack': 6.5.1
+      '@tanstack/react-table': 8.7.9_biqbaboplfbrettd7655fr4n2y
       dayjs: 1.11.7
       next: 13.2.3_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
@@ -6816,6 +6818,23 @@ packages:
     dependencies:
       defer-to-connect: 2.0.1
     dev: true
+
+  /@tanstack/react-table/8.7.9_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-6MbbQn5AupSOkek1+6IYu+1yZNthAKTRZw9tW92Vi6++iRrD1GbI3lKTjJalf8lEEKOqapPzQPE20nywu0PjCA==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      '@tanstack/table-core': 8.7.9
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@tanstack/table-core/8.7.9:
+    resolution: {integrity: sha512-4RkayPMV1oS2SKDXfQbFoct1w5k+pvGpmX18tCXMofK/VDRdA2hhxfsQlMvsJ4oTX8b0CI4Y3GDKn5T425jBCw==}
+    engines: {node: '>=12'}
+    dev: false
 
   /@testing-library/dom/8.20.0:
     resolution: {integrity: sha512-d9ULIT+a4EXLX3UU8FBjauG9NnsZHkHztXoIcTsOKoOw030fyjheN9svkTULjJxtYag9DZz5Jz5qkWZDPxTFwA==}
