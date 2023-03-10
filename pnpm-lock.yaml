@@ -30,13 +30,6 @@ importers:
       '@collinsonx/design-system': workspace:*
       '@collinsonx/pages': workspace:*
       '@collinsonx/utils': workspace:*
-      '@emotion/react': ^11.10.5
-      '@emotion/server': ^11.10.0
-      '@emotion/styled': ^11.10.5
-      '@mantine/core': ^5.10.4
-      '@mantine/dates': ^5.10.3
-      '@mantine/hooks': ^5.10.2
-      '@mantine/next': ^5.10.2
       '@next/font': ^13.1.5
       '@svgr/webpack': ^6.5.1
       '@types/react': ^18.0.0
@@ -54,13 +47,6 @@ importers:
       '@collinsonx/design-system': link:../../packages/collinsonx-design-system
       '@collinsonx/pages': link:../../packages/collinsonx-pages
       '@collinsonx/utils': link:../../packages/collinsonx-utils
-      '@emotion/react': 11.10.6_pmekkgnqduwlme35zpnqhenc34
-      '@emotion/server': 11.10.0
-      '@emotion/styled': 11.10.6_oouaibmszuch5k64ms7uxp2aia
-      '@mantine/core': 5.10.5_zrh3qbywp4klzxzvocxisz6a5a
-      '@mantine/dates': 5.10.5_wzk5rgclhymglk5h2qow4a376y
-      '@mantine/hooks': 5.10.5_react@18.2.0
-      '@mantine/next': 5.10.5_a7hn2ezcj5vhoyhoix22hbrmtq
       '@next/font': 13.2.3
       '@svgr/webpack': 6.5.1
       dayjs: 1.11.7
@@ -86,13 +72,6 @@ importers:
       '@collinsonx/design-system': workspace:*
       '@collinsonx/pages': workspace:*
       '@collinsonx/utils': workspace:*
-      '@emotion/react': ^11.10.5
-      '@emotion/server': ^11.10.0
-      '@emotion/styled': ^11.10.5
-      '@mantine/core': ^5.10.4
-      '@mantine/dates': ^5.10.3
-      '@mantine/hooks': ^5.10.2
-      '@mantine/next': ^5.10.2
       '@next/font': ^13.1.5
       '@svgr/webpack': ^6.5.1
       '@types/express': ^4.17.17
@@ -126,13 +105,6 @@ importers:
       '@collinsonx/design-system': link:../../packages/collinsonx-design-system
       '@collinsonx/pages': link:../../packages/collinsonx-pages
       '@collinsonx/utils': link:../../packages/collinsonx-utils
-      '@emotion/react': 11.10.6_pmekkgnqduwlme35zpnqhenc34
-      '@emotion/server': 11.10.0
-      '@emotion/styled': 11.10.6_oouaibmszuch5k64ms7uxp2aia
-      '@mantine/core': 5.10.5_zrh3qbywp4klzxzvocxisz6a5a
-      '@mantine/dates': 5.10.5_wzk5rgclhymglk5h2qow4a376y
-      '@mantine/hooks': 5.10.5_react@18.2.0
-      '@mantine/next': 5.10.5_a7hn2ezcj5vhoyhoix22hbrmtq
       '@next/font': 13.2.3
       '@svgr/webpack': 6.5.1
       babel-jest: 29.4.3
@@ -164,13 +136,6 @@ importers:
       '@collinsonx/design-system': workspace:*
       '@collinsonx/pages': workspace:*
       '@collinsonx/utils': workspace:*
-      '@emotion/react': ^11.10.5
-      '@emotion/server': ^11.10.0
-      '@emotion/styled': ^11.10.5
-      '@mantine/core': ^5.10.4
-      '@mantine/dates': ^5.10.3
-      '@mantine/hooks': ^5.10.2
-      '@mantine/next': ^5.10.2
       '@next/font': ^13.1.5
       '@svgr/webpack': ^6.5.1
       '@tanstack/react-table': ^8.7.9
@@ -189,13 +154,6 @@ importers:
       '@collinsonx/design-system': link:../../packages/collinsonx-design-system
       '@collinsonx/pages': link:../../packages/collinsonx-pages
       '@collinsonx/utils': link:../../packages/collinsonx-utils
-      '@emotion/react': 11.10.6_pmekkgnqduwlme35zpnqhenc34
-      '@emotion/server': 11.10.0
-      '@emotion/styled': 11.10.6_oouaibmszuch5k64ms7uxp2aia
-      '@mantine/core': 5.10.5_zrh3qbywp4klzxzvocxisz6a5a
-      '@mantine/dates': 5.10.5_wzk5rgclhymglk5h2qow4a376y
-      '@mantine/hooks': 5.10.5_react@18.2.0
-      '@mantine/next': 5.10.5_a7hn2ezcj5vhoyhoix22hbrmtq
       '@next/font': 13.2.3
       '@svgr/webpack': 6.5.1
       '@tanstack/react-table': 8.7.9_biqbaboplfbrettd7655fr4n2y
@@ -11506,6 +11464,16 @@ packages:
       tslib: 1.14.1
     dev: false
 
+  /follow-redirects/1.15.2:
+    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dev: false
+
   /follow-redirects/1.15.2_debug@4.3.4:
     resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
     engines: {node: '>=4.0'}
@@ -12444,7 +12412,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.2_debug@4.3.4
+      follow-redirects: 1.15.2
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug

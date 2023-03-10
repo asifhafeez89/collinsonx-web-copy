@@ -11,17 +11,10 @@
     "clean": "rm -rf .next && rm -rf .turbo"
   },
   "dependencies": {
+    "@collinsonx/config": "workspace:*",
     "@collinsonx/design-system": "workspace:*",
     "@collinsonx/pages": "workspace:*",
     "@collinsonx/utils": "workspace:*",
-    "@collinsonx/config": "workspace:*",
-    "@emotion/react": "^11.10.5",
-    "@emotion/server": "^11.10.0",
-    "@emotion/styled": "^11.10.5",
-    "@mantine/core": "^5.10.4",
-    "@mantine/dates": "^5.10.3",
-    "@mantine/hooks": "^5.10.2",
-    "@mantine/next": "^5.10.2",
     "@next/font": "^13.1.5",
     "@svgr/webpack": "^6.5.1",
     "@tanstack/react-table": "^8.7.9",
