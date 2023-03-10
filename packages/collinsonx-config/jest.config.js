@@ -1,11 +1,6 @@
-// const { pathsToModuleNameMapper } = require('ts-jest');
-// const { compilerOptions } = require('./tsconfig');
-
 const path = require('path');
 
 const fromRoot = (d) => path.join(__dirname, d);
-
-console.log(fromRoot('tsconfig.jest.json'));
 
 module.exports = {
   rootDir: '.',
