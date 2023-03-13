@@ -1,4 +1,4 @@
-import { Center, Container, Stack } from '@mantine/core';
+import { Center, Container, Stack } from '@collinsonx/design-system/core';
 import React from 'react';
 import { getThemeKey } from '../lib/index';
 

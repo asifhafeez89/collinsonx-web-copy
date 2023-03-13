@@ -1,5 +1,4 @@
-import { Flex, Stack, Text } from '@collinsonx/design-system/core';
-import { SimpleGrid } from '@mantine/core';
+import { Flex, Stack, Text, SimpleGrid } from '@collinsonx/design-system/core';
 export interface DetailsSectionProps {
   label: string;
   children: JSX.Element | JSX.Element[];

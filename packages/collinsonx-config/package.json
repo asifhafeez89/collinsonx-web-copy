@@ -1,0 +1,10 @@
+{
+  "name": "@collinsonx/config",
+  "version": "0.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "files": [
+    "jest.config.js",
+    "tsconfig.jest.json"
+  ]
+}
