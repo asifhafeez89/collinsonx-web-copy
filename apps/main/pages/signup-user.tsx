@@ -1,6 +1,5 @@
 import {
   Button,
-  Title,
   Stack,
   Text,
   Box,
@@ -10,16 +9,14 @@ import {
   Switch,
 } from '@collinsonx/design-system/core';
 import { useForm } from '@mantine/form';
-import { useRouter } from 'next/router';
 import LayoutLogin from '../components/LayoutLogin';
 import dayjs from 'dayjs';
 
 import { Calendar } from '@collinsonx/design-system/assets/icons';
 
-import { DatePicker } from '@collinsonx/design-system';
+import { DatePicker, PageTitle } from '@collinsonx/design-system';
 import { LoginCode } from '@collinsonx/design-system/assets/graphics';
 import { ComponentProps, useState } from 'react';
-import theme from '@collinsonx/design-system/themes/experienceX';
 
 export default function CheckEmail() {
   const [date, setDate] = useState(dayjs(new Date()).format());
@@ -34,7 +31,8 @@ export default function CheckEmail() {
   const form = useForm({
     initialValues: {
       email: '',
-      termsOfService: false,
+      TMEmail: false,
+      release_date: new Date(),
     },
 
     validate: {
@@ -50,15 +48,15 @@ export default function CheckEmail() {
     },
   };
 
-  const handleConfirmDetails = () => {};
-
   return (
     <form onSubmit={form.onSubmit((values: any) => console.log(values))}>
       <Stack spacing={50}>
         <Stack spacing={24} sx={{ height: '100%' }}>
-          <Title order={1} size={20}>
-            Sign up with email
-          </Title>
+          <PageTitle
+            title={' Sign up with email'}
+            url={`/`}
+            variant={'white'}
+          />
           <TextInput
             autoFocus
             type="email"
@@ -103,6 +101,7 @@ export default function CheckEmail() {
             clearable={false}
             inputFormat={DATE_FORMAT}
             defaultValue={dayjs(date).toDate()}
+            {...form.getInputProps('release_date')}
             onChange={handleChangeDate}
           />
           <Text>
@@ -112,13 +111,13 @@ export default function CheckEmail() {
           <Group position="right">
             <Flex
               mih={50}
-              gap="md"
+              gap="250px"
               justify="flex-start"
               align="flex-start"
               direction="row"
               wrap="wrap"
             >
-              <Text>Email</Text> <Switch size="md" />
+              <Text>Email</Text> <Switch value="email" size="md" />
             </Flex>
           </Group>
           <Group>
