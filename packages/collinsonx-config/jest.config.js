@@ -31,7 +31,8 @@ module.exports = {
     ),
     '@collinsonx/design-system/assets/logo$': '<rootDir>/__mocks__/logo.ts',
     '\\.svg': '<rootDir>/__mocks__/svg.js',
-    '@collinsonx/design-system/assets/icons$': '<rootDir>/__mocks__/icon.ts'
+    '@collinsonx/design-system/assets/icons$': '<rootDir>/__mocks__/icon.ts',
+    '@collinsonx/design-system/assets/graphics$':'<rootDir>/__mocks__/graphics.ts'
 
   },
   // moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {

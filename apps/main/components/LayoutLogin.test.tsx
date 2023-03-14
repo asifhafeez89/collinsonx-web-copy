@@ -1,10 +1,16 @@
 import * as React from 'react';
 import renderer from 'react-test-renderer';
-import SignupUser from '../pages/signup-user';
+import LayoutLogin from './LayoutLogin';
 
-describe('<SignupUser />', () => {
+describe('<LayoutLogin />', () => {
   it('renders outline variant', () => {
-    const tree = renderer.create(<SignupUser />).toJSON();
+    const tree = renderer
+      .create(
+        <LayoutLogin>
+          <div />
+        </LayoutLogin>
+      )
+      .toJSON();
     expect(tree).toMatchSnapshot();
   });
 });
