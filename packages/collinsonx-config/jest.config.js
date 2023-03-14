@@ -29,7 +29,10 @@ module.exports = {
     '@next/font/(.*)': require.resolve(
       'next/dist/build/jest/__mocks__/nextFontMock.js'
     ),
+    '@lib': '<rootDir>/lib/index.ts',
     '@collinsonx/design-system/assets/logo$': '<rootDir>/__mocks__/logo.ts',
+    '@collinsonx/design-system/assets/graphics/experienceX$':
+      '<rootDir>/__mocks__/graphics/experienceX/index.ts',
     '\\.svg': '<rootDir>/__mocks__/svg.js',
   },
   // moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
