@@ -21,9 +21,11 @@ module.exports = {
     ),
     '@lib': '<rootDir>/lib/index.ts',
     '@collinsonx/design-system/assets/logo$': '<rootDir>/__mocks__/logo.ts',
-    '@collinsonx/design-system/assets/graphics/(.*)$':
-      '<rootDir>/__mocks__/graphics/$1',
+    '@collinsonx/design-system/assets/icons$': '<rootDir>/__mocks__/icons.ts',
+    '@collinsonx/design-system/assets/graphics/(.*)$': '<rootDir>/__mocks__/graphics/$1',
+    '@collinsonx/design-system/assets/graphics$': '<rootDir>/__mocks__/graphics/index',
     '\\.svg': '<rootDir>/__mocks__/svg.js',
+    "^lodash-es$": "lodash"
   },
   // moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
   //   prefix: '<rootDir>/',
