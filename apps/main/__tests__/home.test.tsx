@@ -1,6 +1,6 @@
 import * as React from 'react';
 import renderer from 'react-test-renderer';
-import Home from '../index';
+import Home from '../pages/index';
 
 jest.mock('next/router', () => ({
   useRouter() {

@@ -45,7 +45,7 @@ exports[`<Success /> renders outline variant 1`] = `
     <div
       className="mantine-1xemiaj"
     >
-      <SvgrURL />
+      <svg />
     </div>
   </div>,
 ]
