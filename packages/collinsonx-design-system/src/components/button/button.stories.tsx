@@ -28,5 +28,6 @@ export const TextButton = Template.bind({});
 // // More on args: https://storybook.js.org/docs/react/writing-stories/args
 TextButton.args = {
   label: 'Button',
-  variance: 'Text',
+  color: 'dark',
+  variant: 'subtle',
 };

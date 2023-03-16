@@ -38,7 +38,7 @@ function Lightbox({
               </Button>
             </Grid.Col>
             <Grid.Col span={5}>
-              <Button onClick={ctaForwardCall} variant="subtle">
+              <Button onClick={ctaForwardCall} variant="white">
                 {ctaForward}
               </Button>
             </Grid.Col>

@@ -10,7 +10,15 @@ describe('<Lightbox />', () => {
   it('renders Lightbox', () => {
     const tree = renderer
       .create(
-        <Lightbox title="Hello world" open={true}>
+        <Lightbox
+          title="Hello world"
+          open={true}
+          ctaCancel="Go back"
+          ctaForward="Cancel booking"
+          ctaForwardCall={() => {
+            console.log('Do it');
+          }}
+        >
           <div>
             <h1>Cancel Booking</h1>
             <p>If you are no longer want this booking</p>
