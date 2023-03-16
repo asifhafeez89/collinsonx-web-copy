@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Success /> renders outline variant 1`] = `
+[
+  <div
+    style={
+      {
+        "height": "100%",
+        "left": 0,
+        "overflow": "hidden",
+        "position": "absolute",
+        "top": 0,
+        "width": "100%",
+      }
+    }
+  >
+    <div
+      style={
+        {
+          "backgroundColor": "#946A00",
+          "borderRadius": "50%",
+          "height": "120vw",
+          "left": "-10vw",
+          "position": "absolute",
+          "top": "calc(50% - 60vw)",
+          "width": "120vw",
+          "zIndex": -1,
+        }
+      }
+    />
+  </div>,
+  <div
+    className="mantine-Stack-root mantine-1pdwwdu"
+  >
+    <h1
+      className="mantine-Text-root mantine-Title-root mantine-18xthly"
+    >
+      You're in
+    </h1>
+    <h2
+      className="mantine-Text-root mantine-Title-root mantine-1dp5aru"
+    >
+      Let's find your next experience
+    </h2>
+    <div
+      className="mantine-1xemiaj"
+    >
+      <svg />
+    </div>
+  </div>,
+]
+`;
