@@ -23,3 +23,19 @@ export const Primary = Template.bind({});
 Primary.args = {
   label: 'Button',
 };
+
+export const TextButton = Template.bind({});
+// // More on args: https://storybook.js.org/docs/react/writing-stories/args
+TextButton.args = {
+  label: 'Button',
+  color: 'dark',
+  variant: 'subtle',
+};
+
+export const RedButton = Template.bind({});
+// // More on args: https://storybook.js.org/docs/react/writing-stories/args
+RedButton.args = {
+  label: 'Button',
+  variant: 'outline',
+  color: 'red',
+};

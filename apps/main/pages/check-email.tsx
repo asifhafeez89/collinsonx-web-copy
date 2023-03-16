@@ -24,13 +24,7 @@ export default function CheckEmail() {
       let response = await consumePasswordlessCode({
         userInputCode: code,
       });
-
       if (response.status === 'OK') {
-        // if (response.createdNewUser) {
-        //   // user sign up success
-        // } else {
-        //   // user sign in success
-        // }
         router.push('/success');
       } else if (response.status === 'INCORRECT_USER_INPUT_CODE_ERROR') {
         // the user entered an invalid OTP

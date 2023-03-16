@@ -106,6 +106,7 @@ const theme = (
       styles: (theme, params: ButtonStylesParams) => ({
         root: {
           borderColor: params.variant === 'default' ? '#25262B' : undefined,
+          color: params.color === 'red' ? '#cf4545' : undefined,
         },
       }),
     },

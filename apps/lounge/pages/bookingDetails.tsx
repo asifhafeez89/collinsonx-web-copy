@@ -1,13 +1,22 @@
 import Layout from '../components/Layout';
 import { PageTitle, Status } from '@collinsonx/design-system/index';
+import Lightbox from '@collinsonx/design-system/components/lightbox';
 import { MapPin } from '@collinsonx/design-system/assets/icons';
-import { Title, Stack, Box, Image, Text } from '@collinsonx/design-system/core';
+import {
+  Title,
+  Stack,
+  Box,
+  Image,
+  Text,
+  Button,
+} from '@collinsonx/design-system/core';
 import { NextPageContext } from 'next';
 import { client } from '@collinsonx/utils/apollo';
 import { getBooking } from '@collinsonx/utils/queries';
 import dayjs from 'dayjs';
 import { BookingStatus } from '@components/BookingBadge';
 import bookings from './bookingsMock.json';
+import { useState } from 'react';
 
 type Booking = (typeof bookings)[number];
 
@@ -20,6 +29,7 @@ export default function BookingDetails({
   booking,
   loading,
 }: BookingDetailProps) {
+  const [openModal, setOpenModal] = useState(false);
   if (loading) {
     return <div>Loading</div>;
   }
@@ -71,6 +81,32 @@ export default function BookingDetails({
             <Text>{additionalRequests}</Text>
           </Box>
         </Stack>
+
+        <Button
+          onClick={() => {
+            setOpenModal(!openModal);
+          }}
+          variant="default"
+          color="red"
+        >
+          Cancel booking
+        </Button>
+
+        <Lightbox
+          open={openModal}
+          ctaCancel={'Go back'}
+          ctaForward={'Cancel booking'}
+          ctaForwardCall={() => {
+            console.log('Do it');
+          }}
+          title=""
+          onClose={() => setOpenModal(false)}
+        >
+          <div>
+            <h1>Cancel Booking</h1>
+            <p>If you cancel you will no longer have this reservation.</p>
+          </div>
+        </Lightbox>
       </Stack>
     </Stack>
   );

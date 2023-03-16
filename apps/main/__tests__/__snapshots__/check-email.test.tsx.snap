@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Success /> renders outline variant 1`] = `
+exports[`<CheckEmail /> renders 1`] = `
 [
   <div
     className="mantine-Stack-root mantine-15yhk0"

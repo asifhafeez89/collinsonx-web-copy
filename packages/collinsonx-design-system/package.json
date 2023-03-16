@@ -21,7 +21,7 @@
     "types": "tsc --emitDeclarationOnly",
     "lint": "TIMING=1 eslint \"**/*.{ts,tsx,js,jsx}\" --fix",
     "clean": "rm -rf ./dist && rm -rf .turbo",
-    "test": "jest --env=jsdom",
+    "test": "jest --env=jsdom -u",
     "test:watch": "jest --env=jsdom --watchAll"
   },
   "sideEffects": false,
