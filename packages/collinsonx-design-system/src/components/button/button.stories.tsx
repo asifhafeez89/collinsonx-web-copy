@@ -31,3 +31,11 @@ TextButton.args = {
   color: 'dark',
   variant: 'subtle',
 };
+
+export const RedButton = Template.bind({});
+// // More on args: https://storybook.js.org/docs/react/writing-stories/args
+RedButton.args = {
+  label: 'Button',
+  variant: 'outline',
+  color: 'red',
+};

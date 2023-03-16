@@ -9,6 +9,7 @@ interface LightboxProps {
   ctaCancel: String;
   ctaForward: String;
   ctaForwardCall: () => void;
+  onClose: () => void;
 }
 
 function Lightbox({
@@ -18,14 +19,13 @@ function Lightbox({
   ctaCancel,
   ctaForward,
   ctaForwardCall,
+  onClose,
 }: LightboxProps) {
-  const [opened, { close }] = useDisclosure(open);
-
   return (
     <>
       <Modal
-        opened={opened}
-        onClose={close}
+        opened={open}
+        onClose={onClose}
         title={title}
         withCloseButton={false}
       >
@@ -33,12 +33,12 @@ function Lightbox({
           {children}
           <Grid justify="flex-end">
             <Grid.Col span={3}>
-              <Button onClick={close} color="dark" variant="subtle">
+              <Button onClick={onClose} color="dark" variant="subtle">
                 {ctaCancel}
               </Button>
             </Grid.Col>
-            <Grid.Col span={5}>
-              <Button onClick={ctaForwardCall} variant="white">
+            <Grid.Col span={6}>
+              <Button onClick={ctaForwardCall} variant="subtle">
                 {ctaForward}
               </Button>
             </Grid.Col>
