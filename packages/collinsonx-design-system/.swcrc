@@ -1,11 +1,11 @@
 {
   "$schema": "https://json.schemastore.org/swcrc",
   "module": {
-    "type": "es6"
+    "type": "commonjs"
   },
   "exclude": ".*\\.stories\\..*$",
   "jsc": {
-    "target": "es2016",
+    "target": "es5",
     "loose": true,
     "parser": {
       "syntax": "typescript",
@@ -20,7 +20,7 @@
         "development": false
       }
     },
-    "externalHelpers": true
+    "externalHelpers": false
   },
   "minify": false
 }

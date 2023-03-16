@@ -7,7 +7,7 @@ import {
   Box,
   Flex,
 } from '@collinsonx/design-system/core';
-import { getThemeKey } from '@lib/index';
+import { getThemeKey } from '../lib/index';
 
 import { useRouter } from 'next/router';
 import { Login as LoginX } from '@collinsonx/design-system/assets/graphics/experienceX';

@@ -1,0 +1,186 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CheckEmail /> renders 1`] = `
+[
+  <div
+    className="mantine-Stack-root mantine-15yhk0"
+  >
+    <div
+      className="mantine-Stack-root mantine-1h16iva"
+    >
+      <h1
+        className="mantine-Text-root mantine-Title-root mantine-12htc17"
+      >
+        Check your email
+      </h1>
+      <div
+        className="mantine-Text-root mantine-1pe3xtm"
+      >
+        We have sent a confirmation code to 
+        .
+      </div>
+      <div
+        className="mantine-Text-root mantine-2qa0ve"
+      >
+        Wrong email?
+         
+        <button
+          className="mantine-UnstyledButton-root mantine-Button-root mantine-1776i9j"
+          data-button={true}
+          onClick={[Function]}
+          type="button"
+        >
+          <div
+            className="mantine-3xbgk5 mantine-Button-inner"
+          >
+            <span
+              className="mantine-qo1k2 mantine-Button-label"
+              style={
+                {
+                  "textTransform": undefined,
+                }
+              }
+            >
+              Re-enter your address
+            </span>
+          </div>
+        </button>
+      </div>
+      <div
+        className="css-53w5oo"
+      >
+        <div>
+          <input
+            aria-label="Character 1."
+            autoComplete="one-time-code"
+            inputMode="text"
+            maxLength={1}
+            onChange={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onPaste={[Function]}
+            pattern="[a-zA-Z0-9]{1}"
+            type="text"
+          />
+          <input
+            aria-label="Character 2."
+            autoComplete="off"
+            inputMode="text"
+            maxLength={1}
+            onChange={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onPaste={[Function]}
+            pattern="[a-zA-Z0-9]{1}"
+            type="text"
+          />
+          <input
+            aria-label="Character 3."
+            autoComplete="off"
+            inputMode="text"
+            maxLength={1}
+            onChange={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onPaste={[Function]}
+            pattern="[a-zA-Z0-9]{1}"
+            type="text"
+          />
+          <input
+            aria-label="Character 4."
+            autoComplete="off"
+            inputMode="text"
+            maxLength={1}
+            onChange={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onPaste={[Function]}
+            pattern="[a-zA-Z0-9]{1}"
+            type="text"
+          />
+          <input
+            aria-label="Character 5."
+            autoComplete="off"
+            inputMode="text"
+            maxLength={1}
+            onChange={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onPaste={[Function]}
+            pattern="[a-zA-Z0-9]{1}"
+            type="text"
+          />
+          <input
+            aria-label="Character 6."
+            autoComplete="off"
+            inputMode="text"
+            maxLength={1}
+            onChange={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onPaste={[Function]}
+            pattern="[a-zA-Z0-9]{1}"
+            type="text"
+          />
+        </div>
+      </div>
+      <button
+        className="mantine-UnstyledButton-root mantine-Button-root mantine-6oinv2"
+        data-button={true}
+        onClick={[Function]}
+        type="button"
+      >
+        <div
+          className="mantine-3xbgk5 mantine-Button-inner"
+        >
+          <span
+            className="mantine-qo1k2 mantine-Button-label"
+            style={
+              {
+                "textTransform": undefined,
+              }
+            }
+          >
+            Confirm
+          </span>
+        </div>
+      </button>
+    </div>
+    <div
+      className="mantine-1d4rha3"
+    >
+      <div
+        className="mantine-1f10gm6"
+      >
+        <svg />
+      </div>
+    </div>
+  </div>,
+  <div
+    style={
+      {
+        "bottom": 0,
+        "height": "50%",
+        "left": 0,
+        "overflow": "hidden",
+        "position": "absolute",
+        "width": "100%",
+      }
+    }
+  >
+    <div
+      style={
+        {
+          "backgroundColor": "#47D4B1",
+          "borderRadius": "50%",
+          "bottom": "-60px",
+          "height": "55vh",
+          "position": "absolute",
+          "right": "-90px",
+          "width": "55vh",
+        }
+      }
+    />
+  </div>,
+]
+`;
