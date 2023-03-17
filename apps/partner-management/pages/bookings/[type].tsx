@@ -15,7 +15,6 @@ import {
 import { DatePicker } from '@collinsonx/design-system';
 import {
   createColumnHelper,
-  flexRender,
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
@@ -240,45 +239,7 @@ export default function Bookings({ type }: BookingsProps) {
         {!bookings ? (
           <Text>No bookings found</Text>
         ) : (
-          <BookingsTable>
-            <thead>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <tr key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <th
-                      key={header.id}
-                      style={{
-                        width:
-                          widthColMap[header.id as keyof typeof widthColMap] ??
-                          'auto',
-                      }}
-                    >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
-            <tbody>
-              {table.getRowModel().rows.map((row) => (
-                <tr key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </BookingsTable>
+          <BookingsTable table={table} />
         )}
       </Stack>
     </>
