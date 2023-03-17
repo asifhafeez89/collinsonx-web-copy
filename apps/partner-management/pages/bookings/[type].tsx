@@ -19,7 +19,6 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import BookingsTable from '@components/BookingsTable';
 import Status from '@components/Status';
 import Details from '@components/Details';
 import { GetServerSideProps } from 'next';
@@ -30,6 +29,7 @@ import {
   Close,
 } from '@collinsonx/design-system/assets/icons';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 
 const { bookings, lounge } = bookingsMock;
 
@@ -126,6 +126,8 @@ export default function Bookings({ type }: BookingsProps) {
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
+
+  const BookingsTable = dynamic(() => import('@components/BookingsTable'));
 
   return (
     <>
