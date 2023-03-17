@@ -1,0 +1,18 @@
+import { gql } from '../apollo';
+
+const confirmBooking = gql`
+  mutation ConfirmBooking($confirmBookingId: ID!) {
+    confirmBooking(id: $confirmBookingId) {
+      bookedFrom
+      bookedTo
+      consumerID
+      createdAt
+      experienceID
+      id
+      status
+      updatedAt
+    }
+  }
+`;
+
+export default confirmBooking;

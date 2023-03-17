@@ -12,7 +12,7 @@ import {
 } from '@collinsonx/design-system/core';
 import { NextPageContext } from 'next';
 import { client } from '@collinsonx/utils/apollo';
-import { getBooking } from '@collinsonx/utils/queries';
+import { getBookingByID } from '@collinsonx/utils/queries';
 import dayjs from 'dayjs';
 import { BookingStatus } from '@components/BookingBadge';
 import bookings from './bookingsMock.json';
@@ -119,9 +119,10 @@ interface QueryProps extends NextPageContext {
 export async function getServerSideProps({ query }: QueryProps) {
   const bookingId = query?.id ?? '';
 
+  /*
   try {
     const { data, loading } = await client.query({
-      query: getBooking,
+      query: getBookingByID,
       variables: { id: bookingId },
     });
     return {
@@ -137,7 +138,13 @@ export async function getServerSideProps({ query }: QueryProps) {
         loading: false,
       },
     };
-  }
+  }*/
+  return {
+    props: {
+      booking: bookings.find((item) => item.id === bookingId),
+      loading: false,
+    },
+  };
 }
 
 BookingDetails.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;
