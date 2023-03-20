@@ -1,5 +1,6 @@
 import { BookingEmptyState as EmptyState } from '@collinsonx/design-system/assets/graphics';
 import { Text, Stack, Button } from '@collinsonx/design-system/core';
+import Link from 'next/link';
 
 export default function BookingEmptyState() {
   return (
@@ -8,9 +9,11 @@ export default function BookingEmptyState() {
       <Text w={234} align="center">
         You don&apos;t have any trips booked right now
       </Text>
-      <Button my={16} fullWidth variant="outline">
-        Explore lounges
-      </Button>
+      <Link href="/" style={{ textDecoration: 'none' }}>
+        <Button variant="default" my={16} fullWidth>
+          Explore lounges
+        </Button>
+      </Link>
     </Stack>
   );
 }

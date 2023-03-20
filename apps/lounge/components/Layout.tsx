@@ -33,12 +33,12 @@ export default function Layout({ children }: LayoutProps) {
         items={[
           {
             label: 'Home',
-            link: '/lounge',
+            link: '/',
             icon: <Home color="#112132" />,
           },
           {
             label: 'My trips',
-            link: '/lounge/bookings',
+            link: '/bookings',
             icon: <Cart color="#112132" />,
           },
           {

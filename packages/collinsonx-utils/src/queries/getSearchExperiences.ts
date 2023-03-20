@@ -3,18 +3,22 @@ import { gql } from '../apollo';
 const getSearchExperiences = gql`
   query SearchExperiences($query: String) {
     searchExperiences(query: $query) {
-      id
-      name
-      location
-      facilities
-      openingHours
+      additionalInformation
+      category
       conditions
+      id
+      directions
+      facilities
       images {
-        altText
         url
-        height
-        width
+      }
+      location
+      name
+      objectID
+      openingHours
+      operator {
         id
+        name
       }
     }
   }
