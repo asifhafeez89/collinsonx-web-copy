@@ -31,8 +31,9 @@ import Link from 'next/link';
 import Table from '@components/Table';
 import { BookingStatus, Booking } from '@collinsonx/utils';
 import { getBookingsByType } from '@collinsonx/utils/lib';
-import { client } from '@collinsonx/utils/apollo';
+import { client, useMutation } from '@collinsonx/utils/apollo';
 import { getBookings } from '@collinsonx/utils/queries';
+import { checkinBooking } from '@collinsonx/utils/mutations';
 
 const { lounge } = bookingsMock;
 
@@ -58,6 +59,9 @@ const DATE_FORMAT = 'DD/MM/YYYY';
 export default function Bookings({ type, bookings }: BookingsProps) {
   const [bookingId, setBookingId] = useState<string | null>(null);
 
+  const [checkInBooking, { loading, error, data }] =
+    useMutation(checkinBooking);
+
   const [date, setDate] = useState(dayjs(new Date()).format());
   const [checkIn, setCheckIn] = useState(false);
   const handleClickClose = () => {
@@ -66,6 +70,14 @@ export default function Bookings({ type, bookings }: BookingsProps) {
   };
   const handleClickCheckIn = (id: string) => {
     setBookingId(id);
+  };
+  const handleClickConfirmCheckIn = () => {
+    checkInBooking({
+      variables: { id: bookingId },
+      onCompleted: () => {
+        setBookingId(null);
+      },
+    });
   };
 
   const title = titleMap[type];
@@ -159,7 +171,11 @@ export default function Bookings({ type, bookings }: BookingsProps) {
                   label="Confirmed I have checked"
                   sx={{ label: { paddingLeft: 8 } }}
                 />
-                <Button variant="default" disabled={!checkIn}>
+                <Button
+                  variant="default"
+                  disabled={!checkIn}
+                  onClick={handleClickConfirmCheckIn}
+                >
                   Check in
                 </Button>
               </Box>
