@@ -2,6 +2,7 @@ import Layout from '../components/Layout';
 import { PageTitle, Status } from '@collinsonx/design-system/index';
 import Lightbox from '@collinsonx/design-system/components/lightbox';
 import { MapPin } from '@collinsonx/design-system/assets/icons';
+import deleteBooking from '@collinsonx/utils/mutations/deleteBooking';
 import {
   Title,
   Stack,
@@ -11,8 +12,7 @@ import {
   Button,
 } from '@collinsonx/design-system/core';
 import { NextPageContext } from 'next';
-import { client } from '@collinsonx/utils/apollo';
-import { getBookingByID } from '@collinsonx/utils/queries';
+import { client, useMutation } from '@collinsonx/utils/apollo';
 import dayjs from 'dayjs';
 import { BookingStatus } from '@components/BookingBadge';
 import bookings from './bookingsMock.json';
@@ -30,11 +30,33 @@ export default function BookingDetails({
   loading,
 }: BookingDetailProps) {
   const [openModal, setOpenModal] = useState(false);
+
+  const [cancelBooking, { loading: createLoading, error, data }] =
+    useMutation(deleteBooking);
+
   if (loading) {
     return <div>Loading</div>;
   }
   const { lounge, reservationDate, additionalRequests, bookingState } = booking;
   const { name, location, images } = lounge;
+
+  const handleDelete = () => {
+    cancelBooking({
+      variables: {
+        bookingInput: {
+          experience: {
+            id: lounge.id,
+          },
+        },
+      },
+      context: {
+        headers: {
+          'x-user-id': 1337, // demo
+        },
+      },
+      onCompleted: () => {},
+    });
+  };
 
   return (
     <Stack>
@@ -96,9 +118,7 @@ export default function BookingDetails({
           open={openModal}
           ctaCancel={'Go back'}
           ctaForward={'Cancel booking'}
-          ctaForwardCall={() => {
-            console.log('Do it');
-          }}
+          ctaForwardCall={handleDelete}
           title=""
           onClose={() => setOpenModal(false)}
         >
