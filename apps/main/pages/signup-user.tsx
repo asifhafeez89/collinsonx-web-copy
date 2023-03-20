@@ -18,7 +18,7 @@ import { DatePicker, PageTitle } from '@collinsonx/design-system';
 import { LoginCode } from '@collinsonx/design-system/assets/graphics';
 import { ComponentProps, useState } from 'react';
 
-export default function CheckEmail() {
+export default function SignupUser() {
   const [date, setDate] = useState(dayjs(new Date()).format());
   const DATE_FORMAT = 'DD/MM/YYYY';
 
@@ -164,4 +164,4 @@ export default function CheckEmail() {
   );
 }
 
-CheckEmail.getLayout = (page: JSX.Element) => <LayoutLogin>{page}</LayoutLogin>;
+SignupUser.getLayout = (page: JSX.Element) => <LayoutLogin>{page}</LayoutLogin>;
