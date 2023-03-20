@@ -45,19 +45,17 @@ export default function Book(props: BookLoungeProps) {
           },
         },
         onCompleted: () => {
-          // setBookingId(null);
+          router.push({
+            pathname: '/bookReview',
+            query: {
+              lounge: JSON.stringify(lounge),
+              formValues: JSON.stringify(values),
+            },
+          });
         },
       });
 
       console.log('Hello world');
-
-      // router.push({
-      //   pathname: '/bookReview',
-      //   query: {
-      //     lounge: JSON.stringify(lounge),
-      //     formValues: JSON.stringify(values),
-      //   },
-      // });
     }
   };
 
