@@ -21,7 +21,7 @@ jest.mock('next/router', () => ({
 }));
 
 describe('<SignupUser />', () => {
-  xit('renders outline variant', () => {
+  it('renders outline variant', () => {
     const tree = renderer.create(<SignupUser />).toJSON();
     expect(tree).toMatchSnapshot();
   });

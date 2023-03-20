@@ -1,12 +1,16 @@
 import { Stack } from '@collinsonx/design-system/core';
 import Layout from '@components/Layout';
-import { client } from '@collinsonx/utils/apollo';
+import { client, useMutation } from '@collinsonx/utils/apollo';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
 import { PageTitle, Lounge } from '@collinsonx/design-system';
-import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
+import {
+  BookingStatus,
+  Experience,
+} from '@collinsonx/utils/generatedTypes/graphql';
 import { NextPageContext } from 'next';
 import BookingForm, { BookingFormProps } from '@components/BookingForm';
 import { useRouter } from 'next/router';
+import createBooking from '@collinsonx/utils/mutations/createBooking';
 
 export interface BookLoungeProps {
   lounge: Experience;
@@ -16,16 +20,42 @@ export interface BookLoungeProps {
 export default function Book(props: BookLoungeProps) {
   const { lounge, loading } = props;
   const router = useRouter();
+  const [createBookingCall, { loading: createLoading, error, data }] =
+    useMutation(createBooking);
 
   const handleSubmit: BookingFormProps['onSubmit'] = (values) => {
+    console.log(values);
+
     if (values.date) {
-      router.push({
-        pathname: '/bookReview',
-        query: {
-          lounge: JSON.stringify(lounge),
-          formValues: JSON.stringify(values),
+      const date = values.date;
+
+      createBookingCall({
+        variables: {
+          bookingInput: {
+            bookedFrom: values.date,
+            bookedTo: values.date,
+            experience: {
+              id: lounge.id,
+            },
+          },
+        },
+        context: {
+          headers: {
+            'x-user-id': 1337, // demo
+          },
+        },
+        onCompleted: () => {
+          router.push({
+            pathname: '/bookReview',
+            query: {
+              lounge: JSON.stringify(lounge),
+              formValues: JSON.stringify(values),
+            },
+          });
         },
       });
+
+      console.log('Hello world');
     }
   };
 

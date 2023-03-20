@@ -5,10 +5,14 @@ const confirmBooking = gql`
     confirmBooking(id: $confirmBookingId) {
       bookedFrom
       bookedTo
-      consumerID
       createdAt
-      experienceID
+      consumer {
+        id
+      }
       id
+      experience {
+        id
+      }
       status
       updatedAt
     }

@@ -5,11 +5,15 @@ const deleteBooking = gql`
     deleteBooking(id: $deleteBookingId) {
       bookedTo
       bookedFrom
-      consumerID
+      consumer {
+        id
+      }
       createdAt
       status
       id
-      experienceID
+      experience {
+        id
+      }
       updatedAt
     }
   }

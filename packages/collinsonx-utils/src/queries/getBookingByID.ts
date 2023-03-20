@@ -5,9 +5,13 @@ const getBookingByID = gql`
     getBookingByID(id: $id) {
       bookedTo
       bookedFrom
-      consumerID
+      consumer {
+        id
+      }
       id
-      experienceID
+      experience {
+        id
+      }
       createdAt
       status
       updatedAt
