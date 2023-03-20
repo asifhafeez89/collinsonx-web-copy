@@ -6,9 +6,13 @@ const getBookings = gql`
       bookedFrom
       bookedTo
       createdAt
-      consumerID
+      consumer {
+        id
+      }
       id
-      experienceID
+      experience {
+        id
+      }
       status
       updatedAt
     }

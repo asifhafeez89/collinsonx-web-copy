@@ -5,10 +5,13 @@ const createBooking = gql`
     createBooking(bookingInput: $bookingInput) {
       bookedFrom
       bookedTo
-      consumerID
-      createdAt
+      consumer {
+        id
+      }
       id
-      experienceID
+      experience {
+        id
+      }
       status
       updatedAt
     }

@@ -1,6 +1,6 @@
 import { Stack } from '@collinsonx/design-system/core';
 import Layout from '@components/Layout';
-import { client } from '@collinsonx/utils/apollo';
+import { client, useMutation } from '@collinsonx/utils/apollo';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
 import { PageTitle, Lounge } from '@collinsonx/design-system';
 import {
@@ -20,6 +20,8 @@ export interface BookLoungeProps {
 export default function Book(props: BookLoungeProps) {
   const { lounge, loading } = props;
   const router = useRouter();
+  const [createBookingCall, { loading: createLoading, error, data }] =
+    useMutation(createBooking);
 
   const handleSubmit: BookingFormProps['onSubmit'] = (values) => {
     console.log(values);
@@ -27,25 +29,22 @@ export default function Book(props: BookLoungeProps) {
     if (values.date) {
       const date = values.date;
 
-      const [createBookingCall, { loading, error, data }] =
-        useMutation(createBooking);
-
-      const handleClickConfirmCheckIn = () => {
-        createBookingCall({
-          variables: {
+      createBookingCall({
+        variables: {
+          bookingInput: {
             bookedFrom: values.date,
             bookedTo: values.date,
-            consumerID: 1,
-            createdAt: new Date(),
-            experienceID: lounge.id,
-            status: BookingStatus.Confirmed,
-            updatedAt: new Date(),
+            experience: {
+              id: lounge.id,
+            },
           },
-          onCompleted: () => {
-            // setBookingId(null);
-          },
-        });
-      };
+        },
+        onCompleted: () => {
+          // setBookingId(null);
+        },
+      });
+
+      console.log('Hello world');
 
       // router.push({
       //   pathname: '/bookReview',

@@ -5,9 +5,13 @@ const declineBooking = gql`
     declineBooking(id: $declineBookingId) {
       bookedFrom
       bookedTo
-      consumerID
+      consumer {
+        id
+      }
       createdAt
-      experienceID
+      experience {
+        id
+      }
       id
       status
       updatedAt
