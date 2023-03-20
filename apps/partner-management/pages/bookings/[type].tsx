@@ -9,8 +9,6 @@ import {
   Stack,
   Flex,
   ActionIcon,
-  Modal,
-  Checkbox,
 } from '@collinsonx/design-system/core';
 import { DatePicker } from '@collinsonx/design-system';
 import {
@@ -19,14 +17,9 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import Status from '@components/Status';
-import Details from '@components/Details';
 import { GetServerSideProps } from 'next';
 import dayjs from 'dayjs';
-import {
-  BackArrow,
-  Calendar,
-  Close,
-} from '@collinsonx/design-system/assets/icons';
+import { BackArrow, Calendar } from '@collinsonx/design-system/assets/icons';
 import Link from 'next/link';
 import Table from '@components/Table';
 import { BookingStatus, Booking } from '@collinsonx/utils';
@@ -34,6 +27,7 @@ import { getBookingsByType } from '@collinsonx/utils/lib';
 import { client, useMutation } from '@collinsonx/utils/apollo';
 import { getBookings } from '@collinsonx/utils/queries';
 import { checkinBooking } from '@collinsonx/utils/mutations';
+import BookingModal from '@components/BookingModal';
 
 const { lounge } = bookingsMock;
 
@@ -135,54 +129,13 @@ export default function Bookings({ type, bookings }: BookingsProps) {
 
   return (
     <>
-      <Modal
-        opened={bookingId !== null}
-        withCloseButton={false}
-        onClose={handleClickClose}
-        padding={0}
-        size={712}
-      >
-        <ActionIcon
-          color="dark.6"
-          onClick={handleClickClose}
-          sx={{
-            position: 'absolute',
-            top: 40,
-            right: 40,
-          }}
-        >
-          <Close w={24} h={24} />
-        </ActionIcon>
-        <Box p={40} pt={80}>
-          {bookingId ? (
-            <Details bookingId={bookingId}>
-              <Box p={32} bg="#FFF3BF" sx={{ borderRadius: 4 }}>
-                <Title w={600} size={16}>
-                  Ask the below before check in
-                </Title>
-                <Text mt={4}>
-                  &#x2022; Check customer boarding pass and passport
-                </Text>
-                <Checkbox
-                  mt={4}
-                  py={17}
-                  checked={checkIn}
-                  onChange={(e) => setCheckIn(e.target.checked)}
-                  label="Confirmed I have checked"
-                  sx={{ label: { paddingLeft: 8 } }}
-                />
-                <Button
-                  variant="default"
-                  disabled={!checkIn}
-                  onClick={handleClickConfirmCheckIn}
-                >
-                  Check in
-                </Button>
-              </Box>
-            </Details>
-          ) : null}
-        </Box>
-      </Modal>
+      <BookingModal
+        bookingId={bookingId}
+        onClickClose={handleClickClose}
+        checkIn={checkIn}
+        onChangeCheckIn={setCheckIn}
+        onClickConfirmCheckIn={handleClickConfirmCheckIn}
+      />
       <Stack spacing={32}>
         <Box sx={{ borderBottom: '1px solid #E1E1E1' }}>
           <Flex gap={16} align="center" mb={8}>
