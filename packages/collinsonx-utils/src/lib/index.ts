@@ -1,4 +1,4 @@
-import { Booking, BookingStatus } from 'generatedTypes/graphql';
+import { Booking, BookingStatus } from '../generatedTypes/graphql';
 
 export const getBookingsByType = (
   data: Booking[],
