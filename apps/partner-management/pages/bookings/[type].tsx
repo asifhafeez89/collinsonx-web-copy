@@ -68,6 +68,11 @@ export default function Bookings({ type, bookings }: BookingsProps) {
   const handleClickConfirmCheckIn = () => {
     checkInBooking({
       variables: { id: bookingId },
+      context: {
+        headers: {
+          'x-user-id': 1337, // demo
+        },
+      },
       onCompleted: () => {
         setBookingId(null);
       },
