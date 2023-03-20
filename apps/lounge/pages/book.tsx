@@ -3,10 +3,14 @@ import Layout from '@components/Layout';
 import { client } from '@collinsonx/utils/apollo';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
 import { PageTitle, Lounge } from '@collinsonx/design-system';
-import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
+import {
+  BookingStatus,
+  Experience,
+} from '@collinsonx/utils/generatedTypes/graphql';
 import { NextPageContext } from 'next';
 import BookingForm, { BookingFormProps } from '@components/BookingForm';
 import { useRouter } from 'next/router';
+import createBooking from '@collinsonx/utils/mutations/createBooking';
 
 export interface BookLoungeProps {
   lounge: Experience;
@@ -18,14 +22,38 @@ export default function Book(props: BookLoungeProps) {
   const router = useRouter();
 
   const handleSubmit: BookingFormProps['onSubmit'] = (values) => {
+    console.log(values);
+
     if (values.date) {
-      router.push({
-        pathname: '/bookReview',
-        query: {
-          lounge: JSON.stringify(lounge),
-          formValues: JSON.stringify(values),
-        },
-      });
+      const date = values.date;
+
+      const [createBookingCall, { loading, error, data }] =
+        useMutation(createBooking);
+
+      const handleClickConfirmCheckIn = () => {
+        createBookingCall({
+          variables: {
+            bookedFrom: values.date,
+            bookedTo: values.date,
+            consumerID: 1,
+            createdAt: new Date(),
+            experienceID: lounge.id,
+            status: BookingStatus.Confirmed,
+            updatedAt: new Date(),
+          },
+          onCompleted: () => {
+            // setBookingId(null);
+          },
+        });
+      };
+
+      // router.push({
+      //   pathname: '/bookReview',
+      //   query: {
+      //     lounge: JSON.stringify(lounge),
+      //     formValues: JSON.stringify(values),
+      //   },
+      // });
     }
   };
 
