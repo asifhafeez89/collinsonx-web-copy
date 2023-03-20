@@ -44,7 +44,7 @@ export default function Overview() {
                     label="Recent bookings"
                     value={totalBookings.PENDING.length}
                   >
-                    <Link href="/bookings/pending">
+                    <Link href="/bookings/pending" passHref>
                       <Button variant="default" sx={{ width: 'fit-content' }}>
                         View all
                       </Button>
@@ -61,7 +61,7 @@ export default function Overview() {
                   label="Recent cancelled"
                   value={totalBookings.DECLINED.length}
                 >
-                  <Link href="/bookings/declined">
+                  <Link href="/bookings/declined" passHref>
                     <Button variant="default" sx={{ width: 'fit-content' }}>
                       View all
                     </Button>
@@ -82,7 +82,7 @@ export default function Overview() {
                     label="Today's bookings"
                     value={totalBookings.CONFIRMED.length}
                   >
-                    <Link href="/bookings/confirmed">
+                    <Link href="/bookings/confirmed" passHref>
                       <Button variant="default" sx={{ width: 'fit-content' }}>
                         Today&apos;s bookings
                       </Button>
@@ -95,7 +95,7 @@ export default function Overview() {
                     label="All bookings"
                     value={totalBookings.CONFIRMED.length}
                   >
-                    <Link href="/bookings/confirmed">
+                    <Link href="/bookings/confirmed" passHref>
                       <Button variant="default" sx={{ width: 'fit-content' }}>
                         View all
                       </Button>

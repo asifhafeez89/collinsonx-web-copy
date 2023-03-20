@@ -15,11 +15,9 @@ import {
 import { DatePicker } from '@collinsonx/design-system';
 import {
   createColumnHelper,
-  flexRender,
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import BookingsTable from '@components/BookingsTable';
 import Status from '@components/Status';
 import Details from '@components/Details';
 import { GetServerSideProps } from 'next';
@@ -30,6 +28,7 @@ import {
   Close,
 } from '@collinsonx/design-system/assets/icons';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 
 const { bookings, lounge } = bookingsMock;
 
@@ -126,6 +125,8 @@ export default function Bookings({ type }: BookingsProps) {
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
+
+  const BookingsTable = dynamic(() => import('@components/BookingsTable'));
 
   return (
     <>
@@ -238,45 +239,7 @@ export default function Bookings({ type }: BookingsProps) {
         {!bookings ? (
           <Text>No bookings found</Text>
         ) : (
-          <BookingsTable>
-            <thead>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <tr key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <th
-                      key={header.id}
-                      style={{
-                        width:
-                          widthColMap[header.id as keyof typeof widthColMap] ??
-                          'auto',
-                      }}
-                    >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
-            <tbody>
-              {table.getRowModel().rows.map((row) => (
-                <tr key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </BookingsTable>
+          <BookingsTable table={table} />
         )}
       </Stack>
     </>

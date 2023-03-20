@@ -1,22 +1,16 @@
 import { gql } from '../apollo';
 
 const getBookings = gql`
-  query Bookings {
-    bookings {
+  query GetBookings($experienceId: ID) {
+    getBookings(experienceID: $experienceId) {
+      bookedFrom
+      bookedTo
+      createdAt
+      consumerID
       id
-      additionalRequests
-      bookingState
-      reservationDate
-      lounge {
-        name
-        location
-        id
-        images {
-          url
-          height
-          width
-        }
-      }
+      experienceID
+      status
+      updatedAt
     }
   }
 `;

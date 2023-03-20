@@ -40,8 +40,9 @@ export default function Bookings({ bookings, loading }: BookingsDetailProps) {
       <Text fw={600} pb={12} size={20}>
         Booking management
       </Text>
-      {status === 'empty' && <BookingEmptyState />}
-      {status === 'hasData' && (
+      {!bookings.length ? (
+        <BookingEmptyState />
+      ) : (
         <>
           <BookingCardConfirmed
             key={bookings?.[0]?.id}
@@ -73,16 +74,13 @@ interface QueryProps extends NextPageContext {
 }
 
 export async function getServerSideProps({ query }: QueryProps) {
-  const bookingId = query?.id ?? '';
-
   try {
     const { data, loading } = await client.query({
       query: getBookings,
-      variables: { id: bookingId },
     });
     return {
       props: {
-        bookings: data?.bookings,
+        bookings: data?.getBookings,
         loading: loading,
       },
     };
