@@ -24,8 +24,6 @@ export default function Book(props: BookLoungeProps) {
     useMutation(createBooking);
 
   const handleSubmit: BookingFormProps['onSubmit'] = (values) => {
-    console.log(values);
-
     if (values.date) {
       const date = values.date;
 
@@ -54,8 +52,6 @@ export default function Book(props: BookLoungeProps) {
           });
         },
       });
-
-      console.log('Hello world');
     }
   };
 
