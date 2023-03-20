@@ -38,4 +38,10 @@ export const client = new ApolloClient({
   ]),
 });
 
-export { gql, ApolloProvider, useQuery, useLazyQuery } from '@apollo/client';
+export {
+  gql,
+  ApolloProvider,
+  useQuery,
+  useLazyQuery,
+  useMutation,
+} from '@apollo/client';

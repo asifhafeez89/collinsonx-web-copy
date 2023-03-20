@@ -3,44 +3,42 @@ import { Calendar, Clock } from '@collinsonx/design-system/assets/icons';
 import DetailsSection from './DetailsSection';
 import DetailsKeyValue from './DetailsKeyValue';
 
-import mockData from 'bookings.json';
-
-type Booking = (typeof mockData.bookings)[number];
+import { useQuery } from '@collinsonx/utils/apollo';
+import { getBookingByID } from '@collinsonx/utils/queries';
+import { Booking } from '@collinsonx/utils';
 
 export interface DetailsProps {
-  booking: Booking;
+  bookingId: string;
   children: JSX.Element;
 }
-const Details = ({
-  children,
-  booking: {
-    name,
-    date_of_birth,
-    flight,
-    reservation_date,
-    reservation_time,
-    adults,
-    children: totalChildren,
-  },
-}: DetailsProps) => {
+const Details = ({ children, bookingId }: DetailsProps) => {
+  const { loading, error, data } = useQuery<Booking>(getBookingByID, {
+    variables: { id: bookingId },
+  });
+
   return (
     <Stack spacing={40}>
       <DetailsSection label="Passenger details">
-        <DetailsKeyValue label="Name">{name}</DetailsKeyValue>
-        <DetailsKeyValue label="Date of birth">{date_of_birth}</DetailsKeyValue>
-        <DetailsKeyValue label="Flight details">{flight}</DetailsKeyValue>
+        <DetailsKeyValue label="Name" loading={loading}>
+          -
+        </DetailsKeyValue>
+        <DetailsKeyValue label="Date of birth" loading={loading}>
+          -
+        </DetailsKeyValue>
+        <DetailsKeyValue label="Flight details" loading={loading}>
+          -
+        </DetailsKeyValue>
       </DetailsSection>
       <DetailsSection label="Booking details">
-        <DetailsKeyValue label="Booking date">
+        <DetailsKeyValue label="Booking date" loading={loading}>
           <Flex align="center" gap={8}>
             <Calendar width={16} height={16} />
-            {reservation_date}
+            {data?.bookedFrom}
           </Flex>
         </DetailsKeyValue>
-        <DetailsKeyValue label="Booking time">
+        <DetailsKeyValue label="Booking time" loading={loading}>
           <Flex align="center" gap={8}>
-            <Clock width={16} height={16} />
-            {reservation_time}
+            <Clock width={16} height={16} />-
           </Flex>
         </DetailsKeyValue>
       </DetailsSection>
@@ -52,8 +50,9 @@ const Details = ({
               <Text>(over the age of 2)</Text>
             </>
           }
+          loading={loading}
         >
-          {adults}
+          -
         </DetailsKeyValue>
         <DetailsKeyValue
           label={
@@ -62,8 +61,9 @@ const Details = ({
               <Text>(under the age of 2)</Text>
             </>
           }
+          loading={loading}
         >
-          {totalChildren}
+          -
         </DetailsKeyValue>
       </DetailsSection>
       {children}
