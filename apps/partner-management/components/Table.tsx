@@ -1,6 +1,6 @@
 import { Table as MantineTable } from '@collinsonx/design-system/core';
 import styled from '@collinsonx/design-system/styled';
-import { Table, flexRender } from '@tanstack/react-table';
+import { Table as ReactTable, flexRender } from '@tanstack/react-table';
 
 const StyledTable = styled(MantineTable)`
   color: #333333;
@@ -29,26 +29,15 @@ const StyledTable = styled(MantineTable)`
   }
 `;
 
-type Booking = {
-  id: string;
-  name: string;
-  reservation_date: string;
-  reservation_time: string;
-  booking_status: string;
-  adults: number;
-  children: number;
-  checked_in: boolean;
-};
-
-const widthColMap = {
-  checked_in: 234,
-};
-
-interface BookingsTableProps {
-  table: Table<Booking>;
+interface BookingsTableProps<T> {
+  table: ReactTable<T>;
+  widthColMap?: Record<string, number>;
 }
 
-const BookingsTable = ({ table }: BookingsTableProps) => {
+function Table<T extends unknown>({
+  table,
+  widthColMap = {},
+}: BookingsTableProps<T>) {
   return (
     <StyledTable>
       <thead>
@@ -87,6 +76,6 @@ const BookingsTable = ({ table }: BookingsTableProps) => {
       </tbody>
     </StyledTable>
   );
-};
+}
 
-export default BookingsTable;
+export default Table;

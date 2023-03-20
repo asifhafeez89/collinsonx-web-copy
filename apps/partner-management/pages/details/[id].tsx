@@ -36,20 +36,7 @@ export default function Details({ id }: DetailsProps) {
             p={40}
             sx={{ borderRadius: 4, border: '1px solid #DDDDDD' }}
           >
-            <DetailsView
-              booking={{
-                id: 'foobar',
-                name: 'Alyssa Grant',
-                date_of_birth: '01/01/1990',
-                flight: 'BA7647',
-                reservation_date: '12/06/2023',
-                reservation_time: '08:00am (GMT)',
-                adults: 2,
-                children: 0,
-                booking_status: 'PENDING',
-                checked_in: false,
-              }}
-            >
+            <DetailsView bookingId={id}>
               <Flex w="100%" justify="flex-end" gap={32}>
                 <BookingButton variant="danger" onClick={handleClickDecline}>
                   Decline

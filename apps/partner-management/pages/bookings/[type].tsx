@@ -28,22 +28,15 @@ import {
   Close,
 } from '@collinsonx/design-system/assets/icons';
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
+import Table from '@components/Table';
+import { BookingStatus, Booking } from '@collinsonx/utils';
+import { getBookingsByType } from '@collinsonx/utils/lib';
+import { client } from '@collinsonx/utils/apollo';
+import { getBookings } from '@collinsonx/utils/queries';
 
-const { bookings, lounge } = bookingsMock;
+const { lounge } = bookingsMock;
 
-type Booking = {
-  id: string;
-  name: string;
-  reservation_date: string;
-  reservation_time: string;
-  booking_status: string;
-  adults: number;
-  children: number;
-  checked_in: boolean;
-};
-
-const columnHelper = createColumnHelper<Booking>();
+const columnHelper = createColumnHelper<Partial<Booking>>();
 
 const titleMap = {
   pending: 'Pending lounge booking management',
@@ -53,6 +46,7 @@ const titleMap = {
 
 interface BookingsProps {
   type: 'pending' | 'confirmed' | 'declined';
+  bookings: Booking[];
 }
 
 const widthColMap = {
@@ -61,18 +55,17 @@ const widthColMap = {
 
 const DATE_FORMAT = 'DD/MM/YYYY';
 
-export default function Bookings({ type }: BookingsProps) {
-  const [opened, setOpened] = useState(false);
+export default function Bookings({ type, bookings }: BookingsProps) {
+  const [bookingId, setBookingId] = useState<string | null>(null);
 
-  const [data, setData] = useState(() => [...bookings]);
   const [date, setDate] = useState(dayjs(new Date()).format());
   const [checkIn, setCheckIn] = useState(false);
   const handleClickClose = () => {
     setCheckIn(false);
-    setOpened(false);
+    setBookingId(null);
   };
   const handleClickCheckIn = (id: string) => {
-    setOpened(true);
+    setBookingId(id);
   };
 
   const title = titleMap[type];
@@ -85,25 +78,27 @@ export default function Bookings({ type }: BookingsProps) {
 
   const columns = useMemo(
     () => [
-      columnHelper.accessor('name', {
-        header: 'Customer name',
+      columnHelper.accessor('id', {
+        header: 'Customer ID',
         cell: (props) => props.getValue(),
       }),
-      columnHelper.accessor('reservation_time', {
+      columnHelper.accessor('bookedFrom', {
         header: 'Time of booking',
         cell: (props) => props.getValue(),
       }),
       columnHelper.display({
         header: 'Guests',
         cell: (props) => {
-          const { adults, children } = props.row.original;
-          return `${adults} adults, ${children} children`;
+          // currently not available
+          //const { adults, children } = props.row.original;
+          //return `${adults} adults, ${children} children`;
+          return `-`;
         },
       }),
-      columnHelper.accessor('checked_in', {
+      columnHelper.accessor('status', {
         header: 'Check-In customer',
         cell: (props) => {
-          return !props.getValue() ? (
+          return props.getValue() !== BookingStatus.CheckedIn ? (
             <Button
               sx={{ width: '100%' }}
               onClick={() => handleClickCheckIn(props.row.id)}
@@ -121,17 +116,15 @@ export default function Bookings({ type }: BookingsProps) {
   );
 
   const table = useReactTable({
-    data,
+    data: bookings,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
 
-  const BookingsTable = dynamic(() => import('@components/BookingsTable'));
-
   return (
     <>
       <Modal
-        opened={opened}
+        opened={bookingId !== null}
         withCloseButton={false}
         onClose={handleClickClose}
         padding={0}
@@ -149,40 +142,29 @@ export default function Bookings({ type }: BookingsProps) {
           <Close w={24} h={24} />
         </ActionIcon>
         <Box p={40} pt={80}>
-          <Details
-            booking={{
-              id: 'foobar',
-              name: 'Alyssa Grant',
-              date_of_birth: '01/01/1990',
-              flight: 'BA7647',
-              reservation_date: '12/06/2023',
-              reservation_time: '08:00am (GMT)',
-              adults: 2,
-              children: 0,
-              booking_status: 'PENDING',
-              checked_in: false,
-            }}
-          >
-            <Box p={32} bg="#FFF3BF" sx={{ borderRadius: 4 }}>
-              <Title w={600} size={16}>
-                Ask the below before check in
-              </Title>
-              <Text mt={4}>
-                &#x2022; Check customer boarding pass and passport
-              </Text>
-              <Checkbox
-                mt={4}
-                py={17}
-                checked={checkIn}
-                onChange={(e) => setCheckIn(e.target.checked)}
-                label="Confirmed I have checked"
-                sx={{ label: { paddingLeft: 8 } }}
-              />
-              <Button variant="default" disabled={!checkIn}>
-                Check in
-              </Button>
-            </Box>
-          </Details>
+          {bookingId ? (
+            <Details bookingId={bookingId}>
+              <Box p={32} bg="#FFF3BF" sx={{ borderRadius: 4 }}>
+                <Title w={600} size={16}>
+                  Ask the below before check in
+                </Title>
+                <Text mt={4}>
+                  &#x2022; Check customer boarding pass and passport
+                </Text>
+                <Checkbox
+                  mt={4}
+                  py={17}
+                  checked={checkIn}
+                  onChange={(e) => setCheckIn(e.target.checked)}
+                  label="Confirmed I have checked"
+                  sx={{ label: { paddingLeft: 8 } }}
+                />
+                <Button variant="default" disabled={!checkIn}>
+                  Check in
+                </Button>
+              </Box>
+            </Details>
+          ) : null}
         </Box>
       </Modal>
       <Stack spacing={32}>
@@ -239,12 +221,18 @@ export default function Bookings({ type }: BookingsProps) {
         {!bookings ? (
           <Text>No bookings found</Text>
         ) : (
-          <BookingsTable table={table} />
+          <Table<Partial<Booking>> table={table} widthColMap={widthColMap} />
         )}
       </Stack>
     </>
   );
 }
+
+const typeMap: Record<string, BookingStatus> = {
+  pending: BookingStatus.Initialized,
+  confirmed: BookingStatus.Confirmed,
+  declined: BookingStatus.Declined,
+};
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const type = ctx.params?.type as string;
@@ -253,9 +241,16 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       notFound: true,
     };
   }
+  const { data } = await client.query({
+    query: getBookings,
+  });
+
+  const bookings = getBookingsByType(data.getBookings, typeMap[type]);
+
   return {
     props: {
       type,
+      bookings,
     },
   };
 };

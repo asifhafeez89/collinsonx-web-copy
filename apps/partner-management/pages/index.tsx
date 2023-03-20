@@ -12,17 +12,20 @@ import OverviewCard from '@components/OverviewCard';
 import OverviewMetric from '../components/OverviewMetric';
 import OverviewSeparator from '@components/OverviewSeparator';
 import Link from 'next/link';
-const { bookings, lounge } = bookingsMock;
+import { GetServerSideProps } from 'next';
+import { client } from '@collinsonx/utils/apollo';
+import { getBookings } from '@collinsonx/utils/queries';
+import { Booking, BookingStatus } from '@collinsonx/utils';
+import { getBookingsByType } from '@collinsonx/utils/lib';
+const { lounge } = bookingsMock;
 
-type Status = 'PENDING' | 'CONFIRMED' | 'DECLINED';
-const totalBookings = bookings.reduce((prev, cur) => {
-  const status = cur.booking_status as Status;
-  prev[status] = prev[status] || [];
-  prev[status].push(cur);
-  return prev;
-}, {} as Record<Status, any[]>);
+const { Initialized, Confirmed, Declined } = BookingStatus;
 
-export default function Overview() {
+export default function Overview({
+  bookings,
+}: {
+  bookings: Record<BookingStatus, Booking[]>;
+}) {
   return (
     <>
       <Title mb={8} size={32}>
@@ -35,14 +38,13 @@ export default function Overview() {
         <Grid.Col lg={6}>
           <Stack spacing={24}>
             <OverviewCard title="Pending bookings" variant="warning">
-              {/* demo purposes */}
               <>
-                {false ? (
+                {!bookings[Initialized] || !bookings[Initialized]?.length ? (
                   'You have no pending bookings'
                 ) : (
                   <OverviewMetric
                     label="Recent bookings"
-                    value={totalBookings.PENDING.length}
+                    value={bookings[Initialized].length}
                   >
                     <Link href="/bookings/pending" passHref>
                       <Button variant="default" sx={{ width: 'fit-content' }}>
@@ -54,12 +56,12 @@ export default function Overview() {
               </>
             </OverviewCard>
             <OverviewCard title="Declined bookings" variant="danger">
-              {!totalBookings.DECLINED.length ? (
+              {!bookings[Declined] || !bookings[Declined]?.length ? (
                 'You have no declined bookings'
               ) : (
                 <OverviewMetric
                   label="Recent cancelled"
-                  value={totalBookings.DECLINED.length}
+                  value={bookings[Declined].length}
                 >
                   <Link href="/bookings/declined" passHref>
                     <Button variant="default" sx={{ width: 'fit-content' }}>
@@ -74,13 +76,13 @@ export default function Overview() {
         <Grid.Col lg={6}>
           <OverviewCard title="Confirmed bookings" variant="success">
             <>
-              {!totalBookings.CONFIRMED.length ? (
+              {!bookings[Confirmed] || !bookings[Confirmed]?.length ? (
                 'You have no confirmed bookings'
               ) : (
                 <Flex gap={72}>
                   <OverviewMetric
                     label="Today's bookings"
-                    value={totalBookings.CONFIRMED.length}
+                    value={bookings[Confirmed].length}
                   >
                     <Link href="/bookings/confirmed" passHref>
                       <Button variant="default" sx={{ width: 'fit-content' }}>
@@ -93,7 +95,7 @@ export default function Overview() {
                   </Flex>
                   <OverviewMetric
                     label="All bookings"
-                    value={totalBookings.CONFIRMED.length}
+                    value={bookings[Confirmed].length}
                   >
                     <Link href="/bookings/confirmed" passHref>
                       <Button variant="default" sx={{ width: 'fit-content' }}>
@@ -110,5 +112,16 @@ export default function Overview() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { data } = await client.query({
+    query: getBookings,
+  });
+
+  const bookings = getBookingsByType(data.getBookings);
+  return {
+    props: { bookings },
+  };
+};
 
 Overview.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;
