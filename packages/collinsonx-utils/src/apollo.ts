@@ -5,16 +5,28 @@ import {
   InMemoryCache,
 } from '@apollo/client';
 import { onError } from '@apollo/link-error';
+import { setContext } from '@apollo/client/link/context';
 
 const port = process.env.APP_PORT || 3000;
 
-const domain = `http://localhost:${port}`;
+const domain =
+  process.env.NEXT_PUBLIC_SITE_DOMAIN_URL ||
+  process.env.NEXT_PUBLIC_VERCEL_URL ||
+  `http://localhost:${port}`;
 
 const graphqlUrl = `${domain}/api/graphql`;
 
 const httpLink = new HttpLink({
   uri: graphqlUrl,
   headers: {},
+});
+
+const authLink = setContext((_, { headers }) => {
+  return {
+    headers: {
+      'x-user-id': '1337',
+    },
+  };
 });
 
 export const client = new ApolloClient({
@@ -34,6 +46,7 @@ export const client = new ApolloClient({
           `[Graphql URL]: ${graphqlUrl}`
         );
     }),
+    authLink,
     httpLink,
   ]),
 });
