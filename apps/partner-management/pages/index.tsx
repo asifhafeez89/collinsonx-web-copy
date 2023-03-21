@@ -27,7 +27,7 @@ export default function Overview({
   bookings: Record<BookingStatus, Booking[]>;
 }) {
   const bookingsConfirmed =
-    bookings[Confirmed]?.length ?? 0 + bookings[CheckedIn]?.length ?? 0;
+    (bookings[Confirmed]?.length || 0) + (bookings[CheckedIn]?.length || 0);
   return (
     <>
       <Title mb={8} size={32}>
@@ -118,6 +118,7 @@ export default function Overview({
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { data } = await client.query({
     query: getBookings,
+    fetchPolicy: 'network-only',
   });
 
   const bookings = getBookingsByType(data.getBookings);

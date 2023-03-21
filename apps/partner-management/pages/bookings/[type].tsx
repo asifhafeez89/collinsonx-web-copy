@@ -27,10 +27,15 @@ import { BookingStatus, Booking } from '@collinsonx/utils';
 import { getBookingsByType } from '@collinsonx/utils/lib';
 import { client, useMutation } from '@collinsonx/utils/apollo';
 import { getBookings } from '@collinsonx/utils/queries';
-import { checkinBooking } from '@collinsonx/utils/mutations';
+import {
+  checkinBooking as checkinBookingMutation,
+  declineBooking as declineBookingMutation,
+  confirmBooking as confirmBookingMutation,
+} from '@collinsonx/utils/mutations';
 import BookingModal from '@components/BookingModal';
 import DetailsConfirmedActions from '@components/Details/DetailsConfirmedActions';
 import DetailsPendingActions from '@components/Details/DetailsPendingActions';
+import { useRouter } from 'next/router';
 
 const { lounge } = bookingsMock;
 
@@ -56,8 +61,24 @@ const DATE_FORMAT = 'DD/MM/YYYY';
 export default function Bookings({ type, bookings }: BookingsProps) {
   const [bookingId, setBookingId] = useState<string | null>(null);
 
-  const [checkInBooking, { loading, error, data }] =
-    useMutation(checkinBooking);
+  const [checkInBooking, { loading, error, data }] = useMutation(
+    checkinBookingMutation
+  );
+
+  const [
+    declineBooking,
+    { loading: loadingDecline, error: errorDecline, data: dataDecline },
+  ] = useMutation(declineBookingMutation);
+
+  const [
+    confirmBooking,
+    { loading: loadingConfirm, error: errorConfirm, data: dataConfirm },
+  ] = useMutation(confirmBookingMutation);
+
+  const router = useRouter();
+  const refreshData = () => {
+    router.replace(router.asPath);
+  };
 
   const [date, setDate] = useState(dayjs(new Date()).format());
   const [checkIn, setCheckIn] = useState(false);
@@ -65,8 +86,24 @@ export default function Bookings({ type, bookings }: BookingsProps) {
     setCheckIn(false);
     setBookingId(null);
   };
-  const handleClickConfirm = () => {};
-  const handleClickDecline = () => {};
+  const handleClickConfirm = () => {
+    confirmBooking({
+      variables: { confirmBookingId: bookingId },
+      onCompleted: () => {
+        setBookingId(null);
+        refreshData();
+      },
+    });
+  };
+  const handleClickDecline = () => {
+    declineBooking({
+      variables: { declineBookingId: bookingId },
+      onCompleted: () => {
+        setBookingId(null);
+        refreshData();
+      },
+    });
+  };
   const handleClickCheckIn = (id: string) => {
     setBookingId(id);
   };
@@ -75,6 +112,7 @@ export default function Bookings({ type, bookings }: BookingsProps) {
       variables: { checkinBookingId: bookingId },
       onCompleted: () => {
         setBookingId(null);
+        refreshData();
       },
     });
   };
@@ -262,6 +300,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
   const { data } = await client.query({
     query: getBookings,
+    fetchPolicy: 'network-only',
   });
 
   const bookings = getBookingsByType(data.getBookings, types);
