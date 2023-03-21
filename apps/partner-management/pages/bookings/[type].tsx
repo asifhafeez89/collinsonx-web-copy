@@ -12,6 +12,7 @@ import {
 } from '@collinsonx/design-system/core';
 import { DatePicker } from '@collinsonx/design-system';
 import {
+  ColumnDef,
   createColumnHelper,
   getCoreRowModel,
   useReactTable,
@@ -28,6 +29,8 @@ import { client, useMutation } from '@collinsonx/utils/apollo';
 import { getBookings } from '@collinsonx/utils/queries';
 import { checkinBooking } from '@collinsonx/utils/mutations';
 import BookingModal from '@components/BookingModal';
+import DetailsConfirmedActions from '@components/Details/DetailsConfirmedActions';
+import DetailsPendingActions from '@components/Details/DetailsPendingActions';
 
 const { lounge } = bookingsMock;
 
@@ -62,6 +65,8 @@ export default function Bookings({ type, bookings }: BookingsProps) {
     setCheckIn(false);
     setBookingId(null);
   };
+  const handleClickConfirm = () => {};
+  const handleClickDecline = () => {};
   const handleClickCheckIn = (id: string) => {
     setBookingId(id);
   };
@@ -82,8 +87,9 @@ export default function Bookings({ type, bookings }: BookingsProps) {
     setDate(dayjs(date).format());
   };
 
-  const columns = useMemo(
-    () => [
+  const columns = useMemo(() => {
+    // see https://github.com/TanStack/table/issues/4241
+    const mainColumns: ColumnDef<Partial<Booking>, any>[] = [
       columnHelper.accessor('consumer.id', {
         header: 'Customer ID',
         cell: (props) => props.getValue(),
@@ -101,27 +107,48 @@ export default function Bookings({ type, bookings }: BookingsProps) {
           return `-`;
         },
       }),
-      columnHelper.accessor('status', {
-        header: 'Check-In customer',
-        cell: (props) => {
-          return props.getValue() !== BookingStatus.CheckedIn ? (
-            <Button
-              sx={{ width: '100%' }}
-              onClick={() =>
-                handleClickCheckIn((props.row.original as Booking).id)
-              }
-              variant="default"
-            >
-              Check customer in
-            </Button>
-          ) : (
-            <Status type="success">Checked in</Status>
-          );
-        },
-      }),
-    ],
-    []
-  );
+    ];
+
+    if (type === 'pending' || type === 'confirmed') {
+      mainColumns.push(
+        columnHelper.accessor('status', {
+          header:
+            type === 'pending' ? 'Update booking status' : 'Check-In Customer',
+          cell: (props) => {
+            if (type === 'pending') {
+              return (
+                <Button
+                  fullWidth
+                  onClick={() =>
+                    setBookingId((props.row.original as Booking).id)
+                  }
+                  variant="default"
+                >
+                  Update booking
+                </Button>
+              );
+            }
+            if (type === 'confirmed') {
+              return props.getValue() !== BookingStatus.CheckedIn ? (
+                <Button
+                  fullWidth
+                  onClick={() =>
+                    handleClickCheckIn((props.row.original as Booking).id)
+                  }
+                  variant="default"
+                >
+                  Check customer in
+                </Button>
+              ) : (
+                <Status type="success">Checked in</Status>
+              );
+            }
+          },
+        })
+      );
+    }
+    return mainColumns;
+  }, [type]);
 
   const table = useReactTable({
     data: bookings,
@@ -129,15 +156,30 @@ export default function Bookings({ type, bookings }: BookingsProps) {
     getCoreRowModel: getCoreRowModel(),
   });
 
+  const selectedBooking = useMemo(
+    () => (bookingId ? bookings.find((item) => item.id === bookingId)! : null),
+    [bookingId, bookings]
+  );
+
   return (
     <>
-      <BookingModal
-        bookingId={bookingId}
-        onClickClose={handleClickClose}
-        checkIn={checkIn}
-        onChangeCheckIn={setCheckIn}
-        onClickConfirmCheckIn={handleClickConfirmCheckIn}
-      />
+      <BookingModal booking={selectedBooking} onClickClose={handleClickClose}>
+        <>
+          {type === 'pending' && (
+            <DetailsPendingActions
+              onClickConfirm={handleClickConfirm}
+              onClickDecline={handleClickDecline}
+            />
+          )}
+          {type === 'confirmed' && (
+            <DetailsConfirmedActions
+              checkIn={checkIn}
+              onChangeCheckIn={setCheckIn}
+              onClickConfirmCheckIn={handleClickConfirmCheckIn}
+            />
+          )}
+        </>
+      </BookingModal>
       <Stack spacing={32}>
         <Box sx={{ borderBottom: '1px solid #E1E1E1' }}>
           <Flex gap={16} align="center" mb={8}>

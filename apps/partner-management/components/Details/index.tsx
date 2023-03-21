@@ -1,4 +1,4 @@
-import { Text, Flex, Stack } from '@collinsonx/design-system/core';
+import { Flex, Stack } from '@collinsonx/design-system/core';
 import { Calendar, Clock } from '@collinsonx/design-system/assets/icons';
 import DetailsSection from './DetailsSection';
 import DetailsKeyValue from './DetailsKeyValue';
@@ -11,7 +11,7 @@ export interface DetailsProps {
   loading?: boolean;
   children?: JSX.Element;
 }
-const Details = ({ children, booking, loading }: DetailsProps) => {
+const Details = ({ children, booking, loading = false }: DetailsProps) => {
   return (
     <Stack spacing={40}>
       <DetailsSection label="Passenger details">

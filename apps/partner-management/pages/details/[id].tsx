@@ -16,6 +16,7 @@ import Notification from '@components/Notification';
 import { useQuery } from '@collinsonx/utils/apollo';
 import { Booking, BookingStatus } from '@collinsonx/utils';
 import { getBookingByID } from '@collinsonx/utils/queries';
+import DetailsPendingActions from '@components/Details/DetailsPendingActions';
 const { bookings, lounge } = bookingsMock;
 
 interface DetailsProps {
@@ -66,20 +67,10 @@ export default function Details({ id }: DetailsProps) {
               >
                 <DetailsView booking={data?.getBookingByID} loading={loading}>
                   {status === Initialized ? (
-                    <Flex w="100%" justify="flex-end" gap={32}>
-                      <BookingButton
-                        variant="danger"
-                        onClick={handleClickDecline}
-                      >
-                        Decline
-                      </BookingButton>
-                      <BookingButton
-                        variant="success"
-                        onClick={handleClickConfirm}
-                      >
-                        Confirm
-                      </BookingButton>
-                    </Flex>
+                    <DetailsPendingActions
+                      onClickConfirm={handleClickConfirm}
+                      onClickDecline={handleClickDecline}
+                    />
                   ) : undefined}
                 </DetailsView>
               </Box>
