@@ -1,15 +1,6 @@
 import Layout from '@components/Layout';
 import bookingsMock from 'bookings.json';
-import {
-  Title,
-  Text,
-  Box,
-  Flex,
-  Stack,
-  Grid,
-} from '@collinsonx/design-system/core';
-import { Pending } from '@collinsonx/design-system/assets/icons';
-import BookingButton from '@components/Details/DetailsButton';
+import { Title, Text, Box, Stack, Grid } from '@collinsonx/design-system/core';
 import { GetServerSideProps } from 'next';
 import DetailsView from '@components/Details';
 import Notification from '@components/Notification';
