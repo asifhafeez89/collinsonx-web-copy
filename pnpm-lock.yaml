@@ -161,6 +161,7 @@ importers:
       '@next/font': ^13.1.5
       '@svgr/webpack': ^6.5.1
       '@tanstack/react-table': ^8.7.9
+      '@types/http-proxy': ^1.17.9
       '@types/react': ^18.0.0
       autoprefixer: ^10.4.12
       dayjs: ^1.11.7
@@ -180,6 +181,7 @@ importers:
       '@next/font': 13.2.3
       '@svgr/webpack': 6.5.1
       '@tanstack/react-table': 8.7.9_biqbaboplfbrettd7655fr4n2y
+      '@types/http-proxy': 1.17.10
       dayjs: 1.11.7
       http-proxy: 1.18.1
       next: 13.2.3_biqbaboplfbrettd7655fr4n2y
@@ -7107,7 +7109,6 @@ packages:
     resolution: {integrity: sha512-Qs5aULi+zV1bwKAg5z1PWnDXWmsn+LxIvUGv6E2+OOMYhclZMO+OXd9pYVf2gLykf2I7IV2u7oTHwChPNsvJ7g==}
     dependencies:
       '@types/node': 18.14.4
-    dev: true
 
   /@types/is-ci/3.0.0:
     resolution: {integrity: sha512-Q0Op0hdWbYd1iahB+IFNQcWXFq4O0Q5MwQP7uN0souuQ4rPg1vEYcnIOfr1gY+M+6rc8FGoRaBO1mOOvL29sEQ==}
