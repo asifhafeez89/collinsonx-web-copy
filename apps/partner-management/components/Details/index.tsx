@@ -6,15 +6,19 @@ import DetailsKeyValue from './DetailsKeyValue';
 import { useQuery } from '@collinsonx/utils/apollo';
 import { getBookingByID } from '@collinsonx/utils/queries';
 import { Booking } from '@collinsonx/utils';
+import dayjs from 'dayjs';
 
 export interface DetailsProps {
   bookingId: string;
   children: JSX.Element;
 }
 const Details = ({ children, bookingId }: DetailsProps) => {
-  const { loading, error, data } = useQuery<Booking>(getBookingByID, {
-    variables: { id: bookingId },
-  });
+  const { loading, error, data } = useQuery<{ getBookingByID: Booking }>(
+    getBookingByID,
+    {
+      variables: { id: bookingId },
+    }
+  );
 
   return (
     <Stack spacing={40}>
@@ -31,15 +35,24 @@ const Details = ({ children, bookingId }: DetailsProps) => {
       </DetailsSection>
       <DetailsSection label="Booking details">
         <DetailsKeyValue label="Booking date" loading={loading}>
-          <Flex align="center" gap={8}>
-            <Calendar width={16} height={16} />
-            {data?.bookedFrom}
-          </Flex>
+          {data?.getBookingByID?.bookedFrom ? (
+            <Flex align="center" gap={8}>
+              <Calendar width={16} height={16} />
+              {dayjs(data?.getBookingByID?.bookedFrom).format('DD/MM/YYYY')}
+            </Flex>
+          ) : (
+            '-'
+          )}
         </DetailsKeyValue>
         <DetailsKeyValue label="Booking time" loading={loading}>
-          <Flex align="center" gap={8}>
-            <Clock width={16} height={16} />-
-          </Flex>
+          {data?.getBookingByID?.bookedFrom ? (
+            <Flex align="center" gap={8}>
+              <Clock width={16} height={16} />
+              {dayjs(data?.getBookingByID?.bookedFrom).format('HH:mm')}
+            </Flex>
+          ) : (
+            '-'
+          )}
         </DetailsKeyValue>
       </DetailsSection>
       <DetailsSection label="Amount of travellers">

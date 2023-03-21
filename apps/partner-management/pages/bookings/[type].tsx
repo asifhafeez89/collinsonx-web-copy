@@ -45,7 +45,7 @@ interface BookingsProps {
 }
 
 const widthColMap = {
-  checked_in: 234,
+  status: 234,
 };
 
 const DATE_FORMAT = 'DD/MM/YYYY';
@@ -67,12 +67,7 @@ export default function Bookings({ type, bookings }: BookingsProps) {
   };
   const handleClickConfirmCheckIn = () => {
     checkInBooking({
-      variables: { id: bookingId },
-      context: {
-        headers: {
-          'x-user-id': 1337, // demo
-        },
-      },
+      variables: { checkinBookingId: bookingId },
       onCompleted: () => {
         setBookingId(null);
       },
@@ -89,13 +84,13 @@ export default function Bookings({ type, bookings }: BookingsProps) {
 
   const columns = useMemo(
     () => [
-      columnHelper.accessor('id', {
+      columnHelper.accessor('consumer.id', {
         header: 'Customer ID',
         cell: (props) => props.getValue(),
       }),
       columnHelper.accessor('bookedFrom', {
         header: 'Time of booking',
-        cell: (props) => props.getValue(),
+        cell: (props) => dayjs(props.getValue()).format('HH:mm'),
       }),
       columnHelper.display({
         header: 'Guests',
@@ -112,7 +107,9 @@ export default function Bookings({ type, bookings }: BookingsProps) {
           return props.getValue() !== BookingStatus.CheckedIn ? (
             <Button
               sx={{ width: '100%' }}
-              onClick={() => handleClickCheckIn(props.row.id)}
+              onClick={() =>
+                handleClickCheckIn((props.row.original as Booking).id)
+              }
               variant="default"
             >
               Check customer in
@@ -210,6 +207,12 @@ const typeMap: Record<string, BookingStatus> = {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const type = ctx.params?.type as string;
+  let types;
+  if (type === 'confirmed') {
+    types = [BookingStatus.Confirmed, BookingStatus.CheckedIn];
+  } else {
+    types = [typeMap[type]];
+  }
   if (!titleMap[type as keyof typeof titleMap]) {
     return {
       notFound: true,
@@ -219,7 +222,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     query: getBookings,
   });
 
-  const bookings = getBookingsByType(data.getBookings, typeMap[type]);
+  const bookings = getBookingsByType(data.getBookings, types);
 
   return {
     props: {

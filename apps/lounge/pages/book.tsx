@@ -37,11 +37,6 @@ export default function Book(props: BookLoungeProps) {
             },
           },
         },
-        context: {
-          headers: {
-            'x-user-id': 1337, // demo
-          },
-        },
         onCompleted: () => {
           router.push({
             pathname: '/bookReview',

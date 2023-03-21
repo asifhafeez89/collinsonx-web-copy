@@ -19,13 +19,15 @@ import { Booking, BookingStatus } from '@collinsonx/utils';
 import { getBookingsByType } from '@collinsonx/utils/lib';
 const { lounge } = bookingsMock;
 
-const { Initialized, Confirmed, Declined } = BookingStatus;
+const { Initialized, Confirmed, Declined, CheckedIn } = BookingStatus;
 
 export default function Overview({
   bookings,
 }: {
   bookings: Record<BookingStatus, Booking[]>;
 }) {
+  const bookingsConfirmed =
+    bookings[Confirmed]?.length ?? 0 + bookings[CheckedIn]?.length ?? 0;
   return (
     <>
       <Title mb={8} size={32}>
@@ -76,13 +78,13 @@ export default function Overview({
         <Grid.Col lg={6}>
           <OverviewCard title="Confirmed bookings" variant="success">
             <>
-              {!bookings[Confirmed] || !bookings[Confirmed]?.length ? (
+              {!bookingsConfirmed ? (
                 'You have no confirmed bookings'
               ) : (
                 <Flex gap={72}>
                   <OverviewMetric
                     label="Today's bookings"
-                    value={bookings[Confirmed].length}
+                    value={bookingsConfirmed}
                   >
                     <Link href="/bookings/confirmed" passHref>
                       <Button variant="default" sx={{ width: 'fit-content' }}>
@@ -95,7 +97,7 @@ export default function Overview({
                   </Flex>
                   <OverviewMetric
                     label="All bookings"
-                    value={bookings[Confirmed].length}
+                    value={bookingsConfirmed}
                   >
                     <Link href="/bookings/confirmed" passHref>
                       <Button variant="default" sx={{ width: 'fit-content' }}>
