@@ -6,18 +6,40 @@ import { NextPageContext } from 'next';
 import { BookingFormValue } from '@components/BookingForm/index';
 import BookingFormConfirm from '@components/BookingForm/BookingFormConfirm';
 import { useRouter } from 'next/router';
+import { useMutation } from '@collinsonx/utils/apollo';
+
+import createBooking from '@collinsonx/utils/mutations/createBooking';
 
 export interface BookReviewProps {
   lounge: Experience;
   formValues: BookingFormValue;
 }
 
-export default function BookReview(props: BookReviewProps) {
-  const { lounge, formValues } = props;
+export default function BookReview({ lounge, formValues }: BookReviewProps) {
   const router = useRouter();
 
+  const [createBookingCall, { loading: createLoading, error, data }] =
+    useMutation(createBooking);
+
   const handleClickConfirm = () => {
-    router.push('/success');
+    if (formValues.date) {
+      const date = formValues.date;
+
+      createBookingCall({
+        variables: {
+          bookingInput: {
+            bookedFrom: formValues.date,
+            bookedTo: formValues.date,
+            experience: {
+              id: lounge.id,
+            },
+          },
+        },
+        onCompleted: () => {
+          router.push('/success');
+        },
+      });
+    }
   };
 
   return (
