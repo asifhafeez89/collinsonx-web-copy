@@ -6,6 +6,7 @@ const getBookingByID = gql`
       bookedFrom
       bookedTo
       experience {
+        id
         images {
           altText
           contentType

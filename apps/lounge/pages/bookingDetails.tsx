@@ -31,8 +31,6 @@ export default function BookingDetails({}: BookingDetailProps) {
   const [openModal, setOpenModal] = useState(false);
   const router = useRouter();
 
-  console.log(router.query.id);
-
   const {
     loading,
     error: bookingDataError,
@@ -40,8 +38,6 @@ export default function BookingDetails({}: BookingDetailProps) {
   } = useQuery(getBookingByID, {
     variables: { getBookingByIdId: router.query.id },
   });
-
-  console.log(bookingData);
 
   const [cancelBooking, { loading: createLoading, error, data }] =
     useMutation(deleteBooking);
