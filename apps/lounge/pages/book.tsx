@@ -1,58 +1,40 @@
 import { Stack } from '@collinsonx/design-system/core';
 import Layout from '@components/Layout';
-import { client, useMutation } from '@collinsonx/utils/apollo';
+import { useQuery } from '@collinsonx/utils/apollo';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
 import { PageTitle, Lounge } from '@collinsonx/design-system';
-import {
-  BookingStatus,
-  Experience,
-} from '@collinsonx/utils/generatedTypes/graphql';
+import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
 import { NextPageContext } from 'next';
-import BookingForm, { BookingFormProps } from '@components/BookingForm';
+
 import { useRouter } from 'next/router';
-import createBooking from '@collinsonx/utils/mutations/createBooking';
+import BookingForm, { BookingFormProps } from '@components/BookingForm';
 
 export interface BookLoungeProps {
-  lounge: Experience;
-  loading: boolean;
+  id: string;
 }
 
-export default function Book(props: BookLoungeProps) {
-  const { lounge, loading } = props;
+export default function Book({ id }: BookLoungeProps) {
   const router = useRouter();
-  const [createBookingCall, { loading: createLoading, error, data }] =
-    useMutation(createBooking);
+
+  const {
+    loading,
+    error: experienceError,
+    data: experienceData,
+  } = useQuery<{ searchExperiences: Experience[] }>(getSearchExperiences, {
+    variables: { query: id },
+  });
 
   const handleSubmit: BookingFormProps['onSubmit'] = (values) => {
-    console.log(values);
-
-    if (values.date) {
-      const date = values.date;
-
-      createBookingCall({
-        variables: {
-          bookingInput: {
-            bookedFrom: values.date,
-            bookedTo: values.date,
-            experience: {
-              id: lounge.id,
-            },
-          },
-        },
-        onCompleted: () => {
-          router.push({
-            pathname: '/bookReview',
-            query: {
-              lounge: JSON.stringify(lounge),
-              formValues: JSON.stringify(values),
-            },
-          });
-        },
-      });
-
-      console.log('Hello world');
-    }
+    router.push({
+      pathname: '/bookReview',
+      query: {
+        lounge: JSON.stringify(experienceData?.searchExperiences[0]),
+        formValues: JSON.stringify(values),
+      },
+    });
   };
+
+  const lounge = experienceData?.searchExperiences[0];
 
   return (
     <>
@@ -60,14 +42,14 @@ export default function Book(props: BookLoungeProps) {
       {!loading && lounge && (
         <Stack sx={{ position: 'relative' }}>
           <PageTitle
-            title={`Book ${lounge?.name}`}
-            url={`/details?id=${lounge.id}`}
+            title={`Book ${lounge.name}`}
+            url={`/experienceDetails?id=${lounge.id}`}
           />
           <Lounge
-            airport={lounge?.location ?? '-'}
-            loungeName={lounge?.name ?? '-'}
+            airport={lounge.location!}
+            loungeName={lounge.name ?? '-'}
             openingTimes={
-              (lounge.openingHours as unknown as string[])
+              (lounge?.openingHours as unknown as string[])
                 ?.join(',')
                 .substring(0, 20) ?? '-'
             }
@@ -94,17 +76,11 @@ interface QueryProps extends NextPageContext {
 }
 
 export async function getServerSideProps({ query }: QueryProps) {
-  const loungeId = query.id;
-
-  const { data, loading } = await client.query({
-    query: getSearchExperiences,
-    variables: { query: loungeId },
-  });
+  const id = query.id;
 
   return {
     props: {
-      lounge: data.searchExperiences.length ? data.searchExperiences[0] : {},
-      loading: loading,
+      id,
     },
   };
 }

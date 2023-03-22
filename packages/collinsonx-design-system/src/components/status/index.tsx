@@ -1,11 +1,15 @@
+import { BookingStatus } from '@collinsonx/utils';
 import { Text } from '@mantine/core';
 
 type Status = 'PENDING' | 'CONFIRMED' | 'DECLINED';
-type IStatus = {
-  status: Status;
+
+const { Initialized, Confirmed, CheckedIn, Declined } = BookingStatus;
+
+type StatusProps = {
+  status: BookingStatus;
 };
 
-export default function Status({ status }: IStatus) {
+export default function Status({ status }: StatusProps) {
   const styles = {
     padding: '8px 16px',
     borderRadius: 8,
@@ -27,7 +31,7 @@ export default function Status({ status }: IStatus) {
       {`Booking pending`}
     </Text>
   );
-  if (status === 'CONFIRMED') {
+  if (status === Confirmed || status === CheckedIn) {
     button = (
       <Text
         sx={{
@@ -40,7 +44,7 @@ export default function Status({ status }: IStatus) {
       </Text>
     );
   }
-  if (status === 'DECLINED') {
+  if (status === Declined) {
     button = (
       <Text
         sx={{

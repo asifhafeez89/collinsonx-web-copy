@@ -12,6 +12,11 @@ const getBookings = gql`
       id
       experience {
         id
+        name
+        location
+        images {
+          url
+        }
       }
       status
       updatedAt

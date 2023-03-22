@@ -2,6 +2,7 @@ import Layout from '../components/Layout';
 import { PageTitle, Status } from '@collinsonx/design-system/index';
 import Lightbox from '@collinsonx/design-system/components/lightbox';
 import { MapPin } from '@collinsonx/design-system/assets/icons';
+import deleteBooking from '@collinsonx/utils/mutations/deleteBooking';
 import {
   Title,
   Stack,
@@ -10,103 +11,137 @@ import {
   Text,
   Button,
 } from '@collinsonx/design-system/core';
-import { NextPageContext } from 'next';
+import { GetServerSideProps, NextPageContext } from 'next';
+import { useMutation, useQuery } from '@collinsonx/utils/apollo';
 import dayjs from 'dayjs';
-import { BookingStatus } from '@components/BookingBadge';
 import bookings from './bookingsMock.json';
 import { useState } from 'react';
+import { getBookingByID as getBookingByIDQuery } from '@collinsonx/utils/queries';
+import { useRouter } from 'next/router';
 
 type Booking = (typeof bookings)[number];
 
 interface BookingDetailProps {
-  booking: Booking;
-  loading: boolean;
+  id: string;
 }
 
-export default function BookingDetails({
-  booking,
-  loading,
-}: BookingDetailProps) {
+export default function BookingDetails({ id }: BookingDetailProps) {
   const [openModal, setOpenModal] = useState(false);
+
+  const router = useRouter();
+
+  const {
+    loading,
+    error: bookingDataError,
+    data: bookingData,
+  } = useQuery(getBookingByIDQuery, {
+    variables: { getBookingById: id },
+  });
+
+  const [cancelBooking, { loading: createLoading, error, data }] =
+    useMutation(deleteBooking);
+
   if (loading) {
     return <div>Loading</div>;
   }
-  const { lounge, reservationDate, additionalRequests, bookingState } = booking;
-  const { name, location, images } = lounge;
+  //const { id, bookedFrom, status, experience } = bookingData?.getBookingById;
+
+  const { getBookingByID } = bookingData;
+
+  // const { name, location, images } = lounge;
+
+  const handleDelete = () => {
+    cancelBooking({
+      variables: { deleteBookingId: id },
+      onCompleted: () => {
+        router.push('/bookings');
+      },
+    });
+  };
 
   return (
-    <Stack>
-      <PageTitle title={`Book ${name}`} url={'/bookings'} />
-      <Stack sx={{ border: '1px solid #E9ECEF', padding: 17 }}>
-        <Box
-          sx={{
-            borderRadius: 4,
-            overflow: 'hidden',
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          <Image
+    <>
+      {getBookingByID ? (
+        <Stack>
+          <PageTitle
+            title={`Book ${getBookingByID?.experience?.name}`}
+            url={'/bookings'}
+          />
+          <Stack sx={{ border: '1px solid #E9ECEF', padding: 17 }}>
+            <Box
+              sx={{
+                borderRadius: 4,
+                overflow: 'hidden',
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
+              {/* <Image
             src={images?.[0]?.url ?? ''}
             alt={name ?? ''}
             width={'100%'}
             height={190}
-          />
-        </Box>
-        <Title size={18} color={'#000000'}>
-          {name}
-        </Title>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <MapPin color={'#000000'} />
-          <Text color={'#000000'} sx={{ marginLeft: '10px' }}>
-            {location}
-          </Text>
-        </Box>
-        <Status status={(bookingState as BookingStatus) ?? 'PENDING'} />
-        <Stack spacing={17} sx={{ border: '1px solid #E9ECEF', padding: 17 }}>
-          <Box>
-            <Title size={18}>Date</Title>
-            <Text>{dayjs(reservationDate).format('DD/MM/YYYY')}</Text>
-          </Box>
+          /> */}
+            </Box>
+            <Title size={18} color={'#000000'}>
+              {getBookingByID?.experience?.name}
+            </Title>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <MapPin color={'#000000'} />
+              <Text color={'#000000'} sx={{ marginLeft: '10px' }}>
+                {getBookingByID?.experience?.location}
+              </Text>
+            </Box>
+            <Status status={getBookingByID?.status} />
+            <Stack
+              spacing={17}
+              sx={{ border: '1px solid #E9ECEF', padding: 17 }}
+            >
+              <Box>
+                <Title size={18}>Date</Title>
+                <Text>
+                  {dayjs(getBookingByID?.bookedFrom).format('DD/MM/YYYY')}
+                </Text>
+              </Box>
 
-          <Box>
-            <Title size={18}>Time of arrival</Title>
-            <Text>{dayjs(reservationDate).format('HH:mm')}</Text>
-          </Box>
+              <Box>
+                <Title size={18}>Time of arrival</Title>
+                <Text>{dayjs(getBookingByID?.bookedFrom).format('HH:mm')}</Text>
+              </Box>
 
-          <Box>
-            <Title size={18}>Additional requirements</Title>
-            <Text>{additionalRequests}</Text>
-          </Box>
+              <Box>
+                <Title size={18}>Additional requirements</Title>
+                <Text>-</Text>
+              </Box>
+            </Stack>
+
+            <Button
+              onClick={() => {
+                setOpenModal(!openModal);
+              }}
+              variant="default"
+              color="red"
+            >
+              Cancel booking
+            </Button>
+
+            <Lightbox
+              open={openModal}
+              ctaCancel={'Go back'}
+              ctaForward={'Cancel booking'}
+              ctaForwardCall={handleDelete}
+              title=""
+              onClose={() => setOpenModal(false)}
+            >
+              <div>
+                <h1>Cancel Booking</h1>
+                <p>If you cancel you will no longer have this reservation.</p>
+              </div>
+            </Lightbox>
+          </Stack>
         </Stack>
-
-        <Button
-          onClick={() => {
-            setOpenModal(!openModal);
-          }}
-          variant="default"
-          color="red"
-        >
-          Cancel booking
-        </Button>
-
-        <Lightbox
-          open={openModal}
-          ctaCancel={'Go back'}
-          ctaForward={'Cancel booking'}
-          ctaForwardCall={() => {
-            console.log('Do it');
-          }}
-          title=""
-          onClose={() => setOpenModal(false)}
-        >
-          <div>
-            <h1>Cancel Booking</h1>
-            <p>If you cancel you will no longer have this reservation.</p>
-          </div>
-        </Lightbox>
-      </Stack>
-    </Stack>
+      ) : null}
+    </>
   );
 }
 
@@ -114,35 +149,18 @@ interface QueryProps extends NextPageContext {
   booking: Booking;
 }
 
-export async function getServerSideProps({ query }: QueryProps) {
-  const bookingId = query?.id ?? '';
-
-  /*
-  try {
-    const { data, loading } = await client.query({
-      query: getBookingByID,
-      variables: { id: bookingId },
-    });
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  const id = query?.id as string;
+  if (!id) {
     return {
-      props: {
-        booking: data?.booking,
-        loading: loading,
-      },
+      notFound: true,
     };
-  } catch (err) {
-    return {
-      props: {
-        booking: bookings.find((item) => item.id === bookingId),
-        loading: false,
-      },
-    };
-  }*/
+  }
   return {
     props: {
-      booking: bookings.find((item) => item.id === bookingId),
-      loading: false,
+      id,
     },
   };
-}
+};
 
 BookingDetails.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;

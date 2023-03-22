@@ -5,10 +5,13 @@ import {
   createStyles,
 } from '@collinsonx/design-system/core';
 
-export type BookingStatus = 'PENDING' | 'DECLINED' | 'CONFIRMED';
+import { BookingStatus } from '@collinsonx/utils';
+
+const { Initialized, Confirmed, CheckedIn, Declined, Booked, Errored } =
+  BookingStatus;
 
 export interface BadgeProps extends MBadgeProps {
-  status: 'PENDING' | 'CONFIRMED' | 'DECLINED';
+  status: BookingStatus;
 }
 
 const useStyles = createStyles(({ colors }) => {
@@ -38,6 +41,15 @@ const useStyles = createStyles(({ colors }) => {
   };
 });
 
+const bookingMap: Record<BookingStatus, string> = {
+  [Initialized]: 'Booking pending',
+  [Confirmed]: 'Booking confirmed',
+  [Declined]: 'Booking declined',
+  [CheckedIn]: 'Booking confirmed',
+  [Booked]: 'Booking',
+  [Errored]: 'Booking errored',
+};
+
 export default function BookingBadge({
   children,
   status,
@@ -49,12 +61,12 @@ export default function BookingBadge({
     <MBadge
       {...props}
       className={cx(classes.root, classes.inner, {
-        [classes.declined]: status === 'DECLINED',
-        [classes.pending]: status === 'PENDING',
-        [classes.confirmed]: status === 'CONFIRMED',
+        [classes.declined]: status === Declined,
+        [classes.pending]: status === Initialized,
+        [classes.confirmed]: status === Confirmed || status === CheckedIn,
       })}
     >
-      <Box>{children}</Box>
+      <Box>{bookingMap[status]}</Box>
     </MBadge>
   );
 }
