@@ -72,9 +72,12 @@ export default function Overview() {
                     )}
                   </>
                 </OverviewCard>
-                <OverviewCard title="Declined bookings" variant="declined">
+                <OverviewCard
+                  title="Declined / cancelled bookings"
+                  variant="declined"
+                >
                   {!loading && !bookings[Declined]?.length ? (
-                    'You have no declined bookings'
+                    'You have no cancelled bookings'
                   ) : (
                     <OverviewMetric
                       loading={loading}
