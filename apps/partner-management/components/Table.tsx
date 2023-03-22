@@ -24,7 +24,10 @@ const StyledTable = styled(CustomTable)`
   }
   tbody {
     tr:nth-of-type(even) {
-      background: #f7f7f7;
+      background: #f9f9f9;
+    }
+    tr:hover {
+      background: #ededed;
     }
   }
 
