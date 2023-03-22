@@ -15,7 +15,6 @@
     "@collinsonx/design-system": "workspace:*",
     "@collinsonx/pages": "workspace:*",
     "@collinsonx/utils": "workspace:*",
-    "@next/font": "^13.1.5",
     "@svgr/webpack": "^6.5.1",
     "dayjs": "^1.11.7",
     "next": "^13.1.0",

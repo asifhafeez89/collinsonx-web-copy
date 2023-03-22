@@ -1,5 +1,4 @@
 import Layout from '@components/Layout';
-import bookingsMock from 'bookings.json';
 import { ComponentProps, useMemo, useState } from 'react';
 import {
   Title,
@@ -35,10 +34,8 @@ import BookingModal from '@components/BookingModal';
 import Error from '@components/Error';
 import DetailsConfirmedActions from '@components/Details/DetailsConfirmedActions';
 import DetailsPendingActions from '@components/Details/DetailsPendingActions';
-import { useRouter } from 'next/router';
-import { colorMap } from '../../lib/index';
-
-const { lounge } = bookingsMock;
+import { PageType } from 'config/booking';
+import { GetServerSideProps } from 'next';
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
 
@@ -60,16 +57,17 @@ const typeMap: Record<string, BookingStatus> = {
   declined: BookingStatus.Declined,
 };
 
-export default function Bookings() {
+export interface BookingsProps {
+  type: PageType;
+}
+
+export default function Bookings({ type }: BookingsProps) {
   const {
     loading: loadingBookings,
     error: errorBookings,
     data: dataBookings,
     refetch: refetchBookings,
   } = useQuery<{ getBookings: Booking[] }>(getBookings);
-
-  const router = useRouter();
-  const { type } = router.query;
 
   const [bookingId, setBookingId] = useState<string | null>(null);
 
@@ -296,7 +294,7 @@ export default function Bookings() {
           <Text>No bookings found</Text>
         ) : (
           <Table<Partial<Booking>>
-            type={type as keyof typeof colorMap}
+            type={type as PageType}
             table={table}
             widthColMap={widthColMap}
           />
@@ -305,5 +303,14 @@ export default function Bookings() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const type = ctx.params?.type as string;
+  return {
+    props: {
+      type,
+    },
+  };
+};
 
 Bookings.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;

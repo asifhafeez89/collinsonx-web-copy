@@ -11,8 +11,6 @@ import {
   Button,
 } from '@collinsonx/design-system/core';
 import { NextPageContext } from 'next';
-import { client } from '@collinsonx/utils/apollo';
-import { getBookingByID } from '@collinsonx/utils/queries';
 import dayjs from 'dayjs';
 import { BookingStatus } from '@components/BookingBadge';
 import bookings from './bookingsMock.json';

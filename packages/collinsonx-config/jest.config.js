@@ -13,7 +13,7 @@ module.exports = {
   moduleFileExtensions: ['js', 'jsx', 'json', 'ts', 'tsx'],
   moduleNameMapper: {
     // '\\.(css|less)$': '<rootDir>/tests/jest/__mocks__/styleMock.js',
-    '@next/font/(.*)': require.resolve(
+    'next/font/(.*)': require.resolve(
       'next/dist/build/jest/__mocks__/nextFontMock.js'
     ),
     '@lib': '<rootDir>/lib/index.ts',
