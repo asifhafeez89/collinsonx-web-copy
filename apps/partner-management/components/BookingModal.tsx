@@ -1,32 +1,17 @@
 import { Close } from '@collinsonx/design-system/assets/icons';
-import {
-  ActionIcon,
-  Box,
-  Button,
-  Checkbox,
-  Modal,
-  Title,
-  Text,
-} from '@collinsonx/design-system/core';
+import { ActionIcon, Box, Modal } from '@collinsonx/design-system/core';
+import { Booking } from '@collinsonx/utils';
 import Details from './Details';
 
 interface BookingModalProps {
-  bookingId: string | null;
+  booking: Booking | null;
   onClickClose: () => void;
-  checkIn: boolean;
-  onChangeCheckIn: (checked: boolean) => void;
-  onClickConfirmCheckIn: () => void;
+  children?: JSX.Element;
 }
-function BookingModal({
-  bookingId,
-  onClickClose,
-  checkIn,
-  onChangeCheckIn,
-  onClickConfirmCheckIn,
-}: BookingModalProps) {
+function BookingModal({ booking, onClickClose, children }: BookingModalProps) {
   return (
     <Modal
-      opened={bookingId !== null}
+      opened={booking !== null}
       withCloseButton={false}
       onClose={onClickClose}
       padding={0}
@@ -44,33 +29,7 @@ function BookingModal({
         <Close w={24} h={24} />
       </ActionIcon>
       <Box p={40} pt={80}>
-        {bookingId ? (
-          <Details bookingId={bookingId}>
-            <Box p={32} bg="#FFF3BF" sx={{ borderRadius: 4 }}>
-              <Title w={600} size={16}>
-                Ask the below before check in
-              </Title>
-              <Text mt={4}>
-                &#x2022; Check customer boarding pass and passport
-              </Text>
-              <Checkbox
-                mt={4}
-                py={17}
-                checked={checkIn}
-                onChange={(e) => onChangeCheckIn(e.target.checked)}
-                label="Confirmed I have checked"
-                sx={{ label: { paddingLeft: 8 } }}
-              />
-              <Button
-                variant="default"
-                disabled={!checkIn}
-                onClick={onClickConfirmCheckIn}
-              >
-                Check in
-              </Button>
-            </Box>
-          </Details>
-        ) : null}
+        {booking ? <Details booking={booking}>{children}</Details> : null}
       </Box>
     </Modal>
   );

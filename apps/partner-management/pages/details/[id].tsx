@@ -1,68 +1,111 @@
 import Layout from '@components/Layout';
-import bookingsMock from 'bookings.json';
-import {
-  Title,
-  Text,
-  Box,
-  Flex,
-  Stack,
-  Grid,
-} from '@collinsonx/design-system/core';
-import { Pending } from '@collinsonx/design-system/assets/icons';
-import BookingButton from '@components/Details/DetailsButton';
+import { Title, Box, Stack, Grid, Text } from '@collinsonx/design-system/core';
 import { GetServerSideProps } from 'next';
 import DetailsView from '@components/Details';
-const { bookings, lounge } = bookingsMock;
+import Error from '@components/Error';
+import Notification from '@components/Notification';
+import { useMutation, useQuery } from '@collinsonx/utils/apollo';
+import { Booking, BookingStatus } from '@collinsonx/utils';
+import { getBookingByID } from '@collinsonx/utils/queries';
+import DetailsPendingActions from '@components/Details/DetailsPendingActions';
+import {
+  declineBooking as declineBookingMutation,
+  confirmBooking as confirmBookingMutation,
+} from '@collinsonx/utils/mutations';
+import { useRouter } from 'next/router';
 
 interface DetailsProps {
   id: string;
 }
 
+const { Initialized, Confirmed, CheckedIn, Declined } = BookingStatus;
+
+const messageMap: Record<BookingStatus[number], string> = {
+  [Initialized]: 'Booking pending',
+  [Confirmed]: 'Booking confirmed',
+  [CheckedIn]: 'Booking confirmed',
+  [Declined]: 'Booking declined',
+};
+
 export default function Details({ id }: DetailsProps) {
-  const handleClickDecline = () => {};
-  const handleClickConfirm = () => {};
+  const router = useRouter();
+
+  const { loading, error, data } = useQuery<{ getBookingByID: Booking }>(
+    getBookingByID,
+    {
+      variables: { id },
+    }
+  );
+
+  const [
+    declineBooking,
+    { loading: loadingDecline, error: errorDecline, data: dataDecline },
+  ] = useMutation(declineBookingMutation);
+
+  const [
+    confirmBooking,
+    { loading: loadingConfirm, error: errorConfirm, data: dataConfirm },
+  ] = useMutation(confirmBookingMutation);
+
+  const status = data?.getBookingByID?.status;
+
+  const handleClickConfirm = () => {
+    confirmBooking({
+      variables: { confirmBookingId: id },
+      onCompleted: () => {
+        router.push('/');
+      },
+    });
+  };
+  const handleClickDecline = () => {
+    declineBooking({
+      variables: { declineBookingId: id },
+      onCompleted: () => {
+        router.push('/');
+      },
+    });
+  };
+
   return (
-    <Stack spacing={32}>
-      <Box>
-        <Title mb={8} size={32}>
-          Customer booking details
-        </Title>
-        <Text size={18}>{lounge.name}</Text>
-      </Box>
-      <Grid>
-        <Grid.Col lg={8} md={8}>
-          <Box
-            maw={712}
-            p={40}
-            sx={{ borderRadius: 4, border: '1px solid #DDDDDD' }}
-          >
-            <DetailsView bookingId={id}>
-              <Flex w="100%" justify="flex-end" gap={32}>
-                <BookingButton variant="danger" onClick={handleClickDecline}>
-                  Decline
-                </BookingButton>
-                <BookingButton variant="success" onClick={handleClickConfirm}>
-                  Confirm
-                </BookingButton>
-              </Flex>
-            </DetailsView>
-          </Box>
-        </Grid.Col>
-      </Grid>
-    </Stack>
+    <>
+      {status && (
+        <Notification type={status}>{messageMap[status]}</Notification>
+      )}
+      {error ? (
+        <Error error={error} />
+      ) : (
+        <Box py={40} px={32}>
+          <Stack spacing={32}>
+            <Box>
+              <Title mb={8} size={32}>
+                Customer booking details
+              </Title>
+              <Text size={18}>Lounge</Text>
+            </Box>
+            <Grid>
+              <Grid.Col lg={8} md={8}>
+                <Box
+                  maw={712}
+                  p={40}
+                  sx={{ borderRadius: 4, border: '1px solid #DDDDDD' }}
+                >
+                  <DetailsView booking={data?.getBookingByID} loading={loading}>
+                    {status === Initialized ? (
+                      <DetailsPendingActions
+                        onClickConfirm={handleClickConfirm}
+                        onClickDecline={handleClickDecline}
+                      />
+                    ) : undefined}
+                  </DetailsView>
+                </Box>
+              </Grid.Col>
+            </Grid>
+          </Stack>
+        </Box>
+      )}
+    </>
   );
 }
-
-const SubHeader = () => {
-  return (
-    <Box w="100%" px={40} py={16} bg="#FFF3BF">
-      <Flex gap={8} align="center">
-        <Pending />
-        <Text>Booking pending</Text>
-      </Flex>
-    </Box>
-  );
-};
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const id = ctx.params?.id as string;
@@ -78,6 +121,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   };
 };
 
-Details.getLayout = (page: JSX.Element) => (
-  <Layout subHeader={<SubHeader />}>{page}</Layout>
-);
+Details.getLayout = (page: JSX.Element) => {
+  return <Layout hasPadding={false}>{page}</Layout>;
+};
