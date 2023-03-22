@@ -32,8 +32,6 @@ export default function Bookings() {
     });
   };
 
-  console.log(bookingsData);
-
   return (
     <Box>
       <Text fw={600} pb={12} size={20}>

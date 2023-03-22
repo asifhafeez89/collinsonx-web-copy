@@ -48,8 +48,6 @@ export default function BookingDetails({ id }: BookingDetailProps) {
 
   const { getBookingByID } = bookingData;
 
-  console.log(bookingData, getBookingByID);
-
   // const { name, location, images } = lounge;
 
   const handleDelete = () => {
