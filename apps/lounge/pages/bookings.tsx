@@ -32,22 +32,18 @@ export default function Bookings() {
     });
   };
 
+  console.log(bookingsData);
+
   return (
     <Box>
       <Text fw={600} pb={12} size={20}>
         Booking management
       </Text>
-      {!bookingsData?.getBookings.length ? (
-        <BookingEmptyState />
-      ) : (
+      {loading && <Text>Loading</Text>}
+      {!bookingsData?.getBookings.length && !loading && <BookingEmptyState />}
+
+      {bookingsData?.getBookings.length && (
         <>
-          {/*<BookingCardConfirmed
-            key={bookings?.[0]?.id}
-            name={bookings?.[0]?.experience?.name ?? ''}
-            location={bookings?.[0]?.experience?.location ?? ''}
-            date={bookings?.[0]?.reservationDate ?? ''}
-            status={bookings?.[0]?.bookingState ?? 'PENDING'}
-      />*/}
           {bookingsData?.getBookings.map((booking) => (
             <BookingCard
               onClick={onViewBookingDetails}

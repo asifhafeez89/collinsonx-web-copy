@@ -1,8 +1,8 @@
 import { gql } from '../apollo';
 
 const getBookingByID = gql`
-  query GetBookingById($getBookingByIdId: ID!) {
-    getBookingByID(id: $getBookingByIdId) {
+  query GetBookingById($getBookingById: ID!) {
+    getBookingByID(id: $getBookingById) {
       bookedFrom
       bookedTo
       experience {
@@ -19,6 +19,7 @@ const getBookingByID = gql`
         name
         openingHours
       }
+      status
       id
     }
   }
