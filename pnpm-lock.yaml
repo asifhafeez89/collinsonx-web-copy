@@ -30,7 +30,6 @@ importers:
       '@collinsonx/design-system': workspace:*
       '@collinsonx/pages': workspace:*
       '@collinsonx/utils': workspace:*
-      '@next/font': ^13.1.5
       '@svgr/webpack': ^6.5.1
       '@types/react': ^18.0.0
       autoprefixer: ^10.4.12
@@ -47,7 +46,6 @@ importers:
       '@collinsonx/design-system': link:../../packages/collinsonx-design-system
       '@collinsonx/pages': link:../../packages/collinsonx-pages
       '@collinsonx/utils': link:../../packages/collinsonx-utils
-      '@next/font': 13.2.3
       '@svgr/webpack': 6.5.1
       dayjs: 1.11.7
       next: 13.2.3_biqbaboplfbrettd7655fr4n2y
@@ -80,7 +78,6 @@ importers:
       '@mantine/form': ^6.0.1
       '@mantine/hooks': ^5.10.2
       '@mantine/next': ^5.10.2
-      '@next/font': ^13.1.5
       '@svgr/webpack': ^6.5.1
       '@testing-library/jest-dom': ^5.11.9
       '@testing-library/react': ^11.2.3
@@ -124,7 +121,6 @@ importers:
       '@mantine/form': 6.0.1_react@18.2.0
       '@mantine/hooks': 5.10.5_react@18.2.0
       '@mantine/next': 5.10.5_a7hn2ezcj5vhoyhoix22hbrmtq
-      '@next/font': 13.2.3
       '@svgr/webpack': 6.5.1
       babel-jest: 29.4.3
       dayjs: 1.11.7
@@ -158,7 +154,6 @@ importers:
       '@collinsonx/design-system': workspace:*
       '@collinsonx/pages': workspace:*
       '@collinsonx/utils': workspace:*
-      '@next/font': ^13.1.5
       '@svgr/webpack': ^6.5.1
       '@tanstack/react-table': ^8.7.9
       '@types/http-proxy': ^1.17.9
@@ -178,7 +173,6 @@ importers:
       '@collinsonx/design-system': link:../../packages/collinsonx-design-system
       '@collinsonx/pages': link:../../packages/collinsonx-pages
       '@collinsonx/utils': link:../../packages/collinsonx-utils
-      '@next/font': 13.2.3
       '@svgr/webpack': 6.5.1
       '@tanstack/react-table': 8.7.9_biqbaboplfbrettd7655fr4n2y
       '@types/http-proxy': 1.17.10
@@ -4675,10 +4669,6 @@ packages:
     resolution: {integrity: sha512-Nnkd6C2fLg06OKlt2YOv1oQQv38B6hrwajPt+mXNN7s0ylzDIF0GaVkDKv2c70j7DOFqIUB2UCTdpqd1FychPw==}
     dependencies:
       glob: 7.1.7
-    dev: false
-
-  /@next/font/13.2.3:
-    resolution: {integrity: sha512-7EHzk0f7FVYICLUZTpyPk93IfcTUao++Xt1Sgb+Zk5dVOCYHabqLtlF5ywSoXIqyFlo0qlshEBxsrzHAGTWkDw==}
     dev: false
 
   /@next/swc-android-arm-eabi/13.2.3:

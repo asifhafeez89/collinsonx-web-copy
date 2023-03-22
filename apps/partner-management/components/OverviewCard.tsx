@@ -1,10 +1,10 @@
 import { Box, Title } from '@collinsonx/design-system/core';
 import styled from '@collinsonx/design-system/styled';
-import { colorMap, Variant } from 'lib';
+import { bookingPageConfig, PageType } from 'config/booking';
 
 export interface OverviewCardProps {
   title: string;
-  variant: Variant;
+  variant: PageType;
   children?: JSX.Element | string;
 }
 
@@ -22,7 +22,7 @@ const OverviewCard = ({ title, variant, children }: OverviewCardProps) => {
       <Box
         sx={{
           padding: '16px 40px',
-          backgroundColor: colorMap[variant],
+          backgroundColor: bookingPageConfig[variant].color,
         }}
       >
         <Title color="#25262B" size={20} w={600}>

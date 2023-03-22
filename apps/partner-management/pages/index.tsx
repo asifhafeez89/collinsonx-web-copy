@@ -1,5 +1,4 @@
 import Layout from '@components/Layout';
-import bookingsMock from 'bookings.json';
 import {
   Title,
   Text,
@@ -18,7 +17,6 @@ import { getBookings } from '@collinsonx/utils/queries';
 import { Booking, BookingStatus } from '@collinsonx/utils';
 import { getBookingsByType } from '@collinsonx/utils/lib';
 import { useMemo } from 'react';
-const { lounge } = bookingsMock;
 
 const { Initialized, Confirmed, Declined, CheckedIn } = BookingStatus;
 
@@ -74,9 +72,12 @@ export default function Overview() {
                     )}
                   </>
                 </OverviewCard>
-                <OverviewCard title="Declined bookings" variant="declined">
+                <OverviewCard
+                  title="Declined / cancelled bookings"
+                  variant="declined"
+                >
                   {!loading && !bookings[Declined]?.length ? (
-                    'You have no declined bookings'
+                    'You have no cancelled bookings'
                   ) : (
                     <OverviewMetric
                       loading={loading}

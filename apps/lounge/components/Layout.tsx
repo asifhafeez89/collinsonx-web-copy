@@ -1,6 +1,6 @@
 import { Container, MantineProvider } from '@collinsonx/design-system/core';
 import { Header, experienceX } from '@collinsonx/design-system';
-import { Be_Vietnam_Pro } from '@next/font/google';
+import { Be_Vietnam_Pro } from 'next/font/google';
 import { LogoExperienceX } from '@collinsonx/design-system/assets/logo';
 
 import { Cart, Chat, Home } from '@collinsonx/design-system/assets/icons';

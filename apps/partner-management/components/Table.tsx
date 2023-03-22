@@ -1,7 +1,7 @@
 import { Table as MantineTable } from '@collinsonx/design-system/core';
 import styled from '@collinsonx/design-system/styled';
 import { Table as ReactTable, flexRender } from '@tanstack/react-table';
-import { colorMap } from 'lib';
+import { PageType, bookingPageConfig } from 'config/booking';
 
 const CustomTable = ({
   headerBg,
@@ -24,7 +24,10 @@ const StyledTable = styled(CustomTable)`
   }
   tbody {
     tr:nth-of-type(even) {
-      background: #f7f7f7;
+      background: #f9f9f9;
+    }
+    tr:hover {
+      background: #ededed;
     }
   }
 
@@ -40,7 +43,7 @@ const StyledTable = styled(CustomTable)`
 
 interface BookingsTableProps<T> {
   table: ReactTable<T>;
-  type: 'pending' | 'confirmed' | 'declined';
+  type: PageType;
   widthColMap?: Record<string, number>;
 }
 
@@ -50,7 +53,9 @@ function Table<T extends unknown>({
   widthColMap = {},
 }: BookingsTableProps<T>) {
   return (
-    <StyledTable headerBg={colorMap[type as keyof typeof colorMap]}>
+    <StyledTable
+      headerBg={bookingPageConfig[type as keyof typeof bookingPageConfig].color}
+    >
       <thead>
         {table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id}>
