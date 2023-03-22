@@ -59,11 +59,6 @@ export default function BookingDetails({}: BookingDetailProps) {
           },
         },
       },
-      context: {
-        headers: {
-          'x-user-id': 1337, // demo
-        },
-      },
       onCompleted: () => {},
     });
   };
