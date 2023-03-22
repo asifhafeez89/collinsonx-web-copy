@@ -12,12 +12,13 @@ import {
   Button,
 } from '@collinsonx/design-system/core';
 import { NextPageContext } from 'next';
-import { client, useMutation } from '@collinsonx/utils/apollo';
+import { client, useMutation, useQuery } from '@collinsonx/utils/apollo';
 import dayjs from 'dayjs';
 import { BookingStatus } from '@components/BookingBadge';
 import bookings from './bookingsMock.json';
 import { useState } from 'react';
 import { getBookingByID } from '@collinsonx/utils/queries';
+import { useRouter } from 'next/router';
 
 type Booking = (typeof bookings)[number];
 
@@ -26,11 +27,21 @@ interface BookingDetailProps {
   loading: boolean;
 }
 
-export default function BookingDetails({
-  booking,
-  loading,
-}: BookingDetailProps) {
+export default function BookingDetails({}: BookingDetailProps) {
   const [openModal, setOpenModal] = useState(false);
+  const router = useRouter();
+
+  console.log(router.query.id);
+
+  const {
+    loading,
+    error: bookingDataError,
+    data: bookingData,
+  } = useQuery(getBookingByID, {
+    variables: { getBookingByIdId: router.query.id },
+  });
+
+  console.log(bookingData);
 
   const [cancelBooking, { loading: createLoading, error, data }] =
     useMutation(deleteBooking);
@@ -38,7 +49,7 @@ export default function BookingDetails({
   if (loading) {
     return <div>Loading</div>;
   }
-  const { id, reservationDate, additionalRequests, bookingState } = booking;
+  const { id, reservationDate, additionalRequests, bookingState } = bookingData;
   // const { name, location, images } = lounge;
 
   console.log(id);
@@ -137,23 +148,6 @@ export default function BookingDetails({
 
 interface QueryProps extends NextPageContext {
   booking: Booking;
-}
-
-export async function getServerSideProps({ query }: QueryProps) {
-  const bookingId = query?.id ?? '';
-  const { data, loading } = await client.query({
-    query: getBookingByID,
-    variables: { getBookingByIdId: bookingId },
-  });
-
-  console.log(data);
-
-  return {
-    props: {
-      booking: data.getBookingByID,
-      loading: loading,
-    },
-  };
 }
 
 BookingDetails.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;
