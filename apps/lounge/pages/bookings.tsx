@@ -5,17 +5,13 @@ import BookingEmptyState from '@components/BookingEmptyState';
 import Layout from '@components/Layout';
 import { useState } from 'react';
 
-import BookingCardConfirmed from '../components/BookingCardConfirmed';
 import { useRouter } from 'next/router';
 import { NextPageContext } from 'next';
-import { client, useQuery } from '@collinsonx/utils/apollo';
+import { useQuery } from '@collinsonx/utils/apollo';
 import { getBookings } from '@collinsonx/utils/queries';
-import { BookingStatus } from '@components/BookingBadge';
-import bookings from './bookingsMock.json';
+import { Booking, BookingStatus } from '@collinsonx/utils';
 
 type DataStatus = 'empty' | 'hasData';
-
-type Booking = (typeof bookings)[number];
 
 export default function Bookings() {
   const [status, setStatus] = useState<DataStatus>('hasData');
@@ -25,7 +21,7 @@ export default function Bookings() {
     loading,
     error: bookingsDataError,
     data: bookingsData,
-  } = useQuery(getBookings);
+  } = useQuery<{ getBookings: Booking[] }>(getBookings);
 
   const onViewBookingDetails = (id: string) => {
     router.push({
@@ -45,14 +41,13 @@ export default function Bookings() {
         <BookingEmptyState />
       ) : (
         <>
-          TEST
-          <BookingCardConfirmed
+          {/*<BookingCardConfirmed
             key={bookings?.[0]?.id}
             name={bookings?.[0]?.experience?.name ?? ''}
             location={bookings?.[0]?.experience?.location ?? ''}
             date={bookings?.[0]?.reservationDate ?? ''}
             status={bookings?.[0]?.bookingState ?? 'PENDING'}
-          />
+      />*/}
           {bookingsData?.getBookings.map((booking) => (
             <BookingCard
               onClick={onViewBookingDetails}
@@ -61,8 +56,8 @@ export default function Bookings() {
               name={booking?.experience?.name ?? ''}
               location={booking?.experience?.location ?? ''}
               imgUrl={booking?.experience?.images?.[0]?.url ?? ''}
-              status={(booking?.bookingState as BookingStatus) ?? 'PENDING'}
-              date={booking?.reservationDate ?? ''}
+              status={booking?.status ?? BookingStatus.Initialized}
+              date={booking?.bookedFrom ?? ''}
             />
           ))}
         </>
