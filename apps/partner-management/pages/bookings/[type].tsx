@@ -258,7 +258,7 @@ export default function Bookings() {
             <Title size={32}>{title}</Title>
           </Flex>
           <Text mb={33} pl={44} size={18} w={300}>
-            {/*lounge.name*/}
+            Lounge
           </Text>
         </Box>
         <Flex justify="space-between" align="center">

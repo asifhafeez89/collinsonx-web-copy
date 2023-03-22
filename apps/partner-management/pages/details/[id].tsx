@@ -1,5 +1,5 @@
 import Layout from '@components/Layout';
-import { Title, Box, Stack, Grid } from '@collinsonx/design-system/core';
+import { Title, Box, Stack, Grid, Text } from '@collinsonx/design-system/core';
 import { GetServerSideProps } from 'next';
 import DetailsView from '@components/Details';
 import Error from '@components/Error';
@@ -80,7 +80,7 @@ export default function Details({ id }: DetailsProps) {
               <Title mb={8} size={32}>
                 Customer booking details
               </Title>
-              {/*<Text size={18}>{lounge.name}</Text>*/}
+              <Text size={18}>Lounge</Text>
             </Box>
             <Grid>
               <Grid.Col lg={8} md={8}>
