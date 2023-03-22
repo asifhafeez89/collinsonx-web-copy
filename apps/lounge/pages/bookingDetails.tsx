@@ -17,6 +17,7 @@ import dayjs from 'dayjs';
 import { BookingStatus } from '@components/BookingBadge';
 import bookings from './bookingsMock.json';
 import { useState } from 'react';
+import { getBookingByID } from '@collinsonx/utils/queries';
 
 type Booking = (typeof bookings)[number];
 
@@ -37,15 +38,17 @@ export default function BookingDetails({
   if (loading) {
     return <div>Loading</div>;
   }
-  const { lounge, reservationDate, additionalRequests, bookingState } = booking;
-  const { name, location, images } = lounge;
+  const { id, reservationDate, additionalRequests, bookingState } = booking;
+  // const { name, location, images } = lounge;
+
+  console.log(id);
 
   const handleDelete = () => {
     cancelBooking({
       variables: {
         bookingInput: {
           experience: {
-            id: lounge.id,
+            id: id,
           },
         },
       },
@@ -70,21 +73,21 @@ export default function BookingDetails({
             justifyContent: 'center',
           }}
         >
-          <Image
+          {/* <Image
             src={images?.[0]?.url ?? ''}
             alt={name ?? ''}
             width={'100%'}
             height={190}
-          />
+          /> */}
         </Box>
         <Title size={18} color={'#000000'}>
           {name}
         </Title>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <MapPin color={'#000000'} />
-          <Text color={'#000000'} sx={{ marginLeft: '10px' }}>
+          {/* <Text color={'#000000'} sx={{ marginLeft: '10px' }}>
             {location}
-          </Text>
+          </Text> */}
         </Box>
         <Status status={(bookingState as BookingStatus) ?? 'PENDING'} />
         <Stack spacing={17} sx={{ border: '1px solid #E9ECEF', padding: 17 }}>
@@ -138,31 +141,17 @@ interface QueryProps extends NextPageContext {
 
 export async function getServerSideProps({ query }: QueryProps) {
   const bookingId = query?.id ?? '';
+  const { data, loading } = await client.query({
+    query: getBookingByID,
+    variables: { getBookingByIdId: bookingId },
+  });
 
-  /*
-  try {
-    const { data, loading } = await client.query({
-      query: getBookingByID,
-      variables: { id: bookingId },
-    });
-    return {
-      props: {
-        booking: data?.booking,
-        loading: loading,
-      },
-    };
-  } catch (err) {
-    return {
-      props: {
-        booking: bookings.find((item) => item.id === bookingId),
-        loading: false,
-      },
-    };
-  }*/
+  console.log(data);
+
   return {
     props: {
-      booking: bookings.find((item) => item.id === bookingId),
-      loading: false,
+      booking: data.getBookingByID,
+      loading: loading,
     },
   };
 }

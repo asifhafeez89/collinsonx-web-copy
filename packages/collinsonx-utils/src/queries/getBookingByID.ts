@@ -1,20 +1,24 @@
 import { gql } from '../apollo';
 
 const getBookingByID = gql`
-  query GetBookingByID($id: ID!) {
-    getBookingByID(id: $id) {
-      bookedTo
+  query GetBookingById($getBookingByIdId: ID!) {
+    getBookingByID(id: $getBookingByIdId) {
       bookedFrom
-      consumer {
-        id
+      bookedTo
+      experience {
+        images {
+          altText
+          contentType
+          height
+          id
+          url
+          width
+        }
+        location
+        name
+        openingHours
       }
       id
-      experience {
-        id
-      }
-      createdAt
-      status
-      updatedAt
     }
   }
 `;
