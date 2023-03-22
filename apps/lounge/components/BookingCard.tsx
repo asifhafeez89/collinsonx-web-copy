@@ -9,9 +9,10 @@ import {
   Text,
   Group,
 } from '@collinsonx/design-system/core';
-import BookingBadge, { BookingStatus } from './BookingBadge';
+import BookingBadge from './BookingBadge';
 import { MapPin } from '@collinsonx/design-system/assets/icons';
 import NextImage from 'next/image';
+import { BookingStatus } from '@collinsonx/utils';
 
 // import generated types in the following way:
 // import { Booking} from '@collinsonx/utils/generatedTypes/graphql';
