@@ -13,19 +13,13 @@ import {
   confirmBooking as confirmBookingMutation,
 } from '@collinsonx/utils/mutations';
 import { useRouter } from 'next/router';
+import { bookingConfig } from 'config/booking';
 
 interface DetailsProps {
   id: string;
 }
 
-const { Initialized, Confirmed, CheckedIn, Declined } = BookingStatus;
-
-const messageMap: Record<BookingStatus[number], string> = {
-  [Initialized]: 'Booking pending',
-  [Confirmed]: 'Booking confirmed',
-  [CheckedIn]: 'Booking confirmed',
-  [Declined]: 'Booking declined',
-};
+const { Initialized } = BookingStatus;
 
 export default function Details({ id }: DetailsProps) {
   const router = useRouter();
@@ -69,7 +63,9 @@ export default function Details({ id }: DetailsProps) {
   return (
     <>
       {status && (
-        <Notification type={status}>{messageMap[status]}</Notification>
+        <Notification type={status}>
+          {bookingConfig[status].description}
+        </Notification>
       )}
       {error ? (
         <Error error={error} />

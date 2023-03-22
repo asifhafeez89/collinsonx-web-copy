@@ -1,5 +1,4 @@
 import Layout from '@components/Layout';
-import bookingsMock from 'bookings.json';
 import {
   Title,
   Text,
@@ -18,7 +17,6 @@ import { getBookings } from '@collinsonx/utils/queries';
 import { Booking, BookingStatus } from '@collinsonx/utils';
 import { getBookingsByType } from '@collinsonx/utils/lib';
 import { useMemo } from 'react';
-const { lounge } = bookingsMock;
 
 const { Initialized, Confirmed, Declined, CheckedIn } = BookingStatus;
 
