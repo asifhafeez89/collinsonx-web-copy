@@ -3,10 +3,15 @@ import Link from 'next/link';
 
 interface LayoutProps {
   subHeader?: JSX.Element;
+  hasPadding?: boolean;
   children: JSX.Element;
 }
 
-export default function LayoutLogin({ children, subHeader }: LayoutProps) {
+export default function Layout({
+  children,
+  subHeader,
+  hasPadding = true,
+}: LayoutProps) {
   return (
     <div
       style={{
@@ -28,7 +33,9 @@ export default function LayoutLogin({ children, subHeader }: LayoutProps) {
         </Link>
       </header>
       {subHeader}
-      <main style={{ padding: '32px 40px', margin: 0 }}>{children}</main>
+      <main style={{ padding: hasPadding ? '32px 40px' : 'auto', margin: 0 }}>
+        {children}
+      </main>
     </div>
   );
 }
