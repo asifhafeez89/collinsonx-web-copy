@@ -3,6 +3,7 @@ import {
   ApolloLink,
   HttpLink,
   InMemoryCache,
+  ApolloError,
 } from '@apollo/client';
 import { onError } from '@apollo/link-error';
 import { setContext } from '@apollo/client/link/context';
@@ -54,6 +55,7 @@ export const client = new ApolloClient({
 export {
   gql,
   ApolloProvider,
+  ApolloError,
   useQuery,
   useLazyQuery,
   useMutation,

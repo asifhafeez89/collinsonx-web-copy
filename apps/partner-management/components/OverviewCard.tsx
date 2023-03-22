@@ -1,7 +1,6 @@
 import { Box, Title } from '@collinsonx/design-system/core';
 import styled from '@collinsonx/design-system/styled';
-
-type Variant = 'warning' | 'success' | 'danger';
+import { colorMap, Variant } from 'lib';
 
 export interface OverviewCardProps {
   title: string;
@@ -16,12 +15,6 @@ const Container = styled.div`
   font-size: 16px;
   color: #9b9ca0;
 `;
-
-const colorMap: Record<Variant, string> = {
-  warning: '#FFF3BF',
-  success: '#E9FAC8',
-  danger: '#FFE3E3',
-};
 
 const OverviewCard = ({ title, variant, children }: OverviewCardProps) => {
   return (

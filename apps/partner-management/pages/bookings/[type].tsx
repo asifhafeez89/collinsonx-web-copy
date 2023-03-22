@@ -18,14 +18,13 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import Status from '@components/Status';
-import { GetServerSideProps } from 'next';
 import dayjs from 'dayjs';
 import { BackArrow, Calendar } from '@collinsonx/design-system/assets/icons';
 import Link from 'next/link';
 import Table from '@components/Table';
 import { BookingStatus, Booking } from '@collinsonx/utils';
 import { getBookingsByType } from '@collinsonx/utils/lib';
-import { client, useMutation } from '@collinsonx/utils/apollo';
+import { useMutation, useQuery } from '@collinsonx/utils/apollo';
 import { getBookings } from '@collinsonx/utils/queries';
 import {
   checkinBooking as checkinBookingMutation,
@@ -33,9 +32,11 @@ import {
   confirmBooking as confirmBookingMutation,
 } from '@collinsonx/utils/mutations';
 import BookingModal from '@components/BookingModal';
+import Error from '@components/Error';
 import DetailsConfirmedActions from '@components/Details/DetailsConfirmedActions';
 import DetailsPendingActions from '@components/Details/DetailsPendingActions';
 import { useRouter } from 'next/router';
+import { colorMap } from '../../lib/index';
 
 const { lounge } = bookingsMock;
 
@@ -47,23 +48,49 @@ const titleMap = {
   declined: 'Declined lounge booking management',
 };
 
-interface BookingsProps {
-  type: 'pending' | 'confirmed' | 'declined';
-  bookings: Booking[];
-}
-
 const widthColMap = {
   status: 234,
 };
 
 const DATE_FORMAT = 'DD/MM/YYYY';
 
-export default function Bookings({ type, bookings }: BookingsProps) {
+const typeMap: Record<string, BookingStatus> = {
+  pending: BookingStatus.Initialized,
+  confirmed: BookingStatus.Confirmed,
+  declined: BookingStatus.Declined,
+};
+
+export default function Bookings() {
+  const {
+    loading: loadingBookings,
+    error: errorBookings,
+    data: dataBookings,
+    refetch: refetchBookings,
+  } = useQuery<{ getBookings: Booking[] }>(getBookings);
+
+  const router = useRouter();
+  const { type } = router.query;
+
   const [bookingId, setBookingId] = useState<string | null>(null);
 
-  const [checkInBooking, { loading, error, data }] = useMutation(
-    checkinBookingMutation
-  );
+  const bookings = useMemo<Booking[]>(() => {
+    let types;
+    if (type === 'confirmed') {
+      types = [BookingStatus.Confirmed, BookingStatus.CheckedIn];
+    } else {
+      types = [typeMap[type as keyof typeof typeMap]];
+    }
+
+    return getBookingsByType(
+      dataBookings?.getBookings ?? [],
+      types
+    ) as Booking[];
+  }, [dataBookings, type]);
+
+  const [
+    checkInBooking,
+    { loading: loadingCheckin, error: errorCheckin, data: dataCheckin },
+  ] = useMutation(checkinBookingMutation);
 
   const [
     declineBooking,
@@ -74,11 +101,6 @@ export default function Bookings({ type, bookings }: BookingsProps) {
     confirmBooking,
     { loading: loadingConfirm, error: errorConfirm, data: dataConfirm },
   ] = useMutation(confirmBookingMutation);
-
-  const router = useRouter();
-  const refreshData = () => {
-    router.replace(router.asPath);
-  };
 
   const [date, setDate] = useState(dayjs(new Date()).format());
   const [checkIn, setCheckIn] = useState(false);
@@ -91,7 +113,7 @@ export default function Bookings({ type, bookings }: BookingsProps) {
       variables: { confirmBookingId: bookingId },
       onCompleted: () => {
         setBookingId(null);
-        refreshData();
+        refetchBookings();
       },
     });
   };
@@ -100,7 +122,7 @@ export default function Bookings({ type, bookings }: BookingsProps) {
       variables: { declineBookingId: bookingId },
       onCompleted: () => {
         setBookingId(null);
-        refreshData();
+        refetchBookings();
       },
     });
   };
@@ -112,12 +134,12 @@ export default function Bookings({ type, bookings }: BookingsProps) {
       variables: { checkinBookingId: bookingId },
       onCompleted: () => {
         setBookingId(null);
-        refreshData();
+        refetchBookings();
       },
     });
   };
 
-  const title = titleMap[type];
+  const title = titleMap[type as keyof typeof titleMap];
 
   const handleChangeDate: ComponentProps<typeof DatePicker>['onChange'] = (
     date
@@ -162,7 +184,7 @@ export default function Bookings({ type, bookings }: BookingsProps) {
                   }
                   variant="default"
                 >
-                  Update booking
+                  Decline/Confirm
                 </Button>
               );
             }
@@ -236,7 +258,7 @@ export default function Bookings({ type, bookings }: BookingsProps) {
             <Title size={32}>{title}</Title>
           </Flex>
           <Text mb={33} pl={44} size={18} w={300}>
-            {lounge.name}
+            {/*lounge.name*/}
           </Text>
         </Box>
         <Flex justify="space-between" align="center">
@@ -269,48 +291,19 @@ export default function Bookings({ type, bookings }: BookingsProps) {
             onChange={handleChangeDate}
           />
         </Flex>
+        {errorBookings && <Error error={errorBookings} />}
         {!bookings ? (
           <Text>No bookings found</Text>
         ) : (
-          <Table<Partial<Booking>> table={table} widthColMap={widthColMap} />
+          <Table<Partial<Booking>>
+            type={type as keyof typeof colorMap}
+            table={table}
+            widthColMap={widthColMap}
+          />
         )}
       </Stack>
     </>
   );
 }
-
-const typeMap: Record<string, BookingStatus> = {
-  pending: BookingStatus.Initialized,
-  confirmed: BookingStatus.Confirmed,
-  declined: BookingStatus.Declined,
-};
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const type = ctx.params?.type as string;
-  let types;
-  if (type === 'confirmed') {
-    types = [BookingStatus.Confirmed, BookingStatus.CheckedIn];
-  } else {
-    types = [typeMap[type]];
-  }
-  if (!titleMap[type as keyof typeof titleMap]) {
-    return {
-      notFound: true,
-    };
-  }
-  const { data } = await client.query({
-    query: getBookings,
-    fetchPolicy: 'network-only',
-  });
-
-  const bookings = getBookingsByType(data.getBookings, types);
-
-  return {
-    props: {
-      type,
-      bookings,
-    },
-  };
-};
 
 Bookings.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;

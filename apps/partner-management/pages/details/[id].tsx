@@ -1,14 +1,18 @@
 import Layout from '@components/Layout';
-import bookingsMock from 'bookings.json';
-import { Title, Text, Box, Stack, Grid } from '@collinsonx/design-system/core';
+import { Title, Box, Stack, Grid } from '@collinsonx/design-system/core';
 import { GetServerSideProps } from 'next';
 import DetailsView from '@components/Details';
+import Error from '@components/Error';
 import Notification from '@components/Notification';
-import { useQuery } from '@collinsonx/utils/apollo';
+import { useMutation, useQuery } from '@collinsonx/utils/apollo';
 import { Booking, BookingStatus } from '@collinsonx/utils';
 import { getBookingByID } from '@collinsonx/utils/queries';
 import DetailsPendingActions from '@components/Details/DetailsPendingActions';
-const { bookings, lounge } = bookingsMock;
+import {
+  declineBooking as declineBookingMutation,
+  confirmBooking as confirmBookingMutation,
+} from '@collinsonx/utils/mutations';
+import { useRouter } from 'next/router';
 
 interface DetailsProps {
   id: string;
@@ -24,6 +28,8 @@ const messageMap: Record<BookingStatus[number], string> = {
 };
 
 export default function Details({ id }: DetailsProps) {
+  const router = useRouter();
+
   const { loading, error, data } = useQuery<{ getBookingByID: Booking }>(
     getBookingByID,
     {
@@ -31,44 +37,72 @@ export default function Details({ id }: DetailsProps) {
     }
   );
 
+  const [
+    declineBooking,
+    { loading: loadingDecline, error: errorDecline, data: dataDecline },
+  ] = useMutation(declineBookingMutation);
+
+  const [
+    confirmBooking,
+    { loading: loadingConfirm, error: errorConfirm, data: dataConfirm },
+  ] = useMutation(confirmBookingMutation);
+
   const status = data?.getBookingByID?.status;
 
-  const handleClickDecline = () => {};
-  const handleClickConfirm = () => {};
+  const handleClickConfirm = () => {
+    confirmBooking({
+      variables: { confirmBookingId: id },
+      onCompleted: () => {
+        router.push('/');
+      },
+    });
+  };
+  const handleClickDecline = () => {
+    declineBooking({
+      variables: { declineBookingId: id },
+      onCompleted: () => {
+        router.push('/');
+      },
+    });
+  };
 
   return (
     <>
       {status && (
         <Notification type={status}>{messageMap[status]}</Notification>
       )}
-      <Box py={40} px={32}>
-        <Stack spacing={32}>
-          <Box>
-            <Title mb={8} size={32}>
-              Customer booking details
-            </Title>
-            <Text size={18}>{lounge.name}</Text>
-          </Box>
-          <Grid>
-            <Grid.Col lg={8} md={8}>
-              <Box
-                maw={712}
-                p={40}
-                sx={{ borderRadius: 4, border: '1px solid #DDDDDD' }}
-              >
-                <DetailsView booking={data?.getBookingByID} loading={loading}>
-                  {status === Initialized ? (
-                    <DetailsPendingActions
-                      onClickConfirm={handleClickConfirm}
-                      onClickDecline={handleClickDecline}
-                    />
-                  ) : undefined}
-                </DetailsView>
-              </Box>
-            </Grid.Col>
-          </Grid>
-        </Stack>
-      </Box>
+      {error ? (
+        <Error error={error} />
+      ) : (
+        <Box py={40} px={32}>
+          <Stack spacing={32}>
+            <Box>
+              <Title mb={8} size={32}>
+                Customer booking details
+              </Title>
+              {/*<Text size={18}>{lounge.name}</Text>*/}
+            </Box>
+            <Grid>
+              <Grid.Col lg={8} md={8}>
+                <Box
+                  maw={712}
+                  p={40}
+                  sx={{ borderRadius: 4, border: '1px solid #DDDDDD' }}
+                >
+                  <DetailsView booking={data?.getBookingByID} loading={loading}>
+                    {status === Initialized ? (
+                      <DetailsPendingActions
+                        onClickConfirm={handleClickConfirm}
+                        onClickDecline={handleClickDecline}
+                      />
+                    ) : undefined}
+                  </DetailsView>
+                </Box>
+              </Grid.Col>
+            </Grid>
+          </Stack>
+        </Box>
+      )}
     </>
   );
 }
