@@ -55,20 +55,22 @@ export default function Overview() {
                     {!loading && !bookings[Initialized]?.length ? (
                       'You have no pending bookings'
                     ) : (
-                      <OverviewMetric
-                        label="Recent bookings"
-                        loading={loading}
-                        value={bookings[Initialized]?.length}
-                      >
-                        <Link href="/bookings/pending" passHref>
-                          <Button
-                            variant="default"
-                            sx={{ width: 'fit-content' }}
-                          >
-                            View all
-                          </Button>
-                        </Link>
-                      </OverviewMetric>
+                      <Flex gap={72} maw="40%">
+                        <OverviewMetric
+                          loading={loading}
+                          label="Recent pending"
+                          value={bookings[Initialized]?.length || 0}
+                        >
+                          <Link href="/bookings/pending" passHref>
+                            <Button
+                              variant="default"
+                              sx={{ width: 'fit-content' }}
+                            >
+                              View all
+                            </Button>
+                          </Link>
+                        </OverviewMetric>
+                      </Flex>
                     )}
                   </>
                 </OverviewCard>
@@ -79,17 +81,22 @@ export default function Overview() {
                   {!loading && !bookings[Declined]?.length ? (
                     'You have no cancelled bookings'
                   ) : (
-                    <OverviewMetric
-                      loading={loading}
-                      label="Recent cancelled"
-                      value={bookings[Declined]?.length}
-                    >
-                      <Link href="/bookings/declined" passHref>
-                        <Button variant="default" sx={{ width: 'fit-content' }}>
-                          View all
-                        </Button>
-                      </Link>
-                    </OverviewMetric>
+                    <Flex gap={72} maw="40%">
+                      <OverviewMetric
+                        loading={loading}
+                        label="Recent cancelled"
+                        value={bookings[Declined]?.length || 0}
+                      >
+                        <Link href="/bookings/declined" passHref>
+                          <Button
+                            variant="default"
+                            sx={{ width: 'fit-content' }}
+                          >
+                            View all
+                          </Button>
+                        </Link>
+                      </OverviewMetric>
+                    </Flex>
                   )}
                 </OverviewCard>
               </Stack>
