@@ -5,13 +5,11 @@ import dayjs from 'dayjs';
 
 export interface BookingFormConfirmProps {
   date: Date;
-  comment: string;
   onClickConfim: () => void;
 }
 
 export default function BookingFormConfirm({
   date,
-  comment,
   onClickConfim,
 }: BookingFormConfirmProps) {
   const handleClickConfim = () => {
@@ -28,11 +26,6 @@ export default function BookingFormConfirm({
       <FieldLabel
         title="Time of arrival"
         value={dayjs(date).format('HH:mm')}
-        handleClick={() => {}}
-      />
-      <FieldLabel
-        title="Additional requirements"
-        value={comment}
         handleClick={() => {}}
       />
       <UnstyledButton
