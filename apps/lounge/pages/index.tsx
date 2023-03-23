@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import { Title, Stack, Flex } from '@collinsonx/design-system/core';
-import { Button, Card } from '@collinsonx/design-system';
-import { Filter } from '@collinsonx/design-system/assets/icons';
+import { Card } from '@collinsonx/design-system';
 import LoungeImage from '@components/LoungeImage';
 import Layout from '@components/Layout';
 
@@ -12,7 +11,6 @@ import { getSearchExperiences } from '@collinsonx/utils/queries';
 export default function Landing({ lounges }: { lounges: Experience[] }) {
   const router = useRouter();
 
-  const handleClickSearch = () => {};
   const goToLoungeDetails = (lounge: Experience) => {
     router.push({
       pathname: '/details',
@@ -21,21 +19,11 @@ export default function Landing({ lounges }: { lounges: Experience[] }) {
   };
 
   return (
-    <Stack align="stretch" sx={{ position: 'relative' }}>
-      <Stack spacing={24} align="stretch">
-        <Title order={1} size={20} align="center">
-          Ready for your next experience?
-        </Title>
-        <Button
-          handleClick={handleClickSearch}
-          icon={<Filter />}
-          variant="outline"
-          fullWidth
-        >
-          Filter
-        </Button>
-      </Stack>
-      <Flex mt={10} align="stretch" direction="column">
+    <Stack spacing={16} sx={{ position: 'relative' }}>
+      <Title order={1} size={20} align="center">
+        Ready for your next experience?
+      </Title>
+      <Flex direction="column">
         {lounges?.map((lounge) => {
           const { name, location, id, images } = lounge;
           return (
