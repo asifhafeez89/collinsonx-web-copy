@@ -1,5 +1,5 @@
-import { Box, Flex, Stack, Title, Text } from '@collinsonx/design-system/core';
-import { MapPin, Coffee } from '@collinsonx/design-system/assets/icons';
+import { Box, Flex, Title, Text } from '@collinsonx/design-system/core';
+import { Coffee } from '@collinsonx/design-system/assets/icons';
 import ResultsItem from './ResultsItem';
 import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
 
