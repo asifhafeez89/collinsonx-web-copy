@@ -120,19 +120,6 @@ export default function Home(props: unknown) {
             Login
           </Button>
         </Stack>
-        <Flex align="center" direction="column">
-          <Box
-            sx={{
-              position: 'relative',
-              width: '100%',
-              height: '100%',
-            }}
-          >
-            <Box sx={{ position: 'relative' }}>
-              <LoginImage />
-            </Box>
-          </Box>
-        </Flex>
       </Stack>
     </>
   );
