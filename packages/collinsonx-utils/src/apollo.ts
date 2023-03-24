@@ -4,6 +4,7 @@ import {
   HttpLink,
   InMemoryCache,
   ApolloError,
+  DefaultOptions,
 } from '@apollo/client';
 import { onError } from '@apollo/link-error';
 import { setContext } from '@apollo/client/link/context';
@@ -16,6 +17,21 @@ const domain =
   `http://localhost:${port}`;
 
 const graphqlUrl = `${domain}/api/graphql`;
+
+const defaultOptions: DefaultOptions = {
+  watchQuery: {
+    fetchPolicy: 'network-only',
+    errorPolicy: 'all',
+  },
+  query: {
+    fetchPolicy: 'network-only',
+    errorPolicy: 'all',
+  },
+  mutate: {
+    fetchPolicy: 'network-only',
+    errorPolicy: 'all',
+  },
+};
 
 const httpLink = new HttpLink({
   uri: graphqlUrl,
@@ -50,6 +66,7 @@ export const client = new ApolloClient({
     authLink,
     httpLink,
   ]),
+  defaultOptions,
 });
 
 export {
