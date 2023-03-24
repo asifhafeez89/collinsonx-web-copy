@@ -27,7 +27,7 @@ export default function Details({ id }: DetailsProps) {
   const { loading, error, data } = useQuery<{ getBookingByID: Booking }>(
     getBookingByID,
     {
-      variables: { id },
+      variables: { getBookingById: id },
     }
   );
 
