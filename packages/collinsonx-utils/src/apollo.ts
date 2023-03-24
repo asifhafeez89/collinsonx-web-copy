@@ -21,7 +21,7 @@ const graphqlUrl = `${domain}/api/graphql`;
 const defaultOptions: DefaultOptions = {
   watchQuery: {
     fetchPolicy: 'network-only',
-    errorPolicy: 'ignore',
+    errorPolicy: 'all',
   },
   query: {
     fetchPolicy: 'network-only',
