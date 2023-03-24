@@ -5,17 +5,16 @@ export default function EmptyStateResults() {
   return (
     <>
       <Text
-        mt={38}
         mx="auto"
         w={235}
+        fw={400}
         align="center"
         color="#000"
         sx={{ fontSize: '18px' }}
       >
-        Search by airport, city or lounge to find the perfect experience for
-        your trip
+        Search by lounge to find the perfect experience for your trip
       </Text>
-      <Box m="38px" w={263} h={282}>
+      <Box mx="38px" w={263} h={282}>
         <EmptyStateSearch />
       </Box>
     </>
