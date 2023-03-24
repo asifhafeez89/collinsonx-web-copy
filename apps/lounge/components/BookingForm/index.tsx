@@ -10,8 +10,8 @@ import dayjs from 'dayjs';
 
 export interface BookingFormValue {
   date: Date;
-  comment: string;
 }
+
 export interface BookingFormProps {
   onSubmit: (values: BookingFormValue) => void;
 }
@@ -40,7 +40,6 @@ function formatDate(date: Date) {
 export default function BookingForm({ onSubmit }: BookingFormProps) {
   const [date, setDate] = useState<Date>(new Date());
   const [time, setTime] = useState('00:00');
-  const [comment, setComment] = useState('');
 
   const onChangeDate = (newDate: Date) => {
     newDate.setSeconds(0);
@@ -59,16 +58,9 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
     setTime(newTime);
   };
 
-  const onChangeComment: ComponentProps<typeof InputTextArea>['onChange'] = (
-    e
-  ) => {
-    setComment(e.target.value);
-  };
-
   const handleClickConfirm = () => {
     onSubmit({
       date: date,
-      comment,
     });
   };
 
@@ -102,18 +94,6 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
           data={TIME_SLOTS}
           onChange={onChangeTime}
           required
-        />
-      </Paper>
-      <Paper mt={30} radius="md">
-        <InputTextArea
-          placeholder="Your comment"
-          label="Your comment"
-          description="Add any considerations for lounge staff"
-          autosize
-          minRows={2}
-          maxRows={4}
-          value={comment}
-          onChange={onChangeComment}
         />
       </Paper>
       <Paper mt={30} radius="md">

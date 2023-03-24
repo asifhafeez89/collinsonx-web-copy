@@ -23,8 +23,6 @@ export default function BookReview({ lounge, formValues }: BookReviewProps) {
 
   const handleClickConfirm = () => {
     if (formValues.date) {
-      const date = formValues.date;
-
       createBookingCall({
         variables: {
           bookingInput: {

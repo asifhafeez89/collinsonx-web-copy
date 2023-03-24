@@ -39,11 +39,15 @@ const Header = ({ items, logo, onClickSignout }: HeaderProps) => {
           {logo}
         </Link>
         <nav className={classes.nav}>
-          <Link href="/search" passHref>
-            <Anchor variant="text" size="sm" color="white">
-              <Search />
-            </Anchor>
-          </Link>
+          <Anchor
+            component={Link}
+            href="/search"
+            variant="text"
+            size="sm"
+            color="white"
+          >
+            <Search />
+          </Anchor>
           <Burger
             color={theme.colors?.headerNavColor[0]}
             opened={menuOpened}
@@ -86,11 +90,15 @@ const Header = ({ items, logo, onClickSignout }: HeaderProps) => {
             >
               {items?.map(({ link, label, icon }) => (
                 <List.Item key={`headerItem-${link}`} icon={icon}>
-                  <Link href={link} passHref style={{ textDecoration: 'none' }}>
-                    <Anchor variant="text" color={'#112132'} size="sm">
-                      {label}
-                    </Anchor>
-                  </Link>
+                  <Anchor
+                    component={Link}
+                    href={link}
+                    variant="text"
+                    color={'#112132'}
+                    size="sm"
+                  >
+                    {label}
+                  </Anchor>
                 </List.Item>
               ))}
             </List>
