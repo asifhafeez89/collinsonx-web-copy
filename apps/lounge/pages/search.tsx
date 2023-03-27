@@ -59,7 +59,7 @@ export default function Search() {
   return (
     <Stack spacing={16}>
       <SearchInput
-        placeholder="Search for airport or lounge"
+        placeholder="Search for lounges"
         value={value}
         onChange={handleChange}
         onClickClear={handleClickClear}

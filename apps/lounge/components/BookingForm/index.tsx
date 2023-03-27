@@ -1,12 +1,18 @@
-import { Flex, Paper, UnstyledButton } from '@collinsonx/design-system/core';
 import {
-  InputSelect,
-  InputTextArea,
-  DatePicker,
-} from '@collinsonx/design-system';
-import { Clock } from '@collinsonx/design-system/assets/icons';
-import { ComponentProps, useState } from 'react';
+  Box,
+  Flex,
+  Text,
+  Stack,
+  UnstyledButton,
+} from '@collinsonx/design-system/core';
+import { InputSelect, DatePicker } from '@collinsonx/design-system';
+import { Warning } from '@collinsonx/design-system/assets/icons';
+import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
+import WarningBox from '@components/WarningBox';
+import ArrivalTime from '@components/ArrivalTime';
+import { LOUNGE_HOURS_OFFSET } from 'config/lounge';
+import { getLoungeArrivalTime } from '../../lib/index';
 
 export interface BookingFormValue {
   date: Date;
@@ -33,13 +39,10 @@ function createTimeSlots() {
 const TIME_SLOTS = createTimeSlots();
 const DATE_FORMAT = 'DD/MM/YYYY';
 
-function formatDate(date: Date) {
-  return dayjs(date).format(DATE_FORMAT);
-}
-
 export default function BookingForm({ onSubmit }: BookingFormProps) {
   const [date, setDate] = useState<Date>(new Date());
-  const [time, setTime] = useState('00:00');
+  const [time, setTime] = useState<string>();
+  const [arrivalTime, setArrivalTime] = useState<string>();
 
   const onChangeDate = (newDate: Date) => {
     newDate.setSeconds(0);
@@ -64,9 +67,15 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
     });
   };
 
+  useEffect(() => {
+    if (date && time) {
+      setArrivalTime(getLoungeArrivalTime(date));
+    }
+  }, [date, time]);
+
   return (
     <Flex direction="column">
-      <Paper mt={10} radius="md">
+      <Stack spacing={30}>
         <DatePicker
           placeholder="Pick date"
           label="Date"
@@ -83,20 +92,17 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
           }}
           onChange={onChangeDate}
         />
-      </Paper>
-      <Paper mt={30} radius="md">
         <InputSelect
-          label="Time of arrival"
+          label="Your flight time"
+          placeholder="--:--"
           withAsterisk
-          description="Please check lounge conditions for access times"
-          icon={<Clock size={14} />}
           value={time}
           data={TIME_SLOTS}
           onChange={onChangeTime}
           required
         />
-      </Paper>
-      <Paper mt={30} radius="md">
+        {arrivalTime && <ArrivalTime time={arrivalTime} />}
+
         <UnstyledButton
           onClick={handleClickConfirm}
           sx={{
@@ -111,7 +117,7 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
         >
           Confirm details
         </UnstyledButton>
-      </Paper>
+      </Stack>
     </Flex>
   );
 }

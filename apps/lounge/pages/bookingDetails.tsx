@@ -18,6 +18,7 @@ import bookings from './bookingsMock.json';
 import { useState } from 'react';
 import { getBookingByID as getBookingByIDQuery } from '@collinsonx/utils/queries';
 import { useRouter } from 'next/router';
+import { getLoungeArrivalTime } from '../lib/index';
 
 type Booking = (typeof bookings)[number];
 
@@ -105,13 +106,13 @@ export default function BookingDetails({ id }: BookingDetailProps) {
               </Box>
 
               <Box>
-                <Title size={18}>Time of arrival</Title>
+                <Title size={18}>Your flight time</Title>
                 <Text>{dayjs(getBookingByID?.bookedFrom).format('HH:mm')}</Text>
               </Box>
 
               <Box>
-                <Title size={18}>Additional requirements</Title>
-                <Text>-</Text>
+                <Title size={18}>Lounge arrival time</Title>
+                <Text>{getLoungeArrivalTime(getBookingByID?.bookedFrom)}</Text>
               </Box>
             </Stack>
 

@@ -2,6 +2,8 @@ import { Flex, UnstyledButton } from '@collinsonx/design-system/core';
 
 import { FieldLabel } from '@collinsonx/design-system';
 import dayjs from 'dayjs';
+import { LOUNGE_HOURS_OFFSET } from '../../config/lounge';
+import { getLoungeArrivalTime } from '../../lib/index';
 
 export interface BookingFormConfirmProps {
   date: Date;
@@ -24,8 +26,13 @@ export default function BookingFormConfirm({
         handleClick={() => {}}
       />
       <FieldLabel
-        title="Time of arrival"
+        title="Your flight time"
         value={dayjs(date).format('HH:mm')}
+        handleClick={() => {}}
+      />
+      <FieldLabel
+        title="Lounge arrival time"
+        value={getLoungeArrivalTime(date)}
         handleClick={() => {}}
       />
       <UnstyledButton
