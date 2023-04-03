@@ -40,7 +40,7 @@ export default function Bookings() {
       {loading && <Text>Loading</Text>}
       {!bookingsData?.getBookings.length && !loading && <BookingEmptyState />}
 
-      {bookingsData?.getBookings.length && (
+      {!!bookingsData?.getBookings.length && (
         <>
           {bookingsData?.getBookings.map((booking) => (
             <BookingCard
