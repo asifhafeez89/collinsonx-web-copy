@@ -1,5 +1,4 @@
 import {
-  Button,
   Title,
   Stack,
   TextInput,
@@ -7,8 +6,9 @@ import {
   Box,
   Flex,
 } from '@collinsonx/design-system/core';
+import { Button } from '@mantine/core';
 import { getThemeKey } from '../lib/index';
-
+import { useForm } from '@mantine/form';
 import { useRouter } from 'next/router';
 import { Login as LoginX } from '@collinsonx/design-system/assets/graphics/experienceX';
 import { Login as LoginDiners } from '@collinsonx/design-system/assets/graphics/dinersClub';
@@ -28,46 +28,44 @@ function validateEmail(input: string) {
   return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input);
 }
 
+interface formValues {
+  email: string;
+}
+
 export default function Home(props: unknown) {
   const router = useRouter();
-  const [email, setEmail] = useState('');
   const [loginError, setLoginError] = useState('');
 
-  const handleClickContinue = async () => {
-    if (!validateEmail(email.trim())) {
-      setLoginError('Invalid email');
-    } else {
-      try {
-        await createPasswordlessCode({
-          email,
-        });
-        router.push({ pathname: '/check-email', query: { email } });
-      } catch (err: any) {
-        console.log(err);
-        if (err.isSuperTokensGeneralError === true) {
-          // this may be a custom error message sent from the API by you,
-          // or if the input email / phone number is not valid.
-          window.alert(err.message);
-        } else {
-          window.alert('Oops! Something went wrong.');
-        }
+  const form = useForm({
+    initialValues: {
+      email: '',
+    },
+
+    validate: {
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+    },
+  });
+
+  const handleClickContinue = async ({ email }: formValues) => {
+    try {
+      await createPasswordlessCode({
+        email,
+      });
+      router.push({ pathname: '/check-email', query: { email } });
+    } catch (err: any) {
+      console.log(err);
+      if (err.isSuperTokensGeneralError === true) {
+        // this may be a custom error message sent from the API by you,
+        // or if the input email / phone number is not valid.
+        window.alert(err.message);
+      } else {
+        window.alert('Oops! Something went wrong.');
       }
     }
   };
 
-  const handleChangeEmail: TextInputProps['onChange'] = (e) => {
-    setLoginError('');
-    setEmail(e.target.value);
-  };
-
-  const handleEnterKey: KeyboardEventHandler<HTMLInputElement> = (e) => {
-    if (e.key === 'Enter') {
-      handleClickContinue();
-    }
-  };
-
   return (
-    <>
+    <form onSubmit={form.onSubmit(handleClickContinue)}>
       {themeKey !== 'dinersClub' && (
         <div
           style={{
@@ -99,29 +97,16 @@ export default function Home(props: unknown) {
           </Title>
           <TextInput
             autoFocus
-            type="email"
-            value={email}
-            error={loginError}
-            onChange={handleChangeEmail}
-            onKeyUp={handleEnterKey}
             placeholder="Your email address"
             label="Your email address"
+            description="the email you want to receive the email"
             withAsterisk
+            {...form.getInputProps('email')}
           />
-          <Button
-            fullWidth
-            onClick={handleClickContinue}
-            sx={({ colors }) => ({
-              padding: 8,
-              height: 44,
-              borderRadius: 4,
-            })}
-          >
-            Login
-          </Button>
+          <Button type="submit">Submit</Button>
         </Stack>
       </Stack>
-    </>
+    </form>
   );
 }
 
