@@ -1,11 +1,4 @@
-import {
-  Title,
-  Stack,
-  TextInput,
-  TextInputProps,
-  Box,
-  Flex,
-} from '@collinsonx/design-system/core';
+import { Title, Stack } from '@collinsonx/design-system/core';
 import { Button } from '@mantine/core';
 import { getThemeKey } from '../lib/index';
 import { useForm } from '@mantine/form';
@@ -15,6 +8,8 @@ import { Login as LoginDiners } from '@collinsonx/design-system/assets/graphics/
 import { KeyboardEventHandler, useState } from 'react';
 import LayoutLogin from '../components/LayoutLogin';
 import { createPasswordlessCode } from '@collinsonx/utils/supertokens';
+import { Coffee } from '@collinsonx/design-system/assets/icons';
+import { InputLabel } from '@collinsonx/design-system';
 
 const logos = {
   experienceX: LoginX,
@@ -95,11 +90,31 @@ export default function Home(props: unknown) {
           <Title order={1} size={20} align="center">
             Login to your account
           </Title>
-          <TextInput
+          <InputLabel
             autoFocus
             placeholder="Your email address"
             label="Your email address"
-            description="the email you want to receive the email"
+            isWhite={true}
+            styles={{
+              root: {
+                display: 'flex',
+                flexDirection: 'column',
+              },
+              description: {
+                order: 1,
+                marginTop: '4px',
+                marginBottom: '0',
+              },
+              label: {
+                order: -2,
+              },
+              input: {
+                order: -1,
+              },
+              error: {
+                order: 2,
+              },
+            }}
             withAsterisk
             {...form.getInputProps('email')}
           />
