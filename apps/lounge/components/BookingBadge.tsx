@@ -7,8 +7,15 @@ import {
 
 import { BookingStatus } from '@collinsonx/utils';
 
-const { Initialized, Confirmed, CheckedIn, Declined, Booked, Errored } =
-  BookingStatus;
+const {
+  Initialized,
+  Confirmed,
+  CheckedIn,
+  Declined,
+  Cancelled,
+  Booked,
+  Errored,
+} = BookingStatus;
 
 export interface BadgeProps extends MBadgeProps {
   status: BookingStatus;
@@ -45,6 +52,7 @@ const bookingMap: Record<BookingStatus, string> = {
   [Initialized]: 'Booking pending',
   [Confirmed]: 'Booking confirmed',
   [Declined]: 'Booking declined',
+  [Cancelled]: 'Booking cancelled',
   [CheckedIn]: 'Booking confirmed',
   [Booked]: 'Booking',
   [Errored]: 'Booking errored',
@@ -62,6 +70,7 @@ export default function BookingBadge({
       {...props}
       className={cx(classes.root, classes.inner, {
         [classes.declined]: status === Declined,
+        [classes.declined]: status === Cancelled,
         [classes.pending]: status === Initialized,
         [classes.confirmed]: status === Confirmed || status === CheckedIn,
       })}

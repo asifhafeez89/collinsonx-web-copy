@@ -36,6 +36,7 @@ export type BookingInput = {
 
 export enum BookingStatus {
   Booked = 'BOOKED',
+  Cancelled = 'CANCELLED',
   CheckedIn = 'CHECKED_IN',
   Confirmed = 'CONFIRMED',
   Declined = 'DECLINED',
@@ -103,6 +104,7 @@ export type Image = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  cancelBooking?: Maybe<Booking>;
   checkinBooking?: Maybe<Booking>;
   confirmBooking?: Maybe<Booking>;
   createBooking?: Maybe<Booking>;
@@ -110,6 +112,11 @@ export type Mutation = {
   deleteBooking?: Maybe<Booking>;
   findOrCreateConsumer?: Maybe<Consumer>;
   updateConsumer?: Maybe<Consumer>;
+};
+
+
+export type MutationCancelBookingArgs = {
+  id: Scalars['ID'];
 };
 
 
