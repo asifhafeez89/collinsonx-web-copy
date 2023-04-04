@@ -101,7 +101,7 @@ export default function Home(props: unknown) {
         }
       } else {
         // user needs to sign up
-        router.push('/signup-user');
+        router.push({ pathname: '/signup-user', query: { email } });
       }
     }
   };

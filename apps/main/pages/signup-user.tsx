@@ -25,6 +25,8 @@ export default function SignupUser() {
   const [date, setDate] = useState<Date | null>(new Date());
   const DATE_FORMAT = 'DD/MM/YYYY';
 
+  const { email } = router.query;
+
   const handleChangeDate: ComponentProps<typeof DatePicker>['onChange'] = (
     date
   ) => {
@@ -33,7 +35,7 @@ export default function SignupUser() {
 
   const form = useForm({
     initialValues: {
-      email: '',
+      email: email as string,
       firstname: undefined,
       lastname: undefined,
       marketingConsent: false,
@@ -60,8 +62,6 @@ export default function SignupUser() {
       router.push('/');
     }
   }, [data, router]);
-
-  console.log;
 
   return (
     <>
