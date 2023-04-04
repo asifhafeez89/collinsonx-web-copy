@@ -221,8 +221,6 @@ export default function Bookings({ type }: BookingsProps) {
     [bookingId, bookings]
   );
 
-  console.log('bookings ', bookings);
-
   return (
     <>
       <BookingModal booking={selectedBooking} onClickClose={handleClickClose}>
