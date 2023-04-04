@@ -43,13 +43,12 @@ export default function BookingDetails({ id }: BookingDetailProps) {
     useMutation(deleteBooking);
 
   if (loading) {
-    return <div>Loading</div>;
+    return <Box>Loading</Box>;
+  } else if (!error && bookingData?.getBookingByID === null) {
+    return <Box>Booking could not be found</Box>;
   }
-  //const { id, bookedFrom, status, experience } = bookingData?.getBookingById;
 
   const { getBookingByID } = bookingData;
-
-  // const { name, location, images } = lounge;
 
   const handleDelete = () => {
     cancelBooking({
