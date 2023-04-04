@@ -4,15 +4,15 @@ import {
   Text,
   Box,
   Flex,
-  TextInput,
   Group,
   Notification,
+  Checkbox,
 } from '@collinsonx/design-system/core';
 import { useForm } from '@mantine/form';
 import LayoutLogin from '../components/LayoutLogin';
 import dayjs from 'dayjs';
 import { Calendar } from '@collinsonx/design-system/assets/icons';
-import { DatePicker, PageTitle } from '@collinsonx/design-system';
+import { DatePicker, InputLabel, PageTitle } from '@collinsonx/design-system';
 import { LoginCode } from '@collinsonx/design-system/assets/graphics';
 import { ComponentProps, useState } from 'react';
 import findOrCreateConsumer from '@collinsonx/utils/mutations/findOrCreateConsumer';
@@ -32,22 +32,24 @@ export default function SignupUser() {
   const form = useForm({
     initialValues: {
       email: '',
+      firstname: null,
+      lastname: null,
+      termsOfService: false,
       TMEmail: false,
       dateOfBirth: new Date(),
     },
 
     validate: {
       email: (value: string) =>
-        /^\S+@\S+$/.test(value) ? null : 'Please enter a valid email address.',
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)
+          ? null
+          : 'Please enter a valid email address.',
+      firstname: (value: string) =>
+        value?.length > 0 ? null : 'Please enter your name.',
+      lastname: (value: string) =>
+        value?.length > 0 ? null : 'Please enter your last name.',
     },
   });
-  const fields = {
-    email: {
-      fieldName: 'email',
-      error: 'Please add your email',
-      value: '',
-    },
-  };
 
   const [findOrCreateConsumerCall, { loading, error, data }] =
     useMutation(findOrCreateConsumer);
@@ -86,31 +88,34 @@ export default function SignupUser() {
               url={`/`}
               variant={'white'}
             />
-            <TextInput
+            <InputLabel
               autoFocus
               type="email"
               withAsterisk
               {...form.getInputProps('email')}
               placeholder="Your email address"
               label="Your email address"
+              isWhite={true}
             />
 
-            <TextInput
+            <InputLabel
               autoFocus
               type="text"
               withAsterisk
-              {...form.getInputProps('name')}
+              {...form.getInputProps('firstname')}
               placeholder="First name"
               label="First name(s)"
+              isWhite={true}
             />
 
-            <TextInput
+            <InputLabel
               autoFocus
               type="text"
               withAsterisk
               {...form.getInputProps('lastname')}
               placeholder="Last name"
               label="Last name"
+              isWhite={true}
             />
             <DatePicker
               icon={<Calendar />}
@@ -136,16 +141,20 @@ export default function SignupUser() {
             <Text>
               We will send you a unique code via email to complete the login.
             </Text>
-            <Group position="right">
-              <Flex
-                mih={50}
-                gap="250px"
-                justify="flex-start"
-                align="flex-start"
-                direction="row"
-                wrap="wrap"
-              >
-                {/*<Text>Email</Text> <Switch value="email" size="md" />*/}
+            <Group>
+              <Flex mih={50} align="flex-start" direction="row" wrap="wrap">
+                <Checkbox
+                  label="I agree to receive personalised marketing emails."
+                  {...form.getInputProps('termsOfService', {
+                    type: 'checkbox',
+                  })}
+                  styles={{
+                    label: {
+                      order: -2,
+                      color: '#FFFFFF',
+                    },
+                  }}
+                />
               </Flex>
             </Group>
             <Group>
@@ -154,40 +163,7 @@ export default function SignupUser() {
               </Button>
             </Group>
           </Stack>
-          <Flex mt={58} align="center" direction="column">
-            <Box
-              sx={{
-                width: '100%',
-                maxWidth: '342px',
-                maxHeight: '304px',
-              }}
-            >
-              <LoginCode />
-            </Box>
-          </Flex>
         </Stack>
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '-500px',
-            left: 0,
-            overflow: 'hidden',
-            width: '100%',
-            height: '50%',
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: '#47D4B1',
-              width: '55vh',
-              height: '55vh',
-              position: 'absolute',
-              right: '-20px',
-              bottom: '-190px',
-              borderRadius: '50%',
-            }}
-          />
-        </div>
       </form>
     </>
   );

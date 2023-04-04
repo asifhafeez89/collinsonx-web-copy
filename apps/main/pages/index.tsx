@@ -1,14 +1,7 @@
-import {
-  Button,
-  Title,
-  Stack,
-  TextInput,
-  TextInputProps,
-  Box,
-  Flex,
-} from '@collinsonx/design-system/core';
+import { Title, Stack } from '@collinsonx/design-system/core';
+import { Button } from '@mantine/core';
 import { getThemeKey } from '../lib/index';
-
+import { useForm } from '@mantine/form';
 import { useRouter } from 'next/router';
 import { Login as LoginX } from '@collinsonx/design-system/assets/graphics/experienceX';
 import { Login as LoginDiners } from '@collinsonx/design-system/assets/graphics/dinersClub';
@@ -21,6 +14,7 @@ import {
 import { ApolloError, client, useLazyQuery } from '@collinsonx/utils/apollo';
 import getConsumerByEmailAddress from '@collinsonx/utils/queries/getConsumerByEmailAddress';
 import { Text } from '@collinsonx/design-system/core';
+import { InputLabel } from '@collinsonx/design-system';
 import { GraphQLError } from 'graphql';
 
 const logos = {
@@ -34,14 +28,27 @@ function validateEmail(input: string) {
   return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input);
 }
 
+interface FormValues {
+  email: string;
+}
+
 export default function Home(props: unknown) {
   const session = useSessionContext();
   const [userId, setUserId] = useState<string>();
   const [consumerError, setConsumerError] = useState<readonly GraphQLError[]>();
 
   const router = useRouter();
-  const [email, setEmail] = useState('');
   const [loginError, setLoginError] = useState('');
+
+  const form = useForm({
+    initialValues: {
+      email: '',
+    },
+
+    validate: {
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+    },
+  });
 
   const [loadConsumer, { loading, data, error }] = useLazyQuery(
     getConsumerByEmailAddress
@@ -57,7 +64,7 @@ export default function Home(props: unknown) {
     }
   }, [session, router]);
 
-  const handleClickContinue = async () => {
+  const handleClickContinue = async ({ email }: FormValues) => {
     if (!validateEmail(email.trim())) {
       setLoginError('Invalid email');
     } else {
@@ -99,17 +106,6 @@ export default function Home(props: unknown) {
     }
   };
 
-  const handleChangeEmail: TextInputProps['onChange'] = (e) => {
-    setLoginError('');
-    setEmail(e.target.value);
-  };
-
-  const handleEnterKey: KeyboardEventHandler<HTMLInputElement> = (e) => {
-    if (e.key === 'Enter') {
-      handleClickContinue();
-    }
-  };
-
   return !!consumerError ? (
     <>
       <Title fw={600} order={3}>
@@ -120,7 +116,7 @@ export default function Home(props: unknown) {
       ))}
     </>
   ) : (
-    <>
+    <form onSubmit={form.onSubmit(handleClickContinue)}>
       {themeKey !== 'dinersClub' && (
         <div
           style={{
@@ -150,31 +146,39 @@ export default function Home(props: unknown) {
           <Title order={1} size={20} align="center">
             Login to your account
           </Title>
-          <TextInput
+          <InputLabel
             autoFocus
-            type="email"
-            value={email}
-            error={loginError}
-            onChange={handleChangeEmail}
-            onKeyUp={handleEnterKey}
             placeholder="Your email address"
             label="Your email address"
+            isWhite={true}
+            styles={{
+              root: {
+                display: 'flex',
+                flexDirection: 'column',
+              },
+              description: {
+                order: 1,
+                marginTop: '4px',
+                marginBottom: '0',
+              },
+              label: {
+                order: -2,
+              },
+              input: {
+                order: -1,
+              },
+              error: {
+                order: 2,
+              },
+            }}
             withAsterisk
+            {...form.getInputProps('email')}
           />
-          <Button
-            fullWidth
-            onClick={handleClickContinue}
-            sx={({ colors }) => ({
-              padding: 8,
-              height: 44,
-              borderRadius: 4,
-            })}
-          >
-            Login
-          </Button>
+
+          <Button type="submit">Submit</Button>
         </Stack>
       </Stack>
-    </>
+    </form>
   );
 }
 

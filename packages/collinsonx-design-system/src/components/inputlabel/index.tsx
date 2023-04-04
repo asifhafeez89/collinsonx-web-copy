@@ -1,13 +1,44 @@
 import React from 'react';
 import { TextInputProps, TextInput } from '@mantine/core';
 
+interface InputLabelProps extends TextInputProps {
+  isWhite?: boolean;
+}
 /**
  * Primary UI component for user interaction
  */
-export default function InputLabel({ ...props }: TextInputProps) {
+export default function InputLabel({
+  isWhite = false,
+  ...props
+}: InputLabelProps) {
+  const inputColor = isWhite ? '#FFFFFF' : '#000000';
+
   return (
     <>
-      <TextInput {...props} styles={{ label: { color: '#000000' } }} />
+      <TextInput
+        {...props}
+        styles={{
+          root: {
+            display: 'flex',
+            flexDirection: 'column',
+          },
+          description: {
+            order: 1,
+            marginTop: '4px',
+            marginBottom: '0',
+          },
+          label: {
+            order: -2,
+            color: inputColor,
+          },
+          input: {
+            order: -1,
+          },
+          error: {
+            order: 2,
+          },
+        }}
+      />
     </>
   );
 }
