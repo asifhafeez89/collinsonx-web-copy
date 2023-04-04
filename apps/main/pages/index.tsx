@@ -117,6 +117,7 @@ export default function Home(props: unknown) {
             withAsterisk
             {...form.getInputProps('email')}
           />
+
           <Button type="submit">Submit</Button>
         </Stack>
       </Stack>
