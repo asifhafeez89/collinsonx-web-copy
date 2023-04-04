@@ -49,7 +49,7 @@ export default function Landing({ lounges }: { lounges: Experience[] }) {
 }
 
 export async function getServerSideProps() {
-  const { data } = await client.query({
+  const { data } = await client(true).query({
     query: getSearchExperiences,
   });
 

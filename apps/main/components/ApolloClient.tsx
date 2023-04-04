@@ -21,7 +21,7 @@ const ApolloClient = ({ children }: ApolloClientProps) => {
     }
   }, [session]);
 
-  return <Client>{children}</Client>;
+  return <Client isConsumer>{children}</Client>;
 };
 
 export default ApolloClient;

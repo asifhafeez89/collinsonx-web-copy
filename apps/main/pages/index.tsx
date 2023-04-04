@@ -18,8 +18,10 @@ import {
   createPasswordlessCode,
   useSessionContext,
 } from '@collinsonx/utils/supertokens';
-import { client, useLazyQuery } from '@collinsonx/utils/apollo';
+import { ApolloError, client, useLazyQuery } from '@collinsonx/utils/apollo';
 import getConsumerByEmailAddress from '@collinsonx/utils/queries/getConsumerByEmailAddress';
+import { Text } from '@collinsonx/design-system/core';
+import { GraphQLError } from 'graphql';
 
 const logos = {
   experienceX: LoginX,
@@ -35,6 +37,7 @@ function validateEmail(input: string) {
 export default function Home(props: unknown) {
   const session = useSessionContext();
   const [userId, setUserId] = useState<string>();
+  const [consumerError, setConsumerError] = useState<readonly GraphQLError[]>();
 
   const router = useRouter();
   const [email, setEmail] = useState('');
@@ -58,10 +61,15 @@ export default function Home(props: unknown) {
     if (!validateEmail(email.trim())) {
       setLoginError('Invalid email');
     } else {
-      const { data, loading } = await client.query({
+      const { data, errors: consumerErrors } = await client(true).query({
         query: getConsumerByEmailAddress,
         variables: { emailAddress: email },
       });
+
+      if (consumerErrors) {
+        setConsumerError(consumerErrors);
+        return;
+      }
 
       const userId = data?.getConsumerByEmailAddress?.id;
       console.log('userId ', userId, ' ', email);
@@ -102,7 +110,16 @@ export default function Home(props: unknown) {
     }
   };
 
-  return (
+  return !!consumerError ? (
+    <>
+      <Title fw={600} order={3}>
+        An error has occurred
+      </Title>
+      {consumerError.map((error, index) => (
+        <Text key={index}>{error.message}</Text>
+      ))}
+    </>
+  ) : (
     <>
       {themeKey !== 'dinersClub' && (
         <div
