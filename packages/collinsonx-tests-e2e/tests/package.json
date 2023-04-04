@@ -11,12 +11,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.32.1"
+    "@playwright/test": "^1.32.1",
+    "prettier": "2.8.7"
   },
   "dependencies": {
     "dotenv": "^16.0.3",
     "main": "workspace:*",
     "start-server-and-test": "^1.15.4"
-
   }
 }
