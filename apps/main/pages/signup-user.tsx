@@ -163,41 +163,7 @@ export default function SignupUser() {
               </Button>
             </Group>
           </Stack>
-
-          <Flex mt={58} align="center" direction="column">
-            <Box
-              sx={{
-                width: '100%',
-                maxWidth: '342px',
-                maxHeight: '304px',
-              }}
-            >
-              <LoginCode />
-            </Box>
-          </Flex>
         </Stack>
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '-500px',
-            left: 0,
-            overflow: 'hidden',
-            width: '100%',
-            height: '50%',
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: '#47D4B1',
-              width: '55vh',
-              height: '55vh',
-              position: 'absolute',
-              right: '-20px',
-              bottom: '-190px',
-              borderRadius: '50%',
-            }}
-          />
-        </div>
       </form>
     </>
   );
