@@ -38,36 +38,46 @@ const httpLink = new HttpLink({
   headers: {},
 });
 
-const authLink = setContext((_, { headers }) => {
-  return {
-    headers: {
-      'x-user-id': '1337',
-    },
-  };
-});
+// a temporary hack to add x-user-id only when
+// user is consumer for demo purposes
+const authLink = (isConsumer: boolean) =>
+  setContext((_, { headers, ...context }) => {
+    const userId =
+      typeof window !== 'undefined' && isConsumer
+        ? localStorage.getItem('EXPERIENCE_X_CONSUMER_ID')
+        : null;
+    return {
+      headers: {
+        ...headers,
+        ...(userId ? { 'x-user-id': userId } : {}),
+      },
+      ...context,
+    };
+  });
 
-export const client = new ApolloClient({
-  cache: new InMemoryCache(),
-  ssrMode: typeof window === 'undefined',
-  link: ApolloLink.from([
-    onError(({ graphQLErrors, networkError }) => {
-      if (graphQLErrors)
-        graphQLErrors.forEach(({ message, locations, path }) =>
+export const client = (isConsumer: boolean) =>
+  new ApolloClient({
+    cache: new InMemoryCache(),
+    ssrMode: typeof window === 'undefined',
+    link: ApolloLink.from([
+      onError(({ graphQLErrors, networkError }) => {
+        if (graphQLErrors)
+          graphQLErrors.forEach(({ message, locations, path }) =>
+            console.log(
+              `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+            )
+          );
+        if (networkError)
           console.log(
-            `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-          )
-        );
-      if (networkError)
-        console.log(
-          `[Network error]: ${networkError}. Backend is unreachable. Is it running?`,
-          `[Graphql URL]: ${graphqlUrl}`
-        );
-    }),
-    authLink,
-    httpLink,
-  ]),
-  defaultOptions,
-});
+            `[Network error]: ${networkError}. Backend is unreachable. Is it running?`,
+            `[Graphql URL]: ${graphqlUrl}`
+          );
+      }),
+      authLink(isConsumer),
+      httpLink,
+    ]),
+    defaultOptions,
+  });
 
 export {
   gql,
