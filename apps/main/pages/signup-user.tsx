@@ -22,22 +22,21 @@ import { useRouter } from 'next/router';
 
 export default function SignupUser() {
   const router = useRouter();
-  const [date, setDate] = useState(dayjs(new Date()).format());
+  const [date, setDate] = useState<Date | null>(new Date());
   const DATE_FORMAT = 'DD/MM/YYYY';
 
   const handleChangeDate: ComponentProps<typeof DatePicker>['onChange'] = (
     date
   ) => {
-    setDate(dayjs(date).format());
+    setDate(date);
   };
 
   const form = useForm({
     initialValues: {
       email: '',
-      firstname: null,
-      lastname: null,
+      firstname: undefined,
+      lastname: undefined,
       marketingConsent: false,
-      TMEmail: false,
       dateOfBirth: new Date(),
     },
 
@@ -61,6 +60,9 @@ export default function SignupUser() {
       router.push('/');
     }
   }, [data, router]);
+
+  console.log;
+
   return (
     <>
       {!!error && (
@@ -141,8 +143,8 @@ export default function SignupUser() {
               placeholder="Pick a date"
               clearable={false}
               inputFormat={DATE_FORMAT}
-              defaultValue={dayjs(date).toDate()}
               {...form.getInputProps('dateOfBirth')}
+              value={date}
               onChange={handleChangeDate}
             />
             <Text>
