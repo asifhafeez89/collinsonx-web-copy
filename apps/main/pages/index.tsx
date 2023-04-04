@@ -8,7 +8,6 @@ import { Login as LoginDiners } from '@collinsonx/design-system/assets/graphics/
 import { KeyboardEventHandler, useState } from 'react';
 import LayoutLogin from '../components/LayoutLogin';
 import { createPasswordlessCode } from '@collinsonx/utils/supertokens';
-import { Coffee } from '@collinsonx/design-system/assets/icons';
 import { InputLabel } from '@collinsonx/design-system';
 
 const logos = {
