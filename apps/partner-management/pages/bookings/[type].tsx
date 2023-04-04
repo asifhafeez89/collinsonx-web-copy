@@ -75,6 +75,8 @@ export default function Bookings({ type }: BookingsProps) {
     let types;
     if (type === 'confirmed') {
       types = [BookingStatus.Confirmed, BookingStatus.CheckedIn];
+    } else if (type === 'declined') {
+      types = [BookingStatus.Cancelled, BookingStatus.Declined];
     } else {
       types = [typeMap[type as keyof typeof typeMap]];
     }
