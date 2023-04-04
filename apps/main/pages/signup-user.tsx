@@ -14,12 +14,14 @@ import dayjs from 'dayjs';
 import { Calendar } from '@collinsonx/design-system/assets/icons';
 import { DatePicker, InputLabel, PageTitle } from '@collinsonx/design-system';
 import { LoginCode } from '@collinsonx/design-system/assets/graphics';
-import { ComponentProps, useState } from 'react';
+import { ComponentProps, useEffect, useState } from 'react';
 import findOrCreateConsumer from '@collinsonx/utils/mutations/findOrCreateConsumer';
 import { useMutation } from '@collinsonx/utils/apollo';
 import { ConsumerInput } from '@collinsonx/utils';
+import { useRouter } from 'next/router';
 
 export default function SignupUser() {
+  const router = useRouter();
   const [date, setDate] = useState(dayjs(new Date()).format());
   const DATE_FORMAT = 'DD/MM/YYYY';
 
@@ -34,7 +36,7 @@ export default function SignupUser() {
       email: '',
       firstname: null,
       lastname: null,
-      termsOfService: false,
+      marketingConsent: false,
       TMEmail: false,
       dateOfBirth: new Date(),
     },
@@ -54,6 +56,11 @@ export default function SignupUser() {
   const [findOrCreateConsumerCall, { loading, error, data }] =
     useMutation(findOrCreateConsumer);
 
+  useEffect(() => {
+    if (data?.findOrCreateConsumer?.id) {
+      router.push('/');
+    }
+  }, [data, router]);
   return (
     <>
       {!!error && (
@@ -70,7 +77,7 @@ export default function SignupUser() {
             dateOfBirth: values.dateOfBirth,
             firstName: values.name,
             lastName: values.lastname,
-            marketingConsent: false,
+            marketingConsent: values.marketingConsent,
             emailAddress: values.email,
           };
           findOrCreateConsumerCall({
@@ -145,7 +152,7 @@ export default function SignupUser() {
               <Flex mih={50} align="flex-start" direction="row" wrap="wrap">
                 <Checkbox
                   label="I agree to receive personalised marketing emails."
-                  {...form.getInputProps('termsOfService', {
+                  {...form.getInputProps('marketingConsent', {
                     type: 'checkbox',
                   })}
                   styles={{
