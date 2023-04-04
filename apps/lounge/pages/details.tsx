@@ -117,7 +117,7 @@ interface QueryProps extends NextPageContext {
 export async function getServerSideProps({ query }: QueryProps) {
   const loungeId = query?.id ?? '';
 
-  const { data, loading } = await client.query({
+  const { data, loading } = await client(true).query({
     query: getSearchExperiences,
     variables: { query: loungeId },
   });

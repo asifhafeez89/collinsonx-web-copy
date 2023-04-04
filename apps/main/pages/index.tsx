@@ -5,10 +5,17 @@ import { useForm } from '@mantine/form';
 import { useRouter } from 'next/router';
 import { Login as LoginX } from '@collinsonx/design-system/assets/graphics/experienceX';
 import { Login as LoginDiners } from '@collinsonx/design-system/assets/graphics/dinersClub';
-import { KeyboardEventHandler, useState } from 'react';
-import LayoutLogin from '../components/LayoutLogin';
-import { createPasswordlessCode } from '@collinsonx/utils/supertokens';
+import { useEffect, KeyboardEventHandler, useState } from 'react';
+import LayoutLogin from '@components/LayoutLogin';
+import {
+  createPasswordlessCode,
+  useSessionContext,
+} from '@collinsonx/utils/supertokens';
+import { ApolloError, client, useLazyQuery } from '@collinsonx/utils/apollo';
+import getConsumerByEmailAddress from '@collinsonx/utils/queries/getConsumerByEmailAddress';
+import { Text } from '@collinsonx/design-system/core';
 import { InputLabel } from '@collinsonx/design-system';
+import { GraphQLError } from 'graphql';
 
 const logos = {
   experienceX: LoginX,
@@ -16,17 +23,20 @@ const logos = {
 };
 
 const themeKey = getThemeKey();
-const LoginImage = logos[themeKey as keyof typeof logos];
 
 function validateEmail(input: string) {
   return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input);
 }
 
-interface formValues {
+interface FormValues {
   email: string;
 }
 
 export default function Home(props: unknown) {
+  const session = useSessionContext();
+  const [userId, setUserId] = useState<string>();
+  const [consumerError, setConsumerError] = useState<readonly GraphQLError[]>();
+
   const router = useRouter();
   const [loginError, setLoginError] = useState('');
 
@@ -40,25 +50,72 @@ export default function Home(props: unknown) {
     },
   });
 
-  const handleClickContinue = async ({ email }: formValues) => {
-    try {
-      await createPasswordlessCode({
-        email,
+  const [loadConsumer, { loading, data, error }] = useLazyQuery(
+    getConsumerByEmailAddress
+  );
+
+  useEffect(() => {
+    if (!session.loading) {
+      const { userId } = session;
+      setUserId(userId);
+      if (userId) {
+        router.push('/lounge');
+      }
+    }
+  }, [session, router]);
+
+  const handleClickContinue = async ({ email }: FormValues) => {
+    if (!validateEmail(email.trim())) {
+      setLoginError('Invalid email');
+    } else {
+      const { data, errors: consumerErrors } = await client(true).query({
+        query: getConsumerByEmailAddress,
+        variables: { emailAddress: email },
       });
-      router.push({ pathname: '/check-email', query: { email } });
-    } catch (err: any) {
-      console.log(err);
-      if (err.isSuperTokensGeneralError === true) {
-        // this may be a custom error message sent from the API by you,
-        // or if the input email / phone number is not valid.
-        window.alert(err.message);
+
+      if (consumerErrors) {
+        setConsumerError(consumerErrors);
+        return;
+      }
+
+      const userId = data?.getConsumerByEmailAddress?.id;
+      console.log('userId ', userId, ' ', email);
+
+      if (userId) {
+        // user is already registered
+        // proceed to code verification
+        try {
+          await createPasswordlessCode({
+            email,
+          });
+          router.push({ pathname: '/check-email', query: { email } });
+        } catch (err: any) {
+          console.log(err);
+          if (err.isSuperTokensGeneralError === true) {
+            // this may be a custom error message sent from the API by you,
+            // or if the input email / phone number is not valid.
+            window.alert(err.message);
+          } else {
+            window.alert('Oops! Something went wrong.');
+          }
+        }
       } else {
-        window.alert('Oops! Something went wrong.');
+        // user needs to sign up
+        router.push('/signup-user');
       }
     }
   };
 
-  return (
+  return !!consumerError ? (
+    <>
+      <Title fw={600} order={3}>
+        An error has occurred
+      </Title>
+      {consumerError.map((error, index) => (
+        <Text key={index}>{error.message}</Text>
+      ))}
+    </>
+  ) : (
     <form onSubmit={form.onSubmit(handleClickContinue)}>
       {themeKey !== 'dinersClub' && (
         <div

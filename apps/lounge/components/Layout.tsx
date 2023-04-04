@@ -20,6 +20,7 @@ export default function Layout({ children }: LayoutProps) {
   const [isLoggedIn, userId, logout] = useAuth({});
 
   const handleLogout = async () => {
+    localStorage.removeItem('EXPERIENCE_X_CONSUMER_ID');
     if (typeof logout === 'function') {
       await logout();
       window.location.href = '/';

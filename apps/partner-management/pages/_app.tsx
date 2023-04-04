@@ -38,7 +38,7 @@ export default function MyApp({ Component, pageProps }: Props) {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
-      <Client>
+      <Client isConsumer={false}>
         {/* <SuperTokensWrapper> */}
         {/* <SysAuth> */}
         <MantineProvider

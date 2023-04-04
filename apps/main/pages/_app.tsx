@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app';
 import { NextPage } from 'next';
-import { ComponentType, ReactElement } from 'react';
+import { ComponentType, ReactElement, useEffect, useState } from 'react';
 import { MantineProvider } from '@collinsonx/design-system/core';
 import Head from 'next/head';
 import Client from '@collinsonx/utils/provider';
@@ -8,8 +8,11 @@ import { frontendConfig } from '../config/frontendConfig';
 import SuperTokensReact, {
   SuperTokensConfig,
   SuperTokensWrapper,
+  useSessionContext,
 } from '@collinsonx/utils/supertokens';
 import { getTheme } from '@lib/index';
+import { UserProvider } from '@collinsonx/utils/lib/userContext';
+import ApolloClient from '@components/ApolloClient';
 
 if (typeof window !== 'undefined') {
   // we only want to call this init function on the frontend, so
@@ -31,6 +34,7 @@ const theme = getTheme();
 export default function MyApp({ Component, pageProps }: Props) {
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page);
+
   return (
     <>
       <Head>
@@ -40,28 +44,29 @@ export default function MyApp({ Component, pageProps }: Props) {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
-
-      <Client>
+      <UserProvider>
         <SuperTokensWrapper>
-          <MantineProvider
-            theme={{
-              ...theme,
-              globalStyles: ({ colors }) => ({
-                ...theme.globalStyles,
-                body: {
-                  backgroundColor: colors.splashColor[0],
-                  color: '#FFF',
-                  margin: 0,
-                },
-              }),
-            }}
-            withGlobalStyles
-            withNormalizeCSS
-          >
-            {getLayout(<Component {...pageProps} />)}
-          </MantineProvider>
+          <ApolloClient>
+            <MantineProvider
+              theme={{
+                ...theme,
+                globalStyles: ({ colors }) => ({
+                  ...theme.globalStyles,
+                  body: {
+                    backgroundColor: colors.splashColor[0],
+                    color: '#FFF',
+                    margin: 0,
+                  },
+                }),
+              }}
+              withGlobalStyles
+              withNormalizeCSS
+            >
+              {getLayout(<Component {...pageProps} />)}
+            </MantineProvider>
+          </ApolloClient>
         </SuperTokensWrapper>
-      </Client>
+      </UserProvider>
     </>
   );
 }
