@@ -7,9 +7,14 @@ import Layout from '@components/Layout';
 import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
 import { client } from '@collinsonx/utils/apollo';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
+import { useSessionContext } from '@collinsonx/utils/supertokens';
 
 export default function Landing({ lounges }: { lounges: Experience[] }) {
   const router = useRouter();
+
+  const session = useSessionContext();
+
+  console.log('session ', session);
 
   const goToLoungeDetails = (lounge: Experience) => {
     router.push({

@@ -12,9 +12,14 @@ import { getThemeKey } from '../lib/index';
 import { useRouter } from 'next/router';
 import { Login as LoginX } from '@collinsonx/design-system/assets/graphics/experienceX';
 import { Login as LoginDiners } from '@collinsonx/design-system/assets/graphics/dinersClub';
-import { KeyboardEventHandler, useState } from 'react';
-import LayoutLogin from '../components/LayoutLogin';
-import { createPasswordlessCode } from '@collinsonx/utils/supertokens';
+import { useEffect, KeyboardEventHandler, useState } from 'react';
+import LayoutLogin from '@components/LayoutLogin';
+import {
+  createPasswordlessCode,
+  useSessionContext,
+} from '@collinsonx/utils/supertokens';
+import { client, useLazyQuery } from '@collinsonx/utils/apollo';
+import getConsumerByEmailAddress from '@collinsonx/utils/queries/getConsumerByEmailAddress';
 
 const logos = {
   experienceX: LoginX,
@@ -22,35 +27,66 @@ const logos = {
 };
 
 const themeKey = getThemeKey();
-const LoginImage = logos[themeKey as keyof typeof logos];
 
 function validateEmail(input: string) {
   return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input);
 }
 
 export default function Home(props: unknown) {
+  const session = useSessionContext();
+  const [userId, setUserId] = useState<string>();
+
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [loginError, setLoginError] = useState('');
+
+  const [loadConsumer, { loading, data, error }] = useLazyQuery(
+    getConsumerByEmailAddress
+  );
+
+  useEffect(() => {
+    if (!session.loading) {
+      const { userId } = session;
+      setUserId(userId);
+      if (userId) {
+        router.push('/lounge');
+      }
+    }
+  }, [session, router]);
 
   const handleClickContinue = async () => {
     if (!validateEmail(email.trim())) {
       setLoginError('Invalid email');
     } else {
-      try {
-        await createPasswordlessCode({
-          email,
-        });
-        router.push({ pathname: '/check-email', query: { email } });
-      } catch (err: any) {
-        console.log(err);
-        if (err.isSuperTokensGeneralError === true) {
-          // this may be a custom error message sent from the API by you,
-          // or if the input email / phone number is not valid.
-          window.alert(err.message);
-        } else {
-          window.alert('Oops! Something went wrong.');
+      const { data, loading } = await client.query({
+        query: getConsumerByEmailAddress,
+        variables: { emailAddress: email },
+      });
+
+      const userId = data?.getConsumerByEmailAddress?.id;
+      console.log('userId ', userId, ' ', email);
+
+      if (userId) {
+        // user is already registered
+        // proceed to code verification
+        try {
+          await createPasswordlessCode({
+            email,
+          });
+          router.push({ pathname: '/check-email', query: { email } });
+        } catch (err: any) {
+          console.log(err);
+          if (err.isSuperTokensGeneralError === true) {
+            // this may be a custom error message sent from the API by you,
+            // or if the input email / phone number is not valid.
+            window.alert(err.message);
+          } else {
+            window.alert('Oops! Something went wrong.');
+          }
         }
+      } else {
+        // user needs to sign up
+        router.push('/signup-user');
       }
     }
   };

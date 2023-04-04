@@ -38,11 +38,17 @@ const httpLink = new HttpLink({
   headers: {},
 });
 
-const authLink = setContext((_, { headers }) => {
+const authLink = setContext((_, { headers, ...context }) => {
+  const userId =
+    typeof window !== 'undefined'
+      ? localStorage.getItem('EXPERIENCE_X_CONSUMER_ID')
+      : null;
   return {
     headers: {
-      'x-user-id': '1337',
+      ...headers,
+      ...(userId ? { 'x-user-id': userId } : {}),
     },
+    ...context,
   };
 });
 
