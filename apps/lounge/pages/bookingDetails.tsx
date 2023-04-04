@@ -2,7 +2,7 @@ import Layout from '../components/Layout';
 import { PageTitle, Status } from '@collinsonx/design-system/index';
 import Lightbox from '@collinsonx/design-system/components/lightbox';
 import { MapPin } from '@collinsonx/design-system/assets/icons';
-import deleteBooking from '@collinsonx/utils/mutations/deleteBooking';
+import cancelBooking from '@collinsonx/utils/mutations/cancelBooking';
 import {
   Title,
   Stack,
@@ -39,8 +39,8 @@ export default function BookingDetails({ id }: BookingDetailProps) {
     variables: { getBookingById: id },
   });
 
-  const [cancelBooking, { loading: createLoading, error, data }] =
-    useMutation(deleteBooking);
+  const [cancel, { loading: createLoading, error, data }] =
+    useMutation(cancelBooking);
 
   if (loading) {
     return <Box>Loading</Box>;
@@ -51,8 +51,8 @@ export default function BookingDetails({ id }: BookingDetailProps) {
   const { getBookingByID } = bookingData;
 
   const handleDelete = () => {
-    cancelBooking({
-      variables: { deleteBookingId: id },
+    cancel({
+      variables: { cancelBookingId: id },
       onCompleted: () => {
         router.push('/bookings');
       },
