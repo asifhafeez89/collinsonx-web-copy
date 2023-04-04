@@ -158,6 +158,7 @@ export type Query = {
   __typename?: 'Query';
   getBookingByID?: Maybe<Booking>;
   getBookings: Array<Booking>;
+  getConsumer?: Maybe<Consumer>;
   getConsumerByEmailAddress?: Maybe<Consumer>;
   getConsumerByID?: Maybe<Consumer>;
   searchExperiences?: Maybe<Array<Maybe<Experience>>>;
