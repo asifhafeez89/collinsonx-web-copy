@@ -13,12 +13,14 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "\n  mutation cancelBooking($cancelBookingId: ID!) {\n    cancelBooking(id: $cancelBookingId) {\n      bookedFrom\n      bookedTo\n      consumer {\n        id\n      }\n      createdAt\n      experience {\n        id\n      }\n      id\n      status\n      updatedAt\n    }\n  }\n": types.CancelBookingDocument,
     "\n  mutation CheckinBooking($checkinBookingId: ID!) {\n    checkinBooking(id: $checkinBookingId) {\n      bookedFrom\n      bookedTo\n      consumer {\n        id\n      }\n      createdAt\n      id\n      status\n      updatedAt\n    }\n  }\n": types.CheckinBookingDocument,
     "\n  mutation ConfirmBooking($confirmBookingId: ID!) {\n    confirmBooking(id: $confirmBookingId) {\n      bookedFrom\n      bookedTo\n      createdAt\n      consumer {\n        id\n      }\n      id\n      experience {\n        id\n      }\n      status\n      updatedAt\n    }\n  }\n": types.ConfirmBookingDocument,
     "\n  mutation CreateBooking($bookingInput: BookingInput) {\n    createBooking(bookingInput: $bookingInput) {\n      bookedFrom\n      bookedTo\n      consumer {\n        id\n      }\n      id\n      experience {\n        id\n      }\n      status\n      updatedAt\n    }\n  }\n": types.CreateBookingDocument,
     "\n  mutation DeclineBooking($declineBookingId: ID!) {\n    declineBooking(id: $declineBookingId) {\n      bookedFrom\n      bookedTo\n      consumer {\n        id\n      }\n      createdAt\n      experience {\n        id\n      }\n      id\n      status\n      updatedAt\n    }\n  }\n": types.DeclineBookingDocument,
     "\n  mutation DeleteBooking($deleteBookingId: ID!) {\n    deleteBooking(id: $deleteBookingId) {\n      bookedTo\n      bookedFrom\n      consumer {\n        id\n      }\n      createdAt\n      status\n      id\n      experience {\n        id\n      }\n      updatedAt\n    }\n  }\n": types.DeleteBookingDocument,
     "\n  mutation FindOrCreateConsumer($consumerInput: ConsumerInput) {\n    findOrCreateConsumer(consumerInput: $consumerInput) {\n      id\n    }\n  }\n": types.FindOrCreateConsumerDocument,
+    "\n  mutation UpdateConsumer($consumerInput: ConsumerInput) {\n    updateConsumer(consumerInput: $consumerInput) {\n      id\n    }\n  }\n": types.UpdateConsumerDocument,
     "\n  query GetBookingById($getBookingById: ID!) {\n    getBookingByID(id: $getBookingById) {\n      bookedFrom\n      bookedTo\n      experience {\n        id\n        images {\n          altText\n          contentType\n          height\n          id\n          url\n          width\n        }\n        location\n        name\n        openingHours\n      }\n      status\n      id\n    }\n  }\n": types.GetBookingByIdDocument,
     "\n  query GetBookings($experienceId: ID) {\n    getBookings(experienceID: $experienceId) {\n      bookedFrom\n      bookedTo\n      createdAt\n      consumer {\n        id\n      }\n      id\n      experience {\n        id\n        name\n        location\n        images {\n          url\n        }\n      }\n      status\n      updatedAt\n    }\n  }\n": types.GetBookingsDocument,
     "\n  query GetConsumerByEmailAddress($emailAddress: String!) {\n    getConsumerByEmailAddress(emailAddress: $emailAddress) {\n      bookings {\n        bookedFrom\n        bookedTo\n        id\n        status\n        updatedAt\n      }\n      createdAt\n      emailAddress\n      id\n      updatedAt\n    }\n  }\n": types.GetConsumerByEmailAddressDocument,
@@ -43,6 +45,10 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\n  mutation cancelBooking($cancelBookingId: ID!) {\n    cancelBooking(id: $cancelBookingId) {\n      bookedFrom\n      bookedTo\n      consumer {\n        id\n      }\n      createdAt\n      experience {\n        id\n      }\n      id\n      status\n      updatedAt\n    }\n  }\n"): (typeof documents)["\n  mutation cancelBooking($cancelBookingId: ID!) {\n    cancelBooking(id: $cancelBookingId) {\n      bookedFrom\n      bookedTo\n      consumer {\n        id\n      }\n      createdAt\n      experience {\n        id\n      }\n      id\n      status\n      updatedAt\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\n  mutation CheckinBooking($checkinBookingId: ID!) {\n    checkinBooking(id: $checkinBookingId) {\n      bookedFrom\n      bookedTo\n      consumer {\n        id\n      }\n      createdAt\n      id\n      status\n      updatedAt\n    }\n  }\n"): (typeof documents)["\n  mutation CheckinBooking($checkinBookingId: ID!) {\n    checkinBooking(id: $checkinBookingId) {\n      bookedFrom\n      bookedTo\n      consumer {\n        id\n      }\n      createdAt\n      id\n      status\n      updatedAt\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -64,6 +70,10 @@ export function graphql(source: "\n  mutation DeleteBooking($deleteBookingId: ID
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation FindOrCreateConsumer($consumerInput: ConsumerInput) {\n    findOrCreateConsumer(consumerInput: $consumerInput) {\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation FindOrCreateConsumer($consumerInput: ConsumerInput) {\n    findOrCreateConsumer(consumerInput: $consumerInput) {\n      id\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation UpdateConsumer($consumerInput: ConsumerInput) {\n    updateConsumer(consumerInput: $consumerInput) {\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateConsumer($consumerInput: ConsumerInput) {\n    updateConsumer(consumerInput: $consumerInput) {\n      id\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
