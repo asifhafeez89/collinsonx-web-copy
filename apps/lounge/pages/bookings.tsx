@@ -42,18 +42,24 @@ export default function Bookings() {
 
       {!!bookingsData?.getBookings.length && (
         <>
-          {bookingsData?.getBookings.map((booking) => (
-            <BookingCard
-              onClick={onViewBookingDetails}
-              key={booking.id}
-              id={booking.id ?? ''}
-              name={booking?.experience?.name ?? ''}
-              location={booking?.experience?.location ?? ''}
-              imgUrl={booking?.experience?.images?.[0]?.url ?? ''}
-              status={booking?.status ?? BookingStatus.Initialized}
-              date={booking?.bookedFrom ?? ''}
-            />
-          ))}
+          {bookingsData?.getBookings
+            .sort(
+              (a, b) =>
+                new Date(b.updatedAt).getTime() -
+                new Date(a.updatedAt).getTime()
+            )
+            .map((booking) => (
+              <BookingCard
+                onClick={onViewBookingDetails}
+                key={booking.id}
+                id={booking.id ?? ''}
+                name={booking?.experience?.name ?? ''}
+                location={booking?.experience?.location ?? ''}
+                imgUrl={booking?.experience?.images?.[0]?.url ?? ''}
+                status={booking?.status ?? BookingStatus.Initialized}
+                date={booking?.bookedFrom ?? ''}
+              />
+            ))}
         </>
       )}
     </Box>
