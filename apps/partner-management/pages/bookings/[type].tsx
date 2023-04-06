@@ -24,7 +24,7 @@ import Table from '@components/Table';
 import { BookingStatus, Booking } from '@collinsonx/utils';
 import { getBookingsByType } from '@collinsonx/utils/lib';
 import { useMutation, useQuery } from '@collinsonx/utils/apollo';
-import { getBookings } from '@collinsonx/utils/queries';
+import getAllBookings from '@collinsonx/utils/queries/getAllBookings';
 import {
   checkinBooking as checkinBookingMutation,
   declineBooking as declineBookingMutation,
@@ -67,7 +67,7 @@ export default function Bookings({ type }: BookingsProps) {
     error: errorBookings,
     data: dataBookings,
     refetch: refetchBookings,
-  } = useQuery<{ getBookings: Booking[] }>(getBookings);
+  } = useQuery<{ getAllBookings: Booking[] }>(getAllBookings);
 
   const [bookingId, setBookingId] = useState<string | null>(null);
 
@@ -82,7 +82,7 @@ export default function Bookings({ type }: BookingsProps) {
     }
 
     return getBookingsByType(
-      dataBookings?.getBookings ?? [],
+      dataBookings?.getAllBookings ?? [],
       types
     ) as Booking[];
   }, [dataBookings, type]);
