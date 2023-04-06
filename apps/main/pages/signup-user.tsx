@@ -2,7 +2,6 @@ import {
   Button,
   Stack,
   Text,
-  Box,
   Flex,
   Group,
   Notification,
@@ -13,7 +12,6 @@ import LayoutLogin from '../components/LayoutLogin';
 import dayjs from 'dayjs';
 import { Calendar } from '@collinsonx/design-system/assets/icons';
 import { DatePicker, InputLabel, PageTitle } from '@collinsonx/design-system';
-import { LoginCode } from '@collinsonx/design-system/assets/graphics';
 import { ComponentProps, useEffect, useState } from 'react';
 import findOrCreateConsumer from '@collinsonx/utils/mutations/findOrCreateConsumer';
 import { useMutation } from '@collinsonx/utils/apollo';
@@ -143,6 +141,7 @@ export default function SignupUser() {
               inputFormat={DATE_FORMAT}
               defaultValue={dayjs(date).toDate()}
               {...form.getInputProps('dateOfBirth')}
+              maxDate={dayjs(date).toDate()}
               onChange={handleChangeDate}
             />
             <Text>

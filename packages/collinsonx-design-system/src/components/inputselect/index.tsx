@@ -1,13 +1,17 @@
 import React from 'react';
 import { SelectProps, Select } from '@mantine/core';
+import styled from '@emotion/styled';
 
 export default function SelectInput({ ...props }: SelectProps) {
   return (
-    <>
-      <Select
-        {...props}
-        styles={{ label: { color: '#000000', fontWeight: 600 } }}
-      />
-    </>
+    <Select
+      {...props}
+      sx={{
+        paddingTop: '20px',
+        marginBottom: '10px',
+        color: '#000 !important',
+        label: { color: '#000000', fontWeight: 600 },
+      }}
+    />
   );
 }
