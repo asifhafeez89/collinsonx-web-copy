@@ -19,12 +19,18 @@ import { useState } from 'react';
 import { getBookingByID as getBookingByIDQuery } from '@collinsonx/utils/queries';
 import { useRouter } from 'next/router';
 import { getLoungeArrivalTime } from '../lib/index';
+import BookingBadge from '@components/BookingBadge';
+import { BookingStatus } from '@collinsonx/utils';
 
 type Booking = (typeof bookings)[number];
 
 interface BookingDetailProps {
   id: string;
 }
+
+const { Cancelled, Declined, Errored, CheckedIn } = BookingStatus;
+
+const nonCancellableStatus = [Cancelled, Declined, Errored, CheckedIn];
 
 export default function BookingDetails({ id }: BookingDetailProps) {
   const [openModal, setOpenModal] = useState(false);
@@ -92,7 +98,12 @@ export default function BookingDetails({ id }: BookingDetailProps) {
                 {getBookingByID?.experience?.location}
               </Text>
             </Box>
-            <Status status={getBookingByID?.status} />
+            <BookingBadge
+              sx={{
+                width: 'fit-content',
+              }}
+              status={getBookingByID?.status}
+            />
             <Stack
               spacing={17}
               sx={{ border: '1px solid #E9ECEF', padding: 17 }}
@@ -115,15 +126,18 @@ export default function BookingDetails({ id }: BookingDetailProps) {
               </Box>
             </Stack>
 
-            <Button
-              onClick={() => {
-                setOpenModal(!openModal);
-              }}
-              variant="default"
-              color="red"
-            >
-              Cancel booking
-            </Button>
+            {!!getBookingByID &&
+            !nonCancellableStatus.includes(getBookingByID.status) ? (
+              <Button
+                onClick={() => {
+                  setOpenModal(!openModal);
+                }}
+                variant="default"
+                color="red"
+              >
+                Cancel booking
+              </Button>
+            ) : null}
 
             <Lightbox
               open={openModal}
@@ -133,10 +147,10 @@ export default function BookingDetails({ id }: BookingDetailProps) {
               title=""
               onClose={() => setOpenModal(false)}
             >
-              <div>
+              <Box>
                 <h1>Cancel Booking</h1>
                 <p>If you cancel you will no longer have this reservation.</p>
-              </div>
+              </Box>
             </Lightbox>
           </Stack>
         </Stack>

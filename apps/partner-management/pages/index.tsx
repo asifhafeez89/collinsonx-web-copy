@@ -13,20 +13,21 @@ import Error from '@components/Error';
 import OverviewSeparator from '@components/OverviewSeparator';
 import Link from 'next/link';
 import { useQuery } from '@collinsonx/utils/apollo';
-import { getBookings } from '@collinsonx/utils/queries';
+import getAllBookings from '@collinsonx/utils/queries/getAllBookings';
 import { Booking, BookingStatus } from '@collinsonx/utils';
 import { getBookingsByType } from '@collinsonx/utils/lib';
 import { useMemo } from 'react';
 
-const { Initialized, Confirmed, Declined, CheckedIn } = BookingStatus;
+const { Initialized, Confirmed, Declined, Cancelled, CheckedIn } =
+  BookingStatus;
 
 export default function Overview() {
-  const { loading, error, data } = useQuery<{ getBookings: Booking[] }>(
-    getBookings
+  const { loading, error, data } = useQuery<{ getAllBookings: Booking[] }>(
+    getAllBookings
   );
 
   const bookings = useMemo<Record<BookingStatus, Booking[]>>(() => {
-    return getBookingsByType(data?.getBookings ?? []) as Record<
+    return getBookingsByType(data?.getAllBookings ?? []) as Record<
       BookingStatus,
       Booking[]
     >;
@@ -34,6 +35,9 @@ export default function Overview() {
 
   const bookingsConfirmed =
     (bookings[Confirmed]?.length || 0) + (bookings[CheckedIn]?.length || 0);
+
+  const bookingsDeclined =
+    (bookings[Declined]?.length || 0) + (bookings[Cancelled]?.length || 0);
 
   return (
     <>
@@ -78,14 +82,14 @@ export default function Overview() {
                   title="Declined / cancelled bookings"
                   variant="declined"
                 >
-                  {!loading && !bookings[Declined]?.length ? (
+                  {!loading && !bookingsDeclined ? (
                     'You have no cancelled bookings'
                   ) : (
                     <Flex gap={72} maw="40%">
                       <OverviewMetric
                         loading={loading}
                         label="Recent cancelled"
-                        value={bookings[Declined]?.length || 0}
+                        value={bookingsDeclined}
                       >
                         <Link href="/bookings/declined" passHref>
                           <Button

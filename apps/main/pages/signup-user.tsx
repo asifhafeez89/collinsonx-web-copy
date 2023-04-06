@@ -9,33 +9,34 @@ import {
 } from '@collinsonx/design-system/core';
 import { useForm } from '@mantine/form';
 import LayoutLogin from '../components/LayoutLogin';
-import dayjs from 'dayjs';
 import { Calendar } from '@collinsonx/design-system/assets/icons';
 import { DatePicker, InputLabel, PageTitle } from '@collinsonx/design-system';
 import { ComponentProps, useEffect, useState } from 'react';
-import findOrCreateConsumer from '@collinsonx/utils/mutations/findOrCreateConsumer';
+import updateConsumer from '@collinsonx/utils/mutations/updateConsumer';
 import { useMutation } from '@collinsonx/utils/apollo';
 import { ConsumerInput } from '@collinsonx/utils';
 import { useRouter } from 'next/router';
+import dayjs from 'dayjs';
 
 export default function SignupUser() {
   const router = useRouter();
-  const [date, setDate] = useState(dayjs(new Date()).format());
+  const [date, setDate] = useState<Date | null>(new Date());
   const DATE_FORMAT = 'DD/MM/YYYY';
+
+  const { email } = router.query;
 
   const handleChangeDate: ComponentProps<typeof DatePicker>['onChange'] = (
     date
   ) => {
-    setDate(dayjs(date).format());
+    setDate(date);
   };
 
   const form = useForm({
     initialValues: {
-      email: '',
-      firstname: null,
-      lastname: null,
+      email: email as string,
+      firstname: undefined,
+      lastname: undefined,
       marketingConsent: false,
-      TMEmail: false,
       dateOfBirth: new Date(),
     },
 
@@ -51,14 +52,15 @@ export default function SignupUser() {
     },
   });
 
-  const [findOrCreateConsumerCall, { loading, error, data }] =
-    useMutation(findOrCreateConsumer);
+  const [updateConsumerCall, { loading, error, data }] =
+    useMutation(updateConsumer);
 
   useEffect(() => {
-    if (data?.findOrCreateConsumer?.id) {
-      router.push('/');
+    if (data?.updateConsumer?.id) {
+      router.push('/lounge');
     }
   }, [data, router]);
+
   return (
     <>
       {!!error && (
@@ -73,12 +75,12 @@ export default function SignupUser() {
         onSubmit={form.onSubmit((values: any) => {
           const consumerInput: ConsumerInput = {
             dateOfBirth: values.dateOfBirth,
-            firstName: values.name,
+            firstName: values.firstname,
             lastName: values.lastname,
             marketingConsent: values.marketingConsent,
             emailAddress: values.email,
           };
-          findOrCreateConsumerCall({
+          updateConsumerCall({
             variables: { consumerInput },
             onCompleted: () => {
               console.log('success!');
@@ -139,7 +141,6 @@ export default function SignupUser() {
               placeholder="Pick a date"
               clearable={false}
               inputFormat={DATE_FORMAT}
-              defaultValue={dayjs(date).toDate()}
               {...form.getInputProps('dateOfBirth')}
               maxDate={dayjs(date).toDate()}
               onChange={handleChangeDate}

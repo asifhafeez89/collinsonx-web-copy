@@ -12,11 +12,9 @@ import LayoutLogin from '../components/LayoutLogin';
 
 import { AuthInput } from '@collinsonx/design-system';
 import { LoginCode } from '@collinsonx/design-system/assets/graphics';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import getConsumerByEmailAddress from '@collinsonx/utils/queries/getConsumerByEmailAddress';
 import { useQuery } from '@collinsonx/utils/apollo';
-
-import { useUserId } from '@collinsonx/utils/lib/userContext';
 
 export default function CheckEmail() {
   const router = useRouter();
@@ -29,20 +27,19 @@ export default function CheckEmail() {
     },
   });
 
-  // possibly not needed
-  useEffect(() => {
-    if (data?.getConsumerByEmailAddress === null) {
-      router.push('/signup-user');
-    }
-  }, [data, router]);
-
   const handleClickConfirm = async () => {
     if (code?.length === 6) {
       let response = await consumePasswordlessCode({
         userInputCode: code,
       });
       if (response.status === 'OK') {
-        router.push('/success');
+        // existing user - move to success page
+        if (data?.getConsumerByEmailAddress !== null) {
+          router.push('/success');
+        } else {
+          // new user - move to registration
+          router.push({ pathname: '/signup-user', query: { email } });
+        }
 
         // TODO add userId in apollo context
       } else if (response.status === 'INCORRECT_USER_INPUT_CODE_ERROR') {
@@ -72,7 +69,7 @@ export default function CheckEmail() {
   return (
     <>
       {!!loading && <Text>Loading...</Text>}
-      {!loading && data?.getConsumerByEmailAddress !== null && (
+      {!loading && (
         <>
           <Stack align="center" sx={{ position: 'relative', zIndex: 2 }}>
             <Stack spacing={24} align="center">
