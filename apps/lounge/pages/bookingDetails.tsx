@@ -28,7 +28,9 @@ interface BookingDetailProps {
   id: string;
 }
 
-const { Cancelled } = BookingStatus;
+const { Cancelled, Declined, Errored } = BookingStatus;
+
+const nonCancellableStatus = [Cancelled, Declined, Errored];
 
 export default function BookingDetails({ id }: BookingDetailProps) {
   const [openModal, setOpenModal] = useState(false);
@@ -124,7 +126,8 @@ export default function BookingDetails({ id }: BookingDetailProps) {
               </Box>
             </Stack>
 
-            {!!getBookingByID && getBookingByID.status !== Cancelled ? (
+            {!!getBookingByID &&
+            !nonCancellableStatus.includes(getBookingByID.status) ? (
               <Button
                 onClick={() => {
                   setOpenModal(!openModal);
