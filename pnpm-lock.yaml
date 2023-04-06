@@ -202,6 +202,7 @@ importers:
       '@emotion/styled': ^11.10.5
       '@mantine/core': ^5.10.4
       '@mantine/dates': ^5.10.3
+      '@mantine/form': ^6.0.1
       '@mantine/hooks': ^5.10.2
       '@mantine/next': ^5.10.2
       '@swc/cli': ^0.1.57
@@ -232,6 +233,7 @@ importers:
     dependencies:
       '@babel/core': 7.21.4
       '@collinsonx/utils': link:../collinsonx-utils
+      '@mantine/form': 6.0.6_react@18.2.0
       '@swc/helpers': 0.4.14
       '@testing-library/react': 14.0.0_biqbaboplfbrettd7655fr4n2y
       '@testing-library/user-event': 14.4.3
@@ -4570,7 +4572,7 @@ packages:
     dependencies:
       '@mantine/ssr': 5.10.5_5hf7yutiboqvmzmnlvms67nwwa
       '@mantine/styles': 5.10.5_keyspdss4kub3atek752gc6fle
-      next: 13.2.4_biqbaboplfbrettd7655fr4n2y
+      next: 13.2.4_z72xxk7vwlamvgqemvc4ptm4du
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     transitivePeerDependencies:
@@ -14836,6 +14838,7 @@ packages:
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
+    dev: false
 
   /next/13.2.4_z72xxk7vwlamvgqemvc4ptm4du:
     resolution: {integrity: sha512-g1I30317cThkEpvzfXujf0O4wtaQHtDCLhlivwlTJ885Ld+eOgcz7r3TGQzeU+cSRoNHtD8tsJgzxVdYojFssw==}
@@ -17593,6 +17596,7 @@ packages:
     dependencies:
       client-only: 0.0.1
       react: 18.2.0
+    dev: false
 
   /stylis/4.1.3:
     resolution: {integrity: sha512-GP6WDNWf+o403jrEp9c5jibKavrtLW+/qYGhFxFrG8maXhwTBI7gLLhiBb0o7uFccWN+EOS9aMO6cGHWAO07OA==}

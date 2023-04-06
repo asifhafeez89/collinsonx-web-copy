@@ -2,13 +2,12 @@ import {
   Button,
   Stack,
   Text,
-  Box,
   Flex,
   Group,
   Notification,
   Checkbox,
 } from '@collinsonx/design-system/core';
-import { useForm } from '@mantine/form';
+import { useForm } from '@collinsonx/design-system/form';
 import LayoutLogin from '../components/LayoutLogin';
 import { Calendar } from '@collinsonx/design-system/assets/icons';
 import { DatePicker, InputLabel, PageTitle } from '@collinsonx/design-system';
@@ -17,6 +16,7 @@ import updateConsumer from '@collinsonx/utils/mutations/updateConsumer';
 import { useMutation } from '@collinsonx/utils/apollo';
 import { ConsumerInput } from '@collinsonx/utils';
 import { useRouter } from 'next/router';
+import dayjs from 'dayjs';
 
 export default function SignupUser() {
   const router = useRouter();
@@ -142,7 +142,7 @@ export default function SignupUser() {
               clearable={false}
               inputFormat={DATE_FORMAT}
               {...form.getInputProps('dateOfBirth')}
-              value={date}
+              maxDate={dayjs(date).toDate()}
               onChange={handleChangeDate}
             />
             <Text>
