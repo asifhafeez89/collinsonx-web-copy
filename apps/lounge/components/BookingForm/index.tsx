@@ -11,6 +11,7 @@ import dayjs from 'dayjs';
 import ArrivalTime from '@components/ArrivalTime';
 
 import { useForm } from '@collinsonx/design-system/form';
+import { useState } from 'react';
 
 export interface BookingFormValue {
   date: Date;
@@ -97,7 +98,6 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
             placeholder="--:--"
             withAsterisk
             required={true}
-            value={time}
             data={TIME_SLOTS}
             {...form.getInputProps('time')}
           />
