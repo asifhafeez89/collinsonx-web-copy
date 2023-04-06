@@ -53,7 +53,7 @@ const bookingMap: Record<BookingStatus, string> = {
   [Confirmed]: 'Booking confirmed',
   [Declined]: 'Booking declined',
   [Cancelled]: 'Booking cancelled',
-  [CheckedIn]: 'Booking confirmed',
+  [CheckedIn]: 'Booking checked in',
   [Booked]: 'Booking',
   [Errored]: 'Booking errored',
 };
@@ -69,8 +69,8 @@ export default function BookingBadge({
     <MBadge
       {...props}
       className={cx(classes.root, classes.inner, {
-        [classes.declined]: status === Declined,
-        [classes.declined]: status === Cancelled,
+        [classes.declined]:
+          status === Declined || status === Cancelled || status === Errored,
         [classes.pending]: status === Initialized,
         [classes.confirmed]: status === Confirmed || status === CheckedIn,
       })}
