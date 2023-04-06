@@ -7,7 +7,7 @@ import {
   Notification,
   Checkbox,
 } from '@collinsonx/design-system/core';
-import { useForm } from '@mantine/form';
+import { useForm } from '@collinsonx/design-system/form';
 import LayoutLogin from '../components/LayoutLogin';
 import { Calendar } from '@collinsonx/design-system/assets/icons';
 import { DatePicker, InputLabel, PageTitle } from '@collinsonx/design-system';

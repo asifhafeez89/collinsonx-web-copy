@@ -5,16 +5,12 @@ import {
   Stack,
   UnstyledButton,
 } from '@collinsonx/design-system/core';
-import { useForm } from '@mantine/form';
 import { Calendar } from '@collinsonx/design-system/assets/icons';
 import { InputSelect, DatePicker } from '@collinsonx/design-system';
-import { Warning } from '@collinsonx/design-system/assets/icons';
-import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import WarningBox from '@components/WarningBox';
 import ArrivalTime from '@components/ArrivalTime';
-import { LOUNGE_HOURS_OFFSET } from 'config/lounge';
-import { getLoungeArrivalTime } from '../../lib/index';
+
+import { useForm } from '@collinsonx/design-system/form';
 
 export interface BookingFormValue {
   date: Date;
