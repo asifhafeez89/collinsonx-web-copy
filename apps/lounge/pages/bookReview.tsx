@@ -16,8 +16,11 @@ export interface BookReviewProps {
   formValues: BookingFormValue;
 }
 
-export default function BookReview({ lounge, formValues }: BookReviewProps) {
+export default function BookReview() {
   const router = useRouter();
+
+  const lounge = JSON.parse((router.query?.lounge as string) ?? null);
+  const formValues = JSON.parse((router.query?.formValues as string) ?? null);
 
   const [createBookingCall, { loading: createLoading, error, data }] =
     useMutation(createBooking);
@@ -54,56 +57,33 @@ export default function BookReview({ lounge, formValues }: BookReviewProps) {
           <LoaderLifestyleX />
         </Flex>
       ) : (
-        lounge && (
-          <Stack sx={{ position: 'relative' }}>
-            <PageTitle
-              title={`Book ${lounge?.name}`}
-              url={`/book?id=${lounge.id}`}
-            />
-            <Lounge
-              airport={lounge?.location ?? '-'}
-              loungeName={undefined}
-              openingTimes={
-                (lounge.openingHours as unknown as string[])
-                  ?.join(',')
-                  .substring(0, 20) ?? '-'
-              }
-              image={undefined}
-            />
-            <BookingFormConfirm
-              {...formValues}
-              onClickConfim={handleClickConfirm}
-            />
-          </Stack>
-        )
+        <>
+          {lounge && (
+            <Stack sx={{ position: 'relative' }}>
+              <PageTitle
+                title={`Book ${lounge?.name}`}
+                url={`/book?id=${lounge.id}`}
+              />
+              <Lounge
+                airport={lounge?.location ?? '-'}
+                loungeName={undefined}
+                openingTimes={
+                  (lounge.openingHours as unknown as string[])
+                    ?.join(',')
+                    .substring(0, 20) ?? '-'
+                }
+                image={undefined}
+              />
+              <BookingFormConfirm
+                {...formValues}
+                onClickConfim={handleClickConfirm}
+              />
+            </Stack>
+          )}
+        </>
       )}
     </>
   );
-}
-
-type Lounge = {
-  id: string;
-};
-
-interface QueryProps extends NextPageContext {
-  lounge: Lounge;
-}
-
-export async function getServerSideProps({ query }: QueryProps) {
-  let lounge = null;
-  let formValues = null;
-
-  try {
-    lounge = JSON.parse((query?.lounge as string) ?? null);
-    formValues = JSON.parse((query?.formValues as string) ?? null);
-  } catch {}
-
-  return {
-    props: {
-      lounge,
-      formValues,
-    },
-  };
 }
 
 BookReview.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;
