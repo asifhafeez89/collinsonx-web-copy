@@ -57,6 +57,9 @@ export default function MyApp({ Component, pageProps }: Props) {
                     color: '#FFF',
                     margin: 0,
                   },
+                  'html, body, #__next': {
+                    height: '100%',
+                  },
                 }),
               }}
               withGlobalStyles

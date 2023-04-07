@@ -3,8 +3,6 @@ import { Button } from '@mantine/core';
 import { getThemeKey } from '../lib/index';
 import { useForm } from '@mantine/form';
 import { useRouter } from 'next/router';
-import { Login as LoginX } from '@collinsonx/design-system/assets/graphics/experienceX';
-import { Login as LoginDiners } from '@collinsonx/design-system/assets/graphics/dinersClub';
 import { useEffect, useState } from 'react';
 import LayoutLogin from '@components/LayoutLogin';
 import {
@@ -14,11 +12,6 @@ import {
 import { InputLabel } from '@collinsonx/design-system';
 import validateEmail from '@collinsonx/utils/lib/validateEmail';
 
-const logos = {
-  experienceX: LoginX,
-  dinersClub: LoginDiners,
-};
-
 const themeKey = getThemeKey();
 
 interface FormValues {
@@ -27,7 +20,8 @@ interface FormValues {
 
 export default function Home(props: unknown) {
   const session = useSessionContext();
-  const [userId, setUserId] = useState<string>();
+
+  const [loading, setLoading] = useState(true);
 
   const router = useRouter();
   const [loginError, setLoginError] = useState('');
@@ -45,9 +39,10 @@ export default function Home(props: unknown) {
   useEffect(() => {
     if (!session.loading) {
       const { userId } = session;
-      setUserId(userId);
       if (userId) {
         router.push('/lounge');
+      } else {
+        setLoading(false);
       }
     }
   }, [session, router]);
@@ -100,44 +95,46 @@ export default function Home(props: unknown) {
           />
         </div>
       )}
-      <Stack spacing={50}>
-        <Stack spacing={24} sx={{ height: '100%' }}>
-          <Title order={1} size={20} align="center">
-            Login to your account
-          </Title>
-          <InputLabel
-            type="email"
-            autoFocus
-            placeholder="Your email address"
-            label="Your email address"
-            isWhite={true}
-            styles={{
-              root: {
-                display: 'flex',
-                flexDirection: 'column',
-              },
-              description: {
-                order: 1,
-                marginTop: '4px',
-                marginBottom: '0',
-              },
-              label: {
-                order: -2,
-              },
-              input: {
-                order: -1,
-              },
-              error: {
-                order: 2,
-              },
-            }}
-            withAsterisk
-            {...form.getInputProps('email')}
-          />
+      {!loading && (
+        <Stack spacing={50}>
+          <Stack spacing={24} sx={{ height: '100%' }}>
+            <Title order={1} size={20} align="center">
+              Login to your account
+            </Title>
+            <InputLabel
+              type="email"
+              autoFocus
+              placeholder="Your email address"
+              label="Your email address"
+              isWhite={true}
+              styles={{
+                root: {
+                  display: 'flex',
+                  flexDirection: 'column',
+                },
+                description: {
+                  order: 1,
+                  marginTop: '4px',
+                  marginBottom: '0',
+                },
+                label: {
+                  order: -2,
+                },
+                input: {
+                  order: -1,
+                },
+                error: {
+                  order: 2,
+                },
+              }}
+              withAsterisk
+              {...form.getInputProps('email')}
+            />
 
-          <Button type="submit">Login</Button>
+            <Button type="submit">Login</Button>
+          </Stack>
         </Stack>
-      </Stack>
+      )}
     </form>
   );
 }

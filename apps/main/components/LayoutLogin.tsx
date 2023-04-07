@@ -1,5 +1,5 @@
 import { Center, Container, Stack } from '@collinsonx/design-system/core';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { getThemeKey } from '@lib';
 
 import {
@@ -9,7 +9,7 @@ import {
 } from '@collinsonx/design-system/assets/logo';
 
 interface LayoutProps {
-  children: JSX.Element;
+  children: ReactNode;
 }
 
 const logos = {
