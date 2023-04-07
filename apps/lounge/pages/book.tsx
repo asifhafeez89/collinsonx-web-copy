@@ -37,7 +37,7 @@ export default function Book() {
 
   return (
     <>
-      {loading && <Skeleton visible={loading} h={500} mt={24}></Skeleton>}
+      {loading && <Skeleton visible={loading} h={500}></Skeleton>}
       {!loading && lounge && (
         <Stack sx={{ position: 'relative' }}>
           <PageTitle
