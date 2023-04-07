@@ -76,7 +76,7 @@ const theme = (
         },
         label: {
           fontFamily,
-          fontWeight: 600,
+          fontWeight: 400,
         },
         invalid: {
           borderColor: colors.red[6],
@@ -108,7 +108,7 @@ const theme = (
         },
         label: {
           fontFamily,
-          fontWeight: 600,
+          fontWeight: 400,
         },
       }),
     },

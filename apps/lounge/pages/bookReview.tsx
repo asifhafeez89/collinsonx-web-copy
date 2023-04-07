@@ -1,4 +1,4 @@
-import { Stack } from '@collinsonx/design-system/core';
+import { Flex, Stack } from '@collinsonx/design-system/core';
 import Layout from '@components/Layout';
 import { PageTitle, Lounge } from '@collinsonx/design-system';
 import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
@@ -7,8 +7,9 @@ import { BookingFormValue } from '@components/BookingForm/index';
 import BookingFormConfirm from '@components/BookingForm/BookingFormConfirm';
 import { useRouter } from 'next/router';
 import { useMutation } from '@collinsonx/utils/apollo';
-
 import createBooking from '@collinsonx/utils/mutations/createBooking';
+import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
+import { useState } from 'react';
 
 export interface BookReviewProps {
   lounge: Experience;
@@ -21,7 +22,10 @@ export default function BookReview({ lounge, formValues }: BookReviewProps) {
   const [createBookingCall, { loading: createLoading, error, data }] =
     useMutation(createBooking);
 
+  const [loading, setLoading] = useState(false);
+
   const handleClickConfirm = () => {
+    setLoading(true);
     if (formValues.date) {
       createBookingCall({
         variables: {
@@ -36,33 +40,42 @@ export default function BookReview({ lounge, formValues }: BookReviewProps) {
         onCompleted: () => {
           router.push('/success');
         },
+        onError: () => {
+          setLoading(false);
+        },
       });
     }
   };
 
   return (
     <>
-      {lounge && (
-        <Stack sx={{ position: 'relative' }}>
-          <PageTitle
-            title={`Book ${lounge?.name}`}
-            url={`/book?id=${lounge.id}`}
-          />
-          <Lounge
-            airport={lounge?.location ?? '-'}
-            loungeName={undefined}
-            openingTimes={
-              (lounge.openingHours as unknown as string[])
-                ?.join(',')
-                .substring(0, 20) ?? '-'
-            }
-            image={undefined}
-          />
-          <BookingFormConfirm
-            {...formValues}
-            onClickConfim={handleClickConfirm}
-          />
-        </Stack>
+      {loading ? (
+        <Flex justify="center" align="center" h="100%">
+          <LoaderLifestyleX />
+        </Flex>
+      ) : (
+        lounge && (
+          <Stack sx={{ position: 'relative' }}>
+            <PageTitle
+              title={`Book ${lounge?.name}`}
+              url={`/book?id=${lounge.id}`}
+            />
+            <Lounge
+              airport={lounge?.location ?? '-'}
+              loungeName={undefined}
+              openingTimes={
+                (lounge.openingHours as unknown as string[])
+                  ?.join(',')
+                  .substring(0, 20) ?? '-'
+              }
+              image={undefined}
+            />
+            <BookingFormConfirm
+              {...formValues}
+              onClickConfim={handleClickConfirm}
+            />
+          </Stack>
+        )
       )}
     </>
   );

@@ -1,28 +1,19 @@
-import { Title, Stack } from '@collinsonx/design-system/core';
+import { Title, Stack, Flex } from '@collinsonx/design-system/core';
 import { Button } from '@mantine/core';
 import { getThemeKey } from '../lib/index';
 import { useForm } from '@mantine/form';
 import { useRouter } from 'next/router';
-import { Login as LoginX } from '@collinsonx/design-system/assets/graphics/experienceX';
-import { Login as LoginDiners } from '@collinsonx/design-system/assets/graphics/dinersClub';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import LayoutLogin from '@components/LayoutLogin';
 import {
   createPasswordlessCode,
   useSessionContext,
 } from '@collinsonx/utils/supertokens';
 import { InputLabel } from '@collinsonx/design-system';
-
-const logos = {
-  experienceX: LoginX,
-  dinersClub: LoginDiners,
-};
+import validateEmail from '@collinsonx/utils/lib/validateEmail';
+import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 
 const themeKey = getThemeKey();
-
-function validateEmail(input: string) {
-  return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input);
-}
 
 interface FormValues {
   email: string;
@@ -30,27 +21,34 @@ interface FormValues {
 
 export default function Home(props: unknown) {
   const session = useSessionContext();
-  const [userId, setUserId] = useState<string>();
+
+  const [loading, setLoading] = useState(true);
 
   const router = useRouter();
   const [loginError, setLoginError] = useState('');
+
+  const ref = useRef(false);
 
   const form = useForm({
     initialValues: {
       email: '',
     },
-
     validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+      email: (value: string) =>
+        validateEmail(value) ? null : 'Please enter a valid email address.',
     },
   });
 
   useEffect(() => {
-    if (!session.loading) {
+    if (session && !session.loading) {
       const { userId } = session;
-      setUserId(userId);
       if (userId) {
-        router.push('/lounge');
+        if (!ref.current) {
+          router.push('/lounge');
+          ref.current = true;
+        }
+      } else {
+        setLoading(false);
       }
     }
   }, [session, router]);
@@ -78,70 +76,80 @@ export default function Home(props: unknown) {
   };
 
   return (
-    <form onSubmit={form.onSubmit(handleClickContinue)}>
-      {themeKey !== 'dinersClub' && (
-        <div
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            overflow: 'hidden',
-            width: '100%',
-            height: '50%',
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: '#946A00',
-              width: '150vh',
-              height: '150vh',
-              position: 'absolute',
-              bottom: '-100vh',
-              left: '-75vh',
-              borderTopRightRadius: '50%',
-            }}
-          />
-        </div>
-      )}
-      <Stack spacing={50}>
-        <Stack spacing={24} sx={{ height: '100%' }}>
-          <Title order={1} size={20} align="center">
-            Login to your account
-          </Title>
-          <InputLabel
-            autoFocus
-            placeholder="Your email address"
-            label="Your email address"
-            isWhite={true}
-            styles={{
-              root: {
-                display: 'flex',
-                flexDirection: 'column',
-              },
-              description: {
-                order: 1,
-                marginTop: '4px',
-                marginBottom: '0',
-              },
-              label: {
-                order: -2,
-              },
-              input: {
-                order: -1,
-              },
-              error: {
-                order: 2,
-              },
-            }}
-            withAsterisk
-            {...form.getInputProps('email')}
-          />
+    <>
+      {loading ? (
+        <Flex justify="center" align="center" h="100%">
+          <LoaderLifestyleX />
+        </Flex>
+      ) : (
+        <LayoutLogin>
+          <form onSubmit={form.onSubmit(handleClickContinue)}>
+            {themeKey !== 'dinersClub' && (
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                  overflow: 'hidden',
+                  width: '100%',
+                  height: '50%',
+                }}
+              >
+                <div
+                  style={{
+                    backgroundColor: '#182E45',
+                    width: '150vh',
+                    height: '150vh',
+                    position: 'absolute',
+                    bottom: '-100vh',
+                    left: '-75vh',
+                    borderTopRightRadius: '50%',
+                  }}
+                />
+              </div>
+            )}
 
-          <Button type="submit">Submit</Button>
-        </Stack>
-      </Stack>
-    </form>
+            <Stack spacing={50}>
+              <Stack spacing={24} sx={{ height: '100%' }}>
+                <Title order={1} size={20} align="center">
+                  Login to your account
+                </Title>
+                <InputLabel
+                  type="email"
+                  autoFocus
+                  placeholder="Your email address"
+                  label="Your email address"
+                  isWhite={true}
+                  styles={{
+                    root: {
+                      display: 'flex',
+                      flexDirection: 'column',
+                    },
+                    description: {
+                      order: 1,
+                      marginTop: '4px',
+                      marginBottom: '0',
+                    },
+                    label: {
+                      order: -2,
+                    },
+                    input: {
+                      order: -1,
+                    },
+                    error: {
+                      order: 2,
+                    },
+                  }}
+                  withAsterisk
+                  {...form.getInputProps('email')}
+                />
+
+                <Button type="submit">Login</Button>
+              </Stack>
+            </Stack>
+          </form>
+        </LayoutLogin>
+      )}
+    </>
   );
 }
-
-Home.getLayout = (page: JSX.Element) => <LayoutLogin>{page}</LayoutLogin>;

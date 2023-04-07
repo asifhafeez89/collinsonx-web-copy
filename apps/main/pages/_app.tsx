@@ -3,12 +3,10 @@ import { NextPage } from 'next';
 import { ComponentType, ReactElement, useEffect, useState } from 'react';
 import { MantineProvider } from '@collinsonx/design-system/core';
 import Head from 'next/head';
-import Client from '@collinsonx/utils/provider';
 import { frontendConfig } from '../config/frontendConfig';
 import SuperTokensReact, {
   SuperTokensConfig,
   SuperTokensWrapper,
-  useSessionContext,
 } from '@collinsonx/utils/supertokens';
 import { getTheme } from '@lib/index';
 import { UserProvider } from '@collinsonx/utils/lib/userContext';
@@ -56,6 +54,10 @@ export default function MyApp({ Component, pageProps }: Props) {
                     backgroundColor: colors.splashColor[0],
                     color: '#FFF',
                     margin: 0,
+                  },
+                  'html, body, #__next': {
+                    height: '100%',
+                    backgroundColor: '#112132',
                   },
                 }),
               }}

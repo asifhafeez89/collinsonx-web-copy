@@ -10,6 +10,7 @@ import {
   Image,
   Text,
   Button,
+  Skeleton,
 } from '@collinsonx/design-system/core';
 import { GetServerSideProps, NextPageContext } from 'next';
 import { useMutation, useQuery } from '@collinsonx/utils/apollo';
@@ -49,7 +50,7 @@ export default function BookingDetails({ id }: BookingDetailProps) {
     useMutation(cancelBooking);
 
   if (loading) {
-    return <Box>Loading</Box>;
+    return <Skeleton visible={loading} h={390} />;
   } else if (!error && bookingData?.getBookingByID === null) {
     return <Box>Booking could not be found</Box>;
   }

@@ -5,3 +5,4 @@ export { default as Traveler } from './traveler.svg';
 export { default as EmptyStateSearch } from './empty-state-search.svg';
 export { default as BookingSuccess } from './booking-success.svg';
 export { default as BookingEmptyState } from './booking-empty-state.svg';
+export { default as LoaderLifestyleX } from './loader-lifestylex.svg';

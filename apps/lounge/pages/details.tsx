@@ -1,40 +1,42 @@
 import { Lounge, PageTitle } from '@collinsonx/design-system/index';
-import { client } from '@collinsonx/utils/apollo';
+import { client, useQuery } from '@collinsonx/utils/apollo';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
 import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
-
-import Layout from '../components/Layout';
+import Layout from '@components/Layout';
 import {
   UnstyledButton,
   Title,
   Stack,
   Box,
-  SimpleGrid,
   List,
   Divider,
+  Skeleton,
 } from '@collinsonx/design-system/core';
 import { useRouter } from 'next/router';
 import { NextPageContext } from 'next';
+import { useMemo } from 'react';
 
-interface BookLoungeProps {
-  lounge: Experience;
-  loading: boolean;
-}
-
-export default function BookLounge(props: BookLoungeProps) {
+export default function BookLounge() {
   const router = useRouter();
-  const { lounge, loading } = props;
+
+  const { loading, error, data } = useQuery<{
+    searchExperiences: Experience[];
+  }>(getSearchExperiences);
+
+  const lounge = useMemo(() => {
+    return data?.searchExperiences?.length ? data.searchExperiences[0] : null;
+  }, [data]);
 
   const handleBook = () => {
     router.push({
       pathname: '/book',
-      query: { id: lounge.id },
+      query: { id: lounge?.id },
     });
   };
 
   return (
     <>
-      {loading && !lounge && <div>loading...</div>}
+      {loading && <Skeleton visible={loading} h={500} />}
       {!loading && lounge && (
         <Stack align="stretch">
           <PageTitle title={lounge?.name ?? '-'} url={`/`} />

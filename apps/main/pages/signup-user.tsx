@@ -11,16 +11,19 @@ import { useForm } from '@collinsonx/design-system/form';
 import LayoutLogin from '../components/LayoutLogin';
 import { Calendar } from '@collinsonx/design-system/assets/icons';
 import { DatePicker, InputLabel, PageTitle } from '@collinsonx/design-system';
-import { ComponentProps, useEffect, useState } from 'react';
+import { ComponentProps, useState } from 'react';
 import updateConsumer from '@collinsonx/utils/mutations/updateConsumer';
 import { useMutation } from '@collinsonx/utils/apollo';
 import { ConsumerInput } from '@collinsonx/utils';
 import { useRouter } from 'next/router';
 import dayjs from 'dayjs';
+import validateEmail from '@collinsonx/utils/lib/validateEmail';
+import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 
 export default function SignupUser() {
   const router = useRouter();
   const [date, setDate] = useState<Date | null>(new Date());
+  const [loading, setLoading] = useState(false);
   const DATE_FORMAT = 'DD/MM/YYYY';
 
   const { email } = router.query;
@@ -42,9 +45,7 @@ export default function SignupUser() {
 
     validate: {
       email: (value: string) =>
-        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)
-          ? null
-          : 'Please enter a valid email address.',
+        validateEmail(value) ? null : 'Please enter a valid email address.',
       firstname: (value: string) =>
         value?.length > 0 ? null : 'Please enter your name.',
       lastname: (value: string) =>
@@ -52,25 +53,22 @@ export default function SignupUser() {
     },
   });
 
-  const [updateConsumerCall, { loading, error, data }] =
+  const [updateConsumerCall, { loading: loadingUpdateConsumer, error, data }] =
     useMutation(updateConsumer);
 
-  useEffect(() => {
-    if (data?.updateConsumer?.id) {
-      router.push('/lounge');
-    }
-  }, [data, router]);
-
-  return (
-    <>
+  return loading || loadingUpdateConsumer ? (
+    <Flex justify="center" align="center" h="100%">
+      <LoaderLifestyleX />
+    </Flex>
+  ) : (
+    <LayoutLogin>
       {!!error && (
-        <Notification color="red">
+        <Notification color="red.7" title="An error occurred" w="100%">
           {error.graphQLErrors.map((error, index) => (
             <Text key={index}>{error.message}</Text>
           ))}
         </Notification>
       )}
-
       <form
         onSubmit={form.onSubmit((values: any) => {
           const consumerInput: ConsumerInput = {
@@ -80,21 +78,24 @@ export default function SignupUser() {
             marketingConsent: values.marketingConsent,
             emailAddress: values.email,
           };
+          setLoading(true);
           updateConsumerCall({
             variables: { consumerInput },
-            onCompleted: () => {
-              console.log('success!');
+            onCompleted: (data) => {
+              console.log('success ', data);
+              if (data?.updateConsumer?.id) {
+                router.push('/lounge');
+              }
+            },
+            onError: () => {
+              setLoading(false);
             },
           });
         })}
       >
         <Stack spacing={50}>
           <Stack spacing={24} sx={{ height: '100%' }}>
-            <PageTitle
-              title={' Sign up with email'}
-              url={`/`}
-              variant={'white'}
-            />
+            <PageTitle title="Sign up with email" url="/" variant="white" />
             <InputLabel
               autoFocus
               type="email"
@@ -172,8 +173,6 @@ export default function SignupUser() {
           </Stack>
         </Stack>
       </form>
-    </>
+    </LayoutLogin>
   );
 }
-
-SignupUser.getLayout = (page: JSX.Element) => <LayoutLogin>{page}</LayoutLogin>;

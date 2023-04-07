@@ -14,7 +14,7 @@ import SuperTokensReact, {
   SuperTokensWrapper,
   SuperTokensConfig,
 } from '@collinsonx/utils/supertokens';
-import { SysAuth, Logout } from '@collinsonx/utils/components';
+import { SysAuth } from '@collinsonx/utils/components';
 
 if (typeof window !== 'undefined') {
   // we only want to call this init function on the frontend, so
