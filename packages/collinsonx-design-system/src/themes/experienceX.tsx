@@ -38,6 +38,16 @@ const theme = (
     fontWeight: 600,
   },
   components: {
+    DatePicker: {
+      styles: ({ colors }) => ({
+        calendarHeader: {
+          color: colors.dark[6],
+        },
+        calendarHeaderControl: {
+          color: colors.dark[6],
+        },
+      }),
+    },
     InputWrapper: {
       styles: ({ colors }) => ({
         label: {
