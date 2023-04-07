@@ -23,6 +23,7 @@ export default function Layout({ children }: LayoutProps) {
     localStorage.removeItem('EXPERIENCE_X_CONSUMER_ID');
     if (typeof logout === 'function') {
       await logout();
+      // https://github.com/vercel/next.js/issues/40481
       window.location.href = '/';
     }
   };

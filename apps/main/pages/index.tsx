@@ -3,7 +3,7 @@ import { Button } from '@mantine/core';
 import { getThemeKey } from '../lib/index';
 import { useForm } from '@mantine/form';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import LayoutLogin from '@components/LayoutLogin';
 import {
   createPasswordlessCode,
@@ -27,6 +27,8 @@ export default function Home(props: unknown) {
   const router = useRouter();
   const [loginError, setLoginError] = useState('');
 
+  const ref = useRef(false);
+
   const form = useForm({
     initialValues: {
       email: '',
@@ -38,10 +40,13 @@ export default function Home(props: unknown) {
   });
 
   useEffect(() => {
-    if (!session.loading) {
+    if (session && !session.loading) {
       const { userId } = session;
       if (userId) {
-        router.push('/lounge');
+        if (!ref.current) {
+          router.push('/lounge');
+          ref.current = true;
+        }
       } else {
         setLoading(false);
       }

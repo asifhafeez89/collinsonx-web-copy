@@ -11,12 +11,17 @@ const ApolloClient = ({ children }: ApolloClientProps) => {
 
   const [userId, setUserId] = useState<string>();
 
+  const NAMESPACE = 'EXPERIENCE_X_CONSUMER_ID';
+
   useEffect(() => {
     if (!session.loading) {
       const { userId } = session;
       setUserId(userId);
       if (userId && typeof window !== undefined) {
-        localStorage.setItem('EXPERIENCE_X_CONSUMER_ID', userId);
+        localStorage.setItem(NAMESPACE, userId);
+      }
+      if (!userId) {
+        localStorage.removeItem(NAMESPACE);
       }
     }
   }, [session]);
