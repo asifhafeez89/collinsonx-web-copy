@@ -6,7 +6,6 @@ import Layout from '@components/Layout';
 import { useState } from 'react';
 
 import { useRouter } from 'next/router';
-import { NextPageContext } from 'next';
 import { useQuery } from '@collinsonx/utils/apollo';
 import { getBookings } from '@collinsonx/utils/queries';
 import { Booking, BookingStatus } from '@collinsonx/utils';
@@ -63,10 +62,6 @@ export default function Bookings() {
       )}
     </Box>
   );
-}
-
-interface QueryProps extends NextPageContext {
-  bookings: Booking[];
 }
 
 Bookings.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;

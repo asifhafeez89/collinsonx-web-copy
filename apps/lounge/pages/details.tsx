@@ -13,7 +13,6 @@ import {
   Skeleton,
 } from '@collinsonx/design-system/core';
 import { useRouter } from 'next/router';
-import { NextPageContext } from 'next';
 import { useMemo } from 'react';
 
 export default function BookLounge() {
@@ -106,30 +105,6 @@ export default function BookLounge() {
       )}
     </>
   );
-}
-
-type Lounge = {
-  id: string;
-};
-
-interface QueryProps extends NextPageContext {
-  lounge: Lounge;
-}
-
-export async function getServerSideProps({ query }: QueryProps) {
-  const loungeId = query?.id ?? '';
-
-  const { data, loading } = await client(true).query({
-    query: getSearchExperiences,
-    variables: { query: loungeId },
-  });
-
-  return {
-    props: {
-      lounge: data.searchExperiences.length ? data.searchExperiences[0] : {},
-      loading: loading,
-    },
-  };
 }
 
 BookLounge.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;

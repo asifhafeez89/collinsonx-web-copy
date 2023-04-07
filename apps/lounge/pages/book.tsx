@@ -4,7 +4,6 @@ import { useQuery } from '@collinsonx/utils/apollo';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
 import { PageTitle, Lounge } from '@collinsonx/design-system';
 import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
-import { NextPageContext } from 'next';
 
 import { useRouter } from 'next/router';
 import BookingForm, { BookingFormProps } from '@components/BookingForm';
@@ -13,7 +12,7 @@ export interface BookLoungeProps {
   id: string;
 }
 
-export default function Book({ id }: BookLoungeProps) {
+export default function Book() {
   const router = useRouter();
 
   const {
@@ -21,7 +20,7 @@ export default function Book({ id }: BookLoungeProps) {
     error: experienceError,
     data: experienceData,
   } = useQuery<{ searchExperiences: Experience[] }>(getSearchExperiences, {
-    variables: { query: id },
+    variables: { query: router.query?.id },
   });
 
   const handleSubmit: BookingFormProps['onSubmit'] = (values) => {
@@ -38,7 +37,7 @@ export default function Book({ id }: BookLoungeProps) {
 
   return (
     <>
-      {loading && <Skeleton visible={loading} h={500} mt={24}></Skeleton>}
+      {loading && <Skeleton visible={loading} h={500}></Skeleton>}
       {!loading && lounge && (
         <Stack sx={{ position: 'relative' }}>
           <PageTitle
@@ -65,24 +64,6 @@ export default function Book({ id }: BookLoungeProps) {
       )}
     </>
   );
-}
-
-type Lounge = {
-  id: string;
-};
-
-interface QueryProps extends NextPageContext {
-  lounge: Lounge;
-}
-
-export async function getServerSideProps({ query }: QueryProps) {
-  const id = query.id;
-
-  return {
-    props: {
-      id,
-    },
-  };
 }
 
 Book.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;
