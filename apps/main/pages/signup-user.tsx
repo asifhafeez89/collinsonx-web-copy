@@ -17,6 +17,7 @@ import { useMutation } from '@collinsonx/utils/apollo';
 import { ConsumerInput } from '@collinsonx/utils';
 import { useRouter } from 'next/router';
 import dayjs from 'dayjs';
+import validateEmail from '@collinsonx/utils/lib/validateEmail';
 
 export default function SignupUser() {
   const router = useRouter();
@@ -42,9 +43,7 @@ export default function SignupUser() {
 
     validate: {
       email: (value: string) =>
-        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)
-          ? null
-          : 'Please enter a valid email address.',
+        validateEmail(value) ? null : 'Please enter a valid email address.',
       firstname: (value: string) =>
         value?.length > 0 ? null : 'Please enter your name.',
       lastname: (value: string) =>

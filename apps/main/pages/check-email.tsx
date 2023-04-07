@@ -35,7 +35,7 @@ export default function CheckEmail() {
       if (response.status === 'OK') {
         // existing user - move to success page
         if (data?.getConsumerByEmailAddress !== null) {
-          router.push('/success');
+          router.push('/lounge');
         } else {
           // new user - move to registration
           router.push({ pathname: '/signup-user', query: { email } });

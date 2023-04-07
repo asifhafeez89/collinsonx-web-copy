@@ -12,6 +12,7 @@ import {
   useSessionContext,
 } from '@collinsonx/utils/supertokens';
 import { InputLabel } from '@collinsonx/design-system';
+import validateEmail from '@collinsonx/utils/lib/validateEmail';
 
 const logos = {
   experienceX: LoginX,
@@ -19,10 +20,6 @@ const logos = {
 };
 
 const themeKey = getThemeKey();
-
-function validateEmail(input: string) {
-  return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input);
-}
 
 interface FormValues {
   email: string;
@@ -39,9 +36,9 @@ export default function Home(props: unknown) {
     initialValues: {
       email: '',
     },
-
     validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+      email: (value: string) =>
+        validateEmail(value) ? null : 'Please enter a valid email address.',
     },
   });
 
@@ -92,7 +89,7 @@ export default function Home(props: unknown) {
         >
           <div
             style={{
-              backgroundColor: '#946A00',
+              backgroundColor: '#182E45',
               width: '150vh',
               height: '150vh',
               position: 'absolute',
@@ -109,6 +106,7 @@ export default function Home(props: unknown) {
             Login to your account
           </Title>
           <InputLabel
+            type="email"
             autoFocus
             placeholder="Your email address"
             label="Your email address"
@@ -137,7 +135,7 @@ export default function Home(props: unknown) {
             {...form.getInputProps('email')}
           />
 
-          <Button type="submit">Submit</Button>
+          <Button type="submit">Login</Button>
         </Stack>
       </Stack>
     </form>
