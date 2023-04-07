@@ -1,4 +1,4 @@
-import { Stack } from '@collinsonx/design-system/core';
+import { Skeleton, Stack } from '@collinsonx/design-system/core';
 import Layout from '@components/Layout';
 import { useQuery } from '@collinsonx/utils/apollo';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
@@ -38,7 +38,7 @@ export default function Book({ id }: BookLoungeProps) {
 
   return (
     <>
-      {loading && <div>loading...</div>}
+      {loading && <Skeleton visible={loading} h={500} mt={24}></Skeleton>}
       {!loading && lounge && (
         <Stack sx={{ position: 'relative' }}>
           <PageTitle

@@ -1,4 +1,4 @@
-import { Text, Box } from '@collinsonx/design-system/core';
+import { Text, Box, Skeleton } from '@collinsonx/design-system/core';
 import BookingCard from '@components/BookingCard';
 import BookingEmptyState from '@components/BookingEmptyState';
 
@@ -37,9 +37,8 @@ export default function Bookings() {
       <Text fw={600} pb={12} size={20}>
         Booking management
       </Text>
-      {loading && <Text>Loading</Text>}
+      {loading && <Skeleton visible={loading} h={390} />}
       {!bookingsData?.getBookings.length && !loading && <BookingEmptyState />}
-
       {!!bookingsData?.getBookings.length && (
         <>
           {bookingsData?.getBookings

@@ -53,7 +53,7 @@ export default function Layout({ children }: LayoutProps) {
         p={16}
         sx={{
           maxWidth: '375px',
-          height: '100%',
+          height: 'calc(100% - 69px)',
         }}
       >
         {children}
