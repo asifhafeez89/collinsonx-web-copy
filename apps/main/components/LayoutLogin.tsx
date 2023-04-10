@@ -35,8 +35,8 @@ export default function LayoutLogin({ children }: LayoutProps) {
         backgroundColor: '#112132',
       }}
     >
-      <Stack spacing={24} sx={{ height: '100%' }}>
-        <Center>
+      <Stack spacing={40} sx={{ height: '100%' }}>
+        <Center pt={8}>
           <Logo />{' '}
         </Center>
         {children}

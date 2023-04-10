@@ -131,7 +131,13 @@ export default function CheckEmail() {
                 </Text>
                 <Button
                   variant="subtle"
-                  sx={{ fontSize: '14px', height: '20px', color: 'white' }}
+                  fw={400}
+                  sx={{
+                    fontSize: '14px',
+                    height: '20px',
+                    color: '#20C997',
+                    textDecoration: 'underline',
+                  }}
                   onClick={handleClickReenter}
                   compact
                 >
@@ -171,11 +177,11 @@ export default function CheckEmail() {
                   Verify
                 </Button>
               </Flex>
-              {
+              {count > 0 && (
                 <Text size={14} fw={400}>
                   You can resend the unique code in {count} seconds
                 </Text>
-              }
+              )}
             </Stack>
             <Flex mt={58} align="center" direction="column">
               <Box
