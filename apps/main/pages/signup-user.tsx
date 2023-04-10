@@ -40,7 +40,7 @@ export default function SignupUser() {
       firstname: undefined,
       lastname: undefined,
       marketingConsent: false,
-      dateOfBirth: new Date(),
+      dateOfBirth: new Date('1990-01-01'),
     },
 
     validate: {
@@ -96,15 +96,6 @@ export default function SignupUser() {
         <Stack spacing={50}>
           <Stack spacing={24} sx={{ height: '100%' }}>
             <PageTitle title="Sign up with email" url="/" variant="white" />
-            <InputLabel
-              autoFocus
-              type="email"
-              withAsterisk
-              {...form.getInputProps('email')}
-              placeholder="Your email address"
-              label="Your email address"
-              isWhite={true}
-            />
 
             <InputLabel
               autoFocus
@@ -145,6 +136,17 @@ export default function SignupUser() {
               {...form.getInputProps('dateOfBirth')}
               maxDate={dayjs(date).toDate()}
               onChange={handleChangeDate}
+            />
+            <InputLabel
+              readOnly
+              autoFocus
+              type="email"
+              withAsterisk
+              {...form.getInputProps('email')}
+              value={email}
+              placeholder="Your email address"
+              label="Your email address"
+              isWhite={true}
             />
             <Text>
               We will send you a unique code via email to complete the login.
