@@ -1,6 +1,5 @@
 import React from 'react';
 import { SelectProps, Select } from '@mantine/core';
-import styled from '@emotion/styled';
 
 export default function SelectInput({ ...props }: SelectProps) {
   return (
