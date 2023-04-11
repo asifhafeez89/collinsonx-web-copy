@@ -1,16 +1,18 @@
-import React from 'react';
 import AuthCode from 'react-auth-code-input';
 import styled from '@emotion/styled';
 
 const CodeWrapper = styled.div`
   input {
-    width: 45px;
-    height: 45px;
+    font-weight: 600;
+    font-size: 18px;
+    width: 48px;
+    height: 48px;
     padding: 0;
     font-size: 1rem;
     text-align: center;
-    margin-right: 10px;
+    margin-right: 8px;
     text-transform: uppercase;
+    border-radius: 8px;
     color: #494949;
     border: 1px solid #d6d6d6;
     background: #fff;
@@ -34,7 +36,7 @@ export default function AuthInput({ handleCodeChange }: AuthInputProps) {
   return (
     <>
       <CodeWrapper>
-        <AuthCode onChange={handleOnChange} />
+        <AuthCode onChange={handleOnChange} placeholder="-" />
       </CodeWrapper>
     </>
   );

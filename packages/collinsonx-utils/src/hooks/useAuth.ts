@@ -4,6 +4,7 @@ import {
   getUserId,
   ThirdPartyPasswordless,
   Session,
+  signOut,
 } from '../supertokens';
 
 interface Props {
@@ -32,7 +33,7 @@ const useAuth = ({ onExpiredSession }: Props) => {
     init();
   }, []);
 
-  const logout = () => Session.signOut();
+  const logout = () => signOut();
 
   return [isLoggedIn, userId, logout];
 };

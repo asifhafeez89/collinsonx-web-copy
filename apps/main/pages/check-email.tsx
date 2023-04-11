@@ -8,21 +8,27 @@ import {
   Notification,
 } from '@collinsonx/design-system/core';
 import { useRouter } from 'next/router';
-import { consumePasswordlessCode } from '@collinsonx/utils/supertokens';
+import {
+  consumePasswordlessCode,
+  createPasswordlessCode,
+} from '@collinsonx/utils/supertokens';
 import LayoutLogin from '@components/LayoutLogin';
 import { AuthInput } from '@collinsonx/design-system';
 import { LoginCode } from '@collinsonx/design-system/assets/graphics';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import getConsumerByEmailAddress from '@collinsonx/utils/queries/getConsumerByEmailAddress';
 import { useQuery } from '@collinsonx/utils/apollo';
 
 export default function CheckEmail() {
   const router = useRouter();
-  const { email } = router.query;
+  const email = router.query?.email as string;
   const [code, setCode] = useState<string>();
 
   const [loading, setLoading] = useState(false);
+  const [count, setCount] = useState(20);
+
+  let interval: NodeJS.Timeout;
 
   const {
     loading: loadingGetConsumer,
@@ -33,6 +39,25 @@ export default function CheckEmail() {
       emailAddress: email,
     },
   });
+
+  useEffect(() => {
+    interval = setInterval(() => {
+      setCount((count) => {
+        if (count === 0) {
+          return count;
+        }
+        return (count -= 1);
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleClickResend = () => {
+    try {
+      createPasswordlessCode({ email });
+    } catch (e) {}
+    setCount(20);
+  };
 
   const handleClickConfirm = async () => {
     setLoading(true);
@@ -85,7 +110,7 @@ export default function CheckEmail() {
         </Flex>
       ) : (
         <LayoutLogin>
-          <Stack align="center" sx={{ position: 'relative', zIndex: 2 }}>
+          <Stack px={8} align="center" sx={{ position: 'relative', zIndex: 2 }}>
             <Stack spacing={24} align="center">
               <Title order={1} size={20}>
                 Check your email
@@ -100,29 +125,63 @@ export default function CheckEmail() {
               <Text align="center">
                 We have sent a confirmation code to {email}.
               </Text>
-              <Text size={14}>
-                Wrong email?{' '}
+              <Box>
+                <Text align="center" size={14}>
+                  Wrong email?
+                </Text>
                 <Button
                   variant="subtle"
-                  sx={{ fontSize: '14px', height: '20px', color: 'white' }}
+                  fw={400}
+                  sx={{
+                    fontSize: '14px',
+                    height: '20px',
+                    color: '#20C997',
+                    textDecoration: 'underline',
+                  }}
                   onClick={handleClickReenter}
                   compact
                 >
                   Re-enter your address
                 </Button>
-              </Text>
-              <AuthInput handleCodeChange={(code) => setCode(code)} />
-              <Button
-                onClick={handleClickConfirm}
-                fullWidth
+              </Box>
+              <Box
+                my={16}
                 sx={{
-                  padding: 8,
-                  height: 44,
-                  borderRadius: 4,
+                  backgroundColor: '#445C75',
+                  height: '1px',
+                  width: '100%',
                 }}
-              >
-                Confirm
-              </Button>
+              />
+              <Box mx={-0.5}>
+                <AuthInput handleCodeChange={(code) => setCode(code)} />
+              </Box>
+              <Flex direction="row" align="center" w="100%" gap={16} mt={8}>
+                <Button
+                  py={8}
+                  fullWidth
+                  variant="outline"
+                  disabled={count > 0}
+                  onClick={handleClickResend}
+                  sx={{ borderColor: 'white', color: 'white' }}
+                >
+                  Resend
+                </Button>
+                <Button
+                  fullWidth
+                  py={8}
+                  onClick={handleClickConfirm}
+                  sx={{
+                    borderRadius: 4,
+                  }}
+                >
+                  Verify
+                </Button>
+              </Flex>
+              {count > 0 && (
+                <Text size={14} fw={400}>
+                  You can resend the unique code in {count} seconds
+                </Text>
+              )}
             </Stack>
             <Flex mt={58} align="center" direction="column">
               <Box
@@ -148,12 +207,17 @@ export default function CheckEmail() {
           >
             <div
               style={{
-                backgroundColor: '#47D4B1',
-                width: '55vh',
+                background:
+                  'linear-gradient(180deg, #182E45 0%, #112132 28.78%)',
                 height: '55vh',
+                width: 'auto',
+                maxWidth: '500px',
                 position: 'absolute',
-                right: '-90px',
-                bottom: '-60px',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                left: 0,
+                right: 0,
+                bottom: '-270px',
                 borderRadius: '50%',
               }}
             />
