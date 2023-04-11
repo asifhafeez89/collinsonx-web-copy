@@ -11,6 +11,7 @@ export {
   default as ThirdPartyPasswordless,
   consumePasswordlessCode,
   createPasswordlessCode,
+  signOut,
 } from 'supertokens-auth-react/recipe/thirdpartypasswordless';
 
 export {
