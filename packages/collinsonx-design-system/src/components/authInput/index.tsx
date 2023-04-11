@@ -1,9 +1,10 @@
-import React from 'react';
 import AuthCode from 'react-auth-code-input';
 import styled from '@emotion/styled';
 
 const CodeWrapper = styled.div`
   input {
+    font-weight: 600;
+    font-size: 18px;
     width: 48px;
     height: 48px;
     padding: 0;
