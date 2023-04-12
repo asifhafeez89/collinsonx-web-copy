@@ -1,6 +1,5 @@
-import * as React from 'react';
 import renderer from 'react-test-renderer';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import DatePicker from '.';
 
@@ -20,8 +19,7 @@ describe('<Datepicker />', () => {
           label="Date"
           withAsterisk
           clearable={false}
-          inputFormat={DATE_FORMAT}
-          labelFormat={DATE_FORMAT}
+          valueFormat={DATE_FORMAT}
           value={undefined}
           styles={{
             label: {
@@ -44,8 +42,7 @@ describe('<Datepicker />', () => {
           label="Date"
           withAsterisk
           clearable={false}
-          inputFormat={DATE_FORMAT}
-          labelFormat={DATE_FORMAT}
+          valueFormat={DATE_FORMAT}
           value={new Date()}
           styles={{
             label: {

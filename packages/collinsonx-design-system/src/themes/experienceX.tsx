@@ -17,7 +17,7 @@ const theme = (
   primaryColor: 'brandColor',
   primaryShade: 0,
   defaultRadius: 4,
-  spacing: { xs: 15, sm: 20, md: 25, lg: 30, xl: 40 },
+  //spacing: { xs: 15, sm: 20, md: 25, lg: 30, xl: 40 },
   fontFamily,
   globalStyles: ({ colors }) => ({
     body: {
@@ -115,7 +115,7 @@ const theme = (
     Button: {
       styles: (theme, params: ButtonStylesParams) => ({
         root: {
-          borderColor: params.variant === 'default' ? '#25262B' : undefined,
+          //borderColor: params.variant === 'default' ? '#25262B' : undefined,
           color: params.color === 'red' ? '#cf4545' : undefined,
         },
       }),
