@@ -11,11 +11,13 @@ export interface HeadingProps extends React.HTMLAttributes<HTMLElement> {
 const HeadingContainer = styled.div`
   position: relative;
   display: block;
+  color: ${(props) => props.color};
 `;
 
 const Subtitle = styled.div`
   position: absolute;
-  top: 10px;
+  top: 14px;
+  font-size: 10px;
   color: ${(props) => props.color};
 `;
 
@@ -24,10 +26,11 @@ export const Heading: React.FC<HeadingProps> = ({
   children,
   subtitle,
   subtitleColor,
+  color,
 }: HeadingProps) => {
   const HeadingElement = as;
   return (
-    <HeadingContainer>
+    <HeadingContainer color={color ?? '#000000'}>
       {subtitle && (
         <Subtitle color={subtitleColor ?? '#000000'}>{subtitle}</Subtitle>
       )}
