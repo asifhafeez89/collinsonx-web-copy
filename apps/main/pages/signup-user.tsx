@@ -133,9 +133,12 @@ export default function SignupUser() {
               placeholder="Pick a date"
               clearable={false}
               inputFormat={DATE_FORMAT}
-              {...form.getInputProps('dateOfBirth')}
-              maxDate={dayjs(date).toDate()}
-              onChange={handleChangeDate}
+              {...{
+                ...form.getInputProps('dateOfBirth'),
+                value: date,
+                onChange: handleChangeDate,
+              }}
+              maxDate={new Date()}
             />
             <InputLabel
               readOnly
