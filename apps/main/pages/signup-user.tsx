@@ -134,7 +134,7 @@ export default function SignupUser() {
               clearable={false}
               inputFormat={DATE_FORMAT}
               {...form.getInputProps('dateOfBirth')}
-              maxDate={dayjs(date).toDate()}
+              maxDate={new Date()}
               onChange={handleChangeDate}
             />
             <InputLabel
