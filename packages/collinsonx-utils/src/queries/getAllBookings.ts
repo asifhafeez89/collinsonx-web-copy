@@ -8,6 +8,9 @@ const getAllBookings = gql`
       createdAt
       consumer {
         id
+        firstName
+        lastName
+        fullName
       }
       id
       experience {

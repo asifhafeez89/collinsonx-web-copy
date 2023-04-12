@@ -150,9 +150,9 @@ export default function Bookings({ type }: BookingsProps) {
   const columns = useMemo(() => {
     // see https://github.com/TanStack/table/issues/4241
     const mainColumns: ColumnDef<Partial<Booking>, any>[] = [
-      columnHelper.accessor('consumer.id', {
-        header: 'Customer ID',
-        cell: (props) => props.getValue(),
+      columnHelper.accessor('consumer.fullName', {
+        header: 'Customer name',
+        cell: (props) => props.getValue() || '-',
       }),
       columnHelper.accessor('bookedFrom', {
         header: 'Time of booking',

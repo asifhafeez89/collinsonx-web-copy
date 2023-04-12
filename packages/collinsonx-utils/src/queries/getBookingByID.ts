@@ -5,6 +5,10 @@ const getBookingByID = gql`
     getBookingByID(id: $getBookingById) {
       bookedFrom
       bookedTo
+      consumer {
+        fullName
+        id
+      }
       experience {
         id
         images {
