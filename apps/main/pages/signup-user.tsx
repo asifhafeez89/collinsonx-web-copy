@@ -31,7 +31,8 @@ export default function SignupUser() {
   const handleChangeDate: ComponentProps<typeof DatePicker>['onChange'] = (
     date
   ) => {
-    setDate(date);
+    console.log('date ', date);
+    setDate(date as Date);
   };
 
   const form = useForm({
@@ -132,9 +133,9 @@ export default function SignupUser() {
               label="Date of birth"
               placeholder="Pick a date"
               clearable={false}
-              inputFormat={DATE_FORMAT}
+              valueFormat={DATE_FORMAT}
               {...form.getInputProps('dateOfBirth')}
-              maxDate={dayjs(date).toDate()}
+              maxDate={new Date()}
               onChange={handleChangeDate}
             />
             <InputLabel

@@ -38,6 +38,23 @@ const theme = (
     fontWeight: 600,
   },
   components: {
+    DatePickerInput: {
+      styles: ({ colors }) => ({
+        icon: {
+          paddingLeft: 14,
+        },
+        input: {
+          borderRadius: 4,
+          paddingLeft: 56,
+          '&[data-with-icon=true]': { paddingLeft: 56 },
+        },
+        day: {
+          '&[data-weekend=true]': {
+            color: colors.red[7],
+          },
+        },
+      }),
+    },
     DatePicker: {
       styles: ({ colors }) => ({
         calendarHeader: {
