@@ -22,7 +22,7 @@ import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifesty
 
 export default function SignupUser() {
   const router = useRouter();
-  const [date, setDate] = useState<Date | null>(new Date());
+  const [date, setDate] = useState<Date | null>(new Date('1990-01-01'));
   const [loading, setLoading] = useState(false);
   const DATE_FORMAT = 'DD/MM/YYYY';
 
