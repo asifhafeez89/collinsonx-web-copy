@@ -30,7 +30,6 @@ export default function SignupUser() {
   const handleChangeDate: ComponentProps<typeof DatePicker>['onChange'] = (
     date
   ) => {
-    console.log('date ', date);
     setDate(date as Date);
   };
 
