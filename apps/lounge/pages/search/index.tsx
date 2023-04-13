@@ -154,7 +154,7 @@ export default function Search() {
               required={true}
             />
             <Button fullWidth type="submit">
-              Login
+              Search
             </Button>
           </form>
         </FormWrapper>
