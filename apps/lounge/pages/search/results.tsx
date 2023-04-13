@@ -24,7 +24,7 @@ export default function Search() {
   const handleChangeDate: ComponentProps<typeof DatePicker>['onChange'] = (
     date
   ) => {
-    setDate(date);
+    setDate(date as Date);
   };
 
   return (
@@ -102,10 +102,13 @@ export default function Search() {
               label="Date of flight"
               placeholder="Pick a date"
               clearable={false}
-              inputFormat={DATE_FORMAT}
-              {...form.getInputProps('dateofflight')}
-              maxDate={dayjs(date).toDate()}
-              onChange={handleChangeDate}
+              valueFormat={DATE_FORMAT}
+              maxDate={new Date()}
+              {...{
+                ...form.getInputProps('dateofflight'),
+                value: date,
+                onChange: handleChangeDate,
+              }}
               required={true}
             />
             <Button fullWidth type="submit">

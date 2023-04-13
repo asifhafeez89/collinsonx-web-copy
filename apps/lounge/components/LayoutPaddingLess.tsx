@@ -1,4 +1,8 @@
-import { Container, MantineProvider } from '@collinsonx/design-system/core';
+import {
+  Box,
+  Container,
+  MantineProvider,
+} from '@collinsonx/design-system/core';
 import { Header, experienceX } from '@collinsonx/design-system';
 import { Be_Vietnam_Pro } from 'next/font/google';
 import { LogoExperienceX } from '@collinsonx/design-system/assets/logo';
@@ -50,7 +54,7 @@ export default function LayoutPaddingLess({ children }: LayoutProps) {
           },
         ]}
       />
-      <div
+      <Box
         p={16}
         sx={{
           maxWidth: '375px',
@@ -58,7 +62,7 @@ export default function LayoutPaddingLess({ children }: LayoutProps) {
         }}
       >
         {children}
-      </div>
+      </Box>
     </>
   );
 }
