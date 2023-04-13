@@ -36,6 +36,7 @@ import DetailsConfirmedActions from '@components/Details/DetailsConfirmedActions
 import DetailsPendingActions from '@components/Details/DetailsPendingActions';
 import { PageType } from 'config/booking';
 import { GetServerSideProps } from 'next';
+import { isErrorValid } from 'lib';
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
 
@@ -291,7 +292,9 @@ export default function Bookings({ type }: BookingsProps) {
             onChange={handleChangeDate}
           />
         </Flex>
-        {errorBookings && <Error error={errorBookings} />}
+        {errorBookings && isErrorValid(errorBookings) && (
+          <Error error={errorBookings} />
+        )}
         {!bookings ? (
           <Text>No bookings found</Text>
         ) : (

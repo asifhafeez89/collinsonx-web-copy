@@ -17,6 +17,7 @@ import getAllBookings from '@collinsonx/utils/queries/getAllBookings';
 import { Booking, BookingStatus } from '@collinsonx/utils';
 import { getBookingsByType } from '@collinsonx/utils/lib';
 import { useMemo } from 'react';
+import { isErrorValid } from 'lib';
 
 const { Initialized, Confirmed, Declined, Cancelled, CheckedIn } =
   BookingStatus;
@@ -39,9 +40,11 @@ export default function Overview() {
   const bookingsDeclined =
     (bookings[Declined]?.length || 0) + (bookings[Cancelled]?.length || 0);
 
+  console.log(error?.message);
+
   return (
     <>
-      {error ? (
+      {error && isErrorValid(error) ? (
         <Error error={error} />
       ) : (
         <>
