@@ -14,6 +14,7 @@ import {
 } from '@collinsonx/utils/mutations';
 import { useRouter } from 'next/router';
 import { bookingConfig } from 'config/booking';
+import { isErrorValid } from 'lib';
 
 interface DetailsProps {
   id: string;
@@ -75,7 +76,7 @@ export default function Details({ id }: DetailsProps) {
           {bookingConfig[status].description}
         </Notification>
       )}
-      {error ? (
+      {error && isErrorValid(error) ? (
         <Error error={error} />
       ) : (
         <Box py={40} px={32}>
