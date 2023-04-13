@@ -22,7 +22,7 @@ export default function Lounge({
       {loungeName && <Text color={'#000000'}>{loungeName}</Text>}
       <SimpleGrid cols={2}>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <MapPin width={16} color={'#000000'} />
+          <MapPin width={24} color={'#000000'} />
           <Box sx={{ paddingLeft: '5px' }}>
             <Text
               color={'#000000'}

@@ -11,7 +11,7 @@ import dayjs from 'dayjs';
 import ArrivalTime from '@components/ArrivalTime';
 
 import { useForm } from '@collinsonx/design-system/form';
-import { useState } from 'react';
+import { ComponentProps, useState } from 'react';
 
 export interface BookingFormValue {
   date: Date;
@@ -55,6 +55,12 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
     },
   });
 
+  const handleChangeDate: ComponentProps<typeof DatePicker>['onChange'] = (
+    date
+  ) => {
+    setDate(date as Date);
+  };
+
   return (
     <Flex direction="column">
       <Stack spacing={30}>
@@ -74,8 +80,7 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
             label="Date"
             placeholder="Pick a date"
             clearable={false}
-            defaultValue={new Date(2022, 1)}
-            minDate={dayjs(date).toDate()}
+            minDate={new Date()}
             sx={({ colors }) => ({
               '.mantine-Input-icon': {
                 paddingLeft: 14,
@@ -91,7 +96,11 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
                 color: '#000',
               },
             })}
-            {...form.getInputProps('date')}
+            {...{
+              ...form.getInputProps('date'),
+              value: date,
+              onChange: handleChangeDate,
+            }}
           />
           <InputSelect
             label="Your flight time"
