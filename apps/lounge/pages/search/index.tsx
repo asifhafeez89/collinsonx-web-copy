@@ -29,7 +29,7 @@ export default function Search() {
     },
 
     validate: {
-      flightNumber: (value: string) =>
+      flightNumber: (value) =>
         value?.length > 0 ? null : 'Please enter your flight number.',
     },
   });
