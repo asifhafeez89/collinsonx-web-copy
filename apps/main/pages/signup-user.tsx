@@ -21,17 +21,10 @@ import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifesty
 
 export default function SignupUser() {
   const router = useRouter();
-  const [date, setDate] = useState<Date | null>(new Date('1990-01-01'));
   const [loading, setLoading] = useState(false);
   const DATE_FORMAT = 'DD/MM/YYYY';
 
   const { email } = router.query;
-
-  const handleChangeDate: ComponentProps<typeof DatePicker>['onChange'] = (
-    date
-  ) => {
-    setDate(date as Date);
-  };
 
   const form = useForm({
     initialValues: {
@@ -134,8 +127,6 @@ export default function SignupUser() {
               valueFormat={DATE_FORMAT}
               {...{
                 ...form.getInputProps('dateOfBirth'),
-                value: date,
-                onChange: handleChangeDate,
               }}
               maxDate={new Date()}
             />

@@ -11,7 +11,8 @@ import dayjs from 'dayjs';
 import ArrivalTime from '@components/ArrivalTime';
 
 import { useForm } from '@collinsonx/design-system/form';
-import { useState } from 'react';
+import { ComponentProps, useEffect, useState } from 'react';
+import { getLoungeArrivalTime } from 'lib';
 
 export interface BookingFormValue {
   date: Date;
@@ -40,7 +41,6 @@ const DATE_FORMAT = 'DD/MM/YYYY';
 
 export default function BookingForm({ onSubmit }: BookingFormProps) {
   const [date, setDate] = useState<Date>(new Date());
-  const [time, setTime] = useState<string>();
   const [arrivalTime, setArrivalTime] = useState<string>();
 
   const form = useForm({
@@ -55,12 +55,32 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
     },
   });
 
+  const handleChangeDate: ComponentProps<typeof DatePicker>['onChange'] = (
+    date
+  ) => {
+    setDate(date as Date);
+  };
+
+  useEffect(() => {
+    const time = form.getInputProps('time').value;
+    if (time) {
+      const d = new Date();
+      const [h, m] = time.split(':');
+      d.setHours(Number.parseInt(h, 10));
+      d.setMinutes(Number.parseInt(m, 10));
+      d.setSeconds(0);
+      setArrivalTime(getLoungeArrivalTime(d));
+    } else {
+      setArrivalTime('');
+    }
+  }, [form, setArrivalTime]);
+
   return (
     <Flex direction="column">
       <Stack spacing={30}>
         <form
           onSubmit={form.onSubmit((values: any) => {
-            const d = new Date(values.date);
+            const d = date;
             const [h, m] = values.time.split(':');
             d.setHours(Number.parseInt(h, 10));
             d.setMinutes(Number.parseInt(m, 10));
@@ -74,8 +94,7 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
             label="Date"
             placeholder="Pick a date"
             clearable={false}
-            defaultValue={new Date(2022, 1)}
-            minDate={dayjs(date).toDate()}
+            minDate={new Date()}
             sx={({ colors }) => ({
               '.mantine-Input-icon': {
                 paddingLeft: 14,
@@ -91,7 +110,11 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
                 color: '#000',
               },
             })}
-            {...form.getInputProps('date')}
+            {...{
+              ...form.getInputProps('date'),
+              onChange: handleChangeDate,
+              value: date,
+            }}
           />
           <InputSelect
             label="Your flight time"
