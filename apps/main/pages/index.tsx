@@ -1,7 +1,7 @@
 import { Title, Stack, Flex } from '@collinsonx/design-system/core';
-import { Button } from '@mantine/core';
+import { Button } from '@collinsonx/design-system/core';
 import { getThemeKey } from '../lib/index';
-import { useForm } from '@mantine/form';
+import { useForm } from '@collinsonx/design-system/form';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import LayoutLogin from '@components/LayoutLogin';
