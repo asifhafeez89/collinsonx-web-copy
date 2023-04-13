@@ -55,7 +55,7 @@ export default function Search() {
         style={{
           position: 'relative',
           display: 'block',
-          height: '70vh',
+          height: '65vh',
           top: '0px',
           background: '#25262B',
           backgroundPositionY: 'center',
@@ -65,9 +65,9 @@ export default function Search() {
           style={{
             opacity: '0.5',
             zIndex: 400,
-            height: '40vh',
+            height: '32vh',
             width: '100%',
-            background: 'black',
+            background: '#25262B',
             position: 'absolute',
             top: '20px',
           }}
@@ -92,6 +92,7 @@ export default function Search() {
             backgroundColor: '#25262B',
             backgroundImage: 'url(/lounge/loungeimage.png)',
             backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
             zIndex: 100,
             top: '40px',
             height: '250px',
@@ -117,12 +118,13 @@ export default function Search() {
                 '.mantine-Input-icon': {
                   paddingLeft: 14,
                 },
+                marginBottom: '20px',
                 Input: {
                   paddingLeft: 56,
                   border: '1px solid #CED4DA',
                   borderRadius: 4,
                   color: colors.gray[6],
-                  marginBottom: 20,
+                  paddingBottom: '20px',
                   width: '100%',
                 },
                 label: {

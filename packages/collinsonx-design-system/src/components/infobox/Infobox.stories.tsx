@@ -20,7 +20,6 @@ const Template: ComponentStory<typeof InfoBox> = (args) => (
 
 export const Primary = Template.bind({});
 Primary.args = {
-  primary: true,
   title: 'Your flight details',
   flight: 'Date',
   date: '12/6/2023',

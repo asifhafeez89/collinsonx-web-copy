@@ -55,9 +55,8 @@ export default function LayoutPaddingLess({ children }: LayoutProps) {
         ]}
       />
       <Box
-        p={16}
         sx={{
-          maxWidth: '375px',
+          maxWidth: '100%',
           height: 'calc(100% - 69px)',
         }}
       >

@@ -1,10 +1,23 @@
 import { useState, useEffect, ComponentProps } from 'react';
 import LayoutPaddingLess from '@components/LayoutPaddingLess';
 import { Container } from '@collinsonx/design-system/core';
+import {
+  Title,
+  Stack,
+  Flex,
+  Skeleton,
+  Box,
+  Grid
+} from '@collinsonx/design-system/core';
 
-import { Stack } from '@collinsonx/design-system/core';
 import { DatePicker } from '@collinsonx/design-system';
 import { useForm } from '@collinsonx/design-system/form';
+import Infobox from '@collinsonx/design-system/components/infobox';
+import ResultsContainer from '@collinsonx/design-system/components/resultsContainer';
+
+import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
+import { useQuery } from '@collinsonx/utils/apollo';
+import { getSearchExperiences } from '@collinsonx/utils/queries';
 
 export default function Search() {
   const [date, setDate] = useState<Date | null>(new Date());
@@ -27,6 +40,11 @@ export default function Search() {
     setDate(date as Date);
   };
 
+  const { loading, error, data } = useQuery<{
+    searchExperiences: Experience[];
+  }>(getSearchExperiences);
+
+
   return (
     <div style={{ background: '#f5f5f5', height: '100vh' }}>
       <Container sx={{ background: '#25262B' }}>
@@ -35,87 +53,45 @@ export default function Search() {
           sx={{
             paddingTop: '20px',
             margin: '0',
+            display: "block",
+            position: "relative",
+            padding: "20px"
           }}
-        ></Stack>
+        >
+          <Infobox title="Your flight details" flight="Date" date="12/6/2023" />
+        </Stack>
       </Container>
-      <div
-        style={{
-          position: 'relative',
-          display: 'block',
-          height: '70vh',
-          top: '0px',
-          background: '#25262B',
-          backgroundPositionY: 'center',
-        }}
-      >
-        <div
-          style={{
-            opacity: '0.5',
-            zIndex: 400,
-            height: '40vh',
-            width: '100%',
-            background: 'black',
-            position: 'absolute',
-            top: '20px',
-          }}
-        ></div>
-        <div
-          style={{
-            position: 'absolute',
-            top: '0px',
-            zIndex: 1100,
-          }}
-        ></div>
-
-        {/* <FormWrapper>
-          <Heading as="h2">Experience starts now</Heading>
-
-          <form onSubmit={(values) => console.log(values)} c>
-            <InputLabel
-              autoFocus
-              type="text"
-              withAsterisk
-              {...form.getInputProps('lastname')}
-              placeholder="Last name"
-              label="Last name"
-              isWhite={false}
-            />
-            <DatePicker
-              icon={<Calendar />}
-              sx={({ colors }) => ({
-                '.mantine-Input-icon': {
-                  paddingLeft: 14,
-                },
-                Input: {
-                  paddingLeft: 56,
-                  border: '1px solid #CED4DA',
-                  borderRadius: 4,
-                  color: colors.gray[6],
-                  marginBottom: 20,
-                  width: '100%',
-                },
-                label: {
-                  color: colors.gray[8],
-                  marginTop: '10px',
-                },
-              })}
-              label="Date of flight"
-              placeholder="Pick a date"
-              clearable={false}
-              valueFormat={DATE_FORMAT}
-              maxDate={new Date()}
-              {...{
-                ...form.getInputProps('dateofflight'),
-                value: date,
-                onChange: handleChangeDate,
-              }}
-              required={true}
-            />
-            <Button fullWidth type="submit">
-              Login
-            </Button>
-          </form>
-        </FormWrapper> */}
+     <div>
+        <ResultsContainer>
+          <Grid grow gutter={2} gutterXs="md" gutterMd="xl" gutterXl={20}>
+            <Grid.Col span={5} sx={{textAlign: 'center'}}>
+              Lounges (3)
+            </Grid.Col>
+            <Grid.Col span={1} sx={{textAlign: 'center'}}>
+              |
+            </Grid.Col>
+            <Grid.Col span={6} sx={{textAlign: 'center'}}>
+              Filter
+            </Grid.Col>
+          </Grid>
+          <Flex direction="column">
+            {loading && <Skeleton visible={loading} h={390}></Skeleton>}
+            {data?.searchExperiences?.map((lounge) => {
+              const { name, location, id, images, openingHours } = lounge;
+              return (
+                <Card
+                  title={name || '-'}
+                  subtitle={location || '-'}
+                  ImageComponent={
+                    <LoungeImage width={309} height={232} images={images} />
+                  }
+                  handleClick={() => goToLoungeDetails(lounge)}
+                  key={id}
+                />
+              );
+            })}
+          </Flex>
+        </ResultsContainer>
       </div>
     </div>
   );

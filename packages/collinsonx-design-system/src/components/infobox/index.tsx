@@ -25,6 +25,7 @@ export default function InfoBox({
     border: 1px solid #e9ecef;
     padding: 20px;
     margin-bottom: 10px;
+    background:  #ffffff;
   `;
 
   return (
