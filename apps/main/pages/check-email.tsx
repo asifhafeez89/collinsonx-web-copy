@@ -16,7 +16,7 @@ import LayoutLogin from '@components/LayoutLogin';
 import { AuthInput } from '@collinsonx/design-system';
 import { LoginCode } from '@collinsonx/design-system/assets/graphics';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import getConsumerByEmailAddress from '@collinsonx/utils/queries/getConsumerByEmailAddress';
 import { useQuery } from '@collinsonx/utils/apollo';
 
@@ -28,7 +28,7 @@ export default function CheckEmail() {
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(20);
 
-  let interval: NodeJS.Timeout;
+  let interval = useRef<NodeJS.Timeout>();
 
   const {
     loading: loadingGetConsumer,
@@ -41,7 +41,7 @@ export default function CheckEmail() {
   });
 
   useEffect(() => {
-    interval = setInterval(() => {
+    interval.current = setInterval(() => {
       setCount((count) => {
         if (count === 0) {
           return count;
@@ -49,7 +49,7 @@ export default function CheckEmail() {
         return (count -= 1);
       });
     }, 1000);
-    return () => clearInterval(interval);
+    return () => clearInterval(interval.current);
   }, []);
 
   const handleClickResend = () => {
