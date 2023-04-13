@@ -1,2 +1,2 @@
-import { DatePicker } from '@mantine/dates';
-export default DatePicker;
+import { DatePickerInput } from '@mantine/dates';
+export default DatePickerInput;

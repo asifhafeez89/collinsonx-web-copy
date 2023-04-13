@@ -103,7 +103,7 @@ export default function Bookings({ type }: BookingsProps) {
     { loading: loadingConfirm, error: errorConfirm, data: dataConfirm },
   ] = useMutation(confirmBookingMutation);
 
-  const [date, setDate] = useState(dayjs(new Date()).format());
+  const [date, setDate] = useState<Date | null>(new Date());
   const [checkIn, setCheckIn] = useState(false);
   const handleClickClose = () => {
     setCheckIn(false);
@@ -145,7 +145,7 @@ export default function Bookings({ type }: BookingsProps) {
   const handleChangeDate: ComponentProps<typeof DatePicker>['onChange'] = (
     date
   ) => {
-    setDate(dayjs(date).format());
+    setDate(date as Date);
   };
 
   const columns = useMemo(() => {
@@ -275,20 +275,11 @@ export default function Bookings({ type }: BookingsProps) {
             icon={<Calendar />}
             sx={({ colors }) => ({
               width: 224,
-              '.mantine-Input-icon': {
-                paddingLeft: 14,
-              },
-              Input: {
-                paddingLeft: 56,
-                border: '1px solid #CED4DA',
-                borderRadius: 4,
-                color: colors.gray[6],
-              },
             })}
             placeholder="Pick a date"
             clearable={false}
-            inputFormat={DATE_FORMAT}
-            defaultValue={dayjs(date).toDate()}
+            valueFormat={DATE_FORMAT}
+            defaultValue={date}
             onChange={handleChangeDate}
           />
         </Flex>

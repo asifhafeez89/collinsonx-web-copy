@@ -1,6 +1,5 @@
 import { createStyles } from '@mantine/core';
 
-
 export const useStyles = createStyles((theme) => ({
   drawerHeader: {
     backgroundColor: '#112132',
@@ -12,7 +11,7 @@ export const useStyles = createStyles((theme) => ({
     alignItems: 'center',
   },
   header: {
-    backgroundColor:  theme.colors?.headerNavBg[0],
+    backgroundColor: theme.colors?.headerNavBg[0],
     display: 'flex',
     justifyContent: 'space-between',
     padding: 15,
@@ -42,7 +41,7 @@ export const useStyles = createStyles((theme) => ({
     width: 24,
     height: 24,
   },
-  drawer: {
+  root: {
     backgroundColor: '#ffffff',
     padding: '0 !important',
     display: 'flex',
@@ -53,12 +52,13 @@ export const useStyles = createStyles((theme) => ({
   drawerList: {
     padding: '0 15px 0 15px !important',
   },
-  closeButton: {
+  close: {
     color: '#112132',
   },
   drawerBody: {
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
+    padding: 0,
   },
 }));

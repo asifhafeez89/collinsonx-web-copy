@@ -17,7 +17,7 @@ const theme = (
   primaryColor: 'brandColor',
   primaryShade: 0,
   defaultRadius: 4,
-  spacing: { xs: 15, sm: 20, md: 25, lg: 30, xl: 40 },
+  //spacing: { xs: 15, sm: 20, md: 25, lg: 30, xl: 40 },
   fontFamily,
   globalStyles: ({ colors }) => ({
     body: {
@@ -38,6 +38,23 @@ const theme = (
     fontWeight: 600,
   },
   components: {
+    DatePickerInput: {
+      styles: ({ colors }) => ({
+        icon: {
+          paddingLeft: 14,
+        },
+        input: {
+          borderRadius: 4,
+          paddingLeft: 56,
+          '&[data-with-icon=true]': { paddingLeft: 56 },
+        },
+        day: {
+          '&[data-weekend=true]': {
+            color: colors.red[7],
+          },
+        },
+      }),
+    },
     DatePicker: {
       styles: ({ colors }) => ({
         calendarHeader: {
@@ -115,7 +132,7 @@ const theme = (
     Button: {
       styles: (theme, params: ButtonStylesParams) => ({
         root: {
-          borderColor: params.variant === 'default' ? '#25262B' : undefined,
+          //borderColor: params.variant === 'default' ? '#25262B' : undefined,
           color: params.color === 'red' ? '#cf4545' : undefined,
         },
       }),
