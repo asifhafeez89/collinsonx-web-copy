@@ -42,7 +42,6 @@ export default function Landing() {
               <Card
                 title={name || '-'}
                 subtitle={location || '-'}
-                openingHours={openingHours || ''}
                 ImageComponent={
                   <LoungeImage width={309} height={232} images={images} />
                 }

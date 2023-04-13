@@ -40,7 +40,6 @@ interface CardProps {
   title: string;
   subtitle: string;
   ImageComponent?: JSX.Element;
-  openingHours: string;
   handleClick: () => void;
 }
 
