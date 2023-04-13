@@ -16,7 +16,7 @@ const Details = ({ children, booking, loading = false }: DetailsProps) => {
     <Stack spacing={40}>
       <DetailsSection label="Passenger details">
         <DetailsKeyValue label="Name" loading={loading}>
-          -
+          {booking?.consumer?.fullName ?? '-'}
         </DetailsKeyValue>
         <DetailsKeyValue label="Date of birth" loading={loading}>
           -

@@ -64,8 +64,8 @@ const Header = ({ items, logo, onClickSignout }: HeaderProps) => {
         size="xl"
         withCloseButton={false}
         classNames={{
-          drawer: classes.drawer,
-          closeButton: classes.closeButton,
+          root: classes.root,
+          close: classes.close,
           body: classes.drawerBody,
         }}
       >

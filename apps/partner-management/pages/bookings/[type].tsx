@@ -36,6 +36,7 @@ import DetailsConfirmedActions from '@components/Details/DetailsConfirmedActions
 import DetailsPendingActions from '@components/Details/DetailsPendingActions';
 import { PageType } from 'config/booking';
 import { GetServerSideProps } from 'next';
+import { isErrorValid } from 'lib';
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
 
@@ -102,7 +103,7 @@ export default function Bookings({ type }: BookingsProps) {
     { loading: loadingConfirm, error: errorConfirm, data: dataConfirm },
   ] = useMutation(confirmBookingMutation);
 
-  const [date, setDate] = useState(dayjs(new Date()).format());
+  const [date, setDate] = useState<Date | null>(new Date());
   const [checkIn, setCheckIn] = useState(false);
   const handleClickClose = () => {
     setCheckIn(false);
@@ -144,15 +145,15 @@ export default function Bookings({ type }: BookingsProps) {
   const handleChangeDate: ComponentProps<typeof DatePicker>['onChange'] = (
     date
   ) => {
-    setDate(dayjs(date).format());
+    setDate(date as Date);
   };
 
   const columns = useMemo(() => {
     // see https://github.com/TanStack/table/issues/4241
     const mainColumns: ColumnDef<Partial<Booking>, any>[] = [
-      columnHelper.accessor('consumer.id', {
-        header: 'Customer ID',
-        cell: (props) => props.getValue(),
+      columnHelper.accessor('consumer.fullName', {
+        header: 'Customer name',
+        cell: (props) => props.getValue() || '-',
       }),
       columnHelper.accessor('bookedFrom', {
         header: 'Time of booking',
@@ -274,24 +275,17 @@ export default function Bookings({ type }: BookingsProps) {
             icon={<Calendar />}
             sx={({ colors }) => ({
               width: 224,
-              '.mantine-Input-icon': {
-                paddingLeft: 14,
-              },
-              Input: {
-                paddingLeft: 56,
-                border: '1px solid #CED4DA',
-                borderRadius: 4,
-                color: colors.gray[6],
-              },
             })}
             placeholder="Pick a date"
             clearable={false}
-            inputFormat={DATE_FORMAT}
-            defaultValue={dayjs(date).toDate()}
+            valueFormat={DATE_FORMAT}
+            defaultValue={date}
             onChange={handleChangeDate}
           />
         </Flex>
-        {errorBookings && <Error error={errorBookings} />}
+        {errorBookings && isErrorValid(errorBookings) && (
+          <Error error={errorBookings} />
+        )}
         {!bookings ? (
           <Text>No bookings found</Text>
         ) : (

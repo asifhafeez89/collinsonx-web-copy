@@ -11,6 +11,10 @@ const getSearchExperiences = gql`
       facilities
       images {
         url
+        altText
+        height
+        width
+        id
       }
       location
       name

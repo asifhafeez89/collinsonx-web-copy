@@ -16,13 +16,12 @@ import updateConsumer from '@collinsonx/utils/mutations/updateConsumer';
 import { useMutation } from '@collinsonx/utils/apollo';
 import { ConsumerInput } from '@collinsonx/utils';
 import { useRouter } from 'next/router';
-import dayjs from 'dayjs';
 import validateEmail from '@collinsonx/utils/lib/validateEmail';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 
 export default function SignupUser() {
   const router = useRouter();
-  const [date, setDate] = useState<Date | null>(new Date());
+  const [date, setDate] = useState<Date | null>(new Date('1990-01-01'));
   const [loading, setLoading] = useState(false);
   const DATE_FORMAT = 'DD/MM/YYYY';
 
@@ -31,7 +30,7 @@ export default function SignupUser() {
   const handleChangeDate: ComponentProps<typeof DatePicker>['onChange'] = (
     date
   ) => {
-    setDate(date);
+    setDate(date as Date);
   };
 
   const form = useForm({
@@ -133,10 +132,13 @@ export default function SignupUser() {
               label="Date of birth"
               placeholder="Pick a date"
               clearable={false}
-              inputFormat={DATE_FORMAT}
-              {...form.getInputProps('dateOfBirth')}
-              maxDate={dayjs(date).toDate()}
-              onChange={handleChangeDate}
+              valueFormat={DATE_FORMAT}
+              {...{
+                ...form.getInputProps('dateOfBirth'),
+                value: date,
+                onChange: handleChangeDate,
+              }}
+              maxDate={new Date()}
             />
             <InputLabel
               readOnly
