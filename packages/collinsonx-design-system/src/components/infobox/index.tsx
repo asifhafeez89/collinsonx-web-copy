@@ -25,7 +25,7 @@ export default function InfoBox({
     border: 1px solid #e9ecef;
     padding: 20px;
     margin-bottom: 10px;
-    background:  #ffffff;
+    background: #ffffff;
   `;
 
   return (
@@ -34,12 +34,12 @@ export default function InfoBox({
         <Grid.Col span={7}>
           <Grid grow gutter={2}>
             <Grid.Col span={12}>{title}</Grid.Col>
-            <Grid.Col span={6}>
+            <Grid.Col span={5}>
               <Aeroplane w={24} h={24} />
               &nbsp;
               {flight}
             </Grid.Col>
-            <Grid.Col span={6}>
+            <Grid.Col span={7}>
               <CalendarB w={24} h={24} />
               &nbsp;
               {date}
@@ -49,10 +49,10 @@ export default function InfoBox({
         <Grid.Col span={1}>
           <ActionIcon
             color="dark.6"
-            onClick={() => console.log('Hello')}
+            onClick={handleEditClick}
             sx={{
               position: 'absolute',
-              top: 40,
+              top: 50,
               right: 40,
             }}
           >

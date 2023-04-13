@@ -9,27 +9,30 @@ import FormWrapper from '@collinsonx/design-system/components/formWrapper/formWr
 import { DatePicker, InputLabel } from '@collinsonx/design-system';
 import { useForm } from '@collinsonx/design-system/form';
 import dayjs from 'dayjs';
-
+import router, { useRouter } from 'next/router';
+export interface BookLoungeProps {
+  flightNumber: string;
+  dateofflight: Date;
+}
 export default function Search() {
+  const router = useRouter();
   const [date, setDate] = useState<Date | null>(new Date());
   const DATE_FORMAT = 'DD/MM/YYYY';
+
+  const flightNumber = router.query?.flightnumber;
+  const flightDate = router.query?.dateofflight ?? null;
+
   const form = useForm({
     initialValues: {
-      flightNumber: '',
-      dateofflight: new Date('1990-01-01'),
+      flightNumber: flightNumber ?? '',
+      dateofflight: (flightDate as string) ?? new Date(),
     },
 
     validate: {
       flightNumber: (value: string) =>
-        value?.length > 0 ? null : 'Please enter your last name.',
+        value?.length > 0 ? null : 'Please enter your flight number.',
     },
   });
-
-  const handleChangeDate: ComponentProps<typeof DatePicker>['onChange'] = (
-    date
-  ) => {
-    setDate(date as Date);
-  };
 
   return (
     <div style={{ background: '#f5f5f5', height: '100vh' }}>
@@ -102,14 +105,24 @@ export default function Search() {
         <FormWrapper>
           <Heading as="h2">Experience starts now</Heading>
 
-          <form onSubmit={(values) => console.log(values)}>
+          <form
+            onSubmit={form.onSubmit((values) => {
+              router.push({
+                pathname: '/search/results',
+                query: {
+                  flightnumber: values.flightNumber,
+                  dateofflight: values.dateofflight.toString(),
+                },
+              });
+            })}
+          >
             <InputLabel
               autoFocus
               type="text"
               withAsterisk
-              {...form.getInputProps('lastname')}
-              placeholder="Last name"
-              label="Last name"
+              {...form.getInputProps('flightNumber')}
+              placeholder="Flight number"
+              label="Flight Number"
               isWhite={false}
             />
             <DatePicker
@@ -136,12 +149,8 @@ export default function Search() {
               placeholder="Pick a date"
               clearable={false}
               valueFormat={DATE_FORMAT}
-              maxDate={new Date()}
-              {...{
-                ...form.getInputProps('dateofflight'),
-                value: date,
-                onChange: handleChangeDate,
-              }}
+              minDate={new Date(flightDate as string)}
+              {...form.getInputProps('dateofflight')}
               required={true}
             />
             <Button fullWidth type="submit">

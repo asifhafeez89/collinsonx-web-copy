@@ -12,8 +12,11 @@ import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
 import { useQuery } from '@collinsonx/utils/apollo';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
 import LoungeImage from '@components/LoungeImage';
+import router, { useRouter } from 'next/router';
+import dayjs from 'dayjs';
 
 export default function Search() {
+  const router = useRouter();
   const [date, setDate] = useState<Date | null>(new Date());
   const DATE_FORMAT = 'DD/MM/YYYY';
   const form = useForm({
@@ -28,11 +31,10 @@ export default function Search() {
     },
   });
 
-  const handleChangeDate: ComponentProps<typeof DatePicker>['onChange'] = (
-    date
-  ) => {
-    setDate(date as Date);
-  };
+  const flightNumber = router.query?.flightnumber as string;
+  const flightDate = dayjs(router.query?.dateofflight as string).format(
+    'DD/MM/YYYY'
+  );
 
   const { loading, error, data } = useQuery<{
     searchExperiences: Experience[];
@@ -45,7 +47,6 @@ export default function Search() {
           spacing={10}
           sx={{
             paddingTop: '20px',
-            margin: '0',
             display: 'block',
             position: 'relative',
             padding: '20px',
@@ -53,15 +54,30 @@ export default function Search() {
         >
           <Infobox
             title="Your flight details"
-            flight="Date"
-            date="12/6/2023"
-            handleEditClick={() => {}}
+            flight={flightNumber}
+            date={flightDate}
+            handleEditClick={() => {
+              router.push({
+                pathname: '/search',
+                query: {
+                  flightnumber: flightNumber,
+                  dateofflight: router.query?.dateofflight,
+                },
+              });
+            }}
           />
         </Stack>
       </Container>
       <div>
         <ResultsContainer>
-          <Grid grow gutter={2} gutterXs="md" gutterMd="xl" gutterXl={20}>
+          <Grid
+            grow
+            gutter={2}
+            gutterXs="md"
+            gutterMd="xl"
+            gutterXl={20}
+            sx={{ marginBottom: '20px' }}
+          >
             <Grid.Col span={5} sx={{ textAlign: 'center' }}>
               Lounges (3)
             </Grid.Col>
@@ -75,7 +91,7 @@ export default function Search() {
           <Flex direction="column">
             {loading && <Skeleton visible={loading} h={390}></Skeleton>}
             {data?.searchExperiences?.map((lounge) => {
-              const { name, location, id, images, openingHours } = lounge;
+              const { name, location, id, images } = lounge;
               return (
                 <Card
                   title={name || '-'}
@@ -83,9 +99,7 @@ export default function Search() {
                   ImageComponent={
                     <LoungeImage width={309} height={232} images={images} />
                   }
-                  handleClick={() => {
-                    /*goToLoungeDetails(lounge)*/
-                  }}
+                  handleClick={() => {}}
                   key={id}
                 />
               );
