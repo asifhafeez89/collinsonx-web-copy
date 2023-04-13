@@ -29,7 +29,7 @@ export default function Landing() {
   }>(getSearchExperiences);
 
   return (
-    <>
+    <Box px={8}>
       <Stack spacing={16} sx={{ position: 'relative' }}>
         <Title order={1} size={20} align="center">
           Ready for your next experience?
@@ -37,11 +37,12 @@ export default function Landing() {
         <Flex direction="column">
           {loading && <Skeleton visible={loading} h={390}></Skeleton>}
           {data?.searchExperiences?.map((lounge) => {
-            const { name, location, id, images } = lounge;
+            const { name, location, id, images, openingHours } = lounge;
             return (
               <Card
                 title={name || '-'}
                 subtitle={location || '-'}
+                openingHours={openingHours || ''}
                 ImageComponent={
                   <LoungeImage width={309} height={232} images={images} />
                 }
@@ -52,7 +53,7 @@ export default function Landing() {
           })}
         </Flex>
       </Stack>
-    </>
+    </Box>
   );
 }
 

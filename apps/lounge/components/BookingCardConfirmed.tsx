@@ -57,7 +57,7 @@ export default function BookingCardConfirmed({
               {name}
             </Title>
             <Group spacing={8}>
-              <MapPin />
+              <MapPin width={16} />
               <Text>{location}</Text>
             </Group>
           </Stack>

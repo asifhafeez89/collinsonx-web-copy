@@ -1,7 +1,7 @@
 import type { AppProps } from 'next/app';
 import { NextPage } from 'next';
 import { ComponentType, ReactElement } from 'react';
-import { MantineProvider } from '@collinsonx/design-system/core';
+import { Global, MantineProvider } from '@collinsonx/design-system/core';
 import Head from 'next/head';
 
 import { experienceX } from '@collinsonx/design-system/themes';
@@ -50,6 +50,7 @@ export default function MyApp({ Component, pageProps }: Props) {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
+
       <Client isConsumer>
         <SuperTokensWrapper>
           <SysAuth>
@@ -58,6 +59,13 @@ export default function MyApp({ Component, pageProps }: Props) {
               withGlobalStyles
               withNormalizeCSS
             >
+              <Global
+                styles={(theme) => ({
+                  body: {
+                    backgroundColor: '#f5f5f6',
+                  },
+                })}
+              />
               {getLayout(<Component {...pageProps} />)}
             </MantineProvider>
           </SysAuth>

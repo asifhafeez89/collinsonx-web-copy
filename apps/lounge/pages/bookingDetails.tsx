@@ -94,7 +94,7 @@ export default function BookingDetails({ id }: BookingDetailProps) {
               {getBookingByID?.experience?.name}
             </Title>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <MapPin color={'#000000'} />
+              <MapPin width={16} color={'#000000'} />
               <Text color={'#000000'} sx={{ marginLeft: '10px' }}>
                 {getBookingByID?.experience?.location}
               </Text>

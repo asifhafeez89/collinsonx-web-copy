@@ -76,7 +76,7 @@ export default function BookingCard({
             </Title>
 
             <Group spacing={8}>
-              <MapPin />
+              <MapPin width={16} />
               <Text>{location}</Text>
             </Group>
 
