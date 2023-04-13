@@ -14,7 +14,7 @@ import {
 } from '@collinsonx/utils/mutations';
 import { useRouter } from 'next/router';
 import { bookingConfig } from 'config/booking';
-import { isErrorValid } from '../../lib';
+import { isErrorValid } from 'lib';
 
 interface DetailsProps {
   id: string;
