@@ -42,7 +42,16 @@ export default function Search() {
 
   return (
     <div style={{ background: '#f5f5f5', height: '100vh' }}>
-      <Container px={8} maw={375} sx={{ background: '#25262B' }}>
+      <Container
+        px={8}
+        sx={{
+          '@media (max-width: 768px)': {
+            width: '100%',
+          },
+          width: '375px',
+          background: '#25262B',
+        }}
+      >
         <Stack
           spacing={10}
           sx={{
@@ -68,7 +77,15 @@ export default function Search() {
           />
         </Stack>
       </Container>
-      <Container maw={375} p={0}>
+      <Container
+        sx={{
+          '@media (max-width: 768px)': {
+            width: '100%',
+          },
+          width: '375px',
+        }}
+        p={0}
+      >
         <ResultsContainer>
           <Grid
             grow

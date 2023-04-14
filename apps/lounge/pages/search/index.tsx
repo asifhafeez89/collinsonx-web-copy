@@ -36,7 +36,16 @@ export default function Search() {
 
   return (
     <div style={{ background: '#f5f5f5', height: '100vh' }}>
-      <Container px={24} maw={375} sx={{ background: '#25262B' }}>
+      <Container
+        px={24}
+        sx={{
+          '@media (max-width: 768px)': {
+            width: '100%',
+          },
+          width: '375px',
+          background: '#25262B',
+        }}
+      >
         <Stack
           spacing={10}
           sx={{
@@ -54,7 +63,15 @@ export default function Search() {
           </Heading>
         </Stack>
       </Container>
-      <Container maw={375} p={0}>
+      <Container
+        p={0}
+        sx={{
+          '@media (max-width: 768px)': {
+            width: '100%',
+          },
+          width: '375px',
+        }}
+      >
         <div
           style={{
             position: 'relative',
