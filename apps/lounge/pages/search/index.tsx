@@ -59,7 +59,7 @@ export default function Search() {
           style={{
             position: 'relative',
             display: 'block',
-            height: '65vh',
+            height: '576px',
             top: '0px',
             background: '#25262B',
             backgroundPositionY: 'center',
