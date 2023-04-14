@@ -76,8 +76,7 @@ export default function Search() {
             gutterXs="md"
             gutterMd="xl"
             gutterXl={20}
-            pb={12}
-            sx={{ marginBottom: '20px' }}
+            py={12}
           >
             <Grid.Col span={5} sx={{ textAlign: 'center' }}>
               Lounges (3)
