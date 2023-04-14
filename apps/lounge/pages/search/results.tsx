@@ -1,6 +1,6 @@
 import React, { useState, ComponentProps } from 'react';
 import LayoutPaddingLess from '@components/LayoutPaddingLess';
-import { Container } from '@collinsonx/design-system/core';
+import { Box, Container } from '@collinsonx/design-system/core';
 import { Stack, Flex, Skeleton, Grid } from '@collinsonx/design-system/core';
 
 import { Card, DatePicker } from '@collinsonx/design-system';
@@ -42,7 +42,7 @@ export default function Search() {
 
   return (
     <div style={{ background: '#f5f5f5', height: '100vh' }}>
-      <Container sx={{ background: '#25262B' }}>
+      <Container px={8} maw={375} sx={{ background: '#25262B' }}>
         <Stack
           spacing={10}
           sx={{
@@ -68,7 +68,7 @@ export default function Search() {
           />
         </Stack>
       </Container>
-      <div>
+      <Container maw={375} p={0}>
         <ResultsContainer>
           <Grid
             grow
@@ -76,6 +76,7 @@ export default function Search() {
             gutterXs="md"
             gutterMd="xl"
             gutterXl={20}
+            pb={12}
             sx={{ marginBottom: '20px' }}
           >
             <Grid.Col span={5} sx={{ textAlign: 'center' }}>
@@ -106,7 +107,7 @@ export default function Search() {
             })}
           </Flex>
         </ResultsContainer>
-      </div>
+      </Container>
     </div>
   );
 }

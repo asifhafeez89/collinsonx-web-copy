@@ -1,6 +1,6 @@
 import { useState, useEffect, ComponentProps } from 'react';
 import LayoutPaddingLess from '@components/LayoutPaddingLess';
-import { Container } from '@collinsonx/design-system/core';
+import { Container, Box } from '@collinsonx/design-system/core';
 
 import { Calendar } from '@collinsonx/design-system/assets/icons';
 import { Heading } from '@collinsonx/design-system/components/heading/Heading';
@@ -36,7 +36,7 @@ export default function Search() {
 
   return (
     <div style={{ background: '#f5f5f5', height: '100vh' }}>
-      <Container sx={{ background: '#25262B' }}>
+      <Container px={24} maw={375} sx={{ background: '#25262B' }}>
         <Stack
           spacing={10}
           sx={{
@@ -54,111 +54,113 @@ export default function Search() {
           </Heading>
         </Stack>
       </Container>
-      <div
-        style={{
-          position: 'relative',
-          display: 'block',
-          height: '65vh',
-          top: '0px',
-          background: '#25262B',
-          backgroundPositionY: 'center',
-        }}
-      >
+      <Container maw={375} p={0}>
         <div
           style={{
-            opacity: '0.5',
-            zIndex: 400,
-            height: '32vh',
-            width: '100%',
-            background: '#25262B',
-            position: 'absolute',
-            top: '20px',
-          }}
-        ></div>
-        <div
-          style={{
-            position: 'absolute',
+            position: 'relative',
+            display: 'block',
+            height: '65vh',
             top: '0px',
-            zIndex: 1100,
+            background: '#25262B',
+            backgroundPositionY: 'center',
           }}
         >
-          <Container>
-            <Text color="#ffffff">
-              Visiting an airport lounge can be a great way to make your travel
-              experience more comfortable, enjoyable, and stress-free.
-            </Text>
-          </Container>
-        </div>
-        <div
-          style={{
-            position: 'absolute',
-            backgroundColor: '#25262B',
-            backgroundImage: 'url(/lounge/loungeimage.png)',
-            backgroundSize: 'contain',
-            backgroundRepeat: 'no-repeat',
-            zIndex: 100,
-            top: '40px',
-            height: '250px',
-            width: '100%',
-          }}
-        ></div>
-        <FormWrapper>
-          <Heading as="h2">Experience starts now</Heading>
-
-          <form
-            onSubmit={form.onSubmit((values) => {
-              router.push({
-                pathname: '/search/results',
-                query: {
-                  flightnumber: values.flightNumber,
-                  dateofflight: values.dateofflight.toString(),
-                },
-              });
-            })}
+          <div
+            style={{
+              opacity: '0.5',
+              zIndex: 400,
+              height: '32vh',
+              width: '100%',
+              background: '#25262B',
+              position: 'absolute',
+              top: '20px',
+            }}
+          ></div>
+          <div
+            style={{
+              position: 'absolute',
+              top: '0px',
+              zIndex: 1100,
+            }}
           >
-            <InputLabel
-              autoFocus
-              type="text"
-              withAsterisk
-              {...form.getInputProps('flightNumber')}
-              placeholder="Flight number"
-              label="Flight Number"
-              isWhite={false}
-            />
-            <DatePicker
-              icon={<Calendar />}
-              sx={({ colors }) => ({
-                '.mantine-Input-icon': {
-                  paddingLeft: 14,
-                },
-                marginBottom: '20px',
-                Input: {
-                  paddingLeft: 56,
-                  border: '1px solid #CED4DA',
-                  borderRadius: 4,
-                  color: colors.gray[6],
-                  paddingBottom: '20px',
-                  width: '100%',
-                },
-                label: {
-                  color: colors.gray[8],
-                  marginTop: '10px',
-                },
+            <Container>
+              <Text color="#ffffff">
+                Visiting an airport lounge can be a great way to make your
+                travel experience more comfortable, enjoyable, and stress-free.
+              </Text>
+            </Container>
+          </div>
+          <div
+            style={{
+              position: 'absolute',
+              backgroundColor: '#25262B',
+              backgroundImage: 'url(/lounge/loungeimage.png)',
+              backgroundSize: 'contain',
+              backgroundRepeat: 'no-repeat',
+              zIndex: 100,
+              top: '40px',
+              height: '250px',
+              width: '100%',
+            }}
+          ></div>
+          <FormWrapper>
+            <Heading as="h2">Experience starts now</Heading>
+
+            <form
+              onSubmit={form.onSubmit((values) => {
+                router.push({
+                  pathname: '/search/results',
+                  query: {
+                    flightnumber: values.flightNumber,
+                    dateofflight: values.dateofflight.toString(),
+                  },
+                });
               })}
-              label="Date of flight"
-              placeholder="Pick a date"
-              clearable={false}
-              valueFormat={DATE_FORMAT}
-              minDate={new Date(flightDate as string)}
-              {...form.getInputProps('dateofflight')}
-              required={true}
-            />
-            <Button fullWidth type="submit">
-              Search
-            </Button>
-          </form>
-        </FormWrapper>
-      </div>
+            >
+              <InputLabel
+                autoFocus
+                type="text"
+                withAsterisk
+                {...form.getInputProps('flightNumber')}
+                placeholder="Flight number"
+                label="Flight Number"
+                isWhite={false}
+              />
+              <DatePicker
+                icon={<Calendar />}
+                sx={({ colors }) => ({
+                  '.mantine-Input-icon': {
+                    paddingLeft: 14,
+                  },
+                  marginBottom: '20px',
+                  Input: {
+                    paddingLeft: 56,
+                    border: '1px solid #CED4DA',
+                    borderRadius: 4,
+                    color: colors.gray[6],
+                    paddingBottom: '20px',
+                    width: '100%',
+                  },
+                  label: {
+                    color: colors.gray[8],
+                    marginTop: '10px',
+                  },
+                })}
+                label="Date of flight"
+                placeholder="Pick a date"
+                clearable={false}
+                valueFormat={DATE_FORMAT}
+                minDate={new Date(flightDate as string)}
+                {...form.getInputProps('dateofflight')}
+                required={true}
+              />
+              <Button fullWidth type="submit">
+                Search
+              </Button>
+            </form>
+          </FormWrapper>
+        </div>
+      </Container>
     </div>
   );
 }

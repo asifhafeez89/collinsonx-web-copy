@@ -7,7 +7,7 @@ interface ResultsContainerProps {
 
 const ResultsContainerDiv = styled.div`
   background: #f5f5f5;
-  padding: 20px;
+  padding: 0 24px;
   width: 100%;
   z-index: 1000;
 `;
