@@ -111,6 +111,7 @@ export default function SignupUser() {
             <DatePicker
               icon={<Calendar />}
               sx={({ colors }) => ({
+                marginTop: '20px',
                 '.mantine-Input-icon': {
                   paddingLeft: 14,
                 },

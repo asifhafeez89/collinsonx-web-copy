@@ -1,13 +1,11 @@
 import {
   Box,
   Flex,
-  Text,
   Stack,
   UnstyledButton,
 } from '@collinsonx/design-system/core';
 import { Calendar } from '@collinsonx/design-system/assets/icons';
 import { InputSelect, DatePicker } from '@collinsonx/design-system';
-import dayjs from 'dayjs';
 import ArrivalTime from '@components/ArrivalTime';
 
 import { useForm } from '@collinsonx/design-system/form';

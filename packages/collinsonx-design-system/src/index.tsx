@@ -11,4 +11,6 @@ export { default as PageTitle } from './components/pageTitle';
 export { default as Header } from './components/header';
 export { default as Status } from './components/status';
 export { default as DatePicker } from './components/datepicker';
+export { default as Infobox } from './components/infobox';
+export { default as ResultsContainer } from './components/resultsContainer';
 export * from './themes';

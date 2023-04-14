@@ -21,3 +21,6 @@ export { default as Confirmed } from './confirmed.svg';
 export { default as Declined } from './declined.svg';
 export { default as BackArrow } from './back-arrow.svg';
 export { default as Warning } from './warning.svg';
+export { default as Edit } from './edit.svg';
+export { default as Aeroplane } from './airplane.svg';
+export { default as CalendarB } from './calendarblue.svg';
