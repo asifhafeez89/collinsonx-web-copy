@@ -8,7 +8,7 @@
     "e2e:start": "start-server-and-test \"(cd ../../apps/main && npm run start)\" http://localhost:3000 \"playwright test\""
   },
   "keywords": [],
-  "author": "",
+  "author": "Ismael Onilearan",
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.32.1",
