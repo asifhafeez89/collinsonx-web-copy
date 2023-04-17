@@ -7,9 +7,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
+      - uses: mcr.microsoft.com/playwright:v1.30.0-focal
+
         with:
           node-version: 18
       - name: "Run local server"
