@@ -4,7 +4,7 @@ class LoginPage {
   }
 
   getURL() {
-    return this.page.goto('/');
+    return this.page.goto('http://127.0.0.1:3000');
   }
 
   getUsernameTextbox() {
