@@ -19,10 +19,13 @@ import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifesty
 import { useEffect, useRef, useState } from 'react';
 import getConsumerByEmailAddress from '@collinsonx/utils/queries/getConsumerByEmailAddress';
 import { useQuery } from '@collinsonx/utils/apollo';
+import { resolveObjectURL } from 'buffer';
 
 export default function CheckEmail() {
   const router = useRouter();
   const email = router.query?.email as string;
+  const redirectUrl = router.query?.redirectUrl as string;
+
   const [code, setCode] = useState<string>();
 
   const [loading, setLoading] = useState(false);
@@ -68,7 +71,11 @@ export default function CheckEmail() {
       if (response.status === 'OK') {
         // existing user - move to success page
         if (data?.getConsumerByEmailAddress !== null) {
-          router.push('/lounge');
+          if (redirectUrl) {
+            router.push(redirectUrl);
+          } else {
+            router.push('/lounge');
+          }
         } else {
           // new user - move to registration
           router.push({ pathname: '/signup-user', query: { email } });

@@ -3,13 +3,16 @@ import useAuth from '../hooks/useAuth';
 
 interface SysAuthProps {
   children: React.ReactNode;
+  redirectUrl?: string;
 }
 
-const SysAuth = ({ children }: SysAuthProps) => {
+const SysAuth = ({ children, redirectUrl }: SysAuthProps) => {
   const [isLoggedIn, userId, logout] = useAuth({
     onExpiredSession: () => {
       if (window) {
-        window.location.href = '/';
+        window.location.href = redirectUrl
+          ? `/?redirectUrl=${window.location.pathname + window.location.search}`
+          : '/';
       }
     },
   });
