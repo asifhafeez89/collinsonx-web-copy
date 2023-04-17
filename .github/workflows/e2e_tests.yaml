@@ -25,8 +25,7 @@ jobs:
 
       - name: "Run e2e tests"
         run: |
-            cd packages/collinsonx-tests-e2e/tests
-            pnpm i
+            cd packages/collinsonx-tests-e2e
             pnpm run e2e:dev
       
       - name: Upload test results
