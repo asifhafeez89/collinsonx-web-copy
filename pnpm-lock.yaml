@@ -376,14 +376,17 @@ importers:
       '@graphql-codegen/cli': ^3.0.0
       '@graphql-codegen/client-preset': ^2.0.0
       '@graphql-typed-document-node/core': ^3.1.1
+      '@types/lodash': ^4.14.194
       '@types/node': ^18.13.0
       '@types/react': ^18.0.27
       '@types/react-dom': ^18.0.10
       dayjs: ^1.11.7
+      deepmerge: ^4.3.1
       eslint: ^8.16.0
       eslint-config-collinsonx: workspace:*
       graphql: ^16.6.0
       jest-environment-jsdom: ^29.4.3
+      lodash: ^4.17.21
       react: ^18.2.0
       react-dom: ^18.2.0
       supertokens-auth-react: 0.31.1
@@ -393,7 +396,10 @@ importers:
     dependencies:
       '@apollo/client': 3.7.11_gdcq4dv6opitr3wbfwyjmanyra
       '@apollo/link-error': 2.0.0-beta.3_gdcq4dv6opitr3wbfwyjmanyra
+      '@types/lodash': 4.14.194
+      deepmerge: 4.3.1
       graphql: 16.6.0
+      lodash: 4.17.21
       supertokens-auth-react: 0.31.1_zh4rdguscatxykxktv3lwuw3je
       supertokens-web-js: 0.5.0
     devDependencies:
@@ -7338,6 +7344,10 @@ packages:
 
   /@types/lodash/4.14.192:
     resolution: {integrity: sha512-km+Vyn3BYm5ytMO13k9KTp27O75rbQ0NFw+U//g+PX7VZyjCioXaRFisqSIJRECljcTv73G3i6BpglNGHgUQ5A==}
+    dev: false
+
+  /@types/lodash/4.14.194:
+    resolution: {integrity: sha512-r22s9tAS7imvBt2lyHC9B8AGwWnXaYb1tY09oyLkXDs4vArpYJzw09nj8MLx5VfciBPGIb+ZwG0ssYnEPJxn/g==}
     dev: false
 
   /@types/long/4.0.2:

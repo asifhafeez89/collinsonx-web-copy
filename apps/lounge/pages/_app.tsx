@@ -8,13 +8,13 @@ import { experienceX } from '@collinsonx/design-system/themes';
 
 import { Be_Vietnam_Pro } from 'next/font/google';
 
-import Client from '@collinsonx/utils/provider';
 import { frontendConfig } from '../config/frontendConfig';
 import SuperTokensReact, {
   SuperTokensWrapper,
   SuperTokensConfig,
 } from '@collinsonx/utils/supertokens';
 import { SysAuth } from '@collinsonx/utils/components';
+import { useApollo, ApolloProvider } from '@collinsonx/utils/apollo';
 
 if (typeof window !== 'undefined') {
   // we only want to call this init function on the frontend, so
@@ -40,6 +40,7 @@ type Props = AppProps & {
 export default function MyApp({ Component, pageProps }: Props) {
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page);
+  const apolloClient = useApollo(pageProps, true);
 
   return (
     <>
@@ -51,7 +52,7 @@ export default function MyApp({ Component, pageProps }: Props) {
         />
       </Head>
 
-      <Client isConsumer>
+      <ApolloProvider client={apolloClient}>
         <SuperTokensWrapper>
           <SysAuth>
             <MantineProvider
@@ -72,7 +73,7 @@ export default function MyApp({ Component, pageProps }: Props) {
             </MantineProvider>
           </SysAuth>
         </SuperTokensWrapper>
-      </Client>
+      </ApolloProvider>
     </>
   );
 }

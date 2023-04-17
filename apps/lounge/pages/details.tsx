@@ -1,5 +1,5 @@
 import { Lounge, PageTitle } from '@collinsonx/design-system/index';
-import { client, useQuery } from '@collinsonx/utils/apollo';
+import { useQuery } from '@collinsonx/utils/apollo';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
 import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
 import Layout from '@components/Layout';

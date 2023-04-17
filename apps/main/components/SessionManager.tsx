@@ -1,22 +1,17 @@
 import { useSessionContext } from '@collinsonx/utils/supertokens';
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useEffect } from 'react';
 
-import Client from '@collinsonx/utils/provider';
-
-export interface ApolloClientProps {
+export interface SessionManagerProps {
   children: ReactElement;
 }
-const ApolloClient = ({ children }: ApolloClientProps) => {
+const SessionManager = ({ children }: SessionManagerProps) => {
   const session = useSessionContext();
-
-  const [userId, setUserId] = useState<string>();
 
   const NAMESPACE = 'EXPERIENCE_X_CONSUMER_ID';
 
   useEffect(() => {
     if (!session.loading) {
       const { userId } = session;
-      setUserId(userId);
       if (userId && typeof window !== undefined) {
         localStorage.setItem(NAMESPACE, userId);
       }
@@ -26,7 +21,7 @@ const ApolloClient = ({ children }: ApolloClientProps) => {
     }
   }, [session]);
 
-  return <Client isConsumer>{children}</Client>;
+  return <>{children}</>;
 };
 
-export default ApolloClient;
+export default SessionManager;
