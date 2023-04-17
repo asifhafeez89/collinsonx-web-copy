@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app';
 import { NextPage } from 'next';
-import { ComponentType, ReactElement, useEffect, useState } from 'react';
+import { ComponentType, ReactElement } from 'react';
 import { Global, MantineProvider } from '@collinsonx/design-system/core';
 import Head from 'next/head';
 
@@ -44,14 +44,6 @@ export default function MyApp({ Component, pageProps }: Props) {
 
   const router = useRouter();
 
-  const [redirectUrl, setRedirectUrl] = useState('/');
-
-  useEffect(() => {
-    if (router.isReady) {
-      setRedirectUrl(router.asPath);
-    }
-  }, [router]);
-
   return (
     <>
       <Head>
@@ -64,7 +56,7 @@ export default function MyApp({ Component, pageProps }: Props) {
 
       <Client isConsumer>
         <SuperTokensWrapper>
-          <SysAuth redirectUrl={redirectUrl}>
+          <SysAuth>
             <MantineProvider
               theme={experienceX({
                 fontFamily: beVietnamPro.style.fontFamily,
