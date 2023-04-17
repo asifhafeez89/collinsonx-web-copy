@@ -19,11 +19,14 @@ jobs:
             npm install -g pnpm
 
       - name: "Run local server"
-        run: pnpm i
+        run: |
+            pnpm i
+            pnpm dev &
 
       - name: "Run e2e tests"
         run: |
             cd packages/collinsonx-tests-e2e/tests
+            pnpm i
             pnpm run e2e:dev
       
       - name: Upload test results
