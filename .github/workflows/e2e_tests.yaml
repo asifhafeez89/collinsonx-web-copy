@@ -1,0 +1,23 @@
+name: run e2e web tests
+
+on:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: "Run local server"
+        run: |
+            pnpm i
+
+      - name: "Run e2e tests"
+        run: |
+            cd packages/collinsonx-tests-e2e/tests
+            npm run test
+      
