@@ -19,7 +19,6 @@ import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifesty
 import { useEffect, useRef, useState } from 'react';
 import getConsumerByEmailAddress from '@collinsonx/utils/queries/getConsumerByEmailAddress';
 import { useQuery } from '@collinsonx/utils/apollo';
-import { resolveObjectURL } from 'buffer';
 
 export default function CheckEmail() {
   const router = useRouter();
