@@ -55,7 +55,9 @@ export default function MyApp({ Component, pageProps }: Props) {
         <SuperTokensWrapper>
           <SysAuth>
             <MantineProvider
-              theme={experienceX({ fontFamily: beVietnamPro.style.fontFamily })}
+              theme={experienceX({
+                fontFamily: beVietnamPro.style.fontFamily,
+              })}
               withGlobalStyles
               withNormalizeCSS
             >

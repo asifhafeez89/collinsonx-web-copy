@@ -61,7 +61,10 @@ export default function Home(props: unknown) {
         await createPasswordlessCode({
           email,
         });
-        router.push({ pathname: '/check-email', query: { email } });
+        router.push({
+          pathname: '/check-email',
+          query: { email, redirectUrl: router.query?.redirectUrl },
+        });
       } catch (err: any) {
         console.log(err);
         if (err.isSuperTokensGeneralError === true) {
