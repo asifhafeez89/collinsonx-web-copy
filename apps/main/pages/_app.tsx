@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app';
 import { NextPage } from 'next';
-import { ComponentType, ReactElement, useEffect, useState } from 'react';
+import { ComponentType, ReactElement } from 'react';
 import { MantineProvider } from '@collinsonx/design-system/core';
 import Head from 'next/head';
 import { frontendConfig } from '../config/frontendConfig';
