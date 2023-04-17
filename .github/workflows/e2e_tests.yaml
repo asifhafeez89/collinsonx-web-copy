@@ -20,5 +20,5 @@ jobs:
       - name: "Run e2e tests"
         run: |
             cd packages/collinsonx-tests-e2e/tests
-            npm run test
+            pnpm run e2e:dev
       
