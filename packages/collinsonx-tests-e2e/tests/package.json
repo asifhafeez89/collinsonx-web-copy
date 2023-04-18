@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "e2e:dev": "playwright test",
-    "e2e:start": "start-server-and-test \"(cd ../../../apps/main  && npm run build && npm run start)\" http://localhost:3000 \"playwright test\""
+    "e2e:start": "start-server-and-test \"(cd ../../../apps/main  && npm run build  && npm run start)\" http://localhost:3000 \"playwright test\""
   },
   "keywords": [],
   "author": "Ismael Onilearan",
