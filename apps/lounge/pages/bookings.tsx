@@ -41,11 +41,14 @@ export default function Bookings() {
       {!!bookingsData?.getBookings.length && (
         <>
           {bookingsData?.getBookings
-            .sort(
-              (a, b) =>
-                new Date(b.updatedAt).getTime() -
-                new Date(a.updatedAt).getTime()
-            )
+            .sort((a, b) => {
+              const at = new Date(a.bookedFrom).getTime();
+              const bt = new Date(b.bookedFrom).getTime();
+
+              if (at > bt) return -1;
+              if (at < bt) return 1;
+              return 0;
+            })
             .map((booking) => (
               <BookingCard
                 onClick={onViewBookingDetails}
