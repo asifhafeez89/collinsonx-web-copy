@@ -1,0 +1,32 @@
+name: run e2e web tests
+
+on:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.32.0-focal
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: "Install dependancies"
+        run: |
+            npm install -g pnpm
+            pnpm i
+
+      - name: "Run build, start server then run tests"
+        run: |
+            cd packages/collinsonx-tests-e2e
+            pnpm run e2e:start
+      
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-report
+          path: packages/collinsonx-tests-e2e/tests/playwright-report
