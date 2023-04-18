@@ -5,7 +5,7 @@ import { MantineProvider } from '@collinsonx/design-system/core';
 import Head from 'next/head';
 import { experienceX } from '@collinsonx/design-system/themes';
 import { Be_Vietnam_Pro } from 'next/font/google';
-import Client from '@collinsonx/utils/provider';
+import { useApollo, ApolloProvider } from '@collinsonx/utils/apollo';
 // import SuperTokensReact, {
 //   SuperTokensConfig,
 //   SuperTokensWrapper,
@@ -29,6 +29,8 @@ type Props = AppProps & {
 export default function MyApp({ Component, pageProps }: Props) {
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page);
+
+  const apolloClient = useApollo(pageProps, false);
   return (
     <>
       <Head>
@@ -38,7 +40,7 @@ export default function MyApp({ Component, pageProps }: Props) {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
-      <Client isConsumer={false}>
+      <ApolloProvider client={apolloClient}>
         {/* <SuperTokensWrapper> */}
         {/* <SysAuth> */}
         <MantineProvider
@@ -50,7 +52,7 @@ export default function MyApp({ Component, pageProps }: Props) {
         </MantineProvider>
         {/* </SysAuth> */}
         {/* </SuperTokensWrapper> */}
-      </Client>
+      </ApolloProvider>
     </>
   );
 }
