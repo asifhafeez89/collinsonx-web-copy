@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "e2e:dev": "playwright test",
-    "e2e:start": "start-server-and-test \"(cd ../../apps/main && npm run start)\" http://localhost:3000 \"playwright test\""
+    "e2e:start": "start-server-and-test \"(cd ../../apps/main && npm run build && npm run start)\" http://localhost:3000 \"playwright test\""
   },
   "dependencies": {
+    "dotenv": "^16.0.3",
     "main": "workspace:*",
     "start-server-and-test": "^1.15.4"
   },
