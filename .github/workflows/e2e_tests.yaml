@@ -23,7 +23,7 @@ jobs:
             cd packages/collinsonx-tests-e2e
             pnpm run e2e:start
       
-      - name: Upload test results
+      - name: Upload test results 
         if: always()
         uses: actions/upload-artifact@v3
         with:
