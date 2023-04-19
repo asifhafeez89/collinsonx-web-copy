@@ -1,4 +1,4 @@
-name: run e2e web tests
+name: run e2e web tests ios
 
 on:
   pull_request:
@@ -13,6 +13,14 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
+
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }} -node-
 
       - name: "Install dependancies"
         run: |
