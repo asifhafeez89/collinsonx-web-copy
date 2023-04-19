@@ -42,14 +42,13 @@ export default function Auth() {
   // then we redirect them back to the auth page.
   useEffect(() => {
     if (SuperTokens.canHandleRoute() === false) {
-      //redirectToAuth();
       router.push('/');
     }
   }, []);
 
   return (
     <LayoutLogin>
-      <Flex direction="column" alignItems="center" gap={24}>
+      <Flex direction="column" gap={24}>
         <Title w="100%">Sign Up or Log In</Title>
         <Text w="100%">Click the button below to log in on this device</Text>
         <Button onClick={handleMagicLinkClicked} w="100%">
