@@ -1,4 +1,4 @@
-name: run e2e web tests ios
+name: run e2e web tests
 
 on:
   pull_request:
