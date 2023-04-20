@@ -2,7 +2,6 @@ import { Lounge, PageTitle } from '@collinsonx/design-system/index';
 import { useQuery } from '@collinsonx/utils/apollo';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
 import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
-import LayoutPaddingLess from '@components/LayoutPaddingLess';
 import {
   Title,
   Stack,
@@ -23,7 +22,7 @@ import { MapPin } from '@collinsonx/design-system/assets/icons';
 export default function BookLounge() {
   const router = useRouter();
 
-  const { loading, error, data } = useQuery<{
+  const { loading, data } = useQuery<{
     searchExperiences: Experience[];
   }>(getSearchExperiences);
 
@@ -46,23 +45,44 @@ export default function BookLounge() {
           <Container
             p={0}
             sx={{
-              '@media (max-width: 768px)': {
+              '@media (min-width: 351px) and (max-width: 767px)': {
                 width: '100%',
+                height: '1066px',
               },
-              width: '420px',
+              '@media (max-width: 350px) and (min-width: 250px)': {
+                width: '100%',
+                height: '1200px',
+              },
+              height: '1000px',
+              width: '450px',
+              position: 'relative',
+              display: 'block',
+              overflow: 'scrollY',
             }}
           >
-            <div
-              style={{
-                position: 'relative',
-                display: 'block',
-                minHeight: '1006px',
+            <Stack
+              sx={{
+                height: '1050px',
                 top: '0px',
                 backgroundPositionY: 'center',
+                '@media (min-width: 768px)': {
+                  height: '105vh',
+                },
               }}
             >
-              <div
-                style={{
+              <Stack
+                sx={{
+                  position: 'absolute',
+                  top: '40px',
+                  left: '10px',
+                  zIndex: 10000,
+                }}
+              >
+                <PageTitle title="" url={`/lounge`} fullwhite={true} />
+              </Stack>
+
+              <Stack
+                sx={{
                   position: 'absolute',
                   backgroundColor: '#25262B',
                   backgroundImage: 'url(/lounge/loungeimage.png)',
@@ -70,10 +90,10 @@ export default function BookLounge() {
                   backgroundRepeat: 'no-repeat',
                   zIndex: 100,
                   top: '0px',
-                  height: '230px',
+                  height: '100vh',
                   width: '100%',
                 }}
-              ></div>
+              ></Stack>
               <div
                 style={{
                   opacity: '0.5',
@@ -96,10 +116,6 @@ export default function BookLounge() {
                       <MapPin width={16} color="#0C8599" />
                       <Text fw={600}>{lounge?.location ?? '-'}</Text>
                     </Flex>
-                    {/* <Flex align="center" gap={10}>
-                      <MapPin width={16} color="#0C8599" />
-                      <Text fw={600}>{'test'}</Text>
-                    </Flex> */}
                   </Stack>
                 </Box>
 
@@ -137,24 +153,27 @@ export default function BookLounge() {
                 <UnstyledButton
                   onClick={handleBook}
                   sx={{
-                    borderRadius: 8,
-                    background: '#000000',
+                    background: '#946A00',
                     color: '#ffffff',
                     padding: '12px 24px',
-                    margin: '20px',
-                    width: '90%',
+                    margin: '5px',
+                    width: '100%',
                     textAlign: 'center',
                     fontSize: '18px',
                     marginBottom: '1rem',
-                    position: 'fixed',
-                    bottom: '0px',
+                    position: 'sticky',
+                    bottom: '40px',
                     left: '0px',
+                    '@media (min-width: 768px)': {
+                      width: '90%',
+                      textAlign: 'center',
+                    },
                   }}
                 >
                   Book lounge
                 </UnstyledButton>
               </FormWrapper>
-            </div>
+            </Stack>
           </Container>
         </div>
       )}
@@ -162,6 +181,4 @@ export default function BookLounge() {
   );
 }
 
-BookLounge.getLayout = (page: JSX.Element) => (
-  <LayoutPaddingLess>{page}</LayoutPaddingLess>
-);
+BookLounge.getLayout = (page: JSX.Element) => <>{page}</>;
