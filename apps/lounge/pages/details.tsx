@@ -78,7 +78,7 @@ export default function BookLounge() {
                   zIndex: 10000,
                 }}
               >
-                <PageTitle title="" url={`/lounge`} fullwhite={true} />
+                <PageTitle title="" url={`/`} fullwhite={true} />
               </Stack>
 
               <Stack
