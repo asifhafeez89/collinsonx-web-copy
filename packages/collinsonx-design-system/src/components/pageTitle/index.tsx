@@ -6,9 +6,15 @@ interface IPageTitle {
   title: string;
   url: string;
   variant?: 'white' | 'default';
+  fullwhite?: boolean;
 }
 
-export default function PageTitle({ title, url, variant }: IPageTitle) {
+export default function PageTitle({
+  title,
+  url,
+  variant,
+  fullwhite = false,
+}: IPageTitle) {
   return (
     <Box
       component="header"
@@ -24,6 +30,7 @@ export default function PageTitle({ title, url, variant }: IPageTitle) {
             border: `${
               variant === 'white' ? '1px solid #FFFFFF' : '1px solid #112132'
             }`,
+            background: `${fullwhite ? '#FFFFFF' : 'transparent'}`,
             borderRadius: 8,
             width: 40,
             height: 40,

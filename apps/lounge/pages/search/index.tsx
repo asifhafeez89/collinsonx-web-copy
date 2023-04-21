@@ -1,8 +1,8 @@
 import { useState, useEffect, ComponentProps } from 'react';
 import LayoutPaddingLess from '@components/LayoutPaddingLess';
-import { Container, Box } from '@collinsonx/design-system/core';
+import { Container, Box, Flex } from '@collinsonx/design-system/core';
 
-import { Calendar } from '@collinsonx/design-system/assets/icons';
+import { Calendar, MapPin } from '@collinsonx/design-system/assets/icons';
 import { Heading } from '@collinsonx/design-system/components/heading/Heading';
 import { Text, Stack, Group, Button } from '@collinsonx/design-system/core';
 import FormWrapper from '@collinsonx/design-system/components/formWrapper/formWrapper';
@@ -63,6 +63,7 @@ export default function Search() {
           </Heading>
         </Stack>
       </Container>
+
       <Container
         p={0}
         sx={{
