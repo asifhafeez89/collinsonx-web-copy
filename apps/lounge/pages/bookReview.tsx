@@ -6,7 +6,6 @@ import {
   LoungeImageTitle,
 } from '@collinsonx/design-system';
 import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
-import { NextPageContext } from 'next';
 import { BookingFormValue } from '@components/BookingForm/index';
 import BookingFormConfirm from '@components/BookingForm/BookingFormConfirm';
 import { useRouter } from 'next/router';
@@ -15,7 +14,6 @@ import createBooking from '@collinsonx/utils/mutations/createBooking';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 import { useState } from 'react';
 import { Clock, MapPin } from '@collinsonx/design-system/assets/icons';
-import Heading from '@collinsonx/design-system/components/heading/Heading';
 
 export interface BookReviewProps {
   lounge: Experience;
