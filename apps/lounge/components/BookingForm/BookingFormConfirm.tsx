@@ -39,7 +39,6 @@ export default function BookingFormConfirm({
   return (
     <div
       style={{
-        margin: '0 -40px',
         borderBottom: '4px solid #ccc',
         paddingBottom: '20px',
         background: '#fff',

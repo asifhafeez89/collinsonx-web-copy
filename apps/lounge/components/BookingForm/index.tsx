@@ -1,7 +1,9 @@
 import {
   Box,
+  Button,
   Flex,
   Stack,
+  Title,
   UnstyledButton,
 } from '@collinsonx/design-system/core';
 import { Calendar } from '@collinsonx/design-system/assets/icons';
@@ -11,7 +13,6 @@ import ArrivalTime from '@components/ArrivalTime';
 import { useForm } from '@collinsonx/design-system/form';
 import { ComponentProps, useEffect, useState } from 'react';
 import { getLoungeArrivalTime } from 'lib';
-import Heading from '@collinsonx/design-system/components/heading/Heading';
 
 export interface BookingFormValue {
   date: Date;
@@ -75,17 +76,12 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
   }, [form, setArrivalTime]);
 
   return (
-    <div
-      style={{
-        margin: '0 -40px',
-        padding: '40px',
-        borderBottom: '4px solid #ccc',
-        background: '#fff',
-      }}
-    >
+    <Box bg="white" px={24}>
       <Flex direction="column">
-        <Stack spacing={30}>
-          <Heading as="h3">Your details</Heading>
+        <Stack spacing={24}>
+          <Title order={4} pt={24}>
+            Your details
+          </Title>
           <form
             onSubmit={form.onSubmit((values: any) => {
               const d = date;
@@ -97,63 +93,80 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
               onSubmit({ date: d });
             })}
           >
-            <DatePicker
-              icon={<Calendar />}
-              label="Date"
-              placeholder="Pick a date"
-              clearable={false}
-              minDate={new Date()}
-              sx={({ colors }) => ({
-                '.mantine-Input-icon': {
-                  paddingLeft: 14,
-                },
-                Input: {
-                  paddingLeft: 56,
-                  border: '1px solid #CED4DA',
-                  borderRadius: 4,
-                  color: colors.gray[6],
-                },
-                label: {
-                  fontWeight: 'bold',
+            <Stack spacing={16}>
+              <DatePicker
+                icon={<Calendar />}
+                label="Date"
+                placeholder="Pick a date"
+                clearable={false}
+                minDate={new Date()}
+                sx={({ colors }) => ({
+                  '.mantine-Input-icon': {
+                    paddingLeft: 14,
+                  },
+                  Input: {
+                    paddingLeft: 56,
+                    border: '1px solid #CED4DA',
+                    borderRadius: 4,
+                    color: colors.gray[6],
+                  },
+                  label: {
+                    color: '#000',
+                    marginBottom: 8,
+                  },
+                })}
+                {...{
+                  ...form.getInputProps('date'),
+                  onChange: handleChangeDate,
+                  value: date,
+                }}
+              />
+              <InputSelect
+                label="Your flight time"
+                placeholder="--:--"
+                withAsterisk
+                required={true}
+                data={TIME_SLOTS}
+                {...form.getInputProps('time')}
+              />
+              <UnstyledButton
+                sx={{
+                  borderRadius: 8,
+                  background: '#fff',
                   color: '#000',
-                  marginBottom: 10,
-                },
-              })}
-              {...{
-                ...form.getInputProps('date'),
-                onChange: handleChangeDate,
-                value: date,
-              }}
-            />
-            <InputSelect
-              label="Your flight time"
-              placeholder="--:--"
-              withAsterisk
-              required={true}
-              data={TIME_SLOTS}
-              {...form.getInputProps('time')}
-            />
-            {arrivalTime && <ArrivalTime time={arrivalTime} />}
+                  padding: '12px 24px',
+                  width: '30%',
+                  textAlign: 'center',
+                  fontSize: '18px',
+                  border: '1px solid black',
+                }}
+              >
+                Apply
+              </UnstyledButton>
+              {arrivalTime && (
+                <Box pt={16} pb={24} sx={{ borderTop: '1px solid #C8C9CA' }}>
+                  <ArrivalTime time={arrivalTime} />
+                </Box>
+              )}
+            </Stack>
 
-            <UnstyledButton
+            <Button
               type="submit"
+              maw={410}
               sx={{
-                borderRadius: 8,
-                background: '#fff',
-                color: '#000',
+                height: 45,
                 padding: '12px 24px',
-                width: '30%',
+                width: '100%',
                 textAlign: 'center',
                 fontSize: '18px',
-                marginTop: '20px',
-                border: '1px solid black',
+                marginBottom: '1rem',
               }}
             >
-              Apply
-            </UnstyledButton>
+              Request lounge booking
+            </Button>
           </form>
         </Stack>
       </Flex>
-    </div>
+    </Box>
   );
 }

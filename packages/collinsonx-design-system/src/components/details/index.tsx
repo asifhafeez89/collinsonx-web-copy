@@ -1,9 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Flex, Grid, Image } from '@mantine/core';
-
-import { MapPin, Clock } from '../../assets/icons';
-import Heading from '../heading/Heading';
+import { Box, Flex, Stack } from '@mantine/core';
 
 type InfoGroup = {
   header?: string;
@@ -17,14 +14,7 @@ interface LoungeDetailsProps {
 }
 
 const ContentWrapper = styled.div`
-  padding: 1rem;
-  margin: -30px;
-  padding: 20px 45px;
-  padding-top: 20px;
-
-  h3 {
-    margin: 30px;
-  }
+  background: #fff;
 `;
 
 /**
@@ -33,29 +23,15 @@ const ContentWrapper = styled.div`
 export default function LoungeDetails({ title, infos }: LoungeDetailsProps) {
   return (
     <ContentWrapper>
-      <Heading as="h3">{title}</Heading>
-      {infos.map((info, i) => (
-        <Grid key={i} grow gutter={2} gutterXs="md" gutterMd="xl" gutterXl={20}>
-          <Grid.Col span={1}>
-            <Grid sx={{ marginTop: '3px' }}>{info.icon}</Grid>
-          </Grid.Col>
-          <Grid.Col span={11}>
-            <Flex
-              mih={70}
-              direction="column"
-              wrap="wrap"
-              sx={{
-                alignItems: 'flex-start',
-              }}
-            >
-              <span>
-                <strong>{info.header}</strong>
-              </span>
-              <span>{info.description}</span>
-            </Flex>
-          </Grid.Col>
-        </Grid>
-      ))}
+      <Stack spacing={8}>
+        {infos.map((info, i) => (
+          <Flex direction="row" align="center" key={i} gap={8}>
+            <Flex align="center">{info.icon}</Flex>
+            <Box fw={600}>{info.header}</Box>
+            <Box>{info.description}</Box>
+          </Flex>
+        ))}
+      </Stack>
     </ContentWrapper>
   );
 }

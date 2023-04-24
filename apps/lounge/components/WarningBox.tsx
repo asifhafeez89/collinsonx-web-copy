@@ -15,8 +15,8 @@ const WarningBox = ({ children }: WarningBoxProps) => {
       w="100%"
       sx={{
         position: 'relative',
-        backgroundColor: 'rgba(148, 106, 0, 0.1)',
-        border: '1px solid rgba(148, 106, 0, 0.1)',
+        backgroundColor: 'rgba(250, 176, 5, 0.2)',
+        border: '1px solid #966A03',
         borderRadius: 4,
       }}
     >
