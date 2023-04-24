@@ -19,6 +19,7 @@ import { useMemo } from 'react';
 import FormWrapper from '@collinsonx/design-system/components/formWrapper/formWrapper';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
 import { MapPin } from '@collinsonx/design-system/assets/icons';
+import LoungeImage from '@components/LoungeImage';
 
 export default function BookLounge() {
   const router = useRouter();
@@ -71,7 +72,7 @@ export default function BookLounge() {
                 },
               }}
             >
-              <Stack
+              <Box
                 sx={{
                   position: 'absolute',
                   top: '40px',
@@ -80,32 +81,27 @@ export default function BookLounge() {
                 }}
               >
                 <PageTitle title="" url={`/`} fullwhite={true} />
-              </Stack>
+              </Box>
 
-              <Stack
+              <Box
                 sx={{
                   position: 'absolute',
-                  backgroundColor: '#25262B',
-                  backgroundImage: 'url(/lounge/loungeimage.png)',
-                  backgroundSize: 'contain',
-                  backgroundRepeat: 'no-repeat',
                   zIndex: 100,
                   top: '0px',
-                  height: '100vh',
+                  height: 375,
                   width: '100%',
                 }}
-              ></Stack>
-              <div
-                style={{
-                  opacity: '0.5',
-                  zIndex: 400,
-                  height: '27vh',
-                  width: '100%',
-                  background: '#25262B',
-                  position: 'absolute',
-                  top: '0px',
-                }}
-              ></div>
+              >
+                <LoungeImage
+                  images={lounge.images}
+                  width={375}
+                  height={250}
+                  indicatorBottom={64}
+                  withIndicators
+                  overlay
+                />
+              </Box>
+
               <Box
                 sx={{
                   background: '#f5f5f5',
@@ -119,7 +115,12 @@ export default function BookLounge() {
                   zIndex: 1000,
                 }}
               >
-                <Heading as="h1" color="#000" subtitleColor="#20C997">
+                <Heading
+                  as="h1"
+                  color="#000"
+                  subtitleColor="#20C997"
+                  style={{ fontSize: '26px' }}
+                >
                   {lounge?.name ?? '-'}
                 </Heading>
 
@@ -165,7 +166,7 @@ export default function BookLounge() {
                   </Title>
                   <List size="sm" sx={{ color: '#000000' }} pt={8}>
                     {lounge.conditions?.split('-').map((item, index) => (
-                      <List.Item py={8} key={index}>
+                      <List.Item py={8} pr={16} key={index}>
                         {item}
                       </List.Item>
                     ))}
