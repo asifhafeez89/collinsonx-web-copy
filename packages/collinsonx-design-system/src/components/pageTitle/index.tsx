@@ -23,7 +23,6 @@ export default function PageTitle({
         paddingTop: '5px',
         alignItems: 'center',
         fontSize: '1.2rem',
-        borderBottom: '1px solid black',
         margin: '0 -30px',
         padding: '10px 30px',
       }}

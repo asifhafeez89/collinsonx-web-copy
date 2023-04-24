@@ -12,6 +12,7 @@ import {
   Flex,
   Text,
   UnstyledButton,
+  Button,
 } from '@collinsonx/design-system/core';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
@@ -105,7 +106,19 @@ export default function BookLounge() {
                   top: '0px',
                 }}
               ></div>
-              <FormWrapper>
+              <Box
+                sx={{
+                  background: '#f5f5f5',
+                  borderRadius: '24px 24px 0px 0px',
+                  marginTop: '70px',
+                  padding: '20px',
+                  paddingBottom: '130px',
+                  position: 'absolute',
+                  width: '100%',
+                  top: '133px',
+                  zIndex: 1000,
+                }}
+              >
                 <Heading as="h1" color="#000" subtitleColor="#20C997">
                   {lounge?.name ?? '-'}
                 </Heading>
@@ -119,11 +132,18 @@ export default function BookLounge() {
                   </Stack>
                 </Box>
 
+                <Box
+                  w="100%"
+                  my={24}
+                  sx={{ borderBottom: '1px solid  #C8C9CA' }}
+                />
+
                 <Box>
-                  <Title size={16} color={'#000000'} sx={{ padding: '20px 0' }}>
+                  <Title size={16} color={'#000000'} pt={8}>
                     Facilities
                   </Title>
                   <List
+                    py={8}
                     sx={{
                       color: '#000000',
                       display: 'flex',
@@ -132,7 +152,7 @@ export default function BookLounge() {
                     }}
                   >
                     {lounge.facilities?.map((item) => (
-                      <List.Item key={item} sx={{ flex: '1 0 49.33%' }}>
+                      <List.Item py={8} key={item} sx={{ flex: '1 0 49.33%' }}>
                         {item}
                       </List.Item>
                     ))}
@@ -140,39 +160,58 @@ export default function BookLounge() {
                 </Box>
 
                 <Box>
-                  <Title size={16} color={'#000000'} sx={{ padding: '20px 0' }}>
+                  <Title size={16} color={'#000000'} pt={8}>
                     Conditions
                   </Title>
-                  <List sx={{ color: '#000000' }}>
+                  <List size="sm" sx={{ color: '#000000' }} pt={8}>
                     {lounge.conditions?.split('-').map((item, index) => (
-                      <List.Item key={index}>{item}</List.Item>
+                      <List.Item py={8} key={index}>
+                        {item}
+                      </List.Item>
                     ))}
                   </List>
                 </Box>
+                <Text fw={600}>
+                  The lounge will receive your request and send confirmation
+                  once they have reviewed availability.
+                </Text>
 
-                <UnstyledButton
-                  onClick={handleBook}
+                <Box
+                  px={24}
+                  py={8}
+                  h={76}
                   sx={{
-                    background: '#946A00',
-                    color: '#ffffff',
-                    padding: '12px 24px',
-                    margin: '5px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    position: 'fixed',
+                    left: 0,
                     width: '100%',
-                    textAlign: 'center',
-                    fontSize: '18px',
-                    marginBottom: '1rem',
-                    position: 'sticky',
                     bottom: '40px',
-                    left: '0px',
-                    '@media (min-width: 768px)': {
-                      width: '90%',
-                      textAlign: 'center',
-                    },
+                    backgroundColor: '#FFF',
                   }}
                 >
-                  Book lounge
-                </UnstyledButton>
-              </FormWrapper>
+                  <Button
+                    onClick={handleBook}
+                    maw={410}
+                    sx={{
+                      height: 45,
+                      padding: '12px 24px',
+                      margin: '5px',
+                      width: '100%',
+                      textAlign: 'center',
+                      fontSize: '18px',
+                      marginBottom: '1rem',
+
+                      '@media (min-width: 768px)': {
+                        width: '90%',
+                        textAlign: 'center',
+                      },
+                    }}
+                  >
+                    Request lounge booking
+                  </Button>
+                </Box>
+              </Box>
             </Stack>
           </Container>
         </div>
