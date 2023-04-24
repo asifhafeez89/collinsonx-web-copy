@@ -16,6 +16,8 @@ import { useForm } from '@collinsonx/design-system/form';
 import { ComponentProps, useEffect, useState } from 'react';
 import { getLoungeArrivalTime } from 'lib';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 
 export interface BookingFormValue {
   date: Date;
@@ -66,8 +68,14 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
   };
 
   const handleClickBook = () => {
-    console.log(' date', date);
-    /*onSubmit({ date: d });*/
+    const [h, m] = arrivalTime!.split(':');
+
+    const utcDate = dayjs
+      .utc(date)
+      .hour(Number.parseInt(h, 10))
+      .minute(Number.parseInt(m, 10));
+
+    onSubmit({ date: utcDate.toDate() });
   };
 
   const handleClickEdit = () => {
