@@ -67,7 +67,9 @@ export default function Book() {
           <LoungeImageTitle
             title={lounge.name ?? ''}
             image={
-              'https://cdn03.collinson.cn/lounge-media/image/BHX6-13756.jpg'
+              lounge.images && lounge.images[0] && lounge.images[0].url
+                ? lounge.images[0].url
+                : 'https://cdn03.collinson.cn/lounge-media/image/BHX6-13756.jpg'
             }
           />
           {infos && <Details infos={infos} />}
