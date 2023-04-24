@@ -1,4 +1,4 @@
-import { Lounge, PageTitle } from '@collinsonx/design-system/index';
+import { PageTitle } from '@collinsonx/design-system/index';
 import { useQuery } from '@collinsonx/utils/apollo';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
 import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
@@ -11,12 +11,10 @@ import {
   Container,
   Flex,
   Text,
-  UnstyledButton,
   Button,
 } from '@collinsonx/design-system/core';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
-import FormWrapper from '@collinsonx/design-system/components/formWrapper/formWrapper';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
 import { MapPin } from '@collinsonx/design-system/assets/icons';
 import LoungeImage from '@components/LoungeImage';
@@ -47,16 +45,6 @@ export default function BookLounge() {
           <Container
             p={0}
             sx={{
-              '@media (min-width: 351px) and (max-width: 767px)': {
-                width: '100%',
-                height: '1066px',
-              },
-              '@media (max-width: 350px) and (min-width: 250px)': {
-                width: '100%',
-                height: '1200px',
-              },
-              height: '1000px',
-              width: '450px',
               position: 'relative',
               display: 'block',
               overflow: 'scrollY',
@@ -67,9 +55,6 @@ export default function BookLounge() {
                 height: '1050px',
                 top: '0px',
                 backgroundPositionY: 'center',
-                '@media (min-width: 768px)': {
-                  height: '105vh',
-                },
               }}
             >
               <Box
@@ -179,11 +164,12 @@ export default function BookLounge() {
 
                 <Box
                   px={24}
-                  py={8}
+                  py={16}
                   h={76}
                   sx={{
                     display: 'flex',
-                    justifyContent: 'center',
+                    justifyItems: 'center',
+                    alignItems: 'center',
                     position: 'fixed',
                     left: 0,
                     width: '100%',
@@ -193,20 +179,12 @@ export default function BookLounge() {
                 >
                   <Button
                     onClick={handleBook}
-                    maw={410}
+                    maw={375}
                     sx={{
                       height: 45,
-                      padding: '12px 24px',
-                      margin: '5px',
                       width: '100%',
                       textAlign: 'center',
                       fontSize: '18px',
-                      marginBottom: '1rem',
-
-                      '@media (min-width: 768px)': {
-                        width: '90%',
-                        textAlign: 'center',
-                      },
                     }}
                   >
                     Request lounge booking
