@@ -20,16 +20,15 @@ export default function PageTitle({
       component="header"
       sx={{
         display: 'flex',
-        paddingTop: '16px',
+        paddingTop: '5px',
         alignItems: 'center',
+        fontSize: '1.2rem',
+        padding: '10px 0px',
       }}
     >
       <Link href={url}>
         <Box
           sx={{
-            border: `${
-              variant === 'white' ? '1px solid #FFFFFF' : '1px solid #112132'
-            }`,
             background: `${fullwhite ? '#FFFFFF' : 'transparent'}`,
             borderRadius: 8,
             width: 40,
@@ -43,7 +42,11 @@ export default function PageTitle({
           <ChevronLeft color={variant === 'white' ? '#FFFFFF' : '#000000'} />
         </Box>
       </Link>
-      <Title size={20} color={variant === 'white' ? '#FFFFF' : '#000000'}>
+      <Title
+        size={14}
+        color={variant === 'white' ? '#FFFFF' : '#000000'}
+        sx={{ width: '200px', margin: '0 auto' }}
+      >
         {title}
       </Title>
     </Box>

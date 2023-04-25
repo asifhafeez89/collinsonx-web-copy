@@ -1,4 +1,4 @@
-import { Lounge, PageTitle } from '@collinsonx/design-system/index';
+import { PageTitle } from '@collinsonx/design-system/index';
 import { useQuery } from '@collinsonx/utils/apollo';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
 import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
@@ -11,13 +11,13 @@ import {
   Container,
   Flex,
   Text,
-  UnstyledButton,
+  Button,
 } from '@collinsonx/design-system/core';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
-import FormWrapper from '@collinsonx/design-system/components/formWrapper/formWrapper';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
 import { MapPin } from '@collinsonx/design-system/assets/icons';
+import LoungeImage from '@components/LoungeImage';
 
 export default function BookLounge() {
   const router = useRouter();
@@ -45,16 +45,6 @@ export default function BookLounge() {
           <Container
             p={0}
             sx={{
-              '@media (min-width: 351px) and (max-width: 767px)': {
-                width: '100%',
-                height: '1066px',
-              },
-              '@media (max-width: 350px) and (min-width: 250px)': {
-                width: '100%',
-                height: '1200px',
-              },
-              height: '1000px',
-              width: '450px',
               position: 'relative',
               display: 'block',
               overflow: 'scrollY',
@@ -65,12 +55,9 @@ export default function BookLounge() {
                 height: '1050px',
                 top: '0px',
                 backgroundPositionY: 'center',
-                '@media (min-width: 768px)': {
-                  height: '105vh',
-                },
               }}
             >
-              <Stack
+              <Box
                 sx={{
                   position: 'absolute',
                   top: '40px',
@@ -79,34 +66,46 @@ export default function BookLounge() {
                 }}
               >
                 <PageTitle title="" url={`/`} fullwhite={true} />
-              </Stack>
+              </Box>
 
-              <Stack
+              <Box
                 sx={{
                   position: 'absolute',
-                  backgroundColor: '#25262B',
-                  backgroundImage: 'url(/lounge/loungeimage.png)',
-                  backgroundSize: 'contain',
-                  backgroundRepeat: 'no-repeat',
                   zIndex: 100,
                   top: '0px',
-                  height: '100vh',
+                  height: 375,
                   width: '100%',
                 }}
-              ></Stack>
-              <div
-                style={{
-                  opacity: '0.5',
-                  zIndex: 400,
-                  height: '27vh',
-                  width: '100%',
-                  background: '#25262B',
+              >
+                <LoungeImage
+                  images={lounge.images}
+                  width={375}
+                  height={250}
+                  indicatorBottom={64}
+                  withIndicators
+                  overlay
+                />
+              </Box>
+
+              <Box
+                sx={{
+                  background: '#f5f5f5',
+                  borderRadius: '24px 24px 0px 0px',
+                  marginTop: '70px',
+                  padding: '20px',
+                  paddingBottom: '130px',
                   position: 'absolute',
-                  top: '0px',
+                  width: '100%',
+                  top: '133px',
+                  zIndex: 1000,
                 }}
-              ></div>
-              <FormWrapper>
-                <Heading as="h1" color="#000" subtitleColor="#20C997">
+              >
+                <Heading
+                  as="h1"
+                  color="#000"
+                  subtitleColor="#20C997"
+                  style={{ fontSize: '26px' }}
+                >
                   {lounge?.name ?? '-'}
                 </Heading>
 
@@ -119,11 +118,18 @@ export default function BookLounge() {
                   </Stack>
                 </Box>
 
+                <Box
+                  w="100%"
+                  my={24}
+                  sx={{ borderBottom: '1px solid  #C8C9CA' }}
+                />
+
                 <Box>
-                  <Title size={16} color={'#000000'} sx={{ padding: '20px 0' }}>
+                  <Title size={16} color={'#000000'} pt={8}>
                     Facilities
                   </Title>
                   <List
+                    py={8}
                     sx={{
                       color: '#000000',
                       display: 'flex',
@@ -132,7 +138,7 @@ export default function BookLounge() {
                     }}
                   >
                     {lounge.facilities?.map((item) => (
-                      <List.Item key={item} sx={{ flex: '1 0 49.33%' }}>
+                      <List.Item py={8} key={item} sx={{ flex: '1 0 49.33%' }}>
                         {item}
                       </List.Item>
                     ))}
@@ -140,39 +146,51 @@ export default function BookLounge() {
                 </Box>
 
                 <Box>
-                  <Title size={16} color={'#000000'} sx={{ padding: '20px 0' }}>
+                  <Title size={16} color={'#000000'} pt={8}>
                     Conditions
                   </Title>
-                  <List sx={{ color: '#000000' }}>
+                  <List size="sm" sx={{ color: '#000000' }} pt={8}>
                     {lounge.conditions?.split('-').map((item, index) => (
-                      <List.Item key={index}>{item}</List.Item>
+                      <List.Item py={8} pr={16} key={index}>
+                        {item}
+                      </List.Item>
                     ))}
                   </List>
                 </Box>
+                <Text fw={600}>
+                  The lounge will receive your request and send confirmation
+                  once they have reviewed availability.
+                </Text>
 
-                <UnstyledButton
-                  onClick={handleBook}
+                <Box
+                  px={24}
+                  py={16}
+                  h={76}
                   sx={{
-                    background: '#946A00',
-                    color: '#ffffff',
-                    padding: '12px 24px',
-                    margin: '5px',
+                    display: 'flex',
+                    justifyItems: 'center',
+                    alignItems: 'center',
+                    position: 'fixed',
+                    left: 0,
                     width: '100%',
-                    textAlign: 'center',
-                    fontSize: '18px',
-                    marginBottom: '1rem',
-                    position: 'sticky',
                     bottom: '40px',
-                    left: '0px',
-                    '@media (min-width: 768px)': {
-                      width: '90%',
-                      textAlign: 'center',
-                    },
+                    backgroundColor: '#FFF',
                   }}
                 >
-                  Book lounge
-                </UnstyledButton>
-              </FormWrapper>
+                  <Button
+                    onClick={handleBook}
+                    maw={375}
+                    sx={{
+                      height: 45,
+                      width: '100%',
+                      textAlign: 'center',
+                      fontSize: '18px',
+                    }}
+                  >
+                    Request lounge booking
+                  </Button>
+                </Box>
+              </Box>
             </Stack>
           </Container>
         </div>
