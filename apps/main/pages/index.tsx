@@ -78,8 +78,6 @@ export default function Home(props: unknown) {
     }
   };
 
-  console.log('env ', process.env.NEXT_PUBLIC_SITE_DOMAIN_URL);
-
   return (
     <>
       {loading ? (
