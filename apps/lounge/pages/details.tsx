@@ -38,10 +38,10 @@ export default function BookLounge() {
   };
 
   return (
-    <>
+    <Box maw={375} m="auto">
       {loading && <Skeleton visible={loading} h={500} />}
       {!loading && lounge && (
-        <div style={{ background: '#f5f5f5', height: '100vh' }}>
+        <Box style={{ background: '#f5f5f5', height: '100vh' }}>
           <Container
             p={0}
             sx={{
@@ -166,12 +166,16 @@ export default function BookLounge() {
                   px={24}
                   py={16}
                   h={76}
+                  maw={375}
+                  m="auto"
                   sx={{
                     display: 'flex',
                     justifyItems: 'center',
+                    justifyContent: 'center',
                     alignItems: 'center',
                     position: 'fixed',
                     left: 0,
+                    right: 0,
                     width: '100%',
                     bottom: '40px',
                     backgroundColor: '#FFF',
@@ -193,9 +197,9 @@ export default function BookLounge() {
               </Box>
             </Stack>
           </Container>
-        </div>
+        </Box>
       )}
-    </>
+    </Box>
   );
 }
 
