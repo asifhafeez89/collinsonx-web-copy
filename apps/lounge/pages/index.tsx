@@ -28,8 +28,6 @@ export default function Landing() {
     searchExperiences: Experience[];
   }>(getSearchExperiences);
 
-  console.log('env ', process.env.NEXT_PUBLIC_SITE_DOMAIN_URL);
-
   return (
     <Box px={8}>
       <Stack spacing={16} sx={{ position: 'relative' }}>
