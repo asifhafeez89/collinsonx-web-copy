@@ -28,7 +28,6 @@ export default function Landing() {
     searchExperiences: Experience[];
   }>(getSearchExperiences);
 
-  console.log('test');
   console.log(
     'NEXT_PUBLIC_SITE_DOMAIN_URL ',
     process.env.NEXT_PUBLIC_SITE_DOMAIN_URL
