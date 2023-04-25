@@ -67,6 +67,7 @@ const Header = ({ items, logo, onClickSignout }: HeaderProps) => {
           root: classes.root,
           close: classes.close,
           body: classes.drawerBody,
+          inner: classes.inner,
         }}
       >
         <div className={classes.drawerHeader}>

@@ -78,6 +78,17 @@ export default function Home(props: unknown) {
     }
   };
 
+  console.log('test');
+  console.log(
+    'NEXT_PUBLIC_SITE_DOMAIN_URL ',
+    process.env.NEXT_PUBLIC_SITE_DOMAIN_URL
+  );
+  console.log('SITE_DOMAIN_URL ', process.env.SITE_DOMAIN_URL);
+  console.log(
+    'NEXT_PUBLIC_SESSION_SCOPE ',
+    process.env.NEXT_PUBLIC_SESSION_SCOPE
+  );
+
   return (
     <>
       {loading ? (

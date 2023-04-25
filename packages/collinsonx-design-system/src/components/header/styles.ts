@@ -61,4 +61,7 @@ export const useStyles = createStyles((theme) => ({
     height: '100%',
     padding: 0,
   },
+  inner: {
+    zIndex: 9999,
+  },
 }));

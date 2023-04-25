@@ -114,7 +114,7 @@ export default function Search() {
                   title={name || '-'}
                   subtitle={location || '-'}
                   ImageComponent={
-                    <LoungeImage width={309} height={232} images={images} />
+                    <LoungeImage width={309} height={126} images={images} />
                   }
                   handleClick={() => {}}
                   key={id}

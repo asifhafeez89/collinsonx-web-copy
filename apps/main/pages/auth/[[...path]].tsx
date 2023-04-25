@@ -44,7 +44,7 @@ export default function Auth() {
     if (SuperTokens.canHandleRoute() === false) {
       router.push('/');
     }
-  }, []);
+  }, [router]);
 
   return (
     <LayoutLogin>
