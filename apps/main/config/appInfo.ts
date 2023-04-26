@@ -10,6 +10,6 @@ const domain =
 export const appInfo: AppInfoUserInput = {
   appName: 'CollinsonX',
   apiBasePath: '/',
-  apiDomain: process.env.AUTH_API_URL,
+  apiDomain: process.env.AUTH_API_URL as string,
   websiteDomain: domain,
 };
