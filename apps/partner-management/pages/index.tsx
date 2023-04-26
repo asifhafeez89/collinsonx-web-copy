@@ -40,6 +40,8 @@ export default function Overview() {
   const bookingsDeclined =
     (bookings[Declined]?.length || 0) + (bookings[Cancelled]?.length || 0);
 
+  console.log('test2');
+
   return (
     <>
       {error && isErrorValid(error) ? (
