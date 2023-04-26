@@ -13,6 +13,8 @@ import BookingBadge from './BookingBadge';
 import { MapPin } from '@collinsonx/design-system/assets/icons';
 import NextImage from 'next/image';
 import { BookingStatus } from '@collinsonx/utils';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 
 // import generated types in the following way:
 // import { Booking} from '@collinsonx/utils/generatedTypes/graphql';
@@ -84,7 +86,7 @@ export default function BookingCard({
               Date
             </Title>
 
-            <Text>{dayjs(date).format('DD/MM/YYYY')}</Text>
+            <Text>{dayjs.utc(date).format('DD/MM/YYYY')}</Text>
           </Stack>
         </ContentWrapper>
 

@@ -4,6 +4,8 @@ import { Details, FieldLabel } from '@collinsonx/design-system';
 import dayjs from 'dayjs';
 import { LOUNGE_HOURS_OFFSET } from '../../config/lounge';
 import { getLoungeArrivalTime } from '../../lib/index';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 
 export interface BookingFormConfirmProps {
   date: Date;
@@ -21,12 +23,12 @@ export default function BookingFormConfirm({
   const infos = [
     {
       header: 'Date',
-      description: dayjs(date).format('DD/MM/YYYY'),
+      description: dayjs.utc(date).format('DD/MM/YYYY'),
       icon: null,
     },
     {
       header: 'Your flight time',
-      description: dayjs(date).format('HH:mm'),
+      description: dayjs.utc(date).format('HH:mm'),
       icon: null,
     },
     {

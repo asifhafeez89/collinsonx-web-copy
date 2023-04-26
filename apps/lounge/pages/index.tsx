@@ -28,17 +28,6 @@ export default function Landing() {
     searchExperiences: Experience[];
   }>(getSearchExperiences);
 
-  console.log('NEXT_PUBLIC_AUTH_API_URL', process.env.NEXT_PUBLIC_AUTH_API_URL);
-  console.log(
-    'NEXT_PUBLIC_SITE_DOMAIN_URL ',
-    process.env.NEXT_PUBLIC_SITE_DOMAIN_URL
-  );
-  console.log('SITE_DOMAIN_URL ', process.env.SITE_DOMAIN_URL);
-  console.log(
-    'NEXT_PUBLIC_SESSION_SCOPE ',
-    process.env.NEXT_PUBLIC_SESSION_SCOPE
-  );
-
   return (
     <Box px={8}>
       <Stack spacing={16} sx={{ position: 'relative' }}>

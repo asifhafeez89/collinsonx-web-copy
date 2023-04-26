@@ -18,17 +18,21 @@ import { useMemo } from 'react';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
 import { MapPin } from '@collinsonx/design-system/assets/icons';
 import LoungeImage from '@components/LoungeImage';
+import Layout from '@components/Layout';
 
 export default function BookLounge() {
   const router = useRouter();
 
-  const { loading, data } = useQuery<{
+  const { loading, data, error } = useQuery<{
     searchExperiences: Experience[];
   }>(getSearchExperiences);
 
   const lounge = useMemo(() => {
-    return data?.searchExperiences?.length ? data.searchExperiences[0] : null;
-  }, [data]);
+    const { id } = router.query;
+    return data?.searchExperiences?.length
+      ? data.searchExperiences.find((item) => item.id === id)!
+      : null;
+  }, [data, router]);
 
   const handleBook = () => {
     router.push({
@@ -199,6 +203,13 @@ export default function BookLounge() {
           </Container>
         </Box>
       )}
+      {!loading && data && !error && !lounge ? (
+        <Layout>
+          <Container>
+            <Text>Lounge could not be found</Text>
+          </Container>
+        </Layout>
+      ) : null}
     </Box>
   );
 }
