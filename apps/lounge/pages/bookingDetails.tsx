@@ -74,7 +74,7 @@ export default function BookingDetails({ id }: BookingDetailProps) {
       {getBookingByID ? (
         <Stack>
           <PageTitle
-            title={`Book ${getBookingByID?.experience?.name}`}
+            title={`${getBookingByID?.experience?.name}`}
             url={'/bookings'}
           />
           <Stack sx={{ border: '1px solid #E9ECEF', padding: 17 }}>
@@ -93,9 +93,6 @@ export default function BookingDetails({ id }: BookingDetailProps) {
             height={190}
           /> */}
             </Box>
-            <Title size={18} color={'#000000'}>
-              {getBookingByID?.experience?.name}
-            </Title>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <MapPin width={16} color={'#000000'} />
               <Text color={'#000000'} sx={{ marginLeft: '10px' }}>
