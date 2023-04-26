@@ -18,6 +18,7 @@ import { useMemo } from 'react';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
 import { MapPin } from '@collinsonx/design-system/assets/icons';
 import LoungeImage from '@components/LoungeImage';
+import NextError from 'next/error';
 
 export default function BookLounge() {
   const router = useRouter();
@@ -27,8 +28,11 @@ export default function BookLounge() {
   }>(getSearchExperiences);
 
   const lounge = useMemo(() => {
-    return data?.searchExperiences?.length ? data.searchExperiences[0] : null;
-  }, [data]);
+    const { id } = router.query;
+    return data?.searchExperiences?.length
+      ? data.searchExperiences.find((item) => item.id === id)!
+      : null;
+  }, [data, router]);
 
   const handleBook = () => {
     router.push({
@@ -199,6 +203,7 @@ export default function BookLounge() {
           </Container>
         </Box>
       )}
+      {!loading && !lounge ? <NextError statusCode={404} /> : null}
     </Box>
   );
 }
