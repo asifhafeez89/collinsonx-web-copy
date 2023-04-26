@@ -1,9 +1,11 @@
 import { Flex, UnstyledButton } from '@collinsonx/design-system/core';
 
-import { FieldLabel } from '@collinsonx/design-system';
+import { Details, FieldLabel } from '@collinsonx/design-system';
 import dayjs from 'dayjs';
 import { LOUNGE_HOURS_OFFSET } from '../../config/lounge';
 import { getLoungeArrivalTime } from '../../lib/index';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 
 export interface BookingFormConfirmProps {
   date: Date;
@@ -18,38 +20,52 @@ export default function BookingFormConfirm({
     onClickConfim();
   };
 
+  const infos = [
+    {
+      header: 'Date',
+      description: dayjs.utc(date).format('DD/MM/YYYY'),
+      icon: null,
+    },
+    {
+      header: 'Your flight time',
+      description: dayjs.utc(date).format('HH:mm'),
+      icon: null,
+    },
+    {
+      header: 'Lounge arrival time',
+      description: getLoungeArrivalTime(date),
+      icon: null,
+    },
+  ];
+
   return (
-    <Flex direction="column">
-      <FieldLabel
-        title="Date"
-        value={dayjs(date).format('DD/MM/YYYY')}
-        handleClick={() => {}}
-      />
-      <FieldLabel
-        title="Your flight time"
-        value={dayjs(date).format('HH:mm')}
-        handleClick={() => {}}
-      />
-      <FieldLabel
-        title="Lounge arrival time"
-        value={getLoungeArrivalTime(date)}
-        handleClick={() => {}}
-      />
-      <UnstyledButton
-        onClick={handleClickConfim}
-        sx={{
-          borderRadius: 8,
-          background: '#000000',
-          color: '#ffffff',
-          padding: '12px 24px',
-          width: '100%',
-          textAlign: 'center',
-          fontSize: '18px',
-          marginBottom: '1rem',
-        }}
-      >
-        Send booking to lounge
-      </UnstyledButton>
-    </Flex>
+    <div
+      style={{
+        borderBottom: '4px solid #ccc',
+        paddingBottom: '20px',
+        background: '#fff',
+      }}
+    >
+      <Flex direction="column">
+        <Details infos={infos} title="Your details" />
+        <UnstyledButton
+          type="submit"
+          sx={{
+            borderRadius: 8,
+            background: '#fff',
+            color: '#000',
+            padding: '12px 24px',
+            width: '30%',
+            textAlign: 'center',
+            fontSize: '18px',
+            marginTop: '20px',
+            marginLeft: '40px',
+            border: '1px solid black',
+          }}
+        >
+          Apply
+        </UnstyledButton>
+      </Flex>
+    </div>
   );
 }

@@ -13,4 +13,6 @@ export { default as Status } from './components/status';
 export { default as DatePicker } from './components/datepicker';
 export { default as Infobox } from './components/infobox';
 export { default as ResultsContainer } from './components/resultsContainer';
+export { default as LoungeImageTitle } from './components/loungeImageTitle';
+export { default as Details } from './components/details';
 export * from './themes';

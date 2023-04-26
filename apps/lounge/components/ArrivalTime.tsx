@@ -6,9 +6,9 @@ export interface ArrivalTimeProps {
 }
 const ArrivalTime = ({ time }: ArrivalTimeProps) => {
   return (
-    <Stack spacing={16} mb={24}>
+    <Stack spacing={16}>
       <Box>
-        <Text fw={600} color="#000" size={18}>
+        <Text fw={600} color="#000" size={16}>
           Lounge arrival time
         </Text>
         <Text pt={6}>{time}</Text>

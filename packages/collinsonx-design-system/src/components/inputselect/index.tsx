@@ -1,4 +1,3 @@
-import React from 'react';
 import { SelectProps, Select } from '@mantine/core';
 
 export default function SelectInput({ ...props }: SelectProps) {
@@ -6,10 +5,13 @@ export default function SelectInput({ ...props }: SelectProps) {
     <Select
       {...props}
       sx={{
-        paddingTop: '20px',
-        marginBottom: '10px',
         color: '#000 !important',
-        label: { color: '#000000', fontWeight: 600 },
+        label: { color: '#000000', fontWeight: 400, marginBottom: 8 },
+        input: {
+          '&[data-invalid]': {
+            borderColor: 'red',
+          },
+        },
       }}
     />
   );

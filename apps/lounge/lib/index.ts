@@ -1,5 +1,7 @@
 import dayjs from 'dayjs';
 import { LOUNGE_HOURS_OFFSET } from 'config/lounge';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 
 export const getLoungeArrivalTime = (date: Date): string =>
   dayjs(date).subtract(LOUNGE_HOURS_OFFSET, 'hours').format('HH:mm');

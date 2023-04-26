@@ -1,26 +1,17 @@
-import {
-  Box,
-  Container,
-  MantineProvider,
-} from '@collinsonx/design-system/core';
-import { Header, experienceX } from '@collinsonx/design-system';
-import { Be_Vietnam_Pro } from 'next/font/google';
+import { Box } from '@collinsonx/design-system/core';
+import { Header } from '@collinsonx/design-system';
 import { LogoExperienceX } from '@collinsonx/design-system/assets/logo';
 
 import { Cart, Chat, Home } from '@collinsonx/design-system/assets/icons';
 import useAuth from '@collinsonx/utils/hooks/useAuth';
-
-const beVietnamPro = Be_Vietnam_Pro({
-  style: ['normal'],
-  subsets: ['latin'],
-  weight: ['400', '600', '700'],
-});
+import { ReactNode } from 'react';
 
 interface LayoutProps {
-  children: JSX.Element;
+  children: ReactNode;
+  maw?: number;
 }
 
-export default function LayoutPaddingLess({ children }: LayoutProps) {
+export default function LayoutPaddingLess({ children, maw }: LayoutProps) {
   const [isLoggedIn, userId, logout] = useAuth({});
 
   const handleLogout = async () => {
@@ -32,7 +23,7 @@ export default function LayoutPaddingLess({ children }: LayoutProps) {
     }
   };
   return (
-    <>
+    <Box maw={maw} m="auto">
       <Header
         onClickSignout={handleLogout}
         logo={<LogoExperienceX />}
@@ -62,6 +53,6 @@ export default function LayoutPaddingLess({ children }: LayoutProps) {
       >
         {children}
       </Box>
-    </>
+    </Box>
   );
 }

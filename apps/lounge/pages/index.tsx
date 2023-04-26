@@ -43,7 +43,12 @@ export default function Landing() {
                 title={name || '-'}
                 subtitle={location || '-'}
                 ImageComponent={
-                  <LoungeImage width={309} height={232} images={images} />
+                  <LoungeImage
+                    width={309}
+                    height={126}
+                    images={images}
+                    withControls
+                  />
                 }
                 handleClick={() => goToLoungeDetails(lounge)}
                 key={id}

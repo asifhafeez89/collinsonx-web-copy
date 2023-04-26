@@ -1,8 +1,11 @@
 import { Flex, Stack } from '@collinsonx/design-system/core';
 import Layout from '@components/Layout';
-import { PageTitle, Lounge } from '@collinsonx/design-system';
+import {
+  PageTitle,
+  Details,
+  LoungeImageTitle,
+} from '@collinsonx/design-system';
 import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
-import { NextPageContext } from 'next';
 import { BookingFormValue } from '@components/BookingForm/index';
 import BookingFormConfirm from '@components/BookingForm/BookingFormConfirm';
 import { useRouter } from 'next/router';
@@ -10,6 +13,7 @@ import { useMutation } from '@collinsonx/utils/apollo';
 import createBooking from '@collinsonx/utils/mutations/createBooking';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 import { useState } from 'react';
+import { Clock, MapPin } from '@collinsonx/design-system/assets/icons';
 
 export interface BookReviewProps {
   lounge: Experience;
@@ -50,6 +54,22 @@ export default function BookReview() {
     }
   };
 
+  const infos = [
+    {
+      header: lounge?.name ?? '',
+      description: '',
+      icon: <MapPin width={16} color="#0C8599" />,
+    },
+    {
+      header:
+        (lounge?.openingHours as unknown as string[])
+          ?.join(',')
+          .substring(0, 20) ?? '-',
+      description: '',
+      icon: <Clock width={16} color="#0C8599" />,
+    },
+  ];
+
   return (
     <>
       {loading ? (
@@ -64,16 +84,13 @@ export default function BookReview() {
                 title={`Book ${lounge?.name}`}
                 url={`/book?id=${lounge.id}`}
               />
-              <Lounge
-                airport={lounge?.location ?? '-'}
-                loungeName={undefined}
-                openingTimes={
-                  (lounge.openingHours as unknown as string[])
-                    ?.join(',')
-                    .substring(0, 20) ?? '-'
+              <LoungeImageTitle
+                title={lounge.name ?? ''}
+                image={
+                  'https://cdn03.collinson.cn/lounge-media/image/BHX6-13756.jpg'
                 }
-                image={undefined}
               />
+              {infos && <Details infos={infos} />}
               <BookingFormConfirm
                 {...formValues}
                 onClickConfim={handleClickConfirm}

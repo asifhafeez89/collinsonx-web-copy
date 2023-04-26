@@ -37,6 +37,8 @@ import DetailsPendingActions from '@components/Details/DetailsPendingActions';
 import { PageType } from 'config/booking';
 import { GetServerSideProps } from 'next';
 import { isErrorValid } from 'lib';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
 
@@ -157,7 +159,7 @@ export default function Bookings({ type }: BookingsProps) {
       }),
       columnHelper.accessor('bookedFrom', {
         header: 'Time of booking',
-        cell: (props) => dayjs(props.getValue()).format('HH:mm'),
+        cell: (props) => dayjs.utc(props.getValue()).format('HH:mm'),
       }),
       columnHelper.display({
         header: 'Guests',

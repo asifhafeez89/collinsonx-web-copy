@@ -11,6 +11,10 @@ export interface LoungeImageProps {
   images?: Maybe<Maybe<Image>[]>;
   width: number;
   height: number;
+  withControls?: boolean;
+  withIndicators?: boolean;
+  overlay?: boolean;
+  indicatorBottom?: number | string;
 }
 
 // Pixel GIF code adapted from https://stackoverflow.com/a/33919020/266535
@@ -50,23 +54,47 @@ const useStyles = createStyles(() => ({
   },
 }));
 
-const LoungeImage = ({ images }: LoungeImageProps) => {
+const LoungeImage = ({
+  images,
+  width,
+  height,
+  withControls = false,
+  withIndicators = false,
+  indicatorBottom = '1rem',
+  overlay = false,
+}: LoungeImageProps) => {
   const { classes } = useStyles();
 
   if (images && images.length > 1) {
     return (
-      <Carousel classNames={classes}>
+      <Carousel
+        classNames={classes}
+        withControls={withControls}
+        withIndicators={withIndicators}
+        styles={{
+          indicators: {
+            bottom: indicatorBottom,
+          },
+        }}
+      >
         {images.map((img, index) => (
-          <Carousel.Slide mah={127} key={img?.id ?? index}>
-            <NextImage
-              placeholder="blur"
-              blurDataURL={rgbDataURL(222, 226, 230)}
-              alt={img?.altText ?? ''}
-              src={img?.url!}
-              height={126}
-              width={295}
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
+          <Carousel.Slide mah={height} key={img?.id ?? index}>
+            <Box sx={overlay ? { background: '#25262B' } : {}}>
+              <NextImage
+                placeholder="blur"
+                blurDataURL={rgbDataURL(222, 226, 230)}
+                alt={img?.altText ?? ''}
+                src={img?.url!}
+                height={height}
+                width={width}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  opacity: overlay ? 0.5 : 1,
+                }}
+              />
+            </Box>
           </Carousel.Slide>
         ))}
       </Carousel>
@@ -79,8 +107,8 @@ const LoungeImage = ({ images }: LoungeImageProps) => {
         key={img?.id ?? 'Image'}
         alt={img?.altText ?? ''}
         src={img?.url!}
-        height={126}
-        width={295}
+        height={height}
+        width={width}
         style={{ objectFit: 'cover' }}
       />
     );
@@ -89,8 +117,8 @@ const LoungeImage = ({ images }: LoungeImageProps) => {
     <Box
       sx={{
         backgroundColor: '#dee2e6',
-        width: 295,
-        height: 126,
+        width,
+        height,
       }}
     />
   );
