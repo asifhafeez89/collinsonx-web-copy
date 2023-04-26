@@ -40,12 +40,6 @@ export default function Overview() {
   const bookingsDeclined =
     (bookings[Declined]?.length || 0) + (bookings[Cancelled]?.length || 0);
 
-  console.log('test2');
-  console.log(
-    'NEXT_PUBLIC_AUTH_API_URL ',
-    process.env.NEXT_PUBLIC_AUTH_API_URL
-  );
-
   return (
     <>
       {error && isErrorValid(error) ? (

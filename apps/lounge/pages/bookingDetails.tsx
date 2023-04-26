@@ -22,6 +22,9 @@ import { useRouter } from 'next/router';
 import { getLoungeArrivalTime } from '../lib/index';
 import BookingBadge from '@components/BookingBadge';
 import { BookingStatus } from '@collinsonx/utils';
+import utc from 'dayjs/plugin/utc';
+import { LOUNGE_HOURS_OFFSET } from 'config/lounge';
+dayjs.extend(utc);
 
 type Booking = (typeof bookings)[number];
 
@@ -71,7 +74,7 @@ export default function BookingDetails({ id }: BookingDetailProps) {
       {getBookingByID ? (
         <Stack>
           <PageTitle
-            title={`Book ${getBookingByID?.experience?.name}`}
+            title={`${getBookingByID?.experience?.name}`}
             url={'/bookings'}
           />
           <Stack sx={{ border: '1px solid #E9ECEF', padding: 17 }}>
@@ -90,9 +93,6 @@ export default function BookingDetails({ id }: BookingDetailProps) {
             height={190}
           /> */}
             </Box>
-            <Title size={18} color={'#000000'}>
-              {getBookingByID?.experience?.name}
-            </Title>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <MapPin width={16} color={'#000000'} />
               <Text color={'#000000'} sx={{ marginLeft: '10px' }}>
@@ -112,18 +112,25 @@ export default function BookingDetails({ id }: BookingDetailProps) {
               <Box>
                 <Title size={18}>Date</Title>
                 <Text>
-                  {dayjs(getBookingByID?.bookedFrom).format('DD/MM/YYYY')}
+                  {dayjs.utc(getBookingByID?.bookedFrom).format('DD/MM/YYYY')}
                 </Text>
               </Box>
 
               <Box>
                 <Title size={18}>Your flight time</Title>
-                <Text>{dayjs(getBookingByID?.bookedFrom).format('HH:mm')}</Text>
+                <Text>
+                  {dayjs
+                    .utc(getBookingByID?.bookedFrom)
+                    .add(LOUNGE_HOURS_OFFSET, 'hours')
+                    .format('HH:mm')}
+                </Text>
               </Box>
 
               <Box>
                 <Title size={18}>Lounge arrival time</Title>
-                <Text>{getLoungeArrivalTime(getBookingByID?.bookedFrom)}</Text>
+                <Text>
+                  {dayjs.utc(getBookingByID?.bookedFrom).format('HH:mm')}
+                </Text>
               </Box>
             </Stack>
 
