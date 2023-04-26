@@ -18,12 +18,12 @@ import { useMemo } from 'react';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
 import { MapPin } from '@collinsonx/design-system/assets/icons';
 import LoungeImage from '@components/LoungeImage';
-import NextError from 'next/error';
+import Layout from '@components/Layout';
 
 export default function BookLounge() {
   const router = useRouter();
 
-  const { loading, data } = useQuery<{
+  const { loading, data, error } = useQuery<{
     searchExperiences: Experience[];
   }>(getSearchExperiences);
 
@@ -203,7 +203,13 @@ export default function BookLounge() {
           </Container>
         </Box>
       )}
-      {!loading && !lounge ? <NextError statusCode={404} /> : null}
+      {!loading && data && !error && !lounge ? (
+        <Layout>
+          <Container>
+            <Text>Lounge could not be found</Text>
+          </Container>
+        </Layout>
+      ) : null}
     </Box>
   );
 }
