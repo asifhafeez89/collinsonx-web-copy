@@ -41,6 +41,8 @@ export default function Overview() {
     (bookings[Declined]?.length || 0) + (bookings[Cancelled]?.length || 0);
 
   console.log('test2');
+  console.log('AUTH_API_URL', process.env.AUTH_API_URL);
+  console.log('PRODUCTION_API_URL', process.env.PRODUCTION_API_URL);
 
   return (
     <>

@@ -39,6 +39,7 @@
       "dependsOn": [
         "^build",
         "$LOUNGE_URL",
+        "$AUTH_API_URL",
         "$PRODUCTION_API_URL",
         "$APP_PORT",
         "$SITE_DOMAIN_URL",
