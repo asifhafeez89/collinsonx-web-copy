@@ -28,8 +28,7 @@ export default function Landing() {
     searchExperiences: Experience[];
   }>(getSearchExperiences);
 
-  console.log('AUTH_API_URL', process.env.AUTH_API_URL);
-  console.log('PRODUCTION_API_URL', process.env.PRODUCTION_API_URL);
+  console.log('NEXT_PUBLIC_AUTH_API_URL', process.env.NEXT_PUBLIC_AUTH_API_URL);
   console.log(
     'NEXT_PUBLIC_SITE_DOMAIN_URL ',
     process.env.NEXT_PUBLIC_SITE_DOMAIN_URL

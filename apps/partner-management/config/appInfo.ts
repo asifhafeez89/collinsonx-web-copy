@@ -7,9 +7,11 @@ const domain =
   process.env.APP_URL ||
   `http://localhost:${port}`;
 
+const apiDomain = process.env.NEXT_PUBLIC_AUTH_API_URL as string;
+
 export const appInfo: AppInfoUserInput = {
   appName: 'CollinsonX',
   apiBasePath: '/',
-  apiDomain: process.env.AUTH_API_URL as string,
+  apiDomain,
   websiteDomain: domain,
 };
