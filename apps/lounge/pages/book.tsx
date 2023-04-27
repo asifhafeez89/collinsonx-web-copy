@@ -13,8 +13,9 @@ import BookingForm, { BookingFormProps } from '@components/BookingForm';
 import createBooking from '@collinsonx/utils/mutations/createBooking';
 
 import { Clock, MapPin } from '@collinsonx/design-system/assets/icons';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
+import BookingFormSkeleton from '@components/BookingForm/BookingFormSkeleton';
 
 export interface BookLoungeProps {
   id: string;
@@ -36,10 +37,14 @@ export default function Book() {
   const [createBookingCall, { error: createBookingError, data }] =
     useMutation(createBooking);
 
-  const lounge = experienceData?.searchExperiences[0];
+  const lounge = useMemo(() => {
+    const { id } = router.query;
+    return experienceData?.searchExperiences?.length
+      ? experienceData.searchExperiences.find((item) => item.id === id)!
+      : null;
+  }, [experienceData, router]);
 
   const handleSubmit: BookingFormProps['onSubmit'] = (formValues) => {
-    console.log(formValues);
     if (formValues.date && lounge) {
       setCreateLoading(true);
       createBookingCall({
@@ -86,7 +91,7 @@ export default function Book() {
         </Flex>
       ) : (
         <>
-          {loading && <Skeleton visible={loading} h={500}></Skeleton>}
+          {loading && <BookingFormSkeleton />}
           {!loading && lounge && (
             <Box maw={375} m="auto" sx={{ position: 'relative' }}>
               <Box sx={{ borderBottom: '1px solid  #C8C9CA' }}>

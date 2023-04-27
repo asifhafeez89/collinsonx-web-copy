@@ -43,7 +43,16 @@ export default function BookLounge() {
 
   return (
     <Box maw={375} m="auto">
-      {loading && <Skeleton visible={loading} h={500} />}
+      {loading && (
+        <>
+          <Skeleton h={215} w={375} />
+          <Box px={20}>
+            <Skeleton h={32} radius="md" w="80%" mt={24} />
+
+            <Skeleton h={24} w="40%" radius="md" mt={24} />
+          </Box>
+        </>
+      )}
       {!loading && lounge && (
         <Box style={{ background: '#f5f5f5', height: '100vh' }}>
           <Container
