@@ -58,8 +58,10 @@ export default function Book() {
             },
           },
         },
-        onCompleted: () => {
-          router.push('/success');
+        onCompleted: (data) => {
+          if (data.createBooking) {
+            router.push('/success');
+          }
         },
         onError: () => {
           setCreateLoading(false);

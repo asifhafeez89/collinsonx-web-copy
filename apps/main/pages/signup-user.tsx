@@ -11,13 +11,14 @@ import { useForm } from '@collinsonx/design-system/form';
 import LayoutLogin from '../components/LayoutLogin';
 import { Calendar } from '@collinsonx/design-system/assets/icons';
 import { DatePicker, InputLabel, PageTitle } from '@collinsonx/design-system';
-import { ComponentProps, useState } from 'react';
+import { useState } from 'react';
 import updateConsumer from '@collinsonx/utils/mutations/updateConsumer';
 import { useMutation } from '@collinsonx/utils/apollo';
 import { ConsumerInput } from '@collinsonx/utils';
 import { useRouter } from 'next/router';
 import validateEmail from '@collinsonx/utils/lib/validateEmail';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
+import Error from '@components/Error';
 
 export default function SignupUser() {
   const router = useRouter();
@@ -89,6 +90,7 @@ export default function SignupUser() {
           <Stack spacing={24} sx={{ height: '100%' }}>
             <PageTitle title="Sign up with email" url="/" variant="white" />
 
+            <Error error={error} />
             <InputLabel
               autoFocus
               type="text"
