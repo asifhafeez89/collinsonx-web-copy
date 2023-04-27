@@ -1,9 +1,9 @@
-import React, { useState, ComponentProps } from 'react';
+import React, { useState } from 'react';
 import LayoutPaddingLess from '@components/LayoutPaddingLess';
-import { Box, Container } from '@collinsonx/design-system/core';
+import { Container } from '@collinsonx/design-system/core';
 import { Stack, Flex, Skeleton, Grid } from '@collinsonx/design-system/core';
 
-import { Card, DatePicker } from '@collinsonx/design-system';
+import { Card } from '@collinsonx/design-system';
 import { useForm } from '@collinsonx/design-system/form';
 import Infobox from '@collinsonx/design-system/components/infobox';
 import ResultsContainer from '@collinsonx/design-system/components/resultsContainer';
@@ -12,7 +12,7 @@ import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
 import { useQuery } from '@collinsonx/utils/apollo';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
 import LoungeImage from '@components/LoungeImage';
-import router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import dayjs from 'dayjs';
 import LoungeError from '@components/LoungeError';
 
