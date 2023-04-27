@@ -1,5 +1,5 @@
 import Layout from '../components/Layout';
-import { PageTitle, Status } from '@collinsonx/design-system/index';
+import { PageTitle } from '@collinsonx/design-system/index';
 import Lightbox from '@collinsonx/design-system/components/lightbox';
 import { MapPin } from '@collinsonx/design-system/assets/icons';
 import cancelBooking from '@collinsonx/utils/mutations/cancelBooking';
@@ -19,11 +19,11 @@ import bookings from './bookingsMock.json';
 import { useState } from 'react';
 import { getBookingByID as getBookingByIDQuery } from '@collinsonx/utils/queries';
 import { useRouter } from 'next/router';
-import { getLoungeArrivalTime } from '../lib/index';
 import BookingBadge from '@components/BookingBadge';
 import { BookingStatus } from '@collinsonx/utils';
 import utc from 'dayjs/plugin/utc';
 import { LOUNGE_HOURS_OFFSET } from 'config/lounge';
+import LoungeError from '@components/LoungeError';
 dayjs.extend(utc);
 
 type Booking = (typeof bookings)[number];
@@ -43,34 +43,38 @@ export default function BookingDetails({ id }: BookingDetailProps) {
 
   const {
     loading,
-    error: bookingDataError,
+    error: fetchError,
     data: bookingData,
   } = useQuery(getBookingByIDQuery, {
     variables: { getBookingById: id },
   });
 
-  const [cancel, { loading: createLoading, error, data }] =
+  const [cancel, { loading: createLoading, error: cancelError, data }] =
     useMutation(cancelBooking);
 
   if (loading) {
     return <Skeleton visible={loading} h={390} />;
-  } else if (!error && bookingData?.getBookingByID === null) {
+  } else if (!fetchError && bookingData?.getBookingByID === null) {
     return <Box>Booking could not be found</Box>;
   }
 
   const { getBookingByID } = bookingData;
 
-  const handleDelete = () => {
+  const handleCancel = () => {
     cancel({
       variables: { cancelBookingId: id },
-      onCompleted: () => {
-        router.push('/bookings');
+      onCompleted: (data) => {
+        if (data.cancelBooking) {
+          router.push('/bookings');
+        }
       },
     });
   };
 
   return (
     <>
+      <LoungeError error={fetchError} />
+      <LoungeError error={cancelError} />
       {getBookingByID ? (
         <Stack>
           <PageTitle
@@ -85,14 +89,7 @@ export default function BookingDetails({ id }: BookingDetailProps) {
                 display: 'flex',
                 justifyContent: 'center',
               }}
-            >
-              {/* <Image
-            src={images?.[0]?.url ?? ''}
-            alt={name ?? ''}
-            width={'100%'}
-            height={190}
-          /> */}
-            </Box>
+            ></Box>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <MapPin width={16} color={'#000000'} />
               <Text color={'#000000'} sx={{ marginLeft: '10px' }}>
@@ -151,7 +148,7 @@ export default function BookingDetails({ id }: BookingDetailProps) {
               open={openModal}
               ctaCancel={'Go back'}
               ctaForward={'Cancel booking'}
-              ctaForwardCall={handleDelete}
+              ctaForwardCall={handleCancel}
               title=""
               onClose={() => setOpenModal(false)}
             >

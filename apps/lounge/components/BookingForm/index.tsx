@@ -108,8 +108,6 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
             d.setSeconds(0);
 
             setEdit(false);
-
-            /*onSubmit({ date: d });*/
           })}
         >
           <Stack spacing={8}>
