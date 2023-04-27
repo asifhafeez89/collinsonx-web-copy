@@ -13,6 +13,7 @@ import Layout from '@components/Layout';
 import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
 import { useQuery } from '@collinsonx/utils/apollo';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
+import CardSkeleton from '@collinsonx/design-system/components/card/CardSkeleton';
 
 export default function Landing() {
   const router = useRouter();
@@ -35,7 +36,7 @@ export default function Landing() {
           Ready for your next experience?
         </Title>
         <Flex direction="column">
-          {loading && <Skeleton visible={loading} h={390}></Skeleton>}
+          {loading && <CardSkeleton />}
           {data?.searchExperiences?.map((lounge) => {
             const { name, location, id, images, openingHours } = lounge;
             return (
