@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { useQuery } from '@collinsonx/utils/apollo';
 import { getBookings } from '@collinsonx/utils/queries';
 import { Booking, BookingStatus } from '@collinsonx/utils';
+import LoungeError from '@components/LoungeError';
 
 type DataStatus = 'empty' | 'hasData';
 
@@ -18,7 +19,7 @@ export default function Bookings() {
 
   const {
     loading,
-    error: bookingsDataError,
+    error: fetchError,
     data: bookingsData,
   } = useQuery<{ getBookings: Booking[] }>(getBookings);
 
@@ -36,6 +37,7 @@ export default function Bookings() {
       <Text fw={600} pb={12} size={20}>
         Booking management
       </Text>
+      <LoungeError error={fetchError} />
       {loading && <Skeleton visible={loading} h={390} />}
       {!bookingsData?.getBookings.length && !loading && <BookingEmptyState />}
       {!!bookingsData?.getBookings.length && (

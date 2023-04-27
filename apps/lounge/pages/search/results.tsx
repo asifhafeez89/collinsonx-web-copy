@@ -14,6 +14,7 @@ import { getSearchExperiences } from '@collinsonx/utils/queries';
 import LoungeImage from '@components/LoungeImage';
 import router, { useRouter } from 'next/router';
 import dayjs from 'dayjs';
+import LoungeError from '@components/LoungeError';
 
 export default function Search() {
   const router = useRouter();
@@ -106,6 +107,7 @@ export default function Search() {
             </Grid.Col>
           </Grid>
           <Flex direction="column">
+            <LoungeError error={error} />
             {loading && <Skeleton visible={loading} h={390}></Skeleton>}
             {data?.searchExperiences?.map((lounge) => {
               const { name, location, id, images } = lounge;
