@@ -1,11 +1,14 @@
 import { Notification, Text } from '@collinsonx/design-system/core';
 import { ApolloError } from '@collinsonx/utils/apollo';
 
-export interface ErrorProps {
+export interface LoungeErrorProps {
   error?: ApolloError;
   title?: string;
 }
-const Error = ({ error, title = 'An error occurred' }: ErrorProps) => {
+const LoungeError = ({
+  error,
+  title = 'An error occurred',
+}: LoungeErrorProps) => {
   return (
     <>
       {!!error ? (
@@ -19,4 +22,4 @@ const Error = ({ error, title = 'An error occurred' }: ErrorProps) => {
   );
 };
 
-export default Error;
+export default LoungeError;

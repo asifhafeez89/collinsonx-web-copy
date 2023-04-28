@@ -1,9 +1,9 @@
-import React, { useState, ComponentProps } from 'react';
+import React, { useState } from 'react';
 import LayoutPaddingLess from '@components/LayoutPaddingLess';
-import { Box, Container } from '@collinsonx/design-system/core';
+import { Container } from '@collinsonx/design-system/core';
 import { Stack, Flex, Skeleton, Grid } from '@collinsonx/design-system/core';
 
-import { Card, DatePicker } from '@collinsonx/design-system';
+import { Card } from '@collinsonx/design-system';
 import { useForm } from '@collinsonx/design-system/form';
 import Infobox from '@collinsonx/design-system/components/infobox';
 import ResultsContainer from '@collinsonx/design-system/components/resultsContainer';
@@ -12,11 +12,20 @@ import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
 import { useQuery } from '@collinsonx/utils/apollo';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
 import LoungeImage from '@components/LoungeImage';
-import router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import dayjs from 'dayjs';
+import LoungeError from '@components/LoungeError';
 
 export default function Search() {
   const router = useRouter();
+
+  const goToLoungeDetails = (lounge: Experience) => {
+    router.push({
+      pathname: '/details',
+      query: { id: lounge.id, search: true },
+    });
+  };
+
   const [date, setDate] = useState<Date | null>(new Date());
   const DATE_FORMAT = 'DD/MM/YYYY';
   const form = useForm({
@@ -106,6 +115,7 @@ export default function Search() {
             </Grid.Col>
           </Grid>
           <Flex direction="column">
+            <LoungeError error={error} />
             {loading && <Skeleton visible={loading} h={390}></Skeleton>}
             {data?.searchExperiences?.map((lounge) => {
               const { name, location, id, images } = lounge;
@@ -116,7 +126,9 @@ export default function Search() {
                   ImageComponent={
                     <LoungeImage width={309} height={126} images={images} />
                   }
-                  handleClick={() => {}}
+                  handleClick={() => {
+                    goToLoungeDetails(lounge);
+                  }}
                   key={id}
                 />
               );

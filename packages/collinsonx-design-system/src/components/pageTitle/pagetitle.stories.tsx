@@ -6,7 +6,7 @@ import { Box } from '@mantine/core';
 
 const data = {
   title: 'Club Aspire Lounge',
-  url: '/explore-lounges',
+  onClickBack: () => {},
 };
 
 export default {

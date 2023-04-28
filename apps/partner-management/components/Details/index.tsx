@@ -5,6 +5,8 @@ import DetailsKeyValue from './DetailsKeyValue';
 
 import { Booking } from '@collinsonx/utils';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 
 export interface DetailsProps {
   booking: Booking | undefined;
@@ -30,7 +32,7 @@ const Details = ({ children, booking, loading = false }: DetailsProps) => {
           {booking?.bookedFrom ? (
             <Flex align="center" gap={8}>
               <Calendar width={16} height={16} />
-              {dayjs(booking?.bookedFrom).format('DD/MM/YYYY')}
+              {dayjs.utc(booking?.bookedFrom).format('DD/MM/YYYY')}
             </Flex>
           ) : (
             '-'
@@ -40,7 +42,7 @@ const Details = ({ children, booking, loading = false }: DetailsProps) => {
           {booking?.bookedFrom ? (
             <Flex align="center" gap={8}>
               <Clock width={16} height={16} />
-              {dayjs(booking?.bookedFrom).format('HH:mm')}
+              {dayjs.utc(booking?.bookedFrom).format('HH:mm')}
             </Flex>
           ) : (
             '-'
