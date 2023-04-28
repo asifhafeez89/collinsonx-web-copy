@@ -38,7 +38,6 @@ import { PageType } from 'config/booking';
 import { GetServerSideProps } from 'next';
 import { isErrorValid } from 'lib';
 import utc from 'dayjs/plugin/utc';
-import checkinBooking from '../../../../packages/collinsonx-utils/src/mutations/checkinBooking';
 dayjs.extend(utc);
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
