@@ -81,7 +81,13 @@ export default function BookLounge() {
               >
                 <PageTitle
                   title=""
-                  onClickBack={() => router.back()}
+                  onClickBack={() => {
+                    if (router.query.search) {
+                      router.push('/search');
+                    } else {
+                      router.push('/');
+                    }
+                  }}
                   fullwhite={true}
                 />
               </Box>

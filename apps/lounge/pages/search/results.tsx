@@ -22,7 +22,7 @@ export default function Search() {
   const goToLoungeDetails = (lounge: Experience) => {
     router.push({
       pathname: '/details',
-      query: { id: lounge.id },
+      query: { id: lounge.id, search: true },
     });
   };
 
