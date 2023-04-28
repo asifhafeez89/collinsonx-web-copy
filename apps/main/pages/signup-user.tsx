@@ -88,7 +88,11 @@ export default function SignupUser() {
       >
         <Stack spacing={50}>
           <Stack spacing={24} sx={{ height: '100%' }}>
-            <PageTitle title="Sign up with email" url="/" variant="white" />
+            <PageTitle
+              title="Sign up with email"
+              onClickBack={() => router.push('/')}
+              variant="white"
+            />
 
             <Error error={error} />
             <InputLabel

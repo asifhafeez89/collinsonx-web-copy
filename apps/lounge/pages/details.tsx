@@ -79,7 +79,11 @@ export default function BookLounge() {
                   zIndex: 10000,
                 }}
               >
-                <PageTitle title="" url={`/`} fullwhite={true} />
+                <PageTitle
+                  title=""
+                  onClickBack={() => router.back()}
+                  fullwhite={true}
+                />
               </Box>
 
               <Box

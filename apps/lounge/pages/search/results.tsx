@@ -18,6 +18,14 @@ import LoungeError from '@components/LoungeError';
 
 export default function Search() {
   const router = useRouter();
+
+  const goToLoungeDetails = (lounge: Experience) => {
+    router.push({
+      pathname: '/details',
+      query: { id: lounge.id },
+    });
+  };
+
   const [date, setDate] = useState<Date | null>(new Date());
   const DATE_FORMAT = 'DD/MM/YYYY';
   const form = useForm({
@@ -118,7 +126,9 @@ export default function Search() {
                   ImageComponent={
                     <LoungeImage width={309} height={126} images={images} />
                   }
-                  handleClick={() => {}}
+                  handleClick={() => {
+                    goToLoungeDetails(lounge);
+                  }}
                   key={id}
                 />
               );

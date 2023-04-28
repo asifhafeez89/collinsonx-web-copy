@@ -38,6 +38,7 @@ import { PageType } from 'config/booking';
 import { GetServerSideProps } from 'next';
 import { isErrorValid } from 'lib';
 import utc from 'dayjs/plugin/utc';
+import checkinBooking from '../../../../packages/collinsonx-utils/src/mutations/checkinBooking';
 dayjs.extend(utc);
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
@@ -92,17 +93,17 @@ export default function Bookings({ type }: BookingsProps) {
 
   const [
     checkInBooking,
-    { loading: loadingCheckin, error: errorCheckin, data: dataCheckin },
+    { loading: loadingCheckin, error: checkinError, data: dataCheckin },
   ] = useMutation(checkinBookingMutation);
 
   const [
     declineBooking,
-    { loading: loadingDecline, error: errorDecline, data: dataDecline },
+    { loading: loadingDecline, error: declineError, data: dataDecline },
   ] = useMutation(declineBookingMutation);
 
   const [
     confirmBooking,
-    { loading: loadingConfirm, error: errorConfirm, data: dataConfirm },
+    { loading: loadingConfirm, error: confirmError, data: dataConfirm },
   ] = useMutation(confirmBookingMutation);
 
   const [date, setDate] = useState<Date | null>(new Date());
@@ -285,6 +286,9 @@ export default function Bookings({ type }: BookingsProps) {
             onChange={handleChangeDate}
           />
         </Flex>
+        <Error error={checkinError} />
+        <Error error={confirmError} />
+        <Error error={declineError} />
         {errorBookings && isErrorValid(errorBookings) && (
           <Error error={errorBookings} />
         )}
