@@ -79,7 +79,7 @@ export default function BookingDetails({ id }: BookingDetailProps) {
         <Stack>
           <PageTitle
             title={`${getBookingByID?.experience?.name}`}
-            url={'/bookings'}
+            onClickBack={() => router.push('/bookings')}
           />
           <Stack sx={{ border: '1px solid #E9ECEF', padding: 17 }}>
             <Box

@@ -100,7 +100,9 @@ export default function Book() {
               <Box sx={{ borderBottom: '1px solid  #C8C9CA' }}>
                 <PageTitle
                   title="Confirm booking"
-                  url={`/details?id=${router.query.id}`}
+                  onClickBack={() =>
+                    router.push(`/details?id=${router.query.id}`)
+                  }
                 />
               </Box>
               <LoungeError error={fetchError} />

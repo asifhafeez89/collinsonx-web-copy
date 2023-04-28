@@ -1,18 +1,20 @@
-import { Text, Title } from '@collinsonx/design-system/core';
+import { Notification, Text } from '@collinsonx/design-system/core';
 import { ApolloError } from '@collinsonx/utils/apollo';
 
 export interface ErrorProps {
-  error: ApolloError;
+  error?: ApolloError;
+  title?: string;
 }
-const Error = ({ error }: ErrorProps) => {
+const Error = ({ error, title = 'An error occurred' }: ErrorProps) => {
   return (
     <>
-      <Title fw={600} order={3}>
-        An error has occurred
-      </Title>
-      {error.graphQLErrors.map((error, index) => (
-        <Text key={index}>{error.message}</Text>
-      ))}
+      {!!error ? (
+        <Notification my={8} color="red.7" title={title} w="100%">
+          {error.graphQLErrors.map((error, index) => (
+            <Text key={index}>{error.message}</Text>
+          ))}
+        </Notification>
+      ) : null}
     </>
   );
 };

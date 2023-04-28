@@ -6,7 +6,7 @@ import Error from '@components/Error';
 import Notification from '@components/Notification';
 import { useMutation, useQuery } from '@collinsonx/utils/apollo';
 import { Booking, BookingStatus } from '@collinsonx/utils';
-import { getBookingByID } from '@collinsonx/utils/queries';
+import getAllBookings from '@collinsonx/utils/queries/getAllBookings';
 import DetailsPendingActions from '@components/Details/DetailsPendingActions';
 import {
   declineBooking as declineBookingMutation,
@@ -15,6 +15,7 @@ import {
 import { useRouter } from 'next/router';
 import { bookingConfig } from 'config/booking';
 import { isErrorValid } from 'lib';
+import { useMemo } from 'react';
 
 interface DetailsProps {
   id: string;
@@ -25,43 +26,50 @@ const { Initialized } = BookingStatus;
 export default function Details({ id }: DetailsProps) {
   const router = useRouter();
 
-  const { loading, error, data } = useQuery<{ getBookingByID: Booking }>(
-    getBookingByID,
-    {
-      variables: { getBookingById: id },
-    }
-  );
+  const {
+    loading,
+    error: fetchError,
+    data,
+  } = useQuery<{ getAllBookings: Booking[] }>(getAllBookings);
+
+  const booking = useMemo(() => {
+    return data?.getAllBookings.find((item) => item.id === id);
+  }, [data, id]);
 
   const [
     declineBooking,
-    { loading: loadingDecline, error: errorDecline, data: dataDecline },
+    { loading: loadingDecline, error: declineError, data: dataDecline },
   ] = useMutation(declineBookingMutation);
 
   const [
     confirmBooking,
-    { loading: loadingConfirm, error: errorConfirm, data: dataConfirm },
+    { loading: loadingConfirm, error: confirmError, data: dataConfirm },
   ] = useMutation(confirmBookingMutation);
 
-  const status = data?.getBookingByID?.status;
+  const status = booking?.status || null;
 
   const handleClickConfirm = () => {
     confirmBooking({
       variables: { confirmBookingId: id },
-      onCompleted: () => {
-        router.push('/');
+      onCompleted: (data) => {
+        if (data.confirmBooking) {
+          router.push('/');
+        }
       },
     });
   };
   const handleClickDecline = () => {
     declineBooking({
       variables: { declineBookingId: id },
-      onCompleted: () => {
-        router.push('/');
+      onCompleted: (data) => {
+        if (data.declineBooking) {
+          router.push('/');
+        }
       },
     });
   };
 
-  if (!loading && !error && data?.getBookingByID === null) {
+  if (!loading && !fetchError && !booking) {
     return (
       <Box py={40} px={32}>
         Booking could not be found
@@ -76,8 +84,8 @@ export default function Details({ id }: DetailsProps) {
           {bookingConfig[status].description}
         </Notification>
       )}
-      {error && isErrorValid(error) ? (
-        <Error error={error} />
+      {fetchError && isErrorValid(fetchError) ? (
+        <Error error={fetchError} />
       ) : (
         <Box py={40} px={32}>
           <Stack spacing={32}>
@@ -87,6 +95,8 @@ export default function Details({ id }: DetailsProps) {
               </Title>
               <Text size={18}>Lounge</Text>
             </Box>
+            <Error error={declineError} />
+            <Error error={confirmError} />
             <Grid>
               <Grid.Col lg={8} md={8}>
                 <Box
@@ -94,7 +104,7 @@ export default function Details({ id }: DetailsProps) {
                   p={40}
                   sx={{ borderRadius: 4, border: '1px solid #DDDDDD' }}
                 >
-                  <DetailsView booking={data?.getBookingByID} loading={loading}>
+                  <DetailsView booking={booking} loading={loading}>
                     {status === Initialized ? (
                       <DetailsPendingActions
                         onClickConfirm={handleClickConfirm}
