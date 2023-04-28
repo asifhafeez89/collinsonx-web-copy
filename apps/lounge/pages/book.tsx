@@ -1,5 +1,5 @@
 import { Box, Flex, Skeleton, Stack } from '@collinsonx/design-system/core';
-import { useMutation, useQuery } from '@collinsonx/utils/apollo';
+import { ApolloError, useMutation, useQuery } from '@collinsonx/utils/apollo';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
 import {
   PageTitle,
@@ -16,6 +16,7 @@ import { Clock, MapPin } from '@collinsonx/design-system/assets/icons';
 import { useMemo, useState } from 'react';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 import BookingFormSkeleton from '@components/BookingForm/BookingFormSkeleton';
+import LoungeError from '@components/LoungeError';
 
 export interface BookLoungeProps {
   id: string;
@@ -26,7 +27,7 @@ export default function Book() {
 
   const {
     loading,
-    error: experienceError,
+    error: fetchError,
     data: experienceData,
   } = useQuery<{ searchExperiences: Experience[] }>(getSearchExperiences, {
     variables: { query: router.query?.id },
@@ -34,7 +35,7 @@ export default function Book() {
 
   const [createLoading, setCreateLoading] = useState(false);
 
-  const [createBookingCall, { error: createBookingError, data }] =
+  const [createBookingCall, { error: createError, data }] =
     useMutation(createBooking);
 
   const lounge = useMemo(() => {
@@ -57,8 +58,10 @@ export default function Book() {
             },
           },
         },
-        onCompleted: () => {
-          router.push('/success');
+        onCompleted: (data) => {
+          if (data.createBooking) {
+            router.push('/success');
+          }
         },
         onError: () => {
           setCreateLoading(false);
@@ -92,30 +95,37 @@ export default function Book() {
       ) : (
         <>
           {loading && <BookingFormSkeleton />}
-          {!loading && lounge && (
+          {!loading && (
             <Box maw={375} m="auto" sx={{ position: 'relative' }}>
               <Box sx={{ borderBottom: '1px solid  #C8C9CA' }}>
                 <PageTitle
                   title="Confirm booking"
-                  url={`/details?id=${lounge.id}`}
+                  onClickBack={() =>
+                    router.push(`/details?id=${router.query.id}`)
+                  }
                 />
               </Box>
+              <LoungeError error={fetchError} />
+              <LoungeError error={createError} />
+              {lounge && (
+                <Stack spacing={8}>
+                  <Stack p={24} spacing={24} bg="#FFF">
+                    <LoungeImageTitle
+                      title={lounge.name ?? ''}
+                      image={
+                        lounge.images &&
+                        lounge.images[0] &&
+                        lounge.images[0].url
+                          ? lounge.images[0].url
+                          : 'https://cdn03.collinson.cn/lounge-media/image/BHX6-13756.jpg'
+                      }
+                    />
+                    <Details infos={infos} />
+                  </Stack>
 
-              <Stack spacing={8}>
-                <Stack p={24} spacing={24} bg="#FFF">
-                  <LoungeImageTitle
-                    title={lounge.name ?? ''}
-                    image={
-                      lounge.images && lounge.images[0] && lounge.images[0].url
-                        ? lounge.images[0].url
-                        : 'https://cdn03.collinson.cn/lounge-media/image/BHX6-13756.jpg'
-                    }
-                  />
-                  <Details infos={infos} />
+                  <BookingForm onSubmit={handleSubmit} />
                 </Stack>
-
-                <BookingForm onSubmit={handleSubmit} />
-              </Stack>
+              )}
             </Box>
           )}
         </>

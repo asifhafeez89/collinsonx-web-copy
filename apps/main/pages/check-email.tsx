@@ -19,6 +19,7 @@ import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifesty
 import { useEffect, useRef, useState } from 'react';
 import getConsumerByEmailAddress from '@collinsonx/utils/queries/getConsumerByEmailAddress';
 import { useQuery } from '@collinsonx/utils/apollo';
+import Error from '@components/Error';
 
 export default function CheckEmail() {
   const router = useRouter();
@@ -121,13 +122,7 @@ export default function CheckEmail() {
               <Title order={1} size={20}>
                 Check your email
               </Title>
-              {!!error && (
-                <Notification color="red.7" title="An error occurred" w="100%">
-                  {error.graphQLErrors.map((error, index) => (
-                    <Text key={index}>{error.message}</Text>
-                  ))}
-                </Notification>
-              )}
+              <Error error={error} />
               <Text align="center">
                 We have sent a confirmation code to {email}.
               </Text>
