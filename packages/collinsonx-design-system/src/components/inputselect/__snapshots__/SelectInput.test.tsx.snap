@@ -2,17 +2,18 @@
 
 exports[`<SelectInput /> renders SelectInput 1`] = `
 <div
-  className="mantine-InputWrapper-root mantine-Select-root mantine-1m3pqry"
+  className="mantine-InputWrapper-root mantine-Select-root mantine-1go50pw"
 >
   <label
-    className="mantine-InputWrapper-label mantine-Select-label mantine-1kp8kyo"
-    htmlFor="mantine-r0"
-    id="mantine-r0-label"
+    className="mantine-InputWrapper-label mantine-Select-label mantine-1fzet7j"
+    htmlFor="mantine-dbmzof7fa"
+    id="mantine-dbmzof7fa-label"
+    onMouseDown={[Function]}
   >
     Your favorite framework/library
   </label>
   <div
-    aria-controls="mantine-r0"
+    aria-controls="mantine-dbmzof7fa"
     aria-expanded={false}
     aria-haspopup="listbox"
     aria-owns={null}
@@ -27,7 +28,7 @@ exports[`<SelectInput /> renders SelectInput 1`] = `
       value=""
     />
     <div
-      className="mantine-Input-wrapper mantine-Select-wrapper mantine-12sbrde"
+      className="mantine-Input-wrapper mantine-Select-wrapper mantine-7c7vou"
     >
       <input
         aria-activedescendant={null}
@@ -35,10 +36,10 @@ exports[`<SelectInput /> renders SelectInput 1`] = `
         aria-controls={null}
         aria-invalid={false}
         autoComplete="off"
-        className="mantine-Input-input mantine-Select-input mantine-ye2q1m"
+        className="mantine-Input-input mantine-Select-input mantine-1wqyxin"
         data-mantine-stop-propagation={false}
         disabled={false}
-        id="mantine-r0"
+        id="mantine-dbmzof7fa"
         name={null}
         onBlur={[Function]}
         onChange={[Function]}
@@ -52,19 +53,19 @@ exports[`<SelectInput /> renders SelectInput 1`] = `
         value=""
       />
       <div
-        className="mantine-uquezq mantine-Input-rightSection mantine-Select-rightSection"
+        className="mantine-1qj7q0z mantine-Input-rightSection mantine-Select-rightSection"
       >
         <svg
           data-chevron={true}
           fill="none"
-          height={18}
+          height="1.125rem"
           style={
             {
               "color": "#868e96",
             }
           }
           viewBox="0 0 15 15"
-          width={18}
+          width="1.125rem"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path

@@ -2,7 +2,7 @@
 
 exports[`<AuthInput /> renders AuthInput 1`] = `
 <div
-  className="css-53w5oo"
+  className="css-fzppmg"
 >
   <div>
     <input
@@ -15,6 +15,7 @@ exports[`<AuthInput /> renders AuthInput 1`] = `
       onKeyDown={[Function]}
       onPaste={[Function]}
       pattern="[a-zA-Z0-9]{1}"
+      placeholder="-"
       type="text"
     />
     <input
@@ -27,6 +28,7 @@ exports[`<AuthInput /> renders AuthInput 1`] = `
       onKeyDown={[Function]}
       onPaste={[Function]}
       pattern="[a-zA-Z0-9]{1}"
+      placeholder="-"
       type="text"
     />
     <input
@@ -39,6 +41,7 @@ exports[`<AuthInput /> renders AuthInput 1`] = `
       onKeyDown={[Function]}
       onPaste={[Function]}
       pattern="[a-zA-Z0-9]{1}"
+      placeholder="-"
       type="text"
     />
     <input
@@ -51,6 +54,7 @@ exports[`<AuthInput /> renders AuthInput 1`] = `
       onKeyDown={[Function]}
       onPaste={[Function]}
       pattern="[a-zA-Z0-9]{1}"
+      placeholder="-"
       type="text"
     />
     <input
@@ -63,6 +67,7 @@ exports[`<AuthInput /> renders AuthInput 1`] = `
       onKeyDown={[Function]}
       onPaste={[Function]}
       pattern="[a-zA-Z0-9]{1}"
+      placeholder="-"
       type="text"
     />
     <input
@@ -75,6 +80,7 @@ exports[`<AuthInput /> renders AuthInput 1`] = `
       onKeyDown={[Function]}
       onPaste={[Function]}
       pattern="[a-zA-Z0-9]{1}"
+      placeholder="-"
       type="text"
     />
   </div>

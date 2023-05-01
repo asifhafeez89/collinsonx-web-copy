@@ -1,284 +1,269 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<SignupUser /> renders outline variant 1`] = `
-<form
-  onSubmit={[Function]}
+<div
+  className="mantine-Container-root mantine-hwrsz4"
 >
   <div
-    className="mantine-Stack-root mantine-1az9v3i"
+    className="mantine-Stack-root mantine-g49psp"
   >
     <div
-      className="mantine-Stack-root mantine-f7tv2s"
+      className="mantine-Center-root mantine-dejthu"
     >
-      <header
-        className="mantine-1fvi2kf"
-      >
-        <a
-          href="/"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
-        >
-          <div
-            className="mantine-ueqqbs"
-          >
-            <SvgrURL
-              color="#FFFFFF"
-            />
-          </div>
-        </a>
-        <h1
-          className="mantine-Text-root mantine-Title-root mantine-68qx9n"
-        >
-           Sign up with email
-        </h1>
-      </header>
+      svg
+       
+    </div>
+    <form
+      onSubmit={[Function]}
+    >
       <div
-        className="mantine-InputWrapper-root mantine-TextInput-root mantine-1m3pqry"
+        className="mantine-Stack-root mantine-1wpa508"
       >
-        <label
-          className="mantine-InputWrapper-label mantine-TextInput-label mantine-ittua2"
-          htmlFor="mantine-r0"
-          id="mantine-r0-label"
-        >
-          Your email address
-          <span
-            aria-hidden={true}
-            className="mantine-u5apz8 mantine-InputWrapper-required mantine-TextInput-required"
-          >
-             *
-          </span>
-        </label>
         <div
-          className="mantine-Input-wrapper mantine-TextInput-wrapper mantine-12sbrde"
+          className="mantine-Stack-root mantine-shhoda"
         >
-          <input
-            aria-invalid={false}
-            autoFocus={true}
-            className="mantine-Input-input mantine-TextInput-input mantine-1g14e8k"
-            id="mantine-r0"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            placeholder="Your email address"
-            type="email"
-            value=""
-          />
-        </div>
-      </div>
-      <div
-        className="mantine-InputWrapper-root mantine-TextInput-root mantine-1m3pqry"
-      >
-        <label
-          className="mantine-InputWrapper-label mantine-TextInput-label mantine-ittua2"
-          htmlFor="mantine-r1"
-          id="mantine-r1-label"
-        >
-          First name(s)
-          <span
-            aria-hidden={true}
-            className="mantine-u5apz8 mantine-InputWrapper-required mantine-TextInput-required"
-          >
-             *
-          </span>
-        </label>
-        <div
-          className="mantine-Input-wrapper mantine-TextInput-wrapper mantine-12sbrde"
-        >
-          <input
-            aria-invalid={false}
-            autoFocus={true}
-            className="mantine-Input-input mantine-TextInput-input mantine-1g14e8k"
-            id="mantine-r1"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            placeholder="First name"
-            type="text"
-          />
-        </div>
-      </div>
-      <div
-        className="mantine-InputWrapper-root mantine-TextInput-root mantine-1m3pqry"
-      >
-        <label
-          className="mantine-InputWrapper-label mantine-TextInput-label mantine-ittua2"
-          htmlFor="mantine-r2"
-          id="mantine-r2-label"
-        >
-          Last name
-          <span
-            aria-hidden={true}
-            className="mantine-u5apz8 mantine-InputWrapper-required mantine-TextInput-required"
-          >
-             *
-          </span>
-        </label>
-        <div
-          className="mantine-Input-wrapper mantine-TextInput-wrapper mantine-12sbrde"
-        >
-          <input
-            aria-invalid={false}
-            autoFocus={true}
-            className="mantine-Input-input mantine-TextInput-input mantine-1g14e8k"
-            id="mantine-r2"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            placeholder="Last name"
-            type="text"
-          />
-        </div>
-      </div>
-      <div
-        className="mantine-InputWrapper-root mantine-DatePicker-root mantine-ns0bfw"
-      >
-        <label
-          className="mantine-InputWrapper-label mantine-DatePicker-label mantine-ittua2"
-          htmlFor="mantine-r3"
-          id="mantine-r3-label"
-        >
-          Date of birth
-        </label>
-        <div
-          className="mantine-2uofp0 mantine-DatePicker-wrapper"
-        >
-          <div
-            className="mantine-Input-wrapper mantine-DatePicker-wrapper mantine-12sbrde"
+          <header
+            className="mantine-1loib0s"
           >
             <div
-              className="mantine-yxyjyg mantine-Input-icon mantine-DatePicker-icon"
-            >
-              icon
-            </div>
-            <input
-              aria-invalid={false}
-              autoComplete="off"
-              className="mantine-DatePicker-input mantine-Input-input mantine-DatePicker-input mantine-Input-withIcon mantine-DatePicker-withIcon mantine-1764pic"
-              disabled={false}
-              id="mantine-r3"
-              name="date"
-              onBlur={[Function]}
-              onChange={[Function]}
+              className="mantine-jrn8go"
               onClick={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              placeholder="Pick a date"
-              readOnly={true}
-              value="20/03/2023"
-            />
-          </div>
-        </div>
-      </div>
-      <div
-        className="mantine-Text-root mantine-1pbxw0k"
-      >
-        We will only contact you about your booking. By choosing how you'd like to hear from us you opt in to communication.
-      </div>
-      <div
-        className="mantine-Group-root mantine-puhv18"
-      >
-        <div
-          className="mantine-w7kov9"
-        >
+            >
+              <SvgrURL
+                color="#FFFFFF"
+              />
+            </div>
+            <h1
+              className="mantine-Text-root mantine-Title-root mantine-xichux"
+            >
+              Sign up with email
+            </h1>
+          </header>
           <div
-            className="mantine-Text-root mantine-1pbxw0k"
+            className="mantine-InputWrapper-root mantine-TextInput-root mantine-agt6mi"
           >
-            Email
-          </div>
-           
-          <div
-            className="mantine-Switch-root mantine-15po0m8"
-          >
+            <label
+              className="mantine-InputWrapper-label mantine-TextInput-label mantine-1xp1947"
+              htmlFor="mantine-rf0jhgruc"
+              id="mantine-rf0jhgruc-label"
+              onMouseDown={[Function]}
+            >
+              First name(s)
+              <span
+                aria-hidden={true}
+                className="mantine-103svbs mantine-InputWrapper-required mantine-TextInput-required"
+              >
+                 *
+              </span>
+            </label>
             <div
-              className="mantine-17do188 mantine-Switch-body"
+              className="mantine-Input-wrapper mantine-TextInput-wrapper mantine-7c7vou"
             >
               <input
-                checked={false}
-                className="mantine-1buhfoz mantine-Switch-input"
-                id="mantine-r5"
+                aria-invalid={false}
+                autoFocus={true}
+                className="mantine-Input-input mantine-TextInput-input mantine-1o8gqm4"
+                id="mantine-rf0jhgruc"
+                onBlur={[Function]}
                 onChange={[Function]}
-                type="checkbox"
-                value="email"
-              />
-              <label
-                className="mantine-bphvxq mantine-Switch-track"
-                htmlFor="mantine-r5"
-              >
-                <div
-                  className="mantine-1etkg7o mantine-Switch-thumb"
-                />
-                <div
-                  className="mantine-8jlqcf mantine-Switch-trackLabel"
-                />
-              </label>
-              <div
-                className="mantine-1a93mbi mantine-Switch-labelWrapper"
+                onFocus={[Function]}
+                placeholder="First name"
+                type="text"
               />
             </div>
           </div>
+          <div
+            className="mantine-InputWrapper-root mantine-TextInput-root mantine-agt6mi"
+          >
+            <label
+              className="mantine-InputWrapper-label mantine-TextInput-label mantine-1xp1947"
+              htmlFor="mantine-1c343tpo7"
+              id="mantine-1c343tpo7-label"
+              onMouseDown={[Function]}
+            >
+              Last name
+              <span
+                aria-hidden={true}
+                className="mantine-103svbs mantine-InputWrapper-required mantine-TextInput-required"
+              >
+                 *
+              </span>
+            </label>
+            <div
+              className="mantine-Input-wrapper mantine-TextInput-wrapper mantine-7c7vou"
+            >
+              <input
+                aria-invalid={false}
+                autoFocus={true}
+                className="mantine-Input-input mantine-TextInput-input mantine-1o8gqm4"
+                id="mantine-1c343tpo7"
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                placeholder="Last name"
+                type="text"
+              />
+            </div>
+          </div>
+          <div
+            className="mantine-InputWrapper-root mantine-DatePickerInput-root mantine-1xhjld9"
+          >
+            <label
+              className="mantine-InputWrapper-label mantine-DatePickerInput-label mantine-1fzet7j"
+              htmlFor="mantine-955dojawf"
+              id="mantine-955dojawf-label"
+              onMouseDown={[Function]}
+            >
+              Date of birth
+            </label>
+            <div
+              className="mantine-Input-wrapper mantine-DatePickerInput-wrapper mantine-7c7vou"
+            >
+              <div
+                className="mantine-16k3d8y mantine-Input-icon mantine-DatePickerInput-icon"
+              >
+                icon
+              </div>
+              <button
+                aria-controls="mantine-jxo7wb92e-dropdown"
+                aria-expanded={false}
+                aria-haspopup="dialog"
+                aria-invalid={false}
+                className="mantine-DatePickerInput-input mantine-Input-input mantine-DatePickerInput-input mantine-1jbpix9"
+                data-dates-input={true}
+                data-with-icon={true}
+                id="mantine-jxo7wb92e-target"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                type="button"
+              >
+                01/01/1990
+              </button>
+            </div>
+          </div>
+          <input
+            type="hidden"
+            value="1990-01-01T00:00:00.000Z"
+          />
+          <div
+            className="mantine-InputWrapper-root mantine-TextInput-root mantine-agt6mi"
+          >
+            <label
+              className="mantine-InputWrapper-label mantine-TextInput-label mantine-1xp1947"
+              htmlFor="mantine-4a3otjhyc"
+              id="mantine-4a3otjhyc-label"
+              onMouseDown={[Function]}
+            >
+              Your email address
+              <span
+                aria-hidden={true}
+                className="mantine-103svbs mantine-InputWrapper-required mantine-TextInput-required"
+              >
+                 *
+              </span>
+            </label>
+            <div
+              className="mantine-Input-wrapper mantine-TextInput-wrapper mantine-7c7vou"
+            >
+              <input
+                aria-invalid={false}
+                autoFocus={true}
+                className="mantine-Input-input mantine-TextInput-input mantine-1o8gqm4"
+                id="mantine-4a3otjhyc"
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                placeholder="Your email address"
+                readOnly={true}
+                type="email"
+              />
+            </div>
+          </div>
+          <div
+            className="mantine-Text-root mantine-1d564l0"
+          >
+            We will send you a unique code via email to complete the login.
+          </div>
+          <div
+            className="mantine-Group-root mantine-k3ov3c"
+          >
+            <div
+              className="mantine-1r6lzvf"
+            >
+              <div
+                className="mantine-Checkbox-root mantine-yxmaw9"
+              >
+                <div
+                  className="mantine-14n9mxy mantine-Checkbox-body"
+                >
+                  <div
+                    className="mantine-1vf457v mantine-Checkbox-inner"
+                  >
+                    <input
+                      checked={false}
+                      className="mantine-qjqn4g mantine-Checkbox-input"
+                      id="mantine-2kka5v3mt"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      type="checkbox"
+                    />
+                    <svg
+                      className="___ref-icon mantine-q9qwbl mantine-Checkbox-icon"
+                      fill="none"
+                      viewBox="0 0 10 7"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        clipRule="evenodd"
+                        d="M4 4.586L1.707 2.293A1 1 0 1 0 .293 3.707l3 3a.997.997 0 0 0 1.414 0l5-5A1 1 0 1 0 8.293.293L4 4.586z"
+                        fill="currentColor"
+                        fillRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div
+                    className="mantine-1svz3tp mantine-Checkbox-labelWrapper"
+                  >
+                    <label
+                      className="mantine-1y85e1c mantine-Checkbox-label"
+                      htmlFor="mantine-2kka5v3mt"
+                    >
+                      I agree to receive personalised marketing emails.
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="mantine-Group-root mantine-k3ov3c"
+          >
+            <button
+              className="mantine-UnstyledButton-root mantine-Button-root mantine-1pa5pmq"
+              data-button={true}
+              type="submit"
+            >
+              <div
+                className="mantine-1wpc1xj mantine-Button-inner"
+              >
+                <span
+                  className="mantine-1ryt1ht mantine-Button-label"
+                  style={
+                    {
+                      "textTransform": undefined,
+                    }
+                  }
+                >
+                  Login
+                </span>
+              </div>
+            </button>
+          </div>
         </div>
       </div>
-      <div
-        className="mantine-Group-root mantine-5f6x53"
-      >
-        <button
-          className="mantine-UnstyledButton-root mantine-Button-root mantine-no0aay"
-          data-button={true}
-          type="submit"
-        >
-          <div
-            className="mantine-3xbgk5 mantine-Button-inner"
-          >
-            <span
-              className="mantine-qo1k2 mantine-Button-label"
-              style={
-                {
-                  "textTransform": undefined,
-                }
-              }
-            >
-              Submit
-            </span>
-          </div>
-        </button>
-      </div>
-    </div>
-    <div
-      className="mantine-1d4rha3"
-    >
-      <div
-        className="mantine-1f10gm6"
-      >
-        <svg />
-      </div>
-    </div>
+    </form>
   </div>
-  <div
-    style={
-      {
-        "bottom": "-500px",
-        "height": "50%",
-        "left": 0,
-        "overflow": "hidden",
-        "position": "absolute",
-        "width": "100%",
-      }
-    }
-  >
-    <div
-      style={
-        {
-          "backgroundColor": "#47D4B1",
-          "borderRadius": "50%",
-          "bottom": "-190px",
-          "height": "55vh",
-          "position": "absolute",
-          "right": "-20px",
-          "width": "55vh",
-        }
-      }
-    />
-  </div>
-</form>
+</div>
 `;

@@ -2,28 +2,29 @@
 
 exports[`<Textarea /> renders Textarea 1`] = `
 <div
-  className="mantine-InputWrapper-root mantine-Textarea-root mantine-1m3pqry"
+  className="mantine-InputWrapper-root mantine-Textarea-root mantine-agt6mi"
 >
   <label
-    className="mantine-InputWrapper-label mantine-Textarea-label mantine-1kp8kyo"
-    htmlFor="mantine-r0"
-    id="mantine-r0-label"
+    className="mantine-InputWrapper-label mantine-Textarea-label mantine-1ds4twx"
+    htmlFor="mantine-2e8wragkz"
+    id="mantine-2e8wragkz-label"
+    onMouseDown={[Function]}
   >
     Your comment
     <span
       aria-hidden={true}
-      className="mantine-u5apz8 mantine-InputWrapper-required mantine-Textarea-required"
+      className="mantine-103svbs mantine-InputWrapper-required mantine-Textarea-required"
     >
        *
     </span>
   </label>
   <div
-    className="mantine-Input-wrapper mantine-Textarea-wrapper mantine-12sbrde"
+    className="mantine-Input-wrapper mantine-Textarea-wrapper mantine-7c7vou"
   >
     <textarea
       aria-invalid={false}
-      className="mantine-Input-input mantine-Textarea-input mantine-1cp6ct5"
-      id="mantine-r0"
+      className="mantine-Input-input mantine-Textarea-input mantine-1nzb2pb"
+      id="mantine-2e8wragkz"
       placeholder="Your comment"
     />
   </div>

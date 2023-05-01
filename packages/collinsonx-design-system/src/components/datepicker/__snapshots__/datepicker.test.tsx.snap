@@ -1,45 +1,49 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Datepicker /> renders datepicker 1`] = `
-<div
-  className="mantine-InputWrapper-root mantine-DatePicker-root mantine-1m3pqry"
->
-  <label
-    className="mantine-InputWrapper-label mantine-DatePicker-label mantine-mwxeal"
-    htmlFor="mantine-r0"
-    id="mantine-r0-label"
-  >
-    Date
-    <span
-      aria-hidden={true}
-      className="mantine-u5apz8 mantine-InputWrapper-required mantine-DatePicker-required"
-    >
-       *
-    </span>
-  </label>
+[
   <div
-    className="mantine-2uofp0 mantine-DatePicker-wrapper"
+    className="mantine-InputWrapper-root mantine-DatePickerInput-root mantine-1ejqehl"
   >
-    <div
-      className="mantine-Input-wrapper mantine-DatePicker-wrapper mantine-12sbrde"
+    <label
+      className="mantine-InputWrapper-label mantine-DatePickerInput-label mantine-14x6zdz"
+      htmlFor="mantine-9m4sl0hyk"
+      id="mantine-9m4sl0hyk-label"
+      onMouseDown={[Function]}
     >
-      <input
+      Date
+      <span
+        aria-hidden={true}
+        className="mantine-103svbs mantine-InputWrapper-required mantine-DatePickerInput-required"
+      >
+         *
+      </span>
+    </label>
+    <div
+      className="mantine-Input-wrapper mantine-DatePickerInput-wrapper mantine-7c7vou"
+    >
+      <button
+        aria-controls="mantine-netyrkuat-dropdown"
+        aria-expanded={false}
+        aria-haspopup="dialog"
         aria-invalid={false}
-        autoComplete="off"
-        className="mantine-DatePicker-input mantine-Input-input mantine-DatePicker-input mantine-1y9bl4z"
-        disabled={false}
-        id="mantine-r0"
-        name="date"
-        onBlur={[Function]}
-        onChange={[Function]}
+        className="mantine-DatePickerInput-input mantine-Input-input mantine-DatePickerInput-input mantine-1jbpix9"
+        data-dates-input={true}
+        id="mantine-netyrkuat-target"
         onClick={[Function]}
-        onFocus={[Function]}
-        onKeyDown={[Function]}
-        placeholder="Pick date"
-        readOnly={true}
-        value=""
-      />
+        type="button"
+      >
+        <span
+          className="mantine-DatePickerInput-placeholder mantine-1v32taa"
+        >
+          Pick date
+        </span>
+      </button>
     </div>
-  </div>
-</div>
+  </div>,
+  <input
+    type="hidden"
+    value=""
+  />,
+]
 `;

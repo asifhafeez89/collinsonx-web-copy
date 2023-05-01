@@ -143,3 +143,5 @@ export {
   useLazyQuery,
   useMutation,
 } from '@apollo/client';
+
+export { MockedProvider } from '@apollo/client/testing';
