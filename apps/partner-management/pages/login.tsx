@@ -17,6 +17,8 @@ export interface FormValues {
   password: string;
 }
 
+const MOCK_LOUNGE = 'Club Aspire Lounge';
+
 export default function Login() {
   const form = useForm({
     initialValues: {
@@ -44,7 +46,7 @@ export default function Login() {
       <Stack justify="center" align="center" spacing={32}>
         <Stack justify="center" align="center" spacing={8}>
           <Title>Login</Title>
-          <Text size={18}>Club Aspire Lounge</Text>
+          <Text size={18}>{MOCK_LOUNGE}</Text>
         </Stack>
         <FormContainer>
           <form onSubmit={form.onSubmit(handleLogin)}>
