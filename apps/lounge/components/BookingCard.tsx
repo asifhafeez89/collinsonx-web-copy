@@ -32,7 +32,7 @@ const CardWrapper = styled.div`
   margin-bottom: 1rem;
   margin-top: 1.5rem;
   box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15), 0px 1px 3px rgba(0, 0, 0, 0.05);
-  background-color: #ffffff;
+  background-color: white;
 `;
 
 const ContentWrapper = styled.div`
