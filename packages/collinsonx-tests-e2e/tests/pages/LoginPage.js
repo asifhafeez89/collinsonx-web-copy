@@ -14,5 +14,13 @@ class LoginPage {
   getCollinsonTitle() {
     return this.page.toHaveTitle('CollinsonX');
   }
+
+  getLoginButton() {
+    return this.page.getByRole('button', { name: 'Login' });
+  }
+
+  getVerifyButton() {
+    return this.page.getByRole('button', { name: 'Verify' });
+  }
 }
 module.exports = LoginPage;
