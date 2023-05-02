@@ -1,4 +1,4 @@
-import { Text, Box, Skeleton } from '@collinsonx/design-system/core';
+import { Text, Box, Skeleton, Flex } from '@collinsonx/design-system/core';
 import BookingCard from '@components/BookingCard';
 import BookingEmptyState from '@components/BookingEmptyState';
 
@@ -33,10 +33,17 @@ export default function Bookings() {
   };
 
   return (
-    <Box>
-      <Text fw={600} pb={12} size={20}>
-        Booking management
-      </Text>
+    <Box sx={{ width: '100%' }}>
+      <Flex
+        h={76}
+        justify="center"
+        align="center"
+        sx={{ borderBottom: '1px solid black' }}
+      >
+        <Text fw={600} size={20} ta={'center'}>
+          My bookings
+        </Text>
+      </Flex>
       <LoungeError error={fetchError} />
       {loading && <Skeleton visible={loading} h={390} />}
       {!bookingsData?.getBookings.length && !loading && <BookingEmptyState />}
@@ -61,6 +68,7 @@ export default function Bookings() {
                 imgUrl={booking?.experience?.images?.[0]?.url ?? ''}
                 status={booking?.status ?? BookingStatus.Initialized}
                 date={booking?.bookedFrom ?? ''}
+                bookedFrom={booking?.experience?.location ?? ''}
               />
             ))}
         </>
