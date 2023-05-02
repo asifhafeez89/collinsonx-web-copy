@@ -44,8 +44,8 @@ exports[`<SignupUser /> renders outline variant 1`] = `
           >
             <label
               className="mantine-InputWrapper-label mantine-TextInput-label mantine-1xp1947"
-              htmlFor="mantine-rf0jhgruc"
-              id="mantine-rf0jhgruc-label"
+              htmlFor="mantine-j4uhuy78v"
+              id="mantine-j4uhuy78v-label"
               onMouseDown={[Function]}
             >
               First name(s)
@@ -63,7 +63,7 @@ exports[`<SignupUser /> renders outline variant 1`] = `
                 aria-invalid={false}
                 autoFocus={true}
                 className="mantine-Input-input mantine-TextInput-input mantine-1o8gqm4"
-                id="mantine-rf0jhgruc"
+                id="mantine-j4uhuy78v"
                 onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
@@ -77,8 +77,8 @@ exports[`<SignupUser /> renders outline variant 1`] = `
           >
             <label
               className="mantine-InputWrapper-label mantine-TextInput-label mantine-1xp1947"
-              htmlFor="mantine-1c343tpo7"
-              id="mantine-1c343tpo7-label"
+              htmlFor="mantine-nybn04zdo"
+              id="mantine-nybn04zdo-label"
               onMouseDown={[Function]}
             >
               Last name
@@ -96,7 +96,7 @@ exports[`<SignupUser /> renders outline variant 1`] = `
                 aria-invalid={false}
                 autoFocus={true}
                 className="mantine-Input-input mantine-TextInput-input mantine-1o8gqm4"
-                id="mantine-1c343tpo7"
+                id="mantine-nybn04zdo"
                 onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
@@ -110,8 +110,8 @@ exports[`<SignupUser /> renders outline variant 1`] = `
           >
             <label
               className="mantine-InputWrapper-label mantine-DatePickerInput-label mantine-1fzet7j"
-              htmlFor="mantine-955dojawf"
-              id="mantine-955dojawf-label"
+              htmlFor="mantine-zsaz3so3s"
+              id="mantine-zsaz3so3s-label"
               onMouseDown={[Function]}
             >
               Date of birth
@@ -125,14 +125,14 @@ exports[`<SignupUser /> renders outline variant 1`] = `
                 icon
               </div>
               <button
-                aria-controls="mantine-jxo7wb92e-dropdown"
+                aria-controls="mantine-kblscipv4-dropdown"
                 aria-expanded={false}
                 aria-haspopup="dialog"
                 aria-invalid={false}
                 className="mantine-DatePickerInput-input mantine-Input-input mantine-DatePickerInput-input mantine-1jbpix9"
                 data-dates-input={true}
                 data-with-icon={true}
-                id="mantine-jxo7wb92e-target"
+                id="mantine-kblscipv4-target"
                 onBlur={[Function]}
                 onClick={[Function]}
                 onFocus={[Function]}
@@ -151,8 +151,8 @@ exports[`<SignupUser /> renders outline variant 1`] = `
           >
             <label
               className="mantine-InputWrapper-label mantine-TextInput-label mantine-1xp1947"
-              htmlFor="mantine-4a3otjhyc"
-              id="mantine-4a3otjhyc-label"
+              htmlFor="mantine-letoq8t49"
+              id="mantine-letoq8t49-label"
               onMouseDown={[Function]}
             >
               Your email address
@@ -170,7 +170,7 @@ exports[`<SignupUser /> renders outline variant 1`] = `
                 aria-invalid={false}
                 autoFocus={true}
                 className="mantine-Input-input mantine-TextInput-input mantine-1o8gqm4"
-                id="mantine-4a3otjhyc"
+                id="mantine-letoq8t49"
                 onBlur={[Function]}
                 onChange={[Function]}
                 onFocus={[Function]}
@@ -203,7 +203,7 @@ exports[`<SignupUser /> renders outline variant 1`] = `
                     <input
                       checked={false}
                       className="mantine-qjqn4g mantine-Checkbox-input"
-                      id="mantine-2kka5v3mt"
+                      id="mantine-uqvqphaqj"
                       onBlur={[Function]}
                       onChange={[Function]}
                       onFocus={[Function]}
@@ -228,7 +228,7 @@ exports[`<SignupUser /> renders outline variant 1`] = `
                   >
                     <label
                       className="mantine-1y85e1c mantine-Checkbox-label"
-                      htmlFor="mantine-2kka5v3mt"
+                      htmlFor="mantine-uqvqphaqj"
                     >
                       I agree to receive personalised marketing emails.
                     </label>

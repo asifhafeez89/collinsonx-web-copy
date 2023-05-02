@@ -1,7 +1,7 @@
 import * as React from 'react';
 import renderer from 'react-test-renderer';
 import Home from '../pages/index';
-import { MockedProvider } from '@collinsonx/utils/apollo';
+import { MockedProvider } from '@collinsonx/utils/testing';
 import { SuperTokensWrapper } from '@collinsonx/utils/supertokens';
 
 jest.mock('next/router', () => ({

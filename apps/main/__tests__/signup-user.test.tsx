@@ -1,7 +1,7 @@
 import * as React from 'react';
 import renderer from 'react-test-renderer';
 import SignupUser from '../pages/signup-user';
-import { MockedProvider } from '@collinsonx/utils/apollo';
+import { MockedProvider } from '@collinsonx/utils/testing';
 
 jest.mock('next/router', () => ({
   useRouter() {

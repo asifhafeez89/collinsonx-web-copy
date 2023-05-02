@@ -6,14 +6,14 @@ exports[`<SelectInput /> renders SelectInput 1`] = `
 >
   <label
     className="mantine-InputWrapper-label mantine-Select-label mantine-1fzet7j"
-    htmlFor="mantine-dbmzof7fa"
-    id="mantine-dbmzof7fa-label"
+    htmlFor="mantine-jtuhdvirl"
+    id="mantine-jtuhdvirl-label"
     onMouseDown={[Function]}
   >
     Your favorite framework/library
   </label>
   <div
-    aria-controls="mantine-dbmzof7fa"
+    aria-controls="mantine-jtuhdvirl"
     aria-expanded={false}
     aria-haspopup="listbox"
     aria-owns={null}
@@ -39,7 +39,7 @@ exports[`<SelectInput /> renders SelectInput 1`] = `
         className="mantine-Input-input mantine-Select-input mantine-1wqyxin"
         data-mantine-stop-propagation={false}
         disabled={false}
-        id="mantine-dbmzof7fa"
+        id="mantine-jtuhdvirl"
         name={null}
         onBlur={[Function]}
         onChange={[Function]}
