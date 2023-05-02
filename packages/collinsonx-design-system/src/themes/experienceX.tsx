@@ -113,19 +113,49 @@ const theme = (
           height: '50px',
           backgroundColor: colors.white,
           borderRadius: 4,
-          borderColor: colors.gray[4],
           color: colors.dark[6],
           '::placeholder': {
             color: colors.gray[6],
           },
           ':focus': {
             color: colors.dark[6],
-            borderColor: colors.dark[6],
+          },
+          '&[data-invalid]': {
+            borderColor: colors.red[6],
+            color: colors.dark[6],
+            '::placeholder': {
+              color: colors.gray[5],
+            },
           },
         },
         label: {
           fontFamily,
+          color: colors.dark[6],
           fontWeight: 400,
+        },
+        error: {
+          color: colors.red[6],
+        },
+      }),
+    },
+    PasswordInput: {
+      styles: ({ colors }) => ({
+        input: {
+          height: 50,
+          borderRadius: 4,
+        },
+        innerInput: {
+          height: '100%',
+          fontSize: 18,
+        },
+        label: {
+          color: colors.dark[6],
+          fontWeight: 400,
+        },
+        rightSection: {
+          '& button': {
+            color: '#A8A8AA',
+          },
         },
       }),
     },
