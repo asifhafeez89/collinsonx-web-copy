@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 import Login from '../actions/Login';
-import IsTheUserAtTheLoginPage from '../questions/IsTheUserAtTheLoginPage';
+import HasTheUserLoggedIn from '../questions/HasTheUserLoggedIn';
 
 
 test('has title', async ({ page }) => {
@@ -13,6 +13,7 @@ test('has title', async ({ page }) => {
   // await login.submitLogin();
 
   //Then
-  let isTheUserAtTheLoginPage = new IsTheUserAtTheLoginPage(expect);
-  await isTheUserAtTheLoginPage.verifyTitle();
+  let hasTheUserLoggedIn = new HasTheUserLoggedIn(expect);
+  await hasTheUserLoggedIn.verifyTitle();
+  // await hasTheUserLoggedIn.seeHomePageTitle();
 });

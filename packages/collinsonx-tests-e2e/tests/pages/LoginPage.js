@@ -15,6 +15,10 @@ class LoginPage {
     return this.page.toHaveTitle('CollinsonX');
   }
 
+  getHomePageTitle() {
+    return this.page.getByRole('button', { name: 'Ready for your next experience?' });
+  }
+
   getLoginButton() {
     return this.page.getByRole('button', { name: 'Login' });
   }
