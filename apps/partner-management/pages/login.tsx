@@ -7,18 +7,10 @@ import {
   PasswordInput,
   TextInput,
 } from '@collinsonx/design-system/core';
-import styled from '@collinsonx/design-system/styled';
 import LayoutLogin from '@components/LayoutLogin';
+import FormContainer from '@components/FormContainer';
 import { useForm } from '@collinsonx/design-system/form';
 import validateEmail from '@collinsonx/utils/lib/validateEmail';
-
-const FormContainer = styled('div')`
-  padding: 40px;
-  background: #fff;
-  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
-  min-width: 448px;
-`;
 
 export interface FormValues {
   email: string;
