@@ -33,12 +33,12 @@ export default function Bookings() {
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%', paddingTop: 0 }}>
       <Flex
         h={76}
         justify="center"
         align="center"
-        sx={{ borderBottom: '1px solid black' }}
+        sx={{ borderBottom: '1px solid #C8C9CA', backgroundColor: '#fff' }}
       >
         <Text fw={600} size={20} ta={'center'}>
           My bookings
