@@ -2,28 +2,29 @@
 
 exports[`<InputLabel /> renders textinput 1`] = `
 <div
-  className="mantine-InputWrapper-root mantine-TextInput-root mantine-1m3pqry"
+  className="mantine-InputWrapper-root mantine-TextInput-root mantine-agt6mi"
 >
   <label
-    className="mantine-InputWrapper-label mantine-TextInput-label mantine-1kp8kyo"
-    htmlFor="mantine-r0"
-    id="mantine-r0-label"
+    className="mantine-InputWrapper-label mantine-TextInput-label mantine-1ds4twx"
+    htmlFor="mantine-5u925s85a"
+    id="mantine-5u925s85a-label"
+    onMouseDown={[Function]}
   >
     Full name
     <span
       aria-hidden={true}
-      className="mantine-u5apz8 mantine-InputWrapper-required mantine-TextInput-required"
+      className="mantine-103svbs mantine-InputWrapper-required mantine-TextInput-required"
     >
        *
     </span>
   </label>
   <div
-    className="mantine-Input-wrapper mantine-TextInput-wrapper mantine-12sbrde"
+    className="mantine-Input-wrapper mantine-TextInput-wrapper mantine-7c7vou"
   >
     <input
       aria-invalid={false}
-      className="mantine-Input-input mantine-TextInput-input mantine-1g14e8k"
-      id="mantine-r0"
+      className="mantine-Input-input mantine-TextInput-input mantine-1o8gqm4"
+      id="mantine-5u925s85a"
       placeholder="Your name"
       type="text"
     />

@@ -2,13 +2,13 @@
 
 exports[`<LayoutLogin /> renders outline variant 1`] = `
 <div
-  className="mantine-Container-root mantine-1ne5wbx"
+  className="mantine-Container-root mantine-hwrsz4"
 >
   <div
-    className="mantine-Stack-root mantine-f7tv2s"
+    className="mantine-Stack-root mantine-g49psp"
   >
     <div
-      className="mantine-8od8ev"
+      className="mantine-Center-root mantine-dejthu"
     >
       svg
        

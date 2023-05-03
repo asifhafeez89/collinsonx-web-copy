@@ -2,7 +2,7 @@
 
 exports[`<Status /> renders Status 1`] = `
 <div
-  className="mantine-Text-root mantine-1xk0dk8"
+  className="mantine-Text-root mantine-1wmv07l"
 >
   Booking pending
 </div>

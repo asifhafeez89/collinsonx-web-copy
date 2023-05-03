@@ -2,16 +2,16 @@
 
 exports[`<Button /> renders outline variant 1`] = `
 <button
-  className="mantine-UnstyledButton-root mantine-Button-root mantine-b61g2y"
+  className="mantine-UnstyledButton-root mantine-Button-root mantine-opuaso"
   data-button={true}
   onClick={[MockFunction]}
   type="button"
 >
   <div
-    className="mantine-3xbgk5 mantine-Button-inner"
+    className="mantine-1wpc1xj mantine-Button-inner"
   >
     <span
-      className="mantine-qo1k2 mantine-Button-label"
+      className="mantine-1ryt1ht mantine-Button-label"
       style={
         {
           "textTransform": undefined,
