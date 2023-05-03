@@ -2,24 +2,18 @@
 
 exports[`<PageTitle /> renders PageTitle 1`] = `
 <header
-  className="mantine-1fvi2kf"
+  className="mantine-1loib0s"
 >
-  <a
-    href="https://bbc.co.uk"
+  <div
+    className="mantine-jrn8go"
     onClick={[Function]}
-    onMouseEnter={[Function]}
-    onTouchStart={[Function]}
   >
-    <div
-      className="mantine-1e5u164"
-    >
-      <test-file-stub
-        color="#000000"
-      />
-    </div>
-  </a>
+    <test-file-stub
+      color="#000000"
+    />
+  </div>
   <h1
-    className="mantine-Text-root mantine-Title-root mantine-57g7lp"
+    className="mantine-Text-root mantine-Title-root mantine-1w03ku6"
   >
     test
   </h1>

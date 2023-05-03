@@ -2,37 +2,51 @@
 
 exports[`Card component renders Container 1`] = `
 <div
-  className="css-nycf1o"
+  className="css-syyxuq"
 >
   <div
-    className="css-nm2cxd"
+    className="css-2f61zd"
   >
     <h3>
       My lounge
     </h3>
-    <p>
-      Athens International Airport
-    </p>
+  </div>
+  <div
+    className="mantine-Stack-root mantine-yg5lri"
+  >
+    <div
+      className="mantine-1iy1luo"
+    >
+      <test-file-stub
+        color="#0C8599"
+        width={16}
+      />
+      <div
+        className="mantine-Text-root mantine-1blwfnj"
+      >
+        Athens International Airport
+      </div>
+    </div>
   </div>
   <div>
     <button
-      className="mantine-UnstyledButton-root mantine-Button-root mantine-n5myvg"
+      className="mantine-UnstyledButton-root mantine-Button-root mantine-1pa5pmq"
       data-button={true}
       onClick={[Function]}
       type="button"
     >
       <div
-        className="mantine-3xbgk5 mantine-Button-inner"
+        className="mantine-1wpc1xj mantine-Button-inner"
       >
         <span
-          className="mantine-qo1k2 mantine-Button-label"
+          className="mantine-1ryt1ht mantine-Button-label"
           style={
             {
               "textTransform": undefined,
             }
           }
         >
-          Book Lounge
+          View Lounge
         </span>
       </div>
     </button>
