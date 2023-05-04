@@ -21,7 +21,7 @@ export default function Expired() {
         </Stack>
         <FormContainer>
           <Stack spacing={32}>
-            <Text>
+            <Text size={18}>
               If you&apos;ve forgotten your email please contact support at
               help@collinson.co.uk or call 01234 345498 for help with getting
               access to your account.

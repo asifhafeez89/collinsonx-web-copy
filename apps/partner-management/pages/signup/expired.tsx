@@ -20,10 +20,10 @@ export default function Expired() {
         </Stack>
         <FormContainer>
           <Stack spacing={32}>
-            <Text align="center">
+            <Text align="center" size={18}>
               To protect your account, you will need to request a new link.
             </Text>
-            <Text align="center">
+            <Text align="center" size={18}>
               Any issues, please contact support at help@collinson.co.uk
             </Text>
           </Stack>

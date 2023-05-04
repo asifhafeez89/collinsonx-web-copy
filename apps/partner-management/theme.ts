@@ -11,13 +11,6 @@ const theme = experienceX({ fontFamily: beVietnamPro.style.fontFamily });
 
 theme.components = {
   ...theme.components,
-  Text: {
-    styles: {
-      root: {
-        fontSize: 18,
-      },
-    },
-  },
   Anchor: {
     styles: ({ colors }) => ({
       root: {

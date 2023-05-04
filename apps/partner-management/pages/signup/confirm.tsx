@@ -24,10 +24,10 @@ export default function Confirm() {
 
         <FormContainer>
           <Stack spacing={32}>
-            <Text align="center">
+            <Text align="center" size={18}>
               We have sent you an email to <strong>{email}</strong>
             </Text>
-            <Text align="center">
+            <Text align="center" size={18}>
               Check your inbox or spam folders to confirm your email address.
             </Text>
           </Stack>

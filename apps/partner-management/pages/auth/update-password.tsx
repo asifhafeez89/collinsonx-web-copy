@@ -1,5 +1,5 @@
 import {
-  Title,
+  Text,
   Stack,
   Button,
   PasswordInput,
@@ -20,6 +20,8 @@ export interface FormValues {
 
 // For step 1 of the flow, see apps\partner-management\pages\password-reset.tsx
 
+// Note: backend must know the URL for this page
+
 export default function UpdatePassword() {
   const form = useForm({
     initialValues: {
@@ -39,10 +41,10 @@ export default function UpdatePassword() {
     <>
       <PageTitle title="Create new password" />
       <Stack justify="center" align="center" spacing={32}>
-        <Title color="cyan.8" size={22}>
-          Create new password
-        </Title>
         <FormContainer>
+          <Text align="center" size={18} fw={600} mb={40}>
+            Create new password
+          </Text>
           <form onSubmit={form.onSubmit(handleSubmit)}>
             <PasswordInput
               label="New password"
