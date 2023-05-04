@@ -5,7 +5,7 @@ import {
 } from '@mantine/core';
 
 interface ButtonProps extends MantineBProps {
-  handleClick: () => void;
+  handleClick?: () => void;
   icon?: React.ReactNode;
 }
 
