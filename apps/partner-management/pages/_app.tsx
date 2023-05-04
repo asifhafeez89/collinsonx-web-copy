@@ -26,6 +26,22 @@ type Props = AppProps & {
   Component: Page;
 };
 
+const theme = experienceX({ fontFamily: beVietnamPro.style.fontFamily });
+
+theme.components = {
+  ...theme.components,
+  Anchor: {
+    styles: ({ colors }) => ({
+      root: {
+        color: colors.brandColor[0],
+        textDecoration: 'underline',
+        fontWeight: 600,
+        fontSize: 18,
+      },
+    }),
+  },
+};
+
 export default function MyApp({ Component, pageProps }: Props) {
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page);
@@ -43,11 +59,7 @@ export default function MyApp({ Component, pageProps }: Props) {
       <ApolloProvider client={apolloClient}>
         {/* <SuperTokensWrapper> */}
         {/* <SysAuth> */}
-        <MantineProvider
-          theme={experienceX({ fontFamily: beVietnamPro.style.fontFamily })}
-          withGlobalStyles
-          withNormalizeCSS
-        >
+        <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
           {getLayout(<Component {...pageProps} />)}
         </MantineProvider>
         {/* </SysAuth> */}

@@ -39,6 +39,7 @@ export default function LayoutLogin({
         style={{
           padding: hasPadding ? '32px 40px' : 'auto',
           margin: 0,
+          background: '#f5f5f5',
         }}
       >
         <Flex justify="center">{children}</Flex>

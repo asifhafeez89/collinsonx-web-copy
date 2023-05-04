@@ -7,6 +7,7 @@ import {
   PasswordInput,
   TextInput,
   Anchor,
+  Flex,
 } from '@collinsonx/design-system/core';
 import LayoutLogin from '@components/LayoutLogin';
 import FormContainer from '@components/FormContainer';
@@ -19,7 +20,7 @@ export interface FormValues {
   password: string;
 }
 
-export default function Login() {
+export default function Expired() {
   const form = useForm({
     initialValues: {
       email: '',
@@ -30,7 +31,7 @@ export default function Login() {
         validateEmail(value) ? null : 'Please enter a valid email address.',
     },
   });
-  const handleLogin = async ({ email, password }: FormValues) => {
+  const handleExpired = async ({ email, password }: FormValues) => {
     if (!validateEmail(email.trim())) {
     } else {
       try {
@@ -43,33 +44,29 @@ export default function Login() {
 
   return (
     <>
-      <PageTitle title="Login" />
+      <PageTitle title="Your link has expired" />
       <Stack justify="center" align="center" spacing={32}>
         <Stack justify="center" align="center" spacing={8}>
           <Title color="cyan.8" size={22}>
-            Login
+            Your link has expired
           </Title>
         </Stack>
         <FormContainer>
-          <form onSubmit={form.onSubmit(handleLogin)}>
-            <TextInput label="Email" {...form.getInputProps('email')} />
-            <PasswordInput
-              label="Password"
-              mt={32}
-              {...form.getInputProps('password')}
-            />
-            <Checkbox label="Save my password" mt={16} />
-            <Button type="submit" mt={40} fullWidth>
-              Login
-            </Button>
-            <Anchor href="#" sx={{ marginTop: 24, display: 'block' }}>
-              Forgotten password?
-            </Anchor>
-          </form>
+          <Stack spacing={32}>
+            <Text align="center">
+              To protect your account, you will need to request a new link.
+            </Text>
+            <Text align="center">
+              Any issues, please contact support at help@collinson.co.uk
+            </Text>
+          </Stack>
+          <Button fullWidth mt={40}>
+            Request a new link
+          </Button>
         </FormContainer>
       </Stack>
     </>
   );
 }
 
-Login.getLayout = (page: JSX.Element) => <LayoutLogin>{page}</LayoutLogin>;
+Expired.getLayout = (page: JSX.Element) => <LayoutLogin>{page}</LayoutLogin>;

@@ -12,6 +12,7 @@ import FormContainer from '@components/FormContainer';
 import { useForm } from '@collinsonx/design-system/form';
 import validateEmail from '@collinsonx/utils/lib/validateEmail';
 import { useDisclosure } from '@collinsonx/design-system/hooks';
+import PageTitle from '@components/PageTitle';
 
 export interface FormValues {
   email: string;
@@ -50,6 +51,7 @@ export default function Signup() {
 
   return (
     <>
+      <PageTitle title="Signup" />
       <Stack justify="center" align="center" spacing={32}>
         <Stack justify="center" align="center" spacing={8}>
           <Title>Welcome to {MOCK_LOUNGE}</Title>
