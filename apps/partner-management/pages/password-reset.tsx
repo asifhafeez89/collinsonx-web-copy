@@ -1,4 +1,11 @@
-import { Title, Text, Stack, Button } from '@collinsonx/design-system/core';
+import {
+  Title,
+  Text,
+  Stack,
+  Button,
+  Anchor,
+  Flex,
+} from '@collinsonx/design-system/core';
 import LayoutLogin from '@components/LayoutLogin';
 import FormContainer from '@components/FormContainer';
 import PageTitle from '@components/PageTitle';
@@ -8,32 +15,35 @@ export interface FormValues {
   password: string;
 }
 
-export default function Expired() {
+export default function PasswordReset() {
   return (
     <>
-      <PageTitle title="Your link has expired" />
+      <PageTitle title="Password reset" />
       <Stack justify="center" align="center" spacing={32}>
         <Stack justify="center" align="center" spacing={8}>
           <Title color="cyan.8" size={22}>
-            Your link has expired
+            Password reset
           </Title>
         </Stack>
         <FormContainer>
           <Stack spacing={32}>
-            <Text align="center">
-              To protect your account, you will need to request a new link.
-            </Text>
-            <Text align="center">
-              Any issues, please contact support at help@collinson.co.uk
+            <Text>
+              We&apos;ve sent you an email with a link to reset your password.
+              Please check your inbox and junk folders.
             </Text>
           </Stack>
-          <Button fullWidth mt={40}>
-            Request a new link
+          <Button fullWidth my={40}>
+            Go to login
           </Button>
+          <Flex justify="center">
+            <Anchor>Resend email</Anchor>
+          </Flex>
         </FormContainer>
       </Stack>
     </>
   );
 }
 
-Expired.getLayout = (page: JSX.Element) => <LayoutLogin>{page}</LayoutLogin>;
+PasswordReset.getLayout = (page: JSX.Element) => (
+  <LayoutLogin>{page}</LayoutLogin>
+);

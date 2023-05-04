@@ -3,19 +3,8 @@ import { NextPage } from 'next';
 import { ComponentType, ReactElement } from 'react';
 import { MantineProvider } from '@collinsonx/design-system/core';
 import Head from 'next/head';
-import { experienceX } from '@collinsonx/design-system/themes';
-import { Be_Vietnam_Pro } from 'next/font/google';
 import { useApollo, ApolloProvider } from '@collinsonx/utils/apollo';
-// import SuperTokensReact, {
-//   SuperTokensConfig,
-//   SuperTokensWrapper,
-// } from '@collinsonx/utils/supertokens';
-// import { SysAuth, Logout } from '@collinsonx/utils/components';
-const beVietnamPro = Be_Vietnam_Pro({
-  style: ['normal'],
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-});
+import theme from '../theme';
 
 type Page<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactElement) => JSX.Element;
@@ -24,22 +13,6 @@ type Page<P = {}> = NextPage<P> & {
 
 type Props = AppProps & {
   Component: Page;
-};
-
-const theme = experienceX({ fontFamily: beVietnamPro.style.fontFamily });
-
-theme.components = {
-  ...theme.components,
-  Anchor: {
-    styles: ({ colors }) => ({
-      root: {
-        color: colors.brandColor[0],
-        textDecoration: 'underline',
-        fontWeight: 600,
-        fontSize: 18,
-      },
-    }),
-  },
 };
 
 export default function MyApp({ Component, pageProps }: Props) {

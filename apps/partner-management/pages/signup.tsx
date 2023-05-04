@@ -11,7 +11,6 @@ import LayoutLogin from '@components/LayoutLogin';
 import FormContainer from '@components/FormContainer';
 import { useForm } from '@collinsonx/design-system/form';
 import validateEmail from '@collinsonx/utils/lib/validateEmail';
-import { useDisclosure } from '@collinsonx/design-system/hooks';
 import PageTitle from '@components/PageTitle';
 
 export interface FormValues {
@@ -24,8 +23,6 @@ export interface FormValues {
 const MOCK_LOUNGE = 'Club Aspire Lounge';
 
 export default function Signup() {
-  const [visible, { toggle }] = useDisclosure(false);
-
   const form = useForm({
     initialValues: {
       email: '',
@@ -59,31 +56,19 @@ export default function Signup() {
         </Stack>
         <FormContainer>
           <form onSubmit={form.onSubmit(handleSignup)}>
-            <TextInput label="Full name" {...form.getInputProps('fullName')} />
             <TextInput label="Email" mt={32} {...form.getInputProps('email')} />
             <PasswordInput
-              label="Create a password"
+              label="Password"
               mt={32}
               {...form.getInputProps('password')}
-              styles={{
-                rightSection: { display: 'none' },
-                input: { paddingRight: 14 },
-              }}
-              visible={visible}
             />
             <PasswordInput
               mt={16}
               label="Confirm password"
-              visible={visible}
               {...form.getInputProps('passwordConfirm')}
-              styles={{
-                rightSection: { display: 'none' },
-                input: { paddingRight: 14 },
-              }}
             />
-            <Checkbox mt={16} label="Show password" onClick={toggle} />
             <Button mt={40} type="submit" fullWidth>
-              Register now
+              Submit
             </Button>
           </form>
         </FormContainer>

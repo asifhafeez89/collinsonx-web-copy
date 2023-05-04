@@ -1,4 +1,11 @@
-import { Title, Text, Stack, Button } from '@collinsonx/design-system/core';
+import {
+  Title,
+  Text,
+  Stack,
+  Button,
+  Anchor,
+  Flex,
+} from '@collinsonx/design-system/core';
 import LayoutLogin from '@components/LayoutLogin';
 import FormContainer from '@components/FormContainer';
 import PageTitle from '@components/PageTitle';
@@ -8,27 +15,25 @@ export interface FormValues {
   password: string;
 }
 
-export default function Expired() {
+export default function Confirm() {
   return (
     <>
-      <PageTitle title="Your link has expired" />
+      <PageTitle title="Confirm your email" />
       <Stack justify="center" align="center" spacing={32}>
         <Stack justify="center" align="center" spacing={8}>
           <Title color="cyan.8" size={22}>
-            Your link has expired
+            Confirm your email address to get started
           </Title>
         </Stack>
         <FormContainer>
           <Stack spacing={32}>
-            <Text align="center">
-              To protect your account, you will need to request a new link.
-            </Text>
-            <Text align="center">
-              Any issues, please contact support at help@collinson.co.uk
+            <Text>
+              We&apos;ve sent you an email with a link to reset your password.
+              Please check your inbox and junk folders.
             </Text>
           </Stack>
           <Button fullWidth mt={40}>
-            Request a new link
+            Go to login
           </Button>
         </FormContainer>
       </Stack>
@@ -36,4 +41,4 @@ export default function Expired() {
   );
 }
 
-Expired.getLayout = (page: JSX.Element) => <LayoutLogin>{page}</LayoutLogin>;
+Confirm.getLayout = (page: JSX.Element) => <LayoutLogin>{page}</LayoutLogin>;
