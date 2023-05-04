@@ -29,14 +29,14 @@
     "release": "turbo run build --filter=main... && changeset publish"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.23.0",
-    "@testing-library/jest-dom": "^5.11.9",
+    "@changesets/cli": "^2.26.1",
+    "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
-    "@types/jest": "^29.4.0",
-    "@types/node": "^18.13.0",
+    "@types/jest": "^29.5.1",
+    "@types/node": "^18.16.3",
     "@types/react-test-renderer": "^18.0.0",
-    "prettier": "^2.6.2",
+    "prettier": "^2.8.8",
     "turbo": "latest"
   },
   "packageManager": "pnpm@7.15.0"
