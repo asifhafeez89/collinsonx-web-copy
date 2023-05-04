@@ -30,15 +30,15 @@ exports[`<Success /> renders outline variant 1`] = `
     />
   </div>,
   <div
-    className="mantine-Stack-root mantine-1pdwwdu"
+    className="mantine-Stack-root mantine-k3f9kx"
   >
     <h1
-      className="mantine-Text-root mantine-Title-root mantine-18xthly"
+      className="mantine-Text-root mantine-Title-root mantine-u2ecja"
     >
       You're in
     </h1>
     <h2
-      className="mantine-Text-root mantine-Title-root mantine-1dp5aru"
+      className="mantine-Text-root mantine-Title-root mantine-2yiyd2"
     >
       Let's find your next experience
     </h2>

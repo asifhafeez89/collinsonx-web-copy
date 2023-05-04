@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LoungeImageTitle /> renders LoungeImageTitle 1`] = `
+<div
+  className="css-1ce6rfj"
+>
+  <div
+    className="mantine-16nf6i7"
+  >
+    <div
+      className="mantine-Image-root mantine-yxmaw9"
+      style={
+        {
+          "width": "7.5rem",
+        }
+      }
+    >
+      <figure
+        className="mantine-qenwvq mantine-Image-figure"
+      >
+        <div
+          className="mantine-1iugybl mantine-Image-imageWrapper"
+        >
+          <img
+            alt="LoungeX"
+            className="mantine-1sc70ew mantine-Image-image"
+            onError={[Function]}
+            src="image.png"
+            style={
+              {
+                "height": "5rem",
+                "objectFit": "cover",
+                "width": "7.5rem",
+              }
+            }
+          />
+        </div>
+      </figure>
+    </div>
+    <div
+      className="mantine-lp6cj4"
+    >
+      <strong>
+        LoungeX
+      </strong>
+    </div>
+  </div>
+</div>
+`;

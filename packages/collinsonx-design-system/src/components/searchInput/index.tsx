@@ -17,7 +17,7 @@ const useStyles = createStyles(
       height: value ? '50px' : '42px',
       fontSize: '16px',
       backgroundColor: value ? '#FFF' : colors.gray[1],
-      borderColor: value ? colors.gray[4] : colors.gray[1],
+      borderColor: value ? colors.gray[4] : '#9D9D9F',
       '&:focus': {
         height: '50px',
         borderColor: colors.gray[4],

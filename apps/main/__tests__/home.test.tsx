@@ -1,6 +1,8 @@
 import * as React from 'react';
 import renderer from 'react-test-renderer';
 import Home from '../pages/index';
+import { MockedProvider } from '@collinsonx/utils/testing';
+import { SuperTokensWrapper } from '@collinsonx/utils/supertokens';
 
 jest.mock('next/router', () => ({
   useRouter() {
@@ -22,7 +24,15 @@ jest.mock('next/router', () => ({
 
 describe('<Home />', () => {
   it('renders outline variant', () => {
-    const tree = renderer.create(<Home />).toJSON();
+    const tree = renderer
+      .create(
+        <SuperTokensWrapper>
+          <MockedProvider mocks={[]} addTypename={false}>
+            <Home />
+          </MockedProvider>
+        </SuperTokensWrapper>
+      )
+      .toJSON();
     expect(tree).toMatchSnapshot();
   });
 });

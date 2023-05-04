@@ -3,7 +3,7 @@
 exports[`<Lounge /> renders Lounge 1`] = `
 [
   <div
-    className="mantine-Image-root mantine-15po0m8"
+    className="mantine-Image-root mantine-yxmaw9"
     style={
       {
         "width": "100%",
@@ -11,14 +11,14 @@ exports[`<Lounge /> renders Lounge 1`] = `
     }
   >
     <figure
-      className="mantine-11nhzn5 mantine-Image-figure"
+      className="mantine-qenwvq mantine-Image-figure"
     >
       <div
-        className="mantine-qqmv3w mantine-Image-imageWrapper"
+        className="mantine-1iugybl mantine-Image-imageWrapper"
       >
         <img
           alt="LA"
-          className="mantine-3y8yz3 mantine-Image-image"
+          className="mantine-1p3no9p mantine-Image-image"
           onError={[Function]}
           src="image.png"
           style={
@@ -33,24 +33,25 @@ exports[`<Lounge /> renders Lounge 1`] = `
     </figure>
   </div>,
   <div
-    className="mantine-Text-root mantine-16zcv3h"
+    className="mantine-Text-root mantine-zx1k0y"
   >
     Totally lounge
   </div>,
   <div
-    className="mantine-SimpleGrid-root mantine-vt6ont"
+    className="mantine-SimpleGrid-root mantine-1bmq7tn"
   >
     <div
       className="mantine-1a78l0v"
     >
       <test-file-stub
         color="#000000"
+        width={24}
       />
       <div
         className="mantine-2rwq4h"
       >
         <div
-          className="mantine-Text-root mantine-15e5w66"
+          className="mantine-Text-root mantine-1dmrdip"
         >
           LA
         </div>
@@ -66,7 +67,7 @@ exports[`<Lounge /> renders Lounge 1`] = `
         className="mantine-2rwq4h"
       >
         <div
-          className="mantine-Text-root mantine-15e5w66"
+          className="mantine-Text-root mantine-1dmrdip"
         >
           10:00 - 12:00
         </div>
