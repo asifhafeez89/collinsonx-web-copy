@@ -11,7 +11,6 @@ import LayoutLogin from '@components/LayoutLogin';
 import FormContainer from '@components/FormContainer';
 import PageTitle from '@components/PageTitle';
 import { useForm } from '@collinsonx/design-system/form';
-import Link from 'next/link';
 
 import validateEmail from '@collinsonx/utils/lib/validateEmail';
 import { useState } from 'react';
@@ -25,7 +24,7 @@ export interface FormValues {
 // EmailPassword recipe / Custom UI / Forgot password flow / Step 1
 // https://supertokens.com/docs/emailpassword/custom-ui/forgot-password#step-1-sending-the-password-reset-email
 
-// Step 2 of the flow: apps\partner-management\pages\update-password.tsx
+// For step 2 of the flow, see apps\partner-management\pages\update-password.tsx
 
 export default function PasswordReset() {
   const [success, setSuccess] = useState(false); // demo

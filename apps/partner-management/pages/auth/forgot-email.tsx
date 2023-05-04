@@ -1,10 +1,4 @@
-import {
-  Title,
-  Text,
-  Stack,
-  Button,
-  Anchor,
-} from '@collinsonx/design-system/core';
+import { Title, Text, Stack, Anchor } from '@collinsonx/design-system/core';
 import LayoutLogin from '@components/LayoutLogin';
 import FormContainer from '@components/FormContainer';
 import PageTitle from '@components/PageTitle';
