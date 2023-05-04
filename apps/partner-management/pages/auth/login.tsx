@@ -1,41 +1,39 @@
 import {
   Title,
-  Text,
   Stack,
   Checkbox,
   Button,
   PasswordInput,
   TextInput,
+  Anchor,
 } from '@collinsonx/design-system/core';
 import LayoutLogin from '@components/LayoutLogin';
 import FormContainer from '@components/FormContainer';
 import { useForm } from '@collinsonx/design-system/form';
 import validateEmail from '@collinsonx/utils/lib/validateEmail';
 import PageTitle from '@components/PageTitle';
+import Link from 'next/link';
 
 export interface FormValues {
   email: string;
-  fullName: string;
   password: string;
-  passwordConfirm: string;
 }
 
-const MOCK_LOUNGE = 'Club Aspire Lounge';
+// EmailPassword recipe / Custom UI / Signin form
+// https://supertokens.com/docs/emailpassword/custom-ui/email-password-login#sign-in-form
 
-export default function Signup() {
+export default function Login() {
   const form = useForm({
     initialValues: {
       email: '',
-      fullName: '',
       password: '',
-      passwordConfirm: '',
     },
     validate: {
       email: (value: string) =>
         validateEmail(value) ? null : 'Please enter a valid email address.',
     },
   });
-  const handleSignup = async ({ email, fullName, password }: FormValues) => {
+  const handleLogin = async ({ email, password }: FormValues) => {
     if (!validateEmail(email.trim())) {
     } else {
       try {
@@ -48,28 +46,39 @@ export default function Signup() {
 
   return (
     <>
-      <PageTitle title="Signup" />
+      <PageTitle title="Login" />
       <Stack justify="center" align="center" spacing={32}>
         <Stack justify="center" align="center" spacing={8}>
-          <Title>Welcome to {MOCK_LOUNGE}</Title>
-          <Text size={18}>Please create your account</Text>
+          <Title color="cyan.8" size={22}>
+            Login
+          </Title>
         </Stack>
         <FormContainer>
-          <form onSubmit={form.onSubmit(handleSignup)}>
-            <TextInput label="Email" mt={32} {...form.getInputProps('email')} />
+          <form onSubmit={form.onSubmit(handleLogin)}>
+            <TextInput label="Email" {...form.getInputProps('email')} />
             <PasswordInput
               label="Password"
               mt={32}
               {...form.getInputProps('password')}
             />
-            <PasswordInput
-              mt={16}
-              label="Confirm password"
-              {...form.getInputProps('passwordConfirm')}
-            />
-            <Button mt={40} type="submit" fullWidth>
-              Submit
+            <Checkbox label="Save my password" mt={16} />
+            <Button type="submit" mt={40} fullWidth>
+              Login
             </Button>
+            <Anchor
+              component={Link}
+              href="/auth/reset-password"
+              sx={{ marginTop: 24, display: 'block' }}
+            >
+              Forgotten password?
+            </Anchor>
+            <Anchor
+              component={Link}
+              href="/auth/forgot-email"
+              sx={{ marginTop: 16, display: 'block' }}
+            >
+              Forgotten email?
+            </Anchor>
           </form>
         </FormContainer>
       </Stack>
@@ -77,4 +86,4 @@ export default function Signup() {
   );
 }
 
-Signup.getLayout = (page: JSX.Element) => <LayoutLogin>{page}</LayoutLogin>;
+Login.getLayout = (page: JSX.Element) => <LayoutLogin>{page}</LayoutLogin>;
