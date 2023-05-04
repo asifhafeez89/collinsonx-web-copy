@@ -1,7 +1,8 @@
-import { Text, Box } from '@collinsonx/design-system/core';
+import { Text, Box, Button } from '@collinsonx/design-system/core';
+import router, { useRouter } from 'next/router';
 
-import { EmptyStateSearch } from '@collinsonx/design-system/assets/graphics';
 export default function EmptyStateResults() {
+  const router = useRouter();
   return (
     <>
       <Text
@@ -12,11 +13,15 @@ export default function EmptyStateResults() {
         color="#000"
         sx={{ fontSize: '18px' }}
       >
-        Search by lounge to find the perfect experience for your trip
+        Search by city or airport to find the perfect experience for your trip
       </Text>
-      <Box mx="38px" w={263} h={282}>
-        <EmptyStateSearch />
-      </Box>
+      <Button
+        onClick={() => {
+          router.push('/');
+        }}
+      >
+        Go Back
+      </Button>
     </>
   );
 }
