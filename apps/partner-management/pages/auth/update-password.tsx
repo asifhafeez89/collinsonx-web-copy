@@ -28,6 +28,8 @@ export default function UpdatePassword() {
       passwordConfirm: '',
     },
     validate: {
+      password: (value: string) =>
+        value.trim() === '' ? 'Password is required' : null,
       passwordConfirm: (value, values) =>
         value !== values.password ? 'Passwords did not match' : null,
     },
