@@ -4,7 +4,7 @@ class LoginPage {
   }
 
   getURL() {
-    return this.page.goto('http://127.0.0.1:3000');
+    return this.page.goto('http://localhost:3000');
   }
 
   getUsernameTextbox() {
@@ -13,6 +13,20 @@ class LoginPage {
 
   getCollinsonTitle() {
     return this.page.toHaveTitle('CollinsonX');
+  }
+
+  getHomePageTitle() {
+    return this.page.getByRole('button', {
+      name: 'Ready for your next experience?',
+    });
+  }
+
+  getLoginButton() {
+    return this.page.getByRole('button', { name: 'Login' });
+  }
+
+  getVerifyButton() {
+    return this.page.getByRole('button', { name: 'Verify' });
   }
 }
 module.exports = LoginPage;

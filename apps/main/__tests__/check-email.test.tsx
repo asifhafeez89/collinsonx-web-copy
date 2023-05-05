@@ -1,6 +1,7 @@
 import * as React from 'react';
 import renderer from 'react-test-renderer';
 import CheckEmail from '../pages/check-email';
+import { MockedProvider } from '@collinsonx/utils/testing';
 
 jest.mock('next/router', () => ({
   useRouter() {
@@ -22,7 +23,13 @@ jest.mock('next/router', () => ({
 
 describe('<CheckEmail />', () => {
   it('renders', () => {
-    const tree = renderer.create(<CheckEmail />).toJSON();
+    const tree = renderer
+      .create(
+        <MockedProvider mocks={[]} addTypename={false}>
+          <CheckEmail />
+        </MockedProvider>
+      )
+      .toJSON();
     expect(tree).toMatchSnapshot();
   });
 });

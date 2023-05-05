@@ -34,9 +34,6 @@ export default function InputLabel({
           input: {
             order: -1,
           },
-          error: {
-            order: 2,
-          },
         }}
       />
     </>
