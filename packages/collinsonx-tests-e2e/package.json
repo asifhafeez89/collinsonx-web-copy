@@ -3,16 +3,18 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "e2e:dev": "playwright test",
+    "e2e:dev": "playwright test --headed",
     "e2e:start": "start-server-and-test \"(cd ../../ && pnpm run build && pnpm run start)\" http://localhost:3000 \"playwright test\"",
     "e2e:report": "playwright show-report"
   },
   "dependencies": {
     "dotenv": "^16.0.3",
     "main": "workspace:*",
-    "start-server-and-test": "^1.15.4"
+    "start-server-and-test": "^1.15.4",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.31.1"
+    "@playwright/test": "^1.31.1",
+    "mailinator-client": "^1.0.3"
   }
 }
