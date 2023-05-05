@@ -1,25 +1,79 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<PageTitle /> renders PageTitle 1`] = `
+.emotion-0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding-top: 5px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-size: 1.2rem;
+  padding: 10px 0px;
+}
+
+.emotion-1 {
+  background: transparent;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-right: 16px;
+}
+
+.emotion-4 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  -webkit-tap-highlight-color: transparent;
+  color: #000000;
+  font-size: inherit;
+  line-height: 1.55;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  font-weight: 700;
+  font-size: 0.875rem;
+  line-height: 1.3;
+  margin: 0;
+  width: 200px;
+  margin: 0 auto;
+}
+
+.emotion-4:focus {
+  outline-offset: 0.125rem;
+  outline: 0.125rem solid #339af0;
+}
+
+.emotion-4:focus:not(:focus-visible) {
+  outline: none;
+}
+
 <header
-  className="mantine-1fvi2kf"
+  className="emotion-0"
 >
-  <a
-    href="https://bbc.co.uk"
+  <div
+    className="emotion-1"
     onClick={[Function]}
-    onMouseEnter={[Function]}
-    onTouchStart={[Function]}
   >
-    <div
-      className="mantine-1e5u164"
-    >
-      <test-file-stub
-        color="#000000"
-      />
-    </div>
-  </a>
+    <test-file-stub
+      color="#000000"
+    />
+  </div>
   <h1
-    className="mantine-Text-root mantine-Title-root mantine-57g7lp"
+    className="emotion-2 emotion-3 emotion-4"
   >
     test
   </h1>

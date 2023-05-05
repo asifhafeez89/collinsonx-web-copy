@@ -11,13 +11,20 @@ module.exports = {
   testEnvironment: 'node',
   moduleDirectories: ['node_modules'],
   moduleFileExtensions: ['js', 'jsx', 'json', 'ts', 'tsx'],
+  setupFiles: [fromRoot('./setupJest.js')],
+  roots: ['<rootDir>'],
+  modulePaths: ['<rootDir>'],
+  snapshotSerializers: ['@emotion/jest/serializer'],
   moduleNameMapper: {
     // '\\.(css|less)$': '<rootDir>/tests/jest/__mocks__/styleMock.js',
     'next/font/(.*)': require.resolve(
       'next/dist/build/jest/__mocks__/nextFontMock.js'
     ),
     '@lib': '<rootDir>/lib/index.ts',
+    '@components/(.*)$': '<rootDir>/components/$1',
     '@collinsonx/design-system/assets/logo$': '<rootDir>/__mocks__/logo',
+    '@collinsonx/design-system/components/loaderLifestyleX$':
+      '<rootDir>/__mocks__/loader',
     '@collinsonx/design-system/assets/graphics/(.*)$':
       '<rootDir>/__mocks__/graphics/$1',
     '\\.svg': '<rootDir>/__mocks__/svg.js',

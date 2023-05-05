@@ -1,284 +1,1153 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<SignupUser /> renders outline variant 1`] = `
-<form
-  onSubmit={[Function]}
+.emotion-1 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  max-width: 60rem;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 375px;
+  height: 100%;
+  overflow: hidden;
+  background-color: #112132;
+  padding-top: 2.5rem;
+  padding-right: 1rem;
+  padding-left: 1rem;
+}
+
+.emotion-3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: stretch;
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  gap: 2.5rem;
+  height: 100%;
+}
+
+.emotion-5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  padding-top: 0.5rem;
+}
+
+.emotion-7 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: stretch;
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  gap: 3.125rem;
+}
+
+.emotion-9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: stretch;
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  gap: 1.5rem;
+  height: 100%;
+}
+
+.emotion-10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding-top: 5px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-size: 1.2rem;
+  padding: 10px 0px;
+}
+
+.emotion-11 {
+  background: transparent;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-right: 16px;
+}
+
+.emotion-14 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  -webkit-tap-highlight-color: transparent;
+  color: #FFFFF;
+  font-size: inherit;
+  line-height: 1.55;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  font-weight: 700;
+  font-size: 0.875rem;
+  line-height: 1.3;
+  margin: 0;
+  width: 200px;
+  margin: 0 auto;
+}
+
+.emotion-14:focus {
+  outline-offset: 0.125rem;
+  outline: 0.125rem solid #339af0;
+}
+
+.emotion-14:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.emotion-17 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  line-height: 1.55;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.emotion-20 {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #212529;
+  word-break: break-word;
+  cursor: default;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-order: -2;
+  -ms-flex-order: -2;
+  order: -2;
+  color: #FFFFFF;
+}
+
+.emotion-21 {
+  color: #fa5252;
+}
+
+.emotion-26 {
+  position: relative;
+}
+
+.emotion-29 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  height: 2.25rem;
+  -webkit-tap-highlight-color: transparent;
+  line-height: calc(2.25rem - 0.125rem);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  resize: none;
+  box-sizing: border-box;
+  font-size: 0.875rem;
+  width: 100%;
+  color: #000;
+  display: block;
+  text-align: left;
+  border: 0.0625rem solid #ced4da;
+  background-color: #fff;
+  -webkit-transition: border-color 100ms ease;
+  transition: border-color 100ms ease;
+  min-height: 2.25rem;
+  padding-left: calc(2.25rem  / 3);
+  padding-right: calc(2.25rem  / 3);
+  border-radius: 0.25rem;
+  -webkit-order: -1;
+  -ms-flex-order: -1;
+  order: -1;
+}
+
+.emotion-29:focus,
+.emotion-29:focus-within {
+  outline: none;
+  border-color: #228be6;
+}
+
+.emotion-29:disabled,
+.emotion-29[data-disabled] {
+  background-color: #f1f3f5;
+  color: #909296;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.emotion-29:disabled::-webkit-input-placeholder {
+  color: #909296;
+}
+
+.emotion-29:disabled::-moz-placeholder {
+  color: #909296;
+}
+
+.emotion-29:disabled:-ms-input-placeholder {
+  color: #909296;
+}
+
+.emotion-29[data-disabled]::-webkit-input-placeholder {
+  color: #909296;
+}
+
+.emotion-29[data-disabled]::-moz-placeholder {
+  color: #909296;
+}
+
+.emotion-29[data-disabled]:-ms-input-placeholder {
+  color: #909296;
+}
+
+.emotion-29:disabled::placeholder,
+.emotion-29[data-disabled]::placeholder {
+  color: #909296;
+}
+
+.emotion-29[data-invalid] {
+  color: #fa5252;
+  border-color: #fa5252;
+}
+
+.emotion-29[data-invalid]::-webkit-input-placeholder {
+  opacity: 1;
+  color: #fa5252;
+}
+
+.emotion-29[data-invalid]::-moz-placeholder {
+  opacity: 1;
+  color: #fa5252;
+}
+
+.emotion-29[data-invalid]:-ms-input-placeholder {
+  opacity: 1;
+  color: #fa5252;
+}
+
+.emotion-29[data-invalid]::placeholder {
+  opacity: 1;
+  color: #fa5252;
+}
+
+.emotion-29[data-with-icon] {
+  padding-left: 2.25rem;
+}
+
+.emotion-29::-webkit-input-placeholder {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+  opacity: 1;
+}
+
+.emotion-29::-moz-placeholder {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+  opacity: 1;
+}
+
+.emotion-29:-ms-input-placeholder {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+  opacity: 1;
+}
+
+.emotion-29::placeholder {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+  opacity: 1;
+}
+
+.emotion-29::-webkit-inner-spin-button,
+.emotion-29::-webkit-outer-spin-button,
+.emotion-29::-webkit-search-decoration,
+.emotion-29::-webkit-search-cancel-button,
+.emotion-29::-webkit-search-results-button,
+.emotion-29::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+}
+
+.emotion-29[type=number] {
+  -moz-appearance: textfield;
+}
+
+.emotion-47 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  line-height: 1.55;
+  margin-top: 20px;
+}
+
+.emotion-47 .emotion-55 {
+  padding-left: 14px;
+}
+
+.emotion-47 Input {
+  padding-left: 56px;
+  border: 1px solid #CED4DA;
+  border-radius: 4px;
+  color: #868e96;
+}
+
+.emotion-50 {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #212529;
+  word-break: break-word;
+  cursor: default;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.emotion-54 {
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  width: 2.25rem;
+  color: #adb5bd;
+}
+
+.mantine-1nefnhs .emotion-55 {
+  padding-left: 14px;
+}
+
+.emotion-60 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  height: auto;
+  -webkit-tap-highlight-color: transparent;
+  line-height: 1.55;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  resize: none;
+  box-sizing: border-box;
+  font-size: 0.875rem;
+  width: 100%;
+  color: #000;
+  display: block;
+  text-align: left;
+  border: 0.0625rem solid #ced4da;
+  background-color: #fff;
+  -webkit-transition: border-color 100ms ease;
+  transition: border-color 100ms ease;
+  min-height: 2.25rem;
+  padding-left: calc(2.25rem  / 3);
+  padding-right: calc(2.25rem  / 3);
+  border-radius: 0.25rem;
+  cursor: pointer;
+  line-height: unset;
+}
+
+.emotion-60:focus,
+.emotion-60:focus-within {
+  outline: none;
+  border-color: #228be6;
+}
+
+.emotion-60:disabled,
+.emotion-60[data-disabled] {
+  background-color: #f1f3f5;
+  color: #909296;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.emotion-60:disabled::-webkit-input-placeholder {
+  color: #909296;
+}
+
+.emotion-60:disabled::-moz-placeholder {
+  color: #909296;
+}
+
+.emotion-60:disabled:-ms-input-placeholder {
+  color: #909296;
+}
+
+.emotion-60[data-disabled]::-webkit-input-placeholder {
+  color: #909296;
+}
+
+.emotion-60[data-disabled]::-moz-placeholder {
+  color: #909296;
+}
+
+.emotion-60[data-disabled]:-ms-input-placeholder {
+  color: #909296;
+}
+
+.emotion-60:disabled::placeholder,
+.emotion-60[data-disabled]::placeholder {
+  color: #909296;
+}
+
+.emotion-60[data-invalid] {
+  color: #fa5252;
+  border-color: #fa5252;
+}
+
+.emotion-60[data-invalid]::-webkit-input-placeholder {
+  opacity: 1;
+  color: #fa5252;
+}
+
+.emotion-60[data-invalid]::-moz-placeholder {
+  opacity: 1;
+  color: #fa5252;
+}
+
+.emotion-60[data-invalid]:-ms-input-placeholder {
+  opacity: 1;
+  color: #fa5252;
+}
+
+.emotion-60[data-invalid]::placeholder {
+  opacity: 1;
+  color: #fa5252;
+}
+
+.emotion-60[data-with-icon] {
+  padding-left: 2.25rem;
+}
+
+.emotion-60::-webkit-input-placeholder {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+  opacity: 1;
+}
+
+.emotion-60::-moz-placeholder {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+  opacity: 1;
+}
+
+.emotion-60:-ms-input-placeholder {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+  opacity: 1;
+}
+
+.emotion-60::placeholder {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+  opacity: 1;
+}
+
+.emotion-60::-webkit-inner-spin-button,
+.emotion-60::-webkit-outer-spin-button,
+.emotion-60::-webkit-search-decoration,
+.emotion-60::-webkit-search-cancel-button,
+.emotion-60::-webkit-search-results-button,
+.emotion-60::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+}
+
+.emotion-60[type=number] {
+  -moz-appearance: textfield;
+}
+
+.emotion-60[data-read-only] {
+  cursor: default;
+}
+
+.emotion-77 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  -webkit-tap-highlight-color: transparent;
+  color: inherit;
+  font-size: inherit;
+  line-height: 1.55;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-77:focus {
+  outline-offset: 0.125rem;
+  outline: 0.125rem solid #339af0;
+}
+
+.emotion-77:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.emotion-79 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+.emotion-79>* {
+  box-sizing: border-box;
+  -webkit-box-flex: 0;
+  -webkit-flex-grow: 0;
+  -ms-flex-positive: 0;
+  flex-grow: 0;
+}
+
+.emotion-80 {
+  min-height: 3.125rem;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+}
+
+.emotion-83 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.emotion-85 {
+  position: relative;
+  width: 1.25rem;
+  height: 1.25rem;
+  -webkit-order: 1;
+  -ms-flex-order: 1;
+  order: 1;
+}
+
+.emotion-87 {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  background-color: #fff;
+  border: 0.0625rem solid #ced4da;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 0.25rem;
+  padding: 0;
+  display: block;
+  margin: 0;
+  -webkit-transition: border-color 100ms ease,background-color 100ms ease;
+  transition: border-color 100ms ease,background-color 100ms ease;
+  cursor: default;
+}
+
+.emotion-87:focus {
+  outline-offset: 0.125rem;
+  outline: 0.125rem solid #339af0;
+}
+
+.emotion-87:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.emotion-87:checked {
+  background-color: #228be6;
+  border-color: #228be6;
+}
+
+.emotion-87:checked+.___ref-icon {
+  opacity: 1;
+  color: #fff;
+  -webkit-transform: translateY(0) scale(1);
+  -moz-transform: translateY(0) scale(1);
+  -ms-transform: translateY(0) scale(1);
+  transform: translateY(0) scale(1);
+}
+
+.emotion-87:disabled {
+  background-color: #e9ecef;
+  border-color: #dee2e6;
+  cursor: not-allowed;
+}
+
+.emotion-87:disabled+.___ref-icon {
+  color: #adb5bd;
+}
+
+.emotion-89 {
+  position: absolute;
+  top: 0rem;
+  right: 0rem;
+  left: 0rem;
+  bottom: 0rem;
+  color: #fff;
+  -webkit-transform: translateY(0.3125rem) scale(0.5);
+  -moz-transform: translateY(0.3125rem) scale(0.5);
+  -ms-transform: translateY(0.3125rem) scale(0.5);
+  transform: translateY(0.3125rem) scale(0.5);
+  opacity: 0;
+  transition-property: opacity,transform;
+  transition-timing-function: ease;
+  transition-duration: 100ms;
+  pointer-events: none;
+  width: 60%;
+  z-index: 1;
+  margin: auto;
+}
+
+@media (prefers-reduced-motion) {
+  .emotion-89 {
+    transition-duration: 0ms;
+  }
+}
+
+.emotion-91 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-tap-highlight-color: transparent;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: #000;
+  cursor: default;
+  -webkit-order: 2;
+  -ms-flex-order: 2;
+  order: 2;
+}
+
+.emotion-93 {
+  cursor: default;
+  padding-left: 0.75rem;
+  -webkit-order: -2;
+  -ms-flex-order: -2;
+  order: -2;
+  color: #FFFFFF;
+}
+
+.emotion-93[data-disabled] {
+  color: #adb5bd;
+}
+
+.emotion-99 {
+  -webkit-tap-highlight-color: transparent;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  font-size: 1rem;
+  background-color: transparent;
+  text-align: left;
+  color: #000;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  height: 2.25rem;
+  padding-left: 1.125rem;
+  padding-right: 1.125rem;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  -webkit-tap-highlight-color: transparent;
+  display: block;
+  width: 100%;
+  border-radius: 0.25rem;
+  font-weight: 600;
+  position: relative;
+  line-height: 1;
+  font-size: 0.875rem;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  border: 0.0625rem solid transparent;
+  background-color: #228be6;
+  color: #fff;
+}
+
+.emotion-99:focus {
+  outline-offset: 0.125rem;
+  outline: 0.125rem solid #339af0;
+}
+
+.emotion-99:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.emotion-99:focus {
+  outline-offset: 0.125rem;
+  outline: 0.125rem solid #339af0;
+}
+
+.emotion-99:focus:not(:focus-visible) {
+  outline: none;
+}
+
+@media (hover: hover) {
+  .emotion-99:hover {
+    background-color: #1c7ed6;
+  }
+}
+
+@media (hover: none) {
+  .emotion-99:active {
+    background-color: #1c7ed6;
+  }
+}
+
+.emotion-99:active {
+  -webkit-transform: translateY(0.0625rem);
+  -moz-transform: translateY(0.0625rem);
+  -ms-transform: translateY(0.0625rem);
+  transform: translateY(0.0625rem);
+}
+
+.emotion-99:disabled,
+.emotion-99[data-disabled] {
+  border-color: transparent;
+  background-color: #e9ecef;
+  color: #adb5bd;
+  cursor: not-allowed;
+  background-image: none;
+  pointer-events: none;
+}
+
+.emotion-99:disabled:active,
+.emotion-99[data-disabled]:active {
+  -webkit-transform: none;
+  -moz-transform: none;
+  -ms-transform: none;
+  transform: none;
+}
+
+.emotion-99[data-loading] {
+  pointer-events: none;
+}
+
+.emotion-99[data-loading]::before {
+  content: "";
+  position: absolute;
+  top: -0.0625rem;
+  right: -0.0625rem;
+  left: -0.0625rem;
+  bottom: -0.0625rem;
+  background-color: rgba(255, 255, 255, .5);
+  border-radius: 0.25rem;
+  cursor: not-allowed;
+}
+
+.emotion-100 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  height: 100%;
+  overflow: visible;
+}
+
+.emotion-102 {
+  white-space: nowrap;
+  height: 100%;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+<div
+  className="emotion-0 emotion-1"
 >
   <div
-    className="mantine-Stack-root mantine-1az9v3i"
+    className="emotion-2 emotion-3"
   >
     <div
-      className="mantine-Stack-root mantine-f7tv2s"
+      className="emotion-4 emotion-5"
     >
-      <header
-        className="mantine-1fvi2kf"
-      >
-        <a
-          href="/"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
-        >
-          <div
-            className="mantine-ueqqbs"
-          >
-            <SvgrURL
-              color="#FFFFFF"
-            />
-          </div>
-        </a>
-        <h1
-          className="mantine-Text-root mantine-Title-root mantine-68qx9n"
-        >
-           Sign up with email
-        </h1>
-      </header>
+      svg
+    </div>
+    <form
+      onSubmit={[Function]}
+    >
       <div
-        className="mantine-InputWrapper-root mantine-TextInput-root mantine-1m3pqry"
+        className="emotion-2 emotion-7"
       >
-        <label
-          className="mantine-InputWrapper-label mantine-TextInput-label mantine-ittua2"
-          htmlFor="mantine-r0"
-          id="mantine-r0-label"
-        >
-          Your email address
-          <span
-            aria-hidden={true}
-            className="mantine-u5apz8 mantine-InputWrapper-required mantine-TextInput-required"
-          >
-             *
-          </span>
-        </label>
         <div
-          className="mantine-Input-wrapper mantine-TextInput-wrapper mantine-12sbrde"
+          className="emotion-2 emotion-9"
         >
-          <input
-            aria-invalid={false}
-            autoFocus={true}
-            className="mantine-Input-input mantine-TextInput-input mantine-1g14e8k"
-            id="mantine-r0"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            placeholder="Your email address"
-            type="email"
-            value=""
-          />
-        </div>
-      </div>
-      <div
-        className="mantine-InputWrapper-root mantine-TextInput-root mantine-1m3pqry"
-      >
-        <label
-          className="mantine-InputWrapper-label mantine-TextInput-label mantine-ittua2"
-          htmlFor="mantine-r1"
-          id="mantine-r1-label"
-        >
-          First name(s)
-          <span
-            aria-hidden={true}
-            className="mantine-u5apz8 mantine-InputWrapper-required mantine-TextInput-required"
-          >
-             *
-          </span>
-        </label>
-        <div
-          className="mantine-Input-wrapper mantine-TextInput-wrapper mantine-12sbrde"
-        >
-          <input
-            aria-invalid={false}
-            autoFocus={true}
-            className="mantine-Input-input mantine-TextInput-input mantine-1g14e8k"
-            id="mantine-r1"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            placeholder="First name"
-            type="text"
-          />
-        </div>
-      </div>
-      <div
-        className="mantine-InputWrapper-root mantine-TextInput-root mantine-1m3pqry"
-      >
-        <label
-          className="mantine-InputWrapper-label mantine-TextInput-label mantine-ittua2"
-          htmlFor="mantine-r2"
-          id="mantine-r2-label"
-        >
-          Last name
-          <span
-            aria-hidden={true}
-            className="mantine-u5apz8 mantine-InputWrapper-required mantine-TextInput-required"
-          >
-             *
-          </span>
-        </label>
-        <div
-          className="mantine-Input-wrapper mantine-TextInput-wrapper mantine-12sbrde"
-        >
-          <input
-            aria-invalid={false}
-            autoFocus={true}
-            className="mantine-Input-input mantine-TextInput-input mantine-1g14e8k"
-            id="mantine-r2"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            placeholder="Last name"
-            type="text"
-          />
-        </div>
-      </div>
-      <div
-        className="mantine-InputWrapper-root mantine-DatePicker-root mantine-ns0bfw"
-      >
-        <label
-          className="mantine-InputWrapper-label mantine-DatePicker-label mantine-ittua2"
-          htmlFor="mantine-r3"
-          id="mantine-r3-label"
-        >
-          Date of birth
-        </label>
-        <div
-          className="mantine-2uofp0 mantine-DatePicker-wrapper"
-        >
-          <div
-            className="mantine-Input-wrapper mantine-DatePicker-wrapper mantine-12sbrde"
+          <header
+            className="emotion-10"
           >
             <div
-              className="mantine-yxyjyg mantine-Input-icon mantine-DatePicker-icon"
-            >
-              icon
-            </div>
-            <input
-              aria-invalid={false}
-              autoComplete="off"
-              className="mantine-DatePicker-input mantine-Input-input mantine-DatePicker-input mantine-Input-withIcon mantine-DatePicker-withIcon mantine-1764pic"
-              disabled={false}
-              id="mantine-r3"
-              name="date"
-              onBlur={[Function]}
-              onChange={[Function]}
+              className="emotion-11"
               onClick={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              placeholder="Pick a date"
-              readOnly={true}
-              value="20/03/2023"
-            />
-          </div>
-        </div>
-      </div>
-      <div
-        className="mantine-Text-root mantine-1pbxw0k"
-      >
-        We will only contact you about your booking. By choosing how you'd like to hear from us you opt in to communication.
-      </div>
-      <div
-        className="mantine-Group-root mantine-puhv18"
-      >
-        <div
-          className="mantine-w7kov9"
-        >
+            >
+              <SvgrURL
+                color="#FFFFFF"
+              />
+            </div>
+            <h1
+              className="emotion-12 emotion-13 emotion-14"
+            >
+              Sign up with email
+            </h1>
+          </header>
           <div
-            className="mantine-Text-root mantine-1pbxw0k"
+            className="emotion-15 emotion-16 emotion-17"
           >
-            Email
-          </div>
-           
-          <div
-            className="mantine-Switch-root mantine-15po0m8"
-          >
+            <label
+              className="emotion-18 emotion-19 emotion-20"
+              htmlFor="mantine-o3spi2g1x"
+              id="mantine-o3spi2g1x-label"
+              onMouseDown={[Function]}
+            >
+              First name(s)
+              <span
+                aria-hidden={true}
+                className="emotion-21 emotion-22 emotion-23"
+              >
+                 *
+              </span>
+            </label>
             <div
-              className="mantine-17do188 mantine-Switch-body"
+              className="emotion-24 emotion-25 emotion-26"
             >
               <input
-                checked={false}
-                className="mantine-1buhfoz mantine-Switch-input"
-                id="mantine-r5"
+                aria-invalid={false}
+                autoFocus={true}
+                className="emotion-27 emotion-28 emotion-29"
+                id="mantine-o3spi2g1x"
+                onBlur={[Function]}
                 onChange={[Function]}
-                type="checkbox"
-                value="email"
-              />
-              <label
-                className="mantine-bphvxq mantine-Switch-track"
-                htmlFor="mantine-r5"
-              >
-                <div
-                  className="mantine-1etkg7o mantine-Switch-thumb"
-                />
-                <div
-                  className="mantine-8jlqcf mantine-Switch-trackLabel"
-                />
-              </label>
-              <div
-                className="mantine-1a93mbi mantine-Switch-labelWrapper"
+                onFocus={[Function]}
+                placeholder="First name"
+                type="text"
               />
             </div>
           </div>
+          <div
+            className="emotion-15 emotion-16 emotion-17"
+          >
+            <label
+              className="emotion-18 emotion-19 emotion-20"
+              htmlFor="mantine-lc5gl6cs0"
+              id="mantine-lc5gl6cs0-label"
+              onMouseDown={[Function]}
+            >
+              Last name
+              <span
+                aria-hidden={true}
+                className="emotion-21 emotion-22 emotion-23"
+              >
+                 *
+              </span>
+            </label>
+            <div
+              className="emotion-24 emotion-25 emotion-26"
+            >
+              <input
+                aria-invalid={false}
+                autoFocus={true}
+                className="emotion-27 emotion-28 emotion-29"
+                id="mantine-lc5gl6cs0"
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                placeholder="Last name"
+                type="text"
+              />
+            </div>
+          </div>
+          <div
+            className="emotion-15 emotion-46 emotion-47"
+          >
+            <label
+              className="emotion-18 emotion-49 emotion-50"
+              htmlFor="mantine-apvchx0dw"
+              id="mantine-apvchx0dw-label"
+              onMouseDown={[Function]}
+            >
+              Date of birth
+            </label>
+            <div
+              className="emotion-24 emotion-52 emotion-26"
+            >
+              <div
+                className="emotion-54 emotion-55 emotion-56"
+              >
+                icon
+              </div>
+              <button
+                aria-controls="mantine-lbgw5ye8u-dropdown"
+                aria-expanded={false}
+                aria-haspopup="dialog"
+                aria-invalid={false}
+                className="emotion-57 emotion-27 emotion-57 emotion-60"
+                data-dates-input={true}
+                data-with-icon={true}
+                id="mantine-lbgw5ye8u-target"
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                type="button"
+              >
+                01/01/1990
+              </button>
+            </div>
+          </div>
+          <input
+            type="hidden"
+            value="1990-01-01T00:00:00.000Z"
+          />
+          <div
+            className="emotion-15 emotion-16 emotion-17"
+          >
+            <label
+              className="emotion-18 emotion-19 emotion-20"
+              htmlFor="mantine-vffvgo983"
+              id="mantine-vffvgo983-label"
+              onMouseDown={[Function]}
+            >
+              Your email address
+              <span
+                aria-hidden={true}
+                className="emotion-21 emotion-22 emotion-23"
+              >
+                 *
+              </span>
+            </label>
+            <div
+              className="emotion-24 emotion-25 emotion-26"
+            >
+              <input
+                aria-invalid={false}
+                autoFocus={true}
+                className="emotion-27 emotion-28 emotion-29"
+                id="mantine-vffvgo983"
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                placeholder="Your email address"
+                readOnly={true}
+                type="email"
+              />
+            </div>
+          </div>
+          <div
+            className="emotion-12 emotion-77"
+          >
+            We will send you a unique code via email to complete the login.
+          </div>
+          <div
+            className="emotion-78 emotion-79"
+          >
+            <div
+              className="emotion-80"
+            >
+              <div
+                className="emotion-81 emotion-82"
+              >
+                <div
+                  className="emotion-83 emotion-84"
+                >
+                  <div
+                    className="emotion-85 emotion-86"
+                  >
+                    <input
+                      checked={false}
+                      className="emotion-87 emotion-88"
+                      id="mantine-18j9f3vjq"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      type="checkbox"
+                    />
+                    <svg
+                      className="___ref-icon emotion-89 emotion-90"
+                      fill="none"
+                      viewBox="0 0 10 7"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        clipRule="evenodd"
+                        d="M4 4.586L1.707 2.293A1 1 0 1 0 .293 3.707l3 3a.997.997 0 0 0 1.414 0l5-5A1 1 0 1 0 8.293.293L4 4.586z"
+                        fill="currentColor"
+                        fillRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div
+                    className="emotion-91 emotion-92"
+                  >
+                    <label
+                      className="emotion-93 emotion-94"
+                      htmlFor="mantine-18j9f3vjq"
+                    >
+                      I agree to receive personalised marketing emails.
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="emotion-78 emotion-79"
+          >
+            <button
+              className="emotion-97 emotion-98 emotion-99"
+              data-button={true}
+              type="submit"
+            >
+              <div
+                className="emotion-100 emotion-101"
+              >
+                <span
+                  className="emotion-102 emotion-103"
+                  style={
+                    {
+                      "textTransform": undefined,
+                    }
+                  }
+                >
+                  Login
+                </span>
+              </div>
+            </button>
+          </div>
         </div>
       </div>
-      <div
-        className="mantine-Group-root mantine-5f6x53"
-      >
-        <button
-          className="mantine-UnstyledButton-root mantine-Button-root mantine-no0aay"
-          data-button={true}
-          type="submit"
-        >
-          <div
-            className="mantine-3xbgk5 mantine-Button-inner"
-          >
-            <span
-              className="mantine-qo1k2 mantine-Button-label"
-              style={
-                {
-                  "textTransform": undefined,
-                }
-              }
-            >
-              Submit
-            </span>
-          </div>
-        </button>
-      </div>
-    </div>
-    <div
-      className="mantine-1d4rha3"
-    >
-      <div
-        className="mantine-1f10gm6"
-      >
-        <svg />
-      </div>
-    </div>
+    </form>
   </div>
-  <div
-    style={
-      {
-        "bottom": "-500px",
-        "height": "50%",
-        "left": 0,
-        "overflow": "hidden",
-        "position": "absolute",
-        "width": "100%",
-      }
-    }
-  >
-    <div
-      style={
-        {
-          "backgroundColor": "#47D4B1",
-          "borderRadius": "50%",
-          "bottom": "-190px",
-          "height": "55vh",
-          "position": "absolute",
-          "right": "-20px",
-          "width": "55vh",
-        }
-      }
-    />
-  </div>
-</form>
+</div>
 `;

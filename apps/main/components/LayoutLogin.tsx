@@ -37,7 +37,7 @@ export default function LayoutLogin({ children }: LayoutProps) {
     >
       <Stack spacing={40} sx={{ height: '100%' }}>
         <Center pt={8}>
-          <Logo />{' '}
+          <Logo />
         </Center>
         {children}
       </Stack>
