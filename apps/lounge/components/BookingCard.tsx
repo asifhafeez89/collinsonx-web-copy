@@ -62,6 +62,9 @@ const ContentStack = styled.div<CardWrapperProps>`
   }
 `;
 
+const BadgeContainer = styled.div<CardWrapperProps>`
+  display: ${(props) => (props.nextVisit ? 'block' : 'none')};
+`;
 export interface BookingCardProps {
   id: string;
   name: string;
@@ -92,6 +95,11 @@ export default function BookingCard({
         }}
       >
         <CardImage nextVisit={nextVisit} src={imgUrl} alt={name} />
+        <Box sx={{ position: 'absolute', top: 90 }}>
+          <BookingBadge status={status} mt={12} h={24}>
+            Booking {status.toLowerCase()}
+          </BookingBadge>
+        </Box>
       </Box>
       <Box>
         <Stack spacing={0}>
@@ -108,9 +116,11 @@ export default function BookingCard({
                 <Text size={16}>
                   {dayjs.utc(date).format('HH:mm')} lounge arrival time
                 </Text>
-                <BookingBadge status={status} mt={12} h={24}>
-                  Booking {status.toLowerCase()}
-                </BookingBadge>
+                <BadgeContainer nextVisit={nextVisit}>
+                  <BookingBadge status={status} mt={12} h={24}>
+                    Booking {status.toLowerCase()}
+                  </BookingBadge>
+                </BadgeContainer>
               </Stack>
             </ContentStack>
           </ContentWrapper>
