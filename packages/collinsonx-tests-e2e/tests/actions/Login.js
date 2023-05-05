@@ -6,7 +6,6 @@ import { GetInboxRequest } from 'mailinator-client';
 import { GetMessageRequest } from 'mailinator-client';
 import Helper from '../../Helpers/Helper';
 
-
 class Login {
   constructor(page) {
     this._loginPage = new LoginPage(page);
@@ -25,7 +24,7 @@ class Login {
     await this._loginPage.getLoginButton(this.page).click();
     await this._helper.wait(5000);
     const otp = await this._getOTP(uuid);
-    console.log(otp, "WOOOO")
+    console.log(otp, 'WOOOO');
     await this._helper.type(otp);
     await this._loginPage.getVerifyButton(this.page).click();
     await this._helper.wait(5000);
@@ -65,7 +64,7 @@ class Login {
         console.log(match[1].toString(), 'CROSSEDDDDD');
         return match[1].toString();
       });
-      return otp;
+    return otp;
   }
 }
 
