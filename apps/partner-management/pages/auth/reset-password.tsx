@@ -18,7 +18,6 @@ import { useRouter } from 'next/router';
 
 export interface FormValues {
   email: string;
-  password: string;
 }
 
 // EmailPassword recipe / Custom UI / Forgot password flow / Step 1
@@ -32,14 +31,13 @@ export default function PasswordReset() {
   const form = useForm({
     initialValues: {
       email: '',
-      password: '',
     },
     validate: {
       email: (value: string) =>
         validateEmail(value) ? null : 'Please enter a valid email address.',
     },
   });
-  const handleSubmit = async ({ email, password }: FormValues) => {
+  const handleSubmit = async ({ email }: FormValues) => {
     if (!validateEmail(email.trim())) {
     } else {
       setSuccess(true); // demo;
