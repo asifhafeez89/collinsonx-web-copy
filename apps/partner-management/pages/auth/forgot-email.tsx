@@ -4,11 +4,6 @@ import FormContainer from '@components/FormContainer';
 import PageTitle from '@components/PageTitle';
 import Link from 'next/link';
 
-export interface FormValues {
-  email: string;
-  password: string;
-}
-
 export default function Expired() {
   return (
     <>

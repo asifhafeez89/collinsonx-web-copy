@@ -143,6 +143,13 @@ const theme = (
         input: {
           height: 50,
           borderRadius: 4,
+          '&[data-invalid]': {
+            borderColor: colors.red[6],
+            color: colors.dark[6],
+            '::placeholder': {
+              color: colors.gray[5],
+            },
+          },
         },
         innerInput: {
           height: '100%',

@@ -31,6 +31,8 @@ export default function Login() {
     validate: {
       email: (value: string) =>
         validateEmail(value) ? null : 'Please enter a valid email address.',
+      password: (value: string) =>
+        value.trim() === '' ? 'Password is required' : null,
     },
   });
   const handleLogin = async ({ email, password }: FormValues) => {

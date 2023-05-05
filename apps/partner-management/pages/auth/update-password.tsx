@@ -7,7 +7,6 @@ import {
 import LayoutLogin from '@components/LayoutLogin';
 import FormContainer from '@components/FormContainer';
 import { useForm } from '@collinsonx/design-system/form';
-import validateEmail from '@collinsonx/utils/lib/validateEmail';
 import PageTitle from '@components/PageTitle';
 
 export interface FormValues {
@@ -25,14 +24,12 @@ export interface FormValues {
 export default function UpdatePassword() {
   const form = useForm({
     initialValues: {
-      email: '',
-      fullName: '',
       password: '',
       passwordConfirm: '',
     },
     validate: {
-      email: (value: string) =>
-        validateEmail(value) ? null : 'Please enter a valid email address.',
+      passwordConfirm: (value, values) =>
+        value !== values.password ? 'Passwords did not match' : null,
     },
   });
   const handleSubmit = async ({ password, passwordConfirm }: FormValues) => {};

@@ -49,7 +49,11 @@ export default function Signup() {
     },
     validate: {
       email: (value: string) =>
-        validateEmail(value) ? null : 'Please enter a valid email address.',
+        !validateEmail(value) ? 'Please enter a valid email address.' : null,
+      password: (value: string) =>
+        value.trim() === '' ? 'Password is required' : null,
+      passwordConfirm: (value, values) =>
+        value !== values.password ? 'Passwords did not match' : null,
     },
   });
   const handleSignup = async ({ email, fullName, password }: FormValues) => {
