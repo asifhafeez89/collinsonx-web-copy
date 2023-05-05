@@ -8,6 +8,7 @@ import {
   Title,
   Text,
   Group,
+  Image,
 } from '@collinsonx/design-system/core';
 import BookingBadge from './BookingBadge';
 import {
@@ -23,20 +24,42 @@ dayjs.extend(utc);
 // import generated types in the following way:
 // import { Booking} from '@collinsonx/utils/generatedTypes/graphql';
 
-const CardWrapper = styled.div`
+interface CardWrapperProps {
+  nextVisit: boolean;
+}
+const CardWrapper = styled.div<CardWrapperProps>`
+  display: flex;
+  flex-direction: ${(props) => (props.nextVisit ? 'column' : 'row')};
+  flex-wrap: nowrap;
   width: 343px;
   transition: 0.3s;
-  border-radius: 5px;
-  border: 1px solid #e9ecef;
-  padding: 1rem;
+  border-radius: 4px;
+  border: ${(props) => (props.nextVisit ? '2px solid #c8c9ca' : '')};
+  border-bottom: ${(props) => (props.nextVisit ? '' : '2px solid #c8c9ca')};
+  padding: ${(props) => (props.nextVisit ? '1rem' : '1rem 0')};
   margin-bottom: 1rem;
   margin-top: 1.5rem;
-  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15), 0px 1px 3px rgba(0, 0, 0, 0.05);
   background-color: #fff;
 `;
 
-const ContentWrapper = styled.div`
+const CardImage = styled.img<CardWrapperProps>`
+  width: ${(props) => (props.nextVisit ? '100%' : '107px !important')};
+  height: ${(props) => (props.nextVisit ? '100%' : '107px !important')};
+  margin-right: ${(props) => (props.nextVisit ? '' : '24px')};
+`;
+
+const ContentWrapper = styled.div<CardWrapperProps>`
   border-radius: 5px 5px 0 0;
+`;
+
+const ContentStack = styled.div<CardWrapperProps>`
+  display: flex;
+  flex-direction: column;
+  .card-title {
+    margin-top: ${(props) => (props.nextVisit ? '8px' : '0')};
+    font-size: ${(props) => (props.nextVisit ? '24px' : '16px')};
+    line-height: ${(props) => (props.nextVisit ? '1.429em' : '1em')};
+  }
 `;
 
 export interface BookingCardProps {
@@ -47,6 +70,7 @@ export interface BookingCardProps {
   status: BookingStatus;
   date: string;
   bookedFrom: string;
+  nextVisit?: boolean;
   onClick: (bookingId: string) => void;
 }
 
@@ -57,80 +81,41 @@ export default function BookingCard({
   imgUrl,
   status,
   date,
+  nextVisit = false,
   onClick,
 }: BookingCardProps) {
   return (
-    <CardWrapper>
-      <Stack spacing={0} mt={8}>
-        <Box
-          w={309}
-          h={189}
-          sx={{
-            position: 'relative',
-            borderRadius: 4,
-          }}
-        >
-          <NextImage fill src={imgUrl} alt={name} />
-          <Box sx={{ position: 'absolute', left: 8, top: 8 }}>
-            <BookingBadge status={status}>
-              Booking {status.toLowerCase()}
-            </BookingBadge>
-          </Box>
-        </Box>
-
-        <ContentWrapper>
-          <Stack spacing={0}>
-            <Title
-              fw={600}
-              pb={16}
-              mt={16}
-              size={24}
-              sx={{ borderBottom: '1px solid #C8C9CA' }}
-            >
-              {name}
-            </Title>
-            <Stack spacing={0}>
-              <Group mt={16}>
-                <MapPin width={16} height={'auto'} color="#0C8599" />
-                <Text size={16} fw={600}>
+    <CardWrapper nextVisit={nextVisit}>
+      <Box
+        sx={{
+          borderRadius: 4,
+        }}
+      >
+        <CardImage nextVisit={nextVisit} src={imgUrl} alt={name} />
+      </Box>
+      <Box>
+        <Stack spacing={0}>
+          <ContentWrapper nextVisit={nextVisit}>
+            <ContentStack nextVisit={nextVisit}>
+              <Title className={'card-title'} fw={600}>
+                {name}
+              </Title>
+              <Stack spacing={4}>
+                <Text mt={8} size={16}>
                   {location}
                 </Text>
-              </Group>
-
-              <Group mt={8}>
-                <Calendar width={16} height={'auto'} color="#0C8599" />
-                <Title fw={600} size={16}>
-                  Date
-                </Title>
-              </Group>
-
-              <Text size={16} ml={32}>
-                {dayjs.utc(date).format('D MMMM YYYY')}
-              </Text>
-
-              <Group mt={8}>
-                <Clock width={16} color="#0C8599" />
-                <Title fw={600} size={16}>
-                  Lounge arrival time
-                </Title>
-              </Group>
-
-              <Text ml={32} size={16}>
-                {dayjs.utc(date).format('HH:mm')}
-              </Text>
-            </Stack>
-          </Stack>
-        </ContentWrapper>
-
-        <Button
-          fullWidth={true}
-          onClick={() => onClick(id)}
-          mt={16}
-          sx={{ fontSize: '18px', height: '44px' }}
-        >
-          View booking
-        </Button>
-      </Stack>
+                <Text size={16}>{dayjs.utc(date).format('D MMMM YYYY')}</Text>
+                <Text size={16}>
+                  {dayjs.utc(date).format('HH:mm')} lounge arrival time
+                </Text>
+                <BookingBadge status={status} mt={12} h={24}>
+                  Booking {status.toLowerCase()}
+                </BookingBadge>
+              </Stack>
+            </ContentStack>
+          </ContentWrapper>
+        </Stack>
+      </Box>
     </CardWrapper>
   );
 }

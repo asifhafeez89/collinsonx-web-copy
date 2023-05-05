@@ -2,10 +2,18 @@ import {
   Badge as MBadge,
   BadgeProps as MBadgeProps,
   Box,
+  Group,
+  Flex,
   createStyles,
 } from '@collinsonx/design-system/core';
 
 import { BookingStatus } from '@collinsonx/utils';
+import {
+  Confirmed as BookingConfirmed,
+  Declined as BookingDeclined,
+  Pending as BookingPending,
+} from '@collinsonx/design-system/assets/icons';
+import { start } from 'repl';
 
 const {
   Initialized,
@@ -24,35 +32,38 @@ export interface BadgeProps extends MBadgeProps {
 const useStyles = createStyles(({ colors }) => {
   return {
     root: {
-      borderRadius: 8,
+      borderRadius: 4,
       textTransform: 'none',
-      fontSize: 16,
-      height: 'auto',
-      fontWeight: 600,
+      fontSize: 14,
+      lineHeight: 24,
+      maxWidth: '33%',
+      fontWeight: 400,
+      color: '#25262B',
     },
     inner: {
-      padding: '8px 16px',
+      padding: '12px 8px',
     },
     declined: {
-      backgroundColor: colors.red[7],
-      color: '#FFF',
+      backgroundColor: '#FCD8D8',
+      border: '2px solid #F03E3E',
     },
     pending: {
-      backgroundColor: colors.yellow[6],
-      color: '#000',
+      backgroundColor: '#FEEFCD',
+      border: '2px solid #FAB005',
     },
     confirmed: {
-      backgroundColor: colors.cyan[6],
-      color: '#000',
+      backgroundColor: '#E3F1D0',
+      border: '2px solid #74B816',
+      overflow: 'visible',
     },
   };
 });
 
 const bookingMap: Record<BookingStatus, string> = {
-  [Initialized]: 'Booking pending',
-  [Confirmed]: 'Booking confirmed',
-  [Declined]: 'Booking declined',
-  [Cancelled]: 'Booking cancelled',
+  [Initialized]: 'Pending',
+  [Confirmed]: 'Confirmed',
+  [Declined]: 'Declined',
+  [Cancelled]: 'Cancelled',
   [CheckedIn]: 'Booking checked in',
   [Booked]: 'Booking',
   [Errored]: 'Booking errored',
@@ -75,7 +86,7 @@ export default function BookingBadge({
         [classes.confirmed]: status === Confirmed || status === CheckedIn,
       })}
     >
-      <Box>{bookingMap[status]}</Box>
+      <Group>{bookingMap[status]}</Group>
     </MBadge>
   );
 }
