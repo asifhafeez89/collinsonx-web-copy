@@ -1,8 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Heading /> renders heading 1`] = `
+.emotion-0 {
+  position: relative;
+  display: block;
+  color: #000000;
+}
+
 <div
-  className="css-1n1ute0"
+  className="emotion-0"
   color="#000000"
 >
   <h2>

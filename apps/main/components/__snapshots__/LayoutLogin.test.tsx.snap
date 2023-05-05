@@ -1,17 +1,67 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<LayoutLogin /> renders outline variant 1`] = `
+.emotion-1 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  max-width: 60rem;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 375px;
+  height: 100%;
+  overflow: hidden;
+  background-color: #112132;
+  padding-top: 2.5rem;
+  padding-right: 1rem;
+  padding-left: 1rem;
+}
+
+.emotion-3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: stretch;
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  gap: 2.5rem;
+  height: 100%;
+}
+
+.emotion-5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  padding-top: 0.5rem;
+}
+
 <div
-  className="mantine-Container-root mantine-hwrsz4"
+  className="emotion-0 emotion-1"
 >
   <div
-    className="mantine-Stack-root mantine-g49psp"
+    className="emotion-2 emotion-3"
   >
     <div
-      className="mantine-Center-root mantine-dejthu"
+      className="emotion-4 emotion-5"
     >
       svg
-       
     </div>
     <div />
   </div>

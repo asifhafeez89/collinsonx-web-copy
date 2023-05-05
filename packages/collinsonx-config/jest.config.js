@@ -14,6 +14,7 @@ module.exports = {
   setupFiles: [fromRoot('./setupJest.js')],
   roots: ['<rootDir>'],
   modulePaths: ['<rootDir>'],
+  snapshotSerializers: ['@emotion/jest/serializer'],
   moduleNameMapper: {
     // '\\.(css|less)$': '<rootDir>/tests/jest/__mocks__/styleMock.js',
     'next/font/(.*)': require.resolve(
