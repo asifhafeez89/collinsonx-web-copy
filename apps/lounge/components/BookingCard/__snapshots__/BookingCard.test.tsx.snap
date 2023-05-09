@@ -255,6 +255,7 @@ exports[`BookingCard component test renders correctly 1`] = `
 
 <div
   class="emotion-0"
+  data-testid="booking-card-wrapper"
 >
   <div
     class="emotion-1"

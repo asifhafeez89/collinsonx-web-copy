@@ -1,7 +1,16 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import {
+  render,
+  fireEvent,
+  getByRole,
+  getByTestId,
+  screen,
+  queryByTestId,
+} from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
 import BookingCard from './BookingCard';
 import { BookingStatus } from '@collinsonx/utils';
+import Book from 'pages/book';
 
 describe('BookingCard component test', () => {
   const props = {
@@ -21,5 +30,17 @@ describe('BookingCard component test', () => {
   it('renders correctly', () => {
     const { container } = render(<BookingCard {...props} />);
     expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it('calls onClick when card is clicked', () => {
+    const container = render(<BookingCard {...props} />);
+    const testElement = container.getByTestId('booking-card-wrapper');
+    fireEvent.click(testElement);
+    expect(props.onClick).toHaveBeenCalledWith(props.id);
+  });
+
+  it('checks if card information is displayed', () => {
+    const container = render(<BookingCard {...props}>test-id</BookingCard>);
+    expect(container.getByText('test-id')).toBeInTheDocument();
   });
 });

@@ -95,6 +95,7 @@ export default function BookingCard({
         nextVisit={nextVisit}
         firstArray={firstArray}
         onClick={() => onClick(id)}
+        data-testid="booking-card-wrapper"
       >
         <Box
           sx={{
