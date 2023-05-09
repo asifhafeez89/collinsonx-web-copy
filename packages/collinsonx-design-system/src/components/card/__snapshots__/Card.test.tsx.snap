@@ -1,28 +1,256 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Card component renders Container 1`] = `
+.emotion-0 {
+  width: 100%;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  border-radius: 5px;
+  background-color: #fff;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.emotion-0 h3 {
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
+
+.emotion-0 p {
+  margin-top: 0px;
+}
+
+.emotion-0:hover {
+  box-shadow: 10 8px 16px 10 rgba(0, 0, 0, 0.2);
+}
+
+.emotion-1 {
+  border-radius: 5px 5px 0 0;
+  border-bottom: 1px solid #c8c9ca;
+  padding-bottom: 16px;
+}
+
+.emotion-1 h3 {
+  margin-top: 8px;
+}
+
+.emotion-3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: stretch;
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.emotion-4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 0.625rem;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.emotion-6 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  -webkit-tap-highlight-color: transparent;
+  color: inherit;
+  font-size: inherit;
+  line-height: 1.55;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.emotion-6:focus {
+  outline-offset: 0.125rem;
+  outline: 0.125rem solid #339af0;
+}
+
+.emotion-6:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.emotion-9 {
+  -webkit-tap-highlight-color: transparent;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  font-size: 1rem;
+  background-color: transparent;
+  text-align: left;
+  color: #000;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  height: 2.25rem;
+  padding-left: 1.125rem;
+  padding-right: 1.125rem;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  -webkit-tap-highlight-color: transparent;
+  display: block;
+  width: 100%;
+  border-radius: 0.25rem;
+  font-weight: 600;
+  position: relative;
+  line-height: 1;
+  font-size: 0.875rem;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  border: 0.0625rem solid transparent;
+  background-color: #228be6;
+  color: #fff;
+}
+
+.emotion-9:focus {
+  outline-offset: 0.125rem;
+  outline: 0.125rem solid #339af0;
+}
+
+.emotion-9:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.emotion-9:focus {
+  outline-offset: 0.125rem;
+  outline: 0.125rem solid #339af0;
+}
+
+.emotion-9:focus:not(:focus-visible) {
+  outline: none;
+}
+
+@media (hover: hover) {
+  .emotion-9:hover {
+    background-color: #1c7ed6;
+  }
+}
+
+@media (hover: none) {
+  .emotion-9:active {
+    background-color: #1c7ed6;
+  }
+}
+
+.emotion-9:active {
+  -webkit-transform: translateY(0.0625rem);
+  -moz-transform: translateY(0.0625rem);
+  -ms-transform: translateY(0.0625rem);
+  transform: translateY(0.0625rem);
+}
+
+.emotion-9:disabled,
+.emotion-9[data-disabled] {
+  border-color: transparent;
+  background-color: #e9ecef;
+  color: #adb5bd;
+  cursor: not-allowed;
+  background-image: none;
+  pointer-events: none;
+}
+
+.emotion-9:disabled:active,
+.emotion-9[data-disabled]:active {
+  -webkit-transform: none;
+  -moz-transform: none;
+  -ms-transform: none;
+  transform: none;
+}
+
+.emotion-9[data-loading] {
+  pointer-events: none;
+}
+
+.emotion-9[data-loading]::before {
+  content: "";
+  position: absolute;
+  top: -0.0625rem;
+  right: -0.0625rem;
+  left: -0.0625rem;
+  bottom: -0.0625rem;
+  background-color: rgba(255, 255, 255, .5);
+  border-radius: 0.25rem;
+  cursor: not-allowed;
+}
+
+.emotion-10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  height: 100%;
+  overflow: visible;
+}
+
+.emotion-12 {
+  white-space: nowrap;
+  height: 100%;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
 <div
-  className="css-syyxuq"
+  className="emotion-0"
 >
   <div
-    className="css-2f61zd"
+    className="emotion-1"
   >
     <h3>
       My lounge
     </h3>
   </div>
   <div
-    className="mantine-Stack-root mantine-yg5lri"
+    className="emotion-2 emotion-3"
   >
     <div
-      className="mantine-1iy1luo"
+      className="emotion-4"
     >
       <test-file-stub
         color="#0C8599"
         width={16}
       />
       <div
-        className="mantine-Text-root mantine-1blwfnj"
+        className="emotion-5 emotion-6"
       >
         Athens International Airport
       </div>
@@ -30,16 +258,16 @@ exports[`Card component renders Container 1`] = `
   </div>
   <div>
     <button
-      className="mantine-UnstyledButton-root mantine-Button-root mantine-1pa5pmq"
+      className="emotion-7 emotion-8 emotion-9"
       data-button={true}
       onClick={[Function]}
       type="button"
     >
       <div
-        className="mantine-1wpc1xj mantine-Button-inner"
+        className="emotion-10 emotion-11"
       >
         <span
-          className="mantine-1ryt1ht mantine-Button-label"
+          className="emotion-12 emotion-13"
           style={
             {
               "textTransform": undefined,

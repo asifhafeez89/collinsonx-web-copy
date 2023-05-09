@@ -74,6 +74,7 @@
   "devDependencies": {
     "@babel/core": "^7.15.8",
     "@babel/preset-typescript": "^7.16.0",
+    "@emotion/jest": "^11.10.8",
     "@emotion/react": "^11.10.5",
     "@emotion/server": "^11.10.0",
     "@emotion/styled": "^11.10.5",
@@ -104,6 +105,9 @@
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
       "\\.(css|scss)$": "identity-obj-proxy"
     },
+    "snapshotSerializers": [
+      "@emotion/jest/serializer"
+    ],
     "roots": [
       "<rootDir>/src"
     ],

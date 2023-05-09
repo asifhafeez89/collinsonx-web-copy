@@ -1,8 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<AuthInput /> renders AuthInput 1`] = `
+.emotion-0 input {
+  font-weight: 600;
+  font-size: 18px;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  font-size: 1rem;
+  text-align: center;
+  margin-right: 8px;
+  text-transform: uppercase;
+  border-radius: 8px;
+  color: #494949;
+  border: 1px solid #d6d6d6;
+  background: #fff;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+
+.emotion-0 input:last-child {
+  margin-right: 0px;
+}
+
 <div
-  className="css-fzppmg"
+  className="emotion-0"
 >
   <div>
     <input

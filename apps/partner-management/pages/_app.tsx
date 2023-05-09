@@ -3,19 +3,8 @@ import { NextPage } from 'next';
 import { ComponentType, ReactElement } from 'react';
 import { MantineProvider } from '@collinsonx/design-system/core';
 import Head from 'next/head';
-import { experienceX } from '@collinsonx/design-system/themes';
-import { Be_Vietnam_Pro } from 'next/font/google';
 import { useApollo, ApolloProvider } from '@collinsonx/utils/apollo';
-// import SuperTokensReact, {
-//   SuperTokensConfig,
-//   SuperTokensWrapper,
-// } from '@collinsonx/utils/supertokens';
-// import { SysAuth, Logout } from '@collinsonx/utils/components';
-const beVietnamPro = Be_Vietnam_Pro({
-  style: ['normal'],
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-});
+import theme from '../theme';
 
 type Page<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactElement) => JSX.Element;
@@ -43,11 +32,7 @@ export default function MyApp({ Component, pageProps }: Props) {
       <ApolloProvider client={apolloClient}>
         {/* <SuperTokensWrapper> */}
         {/* <SysAuth> */}
-        <MantineProvider
-          theme={experienceX({ fontFamily: beVietnamPro.style.fontFamily })}
-          withGlobalStyles
-          withNormalizeCSS
-        >
+        <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
           {getLayout(<Component {...pageProps} />)}
         </MantineProvider>
         {/* </SysAuth> */}

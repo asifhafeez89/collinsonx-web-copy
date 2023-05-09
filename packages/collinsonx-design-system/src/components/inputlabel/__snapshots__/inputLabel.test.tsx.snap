@@ -1,30 +1,217 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<InputLabel /> renders textinput 1`] = `
+.emotion-2 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  line-height: 1.55;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.emotion-5 {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #212529;
+  word-break: break-word;
+  cursor: default;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-order: -2;
+  -ms-flex-order: -2;
+  order: -2;
+  color: #000000;
+}
+
+.emotion-6 {
+  color: #fa5252;
+}
+
+.emotion-11 {
+  position: relative;
+}
+
+.emotion-14 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  height: 2.25rem;
+  -webkit-tap-highlight-color: transparent;
+  line-height: calc(2.25rem - 0.125rem);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  resize: none;
+  box-sizing: border-box;
+  font-size: 0.875rem;
+  width: 100%;
+  color: #000;
+  display: block;
+  text-align: left;
+  border: 0.0625rem solid #ced4da;
+  background-color: #fff;
+  -webkit-transition: border-color 100ms ease;
+  transition: border-color 100ms ease;
+  min-height: 2.25rem;
+  padding-left: calc(2.25rem  / 3);
+  padding-right: calc(2.25rem  / 3);
+  border-radius: 0.25rem;
+  -webkit-order: -1;
+  -ms-flex-order: -1;
+  order: -1;
+}
+
+.emotion-14:focus,
+.emotion-14:focus-within {
+  outline: none;
+  border-color: #228be6;
+}
+
+.emotion-14:disabled,
+.emotion-14[data-disabled] {
+  background-color: #f1f3f5;
+  color: #909296;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.emotion-14:disabled::-webkit-input-placeholder {
+  color: #909296;
+}
+
+.emotion-14:disabled::-moz-placeholder {
+  color: #909296;
+}
+
+.emotion-14:disabled:-ms-input-placeholder {
+  color: #909296;
+}
+
+.emotion-14[data-disabled]::-webkit-input-placeholder {
+  color: #909296;
+}
+
+.emotion-14[data-disabled]::-moz-placeholder {
+  color: #909296;
+}
+
+.emotion-14[data-disabled]:-ms-input-placeholder {
+  color: #909296;
+}
+
+.emotion-14:disabled::placeholder,
+.emotion-14[data-disabled]::placeholder {
+  color: #909296;
+}
+
+.emotion-14[data-invalid] {
+  color: #fa5252;
+  border-color: #fa5252;
+}
+
+.emotion-14[data-invalid]::-webkit-input-placeholder {
+  opacity: 1;
+  color: #fa5252;
+}
+
+.emotion-14[data-invalid]::-moz-placeholder {
+  opacity: 1;
+  color: #fa5252;
+}
+
+.emotion-14[data-invalid]:-ms-input-placeholder {
+  opacity: 1;
+  color: #fa5252;
+}
+
+.emotion-14[data-invalid]::placeholder {
+  opacity: 1;
+  color: #fa5252;
+}
+
+.emotion-14[data-with-icon] {
+  padding-left: 2.25rem;
+}
+
+.emotion-14::-webkit-input-placeholder {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+  opacity: 1;
+}
+
+.emotion-14::-moz-placeholder {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+  opacity: 1;
+}
+
+.emotion-14:-ms-input-placeholder {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+  opacity: 1;
+}
+
+.emotion-14::placeholder {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #adb5bd;
+  opacity: 1;
+}
+
+.emotion-14::-webkit-inner-spin-button,
+.emotion-14::-webkit-outer-spin-button,
+.emotion-14::-webkit-search-decoration,
+.emotion-14::-webkit-search-cancel-button,
+.emotion-14::-webkit-search-results-button,
+.emotion-14::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+}
+
+.emotion-14[type=number] {
+  -moz-appearance: textfield;
+}
+
 <div
-  className="mantine-InputWrapper-root mantine-TextInput-root mantine-agt6mi"
+  className="emotion-0 emotion-1 emotion-2"
 >
   <label
-    className="mantine-InputWrapper-label mantine-TextInput-label mantine-1ds4twx"
-    htmlFor="mantine-72wbnjtji"
-    id="mantine-72wbnjtji-label"
+    className="emotion-3 emotion-4 emotion-5"
+    htmlFor="mantine-yubqp9bm0"
+    id="mantine-yubqp9bm0-label"
     onMouseDown={[Function]}
   >
     Full name
     <span
       aria-hidden={true}
-      className="mantine-103svbs mantine-InputWrapper-required mantine-TextInput-required"
+      className="emotion-6 emotion-7 emotion-8"
     >
        *
     </span>
   </label>
   <div
-    className="mantine-Input-wrapper mantine-TextInput-wrapper mantine-7c7vou"
+    className="emotion-9 emotion-10 emotion-11"
   >
     <input
       aria-invalid={false}
-      className="mantine-Input-input mantine-TextInput-input mantine-1o8gqm4"
-      id="mantine-72wbnjtji"
+      className="emotion-12 emotion-13 emotion-14"
+      id="mantine-yubqp9bm0"
       placeholder="Your name"
       type="text"
     />

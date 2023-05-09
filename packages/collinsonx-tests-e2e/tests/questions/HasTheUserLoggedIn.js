@@ -1,6 +1,6 @@
 import LoginPage from '../pages/LoginPage';
 
-class IsTheUserAtTheLoginPage {
+class HasTheUserLoggedIn {
   constructor(expect) {
     this._loginPage = new LoginPage(expect);
   }
@@ -8,6 +8,10 @@ class IsTheUserAtTheLoginPage {
   verifyTitle() {
     return this._loginPage.getCollinsonTitle();
   }
+
+  async seeHomePageTitle() {
+    await this._loginPage.getHomePageTitle();
+  }
 }
 
-module.exports = IsTheUserAtTheLoginPage;
+module.exports = HasTheUserLoggedIn;

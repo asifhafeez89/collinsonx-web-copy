@@ -1,8 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<FieldLabel /> renders fieldlabel 1`] = `
+.emotion-0 {
+  border-radius: 10px;
+  border: 1px solid #e9ecef;
+  padding: 20px;
+  margin-bottom: 10px;
+}
+
 <div
-  className="css-1a39ig5"
+  className="emotion-0"
   onClick={[MockFunction]}
 >
   <h3>
