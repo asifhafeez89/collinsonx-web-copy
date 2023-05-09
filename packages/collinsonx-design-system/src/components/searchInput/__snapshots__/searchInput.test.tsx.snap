@@ -10,7 +10,7 @@ exports[`<SearchInput /> renders SearchInput 1`] = `
     <input
       aria-invalid={false}
       className="mantine-Input-input mantine-TextInput-input mantine-194d97n"
-      id="mantine-lur93h8d7"
+      id="mantine-ijimheght"
       onChange={[MockFunction]}
       placeholder="Search for airport or lounge"
       type="text"

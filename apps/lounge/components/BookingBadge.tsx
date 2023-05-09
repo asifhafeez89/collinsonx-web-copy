@@ -4,8 +4,16 @@ import {
   Box,
   Group,
   Flex,
+  Text,
   createStyles,
 } from '@collinsonx/design-system/core';
+import styled from '@collinsonx/design-system/styled';
+
+import {
+  Declined as DeclinedIcon,
+  Confirmed as ConfirmedIcon,
+  Pending as PendingIcon,
+} from '@collinsonx/design-system/assets/icons';
 
 import { BookingStatus } from '@collinsonx/utils';
 import {
@@ -27,6 +35,7 @@ const {
 
 export interface BadgeProps extends MBadgeProps {
   status: BookingStatus;
+  fullBadge?: boolean;
 }
 
 const useStyles = createStyles(({ colors }) => {
@@ -36,7 +45,6 @@ const useStyles = createStyles(({ colors }) => {
       textTransform: 'none',
       fontSize: 14,
       lineHeight: 24,
-      maxWidth: '33%',
       fontWeight: 400,
       color: '#25262B',
     },
@@ -56,6 +64,17 @@ const useStyles = createStyles(({ colors }) => {
       border: '2px solid #74B816',
       overflow: 'visible',
     },
+    fullBadge: {
+      alignSelf: 'flex-start',
+    },
+    smallBadge: {
+      borderRadius: 4,
+      outline: '4px solid #fff',
+      width: 24,
+      height: 24,
+      padding: 0,
+      display: 'block',
+    },
   };
 });
 
@@ -72,6 +91,7 @@ const bookingMap: Record<BookingStatus, string> = {
 export default function BookingBadge({
   children,
   status,
+  fullBadge,
   ...props
 }: BadgeProps) {
   const { classes, cx } = useStyles();
@@ -79,14 +99,49 @@ export default function BookingBadge({
   return (
     <MBadge
       {...props}
-      className={cx(classes.root, classes.inner, {
-        [classes.declined]:
-          status === Declined || status === Cancelled || status === Errored,
-        [classes.pending]: status === Initialized,
-        [classes.confirmed]: status === Confirmed || status === CheckedIn,
-      })}
+      className={cx(
+        classes.root,
+        classes.inner,
+        {
+          [classes.declined]:
+            status === Declined || status === Cancelled || status === Errored,
+          [classes.pending]: status === Initialized,
+          [classes.confirmed]: status === Confirmed || status === CheckedIn,
+        },
+        fullBadge ? classes.fullBadge : classes.smallBadge
+      )}
     >
-      <Group>{bookingMap[status]}</Group>
+      {fullBadge && <Group>{bookingMap[status]}</Group>}
+      {!fullBadge && status === 'DECLINED' && (
+        <DeclinedIcon
+          style={{
+            top: '4px',
+            left: '3px',
+            position: 'absolute',
+            color: '#C92A2A',
+          }}
+        />
+      )}
+      {!fullBadge && status === 'CONFIRMED' && (
+        <ConfirmedIcon
+          style={{
+            top: '4px',
+            left: '3px',
+            position: 'absolute',
+            color: '#456E0E',
+          }}
+        />
+      )}
+      {!fullBadge && status === 'INITIALIZED' && (
+        <PendingIcon
+          style={{
+            top: '4px',
+            left: '3px',
+            position: 'absolute',
+            color: '#966A03',
+          }}
+        />
+      )}
     </MBadge>
   );
 }

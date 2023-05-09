@@ -1,0 +1,182 @@
+
+> test
+> turbo run test -- --coverage=false render Bookings component
+
+• Packages in scope: @collinsonx/config, @collinsonx/design-system, @collinsonx/pages, @collinsonx/storybook, @collinsonx/tests-e2e, @collinsonx/utils, eslint-config-collinsonx, lounge, main, partner-management
+• Running test in 10 packages
+• Remote caching disabled
+@collinsonx/utils:build: cache hit, replaying output d3921257c57b50d3
+@collinsonx/utils:build: 
+@collinsonx/utils:build: > @collinsonx/utils@0.0.1 build /Users/theobrooke/projects/collinsonx-web/packages/collinsonx-utils
+@collinsonx/utils:build: > tsup src/** --format esm,cjs --dts --external react
+@collinsonx/utils:build: 
+@collinsonx/utils:build: CLI Building entry: src/apollo.ts, src/components/index.ts, src/components/logout.tsx, src/components/sysauth.tsx, src/generatedTypes/fragment-masking.ts, src/generatedTypes/gql.ts, src/generatedTypes/graphql.ts, src/generatedTypes/index.ts, src/hooks/useAuth.ts, src/index.ts, src/lib/index.ts, src/lib/userContext.tsx, src/lib/validateEmail.ts, src/mutations/cancelBooking.ts, src/mutations/checkinBooking.ts, src/mutations/confirmBooking.ts, src/mutations/createBooking.ts, src/mutations/declineBooking.ts, src/mutations/deleteBooking.ts, src/mutations/findOrCreateConsumer.ts, src/mutations/index.ts, src/mutations/updateConsumer.ts, src/queries/getAllBookings.ts, src/queries/getBookingByID.ts, src/queries/getBookings.ts, src/queries/getConsumerByEmailAddress.ts, src/queries/getConsumerByID.ts, src/queries/getSearchExperiences.ts, src/queries/index.ts, src/supertokens.ts, src/testing.ts
+@collinsonx/utils:build: CLI Using tsconfig: tsconfig.json
+@collinsonx/utils:build: CLI tsup v5.12.9
+@collinsonx/utils:build: CLI Target: node12
+@collinsonx/utils:build: ESM Build start
+@collinsonx/utils:build: CJS Build start
+@collinsonx/utils:build: CJS ⚡️ Build success in 80ms
+@collinsonx/utils:build: ESM ⚡️ Build success in 90ms
+@collinsonx/utils:build: CJS dist/components/index.js                  3.84 KB
+@collinsonx/utils:build: CJS dist/apollo.js                            5.00 KB
+@collinsonx/utils:build: CJS dist/components/logout.js                 3.04 KB
+@collinsonx/utils:build: CJS dist/generatedTypes/index.js              28.00 KB
+@collinsonx/utils:build: CJS dist/generatedTypes/fragment-masking.js   1.29 KB
+@collinsonx/utils:build: CJS dist/hooks/useAuth.js                     2.43 KB
+@collinsonx/utils:build: CJS dist/lib/index.js                         1.41 KB
+@collinsonx/utils:build: CJS dist/index.js                             25.59 KB
+@collinsonx/utils:build: CJS dist/lib/userContext.js                   1.63 KB
+@collinsonx/utils:build: CJS dist/lib/validateEmail.js                 1.66 KB
+@collinsonx/utils:build: CJS dist/mutations/checkinBooking.js          2.82 KB
+@collinsonx/utils:build: CJS dist/mutations/confirmBooking.js          2.85 KB
+@collinsonx/utils:build: CJS dist/mutations/createBooking.js           2.84 KB
+@collinsonx/utils:build: CJS dist/mutations/updateConsumer.js          2.72 KB
+@collinsonx/utils:build: CJS dist/mutations/deleteBooking.js           2.84 KB
+@collinsonx/utils:build: CJS dist/mutations/declineBooking.js          2.85 KB
+@collinsonx/utils:build: CJS dist/queries/getBookingByID.js            3.00 KB
+@collinsonx/utils:build: CJS dist/mutations/cancelBooking.js           2.84 KB
+@collinsonx/utils:build: CJS dist/mutations/findOrCreateConsumer.js    2.79 KB
+@collinsonx/utils:build: CJS dist/mutations/index.js                   4.58 KB
+@collinsonx/utils:build: CJS dist/queries/getAllBookings.js            2.92 KB
+@collinsonx/utils:build: CJS dist/queries/getConsumerByID.js           2.88 KB
+@collinsonx/utils:build: CJS dist/queries/index.js                     4.10 KB
+@collinsonx/utils:build: CJS dist/queries/getSearchExperiences.js      3.03 KB
+@collinsonx/utils:build: CJS dist/supertokens.js                       2.46 KB
+@collinsonx/utils:build: CJS dist/queries/getConsumerByEmailAddress.js 2.98 KB
+@collinsonx/utils:build: CJS dist/testing.js                           1.12 KB
+@collinsonx/utils:build: CJS dist/generatedTypes/gql.js                27.67 KB
+@collinsonx/utils:build: CJS dist/components/sysauth.js                3.19 KB
+@collinsonx/utils:build: CJS dist/queries/getBookings.js               2.89 KB
+@collinsonx/utils:build: CJS dist/generatedTypes/graphql.js            25.11 KB
+@collinsonx/utils:build: ESM dist/queries/getBookings.mjs               140.00 B
+@collinsonx/utils:build: ESM dist/queries/getConsumerByEmailAddress.mjs 554.00 B
+@collinsonx/utils:build: ESM dist/queries/getConsumerByID.mjs           494.00 B
+@collinsonx/utils:build: ESM dist/queries/index.mjs                     382.00 B
+@collinsonx/utils:build: ESM dist/queries/getSearchExperiences.mjs      158.00 B
+@collinsonx/utils:build: ESM dist/chunk-M3FC6CHN.mjs                    506.00 B
+@collinsonx/utils:build: ESM dist/chunk-6NX5HPEV.mjs                    618.00 B
+@collinsonx/utils:build: ESM dist/supertokens.mjs                       521.00 B
+@collinsonx/utils:build: ESM dist/testing.mjs                           104.00 B
+@collinsonx/utils:build: ESM dist/mutations/declineBooking.mjs          146.00 B
+@collinsonx/utils:build: ESM dist/mutations/createBooking.mjs           144.00 B
+@collinsonx/utils:build: ESM dist/mutations/deleteBooking.mjs           144.00 B
+@collinsonx/utils:build: ESM dist/mutations/findOrCreateConsumer.mjs    377.00 B
+@collinsonx/utils:build: ESM dist/chunk-PBX577J3.mjs                    448.00 B
+@collinsonx/utils:build: ESM dist/chunk-O2Q35DCK.mjs                    451.00 B
+@collinsonx/utils:build: ESM dist/mutations/updateConsumer.mjs          335.00 B
+@collinsonx/utils:build: ESM dist/chunk-CVSWKDDU.mjs                    460.00 B
+@collinsonx/utils:build: ESM dist/queries/getAllBookings.mjs            542.00 B
+@collinsonx/utils:build: ESM dist/queries/getBookingByID.mjs            146.00 B
+@collinsonx/utils:build: ESM dist/hooks/useAuth.mjs                     132.00 B
+@collinsonx/utils:build: ESM dist/chunk-7WGVM2EA.mjs                    614.00 B
+@collinsonx/utils:build: ESM dist/index.mjs                             1.30 KB
+@collinsonx/utils:build: ESM dist/lib/validateEmail.mjs                 695.00 B
+@collinsonx/utils:build: ESM dist/lib/index.mjs                         426.00 B
+@collinsonx/utils:build: ESM dist/lib/userContext.mjs                   534.00 B
+@collinsonx/utils:build: ESM dist/mutations/cancelBooking.mjs           462.00 B
+@collinsonx/utils:build: ESM dist/mutations/index.mjs                   587.00 B
+@collinsonx/utils:build: ESM dist/mutations/checkinBooking.mjs          146.00 B
+@collinsonx/utils:build: ESM dist/chunk-YJ2UBNFI.mjs                    460.00 B
+@collinsonx/utils:build: ESM dist/apollo.mjs                            370.00 B
+@collinsonx/utils:build: ESM dist/chunk-BP7VDJKU.mjs                    3.20 KB
+@collinsonx/utils:build: ESM dist/chunk-SYYUXVLN.mjs                    651.00 B
+@collinsonx/utils:build: ESM dist/mutations/confirmBooking.mjs          146.00 B
+@collinsonx/utils:build: ESM dist/components/sysauth.mjs                164.00 B
+@collinsonx/utils:build: ESM dist/components/index.mjs                  250.00 B
+@collinsonx/utils:build: ESM dist/chunk-FWAOORV6.mjs                    422.00 B
+@collinsonx/utils:build: ESM dist/generatedTypes/fragment-masking.mjs   121.00 B
+@collinsonx/utils:build: ESM dist/chunk-N2FAY5LM.mjs                    658.00 B
+@collinsonx/utils:build: ESM dist/generatedTypes/gql.mjs                105.00 B
+@collinsonx/utils:build: ESM dist/generatedTypes/index.mjs              215.00 B
+@collinsonx/utils:build: ESM dist/chunk-ZAUCDNG6.mjs                    228.00 B
+@collinsonx/utils:build: ESM dist/generatedTypes/graphql.mjs            923.00 B
+@collinsonx/utils:build: ESM dist/components/logout.mjs                 162.00 B
+@collinsonx/utils:build: ESM dist/chunk-B6JCP37L.mjs                    23.23 KB
+@collinsonx/utils:build: ESM dist/chunk-NOJIGJSL.mjs                    816.00 B
+@collinsonx/utils:build: ESM dist/chunk-COO45373.mjs                    770.00 B
+@collinsonx/utils:build: ESM dist/chunk-K44ZARNW.mjs                    5.04 KB
+@collinsonx/utils:build: DTS Build start
+@collinsonx/utils:build: DTS ⚡️ Build success in 1977ms
+@collinsonx/utils:build: DTS dist/apollo.d.ts                            550.00 B
+@collinsonx/utils:build: DTS dist/components/index.d.ts                  116.00 B
+@collinsonx/utils:build: DTS dist/components/logout.d.ts                 182.00 B
+@collinsonx/utils:build: DTS dist/components/sysauth.d.ts                186.00 B
+@collinsonx/utils:build: DTS dist/generatedTypes/fragment-masking.d.ts   1.27 KB
+@collinsonx/utils:build: DTS dist/generatedTypes/gql.d.ts                17.55 KB
+@collinsonx/utils:build: DTS dist/generatedTypes/graphql.d.ts            16.69 KB
+@collinsonx/utils:build: DTS dist/generatedTypes/index.d.ts              202.00 B
+@collinsonx/utils:build: DTS dist/hooks/useAuth.d.ts                     196.00 B
+@collinsonx/utils:build: DTS dist/index.d.ts                             2.18 KB
+@collinsonx/utils:build: DTS dist/lib/index.d.ts                         271.00 B
+@collinsonx/utils:build: DTS dist/lib/userContext.d.ts                   166.00 B
+@collinsonx/utils:build: DTS dist/lib/validateEmail.d.ts                 94.00 B
+@collinsonx/utils:build: DTS dist/mutations/cancelBooking.d.ts           147.00 B
+@collinsonx/utils:build: DTS dist/mutations/checkinBooking.d.ts          149.00 B
+@collinsonx/utils:build: DTS dist/mutations/confirmBooking.d.ts          149.00 B
+@collinsonx/utils:build: DTS dist/mutations/createBooking.d.ts           147.00 B
+@collinsonx/utils:build: DTS dist/mutations/declineBooking.d.ts          149.00 B
+@collinsonx/utils:build: DTS dist/mutations/deleteBooking.d.ts           147.00 B
+@collinsonx/utils:build: DTS dist/mutations/findOrCreateConsumer.d.ts    161.00 B
+@collinsonx/utils:build: DTS dist/mutations/index.d.ts                   346.00 B
+@collinsonx/utils:build: DTS dist/mutations/updateConsumer.d.ts          149.00 B
+@collinsonx/utils:build: DTS dist/queries/getAllBookings.d.ts            149.00 B
+@collinsonx/utils:build: DTS dist/queries/getBookingByID.d.ts            149.00 B
+@collinsonx/utils:build: DTS dist/queries/getBookings.d.ts               143.00 B
+@collinsonx/utils:build: DTS dist/queries/getConsumerByEmailAddress.d.ts 171.00 B
+@collinsonx/utils:build: DTS dist/queries/getConsumerByID.d.ts           151.00 B
+@collinsonx/utils:build: DTS dist/queries/getSearchExperiences.d.ts      161.00 B
+@collinsonx/utils:build: DTS dist/queries/index.d.ts                     226.00 B
+@collinsonx/utils:build: DTS dist/supertokens.d.ts                       479.00 B
+@collinsonx/utils:build: DTS dist/testing.d.ts                           57.00 B
+@collinsonx/design-system:test: cache miss, executing f7b2d79df28d5d53
+@collinsonx/design-system:build: cache hit, replaying output 745126c60b6cc1d9
+@collinsonx/design-system:build: 
+@collinsonx/design-system:build: > @collinsonx/design-system@0.0.1 build /Users/theobrooke/projects/collinsonx-web/packages/collinsonx-design-system
+@collinsonx/design-system:build: > rm -rf dist && pnpm build:swc && pnpm types
+@collinsonx/design-system:build: 
+@collinsonx/design-system:build: 
+@collinsonx/design-system:build: > @collinsonx/design-system@0.0.1 build:swc /Users/theobrooke/projects/collinsonx-web/packages/collinsonx-design-system
+@collinsonx/design-system:build: > pnpm copy-assets && swc src -d dist
+@collinsonx/design-system:build: 
+@collinsonx/design-system:build: 
+@collinsonx/design-system:build: > @collinsonx/design-system@0.0.1 copy-assets /Users/theobrooke/projects/collinsonx-web/packages/collinsonx-design-system
+@collinsonx/design-system:build: > npx mkdirp dist && cp -R src/assets dist/
+@collinsonx/design-system:build: 
+@collinsonx/design-system:build: Successfully compiled: 59 files with swc (32.45ms)
+@collinsonx/design-system:build: 
+@collinsonx/design-system:build: > @collinsonx/design-system@0.0.1 types /Users/theobrooke/projects/collinsonx-web/packages/collinsonx-design-system
+@collinsonx/design-system:build: > tsc --emitDeclarationOnly
+@collinsonx/design-system:build: 
+@collinsonx/pages:build: cache miss, executing 909e88c2d93632ee
+@collinsonx/design-system:test: 
+@collinsonx/design-system:test: > @collinsonx/design-system@0.0.1 test /Users/theobrooke/projects/collinsonx-web/packages/collinsonx-design-system
+@collinsonx/design-system:test: > jest --env=jsdom -u "--coverage=false" "render Bookings component"
+@collinsonx/design-system:test: 
+@collinsonx/pages:build: 
+@collinsonx/pages:build: > @collinsonx/pages@0.0.1 build /Users/theobrooke/projects/collinsonx-web/packages/collinsonx-pages
+@collinsonx/pages:build: > rm -rf dist && pnpm build:swc && pnpm types
+@collinsonx/pages:build: 
+@collinsonx/pages:build: 
+@collinsonx/pages:build: > @collinsonx/pages@0.0.1 build:swc /Users/theobrooke/projects/collinsonx-web/packages/collinsonx-pages
+@collinsonx/pages:build: > swc src -d dist
+@collinsonx/pages:build: 
+@collinsonx/pages:build: Successfully compiled: 2 files with swc (6.99ms)
+@collinsonx/pages:build: 
+@collinsonx/pages:build: > @collinsonx/pages@0.0.1 types /Users/theobrooke/projects/collinsonx-web/packages/collinsonx-pages
+@collinsonx/pages:build: > tsc --emitDeclarationOnly
+@collinsonx/pages:build: 
+@collinsonx/design-system:test: No tests found, exiting with code 1
+@collinsonx/design-system:test: Run with `--passWithNoTests` to exit with code 0
+@collinsonx/design-system:test: In /Users/theobrooke/projects/collinsonx-web/packages/collinsonx-design-system
+@collinsonx/design-system:test:   93 files checked.
+@collinsonx/design-system:test:   testMatch: **/__tests__/**/*.[jt]s?(x), **/?(*.)+(spec|test).[tj]s?(x) - 16 matches
+@collinsonx/design-system:test:   testPathIgnorePatterns: /node_modules/ - 93 matches
+@collinsonx/design-system:test:   testRegex:  - 0 matches
+@collinsonx/design-system:test: Pattern: render Bookings component - 0 matches
+@collinsonx/design-system:test:  ELIFECYCLE  Test failed. See above for more details.
+
+ Tasks:    2 successful, 4 total
+Cached:    2 cached, 4 total
+  Time:    1.374s 
+

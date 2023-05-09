@@ -7,8 +7,8 @@ exports[`<Datepicker /> renders datepicker 1`] = `
   >
     <label
       className="mantine-InputWrapper-label mantine-DatePickerInput-label mantine-14x6zdz"
-      htmlFor="mantine-zbj22kayx"
-      id="mantine-zbj22kayx-label"
+      htmlFor="mantine-nok63v3km"
+      id="mantine-nok63v3km-label"
       onMouseDown={[Function]}
     >
       Date
@@ -23,13 +23,13 @@ exports[`<Datepicker /> renders datepicker 1`] = `
       className="mantine-Input-wrapper mantine-DatePickerInput-wrapper mantine-7c7vou"
     >
       <button
-        aria-controls="mantine-m0w3txur1-dropdown"
+        aria-controls="mantine-43q95jzqz-dropdown"
         aria-expanded={false}
         aria-haspopup="dialog"
         aria-invalid={false}
         className="mantine-DatePickerInput-input mantine-Input-input mantine-DatePickerInput-input mantine-1jbpix9"
         data-dates-input={true}
-        id="mantine-m0w3txur1-target"
+        id="mantine-43q95jzqz-target"
         onClick={[Function]}
         type="button"
       >

@@ -6,8 +6,8 @@ exports[`<Textarea /> renders Textarea 1`] = `
 >
   <label
     className="mantine-InputWrapper-label mantine-Textarea-label mantine-1ds4twx"
-    htmlFor="mantine-5toiy4l50"
-    id="mantine-5toiy4l50-label"
+    htmlFor="mantine-weni17277"
+    id="mantine-weni17277-label"
     onMouseDown={[Function]}
   >
     Your comment
@@ -24,7 +24,7 @@ exports[`<Textarea /> renders Textarea 1`] = `
     <textarea
       aria-invalid={false}
       className="mantine-Input-input mantine-Textarea-input mantine-1nzb2pb"
-      id="mantine-5toiy4l50"
+      id="mantine-weni17277"
       placeholder="Your comment"
     />
   </div>
