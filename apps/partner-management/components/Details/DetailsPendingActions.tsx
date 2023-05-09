@@ -1,7 +1,7 @@
 import { Flex } from '@collinsonx/design-system/core';
 import BookingButton from './DetailsButton';
 
-interface DetailsPendingActionsProps {
+export interface DetailsPendingActionsProps {
   onClickDecline: () => void;
   onClickConfirm: () => void;
 }

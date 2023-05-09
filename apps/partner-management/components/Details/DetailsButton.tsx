@@ -1,6 +1,6 @@
 import { Button, ButtonProps } from '@collinsonx/design-system/core';
 
-interface DetailsButtonProps extends Omit<ButtonProps, 'variant'> {
+export interface DetailsButtonProps extends Omit<ButtonProps, 'variant'> {
   variant: 'success' | 'danger';
   onClick?: () => void;
 }
