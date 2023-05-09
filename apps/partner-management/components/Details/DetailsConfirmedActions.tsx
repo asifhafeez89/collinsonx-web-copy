@@ -6,7 +6,7 @@ import {
   Checkbox,
 } from '@collinsonx/design-system/core';
 
-interface DetailsConfirmedActionsProps {
+export interface DetailsConfirmedActionsProps {
   checkIn: boolean;
   onChangeCheckIn: (checkIn: boolean) => void;
   onClickConfirmCheckIn: () => void;
