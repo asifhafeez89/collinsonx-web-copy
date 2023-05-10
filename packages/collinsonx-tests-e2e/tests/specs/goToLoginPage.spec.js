@@ -12,7 +12,7 @@ test('has title', async ({ page }) => {
   // await login.submitLogin();
 
   //Then
-  let hasTheUserLoggedIn = new HasTheUserLoggedIn(expect);
+  let hasTheUserLoggedIn = new HasTheUserLoggedIn(page, expect);
   await hasTheUserLoggedIn.verifyTitle();
-  // await hasTheUserLoggedIn.seeHomePageTitle();
+  expect(hasTheUserLoggedIn.seeHomePageTitle());
 });

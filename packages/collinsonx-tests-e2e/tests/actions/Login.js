@@ -24,10 +24,9 @@ class Login {
     await this._loginPage.getLoginButton(this.page).click();
     await this._helper.wait(5000);
     const otp = await this._getOTP(uuid);
-    console.log(otp, 'WOOOO');
     await this._helper.type(otp);
     await this._loginPage.getVerifyButton(this.page).click();
-    await this._helper.wait(5000);
+    await this._loginPage.exitProfileButton(this.page).click();
   }
 
   async _getOTP(uuid) {
@@ -61,7 +60,6 @@ class Login {
         const parts = result?.parts;
         const regex = /(\d{6})<\/div>/g;
         let match = regex.exec(parts[0].body);
-        console.log(match[1].toString(), 'CROSSEDDDDD');
         return match[1].toString();
       });
     return otp;
