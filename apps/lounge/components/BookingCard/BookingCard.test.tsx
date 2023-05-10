@@ -5,7 +5,7 @@ import '@testing-library/jest-dom';
 import BookingCard from './BookingCard';
 import { BookingStatus } from '@collinsonx/utils';
 
-xdescribe('BookingCard component test', () => {
+describe('BookingCard component test', () => {
   const props = {
     id: '1',
     name: 'Booking Test',

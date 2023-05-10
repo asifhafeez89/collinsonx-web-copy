@@ -95,7 +95,6 @@ export default function BookingBadge({
   ...props
 }: BadgeProps) {
   const { classes, cx } = useStyles();
-  console.log(status, largeBadge);
 
   return (
     <MBadge
@@ -113,6 +112,7 @@ export default function BookingBadge({
       )}
     >
       {largeBadge && <Group>{bookingMap[status]}</Group>}
+      {!largeBadge && <h1>asd</h1>}
       {!largeBadge && status === 'DECLINED' && (
         <DeclinedIcon
           style={{
@@ -123,7 +123,7 @@ export default function BookingBadge({
           }}
         />
       )}
-      {!largeBadge && status === BookingStatus.Confirmed && (
+      {!largeBadge && status === 'CONFIRMED' && (
         <ConfirmedIcon
           style={{
             top: '4px',
