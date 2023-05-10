@@ -75,10 +75,6 @@ export interface BookingCardProps {
   onClick: (bookingId: string) => void;
 }
 
-// export interface BookingBadgeProps {
-//   largeBadge?: boolean;
-// }
-
 export default function BookingCard({
   id,
   name,
