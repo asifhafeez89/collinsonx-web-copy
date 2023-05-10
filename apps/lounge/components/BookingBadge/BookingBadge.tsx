@@ -133,7 +133,7 @@ export default function BookingBadge({
           }}
         />
       )}
-      {!largeBadge && status === 'INITIALIZED' && (
+      {!largeBadge && status === BookingStatus.Initialized && (
         <PendingIcon
           style={{
             top: '4px',
