@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import Layout from '@components/Layout';
 import { useRouter } from 'next/router';
-import { Button, Box, Stack } from '@collinsonx/design-system/core';
+import { Button, Box, Stack, MediaQuery } from '@collinsonx/design-system/core';
 import Link from 'next/link';
 import { QRCodeSVG } from 'qrcode.react';
 
@@ -13,12 +13,12 @@ export default function QRCode() {
   const loungeName = 'Lounge Name';
 
   const print = () => {
-    console.log('print');
+    window.print();
   };
 
   useEffect(() => {
     ReactDOM.render(
-      <QRCodeSVG value="https://reactjs.org/" imageSettings={} />,
+      <QRCodeSVG value="https://reactjs.org/" size={400} />,
       document.getElementById('qr-code-node')
     );
   }, []);
@@ -28,14 +28,27 @@ export default function QRCode() {
       <h1>Welcome to {loungeName}</h1>
       <h2>For walk-up check-ins please scan the code below</h2>
       <Box id="qr-code-node" p={32} w={'100%'} sx={{ textAlign: 'center' }} />
-      <Button variant="default" onClick={print}>
-        Print
-      </Button>
-      <Link href="/" style={{ textDecoration: 'none' }}>
-        <Button variant="default" my={16}>
-          Back to dashboard
-        </Button>
-      </Link>
+      <MediaQuery
+        query="print"
+        styles={{
+          display: 'none',
+        }}
+      >
+        <Stack p={0} align="center" spacing={0}>
+          <Button onClick={print} w="50%">
+            Print
+          </Button>
+          <p style={{ width: '50%' }}>
+            It is recommended that you print in portrait orientation, without
+            the headers & footers.
+          </p>
+          <Link href="/" style={{ textDecoration: 'none', width: '50%' }}>
+            <Button variant="default" fullWidth>
+              Back to dashboard
+            </Button>
+          </Link>
+        </Stack>
+      </MediaQuery>
     </Stack>
   );
 }
