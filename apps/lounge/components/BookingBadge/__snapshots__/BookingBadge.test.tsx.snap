@@ -1,0 +1,223 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BookingCard component test large badge renders correctly 1`] = `
+.emotion-1 {
+  -webkit-tap-highlight-color: transparent;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  font-size: 0.6875rem;
+  height: 1.25rem;
+  line-height: calc(1.25rem - 0.125rem);
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  padding: 0 calc(1rem / 1.5);
+  box-sizing: border-box;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  width: auto;
+  text-transform: uppercase;
+  border-radius: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.015625rem;
+  cursor: inherit;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  background: rgba(231, 245, 255, 1);
+  color: #228be6;
+  border: 0.0625rem solid transparent;
+  border-radius: 4px;
+  text-transform: none;
+  font-size: 14px;
+  line-height: 24;
+  font-weight: 400;
+  color: #25262B;
+  padding: 12px 8px;
+  background-color: #E3F1D0;
+  border: 2px solid #74B816;
+  overflow: visible;
+  -webkit-align-self: flex-start;
+  -ms-flex-item-align: flex-start;
+  align-self: flex-start;
+}
+
+.emotion-1:focus {
+  outline-offset: 0.125rem;
+  outline: 0.125rem solid #339af0;
+}
+
+.emotion-1:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.emotion-2 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.emotion-5 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+.emotion-5>* {
+  box-sizing: border-box;
+  -webkit-box-flex: 0;
+  -webkit-flex-grow: 0;
+  -ms-flex-positive: 0;
+  flex-grow: 0;
+}
+
+<div
+  class="emotion-0 emotion-1"
+>
+  <span
+    class="emotion-2 emotion-3"
+  >
+    <div
+      class="emotion-4 emotion-5"
+    >
+      Confirmed
+    </div>
+  </span>
+</div>
+`;
+
+exports[`BookingCard component test small badge renders correctly 1`] = `
+.emotion-1 {
+  -webkit-tap-highlight-color: transparent;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  font-size: 0.6875rem;
+  height: 1.25rem;
+  line-height: calc(1.25rem - 0.125rem);
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  padding: 0 calc(1rem / 1.5);
+  box-sizing: border-box;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  width: auto;
+  text-transform: uppercase;
+  border-radius: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.015625rem;
+  cursor: inherit;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  background: rgba(231, 245, 255, 1);
+  color: #228be6;
+  border: 0.0625rem solid transparent;
+  border-radius: 4px;
+  text-transform: none;
+  font-size: 14px;
+  line-height: 24;
+  font-weight: 400;
+  color: #25262B;
+  padding: 12px 8px;
+  background-color: #E3F1D0;
+  border: 2px solid #74B816;
+  overflow: visible;
+  -webkit-align-self: flex-start;
+  -ms-flex-item-align: flex-start;
+  align-self: flex-start;
+}
+
+.emotion-1:focus {
+  outline-offset: 0.125rem;
+  outline: 0.125rem solid #339af0;
+}
+
+.emotion-1:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.emotion-2 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.emotion-5 {
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+.emotion-5>* {
+  box-sizing: border-box;
+  -webkit-box-flex: 0;
+  -webkit-flex-grow: 0;
+  -ms-flex-positive: 0;
+  flex-grow: 0;
+}
+
+<div
+  class="emotion-0 emotion-1"
+>
+  <span
+    class="emotion-2 emotion-3"
+  >
+    <div
+      class="emotion-4 emotion-5"
+    >
+      Confirmed
+    </div>
+  </span>
+</div>
+`;

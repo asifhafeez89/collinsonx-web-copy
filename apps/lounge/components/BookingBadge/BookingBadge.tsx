@@ -35,7 +35,7 @@ const {
 
 export interface BadgeProps extends MBadgeProps {
   status: BookingStatus;
-  fullBadge?: boolean;
+  largeBadge?: boolean;
 }
 
 const useStyles = createStyles(({ colors }) => {
@@ -64,7 +64,7 @@ const useStyles = createStyles(({ colors }) => {
       border: '2px solid #74B816',
       overflow: 'visible',
     },
-    fullBadge: {
+    largeBadge: {
       alignSelf: 'flex-start',
     },
     smallBadge: {
@@ -78,7 +78,7 @@ const useStyles = createStyles(({ colors }) => {
   };
 });
 
-const bookingMap: Record<BookingStatus, string> = {
+export const bookingMap: Record<BookingStatus, string> = {
   [Initialized]: 'Pending',
   [Confirmed]: 'Confirmed',
   [Declined]: 'Declined',
@@ -91,10 +91,11 @@ const bookingMap: Record<BookingStatus, string> = {
 export default function BookingBadge({
   children,
   status,
-  fullBadge,
+  largeBadge,
   ...props
 }: BadgeProps) {
   const { classes, cx } = useStyles();
+  console.log(status, largeBadge);
 
   return (
     <MBadge
@@ -108,11 +109,11 @@ export default function BookingBadge({
           [classes.pending]: status === Initialized,
           [classes.confirmed]: status === Confirmed || status === CheckedIn,
         },
-        fullBadge ? classes.fullBadge : classes.smallBadge
+        largeBadge ? classes.largeBadge : classes.smallBadge
       )}
     >
-      {fullBadge && <Group>{bookingMap[status]}</Group>}
-      {!fullBadge && status === 'DECLINED' && (
+      {largeBadge && <Group>{bookingMap[status]}</Group>}
+      {!largeBadge && status === 'DECLINED' && (
         <DeclinedIcon
           style={{
             top: '4px',
@@ -122,7 +123,7 @@ export default function BookingBadge({
           }}
         />
       )}
-      {!fullBadge && status === 'CONFIRMED' && (
+      {!largeBadge && status === BookingStatus.Confirmed && (
         <ConfirmedIcon
           style={{
             top: '4px',
@@ -132,7 +133,7 @@ export default function BookingBadge({
           }}
         />
       )}
-      {!fullBadge && status === 'INITIALIZED' && (
+      {!largeBadge && status === 'INITIALIZED' && (
         <PendingIcon
           style={{
             top: '4px',

@@ -19,7 +19,7 @@ import bookings from './bookingsMock.json';
 import { useState } from 'react';
 import { getBookingByID as getBookingByIDQuery } from '@collinsonx/utils/queries';
 import { useRouter } from 'next/router';
-import BookingBadge from '@components/BookingBadge';
+import BookingBadge from '@components/BookingBadge/BookingBadge';
 import { BookingStatus } from '@collinsonx/utils';
 import utc from 'dayjs/plugin/utc';
 import { LOUNGE_HOURS_OFFSET } from 'config/lounge';

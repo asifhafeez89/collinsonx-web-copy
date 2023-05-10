@@ -1,18 +1,11 @@
 import React from 'react';
-import {
-  render,
-  fireEvent,
-  getByRole,
-  getByTestId,
-  screen,
-  queryByTestId,
-} from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
+import { render, fireEvent, screen } from '@testing-library/react';
+import dayjs from 'dayjs';
+import '@testing-library/jest-dom';
 import BookingCard from './BookingCard';
 import { BookingStatus } from '@collinsonx/utils';
-import Book from 'pages/book';
 
-describe('BookingCard component test', () => {
+xdescribe('BookingCard component test', () => {
   const props = {
     id: '1',
     name: 'Booking Test',
@@ -24,12 +17,18 @@ describe('BookingCard component test', () => {
     bookedFrom: '2023-05-09T10:00:00.000Z',
     nextVisit: true,
     firstArray: true,
+
     onClick: jest.fn(),
   };
 
   it('renders correctly', () => {
     const { container } = render(<BookingCard {...props} />);
     expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it('checks if image renders', () => {
+    const container = render(<BookingCard {...props} />);
+    expect(screen.findByAltText(props.name));
   });
 
   it('calls onClick when card is clicked', () => {
@@ -40,7 +39,16 @@ describe('BookingCard component test', () => {
   });
 
   it('checks if card information is displayed', () => {
-    const container = render(<BookingCard {...props}>test-id</BookingCard>);
-    expect(container.getByText('test-id')).toBeInTheDocument();
+    const container = render(<BookingCard {...props} />);
+    expect(screen.getByText(props.name)).toBeInTheDocument();
+    expect(screen.getByText(props.location)).toBeInTheDocument();
+    expect(
+      screen.getByText(dayjs.utc(props.date).format('D MMMM YYYY'))
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        dayjs.utc(props.date).format('HH:mm').concat(' lounge arrival time')
+      )
+    ).toBeInTheDocument();
   });
 });

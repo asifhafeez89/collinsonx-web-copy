@@ -8,7 +8,8 @@ import {
   Text,
   Anchor,
 } from '@collinsonx/design-system/core';
-import BookingBadge from '../BookingBadge';
+import BookingBadge from '../BookingBadge/BookingBadge';
+import { BadgeProps as BookingBadgeProps } from '@collinsonx/design-system/core';
 import NextImage from 'next/image';
 import { BookingStatus } from '@collinsonx/utils';
 import utc from 'dayjs/plugin/utc';
@@ -74,9 +75,9 @@ export interface BookingCardProps {
   onClick: (bookingId: string) => void;
 }
 
-export interface BookingBadgeProps {
-  fullBadge?: boolean;
-}
+// export interface BookingBadgeProps {
+//   largeBadge?: boolean;
+// }
 
 export default function BookingCard({
   id,
@@ -98,7 +99,7 @@ export default function BookingCard({
         data-testid="booking-card-wrapper"
       >
         <Box
-          sx={{
+          style={{
             position: 'relative',
           }}
         >
@@ -118,7 +119,7 @@ export default function BookingCard({
                 borderBottomLeftRadius: 4,
               }}
             >
-              <BookingBadge fullBadge={false} status={status}></BookingBadge>
+              <BookingBadge largeBadge={false} status={status}></BookingBadge>
             </Box>
           )}
         </Box>
@@ -139,7 +140,7 @@ export default function BookingCard({
                   </Text>
                   {nextVisit && (
                     <BookingBadge
-                      fullBadge={true}
+                      largeBadge={true}
                       status={status}
                       mt={12}
                       h={24}
