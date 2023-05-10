@@ -79,7 +79,7 @@ export default function Bookings() {
         align="start"
         sx={{ borderBottom: '1px solid #25262B' }}
       >
-        <Text fw={600} size={26} ml={24}>
+        <Text fw={600} size={26} ml={24} mt={24}>
           My bookings
         </Text>
         <Flex gap={24} ml={24}>
