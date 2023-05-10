@@ -22,11 +22,13 @@
     "dayjs": "^1.11.7",
     "http-proxy": "^1.18.1",
     "next": "^13.1.0",
+    "qrcode.react": "^3.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.10",
     "autoprefixer": "^10.4.12",
     "eslint": "^8.11.0",
     "eslint-config-collinsonx": "workspace:*",
