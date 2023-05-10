@@ -97,7 +97,7 @@ export default function BookingDetails({ id }: BookingDetailProps) {
               </Text>
             </Box>
             <BookingBadge
-              fullBadge={true}
+              largeBadge={true}
               sx={{
                 width: 'fit-content',
               }}
