@@ -9,14 +9,9 @@ import {
   Anchor,
 } from '@collinsonx/design-system/core';
 import BookingBadge from '../BookingBadge/BookingBadge';
-import { BadgeProps as BookingBadgeProps } from '@collinsonx/design-system/core';
-import NextImage from 'next/image';
 import { BookingStatus } from '@collinsonx/utils';
 import utc from 'dayjs/plugin/utc';
-import {
-  Warning as WarningIcon,
-  Declined as DeclinedIcon,
-} from '@collinsonx/design-system/assets/icons';
+import { Declined as DeclinedIcon } from '@collinsonx/design-system/assets/icons';
 dayjs.extend(utc);
 
 // import generated types in the following way:
