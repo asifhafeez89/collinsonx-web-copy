@@ -18,7 +18,10 @@ export default function QRCode() {
 
   useEffect(() => {
     ReactDOM.render(
-      <QRCodeSVG value="https://reactjs.org/" size={400} />,
+      <QRCodeSVG
+        value={`https://collinsonx-web-main-alpha.vercel.app//${loungeId}`}
+        size={400}
+      />,
       document.getElementById('qr-code-node')
     );
   }, []);
