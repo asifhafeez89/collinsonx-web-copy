@@ -14,5 +14,5 @@ test('has title', async ({ page }) => {
   //Then
   let hasTheUserLoggedIn = new HasTheUserLoggedIn(page, expect);
   await hasTheUserLoggedIn.verifyTitle();
-  expect(hasTheUserLoggedIn.seeHomePageTitle());
+  await hasTheUserLoggedIn.seeHomePageTitle();
 });
