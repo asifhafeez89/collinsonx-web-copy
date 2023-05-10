@@ -112,8 +112,7 @@ export default function BookingBadge({
       )}
     >
       {largeBadge && <Group>{bookingMap[status]}</Group>}
-      {!largeBadge && <h1>asd</h1>}
-      {!largeBadge && status === 'DECLINED' && (
+      {!largeBadge && status === BookingStatus.Declined && (
         <DeclinedIcon
           style={{
             top: '4px',
