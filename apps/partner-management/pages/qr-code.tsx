@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react';
 import Layout from '@components/Layout';
 import { useRouter } from 'next/router';
 import { Button, Box, Stack, MediaQuery } from '@collinsonx/design-system/core';
@@ -16,28 +15,21 @@ export default function QRCode() {
     window.print();
   };
 
-  useEffect(() => {
-    ReactDOM.render(
-      <QRCodeSVG
-        value={`https://collinsonx-web-main-alpha.vercel.app//${loungeId}`}
-        size={400}
-      />,
-      document.getElementById('qr-code-node')
-    );
-  }, []);
-
   return (
     <Stack p={32} align="center">
       <h1>Welcome to {loungeName}</h1>
       <h2>For walk-up check-ins please scan the code below</h2>
-      <Box id="qr-code-node" p={32} w={'100%'} sx={{ textAlign: 'center' }} />
+      <QRCodeSVG
+        value={`https://collinsonx-web-main-alpha.vercel.app//${loungeId}`}
+        size={400}
+      />
       <MediaQuery
         query="print"
         styles={{
           display: 'none',
         }}
       >
-        <Stack p={0} align="center" spacing={0}>
+        <Stack p={0} align="center" mt={32} spacing={0}>
           <Button onClick={print} w="50%">
             Print
           </Button>
