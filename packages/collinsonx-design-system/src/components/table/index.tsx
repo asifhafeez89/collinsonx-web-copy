@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import {
   useReactTable,
   getSortedRowModel,
@@ -26,21 +26,38 @@ import { Magglass } from '../../assets/icons';
 const TableX = () => {
   const [globalFilter, setGlobalFilter] = useState('');
   type Item = {
+    selected: boolean;
     partnerName: string;
     loungeUID: string;
     country: string;
     airport: string;
     terminal: string;
-    progress: number;
     invite?: boolean;
+    signedin?: boolean;
   };
 
   const columnHelper = createColumnHelper<Item>();
+  const editableKeyToFocus = useRef(null);
 
+  const [rowSelection, setRowSelection] = useState({});
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const columns = useMemo(
     () => [
+      columnHelper.accessor('selected', {
+        cell: ({ row }) => (
+          <div className="px-1">
+            <Checkbox
+              {...{
+                checked: row.getIsSelected(),
+                disabled: !row.getCanSelect(),
+                indeterminate: row.getIsSomeSelected(),
+                onChange: row.getToggleSelectedHandler(),
+              }}
+            />
+          </div>
+        ),
+      }),
       columnHelper.accessor('partnerName', {
         header: 'PartnerName',
       }),
@@ -126,7 +143,14 @@ const TableX = () => {
     <Stack>
       <Grid>
         <Grid.Col span={1}>
-          <Checkbox sx={{ marginTop: '10px' }} />
+          <Checkbox
+            {...{
+              checked: table.getIsAllRowsSelected(),
+              indeterminate: table.getIsSomeRowsSelected(),
+              onChange: table.getToggleAllRowsSelectedHandler(),
+            }}
+            sx={{ marginTop: '10px', marginLeft: '10px' }}
+          />
         </Grid.Col>
         <Grid.Col span={2}>
           <Button>Send</Button>
