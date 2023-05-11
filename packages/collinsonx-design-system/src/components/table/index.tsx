@@ -145,6 +145,7 @@ const TableX = () => {
           ),
       }),
     ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
@@ -193,7 +194,7 @@ const TableX = () => {
   });
 
   return (
-    <Stack>
+    <Stack spacing={24}>
       <Flex direction="row" justify="space-between">
         <Flex align="center" gap={32}>
           <Checkbox
@@ -209,6 +210,7 @@ const TableX = () => {
           </Button>
         </Flex>
         <Input
+          styles={{ input: { borderRadius: 4 } }}
           sx={{ minWidth: 239 }}
           placeholder="Search by partner or by UID"
           value={globalFilter ?? ''}
