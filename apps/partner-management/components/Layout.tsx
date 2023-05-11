@@ -1,4 +1,5 @@
 import { LogoExperienceX } from '@collinsonx/design-system/assets/logo';
+import { MediaQuery } from '@collinsonx/design-system/core';
 import Link from 'next/link';
 
 interface LayoutProps {
@@ -19,20 +20,36 @@ export default function Layout({
         height: '100%',
       }}
     >
-      <header
-        style={{
-          backgroundColor: '#112132',
-          width: '100%',
-          padding: '1rem',
-          textAlign: 'center',
-          margin: 0,
+      <MediaQuery
+        query="print"
+        styles={{
+          display: 'none',
         }}
       >
-        <Link href="/">
-          <LogoExperienceX />
-        </Link>
-      </header>
-      {subHeader}
+        <header
+          style={{
+            backgroundColor: '#112132',
+            width: '100%',
+            padding: '1rem',
+            textAlign: 'center',
+            margin: 0,
+          }}
+        >
+          <Link href="/">
+            <LogoExperienceX />
+          </Link>
+        </header>
+      </MediaQuery>
+      {subHeader && (
+        <MediaQuery
+          query="print"
+          styles={{
+            display: 'none',
+          }}
+        >
+          {subHeader}
+        </MediaQuery>
+      )}
       <main style={{ padding: hasPadding ? '32px 40px' : 'auto', margin: 0 }}>
         {children}
       </main>
