@@ -25,3 +25,5 @@ export { default as Edit } from './edit.svg';
 export { default as Aeroplane } from './airplane.svg';
 export { default as CalendarB } from './calendarblue.svg';
 export { default as Magglass } from './magglass.svg';
+export { default as GreenCircle } from './greencircle.svg';
+export { default as RedCircle } from './redcircle.svg';

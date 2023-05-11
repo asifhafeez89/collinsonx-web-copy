@@ -21,7 +21,7 @@ import {
   Checkbox,
   Flex,
 } from '../../core';
-import { Magglass } from '../../assets/icons';
+import { Magglass, RedCircle, GreenCircle } from '../../assets/icons';
 
 const TableX = () => {
   const [globalFilter, setGlobalFilter] = useState('');
@@ -75,9 +75,29 @@ const TableX = () => {
       }),
       columnHelper.accessor('invite', {
         header: 'Invite',
+        cell: (props) =>
+          props.getValue() === true ? (
+            <>
+              <GreenCircle /> Sent
+            </>
+          ) : (
+            <>
+              <RedCircle /> No
+            </>
+          ),
       }),
       columnHelper.accessor('signedIn', {
         header: 'Signed In',
+        cell: (props) =>
+          props.getValue() === true ? (
+            <>
+              <GreenCircle /> Yes
+            </>
+          ) : (
+            <>
+              <RedCircle /> No
+            </>
+          ),
       }),
     ],
     []
