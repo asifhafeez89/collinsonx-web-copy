@@ -23,7 +23,6 @@ const TriangleUp = styled('div')`
   height: 0;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
-
   border-bottom: 9px solid #fff;
 `;
 
@@ -33,7 +32,6 @@ const TriangleDown = styled('div')`
   height: 0;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
-
   border-top: 9px solid #fff;
 `;
 
@@ -79,8 +77,6 @@ const TableX = () => {
   const [sorting, setSorting] = useState<SortingState>([
     { id: 'partnerName', desc: true },
   ]);
-
-  console.log('sorting', sorting);
 
   const columns = useMemo(
     () => [
