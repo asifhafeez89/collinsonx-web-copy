@@ -8,7 +8,6 @@ import { Text, Stack, Group, Button } from '@collinsonx/design-system/core';
 import FormWrapper from '@collinsonx/design-system/components/formWrapper/formWrapper';
 import { DatePicker, InputLabel } from '@collinsonx/design-system';
 import { useForm } from '@collinsonx/design-system/form';
-import dayjs from 'dayjs';
 import router, { useRouter } from 'next/router';
 export interface BookLoungeProps {
   flightNumber: string;
