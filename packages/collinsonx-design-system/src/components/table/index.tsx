@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import {
   useReactTable,
   getSortedRowModel,
@@ -11,7 +11,16 @@ import {
 
 import { rankItem } from '@tanstack/match-sorter-utils';
 
-import { Stack, Grid, Input, Table, Button, Checkbox, Box } from '../../core';
+import {
+  Stack,
+  Grid,
+  Input,
+  Table,
+  Button,
+  Checkbox,
+  Box,
+  Flex,
+} from '../../core';
 
 import styled from '@emotion/styled';
 
@@ -83,16 +92,15 @@ const TableX = () => {
       columnHelper.display({
         header: ' ',
         cell: ({ row }) => (
-          <div className="px-1">
-            <Checkbox
-              {...{
-                checked: row.getIsSelected(),
-                disabled: !row.getCanSelect(),
-                indeterminate: row.getIsSomeSelected(),
-                onChange: row.getToggleSelectedHandler(),
-              }}
-            />
-          </div>
+          <Checkbox
+            pl={6}
+            {...{
+              checked: row.getIsSelected(),
+              disabled: !row.getCanSelect(),
+              indeterminate: row.getIsSomeSelected(),
+              onChange: row.getToggleSelectedHandler(),
+            }}
+          />
         ),
       }),
       columnHelper.accessor('partnerName', {
@@ -124,7 +132,7 @@ const TableX = () => {
           ),
       }),
       columnHelper.accessor('signedIn', {
-        header: 'Signed In',
+        header: 'Signed in',
         cell: (props) =>
           props.getValue() === true ? (
             <>
@@ -186,38 +194,35 @@ const TableX = () => {
 
   return (
     <Stack>
-      <Grid>
-        <Grid.Col span={1}>
+      <Flex direction="row" justify="space-between">
+        <Flex align="center" gap={32}>
           <Checkbox
+            pl={16}
             {...{
               checked: table.getIsAllRowsSelected(),
               indeterminate: table.getIsSomeRowsSelected(),
               onChange: table.getToggleAllRowsSelectedHandler(),
             }}
-            sx={{ marginTop: '10px', marginLeft: '10px' }}
           />
-        </Grid.Col>
-        <Grid.Col span={2}>
           <Button disabled={Object.keys(rowSelection).length === 0}>
-            Send
+            Send invite
           </Button>
-        </Grid.Col>
-        <Grid.Col span={3} offset={6}>
-          <Input
-            placeholder="Search by partner or by UID"
-            value={globalFilter ?? ''}
-            onChange={(value) => setGlobalFilter(String(value.target.value))}
-            rightSection={
-              <div>
-                <Magglass
-                  size="0.5rem"
-                  style={{ display: 'block', opacity: 0.5 }}
-                />
-              </div>
-            }
-          />
-        </Grid.Col>
-      </Grid>
+        </Flex>
+        <Input
+          sx={{ minWidth: 239 }}
+          placeholder="Search by partner or by UID"
+          value={globalFilter ?? ''}
+          onChange={(value) => setGlobalFilter(String(value.target.value))}
+          rightSection={
+            <div>
+              <Magglass
+                size="0.5rem"
+                style={{ display: 'block', opacity: 0.5 }}
+              />
+            </div>
+          }
+        />
+      </Flex>
       <Table>
         <thead style={{ background: '#0C8599' }}>
           {table.getHeaderGroups().map((headerGroup) => (
