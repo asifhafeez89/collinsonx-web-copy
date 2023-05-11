@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   useReactTable,
   getSortedRowModel,
@@ -11,18 +11,59 @@ import {
 
 import { rankItem } from '@tanstack/match-sorter-utils';
 
-import {
-  Stack,
-  Grid,
-  Input,
-  Table,
-  Tooltip,
-  Button,
-  Checkbox,
-  Flex,
-} from '../../core';
+import { Stack, Input, Table, Button, Checkbox, Box, Flex } from '../../core';
+
+import styled from '@emotion/styled';
 
 import { Magglass, RedCircle, GreenCircle } from '../../assets/icons';
+
+const CustomTable = ({ ...props }: { children: JSX.Element[] }) => (
+  <Table {...props} />
+);
+
+const StyledTable = styled(CustomTable)`
+  border: 1px solid #d3d3d3;
+  border-radius: 4px;
+  border-spacing: 0;
+  border-collapse: separate;
+  overflow: hidden;
+
+  thead th {
+    height: 48px;
+  }
+  tbody {
+    tr td {
+      border-top: none;
+    }
+    tr {
+      height: 60px;
+    }
+    tr:nth-of-type(even) {
+      background: #f9f9f9;
+    }
+    tr:hover {
+      background: #ededed;
+    }
+  }
+`;
+
+const TriangleUp = styled('div')`
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 9px solid #fff;
+`;
+
+const TriangleDown = styled('div')`
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 9px solid #fff;
+`;
 
 const mockedData = [
   {
@@ -60,30 +101,30 @@ const TableX = () => {
   };
 
   const columnHelper = createColumnHelper<Item>();
-  const editableKeyToFocus = useRef(null);
 
   const [rowSelection, setRowSelection] = useState({});
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const [sorting, setSorting] = useState<SortingState>([
+    { id: 'partnerName', desc: true },
+  ]);
 
   const columns = useMemo(
     () => [
       columnHelper.display({
-        header: 'Selected',
+        header: ' ',
         cell: ({ row }) => (
-          <div className="px-1">
-            <Checkbox
-              {...{
-                checked: row.getIsSelected(),
-                disabled: !row.getCanSelect(),
-                indeterminate: row.getIsSomeSelected(),
-                onChange: row.getToggleSelectedHandler(),
-              }}
-            />
-          </div>
+          <Checkbox
+            pl={6}
+            {...{
+              checked: row.getIsSelected(),
+              disabled: !row.getCanSelect(),
+              indeterminate: row.getIsSomeSelected(),
+              onChange: row.getToggleSelectedHandler(),
+            }}
+          />
         ),
       }),
       columnHelper.accessor('partnerName', {
-        header: 'PartnerName',
+        header: 'Partner name',
       }),
       columnHelper.accessor('loungeUID', {
         header: 'Lounge UID',
@@ -102,28 +143,37 @@ const TableX = () => {
         cell: (props) =>
           props.getValue() === true ? (
             <>
-              <GreenCircle /> Sent
+              <Flex align="center" gap={8}>
+                <GreenCircle /> Sent
+              </Flex>
             </>
           ) : (
             <>
-              <RedCircle /> No
+              <Flex align="center" gap={8}>
+                <RedCircle /> No
+              </Flex>
             </>
           ),
       }),
       columnHelper.accessor('signedIn', {
-        header: 'Signed In',
+        header: 'Signed in',
         cell: (props) =>
           props.getValue() === true ? (
             <>
-              <GreenCircle /> Yes
+              <Flex align="center" gap={8}>
+                <GreenCircle /> Yes
+              </Flex>
             </>
           ) : (
             <>
-              <RedCircle /> No
+              <Flex align="center" gap={8}>
+                <RedCircle /> No
+              </Flex>
             </>
           ),
       }),
     ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
@@ -138,7 +188,7 @@ const TableX = () => {
                 .includes(globalFilter.toLowerCase()) ||
               item.loungeUID.toLowerCase().includes(globalFilter.toLowerCase())
           ),
-    [globalFilter, setGlobalFilter]
+    [globalFilter]
   );
 
   const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
@@ -162,54 +212,48 @@ const TableX = () => {
       globalFilter,
       rowSelection,
     },
+    enableSortingRemoval: false,
     onGlobalFilterChange: setGlobalFilter,
     onRowSelectionChange: setRowSelection,
     globalFilterFn: fuzzyFilter,
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    debugTable: true,
-    debugHeaders: true,
-    debugColumns: false,
   });
 
-  console.log(rowSelection);
-
   return (
-    <Stack>
-      <Grid>
-        <Grid.Col span={1}>
+    <Stack spacing={24}>
+      <Flex direction="row" justify="space-between">
+        <Flex align="center" gap={32}>
           <Checkbox
+            pl={16}
             {...{
               checked: table.getIsAllRowsSelected(),
               indeterminate: table.getIsSomeRowsSelected(),
               onChange: table.getToggleAllRowsSelectedHandler(),
             }}
-            sx={{ marginTop: '10px', marginLeft: '10px' }}
           />
-        </Grid.Col>
-        <Grid.Col span={2}>
           <Button disabled={Object.keys(rowSelection).length === 0}>
-            Send
+            Send invite
           </Button>
-        </Grid.Col>
-        <Grid.Col span={3} offset={6}>
-          <Input
-            placeholder="Search by partner or by UID"
-            value={globalFilter ?? ''}
-            onChange={(value) => setGlobalFilter(String(value.target.value))}
-            rightSection={
-              <div>
-                <Magglass
-                  size="0.5rem"
-                  style={{ display: 'block', opacity: 0.5 }}
-                />
-              </div>
-            }
-          />
-        </Grid.Col>
-      </Grid>
-      <Table>
+        </Flex>
+        <Input
+          styles={{ input: { borderRadius: 4 } }}
+          sx={{ minWidth: 239 }}
+          placeholder="Search by partner or by UID"
+          value={globalFilter ?? ''}
+          onChange={(value) => setGlobalFilter(String(value.target.value))}
+          rightSection={
+            <div>
+              <Magglass
+                size="0.5rem"
+                style={{ display: 'block', opacity: 0.5 }}
+              />
+            </div>
+          }
+        />
+      </Flex>
+      <StyledTable>
         <thead style={{ background: '#0C8599' }}>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
@@ -217,14 +261,20 @@ const TableX = () => {
                 <th
                   key={header.id}
                   colSpan={header.colSpan}
-                  style={{ color: '#FFFFFF' }}
+                  style={{
+                    color: '#FFFFFF',
+                    fontWeight: 400,
+                    userSelect: 'none',
+                  }}
                 >
                   {header.isPlaceholder ? null : (
-                    <div
+                    <Box
                       {...{
-                        className: header.column.getCanSort()
-                          ? 'cursor-pointer select-none'
-                          : '',
+                        sx: {
+                          cursor: header.column.getCanSort()
+                            ? 'pointer'
+                            : 'auto',
+                        },
                         onClick: header.column.getToggleSortingHandler(),
                       }}
                     >
@@ -232,11 +282,13 @@ const TableX = () => {
                         header.column.columnDef.header,
                         header.getContext()
                       )}
-                      {{
-                        asc: ' 🔼',
-                        desc: ' 🔽',
-                      }[header.column.getIsSorted() as string] ?? null}
-                    </div>
+                      <span style={{ paddingLeft: 8 }}>
+                        {{
+                          asc: <TriangleUp />,
+                          desc: <TriangleDown />,
+                        }[header.column.getIsSorted() as string] ?? null}
+                      </span>
+                    </Box>
                   )}
                 </th>
               ))}
@@ -264,7 +316,7 @@ const TableX = () => {
               );
             })}
         </tbody>
-      </Table>
+      </StyledTable>
     </Stack>
   );
 };
