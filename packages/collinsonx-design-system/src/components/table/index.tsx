@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   useReactTable,
   getSortedRowModel,
@@ -21,19 +21,42 @@ import {
   Checkbox,
   Flex,
 } from '../../core';
+
 import { Magglass, RedCircle, GreenCircle } from '../../assets/icons';
+
+const mockedData = [
+  {
+    age: 22,
+    partnerName: 'AMEX',
+    loungeUID: '12345',
+    country: 'UK',
+    airport: 'Heathrow',
+    terminal: 'T5',
+    invite: true,
+    signedIn: true,
+  },
+  {
+    age: 2,
+    partnerName: 'SCODA',
+    loungeUID: '133234',
+    country: 'USA',
+    airport: 'JFK',
+    terminal: 'T2',
+    invite: true,
+    signedIn: false,
+  },
+];
 
 const TableX = () => {
   const [globalFilter, setGlobalFilter] = useState('');
   type Item = {
-    selected: boolean;
     partnerName: string;
     loungeUID: string;
     country: string;
     airport: string;
     terminal: string;
-    invite?: boolean;
-    signedin?: boolean;
+    invite: boolean;
+    signedIn: boolean;
   };
 
   const columnHelper = createColumnHelper<Item>();
@@ -44,7 +67,8 @@ const TableX = () => {
 
   const columns = useMemo(
     () => [
-      columnHelper.accessor('selected', {
+      columnHelper.display({
+        header: 'Selected',
         cell: ({ row }) => (
           <div className="px-1">
             <Checkbox
@@ -104,29 +128,17 @@ const TableX = () => {
   );
 
   const data = useMemo(
-    () => [
-      {
-        age: 22,
-        partnerName: 'AMEX',
-        loungeUID: '12345',
-        country: 'UK',
-        airport: 'Heathrow',
-        terminal: 'T5',
-        invite: true,
-        signedIn: true,
-      },
-      {
-        age: 2,
-        partnerName: 'SCODA',
-        loungeUID: '133234',
-        country: 'USA',
-        airport: 'JFK',
-        terminal: 'T2',
-        invite: true,
-        signedIn: false,
-      },
-    ],
-    []
+    () =>
+      globalFilter === ''
+        ? mockedData
+        : mockedData.filter(
+            (item) =>
+              item.partnerName
+                .toLowerCase()
+                .includes(globalFilter.toLowerCase()) ||
+              item.loungeUID.toLowerCase().includes(globalFilter.toLowerCase())
+          ),
+    [globalFilter, setGlobalFilter]
   );
 
   const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
@@ -148,8 +160,10 @@ const TableX = () => {
     state: {
       sorting,
       globalFilter,
+      rowSelection,
     },
     onGlobalFilterChange: setGlobalFilter,
+    onRowSelectionChange: setRowSelection,
     globalFilterFn: fuzzyFilter,
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
@@ -158,6 +172,8 @@ const TableX = () => {
     debugHeaders: true,
     debugColumns: false,
   });
+
+  console.log(rowSelection);
 
   return (
     <Stack>
@@ -173,7 +189,9 @@ const TableX = () => {
           />
         </Grid.Col>
         <Grid.Col span={2}>
-          <Button>Send</Button>
+          <Button disabled={Object.keys(rowSelection).length === 0}>
+            Send
+          </Button>
         </Grid.Col>
         <Grid.Col span={3} offset={6}>
           <Input
