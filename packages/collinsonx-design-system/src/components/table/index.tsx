@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   useReactTable,
   getSortedRowModel,
@@ -11,20 +11,41 @@ import {
 
 import { rankItem } from '@tanstack/match-sorter-utils';
 
-import {
-  Stack,
-  Grid,
-  Input,
-  Table,
-  Button,
-  Checkbox,
-  Box,
-  Flex,
-} from '../../core';
+import { Stack, Input, Table, Button, Checkbox, Box, Flex } from '../../core';
 
 import styled from '@emotion/styled';
 
 import { Magglass, RedCircle, GreenCircle } from '../../assets/icons';
+
+const CustomTable = ({ ...props }: { children: JSX.Element[] }) => (
+  <Table {...props} />
+);
+
+const StyledTable = styled(CustomTable)`
+  border: 1px solid #d3d3d3;
+  border-radius: 4px;
+  border-spacing: 0;
+  border-collapse: separate;
+  overflow: hidden;
+
+  thead th {
+    height: 48px;
+  }
+  tbody {
+    tr td {
+      border-top: none;
+    }
+    tr {
+      height: 60px;
+    }
+    tr:nth-of-type(even) {
+      background: #f9f9f9;
+    }
+    tr:hover {
+      background: #ededed;
+    }
+  }
+`;
 
 const TriangleUp = styled('div')`
   display: inline-block;
@@ -80,7 +101,6 @@ const TableX = () => {
   };
 
   const columnHelper = createColumnHelper<Item>();
-  const editableKeyToFocus = useRef(null);
 
   const [rowSelection, setRowSelection] = useState({});
   const [sorting, setSorting] = useState<SortingState>([
@@ -123,11 +143,15 @@ const TableX = () => {
         cell: (props) =>
           props.getValue() === true ? (
             <>
-              <GreenCircle /> Sent
+              <Flex align="center" gap={8}>
+                <GreenCircle /> Sent
+              </Flex>
             </>
           ) : (
             <>
-              <RedCircle /> No
+              <Flex align="center" gap={8}>
+                <RedCircle /> No
+              </Flex>
             </>
           ),
       }),
@@ -136,11 +160,15 @@ const TableX = () => {
         cell: (props) =>
           props.getValue() === true ? (
             <>
-              <GreenCircle /> Yes
+              <Flex align="center" gap={8}>
+                <GreenCircle /> Yes
+              </Flex>
             </>
           ) : (
             <>
-              <RedCircle /> No
+              <Flex align="center" gap={8}>
+                <RedCircle /> No
+              </Flex>
             </>
           ),
       }),
@@ -225,7 +253,7 @@ const TableX = () => {
           }
         />
       </Flex>
-      <Table>
+      <StyledTable>
         <thead style={{ background: '#0C8599' }}>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
@@ -288,7 +316,7 @@ const TableX = () => {
               );
             })}
         </tbody>
-      </Table>
+      </StyledTable>
     </Stack>
   );
 };
