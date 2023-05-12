@@ -28,7 +28,7 @@ describe('BookingCard component test', () => {
 
   it('calls onClick when card is clicked', () => {
     render(<BookingCard {...props} />);
-    const testElement = screen.getByTestId('booking-card-wrapper');
+    const testElement = screen.getByText('View booking');
     fireEvent.click(testElement);
     expect(props.onClick).toHaveBeenCalledWith(props.id);
   });

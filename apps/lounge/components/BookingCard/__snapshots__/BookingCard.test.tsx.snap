@@ -9,6 +9,17 @@ exports[`BookingCard component test renders correctly 1`] = `
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
+  padding-bottom: 8px;
+}
+
+.emotion-1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   -webkit-box-flex-wrap: nowrap;
   -webkit-flex-wrap: nowrap;
   -ms-flex-wrap: nowrap;
@@ -24,13 +35,13 @@ exports[`BookingCard component test renders correctly 1`] = `
   padding: 1rem;
 }
 
-.emotion-2 {
+.emotion-3 {
   width: 100%;
   height: 100%;
   float: left;
 }
 
-.emotion-5 {
+.emotion-6 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -49,11 +60,11 @@ exports[`BookingCard component test renders correctly 1`] = `
   gap: 0rem;
 }
 
-.emotion-6 {
+.emotion-7 {
   border-radius: 5px 5px 0 0;
 }
 
-.emotion-7 {
+.emotion-8 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -63,13 +74,13 @@ exports[`BookingCard component test renders correctly 1`] = `
   flex-direction: column;
 }
 
-.emotion-7 .card-title {
+.emotion-8 .card-title {
   margin-top: 8px;
   font-size: 24px;
   line-height: 1.429em;
 }
 
-.emotion-10 {
+.emotion-11 {
   font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
   -webkit-tap-highlight-color: transparent;
   color: inherit;
@@ -85,16 +96,16 @@ exports[`BookingCard component test renders correctly 1`] = `
   font-weight: 600;
 }
 
-.emotion-10:focus {
+.emotion-11:focus {
   outline-offset: 0.125rem;
   outline: 0.125rem solid #339af0;
 }
 
-.emotion-10:focus:not(:focus-visible) {
+.emotion-11:focus:not(:focus-visible) {
   outline: none;
 }
 
-.emotion-12 {
+.emotion-13 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -113,7 +124,7 @@ exports[`BookingCard component test renders correctly 1`] = `
   gap: 0.25rem;
 }
 
-.emotion-14 {
+.emotion-15 {
   font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
   -webkit-tap-highlight-color: transparent;
   color: inherit;
@@ -124,16 +135,16 @@ exports[`BookingCard component test renders correctly 1`] = `
   margin-top: 0.5rem;
 }
 
-.emotion-14:focus {
+.emotion-15:focus {
   outline-offset: 0.125rem;
   outline: 0.125rem solid #339af0;
 }
 
-.emotion-14:focus:not(:focus-visible) {
+.emotion-15:focus:not(:focus-visible) {
   outline: none;
 }
 
-.emotion-16 {
+.emotion-17 {
   font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
   -webkit-tap-highlight-color: transparent;
   color: inherit;
@@ -143,29 +154,131 @@ exports[`BookingCard component test renders correctly 1`] = `
   text-decoration: none;
 }
 
-.emotion-16:focus {
+.emotion-17:focus {
   outline-offset: 0.125rem;
   outline: 0.125rem solid #339af0;
 }
 
-.emotion-16:focus:not(:focus-visible) {
+.emotion-17:focus:not(:focus-visible) {
   outline: none;
 }
 
-.emotion-20 {
+.emotion-22 {
   -webkit-tap-highlight-color: transparent;
   font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
-  font-size: 0.6875rem;
-  height: 1.25rem;
-  line-height: calc(1.25rem - 0.125rem);
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  font-size: 1rem;
+  background-color: transparent;
+  text-align: left;
+  color: #000;
   -webkit-text-decoration: none;
   text-decoration: none;
-  padding: 0 calc(1rem / 1.5);
   box-sizing: border-box;
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
+  height: 2.25rem;
+  padding-left: 1.125rem;
+  padding-right: 1.125rem;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-block;
+  width: auto;
+  border-radius: 0.25rem;
+  font-weight: 600;
+  position: relative;
+  line-height: 1;
+  font-size: 0.875rem;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  border: 0.0625rem solid transparent;
+  background-color: #228be6;
+  color: #fff;
+  margin-top: 1rem;
+}
+
+.emotion-22:focus {
+  outline-offset: 0.125rem;
+  outline: 0.125rem solid #339af0;
+}
+
+.emotion-22:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.emotion-22:focus {
+  outline-offset: 0.125rem;
+  outline: 0.125rem solid #339af0;
+}
+
+.emotion-22:focus:not(:focus-visible) {
+  outline: none;
+}
+
+@media (hover: hover) {
+  .emotion-22:hover {
+    background-color: #1c7ed6;
+  }
+}
+
+@media (hover: none) {
+  .emotion-22:active {
+    background-color: #1c7ed6;
+  }
+}
+
+.emotion-22:active {
+  -webkit-transform: translateY(0.0625rem);
+  -moz-transform: translateY(0.0625rem);
+  -ms-transform: translateY(0.0625rem);
+  transform: translateY(0.0625rem);
+}
+
+.emotion-22:disabled,
+.emotion-22[data-disabled] {
+  border-color: transparent;
+  background-color: #e9ecef;
+  color: #adb5bd;
+  cursor: not-allowed;
+  background-image: none;
+  pointer-events: none;
+}
+
+.emotion-22:disabled:active,
+.emotion-22[data-disabled]:active {
+  -webkit-transform: none;
+  -moz-transform: none;
+  -ms-transform: none;
+  transform: none;
+}
+
+.emotion-22[data-loading] {
+  pointer-events: none;
+}
+
+.emotion-22[data-loading]::before {
+  content: "";
+  position: absolute;
+  top: -0.0625rem;
+  right: -0.0625rem;
+  left: -0.0625rem;
+  bottom: -0.0625rem;
+  background-color: rgba(255, 255, 255, .5);
+  border-radius: 0.25rem;
+  cursor: not-allowed;
+}
+
+.emotion-23 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -174,143 +287,92 @@ exports[`BookingCard component test renders correctly 1`] = `
   -ms-flex-pack: center;
   -webkit-justify-content: center;
   justify-content: center;
-  width: auto;
-  text-transform: uppercase;
-  border-radius: 2rem;
-  font-weight: 700;
-  letter-spacing: 0.015625rem;
-  cursor: inherit;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  background: rgba(231, 245, 255, 1);
-  color: #228be6;
-  border: 0.0625rem solid transparent;
-  border-radius: 4px;
-  text-transform: none;
-  font-size: 14px;
-  line-height: 24;
-  font-weight: 400;
-  color: #25262B;
-  padding: 12px 8px;
-  background-color: #E3F1D0;
-  border: 2px solid #74B816;
+  height: 100%;
   overflow: visible;
-  -webkit-align-self: flex-start;
-  -ms-flex-item-align: flex-start;
-  align-self: flex-start;
-  margin-top: 0.75rem;
-  height: 1.5rem;
 }
 
-.emotion-20:focus {
-  outline-offset: 0.125rem;
-  outline: 0.125rem solid #339af0;
-}
-
-.emotion-20:focus:not(:focus-visible) {
-  outline: none;
-}
-
-.emotion-21 {
+.emotion-25 {
   white-space: nowrap;
+  height: 100%;
   overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.emotion-24 {
-  box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  -webkit-box-flex-wrap: wrap;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-box-pack: start;
-  -ms-flex-pack: start;
-  -webkit-justify-content: flex-start;
-  justify-content: flex-start;
-  gap: 1rem;
-}
-
-.emotion-24>* {
-  box-sizing: border-box;
-  -webkit-box-flex: 0;
-  -webkit-flex-grow: 0;
-  -ms-flex-positive: 0;
-  flex-grow: 0;
 }
 
 <div
   class="emotion-0"
-  data-testid="booking-card-wrapper"
 >
   <div
     class="emotion-1"
-    style="position: relative;"
-  >
-    <img
-      alt="Booking Test"
-      class="emotion-2"
-      src="https://preview.redd.it/w3kr4m2fi3111.png?auto=webp&v=enabled&s=670db506318b4c312b529c49c50e8a8c8423be21"
-    />
-  </div>
-  <div
-    class="emotion-1"
+    data-testid="booking-card-wrapper"
   >
     <div
-      class="emotion-4 emotion-5"
+      class="emotion-2"
+      style="position: relative;"
+    >
+      <img
+        alt="Booking Test"
+        class="emotion-3"
+        src="https://preview.redd.it/w3kr4m2fi3111.png?auto=webp&v=enabled&s=670db506318b4c312b529c49c50e8a8c8423be21"
+      />
+    </div>
+    <div
+      class="emotion-2"
     >
       <div
-        class="emotion-6"
+        class="emotion-5 emotion-6"
       >
         <div
           class="emotion-7"
         >
-          <h1
-            class="emotion-8 emotion-9 card-title emotion-10"
-          >
-            Booking Test
-          </h1>
           <div
-            class="emotion-4 emotion-12"
+            class="emotion-8"
           >
-            <div
-              class="emotion-8 emotion-14"
+            <h1
+              class="emotion-9 emotion-10 card-title emotion-11"
             >
-              London
-            </div>
+              Booking Test
+            </h1>
             <div
-              class="emotion-8 emotion-16"
+              class="emotion-5 emotion-13"
             >
-              9 May 2023
-            </div>
-            <div
-              class="emotion-8 emotion-16"
-            >
-              10:00
-               lounge arrival time
-            </div>
-            <div
-              class="emotion-19 emotion-20"
-            >
-              <span
-                class="emotion-21 emotion-22"
+              <div
+                class="emotion-9 emotion-15"
+              >
+                London
+              </div>
+              <div
+                class="emotion-9 emotion-17"
+              >
+                9 May 2023
+              </div>
+              <div
+                class="emotion-9 emotion-17"
+              >
+                10:00
+                 lounge arrival time
+              </div>
+              <button
+                class="emotion-20 emotion-21 emotion-22"
+                data-button="true"
+                type="button"
               >
                 <div
                   class="emotion-23 emotion-24"
                 >
-                  Confirmed
+                  <span
+                    class="emotion-25 emotion-26"
+                  >
+                    View booking
+                  </span>
                 </div>
-              </span>
+              </button>
             </div>
           </div>
         </div>

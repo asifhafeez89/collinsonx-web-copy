@@ -1,4 +1,3 @@
-import styled from '@collinsonx/design-system/styled';
 import React from 'react';
 import {
   Text,
@@ -22,7 +21,6 @@ import { useQuery } from '@collinsonx/utils/apollo';
 import { getBookings } from '@collinsonx/utils/queries';
 import { Booking, BookingStatus } from '@collinsonx/utils';
 import LoungeError from '@components/LoungeError';
-import { TEMPORARY_REDIRECT_STATUS } from 'next/dist/shared/lib/constants';
 
 type DataStatus = 'empty' | 'hasData';
 
