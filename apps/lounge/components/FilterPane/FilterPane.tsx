@@ -2,9 +2,6 @@ import React, { useState } from 'react';
 import styled from '@collinsonx/design-system/styled';
 import { Box, Stack, Button, Text } from '@collinsonx/design-system/core';
 import router from 'next/router';
-
-// const router = useRouter();
-
 export interface FilterPaneProps {
   isOpen: boolean;
   onClose: () => void;
@@ -74,7 +71,7 @@ export default function FilterPane({
         spacing={0}
       >
         <Box
-          className={'filter-options'}
+          className="filter-options"
           mt={60}
           style={{
             backgroundColor: '#F5F5F5',
@@ -130,7 +127,7 @@ export default function FilterPane({
               }}
               mr={16}
               mt={16}
-              className={'facilities-button'}
+              className="facilities-button"
               onClick={() => handleAddFacility(facility.name)}
             >
               {facility.name}
