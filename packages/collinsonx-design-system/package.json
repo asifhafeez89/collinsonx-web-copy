@@ -62,6 +62,8 @@
     "@mantine/carousel": "^6.0.7",
     "@mantine/form": "^6.0.1",
     "@swc/helpers": "^0.4.12",
+    "@tanstack/match-sorter-utils": "^8.8.4",
+    "@tanstack/react-table": "^8.7.9",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
     "clsx": "^1.1.1",
