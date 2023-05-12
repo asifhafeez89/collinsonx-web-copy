@@ -9,6 +9,7 @@ import FormWrapper from '@collinsonx/design-system/components/formWrapper/formWr
 import { DatePicker, InputLabel } from '@collinsonx/design-system';
 import { useForm } from '@collinsonx/design-system/form';
 import router, { useRouter } from 'next/router';
+import FilterPane from '@components/FilterPane/FilterPane';
 export interface BookLoungeProps {
   flightNumber: string;
   dateofflight: Date;
@@ -126,7 +127,7 @@ export default function Search() {
             <form
               onSubmit={form.onSubmit((values) => {
                 router.push({
-                  pathname: '/search/results',
+                  pathname: '/search-by-flight/results',
                   query: {
                     flightnumber: values.flightNumber,
                     dateofflight: values.dateofflight.toString(),
