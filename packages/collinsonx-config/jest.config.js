@@ -8,7 +8,7 @@ module.exports = {
   moduleFileExtensions: ['js', 'jsx', 'css', 'ts', 'tsx'],
   testPathIgnorePatterns: ['<rootDir>/.next/'],
   preset: 'ts-jest',
-  testEnvironment: 'node',
+  testEnvironment: 'jsdom',
   moduleDirectories: ['node_modules'],
   moduleFileExtensions: ['js', 'jsx', 'json', 'ts', 'tsx'],
   setupFiles: [fromRoot('./setupJest.js')],

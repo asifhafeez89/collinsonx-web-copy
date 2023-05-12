@@ -12,7 +12,7 @@ module.exports = {
       'ts-jest',
       {
         useBabelrc: true,
-        tsConfigFile: fromRoot('tsconfig.jest.json'),
+        tsconfig: fromRoot('tsconfig.jest.json'),
       },
     ],
   },
