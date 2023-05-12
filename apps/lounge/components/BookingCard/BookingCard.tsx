@@ -6,12 +6,10 @@ import {
   Stack,
   Title,
   Text,
-  Anchor,
+  Button,
 } from '@collinsonx/design-system/core';
-import BookingBadge from '../BookingBadge/BookingBadge';
 import { BookingStatus } from '@collinsonx/utils';
 import utc from 'dayjs/plugin/utc';
-import { Declined as DeclinedIcon } from '@collinsonx/design-system/assets/icons';
 dayjs.extend(utc);
 
 // import generated types in the following way:
@@ -23,6 +21,12 @@ interface CardWrapperProps {
 }
 
 const CardWrapper = styled.div<CardWrapperProps>`
+  display: flex;
+  flex-direction: column;
+  padding-bottom: ${(props) => (props.nextVisit ? '8px' : '16px')};
+`;
+
+const ContentWrapper = styled.div<CardWrapperProps>`
   display: flex;
   flex-direction: ${(props) => (props.nextVisit ? 'column' : 'row')};
   flex-wrap: nowrap;
@@ -44,7 +48,7 @@ const CardImage = styled.img<CardWrapperProps>`
   float: left;
 `;
 
-const ContentWrapper = styled.div<CardWrapperProps>`
+const InfoWrapper = styled.div<CardWrapperProps>`
   border-radius: 5px 5px 0 0;
 `;
 
@@ -75,18 +79,16 @@ export default function BookingCard({
   name,
   location,
   imgUrl,
-  status,
   date,
   nextVisit = false,
   firstArray = false,
   onClick,
 }: BookingCardProps) {
   return (
-    <>
-      <CardWrapper
+    <CardWrapper nextVisit={nextVisit} firstArray={firstArray}>
+      <ContentWrapper
         nextVisit={nextVisit}
         firstArray={firstArray}
-        onClick={() => onClick(id)}
         data-testid="booking-card-wrapper"
       >
         <Box
@@ -100,23 +102,10 @@ export default function BookingCard({
             src={imgUrl}
             alt={name}
           />
-          {!nextVisit && (
-            <Box
-              style={{
-                position: 'absolute',
-                top: 2,
-                right: 24,
-                outline: '8px solid #fff',
-                borderBottomLeftRadius: 4,
-              }}
-            >
-              <BookingBadge largeBadge={false} status={status}></BookingBadge>
-            </Box>
-          )}
         </Box>
         <Box>
           <Stack spacing={0}>
-            <ContentWrapper nextVisit={nextVisit} firstArray={firstArray}>
+            <InfoWrapper nextVisit={nextVisit} firstArray={firstArray}>
               <ContentStack nextVisit={nextVisit} firstArray={firstArray}>
                 <Title className={'card-title'} fw={600}>
                   {name}
@@ -130,109 +119,17 @@ export default function BookingCard({
                     {dayjs.utc(date).format('HH:mm')} lounge arrival time
                   </Text>
                   {nextVisit && (
-                    <BookingBadge
-                      largeBadge={true}
-                      status={status}
-                      mt={12}
-                      h={24}
-                    >
-                      {status.toLowerCase()}
-                    </BookingBadge>
+                    <Button mt={12} onClick={() => onClick(id)}>
+                      View booking
+                    </Button>
                   )}
                 </Stack>
               </ContentStack>
-            </ContentWrapper>
+            </InfoWrapper>
           </Stack>
         </Box>
-      </CardWrapper>
-      {status === 'DECLINED' && (
-        <Stack
-          spacing={0}
-          style={{
-            paddingBottom: '24px',
-          }}
-        >
-          <Box
-            style={{
-              display: 'flex',
-              backgroundColor: '#FCD8D8',
-              marginTop: '8px',
-              padding: '8px 16px',
-              border: '1px solid #F03E3E',
-              borderRadius: '4px',
-            }}
-          >
-            <DeclinedIcon
-              style={{
-                height: '28px',
-                width: '28px',
-                marginRight: '10px',
-                color: '#C92A2A',
-              }}
-            />
-            <Stack spacing={0}>
-              <Text style={{ fontSize: '14px' }}>
-                Unfortunately the lounge has declined your request.
-                <Anchor
-                  href="/"
-                  target="_blank"
-                  style={{
-                    fontSize: '14px',
-                    fontWeight: 600,
-                    color: '#C92A2A',
-                  }}
-                >
-                  See your messages
-                </Anchor>
-              </Text>
-            </Stack>
-          </Box>
-        </Stack>
-      )}
-      {status === 'CANCELLED' && (
-        <Stack
-          spacing={0}
-          style={{
-            paddingBottom: '24px',
-          }}
-        >
-          <Box
-            style={{
-              display: 'flex',
-              backgroundColor: '#FCD8D8',
-              marginTop: '8px',
-              padding: '8px 16px',
-              border: '1px solid #F03E3E',
-              borderRadius: '4px',
-            }}
-          >
-            <DeclinedIcon
-              style={{
-                height: '28px',
-                width: '28px',
-                marginRight: '10px',
-                color: '#C92A2A',
-              }}
-            />
-            <Stack spacing={0}>
-              <Text style={{ fontSize: '14px' }}>
-                Your cancellation has been confirmed.
-                <Anchor
-                  href="/"
-                  target="_blank"
-                  style={{
-                    fontSize: '14px',
-                    fontWeight: 600,
-                    color: '#C92A2A',
-                  }}
-                >
-                  See your messages
-                </Anchor>
-              </Text>
-            </Stack>
-          </Box>
-        </Stack>
-      )}
-    </>
+      </ContentWrapper>
+      {!nextVisit && <Button onClick={() => onClick(id)}>View booking</Button>}
+    </CardWrapper>
   );
 }
