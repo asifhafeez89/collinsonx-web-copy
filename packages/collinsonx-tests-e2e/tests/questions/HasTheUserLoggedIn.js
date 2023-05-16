@@ -1,16 +1,16 @@
 import LoginPage from '../pages/LoginPage';
 
 class HasTheUserLoggedIn {
-  constructor(expect) {
-    this._loginPage = new LoginPage(expect);
+  constructor(page, expect) {
+    this._loginPage = new LoginPage(page, expect);
   }
 
-  verifyTitle() {
-    return this._loginPage.getCollinsonTitle();
+  async verifyTitle() {
+    await this._loginPage.getCollinsonTitle();
   }
 
   async seeHomePageTitle() {
-    await this._loginPage.getHomePageTitle();
+    await this._loginPage.getHomePageTitle(this.page);
   }
 }
 

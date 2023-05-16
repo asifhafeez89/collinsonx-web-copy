@@ -1,6 +1,7 @@
 class LoginPage {
-  constructor(page) {
+  constructor(page, expect) {
     this.page = page;
+    this.expect = expect;
   }
 
   getURL() {
@@ -12,13 +13,11 @@ class LoginPage {
   }
 
   getCollinsonTitle() {
-    return this.page.toHaveTitle('CollinsonX');
+    return this.expect.toHaveTitle('CollinsonX');
   }
 
   getHomePageTitle() {
-    return this.page.getByRole('button', {
-      name: 'Ready for your next experience?',
-    });
+    return this.page.getByRole('heading', { name: 'Ready for your next experience?' });
   }
 
   getLoginButton() {
@@ -27,6 +26,18 @@ class LoginPage {
 
   getVerifyButton() {
     return this.page.getByRole('button', { name: 'Verify' });
+  }
+
+  firstName() {
+    return this.page.getByPlaceholder('First name');
+  }
+
+  lastName() {
+    return this.page.getByPlaceholder('Last name');
+  }
+  
+  exitProfileButton() {
+    return this.page.getByRole('banner').locator('svg');
   }
 }
 module.exports = LoginPage;
