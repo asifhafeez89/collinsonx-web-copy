@@ -26,6 +26,7 @@ class Login {
     const otp = await this._getOTP(uuid);
     await this._helper.type(otp);
     await this._loginPage.getVerifyButton(this.page).click();
+    await this._helper.acceptAlert();
     await this._loginPage.exitProfileButton(this.page).click();
   }
 
