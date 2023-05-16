@@ -27,13 +27,13 @@ class Login {
     await this._helper.type(otp);
     await this._loginPage.getVerifyButton(this.page).click();
     await this._helper.acceptAlert();
-    await this._loginPage.exitProfileButton(this.page).click();
+    // await this._loginPage.exitProfileButton(this.page).click();
   }
 
   async _getOTP(uuid) {
     let id;
     const mailinatorClient = new MailinatorClient(
-      'b0078d6d5b65412eb5c4648920feb4fc'
+      '2a32de31d6734501abb238da21c9ac3a'
     );
 
     await mailinatorClient
