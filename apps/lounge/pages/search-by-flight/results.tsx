@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import LayoutPaddingLess from '@components/LayoutPaddingLess';
-import { Container } from '@collinsonx/design-system/core';
+import { Container, UnstyledButton } from '@collinsonx/design-system/core';
 import { Stack, Flex, Skeleton, Grid } from '@collinsonx/design-system/core';
 
 import { Card } from '@collinsonx/design-system';
@@ -15,9 +15,11 @@ import LoungeImage from '@components/LoungeImage';
 import { useRouter } from 'next/router';
 import dayjs from 'dayjs';
 import LoungeError from '@components/LoungeError';
+import FilterPane from '@components/FilterPane/FilterPane';
 
 export default function Search() {
   const router = useRouter();
+  const { query } = useRouter();
 
   const goToLoungeDetails = (lounge: Experience) => {
     router.push({
@@ -45,9 +47,23 @@ export default function Search() {
     'DD/MM/YYYY'
   );
 
-  const { loading, error, data } = useQuery<{
+  const { loading, error, data, refetch } = useQuery<{
     searchExperiences: Experience[];
   }>(getSearchExperiences);
+
+  const [isFilterPanelOpen, setIsFilterPanelOpen] = useState<boolean>(false);
+
+  const showFilters = () => {
+    setIsFilterPanelOpen(true);
+  };
+
+  const hideFilters = () => {
+    setIsFilterPanelOpen(false);
+  };
+
+  const handleFilters = (selectedFacilties: string[]) => {
+    refetch({ query: selectedFacilties.join(',') });
+  };
 
   return (
     <div style={{ background: '#f5f5f5', height: '100vh' }}>
@@ -105,15 +121,20 @@ export default function Search() {
             py={12}
           >
             <Grid.Col span={5} sx={{ textAlign: 'center' }}>
-              Lounges (3)
+              Lounges ({data?.searchExperiences.length ?? 0})
             </Grid.Col>
             <Grid.Col span={1} sx={{ textAlign: 'center' }}>
               |
             </Grid.Col>
-            <Grid.Col span={6} sx={{ textAlign: 'center' }}>
-              Filter
+            <Grid.Col span={5} sx={{ textAlign: 'center' }}>
+              <UnstyledButton onClick={showFilters}>Filter</UnstyledButton>
             </Grid.Col>
           </Grid>
+          <FilterPane
+            onChange={handleFilters}
+            isOpen={isFilterPanelOpen}
+            onClose={hideFilters}
+          />
           <Flex direction="column">
             <LoungeError error={error} />
             {loading && <Skeleton visible={loading} h={390}></Skeleton>}
