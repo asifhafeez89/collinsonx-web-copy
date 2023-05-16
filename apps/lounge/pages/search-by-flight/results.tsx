@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import LayoutPaddingLess from '@components/LayoutPaddingLess';
 import { Container, UnstyledButton } from '@collinsonx/design-system/core';
-import { Stack, Flex, Skeleton, Grid } from '@collinsonx/design-system/core';
+import {
+  Stack,
+  Flex,
+  Skeleton,
+  Grid,
+  Text,
+} from '@collinsonx/design-system/core';
 
 import { Card } from '@collinsonx/design-system';
 import { useForm } from '@collinsonx/design-system/form';
@@ -50,6 +56,8 @@ export default function Search() {
   const { loading, error, data, refetch } = useQuery<{
     searchExperiences: Experience[];
   }>(getSearchExperiences);
+
+  console.log('experiences', data);
 
   const [isFilterPanelOpen, setIsFilterPanelOpen] = useState<boolean>(false);
 
@@ -139,14 +147,24 @@ export default function Search() {
             <LoungeError error={error} />
             {loading && <Skeleton visible={loading} h={390}></Skeleton>}
             {data?.searchExperiences?.map((lounge) => {
-              const { name, location, id, images } = lounge;
+              const { name, location, id, images, openingHours } = lounge;
+              console.log('opening hours type', typeof openingHours);
+              console.log('lounge type', typeof lounge);
+              console.log(
+                'opening hours index 0 type',
+                openingHours && typeof openingHours[0]
+              );
               return (
                 <Card
                   title={name || '-'}
                   subtitle={location || '-'}
+                  openingHours={
+                    openingHours ? openingHours[0] ?? undefined : null
+                  }
                   ImageComponent={
                     <LoungeImage width={309} height={126} images={images} />
                   }
+                  price={'17.50'}
                   handleClick={() => {
                     goToLoungeDetails(lounge);
                   }}
