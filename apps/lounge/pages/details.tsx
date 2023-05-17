@@ -20,7 +20,7 @@ import { MapPin } from '@collinsonx/design-system/assets/icons';
 import LoungeImage from '@components/LoungeImage';
 import Layout from '@components/Layout';
 import LoungeError from '@components/LoungeError';
-import styled from '@emotion/styled';
+import styled from '@collinsonx/design-system/styled';
 
 export default function BookLounge() {
   const router = useRouter();
@@ -43,7 +43,7 @@ export default function BookLounge() {
     });
   };
 
-  const Pricing = styled(Text)`
+  const Pricing = styled.p`
     padding-right: 24px;
     :before {
       content: '£';

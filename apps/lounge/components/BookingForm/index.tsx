@@ -17,7 +17,7 @@ import { ComponentProps, useEffect, useState } from 'react';
 import { getLoungeArrivalTime } from 'lib';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import styled from '@emotion/styled';
+import styled from '@collinsonx/design-system/styled';
 dayjs.extend(utc);
 
 export interface BookingFormValue {
@@ -97,7 +97,7 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
     }
   }, [form, setArrivalTime]);
 
-  const Pricing = styled(Text)`
+  const Pricing = styled.p`
     padding-right: 24px;
     :before {
       content: '£';
