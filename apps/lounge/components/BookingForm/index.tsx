@@ -259,6 +259,7 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
               </Box>
               <Button
                 onClick={handleClickBook}
+                disabled={edit}
                 maw={375}
                 sx={{
                   height: 45,
