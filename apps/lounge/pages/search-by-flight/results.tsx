@@ -148,12 +148,6 @@ export default function Search() {
             {loading && <Skeleton visible={loading} h={390}></Skeleton>}
             {data?.searchExperiences?.map((lounge) => {
               const { name, location, id, images, openingHours } = lounge;
-              console.log('opening hours type', typeof openingHours);
-              console.log('lounge type', typeof lounge);
-              console.log(
-                'opening hours index 0 type',
-                openingHours && typeof openingHours[0]
-              );
               return (
                 <Card
                   title={name || '-'}
