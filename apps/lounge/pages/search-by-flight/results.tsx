@@ -158,9 +158,7 @@ export default function Search() {
                 <Card
                   title={name || '-'}
                   subtitle={location || '-'}
-                  openingHours={
-                    openingHours ? openingHours[0] ?? undefined : null
-                  }
+                  openingHours={openingHours}
                   ImageComponent={
                     <LoungeImage width={309} height={126} images={images} />
                   }
