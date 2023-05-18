@@ -76,8 +76,6 @@ export default function Bookings({ type }: BookingsProps) {
   const router = useRouter();
   const { date } = router.query;
 
-  //const [date, setDate] = useState<Date | null>(null);
-
   const [bookingId, setBookingId] = useState<string | null>(null);
 
   const filteredData = useMemo(() => {
