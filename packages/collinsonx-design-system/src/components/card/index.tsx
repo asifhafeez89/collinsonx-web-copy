@@ -42,12 +42,17 @@ const ContentWrapper = styled.div`
 
 type Maybe<T> = T | undefined | null;
 
-interface CardProps {
+export interface CardProps {
   title: string;
   subtitle: string;
   ImageComponent?: JSX.Element;
-  price: string;
   openingHours: Maybe<string>[] | undefined | null;
+  //price is mocked based on the format supplied by Ion
+  price: {
+    currency: string;
+    reservationCost: number;
+    lifestyleXReservationCharge: number;
+  };
   handleClick: () => void;
 }
 
@@ -59,8 +64,8 @@ export default function Card({
   subtitle,
   handleClick,
   ImageComponent,
-  price,
   openingHours,
+  price,
 }: CardProps) {
   return (
     <CardWrapper>
@@ -98,7 +103,7 @@ export default function Card({
               color: '#0C8599',
             }}
           >
-            {price}
+            {price.reservationCost.toFixed(2)}
           </p>
         </Box>
         <Flex justify={'center'} gap={8}>

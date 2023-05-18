@@ -28,6 +28,12 @@ export interface BookingFormProps {
   onSubmit: (values: BookingFormValue) => void;
 }
 
+const pricingMock = {
+  currency: 'USD',
+  reservationCost: 20.5,
+  lifestyleXReservationCharge: 20.5,
+};
+
 function expandHours(hour: string) {
   const minutes = ['00', '15', '30', '45'];
   return minutes.map((min) => `${hour}:${min}`);
@@ -254,7 +260,7 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
                     color: '#0C8599',
                   }}
                 >
-                  17.50
+                  {pricingMock.reservationCost.toFixed(2)}
                 </Pricing>
               </Box>
               <Button

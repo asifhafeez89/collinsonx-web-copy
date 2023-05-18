@@ -43,6 +43,12 @@ export default function BookLounge() {
     });
   };
 
+  const pricingMock = {
+    currency: 'USD',
+    reservationCost: 20.5,
+    lifestyleXReservationCharge: 20.5,
+  };
+
   const Pricing = styled.p`
     padding-right: 24px;
     :before {
@@ -249,7 +255,7 @@ export default function BookLounge() {
                             color: '#0C8599',
                           }}
                         >
-                          17.50
+                          {pricingMock.reservationCost.toFixed(2)}
                         </Pricing>
                       </Box>
                       <Button

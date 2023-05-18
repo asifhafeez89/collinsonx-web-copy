@@ -156,7 +156,11 @@ export default function Search() {
                   ImageComponent={
                     <LoungeImage width={309} height={126} images={images} />
                   }
-                  price={'17.50'}
+                  price={{
+                    currency: 'USD',
+                    reservationCost: 20.5,
+                    lifestyleXReservationCharge: 17.5,
+                  }}
                   handleClick={() => {
                     goToLoungeDetails(lounge);
                   }}
