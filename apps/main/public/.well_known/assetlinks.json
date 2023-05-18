@@ -1,0 +1,11 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.lifestylex.app",
+      "sha256_cert_fingerprints":
+        ["0F:51:A8:FB:AC:E2:C6:28:82:A3:91:78:35:0E:3A:92:8B:28:59:B3:8B:9F:99:BF:FD:98:F1:16:20:6E:44:4B"]
+    }
+  }
+]

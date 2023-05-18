@@ -214,15 +214,19 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
               </Stack>
             </Box>
 
+
             <Box bg="white" p={24}>
               <Title order={4}>Cancellation policy</Title>
-              <Text size={14} mt={8}>
+              <Text size={14}>
                 Free cancellation for 24 hours. Cancel before{' '}
                 <strong>{dayjs(date).format(DATE_FORMAT)}</strong> for a partial
-                refund.
+                refund.{' '}
+                <a href="/" style={{ color: '#946A00', fontWeight: '600' }}>
+                  Learn more
+                </a>
               </Text>
             </Box>
-
+            
             <Box
               px={24}
               py={16}

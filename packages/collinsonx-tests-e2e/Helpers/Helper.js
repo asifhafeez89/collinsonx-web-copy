@@ -10,5 +10,10 @@ class Helper {
   async type(words) {
     await this.page.keyboard.type(words);
   }
+
+  async acceptAlert() {
+    await this.page.on('dialog', dialog => dialog.accept());
+
+  }
 }
 module.exports = Helper;
