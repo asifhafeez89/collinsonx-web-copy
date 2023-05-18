@@ -40,6 +40,8 @@ export default function Overview() {
   const bookingsDeclined =
     (bookings[Declined]?.length || 0) + (bookings[Cancelled]?.length || 0);
 
+  const showTodaysBookings = false;
+
   return (
     <>
       {error && isErrorValid(error) ? (
@@ -113,6 +115,27 @@ export default function Overview() {
                     'You have no confirmed bookings'
                   ) : (
                     <Flex gap={72}>
+                      {showTodaysBookings && (
+                        <>
+                          <OverviewMetric
+                            loading={loading}
+                            label="Today's bookings"
+                            value={bookingsConfirmed}
+                          >
+                            <Link href="/bookings/confirmed" passHref>
+                              <Button
+                                variant="default"
+                                sx={{ width: 'fit-content' }}
+                              >
+                                Today&apos;s bookings
+                              </Button>
+                            </Link>
+                          </OverviewMetric>
+                          <Flex justify="center">
+                            <OverviewSeparator />
+                          </Flex>
+                        </>
+                      )}
                       <OverviewMetric
                         loading={loading}
                         label="All bookings"
