@@ -45,6 +45,12 @@ export default function Landing() {
               <Card
                 title={name || '-'}
                 subtitle={location || '-'}
+                price={{
+                  currency: 'USD',
+                  reservationCost: 20.5,
+                  lifestyleXReservationCharge: 17.5,
+                }}
+                openingHours={openingHours}
                 ImageComponent={
                   <LoungeImage
                     width={309}

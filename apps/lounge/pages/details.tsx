@@ -20,6 +20,7 @@ import { MapPin } from '@collinsonx/design-system/assets/icons';
 import LoungeImage from '@components/LoungeImage';
 import Layout from '@components/Layout';
 import LoungeError from '@components/LoungeError';
+import styled from '@collinsonx/design-system/styled';
 
 export default function BookLounge() {
   const router = useRouter();
@@ -41,6 +42,22 @@ export default function BookLounge() {
       query: { id: lounge?.id },
     });
   };
+
+  const pricingMock = {
+    currency: 'USD',
+    reservationCost: 20.5,
+    lifestyleXReservationCharge: 20.5,
+  };
+
+  const Pricing = styled.p`
+    padding-right: 24px;
+    :before {
+      content: '£';
+      font-size: 14px;
+      vertical-align: 10px;
+      position: 'relative';
+    }
+  `;
 
   return (
     <Box maw={375} m="auto">
@@ -217,6 +234,30 @@ export default function BookLounge() {
                         backgroundColor: '#FFF',
                       }}
                     >
+                      <Box>
+                        <Text
+                          style={{
+                            fontSize: '12px',
+                            margin: '0',
+                            padding: '0',
+                          }}
+                        >
+                          From
+                        </Text>
+                        <Pricing
+                          className="currency"
+                          style={{
+                            fontSize: '28px',
+                            fontWeight: '700',
+                            height: '28px',
+                            marginTop: '-10px',
+                            marginBottom: '4px',
+                            color: '#0C8599',
+                          }}
+                        >
+                          {pricingMock.reservationCost.toFixed(2)}
+                        </Pricing>
+                      </Box>
                       <Button
                         onClick={handleBook}
                         maw={375}
@@ -227,7 +268,7 @@ export default function BookLounge() {
                           fontSize: '18px',
                         }}
                       >
-                        Request lounge booking
+                        Request booking
                       </Button>
                     </Box>
                   </>

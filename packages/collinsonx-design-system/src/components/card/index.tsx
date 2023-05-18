@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Button from '../button';
-import { Flex, Stack, Text } from '@mantine/core';
+import { Flex, Stack, Text, Box, Grid } from '@mantine/core';
 import { Clock, MapPin } from '../../assets/icons';
 
 const CardWrapper = styled.div`
@@ -25,21 +25,34 @@ const CardWrapper = styled.div`
   &:hover {
     box-shadow: 10 8px 16px 10 rgba(0, 0, 0, 0.2);
   }
+
+  .currency:not(:empty):before {
+    content: '£';
+    font-size: 14px;
+    vertical-align: 10px;
+  }
 `;
 
 const ContentWrapper = styled.div`
-  border-radius: 5px 5px 0 0;
-  border-bottom: 1px solid #c8c9ca;
-  padding-bottom: 16px;
+  padding-bottom: 8px;
   & h3 {
     margin-top: 8px;
   }
 `;
 
-interface CardProps {
+type Maybe<T> = T | undefined | null;
+
+export interface CardProps {
   title: string;
   subtitle: string;
   ImageComponent?: JSX.Element;
+  openingHours: Maybe<string>[] | undefined | null;
+  //price is mocked based on the format supplied by Ion
+  price: {
+    currency: string;
+    reservationCost: number;
+    lifestyleXReservationCharge: number;
+  };
   handleClick: () => void;
 }
 
@@ -51,7 +64,8 @@ export default function Card({
   subtitle,
   handleClick,
   ImageComponent,
-  ...props
+  openingHours,
+  price,
 }: CardProps) {
   return (
     <CardWrapper>
@@ -59,21 +73,53 @@ export default function Card({
       <ContentWrapper>
         <h3>{title}</h3>
       </ContentWrapper>
-      <Stack spacing={8} py={16}>
+      <Stack spacing={8} pb={16}>
         <Flex align="center" gap={10}>
           <MapPin width={16} color="#0C8599" />
           <Text fw={600}>{subtitle}</Text>
         </Flex>
-        {/*<Flex align="center" gap={10}>
+        <Flex align="center" gap={10}>
           <Clock width={16} color="#0C8599" />
-          <Text fw={600}>{subtitle}</Text>
-          </Flex>*/}
+
+          <Text fw={600}>
+            {openingHours && openingHours[0]?.toString().split('Note')[0]}
+          </Text>
+        </Flex>
       </Stack>
-      <div>
-        <Button fullWidth={true} handleClick={handleClick} icon={null}>
-          View Lounge
-        </Button>
-      </div>
+      <Stack
+        style={{
+          borderRadius: '5px 5px 0 0',
+          borderTop: '1px solid #c8c9ca',
+        }}
+      >
+        <Box>
+          <p
+            className="currency"
+            style={{
+              fontSize: '28px',
+              fontWeight: '700',
+              margin: '0',
+              marginBottom: '4px',
+              color: '#0C8599',
+            }}
+          >
+            {price.reservationCost.toFixed(2)}
+          </p>
+        </Box>
+        <Flex justify={'center'} gap={8}>
+          <Button
+            fullWidth={true}
+            icon={null}
+            variant="outline"
+            style={{ color: 'black', border: '2px solid black' }}
+          >
+            Scan QR
+          </Button>
+          <Button fullWidth={true} handleClick={handleClick} icon={null}>
+            View Lounge
+          </Button>
+        </Flex>
+      </Stack>
     </CardWrapper>
   );
 }
