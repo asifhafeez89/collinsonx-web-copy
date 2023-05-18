@@ -105,7 +105,7 @@ export default function Bookings({ type }: BookingsProps) {
     { loading: loadingConfirm, error: confirmError, data: dataConfirm },
   ] = useMutation(confirmBookingMutation);
 
-  const [date, setDate] = useState<Date | null>(new Date());
+  const [date, setDate] = useState<Date | null>(null);
   const [checkIn, setCheckIn] = useState(false);
   const handleClickClose = () => {
     setCheckIn(false);
@@ -158,8 +158,12 @@ export default function Bookings({ type }: BookingsProps) {
         cell: (props) => props.getValue() || '-',
       }),
       columnHelper.accessor('bookedFrom', {
-        header: 'Time of booking',
+        header: 'Arrival time',
         cell: (props) => dayjs.utc(props.getValue()).format('HH:mm'),
+      }),
+      columnHelper.accessor('bookedFrom', {
+        header: 'Arrival date',
+        cell: (props) => dayjs.utc(props.getValue()).format('YYYY-MM-DD'),
       }),
       columnHelper.display({
         header: 'Guests',
@@ -267,7 +271,7 @@ export default function Bookings({ type }: BookingsProps) {
         <Flex justify="space-between" align="center">
           <Box>
             <Title size={24} weight={400} pb={8}>
-              Today&apos;s
+              All {type.slice(0, 1).toUpperCase() + type.slice(1)}
             </Title>
             <Text size={14} weight={600} color="#9B9CA0">
               {bookings.length ? `${bookings.length} customers` : null}
@@ -279,7 +283,7 @@ export default function Bookings({ type }: BookingsProps) {
               width: 224,
             })}
             placeholder="Pick a date"
-            clearable={false}
+            clearable
             valueFormat={DATE_FORMAT}
             defaultValue={date}
             onChange={handleChangeDate}
