@@ -3,7 +3,6 @@ export {
   doesSessionExist,
   useSessionContext,
   getUserId,
-  SessionAuth,
 } from 'supertokens-auth-react/recipe/session';
 
 export type { InputType } from 'supertokens-auth-react/recipe/session';
@@ -25,11 +24,3 @@ export type {
   SuperTokensConfig,
   AppInfoUserInput,
 } from 'supertokens-auth-react/lib/build/types';
-
-export { default as SessionRecipe } from 'supertokens-web-js/recipe/session';
-export {
-  default as EmailPassword,
-  signIn,
-  signUp,
-  doesEmailExist,
-} from 'supertokens-web-js/recipe/emailpassword';
