@@ -38,6 +38,7 @@ import { PageType } from 'config/booking';
 import { GetServerSideProps } from 'next';
 import { isErrorValid } from 'lib';
 import utc from 'dayjs/plugin/utc';
+import { useRouter } from 'next/router';
 dayjs.extend(utc);
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
@@ -72,7 +73,27 @@ export default function Bookings({ type }: BookingsProps) {
     refetch: refetchBookings,
   } = useQuery<{ getAllBookings: Booking[] }>(getAllBookings);
 
+  const router = useRouter();
+  const { date } = router.query;
+
+  //const [date, setDate] = useState<Date | null>(null);
+
   const [bookingId, setBookingId] = useState<string | null>(null);
+
+  const filteredData = useMemo(() => {
+    if (!date) {
+      return dataBookings;
+    } else if (dataBookings?.getAllBookings) {
+      return {
+        getAllBookings: dataBookings.getAllBookings.filter(
+          (item) =>
+            dayjs.utc(item.bookedFrom).format('YYYY-MM-DD') ===
+            dayjs(date as string).format('YYYY-MM-DD')
+        ),
+      };
+    }
+    return dataBookings;
+  }, [date, dataBookings]);
 
   const bookings = useMemo<Booking[]>(() => {
     let types;
@@ -85,10 +106,10 @@ export default function Bookings({ type }: BookingsProps) {
     }
 
     return getBookingsByType(
-      dataBookings?.getAllBookings ?? [],
+      filteredData?.getAllBookings ?? [],
       types
     ) as Booking[];
-  }, [dataBookings, type]);
+  }, [filteredData, type]);
 
   const [
     checkInBooking,
@@ -105,7 +126,6 @@ export default function Bookings({ type }: BookingsProps) {
     { loading: loadingConfirm, error: confirmError, data: dataConfirm },
   ] = useMutation(confirmBookingMutation);
 
-  const [date, setDate] = useState<Date | null>(null);
   const [checkIn, setCheckIn] = useState(false);
   const handleClickClose = () => {
     setCheckIn(false);
@@ -144,10 +164,25 @@ export default function Bookings({ type }: BookingsProps) {
 
   const title = titleMap[type as keyof typeof titleMap];
 
+  const tableTitle = useMemo(() => {
+    if (!type) {
+      return '';
+    }
+    if (date) {
+      return `${
+        type.slice(0, 1).toUpperCase() + type.slice(1)
+      } - arriving ${date}`;
+    }
+    return `All ${type.slice(0, 1).toUpperCase() + type.slice(1)}`;
+  }, [date, type]);
+
   const handleChangeDate: ComponentProps<typeof DatePicker>['onChange'] = (
     date
   ) => {
-    setDate(date as Date);
+    const dateStr = dayjs(date as Date).format('YYYY-MM-DD');
+    router.push(`/bookings/${type}?date=${dateStr}`, undefined, {
+      shallow: true,
+    });
   };
 
   const columns = useMemo(() => {
@@ -157,13 +192,21 @@ export default function Bookings({ type }: BookingsProps) {
         header: 'Customer name',
         cell: (props) => props.getValue() || '-',
       }),
-      columnHelper.accessor('bookedFrom', {
+      columnHelper.display({
         header: 'Arrival time',
-        cell: (props) => dayjs.utc(props.getValue()).format('HH:mm'),
+        id: 'arrivalTime',
+        cell: (props) => {
+          const { bookedFrom } = props.row.original;
+          return dayjs.utc(bookedFrom).format('HH:mm');
+        },
       }),
       columnHelper.accessor('bookedFrom', {
+        id: 'arrivalDate',
         header: 'Arrival date',
-        cell: (props) => dayjs.utc(props.getValue()).format('YYYY-MM-DD'),
+        cell: (props) => {
+          const { bookedFrom } = props.row.original;
+          return dayjs.utc(bookedFrom).format('YYYY-MM-DD');
+        },
       }),
       columnHelper.display({
         header: 'Guests',
@@ -271,10 +314,10 @@ export default function Bookings({ type }: BookingsProps) {
         <Flex justify="space-between" align="center">
           <Box>
             <Title size={24} weight={400} pb={8}>
-              All {type.slice(0, 1).toUpperCase() + type.slice(1)}
+              {tableTitle}
             </Title>
             <Text size={14} weight={600} color="#9B9CA0">
-              {bookings.length ? `${bookings.length} customers` : null}
+              {bookings.length ? `${bookings.length} bookings` : null}
             </Text>
           </Box>
           <DatePicker
@@ -285,7 +328,7 @@ export default function Bookings({ type }: BookingsProps) {
             placeholder="Pick a date"
             clearable
             valueFormat={DATE_FORMAT}
-            defaultValue={date}
+            defaultValue={new Date(date as string)}
             onChange={handleChangeDate}
           />
         </Flex>
