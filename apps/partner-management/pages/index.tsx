@@ -115,23 +115,6 @@ export default function Overview() {
                     <Flex gap={72}>
                       <OverviewMetric
                         loading={loading}
-                        label="Today's bookings"
-                        value={bookingsConfirmed}
-                      >
-                        <Link href="/bookings/confirmed" passHref>
-                          <Button
-                            variant="default"
-                            sx={{ width: 'fit-content' }}
-                          >
-                            Today&apos;s bookings
-                          </Button>
-                        </Link>
-                      </OverviewMetric>
-                      <Flex justify="center">
-                        <OverviewSeparator />
-                      </Flex>
-                      <OverviewMetric
-                        loading={loading}
                         label="All bookings"
                         value={bookingsConfirmed}
                       >
