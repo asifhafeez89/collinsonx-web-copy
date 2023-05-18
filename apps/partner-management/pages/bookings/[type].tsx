@@ -161,15 +161,6 @@ export default function Bookings({ type }: BookingsProps) {
         header: 'Time of booking',
         cell: (props) => dayjs.utc(props.getValue()).format('HH:mm'),
       }),
-      columnHelper.display({
-        header: 'Guests',
-        cell: (props) => {
-          // currently not available
-          //const { adults, children } = props.row.original;
-          //return `${adults} adults, ${children} children`;
-          return `-`;
-        },
-      }),
     ];
 
     if (type === 'pending' || type === 'confirmed') {
