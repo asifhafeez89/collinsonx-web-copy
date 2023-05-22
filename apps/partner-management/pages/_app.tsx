@@ -1,16 +1,25 @@
 import type { AppProps } from 'next/app';
 import { NextPage } from 'next';
-import { ComponentType, ReactElement, useEffect } from 'react';
+import { ComponentType, ReactElement } from 'react';
 import { MantineProvider } from '@collinsonx/design-system/core';
 import Head from 'next/head';
 import { useApollo, ApolloProvider } from '@collinsonx/utils/apollo';
 import theme from '../theme';
 
+/*
 import SuperTokens, {
   SuperTokensConfig,
   SuperTokensWrapper,
 } from '@collinsonx/utils/supertokens';
+*/
+
+import SuperTokens from 'supertokens-web-js';
+
+import { SuperTokensWrapper } from 'supertokens-auth-react';
+
 import { frontendConfig } from 'config/frontendConfig';
+import { SuperTokensConfig } from 'supertokens-web-js/lib/build/types';
+import AuthWrapper from '@components/AuthWrapper';
 
 type Page<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactElement) => JSX.Element;
@@ -43,9 +52,11 @@ export default function MyApp({ Component, pageProps }: Props) {
       </Head>
       <ApolloProvider client={apolloClient}>
         <SuperTokensWrapper>
-          <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
-            {getLayout(<Component {...pageProps} />)}
-          </MantineProvider>
+          <AuthWrapper>
+            <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
+              {getLayout(<Component {...pageProps} />)}
+            </MantineProvider>
+          </AuthWrapper>
         </SuperTokensWrapper>
       </ApolloProvider>
     </>
