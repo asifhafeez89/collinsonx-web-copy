@@ -207,12 +207,12 @@ export default function Bookings() {
                   onClick={onViewBookingDetails}
                   key={booking.id}
                   id={booking.id ?? ''}
-                  name={booking?.experience?.name ?? ''}
-                  location={booking?.experience?.location ?? ''}
+                  name={booking?.experience?.loungeName ?? ''}
+                  location={booking?.experience?.location?.city ?? ''}
                   imgUrl={booking?.experience?.images?.[0]?.url ?? ''}
                   status={booking?.status ?? BookingStatus.Initialized}
                   date={booking?.bookedFrom ?? ''}
-                  bookedFrom={booking?.experience?.location ?? ''}
+                  bookedFrom={booking?.bookedFrom ?? ''}
                   nextVisit={
                     booking?.status === 'CONFIRMED'
                       ? index === 0
