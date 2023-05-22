@@ -22,8 +22,8 @@ export default function Results({ data, onClick }: ResultsProps) {
             onClick={() => onClick && onClick(item.id)}
           >
             <Flex direction="column">
-              <Text>{item.name}</Text>
-              <Text sx={{ fontWeight: 400 }}>{item.location}</Text>
+              <Text>{item.loungeName}</Text>
+              <Text sx={{ fontWeight: 400 }}>{item.location?.city}</Text>
             </Flex>
           </ResultsItem>
         ))}
