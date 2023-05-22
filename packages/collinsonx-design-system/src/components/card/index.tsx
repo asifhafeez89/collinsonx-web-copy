@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import Button from '../button';
-import { Flex, Stack, Text, Box, Grid } from '@mantine/core';
+import { Flex, Stack, Text, Box } from '@mantine/core';
 import { Clock, MapPin } from '../../assets/icons';
 
 const CardWrapper = styled.div`
@@ -75,13 +75,25 @@ export default function Card({
       </ContentWrapper>
       <Stack spacing={8} pb={16}>
         <Flex align="center" gap={10}>
-          <MapPin width={16} color="#0C8599" />
+          <Box miw={16}>
+            <MapPin width={16} color="#0C8599" />
+          </Box>
           <Text fw={600}>{subtitle}</Text>
         </Flex>
         <Flex align="center" gap={10}>
-          <Clock width={16} color="#0C8599" />
-
-          <Text fw={600}>{openingHours && openingHours.split('Note')[0]}</Text>
+          <Box miw={16}>
+            <Clock width={16} color="#0C8599" />
+          </Box>
+          <Text
+            fw={600}
+            sx={{
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}
+          >
+            {openingHours && openingHours.split('Note')[0]}
+          </Text>
         </Flex>
       </Stack>
       <Stack

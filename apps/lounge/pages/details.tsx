@@ -43,12 +43,6 @@ export default function BookLounge() {
     });
   };
 
-  const pricingMock = {
-    currency: 'USD',
-    reservationCost: 20.5,
-    lifestyleXReservationCharge: 20.5,
-  };
-
   const Pricing = styled.p`
     padding-right: 24px;
     :before {
@@ -244,19 +238,21 @@ export default function BookLounge() {
                         >
                           From
                         </Text>
-                        <Pricing
-                          className="currency"
-                          style={{
-                            fontSize: '28px',
-                            fontWeight: '700',
-                            height: '28px',
-                            marginTop: '-10px',
-                            marginBottom: '4px',
-                            color: '#0C8599',
-                          }}
-                        >
-                          {pricingMock.reservationCost.toFixed(2)}
-                        </Pricing>
+                        {lounge.pricing !== undefined && (
+                          <Pricing
+                            className="currency"
+                            style={{
+                              fontSize: '28px',
+                              fontWeight: '700',
+                              height: '28px',
+                              marginTop: '-10px',
+                              marginBottom: '4px',
+                              color: '#0C8599',
+                            }}
+                          >
+                            {lounge.pricing?.reservationCost?.toFixed(2)}
+                          </Pricing>
+                        )}
                       </Box>
                       <Button
                         onClick={handleBook}
