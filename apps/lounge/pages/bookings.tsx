@@ -18,8 +18,8 @@ import { useState } from 'react';
 
 import { useRouter } from 'next/router';
 import { useQuery } from '@collinsonx/utils/apollo';
-import { getBookings } from '@collinsonx/utils/queries';
-import { Booking, BookingStatus } from '@collinsonx/utils';
+import { getConsumer } from '@collinsonx/utils/queries';
+import { BookingStatus, Consumer } from '@collinsonx/utils';
 import LoungeError from '@components/LoungeError';
 
 type DataStatus = 'empty' | 'hasData';
@@ -42,8 +42,8 @@ export default function Bookings() {
   const {
     loading,
     error: fetchError,
-    data: bookingsData,
-  } = useQuery<{ getBookings: Booking[] }>(getBookings);
+    data: consumerData,
+  } = useQuery<{ getConsumer: Consumer }>(getConsumer);
 
   const { classes, cx } = useStyles();
 
@@ -118,8 +118,10 @@ export default function Bookings() {
       </Stack>
       <LoungeError error={fetchError} />
       {loading && <Skeleton visible={loading} h={390} />}
-      {!bookingsData?.getBookings.length && !loading && <BookingEmptyState />}
-      {!!bookingsData?.getBookings.length && (
+      {!consumerData?.getConsumer?.bookings.length && !loading && (
+        <BookingEmptyState />
+      )}
+      {!!consumerData?.getConsumer?.bookings.length && (
         <Stack p={16} spacing={0}>
           {bookingStatus === 'INITIALIZED' && (
             <Stack spacing={0}>
@@ -172,7 +174,7 @@ export default function Bookings() {
               Declined/Cancelled bookings
             </Text>
           )}
-          {bookingsData?.getBookings
+          {consumerData?.getConsumer.bookings
             .filter((booking) => {
               return (
                 booking.status === bookingStatus ||
@@ -205,12 +207,12 @@ export default function Bookings() {
                   onClick={onViewBookingDetails}
                   key={booking.id}
                   id={booking.id ?? ''}
-                  name={booking?.experience?.name ?? ''}
-                  location={booking?.experience?.location ?? ''}
+                  name={booking?.experience?.loungeName ?? ''}
+                  location={booking?.experience?.location?.city ?? ''}
                   imgUrl={booking?.experience?.images?.[0]?.url ?? ''}
                   status={booking?.status ?? BookingStatus.Initialized}
                   date={booking?.bookedFrom ?? ''}
-                  bookedFrom={booking?.experience?.location ?? ''}
+                  bookedFrom={booking?.bookedFrom ?? ''}
                   nextVisit={
                     booking?.status === 'CONFIRMED'
                       ? index === 0
