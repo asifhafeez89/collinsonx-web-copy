@@ -10,8 +10,6 @@ export const config = {
   },
 };
 
-console.log(process.env.PRODUCTION_API_URL);
-
 const handler = (req: NextApiRequest, res: ServerResponse) => {
   return new Promise((resolve, reject) => {
     proxy.web(
