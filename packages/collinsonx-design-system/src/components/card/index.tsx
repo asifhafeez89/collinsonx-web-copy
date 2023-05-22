@@ -46,7 +46,7 @@ export interface CardProps {
   title: string;
   subtitle: string;
   ImageComponent?: JSX.Element;
-  openingHours: Maybe<string>[] | undefined | null;
+  openingHours?: string;
   //price is mocked based on the format supplied by Ion
   price: {
     currency: string;
@@ -81,9 +81,7 @@ export default function Card({
         <Flex align="center" gap={10}>
           <Clock width={16} color="#0C8599" />
 
-          <Text fw={600}>
-            {openingHours && openingHours[0]?.toString().split('Note')[0]}
-          </Text>
+          <Text fw={600}>{openingHours && openingHours.split('Note')[0]}</Text>
         </Flex>
       </Stack>
       <Stack
@@ -93,18 +91,20 @@ export default function Card({
         }}
       >
         <Box>
-          <p
-            className="currency"
-            style={{
-              fontSize: '28px',
-              fontWeight: '700',
-              margin: '0',
-              marginBottom: '4px',
-              color: '#0C8599',
-            }}
-          >
-            {price.reservationCost.toFixed(2)}
-          </p>
+          {price.reservationCost !== undefined && (
+            <p
+              className="currency"
+              style={{
+                fontSize: '28px',
+                fontWeight: '700',
+                margin: '0',
+                marginBottom: '4px',
+                color: '#0C8599',
+              }}
+            >
+              {price.reservationCost.toFixed(2)}
+            </p>
+          )}
         </Box>
         <Flex justify={'center'} gap={8}>
           <Button

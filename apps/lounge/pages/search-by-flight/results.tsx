@@ -147,12 +147,12 @@ export default function Search() {
             <LoungeError error={error} />
             {loading && <Skeleton visible={loading} h={390}></Skeleton>}
             {data?.searchExperiences?.map((lounge) => {
-              const { name, location, id, images, openingHours } = lounge;
+              const { loungeName, location, id, images, openingHours } = lounge;
               return (
                 <Card
-                  title={name || '-'}
-                  subtitle={location || '-'}
-                  openingHours={openingHours}
+                  title={loungeName || '-'}
+                  subtitle={location?.city || '-'}
+                  openingHours={openingHours as string}
                   ImageComponent={
                     <LoungeImage width={309} height={126} images={images} />
                   }

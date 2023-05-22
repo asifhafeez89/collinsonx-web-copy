@@ -149,7 +149,7 @@ export default function BookLounge() {
                   subtitleColor="#20C997"
                   style={{ fontSize: '26px' }}
                 >
-                  {lounge?.name ?? '-'}
+                  {lounge?.loungeName ?? '-'}
                 </Heading>
 
                 <Box my={24}>
@@ -162,7 +162,7 @@ export default function BookLounge() {
                       <Stack spacing={8}>
                         <Flex align="center" gap={10}>
                           <MapPin width={16} color="#0C8599" />
-                          <Text fw={600}>{lounge?.location ?? '-'}</Text>
+                          <Text fw={600}>{lounge?.location?.city ?? '-'}</Text>
                         </Flex>
                       </Stack>
                     </Box>

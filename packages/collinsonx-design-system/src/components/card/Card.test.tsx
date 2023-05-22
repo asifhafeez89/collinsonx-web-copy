@@ -2,7 +2,7 @@ import * as React from 'react';
 import renderer from 'react-test-renderer';
 import Card from '.';
 
-const weekdays: string[] = ['Monday', 'Tuesday'];
+const weekdays: string = 'Monday, Tuesday';
 const price = {
   currency: 'USD',
   reservationCost: 17.5,
