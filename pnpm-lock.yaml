@@ -67,6 +67,9 @@ importers:
       '@svgr/webpack':
         specifier: ^6.5.1
         version: 6.5.1
+      '@vercel/analytics':
+        specifier: ^1.0.1
+        version: 1.0.1
       dayjs:
         specifier: ^1.11.7
         version: 1.11.7
@@ -158,6 +161,9 @@ importers:
       '@svgr/webpack':
         specifier: ^6.5.1
         version: 6.5.1
+      '@vercel/analytics':
+        specifier: ^1.0.1
+        version: 1.0.1
       dayjs:
         specifier: ^1.11.7
         version: 1.11.7
