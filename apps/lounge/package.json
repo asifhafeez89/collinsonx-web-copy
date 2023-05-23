@@ -17,6 +17,7 @@
     "@collinsonx/pages": "workspace:*",
     "@collinsonx/utils": "workspace:*",
     "@svgr/webpack": "^6.5.1",
+    "@vercel/analytics": "^1.0.1",
     "dayjs": "^1.11.7",
     "next": "^13.1.0",
     "react": "^18.2.0",
