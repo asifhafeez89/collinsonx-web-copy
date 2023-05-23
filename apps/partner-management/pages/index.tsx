@@ -13,7 +13,7 @@ import Error from '@components/Error';
 import OverviewSeparator from '@components/OverviewSeparator';
 import Link from 'next/link';
 import { useQuery } from '@collinsonx/utils/apollo';
-import getAllBookings from '@collinsonx/utils/queries/getAllBookings';
+import getBookings from '@collinsonx/utils/queries/getBookings';
 import { Booking, BookingStatus } from '@collinsonx/utils';
 import { getBookingsByType } from '@collinsonx/utils/lib';
 import { useMemo } from 'react';
@@ -23,12 +23,12 @@ const { Initialized, Confirmed, Declined, Cancelled, CheckedIn } =
   BookingStatus;
 
 export default function Overview() {
-  const { loading, error, data } = useQuery<{ getAllBookings: Booking[] }>(
-    getAllBookings
+  const { loading, error, data } = useQuery<{ getBookings: Booking[] }>(
+    getBookings
   );
 
   const bookings = useMemo<Record<BookingStatus, Booking[]>>(() => {
-    return getBookingsByType(data?.getAllBookings ?? []) as Record<
+    return getBookingsByType(data?.getBookings ?? []) as Record<
       BookingStatus,
       Booking[]
     >;
