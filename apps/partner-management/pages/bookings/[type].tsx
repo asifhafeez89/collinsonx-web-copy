@@ -191,6 +191,14 @@ export default function Bookings({ type }: BookingsProps) {
         cell: (props) => props.getValue() || '-',
       }),
       columnHelper.display({
+        header: 'Arrival date',
+        id: 'arrivalDate',
+        cell: (props) => {
+          const { bookedFrom } = props.row.original;
+          return dayjs.utc(bookedFrom).format('YYYY-MM-DD');
+        },
+      }),
+      columnHelper.display({
         header: 'Arrival time',
         id: 'arrivalTime',
         cell: (props) => {
@@ -198,21 +206,12 @@ export default function Bookings({ type }: BookingsProps) {
           return dayjs.utc(bookedFrom).format('HH:mm');
         },
       }),
-      columnHelper.accessor('bookedFrom', {
-        id: 'arrivalDate',
-        header: 'Arrival date',
-        cell: (props) => {
-          const { bookedFrom } = props.row.original;
-          return dayjs.utc(bookedFrom).format('YYYY-MM-DD');
-        },
-      }),
     ];
 
     if (type === 'pending' || type === 'confirmed') {
       mainColumns.push(
         columnHelper.accessor('status', {
-          header:
-            type === 'pending' ? 'Update booking status' : 'Check-In Customer',
+          header: type === 'pending' ? 'Process request' : 'Check-In Customer',
           cell: (props) => {
             if (type === 'pending') {
               return (
@@ -223,7 +222,7 @@ export default function Bookings({ type }: BookingsProps) {
                   }
                   variant="default"
                 >
-                  Decline/Confirm
+                  Confirm/Decline
                 </Button>
               );
             }
