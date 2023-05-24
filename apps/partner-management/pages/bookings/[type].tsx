@@ -191,11 +191,19 @@ export default function Bookings({ type }: BookingsProps) {
         cell: (props) => props.getValue() || '-',
       }),
       columnHelper.display({
-        header: 'Arrival',
-        id: 'arrival',
+        header: 'Arrival date',
+        id: 'arrivalDate',
         cell: (props) => {
           const { bookedFrom } = props.row.original;
-          return dayjs.utc(bookedFrom).format('YYYY-MM-DD HH:mm');
+          return dayjs.utc(bookedFrom).format('YYYY-MM-DD');
+        },
+      }),
+      columnHelper.display({
+        header: 'Arrival time',
+        id: 'arrivalTime',
+        cell: (props) => {
+          const { bookedFrom } = props.row.original;
+          return dayjs.utc(bookedFrom).format('HH:mm');
         },
       }),
     ];
