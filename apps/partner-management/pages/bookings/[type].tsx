@@ -24,7 +24,7 @@ import Table from '@components/Table';
 import { BookingStatus, Booking } from '@collinsonx/utils';
 import { getBookingsByType } from '@collinsonx/utils/lib';
 import { useMutation, useQuery } from '@collinsonx/utils/apollo';
-import getAllBookings from '@collinsonx/utils/queries/getAllBookings';
+import getBookings from '@collinsonx/utils/queries/getBookings';
 import {
   checkinBooking as checkinBookingMutation,
   declineBooking as declineBookingMutation,
@@ -71,7 +71,7 @@ export default function Bookings({ type }: BookingsProps) {
     error: errorBookings,
     data: dataBookings,
     refetch: refetchBookings,
-  } = useQuery<{ getAllBookings: Booking[] }>(getAllBookings);
+  } = useQuery<{ getBookings: Booking[] }>(getBookings);
 
   const router = useRouter();
   const { date } = router.query;
@@ -104,7 +104,11 @@ export default function Bookings({ type }: BookingsProps) {
     }
 
     return getBookingsByType(
+<<<<<<< HEAD
       filteredData?.getAllBookings ?? [],
+=======
+      dataBookings?.getBookings ?? [],
+>>>>>>> origin/dev
       types
     ) as Booking[];
   }, [filteredData, type]);
@@ -204,15 +208,6 @@ export default function Bookings({ type }: BookingsProps) {
         cell: (props) => {
           const { bookedFrom } = props.row.original;
           return dayjs.utc(bookedFrom).format('YYYY-MM-DD');
-        },
-      }),
-      columnHelper.display({
-        header: 'Guests',
-        cell: (props) => {
-          // currently not available
-          //const { adults, children } = props.row.original;
-          //return `${adults} adults, ${children} children`;
-          return `-`;
         },
       }),
     ];
