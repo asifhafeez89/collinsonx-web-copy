@@ -81,9 +81,9 @@ export default function Bookings({ type }: BookingsProps) {
   const filteredData = useMemo(() => {
     if (!date) {
       return dataBookings;
-    } else if (dataBookings?.getAllBookings) {
+    } else if (dataBookings?.getBookings) {
       return {
-        getAllBookings: dataBookings.getAllBookings.filter(
+        getBookings: dataBookings.getBookings.filter(
           (item) =>
             dayjs.utc(item.bookedFrom).format('YYYY-MM-DD') ===
             dayjs(date as string).format('YYYY-MM-DD')
@@ -104,11 +104,7 @@ export default function Bookings({ type }: BookingsProps) {
     }
 
     return getBookingsByType(
-<<<<<<< HEAD
-      filteredData?.getAllBookings ?? [],
-=======
       dataBookings?.getBookings ?? [],
->>>>>>> origin/dev
       types
     ) as Booking[];
   }, [filteredData, type]);
