@@ -43,6 +43,11 @@ const theme = (
         icon: {
           paddingLeft: 14,
         },
+        rightSection: {
+          button: {
+            color: colors.dark[6],
+          },
+        },
         input: {
           borderRadius: 4,
           paddingLeft: 56,
