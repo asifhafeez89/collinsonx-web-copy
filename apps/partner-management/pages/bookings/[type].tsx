@@ -8,6 +8,10 @@ import {
   Stack,
   Flex,
   ActionIcon,
+  Input,
+  TextInput,
+  TextInputProps,
+  Space,
 } from '@collinsonx/design-system/core';
 import { DatePicker } from '@collinsonx/design-system';
 import {
@@ -18,7 +22,11 @@ import {
 } from '@tanstack/react-table';
 import Status from '@components/Status';
 import dayjs from 'dayjs';
-import { BackArrow, Calendar } from '@collinsonx/design-system/assets/icons';
+import {
+  BackArrow,
+  Calendar,
+  Magglass,
+} from '@collinsonx/design-system/assets/icons';
 import Link from 'next/link';
 import Table from '@components/Table';
 import { BookingStatus, Booking } from '@collinsonx/utils';
@@ -77,12 +85,16 @@ export default function Bookings({ type }: BookingsProps) {
   const { date } = router.query;
 
   const [bookingId, setBookingId] = useState<string | null>(null);
+  const [name, setName] = useState((router.query.name as string) ?? '');
+
+  console.log(name);
 
   const filteredData = useMemo(() => {
+    let result;
     if (!date) {
-      return dataBookings;
+      result = dataBookings;
     } else if (dataBookings?.getBookings) {
-      return {
+      result = {
         getBookings: dataBookings.getBookings.filter(
           (item) =>
             dayjs.utc(item.bookedFrom).format('YYYY-MM-DD') ===
@@ -90,8 +102,13 @@ export default function Bookings({ type }: BookingsProps) {
         ),
       };
     }
-    return dataBookings;
-  }, [date, dataBookings]);
+    if (name && result) {
+      result = result.getBookings.filter((item) =>
+        (item.consumer?.fullName ?? '').includes(name)
+      );
+    }
+    return result;
+  }, [date, name, dataBookings]);
 
   const bookings = useMemo<Booking[]>(() => {
     let types;
@@ -173,6 +190,24 @@ export default function Bookings({ type }: BookingsProps) {
     }
     return `All ${type.slice(0, 1).toUpperCase() + type.slice(1)}`;
   }, [date, type]);
+
+  const handleChangeName: TextInputProps['onChange'] = (e) => {
+    setName(e.target.value);
+  };
+
+  const handleClickNameSubmit = () => {
+    router.replace({
+      query: { ...router.query, name },
+    });
+  };
+
+  const handleNameKeydown: TextInputProps['onKeyDown'] = (e) => {
+    if (e.key === 'Enter') {
+      router.replace({
+        query: { ...router.query, name },
+      });
+    }
+  };
 
   const handleChangeDate: ComponentProps<typeof DatePicker>['onChange'] = (
     date
@@ -308,17 +343,30 @@ export default function Bookings({ type }: BookingsProps) {
               {bookings.length ? `${bookings.length} bookings` : null}
             </Text>
           </Box>
-          <DatePicker
-            icon={<Calendar />}
-            sx={({ colors }) => ({
-              width: 224,
-            })}
-            placeholder="Pick a date"
-            clearable
-            valueFormat={DATE_FORMAT}
-            defaultValue={date ? new Date(date as string) : undefined}
-            onChange={handleChangeDate}
-          />
+          <Flex gap={24}>
+            <TextInput
+              miw={423}
+              value={name}
+              onChange={handleChangeName}
+              onKeyDown={handleNameKeydown}
+              styles={{
+                rightSection: {},
+              }}
+              rightSection={<Magglass onClick={handleClickNameSubmit} />}
+              placeholder="Search for customer"
+            />
+            <DatePicker
+              icon={<Calendar />}
+              sx={({ colors }) => ({
+                width: 224,
+              })}
+              placeholder="Pick a date"
+              clearable
+              valueFormat={DATE_FORMAT}
+              defaultValue={date ? new Date(date as string) : undefined}
+              onChange={handleChangeDate}
+            />
+          </Flex>
         </Flex>
         <Error error={checkinError} />
         <Error error={confirmError} />
