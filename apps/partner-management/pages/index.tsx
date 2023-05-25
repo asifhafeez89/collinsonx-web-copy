@@ -57,10 +57,10 @@ export default function Overview() {
           <Grid>
             <Grid.Col lg={6}>
               <Stack spacing={24}>
-                <OverviewCard title="Pending bookings" variant="pending">
+                <OverviewCard title="Pending requests" variant="pending">
                   <>
                     {!loading && !bookings[Initialized]?.length ? (
-                      'You have no pending bookings'
+                      'You have no pending requests'
                     ) : (
                       <Flex gap={72} maw="40%">
                         <OverviewMetric
