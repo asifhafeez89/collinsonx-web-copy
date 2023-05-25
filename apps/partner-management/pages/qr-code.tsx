@@ -19,10 +19,7 @@ export default function QRCode() {
     <Stack p={32} align="center">
       <h1>Welcome to {loungeName}</h1>
       <h2>For walk-up check-ins please scan the code below</h2>
-      <QRCodeSVG
-        value={`https://collinsonx-web-main-alpha.vercel.app//${loungeId}`}
-        size={400}
-      />
+      <QRCodeSVG value={`lifestylex://accessNow/${loungeId}`} size={400} />
       <MediaQuery
         query="print"
         styles={{

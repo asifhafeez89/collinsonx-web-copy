@@ -4,8 +4,18 @@
     "details": [
       {
         "appID": "9S452ZZ2W5.com.lifestylex.app",
-        "paths": ["/", "/lounge", "/lounge/*"]
+        "paths": ["/", "/accessNow/*"]
       }
+    ]
+  },
+  "activitycontinuation": {
+    "apps": [
+      "9S452ZZ2W5.com.lifestylex.app"
+    ]
+  },
+  "webcredentials": {
+    "apps": [
+      "9S452ZZ2W5.com.lifestylex.app"
     ]
   }
 }
