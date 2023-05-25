@@ -8,7 +8,7 @@ import { QRCodeSVG } from 'qrcode.react';
 export default function QRCode() {
   const router = useRouter();
 
-  const loungeId = '1234567890';
+  const loungeId = '24773fc9-d4a5-540a-8473-374ead37b0f7';
   const loungeName = 'Lounge Name';
 
   const print = () => {
