@@ -317,7 +317,7 @@ export default function Bookings({ type }: BookingsProps) {
             placeholder="Pick a date"
             clearable
             valueFormat={DATE_FORMAT}
-            defaultValue={new Date(date as string)}
+            defaultValue={date ? new Date(date as string) : undefined}
             onChange={handleChangeDate}
           />
         </Flex>
