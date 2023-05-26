@@ -14,16 +14,21 @@ export default class _Document extends Document {
         <body>
           <Main />
           <NextScript />
-          <script src="https://wchat.freshchat.com/js/widget.js"></script>
-          <Script strategy="lazyOnload">
+          <Script strategy="beforeInteractive">
             {`
-            window.fcWidget.init({
-              token: "22d326e8-4ec9-4a59-99e3-53d05a5f5f77",
-              host: "https://wchat.freshchat.com",
-              externalId: "TestUser",     // user's id unique to your system
-              firstName: "Test",              // user's first name
-              lastName: "User",                // user's last name
-            });`}
+            function initFreshChat() {
+              window.fcWidget.init({
+                token: "22d326e8-4ec9-4a59-99e3-53d05a5f5f77",
+                host: "https://wchat.eu.freshchat.com",
+                tags: ["tepartman"],
+                faqTags : {
+                    tags : ['tepartman'],
+                    filterType:'article'
+                },
+              });
+            }
+            function initialize(i,t){var e;i.getElementById(t)?initFreshChat():((e=i.createElement("script")).id=t,e.async=!0,e.src="https://wchat.eu.freshchat.com/js/widget.js",e.onload=initFreshChat,i.head.appendChild(e))}function initiateCall(){initialize(document,"freshchat-js-sdk")}window.addEventListener?window.addEventListener("load",initiateCall,!1):window.attachEvent("load",initiateCall,!1);
+            `}
           </Script>
         </body>
       </Html>
