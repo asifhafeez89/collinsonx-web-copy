@@ -14,7 +14,7 @@ export default class _Document extends Document {
         <body>
           <Main />
           <NextScript />
-          <Script strategy="beforeInteractive">
+          <Script id="freshChatWidget" strategy="beforeInteractive">
             {`
             function initFreshChat() {
               window.fcWidget.init({
