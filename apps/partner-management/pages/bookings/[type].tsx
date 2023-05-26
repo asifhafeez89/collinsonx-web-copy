@@ -211,8 +211,8 @@ export default function Bookings({ type }: BookingsProps) {
     date
   ) => {
     const dateStr = dayjs(date as Date).format('YYYY-MM-DD');
-    router.push(`/bookings/${type}?date=${dateStr}`, undefined, {
-      shallow: true,
+    router.replace({
+      query: { ...router.query, date: dateStr },
     });
   };
 
