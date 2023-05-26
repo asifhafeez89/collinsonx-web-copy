@@ -87,8 +87,6 @@ export default function Bookings({ type }: BookingsProps) {
   const [bookingId, setBookingId] = useState<string | null>(null);
   const [name, setName] = useState((router.query.name as string) ?? '');
 
-  console.log(name);
-
   const filteredData = useMemo(() => {
     let result;
     if (!date) {
