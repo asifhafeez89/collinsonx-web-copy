@@ -8,19 +8,24 @@ import {
   Stack,
   Flex,
   ActionIcon,
+  Checkbox,
 } from '@collinsonx/design-system/core';
 import { DatePicker } from '@collinsonx/design-system';
 import {
-  ColumnDef,
+  useReactTable,
+  getSortedRowModel,
   createColumnHelper,
   getCoreRowModel,
-  useReactTable,
+  SortingState,
+  flexRender,
+  FilterFn,
+  ColumnDef,
 } from '@tanstack/react-table';
 import Status from '@components/Status';
 import dayjs from 'dayjs';
 import { BackArrow, Calendar } from '@collinsonx/design-system/assets/icons';
 import Link from 'next/link';
-import Table from '@components/Table';
+import { Table } from '@collinsonx/design-system/core';
 import { BookingStatus, Booking } from '@collinsonx/utils';
 import { getBookingsByType } from '@collinsonx/utils/lib';
 import { useMutation, useQuery } from '@collinsonx/utils/apollo';
@@ -40,6 +45,8 @@ import { isErrorValid } from 'lib';
 import utc from 'dayjs/plugin/utc';
 import { useRouter } from 'next/router';
 dayjs.extend(utc);
+
+import styled from '@collinsonx/design-system/styled';
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
 
@@ -183,9 +190,27 @@ export default function Bookings({ type }: BookingsProps) {
     });
   };
 
+  const [sorting, setSorting] = useState<SortingState>([
+    { id: 'arrivalDate', desc: true },
+  ]);
+
   const columns = useMemo(() => {
     // see https://github.com/TanStack/table/issues/4241
     const mainColumns: ColumnDef<Partial<Booking>, any>[] = [
+      columnHelper.display({
+        header: ' ',
+        cell: ({ row }) => (
+          <Checkbox
+            pl={6}
+            {...{
+              checked: row.getIsSelected(),
+              disabled: !row.getCanSelect(),
+              indeterminate: row.getIsSomeSelected(),
+              onChange: row.getToggleSelectedHandler(),
+            }}
+          />
+        ),
+      }),
       columnHelper.accessor('consumer.fullName', {
         header: 'Customer name',
         cell: (props) => props.getValue() || '-',
@@ -251,13 +276,67 @@ export default function Bookings({ type }: BookingsProps) {
   const table = useReactTable({
     data: bookings,
     columns,
+    state: {
+      sorting,
+    },
+    enableSortingRemoval: false,
+    onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
   });
 
   const selectedBooking = useMemo(
     () => (bookingId ? bookings.find((item) => item.id === bookingId)! : null),
     [bookingId, bookings]
   );
+
+  const CustomTable = ({ ...props }: { children: JSX.Element[] }) => (
+    <Table {...props} />
+  );
+
+  const StyledTable = styled(CustomTable)`
+    border: 1px solid #d3d3d3;
+    border-radius: 4px;
+    border-spacing: 0;
+    border-collapse: separate;
+    overflow: hidden;
+
+    thead th {
+      height: 48px;
+    }
+    tbody {
+      tr td {
+        border-top: none;
+      }
+      tr {
+        height: 60px;
+      }
+      tr:nth-of-type(even) {
+        background: #f9f9f9;
+      }
+      tr:hover {
+        background: #ededed;
+      }
+    }
+  `;
+
+  const TriangleUp = styled('div')`
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 9px solid #fff;
+  `;
+
+  const TriangleDown = styled('div')`
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 9px solid #fff;
+  `;
 
   return (
     <>
@@ -329,11 +408,73 @@ export default function Bookings({ type }: BookingsProps) {
         {!bookings ? (
           <Text>No bookings found</Text>
         ) : (
-          <Table<Partial<Booking>>
-            type={type as PageType}
-            table={table}
-            widthColMap={widthColMap}
-          />
+          <Stack>
+            <StyledTable>
+              <thead style={{ background: '#0C8599' }}>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <tr key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => (
+                      <th
+                        key={header.id}
+                        colSpan={header.colSpan}
+                        style={{
+                          color: '#FFFFFF',
+                          fontWeight: 400,
+                          userSelect: 'none',
+                        }}
+                      >
+                        {header.isPlaceholder ? null : (
+                          <Box
+                            {...{
+                              sx: {
+                                cursor: header.column.getCanSort()
+                                  ? 'auto'
+                                  : 'pointer',
+                              },
+                              onClick: header.column.getToggleSortingHandler(),
+                            }}
+                          >
+                            {flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+
+                            <span style={{ paddingLeft: 8 }}>
+                              {{
+                                asc: <TriangleUp />,
+                                desc: <TriangleDown />,
+                              }[header.column.getIsSorted() as string] ?? null}
+                            </span>
+                          </Box>
+                        )}
+                      </th>
+                    ))}
+                  </tr>
+                ))}
+              </thead>
+              <tbody>
+                {table
+                  .getRowModel()
+                  .rows.slice(0, 10)
+                  .map((row) => {
+                    return (
+                      <tr key={row.id}>
+                        {row.getVisibleCells().map((cell) => {
+                          return (
+                            <td key={cell.id}>
+                              {flexRender(
+                                cell.column.columnDef.cell,
+                                cell.getContext()
+                              )}
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </StyledTable>
+          </Stack>
         )}
       </Stack>
     </>
