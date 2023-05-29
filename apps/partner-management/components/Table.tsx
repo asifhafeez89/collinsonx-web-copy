@@ -1,4 +1,8 @@
-import { Table as MantineTable } from '@collinsonx/design-system/core';
+import {
+  TriangleDown,
+  TriangleUp,
+} from '@collinsonx/design-system/components/table';
+import { Box, Table as MantineTable } from '@collinsonx/design-system/core';
 import styled from '@collinsonx/design-system/styled';
 import { Table as ReactTable, flexRender } from '@tanstack/react-table';
 import { PageType, bookingPageConfig } from 'config/booking';
@@ -68,12 +72,26 @@ function Table<T extends unknown>({
                     'auto',
                 }}
               >
-                {header.isPlaceholder
-                  ? null
-                  : flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
+                <Box
+                  {...{
+                    sx: {
+                      cursor: header.column.getCanSort() ? 'pointer' : 'auto',
+                    },
+                    onClick: header.column.getToggleSortingHandler(),
+                  }}
+                >
+                  {flexRender(
+                    header.column.columnDef.header,
+                    header.getContext()
+                  )}
+
+                  <span style={{ paddingLeft: 8 }}>
+                    {{
+                      asc: <TriangleUp color="#000" />,
+                      desc: <TriangleDown color="#000" />,
+                    }[header.column.getIsSorted() as string] ?? null}
+                  </span>
+                </Box>
               </th>
             ))}
           </tr>

@@ -23,7 +23,7 @@ import Status from '@components/Status';
 import dayjs from 'dayjs';
 import { BackArrow, Calendar } from '@collinsonx/design-system/assets/icons';
 import Link from 'next/link';
-import { Table } from '@collinsonx/design-system/core';
+import Table from '@components/Table';
 import { BookingStatus, Booking } from '@collinsonx/utils';
 import { getBookingsByType } from '@collinsonx/utils/lib';
 import { useMutation, useQuery } from '@collinsonx/utils/apollo';
@@ -37,17 +37,12 @@ import BookingModal from '@components/BookingModal';
 import Error from '@components/Error';
 import DetailsConfirmedActions from '@components/Details/DetailsConfirmedActions';
 import DetailsPendingActions from '@components/Details/DetailsPendingActions';
-import {
-  TriangleUp,
-  TriangleDown,
-} from '@collinsonx/design-system/components/table';
 import { GetServerSideProps } from 'next';
 import { expandDate, isErrorValid } from 'lib';
 import utc from 'dayjs/plugin/utc';
 import { useRouter } from 'next/router';
 dayjs.extend(utc);
 
-import styled from '@collinsonx/design-system/styled';
 import { PageType } from 'config/booking';
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
@@ -272,36 +267,6 @@ export default function Bookings({ type }: BookingsProps) {
     [bookingId, bookings]
   );
 
-  const CustomTable = ({ ...props }: { children: JSX.Element[] }) => (
-    <Table {...props} />
-  );
-
-  const StyledTable = styled(CustomTable)`
-    border: 1px solid #d3d3d3;
-    border-radius: 4px;
-    border-spacing: 0;
-    border-collapse: separate;
-    overflow: hidden;
-
-    thead th {
-      height: 48px;
-    }
-    tbody {
-      tr td {
-        border-top: none;
-      }
-      tr {
-        height: 60px;
-      }
-      tr:nth-of-type(even) {
-        background: #f9f9f9;
-      }
-      tr:hover {
-        background: #ededed;
-      }
-    }
-  `;
-
   return (
     <>
       <BookingModal booking={selectedBooking} onClickClose={handleClickClose}>
@@ -372,73 +337,11 @@ export default function Bookings({ type }: BookingsProps) {
         {!bookings ? (
           <Text>No bookings found</Text>
         ) : (
-          <Stack>
-            <StyledTable>
-              <thead style={{ background: '#0C8599' }}>
-                {table.getHeaderGroups().map((headerGroup) => (
-                  <tr key={headerGroup.id}>
-                    {headerGroup.headers.map((header) => (
-                      <th
-                        key={header.id}
-                        colSpan={header.colSpan}
-                        style={{
-                          color: '#FFFFFF',
-                          fontWeight: 400,
-                          userSelect: 'none',
-                        }}
-                      >
-                        {header.isPlaceholder ? null : (
-                          <Box
-                            {...{
-                              sx: {
-                                cursor: header.column.getCanSort()
-                                  ? 'pointer'
-                                  : 'auto',
-                              },
-                              onClick: header.column.getToggleSortingHandler(),
-                            }}
-                          >
-                            {flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
-
-                            <span style={{ paddingLeft: 8 }}>
-                              {{
-                                asc: <TriangleUp />,
-                                desc: <TriangleDown />,
-                              }[header.column.getIsSorted() as string] ?? null}
-                            </span>
-                          </Box>
-                        )}
-                      </th>
-                    ))}
-                  </tr>
-                ))}
-              </thead>
-              <tbody>
-                {table
-                  .getRowModel()
-                  .rows.slice(0, 10)
-                  .map((row) => {
-                    return (
-                      <tr key={row.id}>
-                        {row.getVisibleCells().map((cell) => {
-                          return (
-                            <td key={cell.id}>
-                              {flexRender(
-                                cell.column.columnDef.cell,
-                                cell.getContext()
-                              )}
-                            </td>
-                          );
-                        })}
-                      </tr>
-                    );
-                  })}
-              </tbody>
-            </StyledTable>
-          </Stack>
+          <Table<Partial<Booking>>
+            type={type as PageType}
+            table={table}
+            widthColMap={widthColMap}
+          />
         )}
       </Stack>
     </>

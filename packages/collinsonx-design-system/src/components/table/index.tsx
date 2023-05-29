@@ -55,7 +55,7 @@ export const TriangleUp: StyledComponent<JSX.IntrinsicElements['div']> = styled(
   height: 0;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
-  border-bottom: 9px solid #fff;
+  border-bottom: 9px solid ${(props) => (props.color ? props.color : '#fff')};
 `;
 
 export const TriangleDown: StyledComponent<
@@ -66,7 +66,7 @@ export const TriangleDown: StyledComponent<
   height: 0;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
-  border-top: 9px solid #fff;
+  border-top: 9px solid ${(props) => (props.color ? props.color : '#fff')};
 `;
 
 const mockedData = [
