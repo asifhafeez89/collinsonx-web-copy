@@ -47,6 +47,7 @@ import { GetServerSideProps } from 'next';
 import { expandDate, isErrorValid } from 'lib';
 import utc from 'dayjs/plugin/utc';
 import { useRouter } from 'next/router';
+
 dayjs.extend(utc);
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
@@ -108,7 +109,9 @@ export default function Bookings({ type }: BookingsProps) {
     if (name && result) {
       result = {
         getBookings: result.getBookings.filter((item) =>
-          (item.consumer?.fullName ?? '').includes(name)
+          (item.consumer?.fullName ?? '')
+            .toLowerCase()
+            .includes(name.toLowerCase())
         ),
       };
     }
@@ -197,21 +200,15 @@ export default function Bookings({ type }: BookingsProps) {
   }, [date, type]);
 
   const handleChangeName: TextInputProps['onChange'] = (e) => {
-    setName(e.target.value);
-  };
-
-  const handleClickNameSubmit = () => {
-    router.replace({
-      query: { ...router.query, name },
-    });
-  };
-
-  const handleNameKeydown: TextInputProps['onKeyDown'] = (e) => {
-    if (e.key === 'Enter') {
-      router.replace({
+    const name = e.target.value;
+    setName(name);
+    router.replace(
+      {
         query: { ...router.query, name },
-      });
-    }
+      },
+      undefined,
+      { shallow: true }
+    );
   };
 
   const handleChangeDate: ComponentProps<typeof DatePicker>['onChange'] = (
@@ -219,9 +216,13 @@ export default function Bookings({ type }: BookingsProps) {
   ) => {
     const dateStr =
       date !== null ? dayjs(date as Date).format('YYYY-MM-DD') : '';
-    router.replace({
-      query: { ...router.query, date: dateStr },
-    });
+    router.replace(
+      {
+        query: { ...router.query, date: dateStr },
+      },
+      undefined,
+      { shallow: true }
+    );
   };
 
   const columns = useMemo(() => {
@@ -353,11 +354,10 @@ export default function Bookings({ type }: BookingsProps) {
               miw={423}
               value={name}
               onChange={handleChangeName}
-              onKeyDown={handleNameKeydown}
               styles={{
                 rightSection: {},
               }}
-              rightSection={<Magglass onClick={handleClickNameSubmit} />}
+              rightSection={<Magglass />}
               placeholder="Search for customer"
             />
             <DatePicker
