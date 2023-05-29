@@ -47,7 +47,7 @@ const StyledTable = styled(CustomTable)`
   }
 `;
 
-const TriangleUp = styled('div')`
+export const TriangleUp = styled('div')`
   display: inline-block;
   width: 0;
   height: 0;
@@ -56,7 +56,7 @@ const TriangleUp = styled('div')`
   border-bottom: 9px solid #fff;
 `;
 
-const TriangleDown = styled('div')`
+export const TriangleDown = styled('div')`
   display: inline-block;
   width: 0;
   height: 0;

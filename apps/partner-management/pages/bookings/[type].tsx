@@ -8,7 +8,6 @@ import {
   Stack,
   Flex,
   ActionIcon,
-  Checkbox,
 } from '@collinsonx/design-system/core';
 import { DatePicker } from '@collinsonx/design-system';
 import {
@@ -18,7 +17,6 @@ import {
   getCoreRowModel,
   SortingState,
   flexRender,
-  FilterFn,
   ColumnDef,
 } from '@tanstack/react-table';
 import Status from '@components/Status';
@@ -39,14 +37,18 @@ import BookingModal from '@components/BookingModal';
 import Error from '@components/Error';
 import DetailsConfirmedActions from '@components/Details/DetailsConfirmedActions';
 import DetailsPendingActions from '@components/Details/DetailsPendingActions';
-import { PageType } from 'config/booking';
+import {
+  TriangleUp,
+  TriangleDown,
+} from '@collinsonx/design-system/components/table';
 import { GetServerSideProps } from 'next';
-import { isErrorValid } from 'lib';
+import { expandDate, isErrorValid } from 'lib';
 import utc from 'dayjs/plugin/utc';
 import { useRouter } from 'next/router';
 dayjs.extend(utc);
 
 import styled from '@collinsonx/design-system/styled';
+import { PageType } from 'config/booking';
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
 
@@ -86,11 +88,12 @@ export default function Bookings({ type }: BookingsProps) {
   const [bookingId, setBookingId] = useState<string | null>(null);
 
   const filteredData = useMemo(() => {
+    const data = expandDate(dataBookings);
     if (!date) {
-      return dataBookings;
-    } else if (dataBookings?.getBookings) {
+      return data;
+    } else if (data?.getBookings) {
       return {
-        getBookings: dataBookings.getBookings.filter(
+        getBookings: data.getBookings.filter(
           (item) =>
             dayjs.utc(item.bookedFrom).format('YYYY-MM-DD') ===
             dayjs(date as string).format('YYYY-MM-DD')
@@ -197,54 +200,35 @@ export default function Bookings({ type }: BookingsProps) {
   const columns = useMemo(() => {
     // see https://github.com/TanStack/table/issues/4241
     const mainColumns: ColumnDef<Partial<Booking>, any>[] = [
-      columnHelper.display({
-        header: ' ',
-        cell: ({ row }) => (
-          <Checkbox
-            pl={6}
-            {...{
-              checked: row.getIsSelected(),
-              disabled: !row.getCanSelect(),
-              indeterminate: row.getIsSomeSelected(),
-              onChange: row.getToggleSelectedHandler(),
-            }}
-          />
-        ),
-      }),
       columnHelper.accessor('consumer.fullName', {
+        id: 'fullName',
         header: 'Customer name',
         cell: (props) => props.getValue() || '-',
       }),
-      columnHelper.display({
+      columnHelper.accessor('consumer.arrivalDate', {
         header: 'Arrival date',
         id: 'arrivalDate',
-        cell: (props) => {
-          const { bookedFrom } = props.row.original;
-          return dayjs.utc(bookedFrom).format('YYYY-MM-DD');
-        },
+        cell: (props) => props.getValue() || '-',
       }),
-      columnHelper.display({
+      columnHelper.accessor('consumer.arrivalTime', {
         header: 'Arrival time',
         id: 'arrivalTime',
-        cell: (props) => {
-          const { bookedFrom } = props.row.original;
-          return dayjs.utc(bookedFrom).format('HH:mm');
-        },
+        cell: (props) => props.getValue() || '-',
       }),
     ];
 
     if (type === 'pending' || type === 'confirmed') {
       mainColumns.push(
-        columnHelper.accessor('status', {
+        columnHelper.display({
+          id: 'status',
           header: type === 'pending' ? 'Process request' : 'Check-In Customer',
           cell: (props) => {
+            const { status, id } = props.row.original as Booking;
             if (type === 'pending') {
               return (
                 <Button
                   fullWidth
-                  onClick={() =>
-                    setBookingId((props.row.original as Booking).id)
-                  }
+                  onClick={() => setBookingId(id)}
                   variant="default"
                 >
                   Confirm/Decline
@@ -252,12 +236,10 @@ export default function Bookings({ type }: BookingsProps) {
               );
             }
             if (type === 'confirmed') {
-              return props.getValue() !== BookingStatus.CheckedIn ? (
+              return status !== BookingStatus.CheckedIn ? (
                 <Button
                   fullWidth
-                  onClick={() =>
-                    handleClickCheckIn((props.row.original as Booking).id)
-                  }
+                  onClick={() => handleClickCheckIn(id)}
                   variant="default"
                 >
                   Check customer in
@@ -318,24 +300,6 @@ export default function Bookings({ type }: BookingsProps) {
         background: #ededed;
       }
     }
-  `;
-
-  const TriangleUp = styled('div')`
-    display: inline-block;
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-bottom: 9px solid #fff;
-  `;
-
-  const TriangleDown = styled('div')`
-    display: inline-block;
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 9px solid #fff;
   `;
 
   return (
@@ -428,8 +392,8 @@ export default function Bookings({ type }: BookingsProps) {
                             {...{
                               sx: {
                                 cursor: header.column.getCanSort()
-                                  ? 'auto'
-                                  : 'pointer',
+                                  ? 'pointer'
+                                  : 'auto',
                               },
                               onClick: header.column.getToggleSortingHandler(),
                             }}
