@@ -8,10 +8,8 @@ import {
   Stack,
   Flex,
   ActionIcon,
-  Input,
   TextInput,
   TextInputProps,
-  Space,
 } from '@collinsonx/design-system/core';
 import { DatePicker } from '@collinsonx/design-system';
 import {
@@ -217,7 +215,8 @@ export default function Bookings({ type }: BookingsProps) {
   const handleChangeDate: ComponentProps<typeof DatePicker>['onChange'] = (
     date
   ) => {
-    const dateStr = dayjs(date as Date).format('YYYY-MM-DD');
+    const dateStr =
+      date !== null ? dayjs(date as Date).format('YYYY-MM-DD') : '';
     router.replace({
       query: { ...router.query, date: dateStr },
     });
