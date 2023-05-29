@@ -13,7 +13,7 @@ import { rankItem } from '@tanstack/match-sorter-utils';
 
 import { Stack, Input, Table, Button, Checkbox, Box, Flex } from '../../core';
 
-import styled from '@emotion/styled';
+import styled, { StyledComponent } from '@emotion/styled';
 
 import { Magglass, RedCircle, GreenCircle } from '../../assets/icons';
 
@@ -47,7 +47,9 @@ const StyledTable = styled(CustomTable)`
   }
 `;
 
-export const TriangleUp = styled('div')`
+export const TriangleUp: StyledComponent<JSX.IntrinsicElements['div']> = styled(
+  'div'
+)`
   display: inline-block;
   width: 0;
   height: 0;
@@ -56,7 +58,9 @@ export const TriangleUp = styled('div')`
   border-bottom: 9px solid #fff;
 `;
 
-export const TriangleDown = styled('div')`
+export const TriangleDown: StyledComponent<
+  JSX.IntrinsicElements['div']
+> = styled('div')`
   display: inline-block;
   width: 0;
   height: 0;
