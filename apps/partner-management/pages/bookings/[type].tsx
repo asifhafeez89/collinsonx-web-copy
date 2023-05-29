@@ -8,16 +8,16 @@ import {
   Stack,
   Flex,
   ActionIcon,
-  Input,
   TextInput,
   TextInputProps,
-  Space,
 } from '@collinsonx/design-system/core';
 import { DatePicker } from '@collinsonx/design-system';
 import {
   ColumnDef,
+  SortingState,
   createColumnHelper,
   getCoreRowModel,
+  getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
 import Status from '@components/Status';
@@ -44,9 +44,10 @@ import DetailsConfirmedActions from '@components/Details/DetailsConfirmedActions
 import DetailsPendingActions from '@components/Details/DetailsPendingActions';
 import { PageType } from 'config/booking';
 import { GetServerSideProps } from 'next';
-import { isErrorValid } from 'lib';
+import { expandDate, isErrorValid } from 'lib';
 import utc from 'dayjs/plugin/utc';
 import { useRouter } from 'next/router';
+
 dayjs.extend(utc);
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
@@ -87,13 +88,18 @@ export default function Bookings({ type }: BookingsProps) {
   const [bookingId, setBookingId] = useState<string | null>(null);
   const [name, setName] = useState((router.query.name as string) ?? '');
 
+  const [sorting, setSorting] = useState<SortingState>([
+    { id: 'arrivalDate', desc: true },
+  ]);
+
   const filteredData = useMemo(() => {
     let result;
+    const data = expandDate(dataBookings);
     if (!date) {
-      result = dataBookings;
-    } else if (dataBookings?.getBookings) {
+      result = data;
+    } else if (data?.getBookings) {
       result = {
-        getBookings: dataBookings.getBookings.filter(
+        getBookings: data.getBookings.filter(
           (item) =>
             dayjs.utc(item.bookedFrom).format('YYYY-MM-DD') ===
             dayjs(date as string).format('YYYY-MM-DD')
@@ -101,9 +107,13 @@ export default function Bookings({ type }: BookingsProps) {
       };
     }
     if (name && result) {
-      result = result.getBookings.filter((item) =>
-        (item.consumer?.fullName ?? '').includes(name)
-      );
+      result = {
+        getBookings: result.getBookings.filter((item) =>
+          (item.consumer?.fullName ?? '')
+            .toLowerCase()
+            .includes(name.toLowerCase())
+        ),
+      };
     }
     return result;
   }, [date, name, dataBookings]);
@@ -119,7 +129,7 @@ export default function Bookings({ type }: BookingsProps) {
     }
 
     return getBookingsByType(
-      dataBookings?.getBookings ?? [],
+      filteredData?.getBookings ?? [],
       types
     ) as Booking[];
   }, [filteredData, type]);
@@ -190,69 +200,63 @@ export default function Bookings({ type }: BookingsProps) {
   }, [date, type]);
 
   const handleChangeName: TextInputProps['onChange'] = (e) => {
-    setName(e.target.value);
-  };
-
-  const handleClickNameSubmit = () => {
-    router.replace({
-      query: { ...router.query, name },
-    });
-  };
-
-  const handleNameKeydown: TextInputProps['onKeyDown'] = (e) => {
-    if (e.key === 'Enter') {
-      router.replace({
+    const name = e.target.value;
+    setName(name);
+    router.replace(
+      {
         query: { ...router.query, name },
-      });
-    }
+      },
+      undefined,
+      { shallow: true }
+    );
   };
 
   const handleChangeDate: ComponentProps<typeof DatePicker>['onChange'] = (
     date
   ) => {
-    const dateStr = dayjs(date as Date).format('YYYY-MM-DD');
-    router.replace({
-      query: { ...router.query, date: dateStr },
-    });
+    const dateStr =
+      date !== null ? dayjs(date as Date).format('YYYY-MM-DD') : '';
+    router.replace(
+      {
+        query: { ...router.query, date: dateStr },
+      },
+      undefined,
+      { shallow: true }
+    );
   };
 
   const columns = useMemo(() => {
     // see https://github.com/TanStack/table/issues/4241
     const mainColumns: ColumnDef<Partial<Booking>, any>[] = [
       columnHelper.accessor('consumer.fullName', {
+        id: 'fullName',
         header: 'Customer name',
         cell: (props) => props.getValue() || '-',
       }),
-      columnHelper.display({
+      columnHelper.accessor('arrivalDate', {
         header: 'Arrival date',
         id: 'arrivalDate',
-        cell: (props) => {
-          const { bookedFrom } = props.row.original;
-          return dayjs.utc(bookedFrom).format('YYYY-MM-DD');
-        },
+        cell: (props) => props.getValue() || '-',
       }),
-      columnHelper.display({
+      columnHelper.accessor('arrivalTime', {
         header: 'Arrival time',
         id: 'arrivalTime',
-        cell: (props) => {
-          const { bookedFrom } = props.row.original;
-          return dayjs.utc(bookedFrom).format('HH:mm');
-        },
+        cell: (props) => props.getValue() || '-',
       }),
     ];
 
     if (type === 'pending' || type === 'confirmed') {
       mainColumns.push(
-        columnHelper.accessor('status', {
+        columnHelper.display({
+          id: 'status',
           header: type === 'pending' ? 'Process request' : 'Check-In Customer',
           cell: (props) => {
+            const { status, id } = props.row.original as Booking;
             if (type === 'pending') {
               return (
                 <Button
                   fullWidth
-                  onClick={() =>
-                    setBookingId((props.row.original as Booking).id)
-                  }
+                  onClick={() => setBookingId(id)}
                   variant="default"
                 >
                   Confirm/Decline
@@ -260,12 +264,10 @@ export default function Bookings({ type }: BookingsProps) {
               );
             }
             if (type === 'confirmed') {
-              return props.getValue() !== BookingStatus.CheckedIn ? (
+              return status !== BookingStatus.CheckedIn ? (
                 <Button
                   fullWidth
-                  onClick={() =>
-                    handleClickCheckIn((props.row.original as Booking).id)
-                  }
+                  onClick={() => handleClickCheckIn(id)}
                   variant="default"
                 >
                   Check customer in
@@ -284,7 +286,13 @@ export default function Bookings({ type }: BookingsProps) {
   const table = useReactTable({
     data: bookings,
     columns,
+    state: {
+      sorting,
+    },
+    enableSortingRemoval: false,
+    onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
   });
 
   const selectedBooking = useMemo(
@@ -346,11 +354,10 @@ export default function Bookings({ type }: BookingsProps) {
               miw={423}
               value={name}
               onChange={handleChangeName}
-              onKeyDown={handleNameKeydown}
               styles={{
                 rightSection: {},
               }}
-              rightSection={<Magglass onClick={handleClickNameSubmit} />}
+              rightSection={<Magglass />}
               placeholder="Search for customer"
             />
             <DatePicker
