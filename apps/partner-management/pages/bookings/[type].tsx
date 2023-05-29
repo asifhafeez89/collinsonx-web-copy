@@ -106,9 +106,11 @@ export default function Bookings({ type }: BookingsProps) {
       };
     }
     if (name && result) {
-      result = result.getBookings.filter((item) =>
-        (item.consumer?.fullName ?? '').includes(name)
-      );
+      result = {
+        getBookings: result.getBookings.filter((item) =>
+          (item.consumer?.fullName ?? '').includes(name)
+        ),
+      };
     }
     return result;
   }, [date, name, dataBookings]);
@@ -124,7 +126,7 @@ export default function Bookings({ type }: BookingsProps) {
     }
 
     return getBookingsByType(
-      dataBookings?.getBookings ?? [],
+      filteredData?.getBookings ?? [],
       types
     ) as Booking[];
   }, [filteredData, type]);
@@ -230,12 +232,12 @@ export default function Bookings({ type }: BookingsProps) {
         header: 'Customer name',
         cell: (props) => props.getValue() || '-',
       }),
-      columnHelper.accessor('consumer.arrivalDate', {
+      columnHelper.accessor('arrivalDate', {
         header: 'Arrival date',
         id: 'arrivalDate',
         cell: (props) => props.getValue() || '-',
       }),
-      columnHelper.accessor('consumer.arrivalTime', {
+      columnHelper.accessor('arrivalTime', {
         header: 'Arrival time',
         id: 'arrivalTime',
         cell: (props) => props.getValue() || '-',
