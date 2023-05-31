@@ -5,22 +5,14 @@ import { MantineProvider } from '@collinsonx/design-system/core';
 import Head from 'next/head';
 import { useApollo, ApolloProvider } from '@collinsonx/utils/apollo';
 import { Analytics } from '@vercel/analytics/react';
-import theme from '../theme';
-
-/*
-import SuperTokens, {
-  SuperTokensConfig,
-  SuperTokensWrapper,
-} from '@collinsonx/utils/supertokens';
-*/
 
 import SuperTokens from 'supertokens-web-js';
-
 import { SuperTokensWrapper } from 'supertokens-auth-react';
-
-import { frontendConfig } from 'config/frontendConfig';
 import { SuperTokensConfig } from 'supertokens-web-js/lib/build/types';
+import { frontendConfig } from 'config/frontendConfig';
+
 import AuthWrapper from '@components/AuthWrapper';
+import theme from '../theme';
 
 type Page<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactElement) => JSX.Element;
