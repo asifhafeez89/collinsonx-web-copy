@@ -4,6 +4,7 @@ import { ComponentType, ReactElement } from 'react';
 import { MantineProvider } from '@collinsonx/design-system/core';
 import Head from 'next/head';
 import { useApollo, ApolloProvider } from '@collinsonx/utils/apollo';
+import { Analytics } from '@vercel/analytics/react';
 import theme from '../theme';
 
 /*
@@ -55,6 +56,7 @@ export default function MyApp({ Component, pageProps }: Props) {
           <AuthWrapper>
             <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
               {getLayout(<Component {...pageProps} />)}
+              <Analytics />
             </MantineProvider>
           </AuthWrapper>
         </SuperTokensWrapper>

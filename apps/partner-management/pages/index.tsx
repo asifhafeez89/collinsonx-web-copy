@@ -40,6 +40,8 @@ export default function Overview() {
   const bookingsDeclined =
     (bookings[Declined]?.length || 0) + (bookings[Cancelled]?.length || 0);
 
+  const showTodaysBookings = false;
+
   return (
     <>
       {error && isErrorValid(error) ? (
@@ -55,10 +57,10 @@ export default function Overview() {
           <Grid>
             <Grid.Col lg={6}>
               <Stack spacing={24}>
-                <OverviewCard title="Pending bookings" variant="pending">
+                <OverviewCard title="Pending requests" variant="pending">
                   <>
                     {!loading && !bookings[Initialized]?.length ? (
-                      'You have no pending bookings'
+                      'You have no pending requests'
                     ) : (
                       <Flex gap={72} maw="40%">
                         <OverviewMetric
@@ -113,23 +115,27 @@ export default function Overview() {
                     'You have no confirmed bookings'
                   ) : (
                     <Flex gap={72}>
-                      <OverviewMetric
-                        loading={loading}
-                        label="Today's bookings"
-                        value={bookingsConfirmed}
-                      >
-                        <Link href="/bookings/confirmed" passHref>
-                          <Button
-                            variant="default"
-                            sx={{ width: 'fit-content' }}
+                      {showTodaysBookings && (
+                        <>
+                          <OverviewMetric
+                            loading={loading}
+                            label="Today's bookings"
+                            value={bookingsConfirmed}
                           >
-                            Today&apos;s bookings
-                          </Button>
-                        </Link>
-                      </OverviewMetric>
-                      <Flex justify="center">
-                        <OverviewSeparator />
-                      </Flex>
+                            <Link href="/bookings/confirmed" passHref>
+                              <Button
+                                variant="default"
+                                sx={{ width: 'fit-content' }}
+                              >
+                                Today&apos;s bookings
+                              </Button>
+                            </Link>
+                          </OverviewMetric>
+                          <Flex justify="center">
+                            <OverviewSeparator />
+                          </Flex>
+                        </>
+                      )}
                       <OverviewMetric
                         loading={loading}
                         label="All bookings"
