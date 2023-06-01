@@ -49,7 +49,7 @@ export default function Overview() {
       ];
       return allConfirmed.filter(
         (item) =>
-          dayjs(item.bookedFrom).format('YYYY-MM-DD') ===
+          dayjs(item.bookedFrom).format('YYYY-MM-DD') ==
           dayjs(new Date()).format('YYYY-MM-DD')
       );
     } else {
