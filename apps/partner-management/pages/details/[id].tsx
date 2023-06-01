@@ -69,13 +69,13 @@ export default function Details({ id }: DetailsProps) {
     });
   };
 
-  if (!loading && !fetchError && !booking) {
-    return (
-      <Box py={40} px={32}>
-        Booking could not be found
-      </Box>
-    );
-  }
+  // if (!loading && !fetchError && !booking) {
+  //   return (
+  //     <Box py={40} px={32}>
+  //       Booking could not be found
+  //     </Box>
+  //   );
+  // }
 
   return (
     <>
