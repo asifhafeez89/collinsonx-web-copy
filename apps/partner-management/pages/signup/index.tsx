@@ -13,6 +13,7 @@ import FormContainer from '@components/FormContainer';
 import { useForm } from '@collinsonx/design-system/form';
 import validateEmail from '@collinsonx/utils/lib/validateEmail';
 import PageTitle from '@components/PageTitle';
+import jwtDecode from 'jwt-decode';
 
 export interface FormValues {
   email: string;
@@ -35,9 +36,11 @@ export interface FormValues {
 
 // Note: backend must know the URL for this page
 
-const MOCK_LOUNGE = 'Club Aspire Lounge';
 const MOCK_AIRPORT = 'London Heathrow';
 const MOCK_TERMINAL = 'Terminal 5';
+
+const MOCK_JWT =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHBlcmllbmNlSUQiOiIxMzM3IiwibG91bmdlTmFtZSI6IkNsdWIgQXNwaXJlIExvdW5nZSIsInBhcnRuZXJJRCI6ImZvb2JhciIsInBhcnRuZXJOYW1lIjoiRm9vIEJhciJ9.B7M3A367PUGBmUS5EV3zk8ZW5o6A6QoMSeLSWDRoCm8';
 
 export default function Signup() {
   const form = useForm({
@@ -67,6 +70,8 @@ export default function Signup() {
     }
   };
 
+  const invitationData = jwtDecode<Record<string, string>>(MOCK_JWT);
+
   return (
     <>
       <PageTitle title="Signup" />
@@ -77,7 +82,7 @@ export default function Signup() {
           </Text>
           <Box>
             <Text align="center" size={32} fw={700}>
-              {MOCK_LOUNGE}
+              {invitationData.loungeName}
             </Text>
             <Text size={32} align="center">
               {MOCK_AIRPORT} - {MOCK_TERMINAL}
