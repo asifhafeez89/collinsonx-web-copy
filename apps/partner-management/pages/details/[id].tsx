@@ -6,7 +6,7 @@ import Error from '@components/Error';
 import Notification from '@components/Notification';
 import { useMutation, useQuery } from '@collinsonx/utils/apollo';
 import { Booking, BookingStatus } from '@collinsonx/utils';
-import getBookings from '@collinsonx/utils/queries/getBookings';
+import getAllBookings from '@collinsonx/utils/queries/getAllBookings';
 import DetailsPendingActions from '@components/Details/DetailsPendingActions';
 import {
   declineBooking as declineBookingMutation,
@@ -30,10 +30,10 @@ export default function Details({ id }: DetailsProps) {
     loading,
     error: fetchError,
     data,
-  } = useQuery<{ getBookings: Booking[] }>(getBookings);
+  } = useQuery<{ getAllBookings: Booking[] }>(getAllBookings);
 
   const booking = useMemo(() => {
-    return data?.getBookings.find((item) => item.id === id);
+    return data?.getAllBookings.find((item) => item.id === id);
   }, [data, id]);
 
   const [
