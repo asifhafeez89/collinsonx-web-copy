@@ -233,6 +233,11 @@ export default function Bookings({ type }: BookingsProps) {
         header: 'Customer name',
         cell: (props) => props.getValue() || '-',
       }),
+      columnHelper.accessor('type', {
+        header: 'Type',
+        id: 'type',
+        cell: (props) => props.getValue() || '-',
+      }),
       columnHelper.accessor('arrivalDate', {
         header: 'Arrival date',
         id: 'arrivalDate',
@@ -243,10 +248,11 @@ export default function Bookings({ type }: BookingsProps) {
         id: 'arrivalTime',
         cell: (props) => props.getValue() || '-',
       }),
-      columnHelper.accessor('type', {
-        header: 'Type',
-        id: 'type',
-        cell: (props) => props.getValue() || '-',
+      columnHelper.accessor('guestCount', {
+        header: 'Guests',
+        id: 'guestCount',
+        cell: (props) =>
+          !Number.isNaN(props.getValue()) ? props.getValue() : '-',
       }),
     ];
 

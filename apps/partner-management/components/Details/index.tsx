@@ -28,7 +28,7 @@ const Details = ({ children, booking, loading = false }: DetailsProps) => {
         </DetailsKeyValue>
       </DetailsSection>
       <DetailsSection label="Booking details">
-        <DetailsKeyValue label="Booking date" loading={loading}>
+        <DetailsKeyValue label="Arrival date" loading={loading}>
           {booking?.bookedFrom ? (
             <Flex align="center" gap={8}>
               <Calendar width={16} height={16} />
@@ -38,7 +38,7 @@ const Details = ({ children, booking, loading = false }: DetailsProps) => {
             '-'
           )}
         </DetailsKeyValue>
-        <DetailsKeyValue label="Booking time" loading={loading}>
+        <DetailsKeyValue label="Arrival time" loading={loading}>
           {booking?.bookedFrom ? (
             <Flex align="center" gap={8}>
               <Clock width={16} height={16} />
@@ -47,6 +47,9 @@ const Details = ({ children, booking, loading = false }: DetailsProps) => {
           ) : (
             '-'
           )}
+        </DetailsKeyValue>
+        <DetailsKeyValue label="Guests" loading={loading}>
+          <>{booking?.guestCount}</>
         </DetailsKeyValue>
       </DetailsSection>
       {children}
