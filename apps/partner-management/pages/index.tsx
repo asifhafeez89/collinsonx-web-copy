@@ -19,6 +19,9 @@ import { getBookingsByType } from '@collinsonx/utils/lib';
 import { useMemo } from 'react';
 import { isErrorValid } from 'lib';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(utc);
 
 const { Initialized, Confirmed, Declined, Cancelled, CheckedIn } =
   BookingStatus;
@@ -49,7 +52,7 @@ export default function Overview() {
       ];
       return allConfirmed.filter(
         (item) =>
-          dayjs(item.bookedFrom).format('YYYY-MM-DD') ==
+          dayjs.utc(item.bookedFrom).format('YYYY-MM-DD') ==
           dayjs(new Date()).format('YYYY-MM-DD')
       );
     } else {
