@@ -32,7 +32,7 @@ import Table from '@components/Table';
 import { BookingStatus, Booking } from '@collinsonx/utils';
 import { getBookingsByType } from '@collinsonx/utils/lib';
 import { useMutation, useQuery } from '@collinsonx/utils/apollo';
-import getBookings from '@collinsonx/utils/queries/getBookings';
+import getAllBookings from '@collinsonx/utils/queries/getAllBookings';
 import {
   checkinBooking as checkinBookingMutation,
   declineBooking as declineBookingMutation,
@@ -80,7 +80,7 @@ export default function Bookings({ type }: BookingsProps) {
     error: errorBookings,
     data: dataBookings,
     refetch: refetchBookings,
-  } = useQuery<{ getBookings: Booking[] }>(getBookings);
+  } = useQuery<{ getAllBookings: Booking[] }>(getAllBookings);
 
   const router = useRouter();
   const { date } = router.query;
@@ -97,9 +97,9 @@ export default function Bookings({ type }: BookingsProps) {
     const data = expandDate(dataBookings);
     if (!date) {
       result = data;
-    } else if (data?.getBookings) {
+    } else if (data?.getAllBookings) {
       result = {
-        getBookings: data.getBookings.filter(
+        getAllBookings: data.getAllBookings.filter(
           (item) =>
             dayjs.utc(item.bookedFrom).format('YYYY-MM-DD') ===
             dayjs(date as string).format('YYYY-MM-DD')
@@ -108,7 +108,7 @@ export default function Bookings({ type }: BookingsProps) {
     }
     if (name && result) {
       result = {
-        getBookings: result.getBookings.filter((item) =>
+        getAllBookings: result.getAllBookings.filter((item) =>
           (item.consumer?.fullName ?? '')
             .toLowerCase()
             .includes(name.toLowerCase())
@@ -129,7 +129,7 @@ export default function Bookings({ type }: BookingsProps) {
     }
 
     return getBookingsByType(
-      filteredData?.getBookings ?? [],
+      filteredData?.getAllBookings ?? [],
       types
     ) as Booking[];
   }, [filteredData, type]);
