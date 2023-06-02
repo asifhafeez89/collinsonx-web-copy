@@ -29,7 +29,7 @@ import {
 } from '@collinsonx/design-system/assets/icons';
 import Link from 'next/link';
 import Table from '@components/Table';
-import { BookingStatus, Booking } from '@collinsonx/utils';
+import { BookingStatus, Booking, BookingType } from '@collinsonx/utils';
 import { getBookingsByType } from '@collinsonx/utils/lib';
 import { useMutation, useQuery } from '@collinsonx/utils/apollo';
 import getAllBookings from '@collinsonx/utils/queries/getAllBookings';
@@ -56,6 +56,11 @@ const titleMap = {
   pending: 'Pending lounge booking management',
   confirmed: 'Confirmed lounge booking management',
   declined: 'Declined lounge booking management',
+};
+
+const bookingTypeMap = {
+  [BookingType.Reservation]: 'Reservation',
+  [BookingType.WalkUp]: 'Walk-up',
 };
 
 const widthColMap = {
@@ -236,7 +241,7 @@ export default function Bookings({ type }: BookingsProps) {
       columnHelper.accessor('type', {
         header: 'Type',
         id: 'type',
-        cell: (props) => props.getValue() || '-',
+        cell: (props) => bookingTypeMap[props.getValue()] || '-',
       }),
       columnHelper.accessor('arrivalDate', {
         header: 'Arrival date',
