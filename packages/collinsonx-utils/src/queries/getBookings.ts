@@ -6,6 +6,7 @@ const getBookings = gql`
       bookedFrom
       bookedTo
       createdAt
+      type
       consumer {
         id
       }

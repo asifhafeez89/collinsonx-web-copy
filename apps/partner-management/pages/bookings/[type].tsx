@@ -243,6 +243,11 @@ export default function Bookings({ type }: BookingsProps) {
         id: 'arrivalTime',
         cell: (props) => props.getValue() || '-',
       }),
+      columnHelper.accessor('type', {
+        header: 'Type',
+        id: 'type',
+        cell: (props) => props.getValue() || '-',
+      }),
     ];
 
     if (type === 'pending' || type === 'confirmed') {
