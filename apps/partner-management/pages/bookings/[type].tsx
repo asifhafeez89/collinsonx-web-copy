@@ -241,7 +241,7 @@ export default function Bookings({ type }: BookingsProps) {
       columnHelper.accessor('type', {
         header: 'Type',
         id: 'type',
-        cell: (props) => bookingTypeMap[props.getValue()] || '-',
+        cell: (props) => bookingTypeMap[props.getValue() as BookingType] || '-',
       }),
       columnHelper.accessor('arrivalDate', {
         header: 'Arrival date',
