@@ -133,39 +133,31 @@ export default function Overview() {
                     'You have no confirmed bookings'
                   ) : (
                     <Flex gap={72}>
-                      <>
-                        {todaysConfirmed?.length > 0 ? (
-                          <>
-                            <OverviewMetric
-                              loading={loading}
-                              label="Today's bookings"
-                              value={todaysConfirmed?.length}
-                            >
-                              <Link
-                                href={{
-                                  pathname: '/bookings/confirmed',
-                                  query: {
-                                    date: dayjs(new Date()).format(
-                                      'YYYY-MM-DD'
-                                    ),
-                                  },
-                                }}
-                                passHref
-                              >
-                                <Button
-                                  variant="default"
-                                  sx={{ width: 'fit-content' }}
-                                >
-                                  Today&apos;s bookings
-                                </Button>
-                              </Link>
-                            </OverviewMetric>
-                            <Flex justify="center">
-                              <OverviewSeparator />
-                            </Flex>
-                          </>
-                        ) : null}
-                      </>
+                      <OverviewMetric
+                        loading={loading}
+                        label="Today's bookings"
+                        value={todaysConfirmed?.length}
+                      >
+                        <Link
+                          href={{
+                            pathname: '/bookings/confirmed',
+                            query: {
+                              date: dayjs(new Date()).format('YYYY-MM-DD'),
+                            },
+                          }}
+                          passHref
+                        >
+                          <Button
+                            variant="default"
+                            sx={{ width: 'fit-content' }}
+                          >
+                            Today&apos;s bookings
+                          </Button>
+                        </Link>
+                      </OverviewMetric>
+                      <Flex justify="center">
+                        <OverviewSeparator />
+                      </Flex>
                       <OverviewMetric
                         loading={loading}
                         label="All bookings"
