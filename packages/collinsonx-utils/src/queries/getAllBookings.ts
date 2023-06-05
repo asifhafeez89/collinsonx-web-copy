@@ -6,23 +6,20 @@ const getAllBookings = gql`
       bookedFrom
       bookedTo
       createdAt
-      consumer {
-        id
-        firstName
-        lastName
-        fullName
-      }
+      guestCount
       id
-      experience {
-        id
-        name
-        location
-        images {
-          url
-        }
-      }
       status
+      type
       updatedAt
+      consumer {
+        createdAt
+        crmId
+        emailAddress
+        firstName
+        fullName
+        id
+        updatedAt
+      }
     }
   }
 `;

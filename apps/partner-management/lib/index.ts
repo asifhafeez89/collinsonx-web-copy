@@ -1,4 +1,8 @@
+import { Booking } from '@collinsonx/utils';
 import { ApolloError } from '@collinsonx/utils/apollo';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 
 export type Variant = 'pending' | 'confirmed' | 'declined';
 
@@ -24,5 +28,18 @@ export const isErrorValid = (error?: ApolloError) => {
     return true;
   } else {
     return false;
+  }
+};
+
+export const expandDate = (data?: { getAllBookings: Booking[] }) => {
+  if (data) {
+    return {
+      ...data,
+      getAllBookings: (data?.getAllBookings ?? []).map((row) => ({
+        ...row,
+        arrivalDate: dayjs.utc(row.bookedFrom).format('YYYY-MM-DD'),
+        arrivalTime: dayjs.utc(row.bookedFrom).format('HH:mm'),
+      })),
+    };
   }
 };

@@ -18,6 +18,10 @@ import { Booking, BookingStatus } from '@collinsonx/utils';
 import { getBookingsByType } from '@collinsonx/utils/lib';
 import { useMemo } from 'react';
 import { isErrorValid } from 'lib';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(utc);
 
 const { Initialized, Confirmed, Declined, Cancelled, CheckedIn } =
   BookingStatus;
@@ -40,6 +44,22 @@ export default function Overview() {
   const bookingsDeclined =
     (bookings[Declined]?.length || 0) + (bookings[Cancelled]?.length || 0);
 
+  const todaysConfirmed = useMemo(() => {
+    if (bookings) {
+      const allConfirmed = [
+        ...(bookings[Confirmed] || []),
+        ...(bookings[CheckedIn] || []),
+      ];
+      return allConfirmed.filter(
+        (item) =>
+          dayjs.utc(item.bookedFrom).format('YYYY-MM-DD') ==
+          dayjs(new Date()).format('YYYY-MM-DD')
+      );
+    } else {
+      return [];
+    }
+  }, [bookings]);
+
   return (
     <>
       {error && isErrorValid(error) ? (
@@ -55,10 +75,10 @@ export default function Overview() {
           <Grid>
             <Grid.Col lg={6}>
               <Stack spacing={24}>
-                <OverviewCard title="Pending bookings" variant="pending">
+                <OverviewCard title="Pending requests" variant="pending">
                   <>
                     {!loading && !bookings[Initialized]?.length ? (
-                      'You have no pending bookings'
+                      'You have no pending requests'
                     ) : (
                       <Flex gap={72} maw="40%">
                         <OverviewMetric
@@ -116,9 +136,17 @@ export default function Overview() {
                       <OverviewMetric
                         loading={loading}
                         label="Today's bookings"
-                        value={bookingsConfirmed}
+                        value={todaysConfirmed?.length}
                       >
-                        <Link href="/bookings/confirmed" passHref>
+                        <Link
+                          href={{
+                            pathname: '/bookings/confirmed',
+                            query: {
+                              date: dayjs(new Date()).format('YYYY-MM-DD'),
+                            },
+                          }}
+                          passHref
+                        >
                           <Button
                             variant="default"
                             sx={{ width: 'fit-content' }}

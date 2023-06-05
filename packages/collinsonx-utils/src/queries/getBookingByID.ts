@@ -19,8 +19,7 @@ const getBookingByID = gql`
           url
           width
         }
-        location
-        name
+        loungeName
         openingHours
       }
       status
