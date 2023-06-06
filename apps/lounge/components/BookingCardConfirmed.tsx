@@ -9,7 +9,7 @@ import {
   Flex,
 } from '@collinsonx/design-system/core';
 import { ChevronRight, MapPin } from '@collinsonx/design-system/assets/icons';
-import dayjs from 'dayjs';
+import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
 
 const CardWrapper = styled.div`
   width: 343px;
@@ -66,7 +66,7 @@ export default function BookingCardConfirmed({
             <Title fw={600} size={18}>
               Date
             </Title>
-            <Text>{dayjs(date).format('DD/MM/YYYY')}</Text>
+            <Text>{dayjsTz(date).format('DD/MM/YYYY')}</Text>
           </Stack>
         </Flex>
       </ContentWrapper>

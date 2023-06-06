@@ -14,17 +14,15 @@ import {
 } from '@collinsonx/design-system/core';
 import { GetServerSideProps, NextPageContext } from 'next';
 import { useMutation, useQuery } from '@collinsonx/utils/apollo';
-import dayjs from 'dayjs';
 import bookings from './bookingsMock.json';
 import { useState } from 'react';
 import { getBookingByID as getBookingByIDQuery } from '@collinsonx/utils/queries';
 import { useRouter } from 'next/router';
 import BookingBadge from '@components/BookingBadge/BookingBadge';
 import { BookingStatus } from '@collinsonx/utils';
-import utc from 'dayjs/plugin/utc';
 import { LOUNGE_HOURS_OFFSET } from 'config/lounge';
 import LoungeError from '@components/LoungeError';
-dayjs.extend(utc);
+import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
 
 type Booking = (typeof bookings)[number];
 
@@ -110,15 +108,14 @@ export default function BookingDetails({ id }: BookingDetailProps) {
               <Box>
                 <Title size={18}>Date</Title>
                 <Text>
-                  {dayjs.tz(getBookingByID?.bookedFrom).format('DD/MM/YYYY')}
+                  {dayjsTz(getBookingByID?.bookedFrom).format('DD/MM/YYYY')}
                 </Text>
               </Box>
 
               <Box>
                 <Title size={18}>Your flight time</Title>
                 <Text>
-                  {dayjs
-                    .tz(getBookingByID?.bookedFrom)
+                  {dayjsTz(getBookingByID?.bookedFrom)
                     .add(LOUNGE_HOURS_OFFSET, 'hours')
                     .format('HH:mm')}
                 </Text>
@@ -127,7 +124,7 @@ export default function BookingDetails({ id }: BookingDetailProps) {
               <Box>
                 <Title size={18}>Lounge arrival time</Title>
                 <Text>
-                  {dayjs.tz(getBookingByID?.bookedFrom).format('HH:mm')}
+                  {dayjsTz(getBookingByID?.bookedFrom).format('HH:mm')}
                 </Text>
               </Box>
             </Stack>

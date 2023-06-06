@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from '@collinsonx/design-system/styled';
-import dayjs from 'dayjs';
 import {
   Box,
   Stack,
@@ -9,8 +8,7 @@ import {
   Button,
 } from '@collinsonx/design-system/core';
 import { BookingStatus } from '@collinsonx/utils';
-import utc from 'dayjs/plugin/utc';
-dayjs.extend(utc);
+import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
 
 // import generated types in the following way:
 // import { Booking} from '@collinsonx/utils/generatedTypes/graphql';
@@ -114,9 +112,9 @@ export default function BookingCard({
                   <Text mt={8} size={16}>
                     {location}
                   </Text>
-                  <Text size={16}>{dayjs.tz(date).format('D MMMM YYYY')}</Text>
+                  <Text size={16}>{dayjsTz(date).format('D MMMM YYYY')}</Text>
                   <Text size={16}>
-                    {dayjs.tz(date).format('HH:mm')} lounge arrival time
+                    {dayjsTz(date).format('HH:mm')} lounge arrival time
                   </Text>
                   {nextVisit && (
                     <Button mt={12} onClick={() => onClick(id)}>

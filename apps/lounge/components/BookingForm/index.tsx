@@ -15,10 +15,8 @@ import ArrivalTime from '@components/ArrivalTime';
 import { useForm } from '@collinsonx/design-system/form';
 import { ComponentProps, useEffect, useState } from 'react';
 import { getLoungeArrivalTime } from 'lib';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
 import styled from '@collinsonx/design-system/styled';
-dayjs.extend(utc);
+import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
 
 export interface BookingFormValue {
   date: Date;
@@ -77,8 +75,7 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
   const handleClickBook = () => {
     const [h, m] = arrivalTime!.split(':');
 
-    const utcDate = dayjs
-      .tz(date)
+    const utcDate = dayjsTz(date)
       .hour(Number.parseInt(h, 10))
       .minute(Number.parseInt(m, 10));
 
@@ -196,13 +193,13 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
                       <Text fw={600} color="#000" size={16}>
                         Date of flight
                       </Text>
-                      <Text pt={4}>{dayjs(date).format(DATE_FORMAT)}</Text>
+                      <Text pt={4}>{dayjsTz(date).format(DATE_FORMAT)}</Text>
                     </Box>
                     <Box>
                       <Text fw={600} color="#000" size={16}>
                         Your flight time
                       </Text>
-                      <Text pt={4}>{dayjs(date).format('HH:mm')}</Text>
+                      <Text pt={4}>{dayjsTz(date).format('HH:mm')}</Text>
                     </Box>
                   </>
                 )}
@@ -218,8 +215,8 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
               <Title order={4}>Cancellation policy</Title>
               <Text size={14}>
                 Free cancellation for 24 hours. Cancel before{' '}
-                <strong>{dayjs(date).format(DATE_FORMAT)}</strong> for a partial
-                refund.{' '}
+                <strong>{dayjsTz(date).format(DATE_FORMAT)}</strong> for a
+                partial refund.{' '}
                 <a href="/" style={{ color: '#946A00', fontWeight: '600' }}>
                   Learn more
                 </a>

@@ -16,13 +16,6 @@ import SuperTokensReact, {
 import { SysAuth } from '@collinsonx/utils/components';
 import { useApollo, ApolloProvider } from '@collinsonx/utils/apollo';
 
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
-import dayjs from 'dayjs';
-dayjs.extend(utc);
-dayjs.extend(timezone);
-dayjs.tz.setDefault('Europe/London');
-
 if (typeof window !== 'undefined') {
   // we only want to call this init function on the frontend, so
   // we check typeof window !== 'undefined'
