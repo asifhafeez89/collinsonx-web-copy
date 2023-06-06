@@ -277,8 +277,6 @@ export default function Bookings({ type }: BookingsProps) {
                   />
                 </>
               );
-              e;
-              z;
             }
             if (type === 'confirmed') {
               return status !== BookingStatus.CheckedIn ? (
