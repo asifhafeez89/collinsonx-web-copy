@@ -24,6 +24,14 @@ const Details = ({ children, booking, loading = false }: DetailsProps) => {
           -
         </DetailsKeyValue>
       </DetailsSection>
+      {/* <DetailsSection label="Flight details">
+        <DetailsKeyValue label="Flight number" loading={loading}>
+          {booking?.consumer?.fullName ?? '-'}
+        </DetailsKeyValue>
+        <DetailsKeyValue label="Flight time" loading={loading}>
+          -
+        </DetailsKeyValue>
+      </DetailsSection> */}
       <DetailsSection label="Booking details">
         <DetailsKeyValue label="Arrival date" loading={loading}>
           {booking?.bookedFrom ? (
@@ -46,7 +54,7 @@ const Details = ({ children, booking, loading = false }: DetailsProps) => {
           )}
         </DetailsKeyValue>
         <DetailsKeyValue label="Guests" loading={loading}>
-          <>{booking?.guestCount}</>
+          -
         </DetailsKeyValue>
       </DetailsSection>
       {children}

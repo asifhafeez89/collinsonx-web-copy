@@ -159,18 +159,18 @@ export default function Bookings({ type }: BookingsProps) {
     setCheckIn(false);
     setBookingId(null);
   };
-  const handleClickConfirm = () => {
+  const handleClickConfirm = (id: string) => {
     confirmBooking({
-      variables: { confirmBookingId: bookingId },
+      variables: { confirmBookingId: id },
       onCompleted: () => {
         setBookingId(null);
         refetchBookings();
       },
     });
   };
-  const handleClickDecline = () => {
+  const handleClickDecline = (id: string) => {
     declineBooking({
-      variables: { declineBookingId: bookingId },
+      variables: { declineBookingId: id },
       onCompleted: () => {
         setBookingId(null);
         refetchBookings();
@@ -180,9 +180,9 @@ export default function Bookings({ type }: BookingsProps) {
   const handleClickCheckIn = (id: string) => {
     setBookingId(id);
   };
-  const handleClickConfirmCheckIn = () => {
+  const handleClickConfirmCheckIn = (id: string) => {
     checkInBooking({
-      variables: { checkinBookingId: bookingId },
+      variables: { checkinBookingId: id },
       onCompleted: () => {
         setBookingId(null);
         refetchBookings();
@@ -270,13 +270,12 @@ export default function Bookings({ type }: BookingsProps) {
             const { status, id } = props.row.original as Booking;
             if (type === 'pending') {
               return (
-                <Button
-                  fullWidth
-                  onClick={() => setBookingId(id)}
-                  variant="default"
-                >
-                  Confirm/Decline
-                </Button>
+                <>
+                  <DetailsPendingActions
+                    onClickDecline={() => handleClickDecline(id)}
+                    onClickConfirm={() => handleClickConfirmCheckIn(id)}
+                  />
+                </>
               );
             }
             if (type === 'confirmed') {
@@ -318,23 +317,6 @@ export default function Bookings({ type }: BookingsProps) {
 
   return (
     <>
-      <BookingModal booking={selectedBooking} onClickClose={handleClickClose}>
-        <>
-          {type === 'pending' && (
-            <DetailsPendingActions
-              onClickConfirm={handleClickConfirm}
-              onClickDecline={handleClickDecline}
-            />
-          )}
-          {type === 'confirmed' && (
-            <DetailsConfirmedActions
-              checkIn={checkIn}
-              onChangeCheckIn={setCheckIn}
-              onClickConfirmCheckIn={handleClickConfirmCheckIn}
-            />
-          )}
-        </>
-      </BookingModal>
       <Stack spacing={32}>
         <Box sx={{ borderBottom: '1px solid #E1E1E1' }}>
           <Flex gap={16} align="center" mb={8}>
