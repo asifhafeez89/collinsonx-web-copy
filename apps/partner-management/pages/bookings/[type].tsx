@@ -319,23 +319,6 @@ export default function Bookings({ type }: BookingsProps) {
 
   return (
     <>
-      <BookingModal booking={selectedBooking} onClickClose={handleClickClose}>
-        <>
-          {type === 'pending' && (
-            <DetailsPendingActions
-              onClickConfirm={handleClickConfirm}
-              onClickDecline={handleClickDecline}
-            />
-          )}
-          {type === 'confirmed' && (
-            <DetailsConfirmedActions
-              checkIn={checkIn}
-              onChangeCheckIn={setCheckIn}
-              onClickConfirmCheckIn={handleClickConfirmCheckIn}
-            />
-          )}
-        </>
-      </BookingModal>
       <Stack spacing={32}>
         <Box sx={{ borderBottom: '1px solid #E1E1E1' }}>
           <Flex gap={16} align="center" mb={8}>
