@@ -2,11 +2,8 @@ import { Flex, Stack } from '@collinsonx/design-system/core';
 import { Calendar, Clock } from '@collinsonx/design-system/assets/icons';
 import DetailsSection from './DetailsSection';
 import DetailsKeyValue from './DetailsKeyValue';
-
+import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
 import { Booking } from '@collinsonx/utils';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-dayjs.extend(utc);
 
 export interface DetailsProps {
   booking: Booking | undefined;
@@ -37,7 +34,7 @@ const Details = ({ children, booking, loading = false }: DetailsProps) => {
           {booking?.bookedFrom ? (
             <Flex align="center" gap={8}>
               <Calendar width={16} height={16} />
-              {dayjs.utc(booking?.bookedFrom).format('DD/MM/YYYY')}
+              {dayjsTz(booking?.bookedFrom).format('DD/MM/YYYY')}
             </Flex>
           ) : (
             '-'
@@ -47,7 +44,7 @@ const Details = ({ children, booking, loading = false }: DetailsProps) => {
           {booking?.bookedFrom ? (
             <Flex align="center" gap={8}>
               <Clock width={16} height={16} />
-              {dayjs.utc(booking?.bookedFrom).format('HH:mm')}
+              {dayjsTz(booking?.bookedFrom).format('HH:mm')}
             </Flex>
           ) : (
             '-'

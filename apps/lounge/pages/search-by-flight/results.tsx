@@ -19,9 +19,9 @@ import { useQuery } from '@collinsonx/utils/apollo';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
 import LoungeImage from '@components/LoungeImage';
 import { useRouter } from 'next/router';
-import dayjs from 'dayjs';
 import LoungeError from '@components/LoungeError';
 import FilterPane from '@components/FilterPane/FilterPane';
+import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
 
 export default function Search() {
   const router = useRouter();
@@ -49,15 +49,13 @@ export default function Search() {
   });
 
   const flightNumber = router.query?.flightnumber as string;
-  const flightDate = dayjs(router.query?.dateofflight as string).format(
+  const flightDate = dayjsTz(router.query?.dateofflight as string).format(
     'DD/MM/YYYY'
   );
 
   const { loading, error, data, refetch } = useQuery<{
     searchExperiences: Experience[];
   }>(getSearchExperiences);
-
-  console.log('experiences', data);
 
   const [isFilterPanelOpen, setIsFilterPanelOpen] = useState<boolean>(false);
 

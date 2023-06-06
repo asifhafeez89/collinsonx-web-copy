@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
-import dayjs from 'dayjs';
 import '@testing-library/jest-dom';
 import BookingCard from './BookingCard';
 import { BookingStatus } from '@collinsonx/utils';

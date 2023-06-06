@@ -21,7 +21,8 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import Status from '@components/Status';
-import dayjs from 'dayjs';
+import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
+
 import {
   BackArrow,
   Calendar,
@@ -45,10 +46,7 @@ import DetailsPendingActions from '@components/Details/DetailsPendingActions';
 import { PageType } from 'config/booking';
 import { GetServerSideProps } from 'next';
 import { expandDate, isErrorValid } from 'lib';
-import utc from 'dayjs/plugin/utc';
 import { useRouter } from 'next/router';
-
-dayjs.extend(utc);
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
 
@@ -106,8 +104,8 @@ export default function Bookings({ type }: BookingsProps) {
       result = {
         getAllBookings: data.getAllBookings.filter(
           (item) =>
-            dayjs.utc(item.bookedFrom).format('YYYY-MM-DD') ===
-            dayjs(date as string).format('YYYY-MM-DD')
+            dayjsTz(item.bookedFrom).format('YYYY-MM-DD') ===
+            dayjsTz(date as string).format('YYYY-MM-DD')
         ),
       };
     }
@@ -220,7 +218,7 @@ export default function Bookings({ type }: BookingsProps) {
     date
   ) => {
     const dateStr =
-      date !== null ? dayjs(date as Date).format('YYYY-MM-DD') : '';
+      date !== null ? dayjsTz(date as Date).format('YYYY-MM-DD') : '';
     router.replace(
       {
         query: { ...router.query, date: dateStr },
