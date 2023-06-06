@@ -78,7 +78,7 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
     const [h, m] = arrivalTime!.split(':');
 
     const utcDate = dayjs
-      .utc(date)
+      .tz(date)
       .hour(Number.parseInt(h, 10))
       .minute(Number.parseInt(m, 10));
 
@@ -214,7 +214,6 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
               </Stack>
             </Box>
 
-
             <Box bg="white" p={24}>
               <Title order={4}>Cancellation policy</Title>
               <Text size={14}>
@@ -226,7 +225,7 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
                 </a>
               </Text>
             </Box>
-            
+
             <Box
               px={24}
               py={16}

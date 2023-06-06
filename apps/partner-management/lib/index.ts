@@ -37,8 +37,8 @@ export const expandDate = (data?: { getAllBookings: Booking[] }) => {
       ...data,
       getAllBookings: (data?.getAllBookings ?? []).map((row) => ({
         ...row,
-        arrivalDate: dayjs.utc(row.bookedFrom).format('YYYY-MM-DD'),
-        arrivalTime: dayjs.utc(row.bookedFrom).format('HH:mm'),
+        arrivalDate: dayjs.tz(row.bookedFrom).format('YYYY-MM-DD'),
+        arrivalTime: dayjs.tz(row.bookedFrom).format('HH:mm'),
       })),
     };
   }

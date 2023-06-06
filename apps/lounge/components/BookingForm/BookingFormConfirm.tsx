@@ -23,12 +23,12 @@ export default function BookingFormConfirm({
   const infos = [
     {
       header: 'Date',
-      description: dayjs.utc(date).format('DD/MM/YYYY'),
+      description: dayjs.tz(date).format('DD/MM/YYYY'),
       icon: null,
     },
     {
       header: 'Your flight time',
-      description: dayjs.utc(date).format('HH:mm'),
+      description: dayjs.tz(date).format('HH:mm'),
       icon: null,
     },
     {

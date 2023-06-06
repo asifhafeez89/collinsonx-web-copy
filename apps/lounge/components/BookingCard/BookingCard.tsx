@@ -114,9 +114,9 @@ export default function BookingCard({
                   <Text mt={8} size={16}>
                     {location}
                   </Text>
-                  <Text size={16}>{dayjs.utc(date).format('D MMMM YYYY')}</Text>
+                  <Text size={16}>{dayjs.tz(date).format('D MMMM YYYY')}</Text>
                   <Text size={16}>
-                    {dayjs.utc(date).format('HH:mm')} lounge arrival time
+                    {dayjs.tz(date).format('HH:mm')} lounge arrival time
                   </Text>
                   {nextVisit && (
                     <Button mt={12} onClick={() => onClick(id)}>

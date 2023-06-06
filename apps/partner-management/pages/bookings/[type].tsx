@@ -106,7 +106,7 @@ export default function Bookings({ type }: BookingsProps) {
       result = {
         getAllBookings: data.getAllBookings.filter(
           (item) =>
-            dayjs.utc(item.bookedFrom).format('YYYY-MM-DD') ===
+            dayjs.tz(item.bookedFrom).format('YYYY-MM-DD') ===
             dayjs(date as string).format('YYYY-MM-DD')
         ),
       };

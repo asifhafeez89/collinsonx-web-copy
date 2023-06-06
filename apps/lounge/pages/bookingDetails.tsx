@@ -110,7 +110,7 @@ export default function BookingDetails({ id }: BookingDetailProps) {
               <Box>
                 <Title size={18}>Date</Title>
                 <Text>
-                  {dayjs.utc(getBookingByID?.bookedFrom).format('DD/MM/YYYY')}
+                  {dayjs.tz(getBookingByID?.bookedFrom).format('DD/MM/YYYY')}
                 </Text>
               </Box>
 
@@ -118,7 +118,7 @@ export default function BookingDetails({ id }: BookingDetailProps) {
                 <Title size={18}>Your flight time</Title>
                 <Text>
                   {dayjs
-                    .utc(getBookingByID?.bookedFrom)
+                    .tz(getBookingByID?.bookedFrom)
                     .add(LOUNGE_HOURS_OFFSET, 'hours')
                     .format('HH:mm')}
                 </Text>
@@ -127,7 +127,7 @@ export default function BookingDetails({ id }: BookingDetailProps) {
               <Box>
                 <Title size={18}>Lounge arrival time</Title>
                 <Text>
-                  {dayjs.utc(getBookingByID?.bookedFrom).format('HH:mm')}
+                  {dayjs.tz(getBookingByID?.bookedFrom).format('HH:mm')}
                 </Text>
               </Box>
             </Stack>
