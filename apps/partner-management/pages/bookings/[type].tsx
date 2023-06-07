@@ -84,7 +84,7 @@ export default function Bookings({ type }: BookingsProps) {
     data: dataBookings,
     refetch: refetchBookings,
   } = useQuery<{ getAllBookings: Booking[] }>(getAllBookings, {
-    pollInterval: 500,
+    pollInterval: 1000,
   });
 
   const router = useRouter();
