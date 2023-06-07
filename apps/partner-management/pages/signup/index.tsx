@@ -63,13 +63,13 @@ export default function Signup() {
     data: loungeData,
   } = useQuery<{ getExperienceByID: Experience }>(getExperienceByID, {
     variables: { getExperienceById: payload?.experienceID },
-    skip: !router.isReady,
+    skip: !payload?.experienceID,
   });
 
   useEffect(() => {}, [loungeData, loungeLoading]);
 
   const [
-    acceptInvitationCall,
+    submitAcceptInvitation,
     {
       error: acceptInvitationError,
       data: acceptInvitationData,
@@ -81,7 +81,7 @@ export default function Signup() {
     if (!validateEmail(email.trim())) {
     } else {
       try {
-        acceptInvitationCall({
+        submitAcceptInvitation({
           variables: {
             acceptInvitationInput: {
               inviteToken: payload?.jti,
