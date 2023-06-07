@@ -31,7 +31,7 @@ export default function Details({ id }: DetailsProps) {
     error: fetchError,
     data,
   } = useQuery<{ getAllBookings: Booking[] }>(getAllBookings, {
-    pollInterval: 1000,
+    pollInterval: 300000,
   });
 
   const booking = useMemo(() => {

@@ -26,7 +26,7 @@ export default function Overview() {
   const { loading, error, data } = useQuery<{ getAllBookings: Booking[] }>(
     getAllBookings,
     {
-      pollInterval: 1000,
+      pollInterval: 300000,
     }
   );
 
