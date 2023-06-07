@@ -24,7 +24,10 @@ const { Initialized, Confirmed, Declined, Cancelled, CheckedIn } =
 
 export default function Overview() {
   const { loading, error, data } = useQuery<{ getAllBookings: Booking[] }>(
-    getAllBookings
+    getAllBookings,
+    {
+      pollInterval: 500,
+    }
   );
 
   const bookings = useMemo<Record<BookingStatus, Booking[]>>(() => {

@@ -30,7 +30,9 @@ export default function Details({ id }: DetailsProps) {
     loading,
     error: fetchError,
     data,
-  } = useQuery<{ getAllBookings: Booking[] }>(getAllBookings);
+  } = useQuery<{ getAllBookings: Booking[] }>(getAllBookings, {
+    pollInterval: 500,
+  });
 
   const booking = useMemo(() => {
     return data?.getAllBookings.find((item) => item.id === id);

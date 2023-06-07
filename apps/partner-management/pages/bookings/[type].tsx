@@ -83,7 +83,9 @@ export default function Bookings({ type }: BookingsProps) {
     error: errorBookings,
     data: dataBookings,
     refetch: refetchBookings,
-  } = useQuery<{ getAllBookings: Booking[] }>(getAllBookings);
+  } = useQuery<{ getAllBookings: Booking[] }>(getAllBookings, {
+    pollInterval: 500,
+  });
 
   const router = useRouter();
   const { date } = router.query;
