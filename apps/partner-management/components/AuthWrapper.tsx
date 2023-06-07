@@ -40,9 +40,14 @@ const AuthWrapper = ({ children }: AuthWrapperProps) => {
     let allowed = false;
     if (typeof window !== 'undefined') {
       allowed = checkIsAllowed(window.location.pathname);
+      if (!isLoggedIn && !allowed) {
+        window.location.href = `/auth/login?redirectUrl=${
+          window.location.pathname + window.location.search
+        }`;
+      }
     }
     setIsPageAllowed(allowed);
-  }, []);
+  }, [router.pathname, isLoggedIn]);
 
   if (isLoggedIn || isPageAllowed) {
     return <>{children}</>;
