@@ -16,17 +16,23 @@ import { useQuery } from '@collinsonx/utils/apollo';
 import getAllBookings from '@collinsonx/utils/queries/getAllBookings';
 import { Booking, BookingStatus } from '@collinsonx/utils';
 import { getBookingsByType } from '@collinsonx/utils/lib';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { isErrorValid } from 'lib';
+import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
 
 const { Initialized, Confirmed, Declined, Cancelled, CheckedIn } =
   BookingStatus;
 
 export default function Overview() {
+  const [lastUpdate, setLastUpdate] = useState<String>();
   const { loading, error, data } = useQuery<{ getAllBookings: Booking[] }>(
     getAllBookings,
     {
       pollInterval: 300000,
+      fetchPolicy: 'network-only',
+      notifyOnNetworkStatusChange: true,
+      onCompleted: () =>
+        setLastUpdate(dayjsTz(new Date()).format('YYYY-MM-DD HH:mm')),
     }
   );
 
@@ -54,7 +60,7 @@ export default function Overview() {
           <Title mb={8} size={32}>
             Booking overview
           </Title>
-          <Text mb={33} size={18}>
+          <Text mb={33} size={10}>
             {/*lounge.name*/}
           </Text>
           <Grid>
@@ -159,6 +165,9 @@ export default function Overview() {
               </OverviewCard>
             </Grid.Col>
           </Grid>
+          <Text mb={33} mt={33} size={10}>
+            Last updated {lastUpdate}
+          </Text>
         </>
       )}
     </>

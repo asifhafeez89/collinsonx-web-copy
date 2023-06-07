@@ -15,7 +15,8 @@ import {
 import { useRouter } from 'next/router';
 import { bookingConfig } from 'config/booking';
 import { isErrorValid } from 'lib';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
 
 interface DetailsProps {
   id: string;
@@ -32,6 +33,10 @@ export default function Details({ id }: DetailsProps) {
     data,
   } = useQuery<{ getAllBookings: Booking[] }>(getAllBookings, {
     pollInterval: 300000,
+    fetchPolicy: 'network-only',
+    notifyOnNetworkStatusChange: true,
+    onCompleted: () =>
+      setLastUpdate(dayjsTz(new Date()).format('YYYY-MM-DD HH:mm')),
   });
 
   const booking = useMemo(() => {
@@ -49,6 +54,8 @@ export default function Details({ id }: DetailsProps) {
   ] = useMutation(confirmBookingMutation);
 
   const status = booking?.status || null;
+
+  const [lastUpdate, setLastUpdate] = useState<String>();
 
   const handleClickConfirm = () => {
     confirmBooking({
@@ -93,7 +100,7 @@ export default function Details({ id }: DetailsProps) {
           <Stack spacing={32}>
             <Box>
               <Title mb={8} size={32}>
-                Customer booking details
+                Customer booking details ( Last updated {lastUpdate})
               </Title>
               <Text size={18}>Lounge</Text>
             </Box>

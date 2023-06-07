@@ -1,5 +1,5 @@
 import Layout from '@components/Layout';
-import { ComponentProps, useMemo, useState } from 'react';
+import { ComponentProps, useEffect, useMemo, useState } from 'react';
 import {
   Title,
   Text,
@@ -85,6 +85,10 @@ export default function Bookings({ type }: BookingsProps) {
     refetch: refetchBookings,
   } = useQuery<{ getAllBookings: Booking[] }>(getAllBookings, {
     pollInterval: 300000,
+    fetchPolicy: 'network-only',
+    notifyOnNetworkStatusChange: true,
+    onCompleted: () =>
+      setLastUpdate(dayjsTz(new Date()).format('YYYY-MM-DD HH:mm')),
   });
 
   const router = useRouter();
@@ -92,6 +96,8 @@ export default function Bookings({ type }: BookingsProps) {
 
   const [bookingId, setBookingId] = useState<string | null>(null);
   const [name, setName] = useState((router.query.name as string) ?? '');
+
+  const [lastUpdate, setLastUpdate] = useState<String>();
 
   const [sorting, setSorting] = useState<SortingState>([
     { id: 'arrivalDate', desc: true },
@@ -220,7 +226,7 @@ export default function Bookings({ type }: BookingsProps) {
     date
   ) => {
     const dateStr =
-      date !== null ? dayjsTz(date as Date).format('YYYY-MM-DD') : '';
+      date !== null ? dayjsTz(date as Date).format('DD-MM-YYYY HH:MM') : '';
     router.replace(
       {
         query: { ...router.query, date: dateStr },
@@ -344,7 +350,8 @@ export default function Bookings({ type }: BookingsProps) {
               {tableTitle}
             </Title>
             <Text size={14} weight={600} color="#9B9CA0">
-              {bookings.length ? `${bookings.length} bookings` : null}
+              {bookings.length ? `${bookings.length} bookings` : null} ( Last
+              updated {lastUpdate})
             </Text>
           </Box>
           <Flex gap={24}>
