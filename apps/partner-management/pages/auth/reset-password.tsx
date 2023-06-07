@@ -19,7 +19,7 @@ export interface FormValues {
 // Email password recipe / Custom UI / Forgot password flow / Step 2
 // https://supertokens.com/docs/emailpassword/custom-ui/forgot-password#step-2-updating-the-users-password
 
-// For step 1 of the flow, see apps\partner-management\pages\reset-request.tsx
+// For step 1 of the flow, see apps\partner-management\pages\auth\reset-request.tsx
 
 export default function ResetPassword() {
   const form = useForm({
@@ -57,10 +57,10 @@ export default function ResetPassword() {
       } else if (response.status === 'RESET_PASSWORD_INVALID_TOKEN_ERROR') {
         // the password reset token in the URL is invalid, expired, or already consumed
         window.alert('Password reset failed. Please try again');
-        window.location.assign('/auth'); // back to the login scree.
+        window.location.assign('/auth/login'); // back to the login scree.
       } else {
         window.alert('Password reset successful!');
-        window.location.assign('/auth');
+        window.location.assign('/auth/login');
       }
     } catch (err: any) {
       if (err.isSuperTokensGeneralError === true) {
