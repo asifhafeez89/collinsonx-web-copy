@@ -14,7 +14,7 @@ const domain =
   `http://partner-local.test.lifestyle-x.io:${port}`;
 
 const checkIsAllowed = (pathname: string) => {
-  return pathname.slice(0, 5) === '/auth' || pathname === '/signup';
+  return pathname.slice(0, 5) === '/auth' || pathname.slice(0, 7) === '/signup';
 };
 
 const AuthWrapper = ({ children }: AuthWrapperProps) => {

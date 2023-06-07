@@ -5,6 +5,7 @@ import {
   PasswordInput,
   TextInput,
   Box,
+  Flex,
 } from '@collinsonx/design-system/core';
 import LayoutLogin from '@components/LayoutLogin';
 import FormContainer from '@components/FormContainer';
@@ -14,11 +15,15 @@ import PageTitle from '@components/PageTitle';
 import jwtDecode from 'jwt-decode';
 import { useRouter } from 'next/router';
 import { InvitationToken } from 'types/InvitationToken';
+import { useMutation, useQuery } from '@collinsonx/utils/apollo';
+import { useEffect, useState } from 'react';
 import { Experience } from '@collinsonx/utils';
 import getExperienceByID from '@collinsonx/utils/queries/getExperienceByID';
 import acceptInvitation from '@collinsonx/utils/mutations/acceptInvitation';
-import { useMutation, useQuery } from '@collinsonx/utils/apollo';
-import { useEffect, useState } from 'react';
+import Error from '@components/Error';
+import getInvitationByID from '@collinsonx/utils/queries/getInvitationByID';
+import { Invitation } from '@collinsonx/utils/generatedTypes/graphql';
+import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 
 export interface FormValues {
   email: string;
@@ -46,16 +51,35 @@ export default function Signup() {
   useEffect(() => {
     if (router.isReady) {
       const { invitation } = router.query;
-      if (!invitation) {
-        router.push('/');
-      } else {
-        try {
-          const payload = jwtDecode<InvitationToken>(invitation as string);
-          setPayload(payload);
-        } catch (e) {}
+
+      try {
+        const payload = jwtDecode<InvitationToken>(invitation as string);
+
+        if (!payload.jti || !payload.experienceID) {
+          router.push('/signup/expired');
+        }
+
+        setPayload(payload);
+      } catch (e) {
+        router.push('/signup/expired');
       }
     }
   }, [router]);
+
+  const {
+    loading: fetchInvitationLoading,
+    error: fetchInvitationError,
+    data: fetchInvitationData,
+  } = useQuery<{ getInvitationByID: Invitation }>(getInvitationByID, {
+    variables: { getInvitationById: payload?.jti },
+    skip: !payload?.jti,
+  });
+
+  useEffect(() => {
+    if (fetchInvitationData && fetchInvitationData.getInvitationByID === null) {
+      router.push('/signup/expired');
+    }
+  }, [router, fetchInvitationData]);
 
   const {
     loading: loungeLoading,
@@ -65,8 +89,6 @@ export default function Signup() {
     variables: { getExperienceById: payload?.experienceID },
     skip: !payload?.experienceID,
   });
-
-  useEffect(() => {}, [loungeData, loungeLoading]);
 
   const [
     submitAcceptInvitation,
@@ -88,6 +110,10 @@ export default function Signup() {
               email,
               password,
             },
+          },
+          onCompleted: () => {
+            // success
+            router.push('/signup/confirm');
           },
         });
         // ...
@@ -114,7 +140,19 @@ export default function Signup() {
     },
   });
 
-  return (
+  return !router.isReady ||
+    loungeLoading ||
+    acceptInvitationLoading ||
+    fetchInvitationLoading ? (
+    <Flex
+      justify="center"
+      align="center"
+      h="100%"
+      style={{ position: 'absolute', top: 0, bottom: 0 }}
+    >
+      <LoaderLifestyleX />
+    </Flex>
+  ) : (
     <>
       <PageTitle title="Signup" />
       <Stack justify="center" align="center" spacing={32}>
@@ -124,14 +162,17 @@ export default function Signup() {
           </Text>
           <Box>
             <Text align="center" size={32} fw={700}>
-              {loungeData?.getExperienceByID?.loungeName}
+              {loungeData?.getExperienceByID.loungeName}
             </Text>
             <Text size={32} align="center">
-              {loungeData?.getExperienceByID?.location?.airportName} -
-              {loungeData?.getExperienceByID?.location?.terminal}
+              {loungeData?.getExperienceByID.location?.airportName} -
+              {loungeData?.getExperienceByID.location?.terminal}
             </Text>
           </Box>
         </Stack>
+        <Error error={loungeError} />
+        <Error error={fetchInvitationError} />
+        <Error error={acceptInvitationError} />
         <FormContainer>
           <Text align="center" size={18} fw={600}>
             Create an account
@@ -148,7 +189,12 @@ export default function Signup() {
               label="Confirm password"
               {...form.getInputProps('passwordConfirm')}
             />
-            <Button mt={40} type="submit" fullWidth>
+            <Button
+              mt={40}
+              type="submit"
+              fullWidth
+              disabled={acceptInvitationLoading}
+            >
               Submit
             </Button>
           </form>
