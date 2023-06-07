@@ -25,7 +25,7 @@ export interface FormValues {
 // EmailPassword recipe / Custom UI / Forgot password flow / Step 1
 // https://supertokens.com/docs/emailpassword/custom-ui/forgot-password#step-1-sending-the-password-reset-email
 
-// For step 2 of the flow, see apps\partner-management\pages\update-password.tsx
+// For step 2 of the flow, see apps\partner-management\pages\auth\reset-password.tsx
 
 export default function ResetRequest() {
   const [success, setSuccess] = useState(false); // demo
