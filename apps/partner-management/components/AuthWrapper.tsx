@@ -13,18 +13,25 @@ const domain =
   process.env.APP_URL ||
   `http://partner-local.test.lifestyle-x.io:${port}`;
 
+const checkIsAllowed = (pathname: string) => {
+  return (
+    window.location.pathname.slice(0, 11) === '/auth/login' ||
+    window.location.pathname === '/signup'
+  );
+};
+
 const AuthWrapper = ({ children }: AuthWrapperProps) => {
   const router = useRouter();
-  const [isLoginPage, setIsLoginPage] = useState(false);
+  const [isPageAllowed, setIsPageAllowed] = useState(false);
   const [isLoggedIn, userId, logout] = useAuth({
     onExpiredSession: () => {
-      const isLogin = () => {
+      const isAllowed = () => {
         if (typeof window !== 'undefined') {
-          return window.location.pathname.slice(0, 11) === '/auth/login';
+          return checkIsAllowed(window.location.pathname);
         }
         return false;
       };
-      if (window && !isLogin()) {
+      if (window && !isAllowed()) {
         window.location.href = `/auth/login?redirectUrl=${
           window.location.pathname + window.location.search
         }`;
@@ -33,14 +40,14 @@ const AuthWrapper = ({ children }: AuthWrapperProps) => {
   });
 
   useEffect(() => {
-    let isLoginPage = false;
+    let allowed = false;
     if (typeof window !== 'undefined') {
-      isLoginPage = window.location.pathname.slice(0, 11) === '/auth/login';
+      allowed = checkIsAllowed(window.location.pathname);
     }
-    setIsLoginPage(isLoginPage);
+    setIsPageAllowed(allowed);
   }, []);
 
-  if (isLoggedIn || isLoginPage) {
+  if (isLoggedIn || isPageAllowed) {
     return <>{children}</>;
   }
 
