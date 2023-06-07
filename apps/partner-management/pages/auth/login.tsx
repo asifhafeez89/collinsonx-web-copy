@@ -69,7 +69,7 @@ export default function Login() {
             </Button>
             <Anchor
               component={Link}
-              href="/auth/reset-password"
+              href="/auth/reset-request"
               sx={{ marginTop: 24, display: 'block' }}
             >
               Forgotten password?
