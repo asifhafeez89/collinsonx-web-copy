@@ -13,22 +13,26 @@ import Error from '@components/Error';
 import OverviewSeparator from '@components/OverviewSeparator';
 import Link from 'next/link';
 import { useQuery } from '@collinsonx/utils/apollo';
-import getBookings from '@collinsonx/utils/queries/getBookings';
+import getAllBookings from '@collinsonx/utils/queries/getAllBookings';
 import { Booking, BookingStatus } from '@collinsonx/utils';
 import { getBookingsByType } from '@collinsonx/utils/lib';
 import { useMemo } from 'react';
 import { isErrorValid } from 'lib';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(utc);
 
 const { Initialized, Confirmed, Declined, Cancelled, CheckedIn } =
   BookingStatus;
 
 export default function Overview() {
-  const { loading, error, data } = useQuery<{ getBookings: Booking[] }>(
-    getBookings
+  const { loading, error, data } = useQuery<{ getAllBookings: Booking[] }>(
+    getAllBookings
   );
 
   const bookings = useMemo<Record<BookingStatus, Booking[]>>(() => {
-    return getBookingsByType(data?.getBookings ?? []) as Record<
+    return getBookingsByType(data?.getAllBookings ?? []) as Record<
       BookingStatus,
       Booking[]
     >;
@@ -40,7 +44,21 @@ export default function Overview() {
   const bookingsDeclined =
     (bookings[Declined]?.length || 0) + (bookings[Cancelled]?.length || 0);
 
-  const showTodaysBookings = false;
+  const todaysConfirmed = useMemo(() => {
+    if (bookings) {
+      const allConfirmed = [
+        ...(bookings[Confirmed] || []),
+        ...(bookings[CheckedIn] || []),
+      ];
+      return allConfirmed.filter(
+        (item) =>
+          dayjs.utc(item.bookedFrom).format('YYYY-MM-DD') ==
+          dayjs(new Date()).format('YYYY-MM-DD')
+      );
+    } else {
+      return [];
+    }
+  }, [bookings]);
 
   return (
     <>
@@ -115,27 +133,31 @@ export default function Overview() {
                     'You have no confirmed bookings'
                   ) : (
                     <Flex gap={72}>
-                      {showTodaysBookings && (
-                        <>
-                          <OverviewMetric
-                            loading={loading}
-                            label="Today's bookings"
-                            value={bookingsConfirmed}
+                      <OverviewMetric
+                        loading={loading}
+                        label="Today's bookings"
+                        value={todaysConfirmed?.length}
+                      >
+                        <Link
+                          href={{
+                            pathname: '/bookings/confirmed',
+                            query: {
+                              date: dayjs(new Date()).format('YYYY-MM-DD'),
+                            },
+                          }}
+                          passHref
+                        >
+                          <Button
+                            variant="default"
+                            sx={{ width: 'fit-content' }}
                           >
-                            <Link href="/bookings/confirmed" passHref>
-                              <Button
-                                variant="default"
-                                sx={{ width: 'fit-content' }}
-                              >
-                                Today&apos;s bookings
-                              </Button>
-                            </Link>
-                          </OverviewMetric>
-                          <Flex justify="center">
-                            <OverviewSeparator />
-                          </Flex>
-                        </>
-                      )}
+                            Today&apos;s bookings
+                          </Button>
+                        </Link>
+                      </OverviewMetric>
+                      <Flex justify="center">
+                        <OverviewSeparator />
+                      </Flex>
                       <OverviewMetric
                         loading={loading}
                         label="All bookings"

@@ -21,7 +21,8 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import Status from '@components/Status';
-import dayjs from 'dayjs';
+import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
+
 import {
   BackArrow,
   Calendar,
@@ -29,10 +30,10 @@ import {
 } from '@collinsonx/design-system/assets/icons';
 import Link from 'next/link';
 import Table from '@components/Table';
-import { BookingStatus, Booking } from '@collinsonx/utils';
+import { BookingStatus, Booking, BookingType } from '@collinsonx/utils';
 import { getBookingsByType } from '@collinsonx/utils/lib';
 import { useMutation, useQuery } from '@collinsonx/utils/apollo';
-import getBookings from '@collinsonx/utils/queries/getBookings';
+import getAllBookings from '@collinsonx/utils/queries/getAllBookings';
 import {
   checkinBooking as checkinBookingMutation,
   declineBooking as declineBookingMutation,
@@ -45,10 +46,7 @@ import DetailsPendingActions from '@components/Details/DetailsPendingActions';
 import { PageType } from 'config/booking';
 import { GetServerSideProps } from 'next';
 import { expandDate, isErrorValid } from 'lib';
-import utc from 'dayjs/plugin/utc';
 import { useRouter } from 'next/router';
-
-dayjs.extend(utc);
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
 
@@ -56,6 +54,11 @@ const titleMap = {
   pending: 'Pending lounge booking management',
   confirmed: 'Confirmed lounge booking management',
   declined: 'Declined lounge booking management',
+};
+
+const bookingTypeMap = {
+  [BookingType.Reservation]: 'Reservation',
+  [BookingType.WalkUp]: 'Walk-up',
 };
 
 const widthColMap = {
@@ -80,7 +83,7 @@ export default function Bookings({ type }: BookingsProps) {
     error: errorBookings,
     data: dataBookings,
     refetch: refetchBookings,
-  } = useQuery<{ getBookings: Booking[] }>(getBookings);
+  } = useQuery<{ getAllBookings: Booking[] }>(getAllBookings);
 
   const router = useRouter();
   const { date } = router.query;
@@ -97,18 +100,18 @@ export default function Bookings({ type }: BookingsProps) {
     const data = expandDate(dataBookings);
     if (!date) {
       result = data;
-    } else if (data?.getBookings) {
+    } else if (data?.getAllBookings) {
       result = {
-        getBookings: data.getBookings.filter(
+        getAllBookings: data.getAllBookings.filter(
           (item) =>
-            dayjs.utc(item.bookedFrom).format('YYYY-MM-DD') ===
-            dayjs(date as string).format('YYYY-MM-DD')
+            dayjsTz(item.bookedFrom).format('YYYY-MM-DD') ===
+            dayjsTz(date as string).format('YYYY-MM-DD')
         ),
       };
     }
     if (name && result) {
       result = {
-        getBookings: result.getBookings.filter((item) =>
+        getAllBookings: result.getAllBookings.filter((item) =>
           (item.consumer?.fullName ?? '')
             .toLowerCase()
             .includes(name.toLowerCase())
@@ -129,7 +132,7 @@ export default function Bookings({ type }: BookingsProps) {
     }
 
     return getBookingsByType(
-      filteredData?.getBookings ?? [],
+      filteredData?.getAllBookings ?? [],
       types
     ) as Booking[];
   }, [filteredData, type]);
@@ -154,18 +157,18 @@ export default function Bookings({ type }: BookingsProps) {
     setCheckIn(false);
     setBookingId(null);
   };
-  const handleClickConfirm = () => {
+  const handleClickConfirm = (id: string) => {
     confirmBooking({
-      variables: { confirmBookingId: bookingId },
+      variables: { confirmBookingId: id },
       onCompleted: () => {
         setBookingId(null);
         refetchBookings();
       },
     });
   };
-  const handleClickDecline = () => {
+  const handleClickDecline = (id: string) => {
     declineBooking({
-      variables: { declineBookingId: bookingId },
+      variables: { declineBookingId: id },
       onCompleted: () => {
         setBookingId(null);
         refetchBookings();
@@ -175,9 +178,9 @@ export default function Bookings({ type }: BookingsProps) {
   const handleClickCheckIn = (id: string) => {
     setBookingId(id);
   };
-  const handleClickConfirmCheckIn = () => {
+  const handleClickConfirmCheckIn = (id: string) => {
     checkInBooking({
-      variables: { checkinBookingId: bookingId },
+      variables: { checkinBookingId: id },
       onCompleted: () => {
         setBookingId(null);
         refetchBookings();
@@ -215,7 +218,7 @@ export default function Bookings({ type }: BookingsProps) {
     date
   ) => {
     const dateStr =
-      date !== null ? dayjs(date as Date).format('YYYY-MM-DD') : '';
+      date !== null ? dayjsTz(date as Date).format('YYYY-MM-DD') : '';
     router.replace(
       {
         query: { ...router.query, date: dateStr },
@@ -233,6 +236,11 @@ export default function Bookings({ type }: BookingsProps) {
         header: 'Customer name',
         cell: (props) => props.getValue() || '-',
       }),
+      columnHelper.accessor('type', {
+        header: 'Type',
+        id: 'type',
+        cell: (props) => bookingTypeMap[props.getValue() as BookingType] || '-',
+      }),
       columnHelper.accessor('arrivalDate', {
         header: 'Arrival date',
         id: 'arrivalDate',
@@ -242,6 +250,12 @@ export default function Bookings({ type }: BookingsProps) {
         header: 'Arrival time',
         id: 'arrivalTime',
         cell: (props) => props.getValue() || '-',
+      }),
+      columnHelper.accessor('guestCount', {
+        header: 'Guests',
+        id: 'guestCount',
+        cell: (props) =>
+          !Number.isNaN(props.getValue()) ? props.getValue() : '-',
       }),
     ];
 
@@ -254,13 +268,12 @@ export default function Bookings({ type }: BookingsProps) {
             const { status, id } = props.row.original as Booking;
             if (type === 'pending') {
               return (
-                <Button
-                  fullWidth
-                  onClick={() => setBookingId(id)}
-                  variant="default"
-                >
-                  Confirm/Decline
-                </Button>
+                <>
+                  <DetailsPendingActions
+                    onClickDecline={() => handleClickDecline(id)}
+                    onClickConfirm={() => handleClickConfirmCheckIn(id)}
+                  />
+                </>
               );
             }
             if (type === 'confirmed') {
@@ -302,23 +315,6 @@ export default function Bookings({ type }: BookingsProps) {
 
   return (
     <>
-      <BookingModal booking={selectedBooking} onClickClose={handleClickClose}>
-        <>
-          {type === 'pending' && (
-            <DetailsPendingActions
-              onClickConfirm={handleClickConfirm}
-              onClickDecline={handleClickDecline}
-            />
-          )}
-          {type === 'confirmed' && (
-            <DetailsConfirmedActions
-              checkIn={checkIn}
-              onChangeCheckIn={setCheckIn}
-              onClickConfirmCheckIn={handleClickConfirmCheckIn}
-            />
-          )}
-        </>
-      </BookingModal>
       <Stack spacing={32}>
         <Box sx={{ borderBottom: '1px solid #E1E1E1' }}>
           <Flex gap={16} align="center" mb={8}>
