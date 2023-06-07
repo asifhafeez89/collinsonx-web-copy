@@ -16,6 +16,8 @@ import validateEmail from '@collinsonx/utils/lib/validateEmail';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 
+import { sendPasswordResetEmail } from 'supertokens-web-js/recipe/emailpassword';
+
 export interface FormValues {
   email: string;
 }
@@ -42,9 +44,35 @@ export default function PasswordReset() {
     } else {
       setSuccess(true); // demo;
       try {
+        let response = await sendPasswordResetEmail({
+          formFields: [
+            {
+              id: 'email',
+              value: email,
+            },
+          ],
+        });
+
+        if (response.status === 'FIELD_ERROR') {
+          // one of the input formFields failed validaiton
+          response.formFields.forEach((formField) => {
+            if (formField.id === 'email') {
+              // Email validation failed (for example incorrect email syntax).
+              window.alert(formField.error);
+            }
+          });
+        } else {
+          // reset password email sent.
+          window.alert('Please check your email for the password reset link');
+        }
         // ...
       } catch (err: any) {
-        console.log(err);
+        if (err.isSuperTokensGeneralError === true) {
+          // this may be a custom error message sent from the API by you.
+          window.alert(err.message);
+        } else {
+          window.alert('Oops! Something went wrong.');
+        }
       }
     }
   };
