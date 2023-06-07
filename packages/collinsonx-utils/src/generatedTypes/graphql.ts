@@ -13,7 +13,13 @@ export type Scalars = {
   Int: number;
   Float: number;
   Date: any;
+  JSONObject: any;
   ObjectID: any;
+};
+
+export type AcceptInvitationInput = {
+  inviteToken: Scalars['String'];
+  password: Scalars['String'];
 };
 
 export type Booking = {
@@ -25,6 +31,7 @@ export type Booking = {
   experience?: Maybe<Experience>;
   guestCount: Scalars['Int'];
   id: Scalars['ID'];
+  metadata?: Maybe<Scalars['JSONObject']>;
   status: BookingStatus;
   type: BookingType;
   updatedAt: Scalars['Date'];
@@ -35,6 +42,7 @@ export type BookingInput = {
   bookedTo: Scalars['Date'];
   experience: ExperienceKey;
   guestCount: Scalars['Int'];
+  metadata?: InputMaybe<Scalars['JSONObject']>;
   type: BookingType;
 };
 
@@ -89,6 +97,7 @@ export type Experience = {
   hasActiveLounges?: Maybe<Scalars['Boolean']>;
   id: Scalars['ID'];
   images?: Maybe<Array<Maybe<Image>>>;
+  invitations: Array<Invitation>;
   isDeleted?: Maybe<Scalars['Boolean']>;
   location?: Maybe<Location>;
   loungeCode?: Maybe<Scalars['String']>;
@@ -97,6 +106,7 @@ export type Experience = {
   marketingCopy?: Maybe<Scalars['String']>;
   msDynamicsUID?: Maybe<Scalars['String']>;
   openingHours?: Maybe<Scalars['String']>;
+  partners: Array<Partner>;
   passengerType?: Maybe<Scalars['String']>;
   ppboOperatorName?: Maybe<Scalars['String']>;
   pricing?: Maybe<Pricing>;
@@ -137,6 +147,21 @@ export type Image = {
   width?: Maybe<Scalars['Int']>;
 };
 
+export type Invitation = {
+  __typename?: 'Invitation';
+  createdAt: Scalars['Date'];
+  experience?: Maybe<Experience>;
+  expiresAt: Scalars['Date'];
+  id: Scalars['ID'];
+  inviteeEmail: Scalars['String'];
+  updatedAt: Scalars['Date'];
+};
+
+export type InvitationInput = {
+  experience: ExperienceKey;
+  inviteeEmail: Scalars['String'];
+};
+
 export type Location = {
   __typename?: 'Location';
   _geoloc?: Maybe<Geoloc>;
@@ -156,20 +181,35 @@ export type Location = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  acceptInvitation?: Maybe<Invitation>;
   cancelBooking?: Maybe<Booking>;
+  cancelInvitation?: Maybe<Invitation>;
   checkinBooking?: Maybe<Booking>;
   confirmBooking?: Maybe<Booking>;
   createBooking?: Maybe<Booking>;
+  createInvitation?: Maybe<Invitation>;
   declineBooking?: Maybe<Booking>;
   deleteBooking?: Maybe<Booking>;
   findOrCreateConsumer?: Maybe<Consumer>;
   findOrCreatePartner?: Maybe<Partner>;
+  linkExperience?: Maybe<Partner>;
+  unlinkExperience?: Maybe<Partner>;
   updateConsumer?: Maybe<Consumer>;
   updatePartner?: Maybe<Partner>;
 };
 
 
+export type MutationAcceptInvitationArgs = {
+  acceptInvitationInput: AcceptInvitationInput;
+};
+
+
 export type MutationCancelBookingArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationCancelInvitationArgs = {
   id: Scalars['ID'];
 };
 
@@ -186,6 +226,11 @@ export type MutationConfirmBookingArgs = {
 
 export type MutationCreateBookingArgs = {
   bookingInput?: InputMaybe<BookingInput>;
+};
+
+
+export type MutationCreateInvitationArgs = {
+  invitationInput?: InputMaybe<InvitationInput>;
 };
 
 
@@ -209,6 +254,18 @@ export type MutationFindOrCreatePartnerArgs = {
 };
 
 
+export type MutationLinkExperienceArgs = {
+  experienceKey?: InputMaybe<ExperienceKey>;
+  partnerKey?: InputMaybe<PartnerKey>;
+};
+
+
+export type MutationUnlinkExperienceArgs = {
+  experienceKey?: InputMaybe<ExperienceKey>;
+  partnerKey?: InputMaybe<PartnerKey>;
+};
+
+
 export type MutationUpdateConsumerArgs = {
   consumerInput?: InputMaybe<ConsumerInput>;
 };
@@ -229,6 +286,7 @@ export type Partner = {
   __typename?: 'Partner';
   createdAt: Scalars['Date'];
   emailAddress: Scalars['String'];
+  experiences: Array<Experience>;
   firstName?: Maybe<Scalars['String']>;
   fullName?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
@@ -241,6 +299,10 @@ export type PartnerInput = {
   firstName?: InputMaybe<Scalars['String']>;
   lastName?: InputMaybe<Scalars['String']>;
   phone?: InputMaybe<Scalars['String']>;
+};
+
+export type PartnerKey = {
+  id: Scalars['ID'];
 };
 
 export type Pricing = {
@@ -263,6 +325,8 @@ export type Query = {
   getConsumerByEmailAddress?: Maybe<Consumer>;
   getConsumerByID?: Maybe<Consumer>;
   getExperienceByID?: Maybe<Experience>;
+  getInvitationByID?: Maybe<Invitation>;
+  getInvitations: Array<Invitation>;
   getPartner?: Maybe<Partner>;
   getPartnerByEmailAddress?: Maybe<Partner>;
   getPartnerByID?: Maybe<Partner>;
@@ -295,6 +359,16 @@ export type QueryGetExperienceByIdArgs = {
 };
 
 
+export type QueryGetInvitationByIdArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryGetInvitationsArgs = {
+  experienceID?: InputMaybe<Scalars['ID']>;
+};
+
+
 export type QueryGetPartnerByEmailAddressArgs = {
   emailAddress: Scalars['String'];
 };
@@ -315,6 +389,13 @@ export type Redemption = {
   defaultRedemptionTypeCode?: Maybe<Scalars['String']>;
   isGuestAllowed?: Maybe<Scalars['Boolean']>;
 };
+
+export type AcceptInvitationMutationVariables = Exact<{
+  acceptInvitationInput: AcceptInvitationInput;
+}>;
+
+
+export type AcceptInvitationMutation = { __typename?: 'Mutation', acceptInvitation?: { __typename?: 'Invitation', createdAt: any, expiresAt: any, inviteeEmail: string, updatedAt: any, id: string, experience?: { __typename?: 'Experience', id: string } | null } | null };
 
 export type CancelBookingMutationVariables = Exact<{
   cancelBookingId: Scalars['ID'];
@@ -410,6 +491,20 @@ export type GetConsumerByIdQueryVariables = Exact<{
 
 export type GetConsumerByIdQuery = { __typename?: 'Query', getConsumerByID?: { __typename?: 'Consumer', createdAt: any, emailAddress: string, id: string, updatedAt: any, bookings: Array<{ __typename?: 'Booking', id: string, bookedFrom: any, bookedTo: any, status: BookingStatus, updatedAt: any, createdAt: any }> } | null };
 
+export type GetExperienceByIdQueryVariables = Exact<{
+  getExperienceById?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type GetExperienceByIdQuery = { __typename?: 'Query', getExperienceByID?: { __typename?: 'Experience', id: string, loungeName?: string | null, loungeCode?: string | null, location?: { __typename?: 'Location', airportName?: string | null, airportCode?: string | null, terminal?: string | null, terminalCode?: string | null, country?: string | null, city?: string | null, region?: string | null, isoCountryCode?: string | null, lbCountryCode?: string | null } | null } | null };
+
+export type GetInvitationByIdQueryVariables = Exact<{
+  getInvitationById: Scalars['ID'];
+}>;
+
+
+export type GetInvitationByIdQuery = { __typename?: 'Query', getInvitationByID?: { __typename?: 'Invitation', createdAt: any, id: string, inviteeEmail: string, updatedAt: any, experience?: { __typename?: 'Experience', id: string } | null } | null };
+
 export type SearchExperiencesQueryVariables = Exact<{
   query?: InputMaybe<Scalars['String']>;
 }>;
@@ -418,6 +513,7 @@ export type SearchExperiencesQueryVariables = Exact<{
 export type SearchExperiencesQuery = { __typename?: 'Query', searchExperiences?: Array<{ __typename?: 'Experience', additionalInformation?: string | null, conditions?: string | null, id: string, directions?: string | null, facilities?: Array<string | null> | null, loungeName?: string | null, loungeCode?: string | null, accessPeriod?: string | null, airsideLandside?: string | null, hasActiveLounges?: boolean | null, passengerType?: string | null, ppboOperatorName?: string | null, serviceCentre?: string | null, uniqueValueKey?: string | null, openingHours?: string | null, pricing?: { __typename?: 'Pricing', pricingType?: string | null, currency?: string | null, reservationCost?: number | null, lifestyleXReservationCharge?: number | null, walkInCostCurrentPPRate?: number | null, lifestyleXWalkInCharge?: number | null, vat?: number | null } | null, location?: { __typename?: 'Location', airportCode?: string | null, airportName?: string | null, cgTerminal?: string | null, cgTerminalCode?: string | null, city?: string | null, country?: string | null, isoCountryCode?: string | null, lbCountryCode?: string | null, region?: string | null, terminal?: string | null, terminalCode?: string | null, terminalAccessibility?: string | null } | null, images?: Array<{ __typename?: 'Image', url?: string | null, altText?: string | null, height?: number | null, width?: number | null, id: string } | null> | null } | null> | null };
 
 
+export const AcceptInvitationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AcceptInvitation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"acceptInvitationInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AcceptInvitationInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"acceptInvitation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"acceptInvitationInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"acceptInvitationInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"experience"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"expiresAt"}},{"kind":"Field","name":{"kind":"Name","value":"inviteeEmail"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<AcceptInvitationMutation, AcceptInvitationMutationVariables>;
 export const CancelBookingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"cancelBooking"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"cancelBookingId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"cancelBooking"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"cancelBookingId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"bookedFrom"}},{"kind":"Field","name":{"kind":"Name","value":"bookedTo"}},{"kind":"Field","name":{"kind":"Name","value":"consumer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"experience"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<CancelBookingMutation, CancelBookingMutationVariables>;
 export const CheckinBookingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CheckinBooking"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"checkinBookingId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"checkinBooking"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"checkinBookingId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"bookedFrom"}},{"kind":"Field","name":{"kind":"Name","value":"bookedTo"}},{"kind":"Field","name":{"kind":"Name","value":"consumer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<CheckinBookingMutation, CheckinBookingMutationVariables>;
 export const ConfirmBookingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"ConfirmBooking"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"confirmBookingId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"confirmBooking"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"confirmBookingId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"bookedFrom"}},{"kind":"Field","name":{"kind":"Name","value":"bookedTo"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"consumer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"experience"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<ConfirmBookingMutation, ConfirmBookingMutationVariables>;
@@ -432,4 +528,6 @@ export const GetBookingsDocument = {"kind":"Document","definitions":[{"kind":"Op
 export const GetConsumerDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetConsumer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getConsumer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"crmId"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}},{"kind":"Field","name":{"kind":"Name","value":"emailAddress"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"bookings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"bookedFrom"}},{"kind":"Field","name":{"kind":"Name","value":"bookedTo"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"experience"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetConsumerQuery, GetConsumerQueryVariables>;
 export const GetConsumerByEmailAddressDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetConsumerByEmailAddress"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"emailAddress"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getConsumerByEmailAddress"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"emailAddress"},"value":{"kind":"Variable","name":{"kind":"Name","value":"emailAddress"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<GetConsumerByEmailAddressQuery, GetConsumerByEmailAddressQueryVariables>;
 export const GetConsumerByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetConsumerByID"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"getConsumerById"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getConsumerByID"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"getConsumerById"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"bookings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"bookedFrom"}},{"kind":"Field","name":{"kind":"Name","value":"bookedTo"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"emailAddress"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<GetConsumerByIdQuery, GetConsumerByIdQueryVariables>;
+export const GetExperienceByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetExperienceByID"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"getExperienceById"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getExperienceByID"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"getExperienceById"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"loungeName"}},{"kind":"Field","name":{"kind":"Name","value":"loungeCode"}},{"kind":"Field","name":{"kind":"Name","value":"location"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"airportName"}},{"kind":"Field","name":{"kind":"Name","value":"airportCode"}},{"kind":"Field","name":{"kind":"Name","value":"terminal"}},{"kind":"Field","name":{"kind":"Name","value":"terminalCode"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"region"}},{"kind":"Field","name":{"kind":"Name","value":"isoCountryCode"}},{"kind":"Field","name":{"kind":"Name","value":"lbCountryCode"}}]}}]}}]}}]} as unknown as DocumentNode<GetExperienceByIdQuery, GetExperienceByIdQueryVariables>;
+export const GetInvitationByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetInvitationByID"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"getInvitationById"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getInvitationByID"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"getInvitationById"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"experience"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"inviteeEmail"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<GetInvitationByIdQuery, GetInvitationByIdQueryVariables>;
 export const SearchExperiencesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SearchExperiences"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"query"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"searchExperiences"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"query"},"value":{"kind":"Variable","name":{"kind":"Name","value":"query"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"additionalInformation"}},{"kind":"Field","name":{"kind":"Name","value":"conditions"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"directions"}},{"kind":"Field","name":{"kind":"Name","value":"facilities"}},{"kind":"Field","name":{"kind":"Name","value":"loungeName"}},{"kind":"Field","name":{"kind":"Name","value":"loungeCode"}},{"kind":"Field","name":{"kind":"Name","value":"accessPeriod"}},{"kind":"Field","name":{"kind":"Name","value":"airsideLandside"}},{"kind":"Field","name":{"kind":"Name","value":"hasActiveLounges"}},{"kind":"Field","name":{"kind":"Name","value":"passengerType"}},{"kind":"Field","name":{"kind":"Name","value":"ppboOperatorName"}},{"kind":"Field","name":{"kind":"Name","value":"serviceCentre"}},{"kind":"Field","name":{"kind":"Name","value":"uniqueValueKey"}},{"kind":"Field","name":{"kind":"Name","value":"pricing"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pricingType"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}},{"kind":"Field","name":{"kind":"Name","value":"reservationCost"}},{"kind":"Field","name":{"kind":"Name","value":"lifestyleXReservationCharge"}},{"kind":"Field","name":{"kind":"Name","value":"walkInCostCurrentPPRate"}},{"kind":"Field","name":{"kind":"Name","value":"lifestyleXWalkInCharge"}},{"kind":"Field","name":{"kind":"Name","value":"vat"}}]}},{"kind":"Field","name":{"kind":"Name","value":"location"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"airportCode"}},{"kind":"Field","name":{"kind":"Name","value":"airportName"}},{"kind":"Field","name":{"kind":"Name","value":"cgTerminal"}},{"kind":"Field","name":{"kind":"Name","value":"cgTerminalCode"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"country"}},{"kind":"Field","name":{"kind":"Name","value":"isoCountryCode"}},{"kind":"Field","name":{"kind":"Name","value":"lbCountryCode"}},{"kind":"Field","name":{"kind":"Name","value":"region"}},{"kind":"Field","name":{"kind":"Name","value":"terminal"}},{"kind":"Field","name":{"kind":"Name","value":"terminalCode"}},{"kind":"Field","name":{"kind":"Name","value":"terminalAccessibility"}}]}},{"kind":"Field","name":{"kind":"Name","value":"images"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"altText"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"openingHours"}}]}}]}}]} as unknown as DocumentNode<SearchExperiencesQuery, SearchExperiencesQueryVariables>;

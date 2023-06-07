@@ -1,8 +1,6 @@
 import {
-  Title,
   Text,
   Stack,
-  Checkbox,
   Button,
   PasswordInput,
   TextInput,
@@ -14,10 +12,16 @@ import { useForm } from '@collinsonx/design-system/form';
 import validateEmail from '@collinsonx/utils/lib/validateEmail';
 import PageTitle from '@components/PageTitle';
 import jwtDecode from 'jwt-decode';
+import { useRouter } from 'next/router';
+import { InvitationToken } from 'types/InvitationToken';
+import { Experience } from '@collinsonx/utils';
+import getExperienceByID from '@collinsonx/utils/queries/getExperienceByID';
+import acceptInvitation from '@collinsonx/utils/mutations/acceptInvitation';
+import { useMutation, useQuery } from '@collinsonx/utils/apollo';
+import { useEffect, useState } from 'react';
 
 export interface FormValues {
   email: string;
-  fullName: string;
   password: string;
   passwordConfirm: string;
 }
@@ -34,15 +38,65 @@ export interface FormValues {
  *    - if invite has expired redirect to /signup/expired
  */
 
-// Note: backend must know the URL for this page
-
-const MOCK_AIRPORT = 'London Heathrow';
-const MOCK_TERMINAL = 'Terminal 5';
-
-const MOCK_JWT =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHBlcmllbmNlSUQiOiIxMzM3IiwibG91bmdlTmFtZSI6IkNsdWIgQXNwaXJlIExvdW5nZSIsInBhcnRuZXJJRCI6ImZvb2JhciIsInBhcnRuZXJOYW1lIjoiRm9vIEJhciJ9.B7M3A367PUGBmUS5EV3zk8ZW5o6A6QoMSeLSWDRoCm8';
-
 export default function Signup() {
+  const router = useRouter();
+
+  const [payload, setPayload] = useState<InvitationToken>();
+
+  useEffect(() => {
+    if (router.isReady) {
+      const { invitation } = router.query;
+      if (!invitation) {
+        router.push('/');
+      } else {
+        try {
+          const payload = jwtDecode<InvitationToken>(invitation as string);
+          setPayload(payload);
+        } catch (e) {}
+      }
+    }
+  }, [router]);
+
+  const {
+    loading: loungeLoading,
+    error: loungeError,
+    data: loungeData,
+  } = useQuery<{ getExperienceByID: Experience }>(getExperienceByID, {
+    variables: { getExperienceById: payload?.experienceID },
+    skip: !router.isReady,
+  });
+
+  useEffect(() => {}, [loungeData, loungeLoading]);
+
+  const [
+    acceptInvitationCall,
+    {
+      error: acceptInvitationError,
+      data: acceptInvitationData,
+      loading: acceptInvitationLoading,
+    },
+  ] = useMutation(acceptInvitation);
+
+  const handleSignup = async ({ email, password }: FormValues) => {
+    if (!validateEmail(email.trim())) {
+    } else {
+      try {
+        acceptInvitationCall({
+          variables: {
+            acceptInvitationInput: {
+              inviteToken: payload?.jti,
+              email,
+              password,
+            },
+          },
+        });
+        // ...
+      } catch (err: any) {
+        console.log(err);
+      }
+    }
+  };
+
   const form = useForm({
     initialValues: {
       email: '',
@@ -59,18 +113,6 @@ export default function Signup() {
         value !== values.password ? 'Passwords did not match' : null,
     },
   });
-  const handleSignup = async ({ email, fullName, password }: FormValues) => {
-    if (!validateEmail(email.trim())) {
-    } else {
-      try {
-        // ...
-      } catch (err: any) {
-        console.log(err);
-      }
-    }
-  };
-
-  const invitationData = jwtDecode<Record<string, string>>(MOCK_JWT);
 
   return (
     <>
@@ -82,10 +124,11 @@ export default function Signup() {
           </Text>
           <Box>
             <Text align="center" size={32} fw={700}>
-              {invitationData.loungeName}
+              {loungeData?.getExperienceByID?.loungeName}
             </Text>
             <Text size={32} align="center">
-              {MOCK_AIRPORT} - {MOCK_TERMINAL}
+              {loungeData?.getExperienceByID?.location?.airportName} -
+              {loungeData?.getExperienceByID?.location?.terminal}
             </Text>
           </Box>
         </Stack>
