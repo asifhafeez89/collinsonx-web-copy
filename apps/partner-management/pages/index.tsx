@@ -57,8 +57,8 @@ export default function Overview() {
       ];
       return allConfirmed.filter(
         (item) =>
-          dayjs.utc(item.bookedFrom).format('YYYY-MM-DD') ==
-          dayjs(new Date()).format('YYYY-MM-DD')
+          dayjsTz(item.bookedFrom).format('YYYY-MM-DD') ==
+          dayjsTz(new Date()).format('YYYY-MM-DD')
       );
     } else {
       return [];
