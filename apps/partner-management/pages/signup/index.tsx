@@ -21,9 +21,8 @@ import { Experience } from '@collinsonx/utils';
 import getExperienceByID from '@collinsonx/utils/queries/getExperienceByID';
 import acceptInvitation from '@collinsonx/utils/mutations/acceptInvitation';
 import Error from '@components/Error';
-import getInvitationByID from '@collinsonx/utils/queries/getInvitationByID';
-import { Invitation } from '@collinsonx/utils/generatedTypes/graphql';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
+import getInvitationTokenIsValid from '@collinsonx/utils/queries/getInvitationTokenIsValid';
 
 export interface FormValues {
   email: string;
@@ -40,7 +39,7 @@ export interface FormValues {
  * - We should have a way to fetch details for the specific invite ID: lounge title, airport, terminal
  * - Upon invite lookup:
  *    - if successful, redirect to /signup/confirm on submission
- *    - if invite has expired redirect to /signup/expired
+ *    - if invite is invalid redirect to /signup/invalid
  */
 
 export default function Signup() {
@@ -56,32 +55,36 @@ export default function Signup() {
         const payload = jwtDecode<InvitationToken>(invitation as string);
 
         if (!payload.jti || !payload.experienceID) {
-          router.push('/signup/expired');
+          router.push('/signup/invalid');
         }
 
         setPayload(payload);
       } catch (e) {
-        router.push('/signup/expired');
+        router.push('/signup/invalid');
       }
     }
   }, [router]);
 
   const {
-    loading: fetchInvitationLoading,
-    error: fetchInvitationError,
-    data: fetchInvitationData,
-  } = useQuery<{ getInvitationByID: Invitation }>(getInvitationByID, {
-    variables: { getInvitationById: payload?.jti },
-    skip: !payload?.jti,
-  });
-
-  /*
-  useEffect(() => {
-    if (fetchInvitationData && fetchInvitationData.getInvitationByID === null) {
-      router.push('/signup/expired');
+    loading: tokenIsValidLoading,
+    error: tokenIsValidError,
+    data: tokenIsValidData,
+  } = useQuery<{ getInvitationTokenIsValid: boolean }>(
+    getInvitationTokenIsValid,
+    {
+      variables: { inviteToken: router.query.invitation },
+      skip: !router.isReady,
     }
-  }, [router, fetchInvitationData]);
-  */
+  );
+
+  useEffect(() => {
+    if (
+      tokenIsValidData &&
+      tokenIsValidData.getInvitationTokenIsValid === false
+    ) {
+      router.push('/signup/invalid');
+    }
+  }, [router, tokenIsValidData]);
 
   const {
     loading: loungeLoading,
@@ -139,7 +142,10 @@ export default function Signup() {
     },
   });
 
-  return !router.isReady || loungeLoading || acceptInvitationLoading ? (
+  return !router.isReady ||
+    tokenIsValidLoading ||
+    loungeLoading ||
+    acceptInvitationLoading ? (
     <Flex
       justify="center"
       align="center"
@@ -169,7 +175,7 @@ export default function Signup() {
           </Box>
         </Stack>
         <Error error={loungeError} />
-        <Error error={fetchInvitationError} />
+        <Error error={tokenIsValidError} />
         <Error error={acceptInvitationError} />
         <FormContainer>
           <Text align="center" size={18} fw={600}>

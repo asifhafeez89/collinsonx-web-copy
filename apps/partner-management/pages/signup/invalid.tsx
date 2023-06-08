@@ -11,11 +11,11 @@ export interface FormValues {
 export default function Expired() {
   return (
     <>
-      <PageTitle title="Your link has expired" />
+      <PageTitle title="Your link invalid" />
       <Stack justify="center" align="center" spacing={32}>
         <Stack justify="center" align="center" spacing={8}>
           <Title color="cyan.8" size={22}>
-            Your link has expired
+            Your link is invalid
           </Title>
         </Stack>
         <FormContainer>
