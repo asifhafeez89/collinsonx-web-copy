@@ -147,7 +147,7 @@ export default function Overview() {
                           href={{
                             pathname: '/bookings/confirmed',
                             query: {
-                              date: dayjs(new Date()).format('YYYY-MM-DD'),
+                              date: dayjsTz(new Date()).format('YYYY-MM-DD'),
                             },
                           }}
                           passHref
