@@ -18,6 +18,7 @@ export type Scalars = {
 };
 
 export type AcceptInvitationInput = {
+  email: Scalars['String'];
   inviteToken: Scalars['String'];
   password: Scalars['String'];
 };
