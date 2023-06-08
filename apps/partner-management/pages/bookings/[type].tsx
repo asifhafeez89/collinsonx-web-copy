@@ -1,5 +1,5 @@
 import Layout from '@components/Layout';
-import { ComponentProps, useEffect, useMemo, useState } from 'react';
+import { ComponentProps, useCallback, useMemo, useState } from 'react';
 import {
   Title,
   Text,
@@ -160,41 +160,34 @@ export default function Bookings({ type }: BookingsProps) {
     { loading: loadingConfirm, error: confirmError, data: dataConfirm },
   ] = useMutation(confirmBookingMutation);
 
-  const [checkIn, setCheckIn] = useState(false);
-  const handleClickClose = () => {
-    setCheckIn(false);
-    setBookingId(null);
-  };
-  const handleClickConfirm = (id: string) => {
-    confirmBooking({
-      variables: { confirmBookingId: id },
-      onCompleted: () => {
-        setBookingId(null);
-        refetchBookings();
-      },
-    });
-  };
-  const handleClickDecline = (id: string) => {
-    declineBooking({
-      variables: { declineBookingId: id },
-      onCompleted: () => {
-        setBookingId(null);
-        refetchBookings();
-      },
-    });
-  };
+  const handleClickDecline = useCallback(
+    (id: string) => {
+      declineBooking({
+        variables: { declineBookingId: id },
+        onCompleted: () => {
+          //setBookingId(null);
+          refetchBookings();
+        },
+      });
+    },
+    [declineBooking, refetchBookings]
+  );
+
   const handleClickCheckIn = (id: string) => {
     setBookingId(id);
   };
-  const handleClickConfirmCheckIn = (id: string) => {
-    checkInBooking({
-      variables: { checkinBookingId: id },
-      onCompleted: () => {
-        setBookingId(null);
-        refetchBookings();
-      },
-    });
-  };
+  const handleClickConfirmCheckIn = useCallback(
+    (id: string) => {
+      checkInBooking({
+        variables: { checkinBookingId: id },
+        onCompleted: () => {
+          //setBookingId(null);
+          refetchBookings();
+        },
+      });
+    },
+    [checkInBooking, refetchBookings]
+  );
 
   const title = titleMap[type as keyof typeof titleMap];
 
@@ -302,7 +295,7 @@ export default function Bookings({ type }: BookingsProps) {
       );
     }
     return mainColumns;
-  }, [type]);
+  }, [handleClickConfirmCheckIn, handleClickDecline, type]);
 
   const table = useReactTable({
     data: bookings,
