@@ -16,19 +16,24 @@ import { useQuery } from '@collinsonx/utils/apollo';
 import getAllBookings from '@collinsonx/utils/queries/getAllBookings';
 import { Booking, BookingStatus } from '@collinsonx/utils';
 import { getBookingsByType } from '@collinsonx/utils/lib';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { isErrorValid } from 'lib';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-
-dayjs.extend(utc);
+import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
 
 const { Initialized, Confirmed, Declined, Cancelled, CheckedIn } =
   BookingStatus;
 
 export default function Overview() {
+  const [lastUpdate, setLastUpdate] = useState<String>();
   const { loading, error, data } = useQuery<{ getAllBookings: Booking[] }>(
-    getAllBookings
+    getAllBookings,
+    {
+      pollInterval: 300000,
+      fetchPolicy: 'network-only',
+      notifyOnNetworkStatusChange: true,
+      onCompleted: () =>
+        setLastUpdate(dayjsTz(new Date()).format('YYYY-MM-DD HH:mm')),
+    }
   );
 
   const bookings = useMemo<Record<BookingStatus, Booking[]>>(() => {
@@ -52,8 +57,8 @@ export default function Overview() {
       ];
       return allConfirmed.filter(
         (item) =>
-          dayjs.utc(item.bookedFrom).format('YYYY-MM-DD') ==
-          dayjs(new Date()).format('YYYY-MM-DD')
+          dayjsTz(item.bookedFrom).format('YYYY-MM-DD') ==
+          dayjsTz(new Date()).format('YYYY-MM-DD')
       );
     } else {
       return [];
@@ -69,7 +74,7 @@ export default function Overview() {
           <Title mb={8} size={32}>
             Booking overview
           </Title>
-          <Text mb={33} size={18}>
+          <Text mb={33} size={10}>
             {/*lounge.name*/}
           </Text>
           <Grid>
@@ -142,7 +147,7 @@ export default function Overview() {
                           href={{
                             pathname: '/bookings/confirmed',
                             query: {
-                              date: dayjs(new Date()).format('YYYY-MM-DD'),
+                              date: dayjsTz(new Date()).format('YYYY-MM-DD'),
                             },
                           }}
                           passHref
@@ -178,6 +183,9 @@ export default function Overview() {
               </OverviewCard>
             </Grid.Col>
           </Grid>
+          <Text mb={33} mt={33} size={10}>
+            {lastUpdate && `Last updated ${lastUpdate}`}
+          </Text>
         </>
       )}
     </>
