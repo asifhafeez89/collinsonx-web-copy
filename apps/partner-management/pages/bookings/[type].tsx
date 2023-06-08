@@ -176,6 +176,20 @@ export default function Bookings({ type }: BookingsProps) {
   const handleClickCheckIn = (id: string) => {
     setBookingId(id);
   };
+
+  const handleClickConfirm = useCallback(
+    (id: string) => {
+      confirmBooking({
+        variables: { confirmBookingId: id },
+        onCompleted: () => {
+          //setBookingId(null);
+          refetchBookings();
+        },
+      });
+    },
+    [confirmBooking, refetchBookings]
+  );
+
   const handleClickConfirmCheckIn = useCallback(
     (id: string) => {
       checkInBooking({
@@ -272,7 +286,7 @@ export default function Bookings({ type }: BookingsProps) {
                 <>
                   <DetailsPendingActions
                     onClickDecline={() => handleClickDecline(id)}
-                    onClickConfirm={() => handleClickConfirmCheckIn(id)}
+                    onClickConfirm={() => handleClickConfirm(id)}
                   />
                 </>
               );
@@ -281,7 +295,7 @@ export default function Bookings({ type }: BookingsProps) {
               return status !== BookingStatus.CheckedIn ? (
                 <Button
                   fullWidth
-                  onClick={() => handleClickCheckIn(id)}
+                  onClick={() => handleClickConfirmCheckIn(id)}
                   variant="default"
                 >
                   Check customer in
