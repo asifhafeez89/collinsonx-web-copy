@@ -5,6 +5,13 @@ import { MantineProvider } from '@collinsonx/design-system/core';
 import Head from 'next/head';
 import { useApollo, ApolloProvider } from '@collinsonx/utils/apollo';
 import { Analytics } from '@vercel/analytics/react';
+
+import SuperTokens from 'supertokens-web-js';
+import { SuperTokensWrapper } from 'supertokens-auth-react';
+import { SuperTokensConfig } from 'supertokens-web-js/lib/build/types';
+import { frontendConfig } from 'config/frontendConfig';
+
+import AuthWrapper from '@components/AuthWrapper';
 import theme from '../theme';
 
 type Page<P = {}> = NextPage<P> & {
@@ -15,6 +22,12 @@ type Page<P = {}> = NextPage<P> & {
 type Props = AppProps & {
   Component: Page;
 };
+
+if (typeof window !== 'undefined') {
+  // we only want to call this init function on the frontend, so
+  // we check typeof window !== 'undefined'
+  SuperTokens.init(frontendConfig() as unknown as SuperTokensConfig);
+}
 
 export default function MyApp({ Component, pageProps }: Props) {
   // Use the layout defined at the page level, if available
@@ -31,14 +44,14 @@ export default function MyApp({ Component, pageProps }: Props) {
         />
       </Head>
       <ApolloProvider client={apolloClient}>
-        {/* <SuperTokensWrapper> */}
-        {/* <SysAuth> */}
-        <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
-          {getLayout(<Component {...pageProps} />)}
-          <Analytics />
-        </MantineProvider>
-        {/* </SysAuth> */}
-        {/* </SuperTokensWrapper> */}
+        <SuperTokensWrapper>
+          <AuthWrapper>
+            <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
+              {getLayout(<Component {...pageProps} />)}
+              <Analytics />
+            </MantineProvider>
+          </AuthWrapper>
+        </SuperTokensWrapper>
       </ApolloProvider>
     </>
   );

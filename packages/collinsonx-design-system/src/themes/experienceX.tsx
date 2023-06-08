@@ -159,6 +159,12 @@ const theme = (
         innerInput: {
           height: '100%',
           fontSize: 18,
+          '&[data-invalid]': {
+            color: colors.dark[6],
+            '::placeholder': {
+              color: colors.gray[5],
+            },
+          },
         },
         label: {
           color: colors.dark[6],
@@ -167,6 +173,12 @@ const theme = (
         rightSection: {
           '& button': {
             color: '#A8A8AA',
+          },
+          '&[data-invalid]': {
+            color: colors.dark[6],
+            '::placeholder': {
+              color: colors.gray[5],
+            },
           },
         },
       }),

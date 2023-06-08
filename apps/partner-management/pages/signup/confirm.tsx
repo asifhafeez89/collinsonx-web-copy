@@ -32,7 +32,7 @@ export default function Confirm() {
             </Text>
           </Stack>
 
-          <Button fullWidth mt={40}>
+          <Button fullWidth mt={40} onClick={() => router.push('/auth/login')}>
             Go to login
           </Button>
         </FormContainer>
