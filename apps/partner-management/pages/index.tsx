@@ -166,7 +166,7 @@ export default function Overview() {
             </Grid.Col>
           </Grid>
           <Text mb={33} mt={33} size={10}>
-            Last updated {lastUpdate}
+            {lastUpdate && `Last updated ${lastUpdate}`}
           </Text>
         </>
       )}

@@ -100,7 +100,8 @@ export default function Details({ id }: DetailsProps) {
           <Stack spacing={32}>
             <Box>
               <Title mb={8} size={32}>
-                Customer booking details ( Last updated {lastUpdate})
+                Customer booking details{' '}
+                {lastUpdate && `Last updated ${lastUpdate}`}
               </Title>
               <Text size={18}>Lounge</Text>
             </Box>

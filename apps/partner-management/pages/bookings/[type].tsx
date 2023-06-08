@@ -350,8 +350,8 @@ export default function Bookings({ type }: BookingsProps) {
               {tableTitle}
             </Title>
             <Text size={14} weight={600} color="#9B9CA0">
-              {bookings.length ? `${bookings.length} bookings` : null} ( Last
-              updated {lastUpdate})
+              {bookings.length ? `${bookings.length} bookings` : null}{' '}
+              {lastUpdate && `Last updated ${lastUpdate}`}
             </Text>
           </Box>
           <Flex gap={24}>
