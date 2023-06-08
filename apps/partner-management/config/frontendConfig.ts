@@ -1,5 +1,5 @@
 import Session from 'supertokens-auth-react/recipe/session';
-import EmailPassword from 'supertokens-auth-react/recipe/emailpassword';
+import EmailPassword from 'supertokens-web-js/recipe/emailpassword';
 import Router from 'next/router';
 import { appInfo } from './appInfo';
 

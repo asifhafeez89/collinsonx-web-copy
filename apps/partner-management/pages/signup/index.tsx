@@ -75,11 +75,13 @@ export default function Signup() {
     skip: !payload?.jti,
   });
 
+  /*
   useEffect(() => {
     if (fetchInvitationData && fetchInvitationData.getInvitationByID === null) {
       router.push('/signup/expired');
     }
   }, [router, fetchInvitationData]);
+  */
 
   const {
     loading: loungeLoading,
@@ -140,10 +142,7 @@ export default function Signup() {
     },
   });
 
-  return !router.isReady ||
-    loungeLoading ||
-    acceptInvitationLoading ||
-    fetchInvitationLoading ? (
+  return !router.isReady || loungeLoading || acceptInvitationLoading ? (
     <Flex
       justify="center"
       align="center"
