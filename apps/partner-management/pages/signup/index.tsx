@@ -161,8 +161,10 @@ export default function Signup() {
               {loungeData?.getExperienceByID?.loungeName}
             </Text>
             <Text size={32} align="center">
-              {loungeData?.getExperienceByID?.location?.airportName} -
-              {loungeData?.getExperienceByID?.location?.terminal}
+              {loungeData?.getExperienceByID?.location?.airportName}
+              {loungeData?.getExperienceByID?.location?.terminal
+                ? ' - ' + loungeData?.getExperienceByID?.location?.terminal
+                : null}
             </Text>
           </Box>
         </Stack>
