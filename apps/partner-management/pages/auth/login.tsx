@@ -13,7 +13,6 @@ import { useForm } from '@collinsonx/design-system/form';
 import validateEmail from '@collinsonx/utils/lib/validateEmail';
 import PageTitle from '@components/PageTitle';
 import Link from 'next/link';
-import { signIn } from 'supertokens-web-js/recipe/emailpassword';
 
 export interface FormValues {
   email: string;
@@ -36,51 +35,16 @@ export default function Login() {
         value.trim() === '' ? 'Password is required' : null,
     },
   });
-
-  async function handleLogin({ email, password }: FormValues) {
+  const handleLogin = async ({ email, password }: FormValues) => {
     if (!validateEmail(email.trim())) {
     } else {
       try {
-        let response = await signIn({
-          formFields: [
-            {
-              id: 'email',
-              value: email,
-            },
-            {
-              id: 'password',
-              value: password,
-            },
-          ],
-        });
-
-        console.log(email, password);
-
-        if (response.status === 'FIELD_ERROR') {
-          response.formFields.forEach((formField) => {
-            if (formField.id === 'email') {
-              // Email validation failed (for example incorrect email syntax).
-              window.alert(formField.error);
-            }
-          });
-        } else if (response.status === 'WRONG_CREDENTIALS_ERROR') {
-          window.alert('Email password combination is incorrect.');
-        } else {
-          // sign in successful. The session tokens are automatically handled by
-          // the frontend SDK.
-          window.location.href = '/homepage';
-        }
+        // ...
       } catch (err: any) {
-        if (err.isSuperTokensGeneralError === true) {
-          // this may be a custom error message sent from the API by you.
-          window.alert(err.message);
-        } else {
-          console.log('err ', err);
-          window.alert('Oops! Something went wrong.');
-        }
+        console.log(err);
       }
     }
-  }
+  };
 
   return (
     <>
@@ -105,7 +69,7 @@ export default function Login() {
             </Button>
             <Anchor
               component={Link}
-              href="/auth/reset-request"
+              href="/auth/reset-password"
               sx={{ marginTop: 24, display: 'block' }}
             >
               Forgotten password?

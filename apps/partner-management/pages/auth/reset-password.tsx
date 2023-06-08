@@ -1,105 +1,103 @@
 import {
+  Title,
   Text,
   Stack,
   Button,
-  PasswordInput,
+  Anchor,
+  Flex,
+  TextInput,
 } from '@collinsonx/design-system/core';
 import LayoutLogin from '@components/LayoutLogin';
 import FormContainer from '@components/FormContainer';
-import { useForm } from '@collinsonx/design-system/form';
 import PageTitle from '@components/PageTitle';
+import { useForm } from '@collinsonx/design-system/form';
 
-import { submitNewPassword } from 'supertokens-web-js/recipe/emailpassword';
+import validateEmail from '@collinsonx/utils/lib/validateEmail';
+import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 export interface FormValues {
-  password: string;
-  passwordConfirm: string;
+  email: string;
 }
 
-// Email password recipe / Custom UI / Forgot password flow / Step 2
-// https://supertokens.com/docs/emailpassword/custom-ui/forgot-password#step-2-updating-the-users-password
+// EmailPassword recipe / Custom UI / Forgot password flow / Step 1
+// https://supertokens.com/docs/emailpassword/custom-ui/forgot-password#step-1-sending-the-password-reset-email
 
-// For step 1 of the flow, see apps\partner-management\pages\auth\reset-request.tsx
+// For step 2 of the flow, see apps\partner-management\pages\update-password.tsx
 
-export default function ResetPassword() {
+export default function PasswordReset() {
+  const [success, setSuccess] = useState(false); // demo
+  const router = useRouter();
   const form = useForm({
     initialValues: {
-      password: '',
-      passwordConfirm: '',
+      email: '',
     },
     validate: {
-      password: (value: string) =>
-        value.trim() === '' ? 'Password is required' : null,
-      passwordConfirm: (value, values) =>
-        value !== values.password ? 'Passwords did not match' : null,
+      email: (value: string) =>
+        validateEmail(value) ? null : 'Please enter a valid email address.',
     },
   });
-
-  const handleSubmit = async ({ password, passwordConfirm }: FormValues) => {
-    // validation success
-    try {
-      let response = await submitNewPassword({
-        formFields: [
-          {
-            id: 'password',
-            value: password,
-          },
-        ],
-      });
-
-      if (response.status === 'FIELD_ERROR') {
-        response.formFields.forEach((formField) => {
-          if (formField.id === 'password') {
-            // New password did not meet password criteria on the backend.
-            window.alert(formField.error);
-          }
-        });
-      } else if (response.status === 'RESET_PASSWORD_INVALID_TOKEN_ERROR') {
-        // the password reset token in the URL is invalid, expired, or already consumed
-        window.alert('Password reset failed. Please try again');
-        window.location.assign('/auth/login'); // back to the login scree.
-      } else {
-        window.alert('Password reset successful!');
-        window.location.assign('/auth/login');
-      }
-    } catch (err: any) {
-      if (err.isSuperTokensGeneralError === true) {
-        // this may be a custom error message sent from the API by you.
-        window.alert(err.message);
-      } else {
-        window.alert('Oops! Something went wrong.');
+  const handleSubmit = async ({ email }: FormValues) => {
+    if (!validateEmail(email.trim())) {
+    } else {
+      setSuccess(true); // demo;
+      try {
+        // ...
+      } catch (err: any) {
+        console.log(err);
       }
     }
   };
-
   return (
     <>
-      <PageTitle title="Create new password" />
+      <PageTitle title="Reset your password" />
       <Stack justify="center" align="center" spacing={32}>
-        <FormContainer>
-          <Text align="center" size={18} fw={600} mb={40}>
-            Create new password
-          </Text>
-          <form onSubmit={form.onSubmit(handleSubmit)}>
-            <PasswordInput
-              label="New password"
-              {...form.getInputProps('password')}
-            />
-            <PasswordInput
-              mt={16}
-              label="Confirm password"
-              {...form.getInputProps('passwordConfirm')}
-            />
-            <Button mt={40} type="submit" fullWidth>
-              Submit
+        <Title color="cyan.8" size={22}>
+          Forgotten your password?
+        </Title>
+        {!success ? (
+          <FormContainer>
+            <form onSubmit={form.onSubmit(handleSubmit)}>
+              <Stack spacing={40}>
+                <Text>
+                  Enter the email address you use to login and we&apos;ll send
+                  you a link to reset your password.
+                </Text>
+                <TextInput label="Email" {...form.getInputProps('email')} />
+                <Button type="submit">Next</Button>
+                <Text sx={{ fontSize: 16 }}>
+                  If you’ve forgotten your email please contact support at
+                  help@collinson.co.uk or call 01234 345498 for help with
+                  getting access to your account.
+                </Text>
+              </Stack>
+            </form>
+          </FormContainer>
+        ) : (
+          <FormContainer>
+            <Stack spacing={32}>
+              <Text>
+                We&apos;ve sent you an email with a link to reset your password.
+                Please check your inbox and junk folders.
+              </Text>
+            </Stack>
+            <Button
+              fullWidth
+              my={40}
+              onClick={() => router.push('/auth/login')}
+            >
+              Go to login
             </Button>
-          </form>
-        </FormContainer>
+            <Flex justify="center">
+              <Anchor>Resend email</Anchor>
+            </Flex>
+          </FormContainer>
+        )}
       </Stack>
     </>
   );
 }
 
-ResetPassword.getLayout = (page: JSX.Element) => (
+PasswordReset.getLayout = (page: JSX.Element) => (
   <LayoutLogin>{page}</LayoutLogin>
 );

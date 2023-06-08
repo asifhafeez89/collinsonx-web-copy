@@ -1,22 +1,20 @@
-import Session from 'supertokens-auth-react/recipe/session';
-import EmailPassword from 'supertokens-web-js/recipe/emailpassword';
-import Router from 'next/router';
+import {
+  ThirdPartyPasswordless,
+  Session,
+  InputType,
+} from '@collinsonx/utils/supertokens';
 import { appInfo } from './appInfo';
+
+const sessionTokenFrontendDomain = process.env.NEXT_PUBLIC_SESSION_SCOPE;
 
 export const frontendConfig = () => {
   return {
     appInfo,
-    recipeList: [Session.init(), EmailPassword.init()],
-    windowHandler: (oI: any) => {
-      return {
-        ...oI,
-        location: {
-          ...oI.location,
-          setHref: (href: string) => {
-            Router.push(href);
-          },
-        },
-      };
-    },
+    recipeList: [
+      ThirdPartyPasswordless.init({
+        contactMethod: 'EMAIL',
+      }),
+      Session.init({ sessionTokenFrontendDomain } as InputType),
+    ],
   };
 };
