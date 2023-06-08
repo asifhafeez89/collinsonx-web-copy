@@ -49,7 +49,21 @@ export default function Overview() {
   const bookingsDeclined =
     (bookings[Declined]?.length || 0) + (bookings[Cancelled]?.length || 0);
 
-  const showTodaysBookings = false;
+  const todaysConfirmed = useMemo(() => {
+    if (bookings) {
+      const allConfirmed = [
+        ...(bookings[Confirmed] || []),
+        ...(bookings[CheckedIn] || []),
+      ];
+      return allConfirmed.filter(
+        (item) =>
+          dayjs.utc(item.bookedFrom).format('YYYY-MM-DD') ==
+          dayjs(new Date()).format('YYYY-MM-DD')
+      );
+    } else {
+      return [];
+    }
+  }, [bookings]);
 
   return (
     <>
@@ -124,27 +138,31 @@ export default function Overview() {
                     'You have no confirmed bookings'
                   ) : (
                     <Flex gap={72}>
-                      {showTodaysBookings && (
-                        <>
-                          <OverviewMetric
-                            loading={loading}
-                            label="Today's bookings"
-                            value={bookingsConfirmed}
+                      <OverviewMetric
+                        loading={loading}
+                        label="Today's bookings"
+                        value={todaysConfirmed?.length}
+                      >
+                        <Link
+                          href={{
+                            pathname: '/bookings/confirmed',
+                            query: {
+                              date: dayjs(new Date()).format('YYYY-MM-DD'),
+                            },
+                          }}
+                          passHref
+                        >
+                          <Button
+                            variant="default"
+                            sx={{ width: 'fit-content' }}
                           >
-                            <Link href="/bookings/confirmed" passHref>
-                              <Button
-                                variant="default"
-                                sx={{ width: 'fit-content' }}
-                              >
-                                Today&apos;s bookings
-                              </Button>
-                            </Link>
-                          </OverviewMetric>
-                          <Flex justify="center">
-                            <OverviewSeparator />
-                          </Flex>
-                        </>
-                      )}
+                            Today&apos;s bookings
+                          </Button>
+                        </Link>
+                      </OverviewMetric>
+                      <Flex justify="center">
+                        <OverviewSeparator />
+                      </Flex>
                       <OverviewMetric
                         loading={loading}
                         label="All bookings"

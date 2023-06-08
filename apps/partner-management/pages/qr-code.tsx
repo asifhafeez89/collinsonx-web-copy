@@ -20,13 +20,19 @@ export default function QRCode() {
       <h1>Welcome to {loungeName}</h1>
       <h2>For walk-up check-ins please scan the code below</h2>
       <QRCodeSVG value={`lifestylex://BookLounge?loungeId=${loungeId}`} size={400} />
+      <Stack p={0} align="center" mt={32} spacing={0}>
+        <p style={{ width: '100%' }}>
+          Please ensure you scan the code using the Scan QR button{' '}
+          <span style={{ fontWeight: 'bold' }}>in the app</span>.
+        </p>
+      </Stack>
       <MediaQuery
         query="print"
         styles={{
           display: 'none',
         }}
       >
-        <Stack p={0} align="center" mt={32} spacing={0}>
+        <Stack p={0} align="center" mt={64} spacing={0}>
           <Button onClick={print} w="50%">
             Print
           </Button>
