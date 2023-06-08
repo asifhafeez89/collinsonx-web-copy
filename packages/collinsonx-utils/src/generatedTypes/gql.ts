@@ -13,6 +13,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "\n  mutation AcceptInvitation($acceptInvitationInput: AcceptInvitationInput!) {\n    acceptInvitation(acceptInvitationInput: $acceptInvitationInput) {\n      createdAt\n      experience {\n        id\n      }\n      expiresAt\n      inviteeEmail\n      updatedAt\n      id\n    }\n  }\n": types.AcceptInvitationDocument,
     "\n  mutation cancelBooking($cancelBookingId: ID!) {\n    cancelBooking(id: $cancelBookingId) {\n      bookedFrom\n      bookedTo\n      consumer {\n        id\n      }\n      createdAt\n      experience {\n        id\n      }\n      id\n      status\n      updatedAt\n    }\n  }\n": types.CancelBookingDocument,
     "\n  mutation CheckinBooking($checkinBookingId: ID!) {\n    checkinBooking(id: $checkinBookingId) {\n      bookedFrom\n      bookedTo\n      consumer {\n        id\n      }\n      createdAt\n      id\n      status\n      updatedAt\n    }\n  }\n": types.CheckinBookingDocument,
     "\n  mutation ConfirmBooking($confirmBookingId: ID!) {\n    confirmBooking(id: $confirmBookingId) {\n      bookedFrom\n      bookedTo\n      createdAt\n      consumer {\n        id\n      }\n      id\n      experience {\n        id\n      }\n      status\n      updatedAt\n    }\n  }\n": types.ConfirmBookingDocument,
@@ -27,6 +28,8 @@ const documents = {
     "\n  query GetConsumer {\n    getConsumer {\n      id\n      crmId\n      fullName\n      firstName\n      lastName\n      emailAddress\n      createdAt\n      updatedAt\n      bookings {\n        bookedFrom\n        bookedTo\n        createdAt\n        updatedAt\n        experience {\n          id\n        }\n      }\n    }\n  }\n": types.GetConsumerDocument,
     "\n  query GetConsumerByEmailAddress($emailAddress: String!) {\n    getConsumerByEmailAddress(emailAddress: $emailAddress) {\n      id\n    }\n  }\n": types.GetConsumerByEmailAddressDocument,
     "\n  query GetConsumerByID($getConsumerById: ID!) {\n    getConsumerByID(id: $getConsumerById) {\n      bookings {\n        id\n        bookedFrom\n        bookedTo\n        status\n        updatedAt\n        createdAt\n      }\n      createdAt\n      emailAddress\n      id\n      updatedAt\n    }\n  }\n": types.GetConsumerByIdDocument,
+    "\n  query GetExperienceByID($getExperienceById: String) {\n    getExperienceByID(id: $getExperienceById) {\n      id\n      loungeName\n      loungeCode\n      location {\n        airportName\n        airportCode\n        terminal\n        terminalCode\n        country\n        city\n        region\n        isoCountryCode\n        lbCountryCode\n      }\n    }\n  }\n": types.GetExperienceByIdDocument,
+    "\n  query GetInvitationByID($getInvitationById: ID!) {\n    getInvitationByID(id: $getInvitationById) {\n      createdAt\n      experience {\n        id\n      }\n      id\n      inviteeEmail\n      updatedAt\n    }\n  }\n": types.GetInvitationByIdDocument,
     "\n  query SearchExperiences($query: String) {\n    searchExperiences(query: $query) {\n      additionalInformation\n      conditions\n      id\n      directions\n      facilities\n      loungeName\n      loungeCode\n      accessPeriod\n      airsideLandside\n      hasActiveLounges\n      passengerType\n      ppboOperatorName\n      serviceCentre\n      uniqueValueKey\n      pricing {\n        pricingType\n        currency\n        reservationCost\n        lifestyleXReservationCharge\n        walkInCostCurrentPPRate\n        lifestyleXWalkInCharge\n        vat\n      }\n      location {\n        airportCode\n        airportName\n        cgTerminal\n        cgTerminalCode\n        city\n        country\n        isoCountryCode\n        lbCountryCode\n        region\n        terminal\n        terminalCode\n        terminalAccessibility\n      }\n      images {\n        url\n        altText\n        height\n        width\n        id\n      }\n      openingHours\n    }\n  }\n": types.SearchExperiencesDocument,
 };
 
@@ -44,6 +47,10 @@ const documents = {
  */
 export function graphql(source: string): unknown;
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation AcceptInvitation($acceptInvitationInput: AcceptInvitationInput!) {\n    acceptInvitation(acceptInvitationInput: $acceptInvitationInput) {\n      createdAt\n      experience {\n        id\n      }\n      expiresAt\n      inviteeEmail\n      updatedAt\n      id\n    }\n  }\n"): (typeof documents)["\n  mutation AcceptInvitation($acceptInvitationInput: AcceptInvitationInput!) {\n    acceptInvitation(acceptInvitationInput: $acceptInvitationInput) {\n      createdAt\n      experience {\n        id\n      }\n      expiresAt\n      inviteeEmail\n      updatedAt\n      id\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -100,6 +107,14 @@ export function graphql(source: "\n  query GetConsumerByEmailAddress($emailAddre
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query GetConsumerByID($getConsumerById: ID!) {\n    getConsumerByID(id: $getConsumerById) {\n      bookings {\n        id\n        bookedFrom\n        bookedTo\n        status\n        updatedAt\n        createdAt\n      }\n      createdAt\n      emailAddress\n      id\n      updatedAt\n    }\n  }\n"): (typeof documents)["\n  query GetConsumerByID($getConsumerById: ID!) {\n    getConsumerByID(id: $getConsumerById) {\n      bookings {\n        id\n        bookedFrom\n        bookedTo\n        status\n        updatedAt\n        createdAt\n      }\n      createdAt\n      emailAddress\n      id\n      updatedAt\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetExperienceByID($getExperienceById: String) {\n    getExperienceByID(id: $getExperienceById) {\n      id\n      loungeName\n      loungeCode\n      location {\n        airportName\n        airportCode\n        terminal\n        terminalCode\n        country\n        city\n        region\n        isoCountryCode\n        lbCountryCode\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetExperienceByID($getExperienceById: String) {\n    getExperienceByID(id: $getExperienceById) {\n      id\n      loungeName\n      loungeCode\n      location {\n        airportName\n        airportCode\n        terminal\n        terminalCode\n        country\n        city\n        region\n        isoCountryCode\n        lbCountryCode\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetInvitationByID($getInvitationById: ID!) {\n    getInvitationByID(id: $getInvitationById) {\n      createdAt\n      experience {\n        id\n      }\n      id\n      inviteeEmail\n      updatedAt\n    }\n  }\n"): (typeof documents)["\n  query GetInvitationByID($getInvitationById: ID!) {\n    getInvitationByID(id: $getInvitationById) {\n      createdAt\n      experience {\n        id\n      }\n      id\n      inviteeEmail\n      updatedAt\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
