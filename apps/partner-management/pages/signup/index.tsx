@@ -104,24 +104,21 @@ export default function Signup() {
   const handleSignup = async ({ email, password }: FormValues) => {
     if (!validateEmail(email.trim())) {
     } else {
-      try {
-        submitAcceptInvitation({
-          variables: {
-            acceptInvitationInput: {
-              inviteToken: payload?.jti,
-              email,
-              password,
-            },
+      submitAcceptInvitation({
+        variables: {
+          acceptInvitationInput: {
+            inviteToken: router.query.invitation,
+            email,
+            password,
           },
-          onCompleted: () => {
-            // success
-            router.push('/signup/confirm');
-          },
-        });
-        // ...
-      } catch (err: any) {
-        console.log(err);
-      }
+        },
+      }).then(({ data, errors }) => {
+        if (errors && errors[0]) {
+          // errors should be rendered
+        } else {
+          router.push('/signup/confirm');
+        }
+      });
     }
   };
 
@@ -161,11 +158,11 @@ export default function Signup() {
           </Text>
           <Box>
             <Text align="center" size={32} fw={700}>
-              {loungeData?.getExperienceByID.loungeName}
+              {loungeData?.getExperienceByID?.loungeName}
             </Text>
             <Text size={32} align="center">
-              {loungeData?.getExperienceByID.location?.airportName} -
-              {loungeData?.getExperienceByID.location?.terminal}
+              {loungeData?.getExperienceByID?.location?.airportName} -
+              {loungeData?.getExperienceByID?.location?.terminal}
             </Text>
           </Box>
         </Stack>
