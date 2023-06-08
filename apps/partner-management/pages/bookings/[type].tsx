@@ -1,5 +1,5 @@
 import Layout from '@components/Layout';
-import { ComponentProps, useMemo, useState } from 'react';
+import { ComponentProps, useCallback, useMemo, useState } from 'react';
 import {
   Title,
   Text,
@@ -83,13 +83,21 @@ export default function Bookings({ type }: BookingsProps) {
     error: errorBookings,
     data: dataBookings,
     refetch: refetchBookings,
-  } = useQuery<{ getAllBookings: Booking[] }>(getAllBookings);
+  } = useQuery<{ getAllBookings: Booking[] }>(getAllBookings, {
+    pollInterval: 300000,
+    fetchPolicy: 'network-only',
+    notifyOnNetworkStatusChange: true,
+    onCompleted: () =>
+      setLastUpdate(dayjsTz(new Date()).format('YYYY-MM-DD HH:mm')),
+  });
 
   const router = useRouter();
   const { date } = router.query;
 
   const [bookingId, setBookingId] = useState<string | null>(null);
   const [name, setName] = useState((router.query.name as string) ?? '');
+
+  const [lastUpdate, setLastUpdate] = useState<String>();
 
   const [sorting, setSorting] = useState<SortingState>([
     { id: 'arrivalDate', desc: true },
@@ -152,41 +160,48 @@ export default function Bookings({ type }: BookingsProps) {
     { loading: loadingConfirm, error: confirmError, data: dataConfirm },
   ] = useMutation(confirmBookingMutation);
 
-  const [checkIn, setCheckIn] = useState(false);
-  const handleClickClose = () => {
-    setCheckIn(false);
-    setBookingId(null);
-  };
-  const handleClickConfirm = (id: string) => {
-    confirmBooking({
-      variables: { confirmBookingId: id },
-      onCompleted: () => {
-        setBookingId(null);
-        refetchBookings();
-      },
-    });
-  };
-  const handleClickDecline = (id: string) => {
-    declineBooking({
-      variables: { declineBookingId: id },
-      onCompleted: () => {
-        setBookingId(null);
-        refetchBookings();
-      },
-    });
-  };
+  const handleClickDecline = useCallback(
+    (id: string) => {
+      declineBooking({
+        variables: { declineBookingId: id },
+        onCompleted: () => {
+          //setBookingId(null);
+          refetchBookings();
+        },
+      });
+    },
+    [declineBooking, refetchBookings]
+  );
+
   const handleClickCheckIn = (id: string) => {
     setBookingId(id);
   };
-  const handleClickConfirmCheckIn = (id: string) => {
-    checkInBooking({
-      variables: { checkinBookingId: id },
-      onCompleted: () => {
-        setBookingId(null);
-        refetchBookings();
-      },
-    });
-  };
+
+  const handleClickConfirm = useCallback(
+    (id: string) => {
+      confirmBooking({
+        variables: { confirmBookingId: id },
+        onCompleted: () => {
+          //setBookingId(null);
+          refetchBookings();
+        },
+      });
+    },
+    [confirmBooking, refetchBookings]
+  );
+
+  const handleClickConfirmCheckIn = useCallback(
+    (id: string) => {
+      checkInBooking({
+        variables: { checkinBookingId: id },
+        onCompleted: () => {
+          //setBookingId(null);
+          refetchBookings();
+        },
+      });
+    },
+    [checkInBooking, refetchBookings]
+  );
 
   const title = titleMap[type as keyof typeof titleMap];
 
@@ -218,7 +233,7 @@ export default function Bookings({ type }: BookingsProps) {
     date
   ) => {
     const dateStr =
-      date !== null ? dayjsTz(date as Date).format('YYYY-MM-DD') : '';
+      date !== null ? dayjsTz(date as Date).format('DD-MM-YYYY HH:MM') : '';
     router.replace(
       {
         query: { ...router.query, date: dateStr },
@@ -271,7 +286,7 @@ export default function Bookings({ type }: BookingsProps) {
                 <>
                   <DetailsPendingActions
                     onClickDecline={() => handleClickDecline(id)}
-                    onClickConfirm={() => handleClickConfirmCheckIn(id)}
+                    onClickConfirm={() => handleClickConfirm(id)}
                   />
                 </>
               );
@@ -280,7 +295,7 @@ export default function Bookings({ type }: BookingsProps) {
               return status !== BookingStatus.CheckedIn ? (
                 <Button
                   fullWidth
-                  onClick={() => handleClickCheckIn(id)}
+                  onClick={() => handleClickConfirmCheckIn(id)}
                   variant="default"
                 >
                   Check customer in
@@ -294,7 +309,7 @@ export default function Bookings({ type }: BookingsProps) {
       );
     }
     return mainColumns;
-  }, [type]);
+  }, [handleClickConfirmCheckIn, handleClickDecline, type]);
 
   const table = useReactTable({
     data: bookings,
@@ -342,7 +357,8 @@ export default function Bookings({ type }: BookingsProps) {
               {tableTitle}
             </Title>
             <Text size={14} weight={600} color="#9B9CA0">
-              {bookings.length ? `${bookings.length} bookings` : null}
+              {bookings.length ? `${bookings.length} bookings` : null}{' '}
+              {lastUpdate && `Last updated ${lastUpdate}`}
             </Text>
           </Box>
           <Flex gap={24}>
