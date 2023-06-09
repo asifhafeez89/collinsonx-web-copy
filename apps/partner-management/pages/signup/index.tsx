@@ -22,7 +22,7 @@ import getExperienceByID from '@collinsonx/utils/queries/getExperienceByID';
 import acceptInvitation from '@collinsonx/utils/mutations/acceptInvitation';
 import Error from '@components/Error';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
-import getInvitationTokenIsValid from '@collinsonx/utils/queries/getInvitationTokenIsValid';
+import isInvitationTokenValid from '@collinsonx/utils/queries/isInvitationTokenValid';
 import { signIn } from 'supertokens-auth-react/recipe/emailpassword';
 
 export interface FormValues {
@@ -47,6 +47,7 @@ export default function Signup() {
   const router = useRouter();
 
   const [payload, setPayload] = useState<InvitationToken>();
+  const [submitLoading, setSubmitLoading] = useState(false);
 
   useEffect(() => {
     if (router.isReady) {
@@ -70,19 +71,13 @@ export default function Signup() {
     loading: tokenIsValidLoading,
     error: tokenIsValidError,
     data: tokenIsValidData,
-  } = useQuery<{ getInvitationTokenIsValid: boolean }>(
-    getInvitationTokenIsValid,
-    {
-      variables: { inviteToken: router.query.invitation },
-      skip: !router.isReady,
-    }
-  );
+  } = useQuery<{ isInvitationTokenValid: boolean }>(isInvitationTokenValid, {
+    variables: { inviteToken: router.query.invitation },
+    skip: !router.isReady,
+  });
 
   useEffect(() => {
-    if (
-      tokenIsValidData &&
-      tokenIsValidData.getInvitationTokenIsValid === false
-    ) {
+    if (tokenIsValidData && tokenIsValidData.isInvitationTokenValid === false) {
       router.push('/signup/invalid');
     }
   }, [router, tokenIsValidData]);
@@ -106,7 +101,9 @@ export default function Signup() {
   ] = useMutation(acceptInvitation);
 
   const handleSignup = async ({ email, password }: FormValues) => {
+    setSubmitLoading(true);
     if (!validateEmail(email.trim())) {
+      setSubmitLoading(false);
     } else {
       submitAcceptInvitation({
         variables: {
@@ -116,26 +113,36 @@ export default function Signup() {
             password,
           },
         },
-      }).then(({ data, errors }) => {
-        if (errors && errors[0]) {
-          // errors should be rendered
-        } else {
-          signIn({
-            formFields: [
-              {
-                id: 'email',
-                value: email,
-              },
-              {
-                id: 'password',
-                value: password,
-              },
-            ],
-          }).then(() => {
-            router.push('/');
-          });
-        }
-      });
+      })
+        .then(({ data, errors }) => {
+          if (errors && errors[0]) {
+            setSubmitLoading(false);
+            // errors should be rendered
+          } else {
+            signIn({
+              formFields: [
+                {
+                  id: 'email',
+                  value: email,
+                },
+                {
+                  id: 'password',
+                  value: password,
+                },
+              ],
+            })
+              .then(() => {
+                router.push('/');
+              })
+              .catch((err) => {
+                setSubmitLoading(false);
+                window.alert(err.message);
+              });
+          }
+        })
+        .catch(() => {
+          setSubmitLoading(false);
+        });
     }
   };
 
@@ -159,6 +166,7 @@ export default function Signup() {
   return !router.isReady ||
     tokenIsValidLoading ||
     loungeLoading ||
+    submitLoading ||
     acceptInvitationLoading ? (
     <Flex
       justify="center"
