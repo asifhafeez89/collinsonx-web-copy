@@ -14,6 +14,7 @@ import validateEmail from '@collinsonx/utils/lib/validateEmail';
 import PageTitle from '@components/PageTitle';
 import Link from 'next/link';
 import { signIn } from 'supertokens-auth-react/recipe/emailpassword';
+import { useRouter } from 'next/router';
 
 export interface FormValues {
   email: string;
@@ -24,6 +25,7 @@ export interface FormValues {
 // https://supertokens.com/docs/emailpassword/custom-ui/email-password-login#sign-in-form
 
 export default function Login() {
+  const router = useRouter();
   const form = useForm({
     initialValues: {
       email: '',
@@ -68,7 +70,7 @@ export default function Login() {
         } else {
           // sign in successful. The session tokens are automatically handled by
           // the frontend SDK.
-          window.location.href = '/homepage';
+          router.push('/');
         }
       } catch (err: any) {
         if (err.isSuperTokensGeneralError === true) {
