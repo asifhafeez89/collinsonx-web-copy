@@ -16,40 +16,20 @@ const domain =
 const checkIsAllowed = (pathname: string) => {
   return pathname.startsWith('/auth') || pathname.startsWith('/signup');
 };
-
-const AuthWrapper = ({ children }: AuthWrapperProps) => {
+const SysAuth = ({ children }: AuthWrapperProps) => {
   const router = useRouter();
   const [isPageAllowed, setIsPageAllowed] = useState(false);
   const [isLoggedIn, userId, logout] = useAuth({
     onExpiredSession: () => {
-      const isAllowed = () => {
-        if (typeof window !== 'undefined') {
-          return checkIsAllowed(window.location.pathname);
-        }
-        return false;
-      };
-      if (window && !isAllowed()) {
-        window.location.href = `/auth/login?redirectUrl=${
+      if (window && !checkIsAllowed(window.location.pathname)) {
+        window.location.href = `/auth/login/?redirectUrl=${
           window.location.pathname + window.location.search
         }`;
       }
     },
   });
 
-  useEffect(() => {
-    let allowed = false;
-    if (typeof window !== 'undefined') {
-      allowed = checkIsAllowed(window.location.pathname);
-      if (!isLoggedIn && !allowed) {
-        window.location.href = `/auth/login?redirectUrl=${
-          window.location.pathname + window.location.search
-        }`;
-      }
-    }
-    setIsPageAllowed(allowed);
-  }, [router.pathname, isLoggedIn]);
-
-  if (isLoggedIn || isPageAllowed) {
+  if (isLoggedIn || checkIsAllowed(router.pathname)) {
     return <>{children}</>;
   }
 
@@ -68,4 +48,4 @@ const AuthWrapper = ({ children }: AuthWrapperProps) => {
   );
 };
 
-export default AuthWrapper;
+export default SysAuth;

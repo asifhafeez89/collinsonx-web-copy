@@ -23,6 +23,7 @@ import acceptInvitation from '@collinsonx/utils/mutations/acceptInvitation';
 import Error from '@components/Error';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 import getInvitationTokenIsValid from '@collinsonx/utils/queries/getInvitationTokenIsValid';
+import { signIn } from 'supertokens-auth-react/recipe/emailpassword';
 
 export interface FormValues {
   email: string;
@@ -119,7 +120,20 @@ export default function Signup() {
         if (errors && errors[0]) {
           // errors should be rendered
         } else {
-          router.push('/signup/confirm');
+          signIn({
+            formFields: [
+              {
+                id: 'email',
+                value: email,
+              },
+              {
+                id: 'password',
+                value: password,
+              },
+            ],
+          }).then(() => {
+            router.push('/');
+          });
         }
       });
     }

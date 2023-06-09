@@ -56,8 +56,6 @@ export default function Login() {
           ],
         });
 
-        console.log(email, password);
-
         if (response.status === 'FIELD_ERROR') {
           response.formFields.forEach((formField) => {
             if (formField.id === 'email') {
@@ -70,7 +68,7 @@ export default function Login() {
         } else {
           // sign in successful. The session tokens are automatically handled by
           // the frontend SDK.
-          router.push('/');
+          window.location.href = '/';
         }
       } catch (err: any) {
         if (err.isSuperTokensGeneralError === true) {
