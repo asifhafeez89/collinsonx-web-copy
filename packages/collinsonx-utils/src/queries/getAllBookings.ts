@@ -7,6 +7,7 @@ const getAllBookings = gql`
       bookedTo
       createdAt
       guestCount
+      metadata
       id
       status
       type

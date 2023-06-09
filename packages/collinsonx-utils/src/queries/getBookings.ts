@@ -7,6 +7,7 @@ const getBookings = gql`
       bookedTo
       createdAt
       type
+      metadata
       consumer {
         id
       }

@@ -5,6 +5,7 @@ const getBookingByID = gql`
     getBookingByID(id: $getBookingById) {
       bookedFrom
       bookedTo
+      metadata
       consumer {
         fullName
         id
