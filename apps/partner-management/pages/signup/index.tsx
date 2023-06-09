@@ -130,9 +130,14 @@ export default function Signup() {
                   value: password,
                 },
               ],
-            }).then(() => {
-              router.push('/');
-            });
+            })
+              .then(() => {
+                router.push('/');
+              })
+              .catch((err) => {
+                setSubmitLoading(false);
+                window.alert(err.message);
+              });
           }
         })
         .catch(() => {
