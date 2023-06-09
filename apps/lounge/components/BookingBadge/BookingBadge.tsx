@@ -24,6 +24,7 @@ import {
 import { start } from 'repl';
 
 const {
+  Pending,
   Initialized,
   Confirmed,
   CheckedIn,
@@ -79,6 +80,7 @@ const useStyles = createStyles(({ colors }) => {
 });
 
 export const bookingMap: Record<BookingStatus, string> = {
+  [Pending]: 'Pending',
   [Initialized]: 'Pending',
   [Confirmed]: 'Confirmed',
   [Declined]: 'Declined',
