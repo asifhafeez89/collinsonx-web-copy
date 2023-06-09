@@ -47,6 +47,7 @@ export default function Signup() {
   const router = useRouter();
 
   const [payload, setPayload] = useState<InvitationToken>();
+  const [submitLoading, setSubmitLoading] = useState(false);
 
   useEffect(() => {
     if (router.isReady) {
@@ -100,7 +101,9 @@ export default function Signup() {
   ] = useMutation(acceptInvitation);
 
   const handleSignup = async ({ email, password }: FormValues) => {
+    setSubmitLoading(true);
     if (!validateEmail(email.trim())) {
+      setSubmitLoading(false);
     } else {
       submitAcceptInvitation({
         variables: {
@@ -110,26 +113,31 @@ export default function Signup() {
             password,
           },
         },
-      }).then(({ data, errors }) => {
-        if (errors && errors[0]) {
-          // errors should be rendered
-        } else {
-          signIn({
-            formFields: [
-              {
-                id: 'email',
-                value: email,
-              },
-              {
-                id: 'password',
-                value: password,
-              },
-            ],
-          }).then(() => {
-            router.push('/');
-          });
-        }
-      });
+      })
+        .then(({ data, errors }) => {
+          if (errors && errors[0]) {
+            setSubmitLoading(false);
+            // errors should be rendered
+          } else {
+            signIn({
+              formFields: [
+                {
+                  id: 'email',
+                  value: email,
+                },
+                {
+                  id: 'password',
+                  value: password,
+                },
+              ],
+            }).then(() => {
+              router.push('/');
+            });
+          }
+        })
+        .catch(() => {
+          setSubmitLoading(false);
+        });
     }
   };
 
@@ -153,6 +161,7 @@ export default function Signup() {
   return !router.isReady ||
     tokenIsValidLoading ||
     loungeLoading ||
+    submitLoading ||
     acceptInvitationLoading ? (
     <Flex
       justify="center"
