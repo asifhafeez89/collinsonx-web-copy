@@ -8,7 +8,7 @@ export interface FormValues {
   password: string;
 }
 
-export default function Expired() {
+export default function Invalid() {
   return (
     <>
       <PageTitle title="Your link invalid" />
@@ -36,4 +36,4 @@ export default function Expired() {
   );
 }
 
-Expired.getLayout = (page: JSX.Element) => <LayoutLogin>{page}</LayoutLogin>;
+Invalid.getLayout = (page: JSX.Element) => <LayoutLogin>{page}</LayoutLogin>;
