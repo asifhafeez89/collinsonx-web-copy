@@ -1,22 +1,32 @@
 import {
-  Title,
   Text,
   Stack,
-  Checkbox,
   Button,
   PasswordInput,
   TextInput,
   Box,
+  Flex,
 } from '@collinsonx/design-system/core';
 import LayoutLogin from '@components/LayoutLogin';
 import FormContainer from '@components/FormContainer';
 import { useForm } from '@collinsonx/design-system/form';
 import validateEmail from '@collinsonx/utils/lib/validateEmail';
 import PageTitle from '@components/PageTitle';
+import jwtDecode from 'jwt-decode';
+import { useRouter } from 'next/router';
+import { InvitationToken } from 'types/InvitationToken';
+import { useMutation, useQuery } from '@collinsonx/utils/apollo';
+import { useEffect, useState } from 'react';
+import { Experience } from '@collinsonx/utils';
+import getExperienceByID from '@collinsonx/utils/queries/getExperienceByID';
+import acceptInvitation from '@collinsonx/utils/mutations/acceptInvitation';
+import Error from '@components/Error';
+import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
+import getInvitationTokenIsValid from '@collinsonx/utils/queries/getInvitationTokenIsValid';
+import { signIn } from 'supertokens-auth-react/recipe/emailpassword';
 
 export interface FormValues {
   email: string;
-  fullName: string;
   password: string;
   passwordConfirm: string;
 }
@@ -30,16 +40,105 @@ export interface FormValues {
  * - We should have a way to fetch details for the specific invite ID: lounge title, airport, terminal
  * - Upon invite lookup:
  *    - if successful, redirect to /signup/confirm on submission
- *    - if invite has expired redirect to /signup/expired
+ *    - if invite is invalid redirect to /signup/invalid
  */
 
-// Note: backend must know the URL for this page
-
-const MOCK_LOUNGE = 'Club Aspire Lounge';
-const MOCK_AIRPORT = 'London Heathrow';
-const MOCK_TERMINAL = 'Terminal 5';
-
 export default function Signup() {
+  const router = useRouter();
+
+  const [payload, setPayload] = useState<InvitationToken>();
+
+  useEffect(() => {
+    if (router.isReady) {
+      const { invitation } = router.query;
+
+      try {
+        const payload = jwtDecode<InvitationToken>(invitation as string);
+
+        if (!payload.jti || !payload.experienceID) {
+          router.push('/signup/invalid');
+        }
+
+        setPayload(payload);
+      } catch (e) {
+        router.push('/signup/invalid');
+      }
+    }
+  }, [router]);
+
+  const {
+    loading: tokenIsValidLoading,
+    error: tokenIsValidError,
+    data: tokenIsValidData,
+  } = useQuery<{ getInvitationTokenIsValid: boolean }>(
+    getInvitationTokenIsValid,
+    {
+      variables: { inviteToken: router.query.invitation },
+      skip: !router.isReady,
+    }
+  );
+
+  useEffect(() => {
+    if (
+      tokenIsValidData &&
+      tokenIsValidData.getInvitationTokenIsValid === false
+    ) {
+      router.push('/signup/invalid');
+    }
+  }, [router, tokenIsValidData]);
+
+  const {
+    loading: loungeLoading,
+    error: loungeError,
+    data: loungeData,
+  } = useQuery<{ getExperienceByID: Experience }>(getExperienceByID, {
+    variables: { getExperienceById: payload?.experienceID },
+    skip: !payload?.experienceID,
+  });
+
+  const [
+    submitAcceptInvitation,
+    {
+      error: acceptInvitationError,
+      data: acceptInvitationData,
+      loading: acceptInvitationLoading,
+    },
+  ] = useMutation(acceptInvitation);
+
+  const handleSignup = async ({ email, password }: FormValues) => {
+    if (!validateEmail(email.trim())) {
+    } else {
+      submitAcceptInvitation({
+        variables: {
+          acceptInvitationInput: {
+            inviteToken: router.query.invitation,
+            email,
+            password,
+          },
+        },
+      }).then(({ data, errors }) => {
+        if (errors && errors[0]) {
+          // errors should be rendered
+        } else {
+          signIn({
+            formFields: [
+              {
+                id: 'email',
+                value: email,
+              },
+              {
+                id: 'password',
+                value: password,
+              },
+            ],
+          }).then(() => {
+            router.push('/');
+          });
+        }
+      });
+    }
+  };
+
   const form = useForm({
     initialValues: {
       email: '',
@@ -56,18 +155,20 @@ export default function Signup() {
         value !== values.password ? 'Passwords did not match' : null,
     },
   });
-  const handleSignup = async ({ email, fullName, password }: FormValues) => {
-    if (!validateEmail(email.trim())) {
-    } else {
-      try {
-        // ...
-      } catch (err: any) {
-        console.log(err);
-      }
-    }
-  };
 
-  return (
+  return !router.isReady ||
+    tokenIsValidLoading ||
+    loungeLoading ||
+    acceptInvitationLoading ? (
+    <Flex
+      justify="center"
+      align="center"
+      h="100%"
+      style={{ position: 'absolute', top: 0, bottom: 0 }}
+    >
+      <LoaderLifestyleX />
+    </Flex>
+  ) : (
     <>
       <PageTitle title="Signup" />
       <Stack justify="center" align="center" spacing={32}>
@@ -77,13 +178,19 @@ export default function Signup() {
           </Text>
           <Box>
             <Text align="center" size={32} fw={700}>
-              {MOCK_LOUNGE}
+              {loungeData?.getExperienceByID?.loungeName}
             </Text>
             <Text size={32} align="center">
-              {MOCK_AIRPORT} - {MOCK_TERMINAL}
+              {loungeData?.getExperienceByID?.location?.airportName}
+              {loungeData?.getExperienceByID?.location?.terminal
+                ? ' - ' + loungeData?.getExperienceByID?.location?.terminal
+                : null}
             </Text>
           </Box>
         </Stack>
+        <Error error={loungeError} />
+        <Error error={tokenIsValidError} />
+        <Error error={acceptInvitationError} />
         <FormContainer>
           <Text align="center" size={18} fw={600}>
             Create an account
@@ -100,7 +207,12 @@ export default function Signup() {
               label="Confirm password"
               {...form.getInputProps('passwordConfirm')}
             />
-            <Button mt={40} type="submit" fullWidth>
+            <Button
+              mt={40}
+              type="submit"
+              fullWidth
+              disabled={acceptInvitationLoading}
+            >
               Submit
             </Button>
           </form>
