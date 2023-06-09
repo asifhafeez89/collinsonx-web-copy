@@ -18,7 +18,7 @@ const checkIsAllowed = (pathname: string) => {
 };
 const SysAuth = ({ children }: AuthWrapperProps) => {
   const router = useRouter();
-  const [isPageAllowed, setIsPageAllowed] = useState(false);
+  const [show, setShow] = useState(false);
   const [isLoggedIn, userId, logout] = useAuth({
     onExpiredSession: () => {
       if (window && !checkIsAllowed(window.location.pathname)) {
@@ -29,7 +29,15 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
     },
   });
 
-  if (isLoggedIn || checkIsAllowed(router.pathname)) {
+  useEffect(() => {
+    if (isLoggedIn || checkIsAllowed(router.pathname)) {
+      setShow(true);
+    } else {
+      setShow(false);
+    }
+  }, [isLoggedIn]);
+
+  if (show) {
     return <>{children}</>;
   }
 
