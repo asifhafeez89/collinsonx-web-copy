@@ -35,7 +35,7 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
     } else {
       setShow(false);
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, router.pathname]);
 
   if (show) {
     return <>{children}</>;

@@ -22,7 +22,7 @@ import getExperienceByID from '@collinsonx/utils/queries/getExperienceByID';
 import acceptInvitation from '@collinsonx/utils/mutations/acceptInvitation';
 import Error from '@components/Error';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
-import getInvitationTokenIsValid from '@collinsonx/utils/queries/getInvitationTokenIsValid';
+import isInvitationTokenValid from '@collinsonx/utils/queries/isInvitationTokenValid';
 import { signIn } from 'supertokens-auth-react/recipe/emailpassword';
 
 export interface FormValues {
@@ -70,19 +70,13 @@ export default function Signup() {
     loading: tokenIsValidLoading,
     error: tokenIsValidError,
     data: tokenIsValidData,
-  } = useQuery<{ getInvitationTokenIsValid: boolean }>(
-    getInvitationTokenIsValid,
-    {
-      variables: { inviteToken: router.query.invitation },
-      skip: !router.isReady,
-    }
-  );
+  } = useQuery<{ isInvitationTokenValid: boolean }>(isInvitationTokenValid, {
+    variables: { inviteToken: router.query.invitation },
+    skip: !router.isReady,
+  });
 
   useEffect(() => {
-    if (
-      tokenIsValidData &&
-      tokenIsValidData.getInvitationTokenIsValid === false
-    ) {
+    if (tokenIsValidData && tokenIsValidData.isInvitationTokenValid === false) {
       router.push('/signup/invalid');
     }
   }, [router, tokenIsValidData]);
