@@ -9,7 +9,7 @@ import FormContainer from '@components/FormContainer';
 import { useForm } from '@collinsonx/design-system/form';
 import PageTitle from '@components/PageTitle';
 
-import { submitNewPassword } from 'supertokens-web-js/recipe/emailpassword';
+import { submitNewPassword } from 'supertokens-auth-react/recipe/emailpassword';
 
 export interface FormValues {
   password: string;

@@ -13,7 +13,7 @@ import { useForm } from '@collinsonx/design-system/form';
 import validateEmail from '@collinsonx/utils/lib/validateEmail';
 import PageTitle from '@components/PageTitle';
 import Link from 'next/link';
-import { signIn } from 'supertokens-web-js/recipe/emailpassword';
+import { signIn } from 'supertokens-auth-react/recipe/emailpassword';
 
 export interface FormValues {
   email: string;

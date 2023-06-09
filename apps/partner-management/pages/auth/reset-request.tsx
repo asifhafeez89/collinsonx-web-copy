@@ -16,7 +16,7 @@ import validateEmail from '@collinsonx/utils/lib/validateEmail';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 
-import { sendPasswordResetEmail } from 'supertokens-web-js/recipe/emailpassword';
+import { sendPasswordResetEmail } from 'supertokens-auth-react/recipe/emailpassword';
 
 export interface FormValues {
   email: string;

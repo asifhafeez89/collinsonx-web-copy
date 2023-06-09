@@ -1,7 +1,7 @@
 import LayoutLogin from '@components/LayoutLogin';
 import { useEffect } from 'react';
 
-import Session from 'supertokens-web-js/recipe/session';
+import Session from 'supertokens-auth-react/recipe/session';
 
 export default function Signout() {
   async function logout() {

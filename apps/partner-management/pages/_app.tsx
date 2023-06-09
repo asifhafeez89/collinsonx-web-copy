@@ -6,9 +6,7 @@ import Head from 'next/head';
 import { useApollo, ApolloProvider } from '@collinsonx/utils/apollo';
 import { Analytics } from '@vercel/analytics/react';
 
-import SuperTokens from 'supertokens-web-js';
-import { SuperTokensWrapper } from 'supertokens-auth-react';
-import { SuperTokensConfig } from 'supertokens-web-js/lib/build/types';
+import SuperTokens, { SuperTokensWrapper } from 'supertokens-auth-react';
 import { frontendConfig } from 'config/frontendConfig';
 
 import AuthWrapper from '@components/AuthWrapper';
@@ -26,7 +24,7 @@ type Props = AppProps & {
 if (typeof window !== 'undefined') {
   // we only want to call this init function on the frontend, so
   // we check typeof window !== 'undefined'
-  SuperTokens.init(frontendConfig() as unknown as SuperTokensConfig);
+  SuperTokens.init(frontendConfig());
 }
 
 export default function MyApp({ Component, pageProps }: Props) {
