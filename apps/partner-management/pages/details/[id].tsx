@@ -44,7 +44,9 @@ export default function Details({ id }: DetailsProps) {
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
     onCompleted: () =>
-      setLastUpdate(dayjsTz(new Date()).format('YYYY-MM-DD HH:mm')),
+      setLastUpdate(
+        new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
+      ),
   });
 
   const booking = useMemo(() => {
