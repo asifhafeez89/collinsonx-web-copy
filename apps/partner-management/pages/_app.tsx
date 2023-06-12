@@ -11,6 +11,7 @@ import { frontendConfig } from 'config/frontendConfig';
 
 import AuthWrapper from '@components/AuthWrapper';
 import theme from '../theme';
+import { PARTNER_ID } from 'config';
 
 type Page<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactElement) => JSX.Element;
@@ -31,7 +32,7 @@ export default function MyApp({ Component, pageProps }: Props) {
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page);
 
-  const apolloClient = useApollo(pageProps, false);
+  const apolloClient = useApollo(pageProps, true, PARTNER_ID);
   return (
     <>
       <Head>

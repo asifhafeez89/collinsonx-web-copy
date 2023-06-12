@@ -6,7 +6,7 @@ import Error from '@components/Error';
 import Notification from '@components/Notification';
 import { useMutation, useQuery } from '@collinsonx/utils/apollo';
 import { Booking, BookingStatus } from '@collinsonx/utils';
-import getAllBookings from '@collinsonx/utils/queries/getAllBookings';
+import getBookings from '@collinsonx/utils/queries/getBookings';
 import DetailsPendingActions from '@components/Details/DetailsPendingActions';
 import {
   declineBooking as declineBookingMutation,
@@ -15,23 +15,31 @@ import {
 import { useRouter } from 'next/router';
 import { bookingConfig } from 'config/booking';
 import { isErrorValid } from 'lib';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
+import getSelectedLounge from 'lib/getSelectedLounge';
+import getLoungeTitle from 'lib/getLoungeTitle';
 
 interface DetailsProps {
   id: string;
 }
 
-const { Initialized } = BookingStatus;
+const { Pending } = BookingStatus;
 
 export default function Details({ id }: DetailsProps) {
   const router = useRouter();
+
+  const loungeData = getSelectedLounge();
 
   const {
     loading,
     error: fetchError,
     data,
-  } = useQuery<{ getAllBookings: Booking[] }>(getAllBookings, {
+  } = useQuery<{ getBookings: Booking[] }>(getBookings, {
+    variables: {
+      experienceId: loungeData?.id,
+    },
+    skip: !loungeData?.id,
     pollInterval: 300000,
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
@@ -40,7 +48,7 @@ export default function Details({ id }: DetailsProps) {
   });
 
   const booking = useMemo(() => {
-    return data?.getAllBookings.find((item) => item.id === id);
+    return data?.getBookings.find((item) => item.id === id);
   }, [data, id]);
 
   const [
@@ -78,6 +86,12 @@ export default function Details({ id }: DetailsProps) {
     });
   };
 
+  if (!loungeData) {
+    <Box py={40} px={32}>
+      Experience could not be found
+    </Box>;
+  }
+
   if (!loading && !fetchError && !booking) {
     return (
       <Box py={40} px={32}>
@@ -103,7 +117,7 @@ export default function Details({ id }: DetailsProps) {
                 Customer booking details{' '}
                 {lastUpdate && `Last updated ${lastUpdate}`}
               </Title>
-              <Text size={18}>Lounge</Text>
+              <Text size={18}>{getLoungeTitle(loungeData)}</Text>
             </Box>
             <Error error={declineError} />
             <Error error={confirmError} />
@@ -115,7 +129,7 @@ export default function Details({ id }: DetailsProps) {
                   sx={{ borderRadius: 4, border: '1px solid #DDDDDD' }}
                 >
                   <DetailsView booking={booking} loading={loading}>
-                    {status === Initialized ? (
+                    {status === Pending ? (
                       <DetailsPendingActions
                         onClickConfirm={handleClickConfirm}
                         onClickDecline={handleClickDecline}

@@ -172,6 +172,7 @@ export default function Signup() {
       justify="center"
       align="center"
       h="100%"
+      w="100%"
       style={{ position: 'absolute', top: 0, bottom: 0 }}
     >
       <LoaderLifestyleX />
