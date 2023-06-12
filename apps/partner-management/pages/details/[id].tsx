@@ -18,6 +18,7 @@ import { isErrorValid } from 'lib';
 import { useMemo, useState } from 'react';
 import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
 import getSelectedLounge from 'lib/getSelectedLounge';
+import getLoungeTitle from 'lib/getLoungeTitle';
 
 interface DetailsProps {
   id: string;
@@ -116,7 +117,7 @@ export default function Details({ id }: DetailsProps) {
                 Customer booking details{' '}
                 {lastUpdate && `Last updated ${lastUpdate}`}
               </Title>
-              <Text size={18}>Lounge</Text>
+              <Text size={18}>{getLoungeTitle(loungeData)}</Text>
             </Box>
             <Error error={declineError} />
             <Error error={confirmError} />
