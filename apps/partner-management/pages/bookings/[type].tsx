@@ -88,7 +88,9 @@ export default function Bookings({ type }: BookingsProps) {
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
     onCompleted: () =>
-      setLastUpdate(dayjsTz(new Date()).format('YYYY-MM-DD HH:mm')),
+      setLastUpdate(
+        new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
+      ),
   });
 
   const router = useRouter();
@@ -259,7 +261,8 @@ export default function Bookings({ type }: BookingsProps) {
       columnHelper.accessor('arrivalDate', {
         header: 'Arrival date',
         id: 'arrivalDate',
-        cell: (props) => props.getValue() || '-',
+        cell: (props) =>
+          new Date(props.getValue().toString()).toLocaleDateString() || '-',
       }),
       columnHelper.accessor('arrivalTime', {
         header: 'Arrival time',

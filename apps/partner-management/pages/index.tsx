@@ -32,7 +32,11 @@ export default function Overview() {
       fetchPolicy: 'network-only',
       notifyOnNetworkStatusChange: true,
       onCompleted: () =>
-        setLastUpdate(dayjsTz(new Date()).format('YYYY-MM-DD HH:mm')),
+        setLastUpdate(
+          new Date().toLocaleDateString() +
+            ' ' +
+            new Date().toLocaleTimeString()
+        ),
     }
   );
 
