@@ -354,7 +354,7 @@ export default function Bookings({ type }: BookingsProps) {
             </Link>
             <Title size={32}>{title}</Title>
           </Flex>
-          <Text mb={33} pl={44} size={18} w={300}>
+          <Text mb={33} pl={44} size={18}>
             {getLoungeTitle(loungeData)}
           </Text>
         </Box>
