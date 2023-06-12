@@ -33,20 +33,19 @@ import Table from '@components/Table';
 import { BookingStatus, Booking, BookingType } from '@collinsonx/utils';
 import { getBookingsByType } from '@collinsonx/utils/lib';
 import { useMutation, useQuery } from '@collinsonx/utils/apollo';
-import getAllBookings from '@collinsonx/utils/queries/getAllBookings';
+import getBookings from '@collinsonx/utils/queries/getBookings';
 import {
   checkinBooking as checkinBookingMutation,
   declineBooking as declineBookingMutation,
   confirmBooking as confirmBookingMutation,
 } from '@collinsonx/utils/mutations';
-import BookingModal from '@components/BookingModal';
 import Error from '@components/Error';
-import DetailsConfirmedActions from '@components/Details/DetailsConfirmedActions';
 import DetailsPendingActions from '@components/Details/DetailsPendingActions';
 import { PageType } from 'config/booking';
 import { GetServerSideProps } from 'next';
 import { expandDate, isErrorValid } from 'lib';
 import { useRouter } from 'next/router';
+import getSelectedLounge from 'lib/getSelectedLounge';
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
 
@@ -68,7 +67,7 @@ const widthColMap = {
 const DATE_FORMAT = 'DD/MM/YYYY';
 
 const typeMap: Record<string, BookingStatus> = {
-  pending: BookingStatus.Initialized,
+  pending: BookingStatus.Pending,
   confirmed: BookingStatus.Confirmed,
   declined: BookingStatus.Declined,
 };
@@ -78,12 +77,18 @@ export interface BookingsProps {
 }
 
 export default function Bookings({ type }: BookingsProps) {
+  const loungeData = getSelectedLounge();
+
   const {
     loading: loadingBookings,
     error: errorBookings,
     data: dataBookings,
     refetch: refetchBookings,
-  } = useQuery<{ getAllBookings: Booking[] }>(getAllBookings, {
+  } = useQuery<{ getBookings: Booking[] }>(getBookings, {
+    variables: {
+      experienceId: loungeData?.id,
+    },
+    skip: !loungeData?.id,
     pollInterval: 300000,
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
@@ -92,6 +97,7 @@ export default function Bookings({ type }: BookingsProps) {
   });
 
   const router = useRouter();
+
   const { date } = router.query;
 
   const [bookingId, setBookingId] = useState<string | null>(null);
@@ -108,9 +114,9 @@ export default function Bookings({ type }: BookingsProps) {
     const data = expandDate(dataBookings);
     if (!date) {
       result = data;
-    } else if (data?.getAllBookings) {
+    } else if (data?.getBookings) {
       result = {
-        getAllBookings: data.getAllBookings.filter(
+        getBookings: data.getBookings.filter(
           (item) =>
             dayjsTz(item.bookedFrom).format('YYYY-MM-DD') ===
             dayjsTz(date as string).format('YYYY-MM-DD')
@@ -119,7 +125,7 @@ export default function Bookings({ type }: BookingsProps) {
     }
     if (name && result) {
       result = {
-        getAllBookings: result.getAllBookings.filter((item) =>
+        getBookings: result.getBookings.filter((item) =>
           (item.consumer?.fullName ?? '')
             .toLowerCase()
             .includes(name.toLowerCase())
@@ -140,7 +146,7 @@ export default function Bookings({ type }: BookingsProps) {
     }
 
     return getBookingsByType(
-      filteredData?.getAllBookings ?? [],
+      filteredData?.getBookings ?? [],
       types
     ) as Booking[];
   }, [filteredData, type]);
@@ -348,7 +354,7 @@ export default function Bookings({ type }: BookingsProps) {
             <Title size={32}>{title}</Title>
           </Flex>
           <Text mb={33} pl={44} size={18} w={300}>
-            Lounge
+            {loungeData?.loungeName}
           </Text>
         </Box>
         <Flex justify="space-between" align="center">

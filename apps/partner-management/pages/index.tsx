@@ -13,21 +13,26 @@ import Error from '@components/Error';
 import OverviewSeparator from '@components/OverviewSeparator';
 import Link from 'next/link';
 import { useQuery } from '@collinsonx/utils/apollo';
-import getAllBookings from '@collinsonx/utils/queries/getAllBookings';
+import getBookings from '@collinsonx/utils/queries/getBookings';
 import { Booking, BookingStatus } from '@collinsonx/utils';
 import { getBookingsByType } from '@collinsonx/utils/lib';
 import { useMemo, useState } from 'react';
 import { isErrorValid } from 'lib';
 import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
+import getSelectedLounge from 'lib/getSelectedLounge';
 
-const { Initialized, Confirmed, Declined, Cancelled, CheckedIn } =
-  BookingStatus;
+const { Pending, Confirmed, Declined, Cancelled, CheckedIn } = BookingStatus;
 
 export default function Overview() {
+  const loungeData = getSelectedLounge();
   const [lastUpdate, setLastUpdate] = useState<String>();
-  const { loading, error, data } = useQuery<{ getAllBookings: Booking[] }>(
-    getAllBookings,
+  const { loading, error, data } = useQuery<{ getBookings: Booking[] }>(
+    getBookings,
     {
+      variables: {
+        experienceId: loungeData?.id,
+      },
+      skip: !loungeData?.id,
       pollInterval: 300000,
       fetchPolicy: 'network-only',
       notifyOnNetworkStatusChange: true,
@@ -37,7 +42,7 @@ export default function Overview() {
   );
 
   const bookings = useMemo<Record<BookingStatus, Booking[]>>(() => {
-    return getBookingsByType(data?.getAllBookings ?? []) as Record<
+    return getBookingsByType(data?.getBookings ?? []) as Record<
       BookingStatus,
       Booking[]
     >;
@@ -82,14 +87,14 @@ export default function Overview() {
               <Stack spacing={24}>
                 <OverviewCard title="Pending requests" variant="pending">
                   <>
-                    {!loading && !bookings[Initialized]?.length ? (
+                    {!loading && !bookings[Pending]?.length ? (
                       'You have no pending requests'
                     ) : (
                       <Flex gap={72} maw="40%">
                         <OverviewMetric
                           loading={loading}
                           label="Recent pending"
-                          value={bookings[Initialized]?.length || 0}
+                          value={bookings[Pending]?.length || 0}
                         >
                           <Link href="/bookings/pending" passHref>
                             <Button

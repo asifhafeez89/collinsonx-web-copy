@@ -29,11 +29,11 @@ export const isErrorValid = (error?: ApolloError) => {
   }
 };
 
-export const expandDate = (data?: { getAllBookings: Booking[] }) => {
+export const expandDate = (data?: { getBookings: Booking[] }) => {
   if (data) {
     return {
       ...data,
-      getAllBookings: (data?.getAllBookings ?? []).map((row) => ({
+      getBookings: (data?.getBookings ?? []).map((row) => ({
         ...row,
         arrivalDate: dayjsTz(row.bookedFrom).format('YYYY-MM-DD'),
         arrivalTime: dayjsTz(row.bookedFrom).format('HH:mm'),
