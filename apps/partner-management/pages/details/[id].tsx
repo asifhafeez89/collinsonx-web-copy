@@ -85,6 +85,12 @@ export default function Details({ id }: DetailsProps) {
     });
   };
 
+  if (!loungeData) {
+    <Box py={40} px={32}>
+      Experience could not be found
+    </Box>;
+  }
+
   if (!loading && !fetchError && !booking) {
     return (
       <Box py={40} px={32}>

@@ -46,6 +46,7 @@ import { GetServerSideProps } from 'next';
 import { expandDate, isErrorValid } from 'lib';
 import { useRouter } from 'next/router';
 import getSelectedLounge from 'lib/getSelectedLounge';
+import getLoungeTitle from 'lib/getLoungeTitle';
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
 
@@ -354,7 +355,7 @@ export default function Bookings({ type }: BookingsProps) {
             <Title size={32}>{title}</Title>
           </Flex>
           <Text mb={33} pl={44} size={18} w={300}>
-            {loungeData?.loungeName}
+            {getLoungeTitle(loungeData)}
           </Text>
         </Box>
         <Flex justify="space-between" align="center">

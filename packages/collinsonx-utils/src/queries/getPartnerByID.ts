@@ -5,6 +5,10 @@ const getPartnerByID = gql`
       experiences {
         id
         loungeName
+        location {
+          airportName
+          terminal
+        }
       }
       id
       lastName

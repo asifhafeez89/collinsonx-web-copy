@@ -6,6 +6,7 @@ import {
   Button,
   Stack,
   Flex,
+  Box,
 } from '@collinsonx/design-system/core';
 import OverviewCard from '@components/OverviewCard';
 import OverviewMetric from '@components/OverviewMetric';
@@ -20,6 +21,7 @@ import { useMemo, useState } from 'react';
 import { isErrorValid } from 'lib';
 import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
 import getSelectedLounge from 'lib/getSelectedLounge';
+import getLoungeTitle from 'lib/getLoungeTitle';
 
 const { Pending, Confirmed, Declined, Cancelled, CheckedIn } = BookingStatus;
 
@@ -70,6 +72,14 @@ export default function Overview() {
     }
   }, [bookings]);
 
+  if (!loungeData) {
+    return (
+      <Box py={40} px={32}>
+        Experience could not be found
+      </Box>
+    );
+  }
+
   return (
     <>
       {error && isErrorValid(error) ? (
@@ -79,8 +89,8 @@ export default function Overview() {
           <Title mb={8} size={32}>
             Booking overview
           </Title>
-          <Text mb={33} size={10}>
-            {/*lounge.name*/}
+          <Text mb={33} size={18}>
+            {getLoungeTitle(loungeData)}
           </Text>
           <Grid>
             <Grid.Col lg={6}>

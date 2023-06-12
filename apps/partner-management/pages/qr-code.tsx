@@ -1,6 +1,6 @@
 import React from 'react';
 import Layout from '@components/Layout';
-import { Button, Stack, MediaQuery } from '@collinsonx/design-system/core';
+import { Button, Stack, MediaQuery, Box } from '@collinsonx/design-system/core';
 import Link from 'next/link';
 import { QRCodeSVG } from 'qrcode.react';
 import getSelectedLounge from 'lib/getSelectedLounge';
@@ -49,7 +49,9 @@ export default function QRCode() {
       </MediaQuery>
     </Stack>
   ) : (
-    <></>
+    <Box py={40} px={32}>
+      Experience could not be found
+    </Box>
   );
 }
 
