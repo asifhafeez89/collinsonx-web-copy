@@ -64,6 +64,9 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
     }
 
     if (isLoggedIn || checkIsAllowed(router.pathname)) {
+      if (userId && typeof userId === 'string') {
+        localStorage.setItem(PARTNER_ID, userId);
+      }
       setShow(true);
     } else {
       setShow(false);
