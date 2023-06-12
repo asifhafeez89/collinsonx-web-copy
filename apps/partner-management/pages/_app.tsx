@@ -11,6 +11,7 @@ import { frontendConfig } from 'config/frontendConfig';
 
 import AuthWrapper from '@components/AuthWrapper';
 import theme from '../theme';
+import SessionManager from '@components/SessionManager';
 
 type Page<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactElement) => JSX.Element;
@@ -44,10 +45,12 @@ export default function MyApp({ Component, pageProps }: Props) {
       <ApolloProvider client={apolloClient}>
         <SuperTokensWrapper>
           <AuthWrapper>
-            <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
-              {getLayout(<Component {...pageProps} />)}
-              <Analytics />
-            </MantineProvider>
+            <SessionManager>
+              <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
+                {getLayout(<Component {...pageProps} />)}
+                <Analytics />
+              </MantineProvider>
+            </SessionManager>
           </AuthWrapper>
         </SuperTokensWrapper>
       </ApolloProvider>
