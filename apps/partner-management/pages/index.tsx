@@ -22,17 +22,21 @@ import { isErrorValid } from 'lib';
 import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
 import getSelectedLounge from 'lib/getSelectedLounge';
 import getLoungeTitle from 'lib/getLoungeTitle';
+import SelectInput from '@collinsonx/design-system/components/inputselect';
+import experiences from '../data/experiences.json';
 
 const { Pending, Confirmed, Declined, Cancelled, CheckedIn } = BookingStatus;
 
 export default function Overview() {
   const loungeData = getSelectedLounge();
   const [lastUpdate, setLastUpdate] = useState<String>();
+  const [experienceId, setSelectExperience] = useState<String>();
+
   const { loading, error, data } = useQuery<{ getBookings: Booking[] }>(
     getBookings,
     {
       variables: {
-        experienceId: loungeData?.id,
+        experienceId: experienceId ? experienceId : loungeData?.id,
       },
       skip: !loungeData?.id,
       pollInterval: 300000,
@@ -46,6 +50,9 @@ export default function Overview() {
         ),
     }
   );
+
+  console.log(experienceId);
+  console.log(data);
 
   const bookings = useMemo<Record<BookingStatus, Booking[]>>(() => {
     return getBookingsByType(data?.getBookings ?? []) as Record<
@@ -84,6 +91,10 @@ export default function Overview() {
     );
   }
 
+  const experiencesFiltered = experiences.map((experience) => {
+    return { value: experience.id, label: experience.loungeName };
+  });
+
   return (
     <>
       {error && isErrorValid(error) ? (
@@ -96,6 +107,14 @@ export default function Overview() {
           <Text mb={33} size={18}>
             {getLoungeTitle(loungeData)}
           </Text>
+          <Stack mb={33} sx={{ width: '300px' }}>
+            {/* TODO: Add a check if the user is a superUser  */}
+            <SelectInput
+              data={experiencesFiltered}
+              onChange={(id) => setSelectExperience(id ?? '')}
+            ></SelectInput>
+          </Stack>
+
           <Grid>
             <Grid.Col lg={6}>
               <Stack spacing={24}>
