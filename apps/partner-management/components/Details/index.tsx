@@ -18,9 +18,6 @@ const Details = ({ children, booking, loading = false }: DetailsProps) => {
         <DetailsKeyValue label="Name" loading={loading}>
           {booking?.consumer?.fullName ?? '-'}
         </DetailsKeyValue>
-        <DetailsKeyValue label="Date of birth" loading={loading}>
-          -
-        </DetailsKeyValue>
       </DetailsSection>
       <DetailsSection label="Flight details">
         <DetailsKeyValue label="Flight number" loading={loading}>
