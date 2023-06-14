@@ -27,6 +27,10 @@ exports[`<Datepicker /> renders datepicker 1`] = `
   position: relative;
 }
 
+.emotion-11:has(input:disabled) .mantine-Input-rightSection {
+  display: none;
+}
+
 .emotion-15 {
   font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
   height: auto;
@@ -67,6 +71,7 @@ exports[`<Datepicker /> renders datepicker 1`] = `
   color: #909296;
   opacity: 0.6;
   cursor: not-allowed;
+  pointer-events: none;
 }
 
 .emotion-15:disabled::-webkit-input-placeholder {
@@ -196,8 +201,8 @@ exports[`<Datepicker /> renders datepicker 1`] = `
   >
     <label
       className="emotion-3 emotion-4 emotion-5"
-      htmlFor="mantine-w19b0c16d"
-      id="mantine-w19b0c16d-label"
+      htmlFor="mantine-br6ndf1pj"
+      id="mantine-br6ndf1pj-label"
       onMouseDown={[Function]}
     >
       Date
@@ -212,13 +217,13 @@ exports[`<Datepicker /> renders datepicker 1`] = `
       className="emotion-9 emotion-10 emotion-11"
     >
       <button
-        aria-controls="mantine-ucqu4255l-dropdown"
+        aria-controls="mantine-9zhjtjcgt-dropdown"
         aria-expanded={false}
         aria-haspopup="dialog"
         aria-invalid={false}
         className="emotion-12 emotion-13 emotion-12 emotion-15"
         data-dates-input={true}
-        id="mantine-ucqu4255l-target"
+        id="mantine-9zhjtjcgt-target"
         onClick={[Function]}
         type="button"
       >

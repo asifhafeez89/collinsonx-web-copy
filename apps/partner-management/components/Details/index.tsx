@@ -2,11 +2,8 @@ import { Flex, Stack } from '@collinsonx/design-system/core';
 import { Calendar, Clock } from '@collinsonx/design-system/assets/icons';
 import DetailsSection from './DetailsSection';
 import DetailsKeyValue from './DetailsKeyValue';
-
+import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
 import { Booking } from '@collinsonx/utils';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-dayjs.extend(utc);
 
 export interface DetailsProps {
   booking: Booking | undefined;
@@ -14,14 +11,20 @@ export interface DetailsProps {
   children?: JSX.Element;
 }
 const Details = ({ children, booking, loading = false }: DetailsProps) => {
+  console.log(booking);
   return (
     <Stack spacing={40}>
       <DetailsSection label="Passenger details">
         <DetailsKeyValue label="Name" loading={loading}>
           {booking?.consumer?.fullName ?? '-'}
         </DetailsKeyValue>
-        <DetailsKeyValue label="Date of birth" loading={loading}>
-          -
+      </DetailsSection>
+      <DetailsSection label="Flight details">
+        <DetailsKeyValue label="Flight number" loading={loading}>
+          {booking?.metadata?.flightNumber ?? '-'}
+        </DetailsKeyValue>
+        <DetailsKeyValue label="Flight time" loading={loading}>
+          {booking?.metadata?.flightTime ?? '-'}
         </DetailsKeyValue>
       </DetailsSection>
       <DetailsSection label="Booking details">
@@ -29,7 +32,7 @@ const Details = ({ children, booking, loading = false }: DetailsProps) => {
           {booking?.bookedFrom ? (
             <Flex align="center" gap={8}>
               <Calendar width={16} height={16} />
-              {dayjs.utc(booking?.bookedFrom).format('DD/MM/YYYY')}
+              {dayjsTz(booking?.bookedFrom).format('DD/MM/YYYY')}
             </Flex>
           ) : (
             '-'
@@ -39,14 +42,14 @@ const Details = ({ children, booking, loading = false }: DetailsProps) => {
           {booking?.bookedFrom ? (
             <Flex align="center" gap={8}>
               <Clock width={16} height={16} />
-              {dayjs.utc(booking?.bookedFrom).format('HH:mm')}
+              {dayjsTz(booking?.bookedFrom).format('HH:mm')}
             </Flex>
           ) : (
             '-'
           )}
         </DetailsKeyValue>
         <DetailsKeyValue label="Guests" loading={loading}>
-          <>{booking?.guestCount}</>
+          -
         </DetailsKeyValue>
       </DetailsSection>
       {children}

@@ -1,5 +1,5 @@
 import Layout from '@components/Layout';
-import { ComponentProps, useMemo, useState } from 'react';
+import { ComponentProps, useCallback, useMemo, useState } from 'react';
 import {
   Title,
   Text,
@@ -21,7 +21,8 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import Status from '@components/Status';
-import dayjs from 'dayjs';
+import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
+
 import {
   BackArrow,
   Calendar,
@@ -32,23 +33,20 @@ import Table from '@components/Table';
 import { BookingStatus, Booking, BookingType } from '@collinsonx/utils';
 import { getBookingsByType } from '@collinsonx/utils/lib';
 import { useMutation, useQuery } from '@collinsonx/utils/apollo';
-import getAllBookings from '@collinsonx/utils/queries/getAllBookings';
+import getBookings from '@collinsonx/utils/queries/getBookings';
 import {
   checkinBooking as checkinBookingMutation,
   declineBooking as declineBookingMutation,
   confirmBooking as confirmBookingMutation,
 } from '@collinsonx/utils/mutations';
-import BookingModal from '@components/BookingModal';
 import Error from '@components/Error';
-import DetailsConfirmedActions from '@components/Details/DetailsConfirmedActions';
 import DetailsPendingActions from '@components/Details/DetailsPendingActions';
 import { PageType } from 'config/booking';
 import { GetServerSideProps } from 'next';
 import { expandDate, isErrorValid } from 'lib';
-import utc from 'dayjs/plugin/utc';
 import { useRouter } from 'next/router';
-
-dayjs.extend(utc);
+import getSelectedLounge from 'lib/getSelectedLounge';
+import getLoungeTitle from 'lib/getLoungeTitle';
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
 
@@ -70,7 +68,7 @@ const widthColMap = {
 const DATE_FORMAT = 'DD/MM/YYYY';
 
 const typeMap: Record<string, BookingStatus> = {
-  pending: BookingStatus.Initialized,
+  pending: BookingStatus.Pending,
   confirmed: BookingStatus.Confirmed,
   declined: BookingStatus.Declined,
 };
@@ -80,18 +78,35 @@ export interface BookingsProps {
 }
 
 export default function Bookings({ type }: BookingsProps) {
+  const loungeData = getSelectedLounge();
+
   const {
     loading: loadingBookings,
     error: errorBookings,
     data: dataBookings,
     refetch: refetchBookings,
-  } = useQuery<{ getAllBookings: Booking[] }>(getAllBookings);
+  } = useQuery<{ getBookings: Booking[] }>(getBookings, {
+    variables: {
+      experienceId: loungeData?.id,
+    },
+    skip: !loungeData?.id,
+    pollInterval: 300000,
+    fetchPolicy: 'network-only',
+    notifyOnNetworkStatusChange: true,
+    onCompleted: () =>
+      setLastUpdate(
+        new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
+      ),
+  });
 
   const router = useRouter();
+
   const { date } = router.query;
 
   const [bookingId, setBookingId] = useState<string | null>(null);
   const [name, setName] = useState((router.query.name as string) ?? '');
+
+  const [lastUpdate, setLastUpdate] = useState<String>();
 
   const [sorting, setSorting] = useState<SortingState>([
     { id: 'arrivalDate', desc: true },
@@ -102,18 +117,18 @@ export default function Bookings({ type }: BookingsProps) {
     const data = expandDate(dataBookings);
     if (!date) {
       result = data;
-    } else if (data?.getAllBookings) {
+    } else if (data?.getBookings) {
       result = {
-        getAllBookings: data.getAllBookings.filter(
+        getBookings: data.getBookings.filter(
           (item) =>
-            dayjs.utc(item.bookedFrom).format('YYYY-MM-DD') ===
-            dayjs(date as string).format('YYYY-MM-DD')
+            dayjsTz(item.bookedFrom).format('YYYY-MM-DD') ===
+            dayjsTz(date as string).format('YYYY-MM-DD')
         ),
       };
     }
     if (name && result) {
       result = {
-        getAllBookings: result.getAllBookings.filter((item) =>
+        getBookings: result.getBookings.filter((item) =>
           (item.consumer?.fullName ?? '')
             .toLowerCase()
             .includes(name.toLowerCase())
@@ -134,7 +149,7 @@ export default function Bookings({ type }: BookingsProps) {
     }
 
     return getBookingsByType(
-      filteredData?.getAllBookings ?? [],
+      filteredData?.getBookings ?? [],
       types
     ) as Booking[];
   }, [filteredData, type]);
@@ -154,41 +169,48 @@ export default function Bookings({ type }: BookingsProps) {
     { loading: loadingConfirm, error: confirmError, data: dataConfirm },
   ] = useMutation(confirmBookingMutation);
 
-  const [checkIn, setCheckIn] = useState(false);
-  const handleClickClose = () => {
-    setCheckIn(false);
-    setBookingId(null);
-  };
-  const handleClickConfirm = () => {
-    confirmBooking({
-      variables: { confirmBookingId: bookingId },
-      onCompleted: () => {
-        setBookingId(null);
-        refetchBookings();
-      },
-    });
-  };
-  const handleClickDecline = () => {
-    declineBooking({
-      variables: { declineBookingId: bookingId },
-      onCompleted: () => {
-        setBookingId(null);
-        refetchBookings();
-      },
-    });
-  };
+  const handleClickDecline = useCallback(
+    (id: string) => {
+      declineBooking({
+        variables: { declineBookingId: id },
+        onCompleted: () => {
+          //setBookingId(null);
+          refetchBookings();
+        },
+      });
+    },
+    [declineBooking, refetchBookings]
+  );
+
   const handleClickCheckIn = (id: string) => {
     setBookingId(id);
   };
-  const handleClickConfirmCheckIn = () => {
-    checkInBooking({
-      variables: { checkinBookingId: bookingId },
-      onCompleted: () => {
-        setBookingId(null);
-        refetchBookings();
-      },
-    });
-  };
+
+  const handleClickConfirm = useCallback(
+    (id: string) => {
+      confirmBooking({
+        variables: { confirmBookingId: id },
+        onCompleted: () => {
+          //setBookingId(null);
+          refetchBookings();
+        },
+      });
+    },
+    [confirmBooking, refetchBookings]
+  );
+
+  const handleClickConfirmCheckIn = useCallback(
+    (id: string) => {
+      checkInBooking({
+        variables: { checkinBookingId: id },
+        onCompleted: () => {
+          //setBookingId(null);
+          refetchBookings();
+        },
+      });
+    },
+    [checkInBooking, refetchBookings]
+  );
 
   const title = titleMap[type as keyof typeof titleMap];
 
@@ -220,7 +242,7 @@ export default function Bookings({ type }: BookingsProps) {
     date
   ) => {
     const dateStr =
-      date !== null ? dayjs(date as Date).format('YYYY-MM-DD') : '';
+      date !== null ? dayjsTz(date as Date).format('DD-MM-YYYY HH:MM') : '';
     router.replace(
       {
         query: { ...router.query, date: dateStr },
@@ -246,7 +268,8 @@ export default function Bookings({ type }: BookingsProps) {
       columnHelper.accessor('arrivalDate', {
         header: 'Arrival date',
         id: 'arrivalDate',
-        cell: (props) => props.getValue() || '-',
+        cell: (props) =>
+          new Date(props.getValue().toString()).toLocaleDateString() || '-',
       }),
       columnHelper.accessor('arrivalTime', {
         header: 'Arrival time',
@@ -270,20 +293,19 @@ export default function Bookings({ type }: BookingsProps) {
             const { status, id } = props.row.original as Booking;
             if (type === 'pending') {
               return (
-                <Button
-                  fullWidth
-                  onClick={() => setBookingId(id)}
-                  variant="default"
-                >
-                  Confirm/Decline
-                </Button>
+                <>
+                  <DetailsPendingActions
+                    onClickDecline={() => handleClickDecline(id)}
+                    onClickConfirm={() => handleClickConfirm(id)}
+                  />
+                </>
               );
             }
             if (type === 'confirmed') {
               return status !== BookingStatus.CheckedIn ? (
                 <Button
                   fullWidth
-                  onClick={() => handleClickCheckIn(id)}
+                  onClick={() => handleClickConfirmCheckIn(id)}
                   variant="default"
                 >
                   Check customer in
@@ -297,7 +319,7 @@ export default function Bookings({ type }: BookingsProps) {
       );
     }
     return mainColumns;
-  }, [type]);
+  }, [handleClickConfirmCheckIn, handleClickDecline, type]);
 
   const table = useReactTable({
     data: bookings,
@@ -318,23 +340,6 @@ export default function Bookings({ type }: BookingsProps) {
 
   return (
     <>
-      <BookingModal booking={selectedBooking} onClickClose={handleClickClose}>
-        <>
-          {type === 'pending' && (
-            <DetailsPendingActions
-              onClickConfirm={handleClickConfirm}
-              onClickDecline={handleClickDecline}
-            />
-          )}
-          {type === 'confirmed' && (
-            <DetailsConfirmedActions
-              checkIn={checkIn}
-              onChangeCheckIn={setCheckIn}
-              onClickConfirmCheckIn={handleClickConfirmCheckIn}
-            />
-          )}
-        </>
-      </BookingModal>
       <Stack spacing={32}>
         <Box sx={{ borderBottom: '1px solid #E1E1E1' }}>
           <Flex gap={16} align="center" mb={8}>
@@ -352,8 +357,8 @@ export default function Bookings({ type }: BookingsProps) {
             </Link>
             <Title size={32}>{title}</Title>
           </Flex>
-          <Text mb={33} pl={44} size={18} w={300}>
-            Lounge
+          <Text mb={33} pl={44} size={18}>
+            {getLoungeTitle(loungeData)}
           </Text>
         </Box>
         <Flex justify="space-between" align="center">
@@ -362,7 +367,8 @@ export default function Bookings({ type }: BookingsProps) {
               {tableTitle}
             </Title>
             <Text size={14} weight={600} color="#9B9CA0">
-              {bookings.length ? `${bookings.length} bookings` : null}
+              {bookings.length ? `${bookings.length} bookings` : null}{' '}
+              {lastUpdate && `Last updated ${lastUpdate}`}
             </Text>
           </Box>
           <Flex gap={24}>

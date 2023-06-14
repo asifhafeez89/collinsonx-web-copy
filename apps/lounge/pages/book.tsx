@@ -75,7 +75,7 @@ export default function Book() {
       icon: <MapPin width={16} height={16} color="#0C8599" />,
     },
     {
-      header: (lounge?.openingHours ?? ('' as string)).slice(0, 20) ?? '-',
+      header: (lounge?.openingHours ?? ('' as string)).slice(0, 21) ?? '-',
       description: '',
       icon: <Clock width={16} height={16} color="#0C8599" />,
     },

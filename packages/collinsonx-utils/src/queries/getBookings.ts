@@ -7,10 +7,21 @@ const getBookings = gql`
       bookedTo
       createdAt
       type
-      consumer {
-        id
-      }
+      metadata
       id
+      guestCount
+      status
+      createdAt
+      updatedAt
+      consumer {
+        createdAt
+        crmId
+        emailAddress
+        firstName
+        fullName
+        id
+        updatedAt
+      }
       experience {
         id
         loungeName
@@ -32,9 +43,6 @@ const getBookings = gql`
           terminalAccessibility
         }
       }
-
-      status
-      updatedAt
     }
   }
 `;

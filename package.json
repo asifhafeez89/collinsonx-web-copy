@@ -12,6 +12,7 @@
     "build:search": "turbo run build --filter=search...",
     "build:lounge": "turbo run build --filter=lounge...",
     "build:partner-management": "turbo run build --filter=partner-management...",
+    "build:booking": "turbo run build --filter=booking...",
     "test": "turbo run test -- --coverage=false",
     "test:coverage": "turbo run test",
     "test:updatesnapshots": "turbo run test -- -u --coverage=false",

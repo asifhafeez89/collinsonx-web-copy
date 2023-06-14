@@ -6,6 +6,7 @@ import {
   Button,
   Stack,
   Flex,
+  Box,
 } from '@collinsonx/design-system/core';
 import OverviewCard from '@components/OverviewCard';
 import OverviewMetric from '@components/OverviewMetric';
@@ -13,26 +14,41 @@ import Error from '@components/Error';
 import OverviewSeparator from '@components/OverviewSeparator';
 import Link from 'next/link';
 import { useQuery } from '@collinsonx/utils/apollo';
-import getAllBookings from '@collinsonx/utils/queries/getAllBookings';
+import getBookings from '@collinsonx/utils/queries/getBookings';
 import { Booking, BookingStatus } from '@collinsonx/utils';
 import { getBookingsByType } from '@collinsonx/utils/lib';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { isErrorValid } from 'lib';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
+import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
+import getSelectedLounge from 'lib/getSelectedLounge';
+import getLoungeTitle from 'lib/getLoungeTitle';
 
-dayjs.extend(utc);
-
-const { Initialized, Confirmed, Declined, Cancelled, CheckedIn } =
-  BookingStatus;
+const { Pending, Confirmed, Declined, Cancelled, CheckedIn } = BookingStatus;
 
 export default function Overview() {
-  const { loading, error, data } = useQuery<{ getAllBookings: Booking[] }>(
-    getAllBookings
+  const loungeData = getSelectedLounge();
+  const [lastUpdate, setLastUpdate] = useState<String>();
+  const { loading, error, data } = useQuery<{ getBookings: Booking[] }>(
+    getBookings,
+    {
+      variables: {
+        experienceId: loungeData?.id,
+      },
+      skip: !loungeData?.id,
+      pollInterval: 300000,
+      fetchPolicy: 'network-only',
+      notifyOnNetworkStatusChange: true,
+      onCompleted: () =>
+        setLastUpdate(
+          new Date().toLocaleDateString() +
+            ' ' +
+            new Date().toLocaleTimeString()
+        ),
+    }
   );
 
   const bookings = useMemo<Record<BookingStatus, Booking[]>>(() => {
-    return getBookingsByType(data?.getAllBookings ?? []) as Record<
+    return getBookingsByType(data?.getBookings ?? []) as Record<
       BookingStatus,
       Booking[]
     >;
@@ -52,13 +68,21 @@ export default function Overview() {
       ];
       return allConfirmed.filter(
         (item) =>
-          dayjs.utc(item.bookedFrom).format('YYYY-MM-DD') ==
-          dayjs(new Date()).format('YYYY-MM-DD')
+          dayjsTz(item.bookedFrom).format('YYYY-MM-DD') ==
+          dayjsTz(new Date()).format('YYYY-MM-DD')
       );
     } else {
       return [];
     }
   }, [bookings]);
+
+  if (!loungeData) {
+    return (
+      <Box py={40} px={32}>
+        Experience could not be found
+      </Box>
+    );
+  }
 
   return (
     <>
@@ -70,21 +94,21 @@ export default function Overview() {
             Booking overview
           </Title>
           <Text mb={33} size={18}>
-            {/*lounge.name*/}
+            {getLoungeTitle(loungeData)}
           </Text>
           <Grid>
             <Grid.Col lg={6}>
               <Stack spacing={24}>
                 <OverviewCard title="Pending requests" variant="pending">
                   <>
-                    {!loading && !bookings[Initialized]?.length ? (
+                    {!loading && !bookings[Pending]?.length ? (
                       'You have no pending requests'
                     ) : (
                       <Flex gap={72} maw="40%">
                         <OverviewMetric
                           loading={loading}
                           label="Recent pending"
-                          value={bookings[Initialized]?.length || 0}
+                          value={bookings[Pending]?.length || 0}
                         >
                           <Link href="/bookings/pending" passHref>
                             <Button
@@ -142,7 +166,7 @@ export default function Overview() {
                           href={{
                             pathname: '/bookings/confirmed',
                             query: {
-                              date: dayjs(new Date()).format('YYYY-MM-DD'),
+                              date: dayjsTz(new Date()).format('YYYY-MM-DD'),
                             },
                           }}
                           passHref
@@ -178,6 +202,9 @@ export default function Overview() {
               </OverviewCard>
             </Grid.Col>
           </Grid>
+          <Text mb={33} mt={33} size={10}>
+            {lastUpdate && `Last updated ${lastUpdate}`}
+          </Text>
         </>
       )}
     </>
