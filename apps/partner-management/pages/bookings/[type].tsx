@@ -38,6 +38,7 @@ import {
   checkinBooking as checkinBookingMutation,
   declineBooking as declineBookingMutation,
   confirmBooking as confirmBookingMutation,
+  cancelBooking as cancelBookingMutation,
 } from '@collinsonx/utils/mutations';
 import Error from '@components/Error';
 import DetailsPendingActions from '@components/Details/DetailsPendingActions';
@@ -47,6 +48,7 @@ import { expandDate, isErrorValid } from 'lib';
 import { useRouter } from 'next/router';
 import getSelectedLounge from 'lib/getSelectedLounge';
 import getLoungeTitle from 'lib/getLoungeTitle';
+import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
 
@@ -169,6 +171,8 @@ export default function Bookings({ type }: BookingsProps) {
     { loading: loadingConfirm, error: confirmError, data: dataConfirm },
   ] = useMutation(confirmBookingMutation);
 
+  const isSuperUser = true;
+
   const handleClickDecline = useCallback(
     (id: string) => {
       declineBooking({
@@ -180,6 +184,23 @@ export default function Bookings({ type }: BookingsProps) {
       });
     },
     [declineBooking, refetchBookings]
+  );
+
+  const handleClickCheckIn = (id: string) => {
+    setBookingId(id);
+  };
+
+  const handleClickCancel = useCallback(
+    (id: string) => {
+      confirmBooking({
+        variables: { cancelBookingId: id },
+        onCompleted: () => {
+          //setBookingId(null);
+          refetchBookings();
+        },
+      });
+    },
+    [confirmBooking, refetchBookings]
   );
 
   const handleClickConfirm = useCallback(
@@ -298,16 +319,28 @@ export default function Bookings({ type }: BookingsProps) {
               );
             }
             if (type === 'confirmed') {
-              return status !== BookingStatus.CheckedIn ? (
-                <Button
-                  fullWidth
-                  onClick={() => handleClickConfirmCheckIn(id)}
-                  variant="default"
-                >
-                  Check customer in
-                </Button>
-              ) : (
-                <Status type="success">Checked in</Status>
+              return (
+                <>
+                  {isSuperUser ? (
+                    <Button
+                      variant="default"
+                      onClick={() => handleClickCancel(id)}
+                    >
+                      Cancel booking
+                    </Button>
+                  ) : null}
+                  {status !== BookingStatus.CheckedIn ? (
+                    <Button
+                      fullWidth
+                      onClick={() => handleClickConfirmCheckIn(id)}
+                      variant="default"
+                    >
+                      Check customer in
+                    </Button>
+                  ) : (
+                    <Status type="success">Checked in</Status>
+                  )}
+                </>
               );
             }
           },
@@ -333,6 +366,10 @@ export default function Bookings({ type }: BookingsProps) {
     () => (bookingId ? bookings.find((item) => item.id === bookingId)! : null),
     [bookingId, bookings]
   );
+
+  let session = useSessionContext();
+
+  console.log('session ', session);
 
   return (
     <>
