@@ -17,7 +17,7 @@ export default function QRCode() {
       <h1>Welcome to {loungeData.loungeName}</h1>
       <h2>For walk-up check-ins please scan the code below</h2>
       <QRCodeSVG
-        value={`lifestylex://BookLounge?loungeId=${loungeData.id}`}
+        value={`cergea://BookLounge?loungeId=${loungeData.id}`}
         size={400}
       />
       <Stack p={0} align="center" mt={32} spacing={0}>
