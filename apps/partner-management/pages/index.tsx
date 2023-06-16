@@ -24,6 +24,7 @@ import getSelectedLounge from 'lib/getSelectedLounge';
 import getLoungeTitle from 'lib/getLoungeTitle';
 import SelectInput from '@collinsonx/design-system/components/inputselect';
 import experiences from '../data/experiences.json';
+import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 
 const { Pending, Confirmed, Declined, Cancelled, CheckedIn } = BookingStatus;
 
@@ -32,11 +33,16 @@ export default function Overview() {
   const [lastUpdate, setLastUpdate] = useState<String>();
   const [experienceId, setSelectExperience] = useState<String>();
 
+  const session: any = useSessionContext();
+
   const { loading, error, data } = useQuery<{ getBookings: Booking[] }>(
     getBookings,
     {
       variables: {
-        experienceId: experienceId ? experienceId : loungeData?.id,
+        experienceId:
+          session.accessTokenPayload.userType !== 'SUPER_USER'
+            ? loungeData?.id
+            : experienceId,
       },
       skip: !loungeData?.id,
       pollInterval: 300000,
@@ -50,9 +56,6 @@ export default function Overview() {
         ),
     }
   );
-
-  console.log(experienceId);
-  console.log(data);
 
   const bookings = useMemo<Record<BookingStatus, Booking[]>>(() => {
     return getBookingsByType(data?.getBookings ?? []) as Record<
@@ -92,7 +95,10 @@ export default function Overview() {
   }
 
   const experiencesFiltered = experiences.map((experience) => {
-    return { value: experience.id, label: experience.loungeName };
+    return {
+      value: experience.id,
+      label: experience.loungeCode + ' ' + experience.loungeName,
+    };
   });
 
   return (
@@ -104,16 +110,21 @@ export default function Overview() {
           <Title mb={8} size={32}>
             Booking overview
           </Title>
-          <Text mb={33} size={18}>
-            {getLoungeTitle(loungeData)}
-          </Text>
-          <Stack mb={33} sx={{ width: '300px' }}>
-            {/* TODO: Add a check if the user is a superUser  */}
-            <SelectInput
-              data={experiencesFiltered}
-              onChange={(id) => setSelectExperience(id ?? '')}
-            ></SelectInput>
-          </Stack>
+          {session.accessTokenPayload.userType !== 'SUPER_USER' && (
+            <Text mb={33} size={18}>
+              {getLoungeTitle(loungeData)}
+            </Text>
+          )}
+          {session.accessTokenPayload.userType === 'SUPER_USER' && (
+            <Stack mb={33} sx={{ width: '300px' }}>
+              {/* TODO: Add a check if the user is a superUser  */}
+
+              <SelectInput
+                data={experiencesFiltered}
+                onChange={(id) => setSelectExperience(id ?? '')}
+              ></SelectInput>
+            </Stack>
+          )}
 
           <Grid>
             <Grid.Col lg={6}>
