@@ -182,10 +182,6 @@ export default function Bookings({ type }: BookingsProps) {
     [declineBooking, refetchBookings]
   );
 
-  const handleClickCheckIn = (id: string) => {
-    setBookingId(id);
-  };
-
   const handleClickConfirm = useCallback(
     (id: string) => {
       confirmBooking({

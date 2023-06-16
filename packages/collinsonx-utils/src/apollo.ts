@@ -52,10 +52,20 @@ const authLink = (
       typeof window !== 'undefined' && isConsumer
         ? localStorage.getItem(namespace)
         : null;
+    const userType =
+      typeof window !== 'undefined' && isConsumer
+        ? localStorage.getItem('USER_TYPE')
+        : null;
+    const userMeta =
+      typeof window !== 'undefined' && isConsumer
+        ? localStorage.getItem('USER_META')
+        : null;
     return {
       headers: {
         ...headers,
         ...(userId ? { 'x-user-id': userId } : {}),
+        ...(userType ? { 'x-user-type': userType } : {}),
+        ...(userMeta ? { 'x-user-metadata': userMeta } : {}),
       },
       ...context,
     };
@@ -86,7 +96,7 @@ function createApolloClient(isConsumer: boolean, namespace?: string) {
     ssrMode: typeof window === 'undefined',
     link: ApolloLink.from([
       errorLink,
-      // authLink(isConsumer, namespace),
+      authLink(isConsumer, namespace),
       httpLink,
     ]),
     cache: new InMemoryCache(),
