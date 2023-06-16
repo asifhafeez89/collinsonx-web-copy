@@ -11,24 +11,22 @@ export interface DetailsProps {
   children?: JSX.Element;
 }
 const Details = ({ children, booking, loading = false }: DetailsProps) => {
+  console.log(booking);
   return (
     <Stack spacing={40}>
       <DetailsSection label="Passenger details">
         <DetailsKeyValue label="Name" loading={loading}>
           {booking?.consumer?.fullName ?? '-'}
         </DetailsKeyValue>
-        <DetailsKeyValue label="Date of birth" loading={loading}>
-          -
-        </DetailsKeyValue>
       </DetailsSection>
-      {/* <DetailsSection label="Flight details">
+      <DetailsSection label="Flight details">
         <DetailsKeyValue label="Flight number" loading={loading}>
-          {booking?.consumer?.fullName ?? '-'}
+          {booking?.metadata?.flightNumber ?? '-'}
         </DetailsKeyValue>
         <DetailsKeyValue label="Flight time" loading={loading}>
-          -
+          {booking?.metadata?.flightTime ?? '-'}
         </DetailsKeyValue>
-      </DetailsSection> */}
+      </DetailsSection>
       <DetailsSection label="Booking details">
         <DetailsKeyValue label="Arrival date" loading={loading}>
           {booking?.bookedFrom ? (
