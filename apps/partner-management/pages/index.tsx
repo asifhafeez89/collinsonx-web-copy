@@ -31,7 +31,9 @@ const { Pending, Confirmed, Declined, Cancelled, CheckedIn } = BookingStatus;
 export default function Overview() {
   const loungeData = getSelectedLounge();
   const [lastUpdate, setLastUpdate] = useState<String>();
-  const [experienceId, setSelectExperience] = useState<String>();
+  const [experienceId, setSelectExperience] = useState<String>(
+    experiences[0].id
+  );
 
   const session: any = useSessionContext();
 
