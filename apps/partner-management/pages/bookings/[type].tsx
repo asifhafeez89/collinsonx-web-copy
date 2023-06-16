@@ -47,6 +47,11 @@ import { expandDate, isErrorValid } from 'lib';
 import { useRouter } from 'next/router';
 import getSelectedLounge from 'lib/getSelectedLounge';
 import getLoungeTitle from 'lib/getLoungeTitle';
+import { useUserContext } from 'supertokens-auth-react';
+import {
+  getAccessTokenPayloadSecurely,
+  useSessionContext,
+} from 'supertokens-auth-react/recipe/session';
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
 
@@ -181,6 +186,18 @@ export default function Bookings({ type }: BookingsProps) {
     },
     [declineBooking, refetchBookings]
   );
+
+  const session = useSessionContext();
+
+  const userCtx = useUserContext();
+
+  const payloadSecure = getAccessTokenPayloadSecurely().then((data) => {
+    console.log('payloadSecure ', JSON.stringify(data, null, 4));
+  });
+
+  console.log('session ', JSON.stringify(session, null, 4));
+
+  console.log('usercontext ', JSON.stringify(userCtx, null, 4));
 
   const handleClickCheckIn = (id: string) => {
     setBookingId(id);

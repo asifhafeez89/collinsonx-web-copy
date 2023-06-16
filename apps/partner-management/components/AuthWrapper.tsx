@@ -9,6 +9,7 @@ import Error from '@components/Error';
 import { Flex } from '@collinsonx/design-system/core';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
+import { useUserContext } from 'supertokens-auth-react';
 
 interface AuthWrapperProps {
   children: React.ReactNode;
@@ -77,6 +78,9 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
       setShow(false);
     }
   }, [isLoggedIn]);
+
+  const userCtx = useUserContext();
+  console.log(JSON.stringify(userCtx, null, 4));
 
   return loading ? (
     <Flex
