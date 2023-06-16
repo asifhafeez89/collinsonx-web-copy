@@ -17,13 +17,16 @@ import { useRouter } from 'next/router';
 import { InvitationToken } from 'types/InvitationToken';
 import { useMutation, useQuery } from '@collinsonx/utils/apollo';
 import { useEffect, useState } from 'react';
-import { Experience } from '@collinsonx/utils';
+import { Experience, Partner } from '@collinsonx/utils';
 import getExperienceByID from '@collinsonx/utils/queries/getExperienceByID';
 import acceptInvitation from '@collinsonx/utils/mutations/acceptInvitation';
 import Error from '@components/Error';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 import isInvitationTokenValid from '@collinsonx/utils/queries/isInvitationTokenValid';
 import { signIn } from 'supertokens-auth-react/recipe/emailpassword';
+import { getUserId } from 'supertokens-auth-react/recipe/session';
+import getPartnerByID from '@collinsonx/utils/queries/getPartnerByID';
+import { SELECTED_LOUNGE } from 'config';
 
 export interface FormValues {
   email: string;
@@ -46,6 +49,7 @@ export interface FormValues {
 export default function Signup() {
   const router = useRouter();
 
+  const [userId, setUserId] = useState<string | undefined>();
   const [payload, setPayload] = useState<InvitationToken>();
   const [submitLoading, setSubmitLoading] = useState(false);
 
@@ -88,7 +92,23 @@ export default function Signup() {
     data: loungeData,
   } = useQuery<{ getExperienceByID: Experience }>(getExperienceByID, {
     variables: { getExperienceById: payload?.experienceID },
-    skip: !payload?.experienceID,
+    skip: !payload?.experienceID || !!userId,
+  });
+
+  const { loading, error, data } = useQuery<{
+    getPartnerByID: Partner;
+  }>(getPartnerByID, {
+    variables: { getPartnerById: userId },
+    skip: !userId,
+    onCompleted: (data) => {
+      if (data?.getPartnerByID) {
+        const { experiences } = data.getPartnerByID;
+        if (experiences.length) {
+          localStorage.setItem(SELECTED_LOUNGE, JSON.stringify(experiences[0]));
+        }
+        router.push('/');
+      }
+    },
   });
 
   const [
@@ -132,7 +152,9 @@ export default function Signup() {
               ],
             })
               .then(() => {
-                router.push('/');
+                getUserId().then((userId) => {
+                  setUserId(userId);
+                });
               })
               .catch((err) => {
                 setSubmitLoading(false);
