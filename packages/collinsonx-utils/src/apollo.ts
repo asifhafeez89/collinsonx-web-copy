@@ -86,7 +86,7 @@ function createApolloClient(isConsumer: boolean, namespace?: string) {
     ssrMode: typeof window === 'undefined',
     link: ApolloLink.from([
       errorLink,
-      authLink(isConsumer, namespace),
+      // authLink(isConsumer, namespace),
       httpLink,
     ]),
     cache: new InMemoryCache(),
