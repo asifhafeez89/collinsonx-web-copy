@@ -30,6 +30,26 @@
     "loungeCode": "LGW15"
   },
   {
+    "id": "05859e70-db43-56a2-afed-ab8561d8fe14",
+    "loungeCode": "LGW17",
+    "loungeName": "No1 Lounge Gatwick",
+    "location": {
+      "airportCode": "LGW",
+      "airportName": "London Gatwick",
+      "terminal": "South Terminal"
+    }
+  },
+  {
+    "id": "ce8d47b3-d298-52f9-9f94-906db537ce92",
+    "loungeCode": "LHR25",
+    "loungeName": "No1 Lounge Heathrow",
+    "location": {
+      "airportCode": "LHR",
+      "airportName": "London Heathrow",
+      "terminal": "Terminal 3"
+    }
+  },
+  {
     "id": "29e22c54-6700-50ae-b6bc-96a18bae6d3d",
     "loungeCode": "LHR14",
     "loungeName": "Club Aspire Lounge",
@@ -37,6 +57,16 @@
       "airportCode": "LHR",
       "airportName": "London Heathrow",
       "terminal": "Terminal 5"
+    }
+  },
+  {
+    "id": "f3c8784c-22d3-5dd4-ac51-ccdc65ed0fc7",
+    "loungeCode": "LHR16",
+    "loungeName": "Club Aspire Lounge",
+    "location": {
+      "airportCode": "LHR",
+      "airportName": "London Heathrow",
+      "terminal": "Terminal 3"
     }
   }
 ]
