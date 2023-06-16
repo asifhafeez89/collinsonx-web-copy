@@ -90,9 +90,6 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
     }
   }, [isLoggedIn]);
 
-  const userCtx = useUserContext();
-  console.log(JSON.stringify(userCtx, null, 4));
-
   return loading ? (
     <Flex
       justify="center"
