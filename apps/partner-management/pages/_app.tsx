@@ -36,6 +36,10 @@ export default function MyApp({ Component, pageProps }: Props) {
     if (
       window.location.href.includes('https://partner-uat.test.lifestyle-x.io/')
     ) {
+      setEnvLabel('uat');
+    }
+
+    if (window.location.href.includes('https://partner.test.lifestyle-x.io/')) {
       setEnvLabel('test');
     }
 
