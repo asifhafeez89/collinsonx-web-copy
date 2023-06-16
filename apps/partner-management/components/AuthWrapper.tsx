@@ -9,7 +9,6 @@ import Error from '@components/Error';
 import { Flex } from '@collinsonx/design-system/core';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
-import { useUserContext } from 'supertokens-auth-react';
 
 interface AuthWrapperProps {
   children: React.ReactNode;
