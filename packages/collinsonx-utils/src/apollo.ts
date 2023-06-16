@@ -11,7 +11,6 @@ import { setContext } from '@apollo/client/link/context';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
 import { useMemo } from 'react';
-import { USER_TYPE, USER_META } from 'config';
 
 const port = process.env.APP_PORT || 3000;
 
@@ -55,11 +54,11 @@ const authLink = (
         : null;
     const userType =
       typeof window !== 'undefined' && isConsumer
-        ? localStorage.getItem(USER_TYPE)
+        ? localStorage.getItem('USER_TYPE')
         : null;
     const userMeta =
       typeof window !== 'undefined' && isConsumer
-        ? localStorage.getItem(USER_META)
+        ? localStorage.getItem('USER_META')
         : null;
     return {
       headers: {
