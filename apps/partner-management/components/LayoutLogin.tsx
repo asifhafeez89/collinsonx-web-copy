@@ -1,4 +1,4 @@
-import { LogoExperienceX } from '@collinsonx/design-system/assets/logo';
+import { LogoCergea } from '@collinsonx/design-system/assets/logo';
 import { Flex } from '@collinsonx/design-system/core';
 import Link from 'next/link';
 
@@ -32,7 +32,7 @@ export default function LayoutLogin({
         }}
       >
         <Link href="/">
-          <LogoExperienceX />
+          <LogoCergea />
         </Link>
       </header>
       {subHeader}

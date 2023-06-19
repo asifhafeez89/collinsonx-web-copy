@@ -2,7 +2,7 @@ import * as React from 'react';
 import renderer from 'react-test-renderer';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { Cart, Chat, Home } from '../../assets/icons';
-import { LogoExperienceX } from '../../assets/logo';
+import { LogoCergea } from '../../assets/logo';
 import { MantineProvider, MantineThemeOverride } from '../../core';
 import Header from '.';
 import userEvent from '@testing-library/user-event';
@@ -31,7 +31,7 @@ describe('<Header />', () => {
         >
           <Header
             onClickSignout={mockFn}
-            logo={<LogoExperienceX />}
+            logo={<LogoCergea />}
             items={[
               {
                 label: 'Home',
