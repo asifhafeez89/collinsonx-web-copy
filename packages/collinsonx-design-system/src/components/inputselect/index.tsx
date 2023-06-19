@@ -1,4 +1,5 @@
 import { SelectProps, Select } from '@mantine/core';
+import { ArrowDown } from '../../assets/icons';
 
 export default function SelectInput({ ...props }: SelectProps) {
   return (
@@ -13,6 +14,26 @@ export default function SelectInput({ ...props }: SelectProps) {
           },
         },
       }}
+      rightSection={<ArrowDown />}
+      styles={(theme) => ({
+        item: {
+          // applies styles to selected item
+          '&[data-selected]': {
+            '&, &:hover': {
+              backgroundColor: '#e2ccff',
+              color: '#000000',
+            },
+          },
+
+          // applies styles to hovered item (with mouse or keyboard)
+          '&[data-hovered]': {
+            '&, &:hover': {
+              backgroundColor: '#e2ccff',
+              color: '#000000',
+            },
+          },
+        },
+      })}
     />
   );
 }
