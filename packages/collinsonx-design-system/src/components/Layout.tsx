@@ -1,6 +1,6 @@
 import { Container } from '@mantine/core';
 import Header from './header';
-import { LogoExperienceX } from '../assets/logo';
+import { LogoCergea } from '../assets/logo';
 
 interface LayoutProps {
   children: JSX.Element;
@@ -16,7 +16,7 @@ const Layout = ({ children }: LayoutProps) => {
         backgroundColor: '#ffffff',
       }}
     >
-      <Header logo={<LogoExperienceX />} />
+      <Header logo={<LogoCergea />} />
       <main>{children}</main>
     </Container>
   );

@@ -1,7 +1,7 @@
 import { Container, MantineProvider } from '@collinsonx/design-system/core';
 import { Header, experienceX } from '@collinsonx/design-system';
 import { Be_Vietnam_Pro } from 'next/font/google';
-import { LogoExperienceX } from '@collinsonx/design-system/assets/logo';
+import { LogoCergea } from '@collinsonx/design-system/assets/logo';
 
 import { Cart, Chat, Home } from '@collinsonx/design-system/assets/icons';
 import useAuth from '@collinsonx/utils/hooks/useAuth';
@@ -31,7 +31,7 @@ export default function Layout({ children }: LayoutProps) {
     <>
       <Header
         onClickSignout={handleLogout}
-        logo={<LogoExperienceX />}
+        logo={<LogoCergea />}
         items={[
           {
             label: 'Home',
