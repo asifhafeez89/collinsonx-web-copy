@@ -327,7 +327,7 @@ export default function Bookings({ type }: BookingsProps) {
             if (type === 'confirmed') {
               return (
                 <Flex h={70} align="center" gap={24}>
-                  {isSuperUser ? (
+                  {isSuperUser && status === BookingStatus.Confirmed ? (
                     <Button
                       variant="default"
                       onClick={() => handleClickCancel(id)}
