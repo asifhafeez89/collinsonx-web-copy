@@ -4,5 +4,6 @@ export interface InvitationToken {
   audience: string;
   issuer: string;
   subject: string;
+  userType: string;
   experienceID: string; // the experience id
 }

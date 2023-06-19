@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react';
 import { getThemeKey } from '@lib';
 
 import {
-  LogoExperienceX,
+  LogoCergea,
   LogoAmex,
   LogoDinersClubWhite,
 } from '@collinsonx/design-system/assets/logo';
@@ -13,7 +13,7 @@ interface LayoutProps {
 }
 
 const logos = {
-  experienceX: LogoExperienceX,
+  experienceX: LogoCergea,
   amexBlack: LogoAmex,
   amexPlatinum: LogoAmex,
   dinersClub: LogoDinersClubWhite,
@@ -21,7 +21,7 @@ const logos = {
 
 const themeKey = getThemeKey();
 
-const Logo = logos[themeKey as keyof typeof logos] ?? LogoExperienceX;
+const Logo = logos[themeKey as keyof typeof logos] ?? LogoCergea;
 
 export default function LayoutLogin({ children }: LayoutProps) {
   return (
