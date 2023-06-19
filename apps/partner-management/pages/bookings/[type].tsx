@@ -305,7 +305,8 @@ export default function Bookings({ type }: BookingsProps) {
       mainColumns.push(
         columnHelper.display({
           id: 'status',
-          header: type === 'pending' ? 'Process request' : 'Check-In Customer',
+          //header: type === 'pending' ? 'Process request' : 'Check-In Customer',
+          header: 'Process request',
           cell: (props) => {
             const { status, id } = props.row.original as Booking;
             if (type === 'pending') {
@@ -320,17 +321,18 @@ export default function Bookings({ type }: BookingsProps) {
             }
             if (type === 'confirmed') {
               return (
-                <>
+                <Flex h={70} align="center" gap={24}>
                   {isSuperUser ? (
                     <Button
                       variant="default"
                       onClick={() => handleClickCancel(id)}
                     >
-                      Cancel booking
+                      Cancel
                     </Button>
                   ) : null}
                   {status !== BookingStatus.CheckedIn ? (
                     <Button
+                      w={180}
                       fullWidth
                       onClick={() => handleClickConfirmCheckIn(id)}
                       variant="default"
@@ -340,7 +342,7 @@ export default function Bookings({ type }: BookingsProps) {
                   ) : (
                     <Status type="success">Checked in</Status>
                   )}
-                </>
+                </Flex>
               );
             }
           },
