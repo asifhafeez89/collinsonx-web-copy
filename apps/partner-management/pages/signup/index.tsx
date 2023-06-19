@@ -186,8 +186,6 @@ export default function Signup() {
     },
   });
 
-  console.log(payload);
-
   return !router.isReady ||
     tokenIsValidLoading ||
     loungeLoading ||
