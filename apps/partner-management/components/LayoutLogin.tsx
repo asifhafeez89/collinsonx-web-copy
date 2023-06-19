@@ -23,7 +23,8 @@ export default function LayoutLogin({
     >
       <header
         style={{
-          backgroundColor: '#112132',
+          backgroundColor: '#E6E6E8',
+          borderBottom: '1px solid #A8A8AA',
           width: '100%',
           padding: '1rem',
           textAlign: 'center',
