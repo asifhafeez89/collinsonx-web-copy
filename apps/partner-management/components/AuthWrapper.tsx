@@ -39,7 +39,7 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
 
   const session = useSessionContext();
   useEffect(() => {
-    const { accessTokenPayload } = session as AppSession;
+    const { accessTokenPayload = {} } = session as AppSession;
     if (accessTokenPayload.userType && accessTokenPayload.experiences) {
       localStorage.setItem(USER_TYPE, accessTokenPayload.userType);
       localStorage.setItem(
