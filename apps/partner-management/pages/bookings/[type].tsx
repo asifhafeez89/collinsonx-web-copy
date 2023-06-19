@@ -49,6 +49,7 @@ import { useRouter } from 'next/router';
 import getSelectedLounge from 'lib/getSelectedLounge';
 import getLoungeTitle from 'lib/getLoungeTitle';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
+import { AppSession } from 'types/Session';
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
 
@@ -81,6 +82,8 @@ export interface BookingsProps {
 
 export default function Bookings({ type }: BookingsProps) {
   const loungeData = getSelectedLounge();
+
+  let session = useSessionContext() as AppSession;
 
   const {
     loading: loadingBookings,
@@ -171,7 +174,10 @@ export default function Bookings({ type }: BookingsProps) {
     { loading: loadingConfirm, error: confirmError, data: dataConfirm },
   ] = useMutation(confirmBookingMutation);
 
-  const isSuperUser = true;
+  const isSuperUser = useMemo(
+    () => (session.accessTokenPayload ?? {}).userType === 'SUPER_USER',
+    [session]
+  );
 
   const handleClickDecline = useCallback(
     (id: string) => {

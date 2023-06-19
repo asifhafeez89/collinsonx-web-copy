@@ -9,6 +9,7 @@ import Error from '@components/Error';
 import { Flex } from '@collinsonx/design-system/core';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
+import { AppSession } from 'types/Session';
 
 interface AuthWrapperProps {
   children: React.ReactNode;
@@ -38,7 +39,7 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
 
   const session = useSessionContext();
   useEffect(() => {
-    const { accessTokenPayload = {} } = session as any;
+    const { accessTokenPayload } = session as AppSession;
     if (accessTokenPayload.userType && accessTokenPayload.experiences) {
       localStorage.setItem(USER_TYPE, accessTokenPayload.userType);
       localStorage.setItem(
