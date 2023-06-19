@@ -305,8 +305,7 @@ export default function Bookings({ type }: BookingsProps) {
       mainColumns.push(
         columnHelper.display({
           id: 'status',
-          //header: type === 'pending' ? 'Process request' : 'Check-In Customer',
-          header: 'Process request',
+          header: type === 'pending' ? 'Process request' : 'Process booking',
           cell: (props) => {
             const { status, id } = props.row.original as Booking;
             if (type === 'pending') {
@@ -368,10 +367,6 @@ export default function Bookings({ type }: BookingsProps) {
     () => (bookingId ? bookings.find((item) => item.id === bookingId)! : null),
     [bookingId, bookings]
   );
-
-  let session = useSessionContext();
-
-  console.log('session ', session);
 
   return (
     <>
