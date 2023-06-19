@@ -184,7 +184,6 @@ export default function Bookings({ type }: BookingsProps) {
       declineBooking({
         variables: { declineBookingId: id },
         onCompleted: () => {
-          //setBookingId(null);
           refetchBookings();
         },
       });
@@ -201,7 +200,6 @@ export default function Bookings({ type }: BookingsProps) {
       confirmBooking({
         variables: { cancelBookingId: id },
         onCompleted: () => {
-          //setBookingId(null);
           refetchBookings();
         },
       });
@@ -214,7 +212,6 @@ export default function Bookings({ type }: BookingsProps) {
       confirmBooking({
         variables: { confirmBookingId: id },
         onCompleted: () => {
-          //setBookingId(null);
           refetchBookings();
         },
       });
@@ -227,7 +224,6 @@ export default function Bookings({ type }: BookingsProps) {
       checkInBooking({
         variables: { checkinBookingId: id },
         onCompleted: () => {
-          //setBookingId(null);
           refetchBookings();
         },
       });
