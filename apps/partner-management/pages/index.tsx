@@ -26,6 +26,7 @@ import getLoungeTitle from 'lib/getLoungeTitle';
 import SelectInput from '@collinsonx/design-system/components/inputselect';
 import experiences from '../data/experiences.json';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
+import { FourSquares } from '@collinsonx/design-system/assets/icons';
 
 const { Pending, Confirmed, Declined, Cancelled, CheckedIn } = BookingStatus;
 
@@ -208,55 +209,77 @@ export default function Overview() {
               </Stack>
             </Grid.Col>
             <Grid.Col lg={6}>
-              <OverviewCard title="Confirmed bookings" variant="confirmed">
-                <>
-                  {!loading && !bookingsConfirmed ? (
-                    'You have no confirmed bookings'
-                  ) : (
-                    <Flex gap={72}>
-                      <OverviewMetric
-                        loading={loading}
-                        label="Today's bookings"
-                        value={todaysConfirmed?.length}
-                      >
-                        <Link
-                          href={{
-                            pathname: '/bookings/confirmed',
-                            query: {
-                              date: dayjsTz(new Date()).format('YYYY-MM-DD'),
-                            },
-                          }}
-                          passHref
+              <Stack spacing={24}>
+                <OverviewCard title="Confirmed bookings" variant="confirmed">
+                  <>
+                    {!loading && !bookingsConfirmed ? (
+                      'You have no confirmed bookings'
+                    ) : (
+                      <Flex gap={72}>
+                        <OverviewMetric
+                          loading={loading}
+                          label="Today's bookings"
+                          value={todaysConfirmed?.length}
                         >
-                          <Button
-                            variant="default"
-                            sx={{ width: 'fit-content' }}
+                          <Link
+                            href={{
+                              pathname: '/bookings/confirmed',
+                              query: {
+                                date: dayjsTz(new Date()).format('YYYY-MM-DD'),
+                              },
+                            }}
+                            passHref
                           >
-                            Today&apos;s bookings
-                          </Button>
-                        </Link>
-                      </OverviewMetric>
-                      <Flex justify="center">
-                        <OverviewSeparator />
+                            <Button
+                              variant="default"
+                              sx={{ width: 'fit-content' }}
+                            >
+                              Today&apos;s bookings
+                            </Button>
+                          </Link>
+                        </OverviewMetric>
+                        <Flex justify="center">
+                          <OverviewSeparator />
+                        </Flex>
+                        <OverviewMetric
+                          loading={loading}
+                          label="All bookings"
+                          value={bookingsConfirmed}
+                        >
+                          <Link href="/bookings/confirmed" passHref>
+                            <Button
+                              variant="default"
+                              sx={{ width: 'fit-content' }}
+                            >
+                              View all
+                            </Button>
+                          </Link>
+                        </OverviewMetric>
                       </Flex>
-                      <OverviewMetric
-                        loading={loading}
-                        label="All bookings"
-                        value={bookingsConfirmed}
-                      >
-                        <Link href="/bookings/confirmed" passHref>
-                          <Button
-                            variant="default"
-                            sx={{ width: 'fit-content' }}
-                          >
-                            View all
-                          </Button>
-                        </Link>
-                      </OverviewMetric>
-                    </Flex>
-                  )}
-                </>
-              </OverviewCard>
+                    )}
+                  </>
+                </OverviewCard>
+                <OverviewCard
+                  title="Walkup QR Code"
+                  variant="qrcodewalkup"
+                  icon={<FourSquares />}
+                >
+                  <Flex gap={72}>
+                    <OverviewMetric
+                      loading={loading}
+                      label="Reveal the QR code used for Walk-up customers"
+                      value={bookingsDeclined}
+                      showMetric={false}
+                    >
+                      <Link href="/qr-code" passHref>
+                        <Button variant="default" sx={{ width: 'fit-content' }}>
+                          View
+                        </Button>
+                      </Link>
+                    </OverviewMetric>
+                  </Flex>
+                </OverviewCard>
+              </Stack>
             </Grid.Col>
           </Grid>
           <Text mb={33} mt={33} size={10}>
