@@ -66,7 +66,6 @@ export enum BookingStatus {
   Errored = 'ERRORED',
   Initialized = 'INITIALIZED',
   Pending = 'PENDING',
-  QRCodeWalkup = 'QRCodeWalkup',
 }
 
 export enum BookingType {
