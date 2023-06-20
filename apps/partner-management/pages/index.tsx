@@ -127,16 +127,18 @@ export default function Overview() {
 
               <SelectInput
                 data={experiencesFiltered}
-                onChange={(id) => {
+                onChange={async (id) => {
                   const selectedLounge = experiences.filter((lounge) => {
                     return lounge.id === id;
                   });
 
                   console.log(selectedLounge[0]);
+
                   localStorage.setItem(
                     SELECTED_LOUNGE,
                     JSON.stringify(selectedLounge[0])
                   );
+
                   setSelectExperience(id ?? '');
                 }}
                 value={experienceId.toString()}
