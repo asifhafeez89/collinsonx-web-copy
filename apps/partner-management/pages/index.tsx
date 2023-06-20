@@ -18,7 +18,7 @@ import { useQuery } from '@collinsonx/utils/apollo';
 import getBookings from '@collinsonx/utils/queries/getBookings';
 import { Booking, BookingStatus } from '@collinsonx/utils';
 import { getBookingsByType } from '@collinsonx/utils/lib';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { isErrorValid } from 'lib';
 import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
 import getSelectedLounge from 'lib/getSelectedLounge';
@@ -31,15 +31,31 @@ const { Pending, Confirmed, Declined, Cancelled, CheckedIn } = BookingStatus;
 
 export default function Overview() {
   const session: any = useSessionContext();
-  if (session.accessTokenPayload.userType === 'SUPER_USER') {
-    localStorage.setItem(SELECTED_LOUNGE, JSON.stringify(experiences[0]));
-  }
 
   const loungeData = getSelectedLounge();
   const [lastUpdate, setLastUpdate] = useState<String>();
+
   const [experienceId, setSelectExperience] = useState<String>(
     experiences[0].id
   );
+
+  useEffect(() => {
+    const selectedExperienceId = localStorage.getItem(SELECTED_LOUNGE);
+
+    if (selectedExperienceId) {
+      setSelectExperience(JSON.parse(selectedExperienceId).id);
+    }
+  }, []);
+
+  useEffect(() => {
+    const selectedLounge = experiences.filter((lounge) => {
+      return lounge.id === experienceId;
+    });
+
+    if (session.accessTokenPayload.userType === 'SUPER_USER') {
+      localStorage.setItem(SELECTED_LOUNGE, JSON.stringify(selectedLounge[0]));
+    }
+  }, [experienceId, session.accessTokenPayload.userType]);
 
   const { loading, error, data } = useQuery<{ getBookings: Booking[] }>(
     getBookings,
@@ -92,12 +108,16 @@ export default function Overview() {
     }
   }, [bookings]);
 
-  if (!loungeData) {
-    return (
-      <Box py={40} px={32}>
-        Experience could not be found
-      </Box>
-    );
+  console.log('loungeData', loungeData);
+
+  if (session.accessTokenPayload.userType !== 'SUPER_USER') {
+    if (!loungeData) {
+      return (
+        <Box py={40} px={32}>
+          Experience could not be found
+        </Box>
+      );
+    }
   }
 
   const experiencesFiltered = experiences.map((experience) => {
@@ -128,17 +148,6 @@ export default function Overview() {
               <SelectInput
                 data={experiencesFiltered}
                 onChange={async (id) => {
-                  const selectedLounge = experiences.filter((lounge) => {
-                    return lounge.id === id;
-                  });
-
-                  console.log(selectedLounge[0]);
-
-                  localStorage.setItem(
-                    SELECTED_LOUNGE,
-                    JSON.stringify(selectedLounge[0])
-                  );
-
                   setSelectExperience(id ?? '');
                 }}
                 value={experienceId.toString()}

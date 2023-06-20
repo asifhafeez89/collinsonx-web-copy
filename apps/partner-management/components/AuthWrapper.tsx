@@ -9,6 +9,7 @@ import Error from '@components/Error';
 import { Flex } from '@collinsonx/design-system/core';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
+import experiences from '../data/experiences.json';
 
 interface AuthWrapperProps {
   children: React.ReactNode;
@@ -27,7 +28,7 @@ const checkIsAllowed = (pathname: string) => {
 const clearLocalStorage = () => {
   if (typeof window !== undefined) {
     localStorage.removeItem(PARTNER_ID);
-    localStorage.removeItem(SELECTED_LOUNGE);
+    //localStorage.removeItem(SELECTED_LOUNGE);
     localStorage.removeItem(USER_TYPE);
     localStorage.removeItem(USER_META);
   }
