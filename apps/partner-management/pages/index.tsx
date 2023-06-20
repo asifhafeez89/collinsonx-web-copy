@@ -8,6 +8,7 @@ import {
   Flex,
   Box,
 } from '@collinsonx/design-system/core';
+import { SELECTED_LOUNGE } from 'config';
 import OverviewCard from '@components/OverviewCard';
 import OverviewMetric from '@components/OverviewMetric';
 import Error from '@components/Error';
@@ -29,13 +30,16 @@ import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 const { Pending, Confirmed, Declined, Cancelled, CheckedIn } = BookingStatus;
 
 export default function Overview() {
+  const session: any = useSessionContext();
+  if (session.accessTokenPayload.userType === 'SUPER_USER') {
+    localStorage.setItem(SELECTED_LOUNGE, JSON.stringify(experiences[0]));
+  }
+
   const loungeData = getSelectedLounge();
   const [lastUpdate, setLastUpdate] = useState<String>();
   const [experienceId, setSelectExperience] = useState<String>(
     experiences[0].id
   );
-
-  const session: any = useSessionContext();
 
   const { loading, error, data } = useQuery<{ getBookings: Booking[] }>(
     getBookings,
@@ -123,7 +127,19 @@ export default function Overview() {
 
               <SelectInput
                 data={experiencesFiltered}
-                onChange={(id) => setSelectExperience(id ?? '')}
+                onChange={(id) => {
+                  const selectedLounge = experiences.filter((lounge) => {
+                    return lounge.id === id;
+                  });
+
+                  console.log(selectedLounge[0]);
+                  localStorage.setItem(
+                    SELECTED_LOUNGE,
+                    JSON.stringify(selectedLounge[0])
+                  );
+                  setSelectExperience(id ?? '');
+                }}
+                value={experienceId.toString()}
               ></SelectInput>
             </Stack>
           )}

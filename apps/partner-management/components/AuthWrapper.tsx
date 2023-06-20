@@ -36,7 +36,7 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
   const router = useRouter();
   const [show, setShow] = useState(false);
 
-  const session = useSessionContext();
+  const session: any = useSessionContext();
   useEffect(() => {
     const { accessTokenPayload = {} } = session as any;
     if (accessTokenPayload.userType && accessTokenPayload.experiences) {
@@ -68,7 +68,12 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
       if (data?.getPartnerByID) {
         const { experiences } = data.getPartnerByID;
         if (experiences.length) {
-          localStorage.setItem(SELECTED_LOUNGE, JSON.stringify(experiences[0]));
+          if (session.accessTokenPayload.userType !== 'SUPER_USER') {
+            localStorage.setItem(
+              SELECTED_LOUNGE,
+              JSON.stringify(experiences[0])
+            );
+          }
         }
       }
     },
