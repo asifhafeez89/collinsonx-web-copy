@@ -38,6 +38,7 @@ import {
   checkinBooking as checkinBookingMutation,
   declineBooking as declineBookingMutation,
   confirmBooking as confirmBookingMutation,
+  cancelBooking as cancelBookingMutation,
 } from '@collinsonx/utils/mutations';
 import Error from '@components/Error';
 import DetailsPendingActions from '@components/Details/DetailsPendingActions';
@@ -47,6 +48,8 @@ import { expandDate, isErrorValid } from 'lib';
 import { useRouter } from 'next/router';
 import getSelectedLounge from 'lib/getSelectedLounge';
 import getLoungeTitle from 'lib/getLoungeTitle';
+import { useSessionContext } from 'supertokens-auth-react/recipe/session';
+import { AppSession } from 'types/Session';
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
 
@@ -79,6 +82,8 @@ export interface BookingsProps {
 
 export default function Bookings({ type }: BookingsProps) {
   const loungeData = getSelectedLounge();
+
+  let session = useSessionContext() as AppSession;
 
   const {
     loading: loadingBookings,
@@ -169,12 +174,16 @@ export default function Bookings({ type }: BookingsProps) {
     { loading: loadingConfirm, error: confirmError, data: dataConfirm },
   ] = useMutation(confirmBookingMutation);
 
+  const isSuperUser = useMemo(
+    () => (session.accessTokenPayload ?? {}).userType === 'SUPER_USER',
+    [session]
+  );
+
   const handleClickDecline = useCallback(
     (id: string) => {
       declineBooking({
         variables: { declineBookingId: id },
         onCompleted: () => {
-          //setBookingId(null);
           refetchBookings();
         },
       });
@@ -182,12 +191,27 @@ export default function Bookings({ type }: BookingsProps) {
     [declineBooking, refetchBookings]
   );
 
+  const handleClickCheckIn = (id: string) => {
+    setBookingId(id);
+  };
+
+  const handleClickCancel = useCallback(
+    (id: string) => {
+      confirmBooking({
+        variables: { cancelBookingId: id },
+        onCompleted: () => {
+          refetchBookings();
+        },
+      });
+    },
+    [confirmBooking, refetchBookings]
+  );
+
   const handleClickConfirm = useCallback(
     (id: string) => {
       confirmBooking({
         variables: { confirmBookingId: id },
         onCompleted: () => {
-          //setBookingId(null);
           refetchBookings();
         },
       });
@@ -200,7 +224,6 @@ export default function Bookings({ type }: BookingsProps) {
       checkInBooking({
         variables: { checkinBookingId: id },
         onCompleted: () => {
-          //setBookingId(null);
           refetchBookings();
         },
       });
@@ -284,7 +307,7 @@ export default function Bookings({ type }: BookingsProps) {
       mainColumns.push(
         columnHelper.display({
           id: 'status',
-          header: type === 'pending' ? 'Process request' : 'Check-In Customer',
+          header: type === 'pending' ? 'Process request' : 'Process booking',
           cell: (props) => {
             const { status, id } = props.row.original as Booking;
             if (type === 'pending') {
@@ -298,16 +321,29 @@ export default function Bookings({ type }: BookingsProps) {
               );
             }
             if (type === 'confirmed') {
-              return status !== BookingStatus.CheckedIn ? (
-                <Button
-                  fullWidth
-                  onClick={() => handleClickConfirmCheckIn(id)}
-                  variant="default"
-                >
-                  Check customer in
-                </Button>
-              ) : (
-                <Status type="success">Checked in</Status>
+              return (
+                <Flex h={70} align="center" gap={24}>
+                  {isSuperUser && status === BookingStatus.Confirmed ? (
+                    <Button
+                      variant="default"
+                      onClick={() => handleClickCancel(id)}
+                    >
+                      Cancel
+                    </Button>
+                  ) : null}
+                  {status !== BookingStatus.CheckedIn ? (
+                    <Button
+                      w={180}
+                      fullWidth
+                      onClick={() => handleClickConfirmCheckIn(id)}
+                      variant="default"
+                    >
+                      Check customer in
+                    </Button>
+                  ) : (
+                    <Status type="success">Checked in</Status>
+                  )}
+                </Flex>
               );
             }
           },

@@ -60,7 +60,10 @@ export default function Signup() {
       try {
         const payload = jwtDecode<InvitationToken>(invitation as string);
 
-        if (!payload.jti || !payload.experienceID) {
+        if (
+          !payload.jti ||
+          (payload.userType === 'PARTNER' && !payload.experienceID)
+        ) {
           router.push('/signup/invalid');
         }
 
@@ -92,7 +95,8 @@ export default function Signup() {
     data: loungeData,
   } = useQuery<{ getExperienceByID: Experience }>(getExperienceByID, {
     variables: { getExperienceById: payload?.experienceID },
-    skip: !payload?.experienceID || !!userId,
+    skip:
+      !payload?.experienceID || !!userId || payload?.userType === 'SUPER_USER',
   });
 
   const { loading, error, data } = useQuery<{
@@ -205,7 +209,7 @@ export default function Signup() {
       <Stack justify="center" align="center" spacing={32}>
         <Stack justify="center" align="center" spacing={8}>
           <Text size={22} fw={600} color="cyan.8">
-            Welcome to
+            {payload?.userType !== 'SUPER_USER' ? 'Welcome to' : 'Welcome'}
           </Text>
           <Box>
             <Text align="center" size={32} fw={700}>
