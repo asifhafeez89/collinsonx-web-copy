@@ -5,7 +5,7 @@ import { ReactNode } from 'react';
 
 export interface OverviewCardProps {
   title: string;
-  variant: PageType;
+  variant: PageType | 'qrcodewalkup';
   children?: JSX.Element | string;
   icon?: ReactNode;
 }
