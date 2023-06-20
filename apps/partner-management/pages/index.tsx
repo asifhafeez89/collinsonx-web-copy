@@ -108,8 +108,6 @@ export default function Overview() {
     }
   }, [bookings]);
 
-  console.log('loungeData', loungeData);
-
   if (session.accessTokenPayload.userType !== 'SUPER_USER') {
     if (!loungeData) {
       return (
