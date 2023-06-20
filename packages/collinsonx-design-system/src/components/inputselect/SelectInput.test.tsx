@@ -12,7 +12,7 @@ describe('<SelectInput />', () => {
         <SelectInput
           label="Your favorite framework/library"
           placeholder="Pick one"
-          options={[
+          data={[
             { value: 'react', label: 'React' },
             { value: 'ng', label: 'Angular' },
             { value: 'svelte', label: 'Svelte' },
