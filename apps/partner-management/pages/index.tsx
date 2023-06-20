@@ -26,6 +26,7 @@ import getLoungeTitle from 'lib/getLoungeTitle';
 import SelectInput from '@collinsonx/design-system/components/inputselect';
 import experiences from '../data/experiences.json';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
+import { FourSquares } from '@collinsonx/design-system/assets/icons';
 
 const { Pending, Confirmed, Declined, Cancelled, CheckedIn } = BookingStatus;
 
@@ -258,7 +259,11 @@ export default function Overview() {
                     )}
                   </>
                 </OverviewCard>
-                <OverviewCard title="Walkup QR Code" variant="qrcodewalkup">
+                <OverviewCard
+                  title="Walkup QR Code"
+                  variant="qrcodewalkup"
+                  icon={<FourSquares />}
+                >
                   <Flex gap={72}>
                     <OverviewMetric
                       loading={loading}
