@@ -13,7 +13,7 @@ const OverviewMetric = ({
   value,
   children,
   loading,
-  showMetric = false,
+  showMetric = true,
 }: OverviewMetricProps) => {
   return (
     <Skeleton visible={loading}>
