@@ -69,6 +69,7 @@
     "clsx": "^1.1.1",
     "embla-carousel-react": "^7.1.0",
     "react-auth-code-input": "^3.2.1",
+    "react-select": "^5.7.3",
     "react-test-renderer": "^18.2.0",
     "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1"

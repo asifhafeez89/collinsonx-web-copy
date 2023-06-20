@@ -8,6 +8,7 @@ import {
   Flex,
   Box,
 } from '@collinsonx/design-system/core';
+import { SELECTED_LOUNGE } from 'config';
 import OverviewCard from '@components/OverviewCard';
 import OverviewMetric from '@components/OverviewMetric';
 import Error from '@components/Error';
@@ -17,22 +18,53 @@ import { useQuery } from '@collinsonx/utils/apollo';
 import getBookings from '@collinsonx/utils/queries/getBookings';
 import { Booking, BookingStatus } from '@collinsonx/utils';
 import { getBookingsByType } from '@collinsonx/utils/lib';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { isErrorValid } from 'lib';
 import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
 import getSelectedLounge from 'lib/getSelectedLounge';
 import getLoungeTitle from 'lib/getLoungeTitle';
+import SelectInput from '@collinsonx/design-system/components/inputselect';
+import experiences from '../data/experiences.json';
+import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 
 const { Pending, Confirmed, Declined, Cancelled, CheckedIn } = BookingStatus;
 
 export default function Overview() {
+  const session: any = useSessionContext();
+
   const loungeData = getSelectedLounge();
   const [lastUpdate, setLastUpdate] = useState<String>();
+
+  const [experienceId, setSelectExperience] = useState<String>(
+    experiences[0].id
+  );
+
+  useEffect(() => {
+    const selectedExperienceId = localStorage.getItem(SELECTED_LOUNGE);
+
+    if (selectedExperienceId) {
+      setSelectExperience(JSON.parse(selectedExperienceId).id);
+    }
+  }, []);
+
+  useEffect(() => {
+    const selectedLounge = experiences.filter((lounge) => {
+      return lounge.id === experienceId;
+    });
+
+    if (session.accessTokenPayload.userType === 'SUPER_USER') {
+      localStorage.setItem(SELECTED_LOUNGE, JSON.stringify(selectedLounge[0]));
+    }
+  }, [experienceId, session.accessTokenPayload.userType]);
+
   const { loading, error, data } = useQuery<{ getBookings: Booking[] }>(
     getBookings,
     {
       variables: {
-        experienceId: loungeData?.id,
+        experienceId:
+          session.accessTokenPayload.userType !== 'SUPER_USER'
+            ? loungeData?.id
+            : experienceId,
       },
       skip: !loungeData?.id,
       pollInterval: 300000,
@@ -76,13 +108,22 @@ export default function Overview() {
     }
   }, [bookings]);
 
-  if (!loungeData) {
-    return (
-      <Box py={40} px={32}>
-        Experience could not be found
-      </Box>
-    );
+  if (session.accessTokenPayload.userType !== 'SUPER_USER') {
+    if (!loungeData) {
+      return (
+        <Box py={40} px={32}>
+          Experience could not be found
+        </Box>
+      );
+    }
   }
+
+  const experiencesFiltered = experiences.map((experience) => {
+    return {
+      value: experience.id,
+      label: experience.loungeCode + ' ' + experience.loungeName,
+    };
+  });
 
   return (
     <>
@@ -93,9 +134,25 @@ export default function Overview() {
           <Title mb={8} size={32}>
             Booking overview
           </Title>
-          <Text mb={33} size={18}>
-            {getLoungeTitle(loungeData)}
-          </Text>
+          {session.accessTokenPayload.userType !== 'SUPER_USER' && (
+            <Text mb={33} size={18}>
+              {getLoungeTitle(loungeData)}
+            </Text>
+          )}
+          {session.accessTokenPayload.userType === 'SUPER_USER' && (
+            <Stack mb={33} sx={{ width: '300px' }}>
+              {/* TODO: Add a check if the user is a superUser  */}
+
+              <SelectInput
+                data={experiencesFiltered}
+                onChange={async (id) => {
+                  setSelectExperience(id ?? '');
+                }}
+                value={experienceId.toString()}
+              ></SelectInput>
+            </Stack>
+          )}
+
           <Grid>
             <Grid.Col lg={6}>
               <Stack spacing={24}>

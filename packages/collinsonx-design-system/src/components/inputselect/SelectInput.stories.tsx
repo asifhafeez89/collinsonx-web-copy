@@ -23,5 +23,22 @@ export const Primary = Template.bind({});
 Primary.args = {
   label: 'Date',
   placeholder: 'hh:ss',
-  data: ['00:00', '01:00'],
+  data: [
+    {
+      value: '1ccc3807-a7ed-5a3a-ada8-fd37ac1ab941',
+      label: 'Clubrooms Birmingham - Additional Fee Applies',
+    },
+    {
+      value: '460a2db7-286b-594d-8a77-fb3af690cfe6',
+      label: 'No1 Lounge Birmingham',
+    },
+    {
+      value: 'e1d306ee-92d2-5168-b61f-c97de201c6b8',
+      label: 'No1 Lounge Gatwick',
+    },
+    {
+      value: '29e22c54-6700-50ae-b6bc-96a18bae6d3d',
+      label: 'Club Aspire Lounge',
+    },
+  ],
 };
