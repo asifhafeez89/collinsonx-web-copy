@@ -9,7 +9,7 @@ import Error from '@components/Error';
 import { Flex } from '@collinsonx/design-system/core';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
-import { AppSession } from 'types/Session';
+import experiences from '../data/experiences.json';
 
 interface AuthWrapperProps {
   children: React.ReactNode;
@@ -28,7 +28,7 @@ const checkIsAllowed = (pathname: string) => {
 const clearLocalStorage = () => {
   if (typeof window !== undefined) {
     localStorage.removeItem(PARTNER_ID);
-    localStorage.removeItem(SELECTED_LOUNGE);
+    //localStorage.removeItem(SELECTED_LOUNGE);
     localStorage.removeItem(USER_TYPE);
     localStorage.removeItem(USER_META);
   }
@@ -37,9 +37,9 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
   const router = useRouter();
   const [show, setShow] = useState(false);
 
-  const session = useSessionContext();
+  const session: any = useSessionContext();
   useEffect(() => {
-    const { accessTokenPayload = {} } = session as AppSession;
+    const { accessTokenPayload = {} } = session as any;
     if (accessTokenPayload.userType && accessTokenPayload.experiences) {
       localStorage.setItem(USER_TYPE, accessTokenPayload.userType);
       localStorage.setItem(
@@ -69,7 +69,12 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
       if (data?.getPartnerByID) {
         const { experiences } = data.getPartnerByID;
         if (experiences.length) {
-          localStorage.setItem(SELECTED_LOUNGE, JSON.stringify(experiences[0]));
+          if (session.accessTokenPayload.userType !== 'SUPER_USER') {
+            localStorage.setItem(
+              SELECTED_LOUNGE,
+              JSON.stringify(experiences[0])
+            );
+          }
         }
       }
     },

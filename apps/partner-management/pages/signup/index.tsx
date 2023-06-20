@@ -60,7 +60,10 @@ export default function Signup() {
       try {
         const payload = jwtDecode<InvitationToken>(invitation as string);
 
-        if (!payload.jti || !payload.experienceID) {
+        if (
+          !payload.jti ||
+          (payload.userType === 'PARTNER' && !payload.experienceID)
+        ) {
           router.push('/signup/invalid');
         }
 
