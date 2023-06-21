@@ -138,9 +138,8 @@ export default function Bookings({ type }: BookingsProps) {
             (item.consumer?.fullName ?? '')
               .toLowerCase()
               .includes((search ?? '').trim().toLowerCase()) ||
-            (item.id ?? '')
-              .toLowerCase()
-              .includes((search ?? '').trim().toLowerCase())
+            (item.id ?? '').toLowerCase() ===
+              (search ?? '').trim().toLowerCase()
           );
         }),
       };
