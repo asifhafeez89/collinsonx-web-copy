@@ -166,8 +166,9 @@ export type Invitation = {
 };
 
 export type InvitationInput = {
-  experience: ExperienceKey;
+  experience?: InputMaybe<ExperienceKey>;
   inviteeEmail: Scalars['String'];
+  userType: Scalars['String'];
 };
 
 export type Location = {

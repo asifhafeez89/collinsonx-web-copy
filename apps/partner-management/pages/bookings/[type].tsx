@@ -109,7 +109,7 @@ export default function Bookings({ type }: BookingsProps) {
   const { date } = router.query;
 
   const [bookingId, setBookingId] = useState<string | null>(null);
-  const [name, setName] = useState((router.query.name as string) ?? '');
+  const [search, setSearch] = useState((router.query.search as string) ?? '');
 
   const [lastUpdate, setLastUpdate] = useState<String>();
 
@@ -131,17 +131,21 @@ export default function Bookings({ type }: BookingsProps) {
         ),
       };
     }
-    if (name && result) {
+    if (search && result) {
       result = {
-        getBookings: result.getBookings.filter((item) =>
-          (item.consumer?.fullName ?? '')
-            .toLowerCase()
-            .includes(name.toLowerCase())
-        ),
+        getBookings: result.getBookings.filter((item) => {
+          return (
+            (item.consumer?.fullName ?? '')
+              .toLowerCase()
+              .includes((search ?? '').trim().toLowerCase()) ||
+            (item.id ?? '').toLowerCase() ===
+              (search ?? '').trim().toLowerCase()
+          );
+        }),
       };
     }
     return result;
-  }, [date, name, dataBookings]);
+  }, [date, search, dataBookings]);
 
   const bookings = useMemo<Booking[]>(() => {
     let types;
@@ -246,11 +250,11 @@ export default function Bookings({ type }: BookingsProps) {
   }, [date, type]);
 
   const handleChangeName: TextInputProps['onChange'] = (e) => {
-    const name = e.target.value;
-    setName(name);
+    const search = e.target.value;
+    setSearch(search);
     router.replace(
       {
-        query: { ...router.query, name },
+        query: { ...router.query, search: (search ?? '').trim() },
       },
       undefined,
       { shallow: true }
@@ -277,6 +281,11 @@ export default function Bookings({ type }: BookingsProps) {
       columnHelper.accessor('consumer.fullName', {
         id: 'fullName',
         header: 'Customer name',
+        cell: (props) => props.getValue() || '-',
+      }),
+      columnHelper.accessor('id', {
+        id: 'id',
+        header: 'Booking ID',
         cell: (props) => props.getValue() || '-',
       }),
       columnHelper.accessor('type', {
@@ -400,19 +409,25 @@ export default function Bookings({ type }: BookingsProps) {
             </Title>
             <Text size={14} weight={600} color="#9B9CA0">
               {bookings.length ? `${bookings.length} bookings` : null}{' '}
-              {lastUpdate && `Last updated ${lastUpdate}`}
             </Text>
+            {lastUpdate && (
+              <Text
+                size={14}
+                weight={600}
+                color="#9B9CA0"
+              >{`Last updated ${lastUpdate}`}</Text>
+            )}
           </Box>
           <Flex gap={24}>
             <TextInput
               miw={423}
-              value={name}
+              value={search}
               onChange={handleChangeName}
               styles={{
                 rightSection: {},
               }}
               rightSection={<Magglass />}
-              placeholder="Search for customer"
+              placeholder="Search for Customer or Booking ID"
             />
             <DatePicker
               icon={<Calendar />}
