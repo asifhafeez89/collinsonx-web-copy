@@ -133,11 +133,16 @@ export default function Bookings({ type }: BookingsProps) {
     }
     if (name && result) {
       result = {
-        getBookings: result.getBookings.filter((item) =>
-          (item.consumer?.fullName ?? '')
-            .toLowerCase()
-            .includes(name.toLowerCase())
-        ),
+        getBookings: result.getBookings.filter((item) => {
+          return (
+            (item.consumer?.fullName ?? '')
+              .toLowerCase()
+              .includes((name ?? '').trim().toLowerCase()) ||
+            (item.id ?? '')
+              .toLowerCase()
+              .includes((name ?? '').trim().toLowerCase())
+          );
+        }),
       };
     }
     return result;
@@ -417,7 +422,7 @@ export default function Bookings({ type }: BookingsProps) {
                 rightSection: {},
               }}
               rightSection={<Magglass />}
-              placeholder="Search for customer"
+              placeholder="Search for Customer or Booking ID"
             />
             <DatePicker
               icon={<Calendar />}
