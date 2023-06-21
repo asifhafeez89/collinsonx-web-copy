@@ -109,7 +109,7 @@ export default function Bookings({ type }: BookingsProps) {
   const { date } = router.query;
 
   const [bookingId, setBookingId] = useState<string | null>(null);
-  const [name, setName] = useState((router.query.name as string) ?? '');
+  const [search, setSearch] = useState((router.query.search as string) ?? '');
 
   const [lastUpdate, setLastUpdate] = useState<String>();
 
@@ -131,22 +131,22 @@ export default function Bookings({ type }: BookingsProps) {
         ),
       };
     }
-    if (name && result) {
+    if (search && result) {
       result = {
         getBookings: result.getBookings.filter((item) => {
           return (
             (item.consumer?.fullName ?? '')
               .toLowerCase()
-              .includes((name ?? '').trim().toLowerCase()) ||
+              .includes((search ?? '').trim().toLowerCase()) ||
             (item.id ?? '')
               .toLowerCase()
-              .includes((name ?? '').trim().toLowerCase())
+              .includes((search ?? '').trim().toLowerCase())
           );
         }),
       };
     }
     return result;
-  }, [date, name, dataBookings]);
+  }, [date, search, dataBookings]);
 
   const bookings = useMemo<Booking[]>(() => {
     let types;
@@ -251,11 +251,11 @@ export default function Bookings({ type }: BookingsProps) {
   }, [date, type]);
 
   const handleChangeName: TextInputProps['onChange'] = (e) => {
-    const name = e.target.value;
-    setName(name);
+    const search = e.target.value;
+    setSearch(search);
     router.replace(
       {
-        query: { ...router.query, name },
+        query: { ...router.query, search: (search ?? '').trim() },
       },
       undefined,
       { shallow: true }
@@ -416,7 +416,7 @@ export default function Bookings({ type }: BookingsProps) {
           <Flex gap={24}>
             <TextInput
               miw={423}
-              value={name}
+              value={search}
               onChange={handleChangeName}
               styles={{
                 rightSection: {},
