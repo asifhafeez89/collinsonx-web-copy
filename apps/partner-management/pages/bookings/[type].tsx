@@ -279,6 +279,11 @@ export default function Bookings({ type }: BookingsProps) {
         header: 'Customer name',
         cell: (props) => props.getValue() || '-',
       }),
+      columnHelper.accessor('id', {
+        id: 'id',
+        header: 'Booking ID',
+        cell: (props) => props.getValue() || '-',
+      }),
       columnHelper.accessor('type', {
         header: 'Type',
         id: 'type',
