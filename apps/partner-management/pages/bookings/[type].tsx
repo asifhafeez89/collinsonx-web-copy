@@ -403,7 +403,7 @@ export default function Bookings({ type }: BookingsProps) {
 
   return (
     <>
-      <Modal opened={selectedBooking !== undefined} onClose={handleCloseModal}>
+      <Modal opened={bookingId !== null} onClose={handleCloseModal}>
         <Details booking={selectedBooking}>
           <DetailsConfirmedActions
             checkIn={checkIn}
