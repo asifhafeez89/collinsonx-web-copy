@@ -11,7 +11,6 @@ export interface DetailsProps {
   children?: JSX.Element;
 }
 const Details = ({ children, booking, loading = false }: DetailsProps) => {
-  console.log(booking);
   return (
     <Stack spacing={40}>
       <DetailsSection label="Passenger details">
@@ -49,7 +48,7 @@ const Details = ({ children, booking, loading = false }: DetailsProps) => {
           )}
         </DetailsKeyValue>
         <DetailsKeyValue label="Guests" loading={loading}>
-          -
+          {booking?.guestCount ?? '-'}
         </DetailsKeyValue>
       </DetailsSection>
       {children}
