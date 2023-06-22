@@ -50,6 +50,7 @@ import getSelectedLounge from 'lib/getSelectedLounge';
 import getLoungeTitle from 'lib/getLoungeTitle';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import { AppSession } from 'types/Session';
+import DetailsConfirmedActions from '@components/Details/DetailsConfirmedActions';
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
 
@@ -109,6 +110,7 @@ export default function Bookings({ type }: BookingsProps) {
   const { date } = router.query;
 
   const [bookingId, setBookingId] = useState<string | null>(null);
+  const [checkIn, setCheckIn] = useState(false);
   const [search, setSearch] = useState((router.query.search as string) ?? '');
 
   const [lastUpdate, setLastUpdate] = useState<String>();
@@ -223,17 +225,15 @@ export default function Bookings({ type }: BookingsProps) {
     [confirmBooking, refetchBookings]
   );
 
-  const handleClickConfirmCheckIn = useCallback(
-    (id: string) => {
-      checkInBooking({
-        variables: { checkinBookingId: id },
-        onCompleted: () => {
-          refetchBookings();
-        },
-      });
-    },
-    [checkInBooking, refetchBookings]
-  );
+  const handleClickConfirmCheckIn = useCallback(() => {
+    setBookingId(null);
+    checkInBooking({
+      variables: { checkinBookingId: bookingId },
+      onCompleted: () => {
+        refetchBookings();
+      },
+    });
+  }, [checkInBooking, refetchBookings, bookingId]);
 
   const title = titleMap[type as keyof typeof titleMap];
 
@@ -344,7 +344,7 @@ export default function Bookings({ type }: BookingsProps) {
                     <Button
                       w={180}
                       fullWidth
-                      onClick={() => handleClickConfirmCheckIn(id)}
+                      onClick={() => handleClickCheckIn(id)}
                       variant="default"
                     >
                       Check customer in
@@ -381,6 +381,13 @@ export default function Bookings({ type }: BookingsProps) {
 
   return (
     <>
+      {bookingId !== null ? (
+        <DetailsConfirmedActions
+          checkIn={checkIn}
+          onClickConfirmCheckIn={handleClickConfirmCheckIn}
+          onChangeCheckIn={() => {}}
+        />
+      ) : null}
       <Stack spacing={32}>
         <Box sx={{ borderBottom: '1px solid #E1E1E1' }}>
           <Flex gap={16} align="center" mb={8}>
