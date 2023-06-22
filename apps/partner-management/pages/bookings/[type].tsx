@@ -124,11 +124,16 @@ export default function Bookings({ type }: BookingsProps) {
       result = data;
     } else if (data?.getBookings) {
       result = {
-        getBookings: data.getBookings.filter(
-          (item) =>
-            dayjsTz(item.bookedFrom).format('YYYY-MM-DD') ===
-            dayjsTz(date as string).format('YYYY-MM-DD')
-        ),
+        getBookings: data.getBookings.filter((item) => {
+          const bookedFrom = dayjsTz(item.bookedFrom).format('DD-MM-YYYY');
+
+          const datetime = date.toString().split(' ');
+
+          console.log(bookedFrom);
+          console.log(datetime);
+
+          return bookedFrom === datetime[0];
+        }),
       };
     }
     if (search && result) {
@@ -265,7 +270,7 @@ export default function Bookings({ type }: BookingsProps) {
     date
   ) => {
     const dateStr =
-      date !== null ? dayjsTz(date as Date).format('DD-MM-YYYY HH:MM') : '';
+      date !== null ? dayjsTz(date as Date).format('DD-MM-YYYY') : '';
     router.replace(
       {
         query: { ...router.query, date: dateStr },
