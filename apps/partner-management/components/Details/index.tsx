@@ -11,7 +11,6 @@ export interface DetailsProps {
   children?: JSX.Element;
 }
 const Details = ({ children, booking, loading = false }: DetailsProps) => {
-  console.log(booking);
   return (
     <Stack spacing={40}>
       <DetailsSection label="Passenger details">

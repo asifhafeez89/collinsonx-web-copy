@@ -52,6 +52,7 @@ import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import { AppSession } from 'types/Session';
 import DetailsConfirmedActions from '@components/Details/DetailsConfirmedActions';
 import { Modal } from '@mantine/core';
+import Details from '@components/Details';
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
 
@@ -390,7 +391,8 @@ export default function Bookings({ type }: BookingsProps) {
   });
 
   const selectedBooking = useMemo(
-    () => (bookingId ? bookings.find((item) => item.id === bookingId)! : null),
+    () =>
+      bookingId ? bookings.find((item) => item.id === bookingId)! : undefined,
     [bookingId, bookings]
   );
 
@@ -401,12 +403,14 @@ export default function Bookings({ type }: BookingsProps) {
 
   return (
     <>
-      <Modal opened={bookingId !== null} onClose={handleCloseModal}>
-        <DetailsConfirmedActions
-          checkIn={checkIn}
-          onClickConfirmCheckIn={handleClickConfirmCheckIn}
-          onChangeCheckIn={handleChangeCheckIn}
-        />
+      <Modal opened={selectedBooking !== undefined} onClose={handleCloseModal}>
+        <Details booking={selectedBooking}>
+          <DetailsConfirmedActions
+            checkIn={checkIn}
+            onClickConfirmCheckIn={handleClickConfirmCheckIn}
+            onChangeCheckIn={handleChangeCheckIn}
+          />
+        </Details>
       </Modal>
       <Stack spacing={32}>
         <Box sx={{ borderBottom: '1px solid #E1E1E1' }}>
