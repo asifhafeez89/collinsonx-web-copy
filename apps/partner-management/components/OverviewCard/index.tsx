@@ -1,4 +1,4 @@
-import { Box, Title } from '@collinsonx/design-system/core';
+import { Box, Flex, Title } from '@collinsonx/design-system/core';
 import styled from '@collinsonx/design-system/styled';
 import { bookingPageConfig, PageType } from 'config/booking';
 import { ReactNode } from 'react';
@@ -32,10 +32,16 @@ const OverviewCard = ({
           backgroundColor: bookingPageConfig[variant].color,
         }}
       >
-        <Title color="#25262B" size={20} w={600}>
-          <span style={{ fontSize: '11px', marginRight: '10px' }}>{icon}</span>
-          {title}
-        </Title>
+        <Flex gap={8} align="center">
+          {icon ? (
+            <Box w={24} h={24}>
+              {icon}
+            </Box>
+          ) : null}
+          <Title color="#25262B" size={20} w={600}>
+            {title}
+          </Title>
+        </Flex>
       </Box>
       <Box sx={{ padding: '32px 40px', minHeight: '150px' }}>{children}</Box>
     </Container>
