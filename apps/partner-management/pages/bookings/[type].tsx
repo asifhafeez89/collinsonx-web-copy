@@ -360,7 +360,14 @@ export default function Bookings({ type }: BookingsProps) {
       );
     }
     return mainColumns;
-  }, [handleClickConfirmCheckIn, handleClickDecline, type]);
+  }, [
+    isSuperUser,
+    handleClickCheckIn,
+    handleClickConfirm,
+    handleClickCancel,
+    handleClickDecline,
+    type,
+  ]);
 
   const table = useReactTable({
     data: bookings,
