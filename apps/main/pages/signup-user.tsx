@@ -103,6 +103,7 @@ export default function SignupUser() {
               placeholder="First name"
               label="First name(s)"
               isWhite={true}
+              data-testid="firstName"
             />
 
             <InputLabel
@@ -113,6 +114,7 @@ export default function SignupUser() {
               placeholder="Last name"
               label="Last name"
               isWhite={true}
+              data-testid="lastName"
             />
             <DatePicker
               icon={<Calendar />}
