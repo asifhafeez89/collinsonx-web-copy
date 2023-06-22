@@ -9,10 +9,8 @@ test('login as a new partner', async ({ page }) => {
   //When
   await login.goTo();
   await login.login();
-  // await login.submitLogin();
 
   //Then
   let hasTheUserLoggedIn = new HasTheUserLoggedIn(expect);
   await hasTheUserLoggedIn.verifyTitle();
-  // await hasTheUserLoggedIn.seeHomePageTitle();
 });
