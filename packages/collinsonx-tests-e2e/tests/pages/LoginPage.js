@@ -8,7 +8,7 @@ class LoginPage {
   }
 
   getUsernameTextbox() {
-    return this.page.getByPlaceholder('Your email address');
+    return this.page.getByTestId('loginEmailAddress');
   }
 
   getCollinsonTitle() {
