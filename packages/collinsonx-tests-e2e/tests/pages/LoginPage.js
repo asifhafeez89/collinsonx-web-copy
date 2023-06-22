@@ -26,7 +26,7 @@ class LoginPage {
   }
 
   getVerifyButton() {
-    return this.page.getByRole('button', { name: 'Verify' });
+    return this.page.getByTestId('verify');
   }
 }
 module.exports = LoginPage;

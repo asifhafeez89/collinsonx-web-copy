@@ -58,7 +58,7 @@ export default function CheckEmail() {
   const handleClickResend = () => {
     try {
       createPasswordlessCode({ email });
-    } catch (e) {}
+    } catch (e) { }
     setCount(20);
   };
 
@@ -87,8 +87,8 @@ export default function CheckEmail() {
         // the user entered an invalid OTP
         window.alert(
           'Wrong OTP! Please try again. Number of attempts left: ' +
-            (response.maximumCodeInputAttempts -
-              response.failedCodeInputAttemptCount)
+          (response.maximumCodeInputAttempts -
+            response.failedCodeInputAttemptCount)
         );
       } else if (response.status === 'EXPIRED_USER_INPUT_CODE_ERROR') {
         setLoading(false);
@@ -174,6 +174,7 @@ export default function CheckEmail() {
                   sx={{
                     borderRadius: 4,
                   }}
+                  data-testid="verify"
                 >
                   Verify
                 </Button>
