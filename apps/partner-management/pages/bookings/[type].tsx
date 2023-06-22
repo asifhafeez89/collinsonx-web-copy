@@ -403,7 +403,23 @@ export default function Bookings({ type }: BookingsProps) {
 
   return (
     <>
-      <Modal opened={bookingId !== null} onClose={handleCloseModal}>
+      <Modal
+        opened={bookingId !== null}
+        onClose={handleCloseModal}
+        sx={{
+          '.mantine-Modal-content': {
+            flex: 'none',
+          },
+        }}
+        styles={{
+          close: {
+            color: '#000',
+          },
+          content: {
+            flex: 'none',
+          },
+        }}
+      >
         <Details booking={selectedBooking}>
           <DetailsConfirmedActions
             checkIn={checkIn}
