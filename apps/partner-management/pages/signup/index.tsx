@@ -103,7 +103,7 @@ export default function Signup() {
     getPartnerByID: Partner;
   }>(getPartnerByID, {
     variables: { getPartnerById: userId },
-    skip: !userId,
+    skip: !userId || payload?.userType === 'SUPER_USER',
     onCompleted: (data) => {
       if (data?.getPartnerByID) {
         const { experiences } = data.getPartnerByID;
@@ -157,7 +157,11 @@ export default function Signup() {
             })
               .then(() => {
                 getUserId().then((userId) => {
-                  setUserId(userId);
+                  if (payload?.userType === 'SUPER_USER') {
+                    router.push('/');
+                  } else {
+                    setUserId(userId);
+                  }
                 });
               })
               .catch((err) => {
