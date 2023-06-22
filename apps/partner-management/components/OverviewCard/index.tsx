@@ -25,7 +25,7 @@ const OverviewCard = ({
   icon,
 }: OverviewCardProps) => {
   return (
-    <Container>
+    <Container style={{ minHeight: 267 }}>
       <Box
         sx={{
           padding: '16px 40px',
