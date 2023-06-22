@@ -13,7 +13,6 @@ const OverviewMetric = ({
   value,
   children,
   loading,
-  showMetric = true,
 }: OverviewMetricProps) => {
   return (
     <Skeleton visible={loading}>
@@ -21,11 +20,9 @@ const OverviewMetric = ({
         <Text color="#9b9ca0" size={16} weight={600}>
           {label}
         </Text>
-        {showMetric && (
-          <Text color="dark.6" size={32} weight={400}>
-            {value}
-          </Text>
-        )}
+        <Text color="dark.6" size={32} weight={400}>
+          {value}
+        </Text>
         {children}
       </Stack>
     </Skeleton>
