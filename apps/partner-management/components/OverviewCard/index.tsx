@@ -32,7 +32,7 @@ const OverviewCard = ({
           backgroundColor: bookingPageConfig[variant].color,
         }}
       >
-        <Flex gap={10} align="center">
+        <Flex gap={8} align="center">
           {icon ? (
             <Box w={24} h={24}>
               {icon}
