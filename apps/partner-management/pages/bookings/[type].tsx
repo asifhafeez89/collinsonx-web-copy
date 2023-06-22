@@ -51,7 +51,7 @@ import getLoungeTitle from 'lib/getLoungeTitle';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import { AppSession } from 'types/Session';
 import DetailsConfirmedActions from '@components/Details/DetailsConfirmedActions';
-import { Modal } from '@mantine/core';
+import { Modal } from '@collinsonx/design-system/core';
 import Details from '@components/Details';
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
