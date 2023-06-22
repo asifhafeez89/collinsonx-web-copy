@@ -7,7 +7,7 @@ class LoginPage {
     return this.page.goto('http://localhost:3000');
   }
 
-  getUsernameTextbox() {
+  getEmailAddressTextbox() {
     return this.page.getByTestId('loginEmailAddress');
   }
 
@@ -23,10 +23,6 @@ class LoginPage {
 
   getLoginButton() {
     return this.page.getByTestId('login');
-  }
-
-  getVerifyButton() {
-    return this.page.getByTestId('verify');
   }
 }
 module.exports = LoginPage;

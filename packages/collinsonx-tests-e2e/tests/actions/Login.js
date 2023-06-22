@@ -1,4 +1,5 @@
 import LoginPage from '../pages/LoginPage';
+import CheckEmailPage from '../pages/CheckEmailPage';
 import { v4 as uuidv4 } from 'uuid';
 import { MailinatorClient } from 'mailinator-client';
 import { GetInboxRequest } from 'mailinator-client';
@@ -9,6 +10,7 @@ class Login {
   constructor(page) {
     this._loginPage = new LoginPage(page);
     this._helper = new Helper(page);
+    this._checkemailPage = new CheckEmailPage(page);
   }
 
   goTo() {
@@ -19,20 +21,20 @@ class Login {
     let uuid = uuidv4();
     let email = uuid + '@clearrouteteam.testinator.com';
 
-    await this._loginPage.getUsernameTextbox(this.page).fill(email);
+    await this._loginPage.getEmailAddressTextbox(this.page).fill(email);
     await this._loginPage.getLoginButton(this.page).click();
     await this._helper.wait(5000);
 
     const otp = await this._getOTP(uuid);
 
     await this._helper.type(otp);
-    await this._loginPage.getVerifyButton(this.page).click();
+    await this._checkemailPage.getVerifyButton(this.page).click();
     await this._helper.wait(5000);
   }
 
   async _getOTP(user) {
     let id;
-    
+
     const mailinatorClient = new MailinatorClient(
       '2a32de31d6734501abb238da21c9ac3a'
     );
