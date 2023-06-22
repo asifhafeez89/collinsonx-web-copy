@@ -51,6 +51,7 @@ import getLoungeTitle from 'lib/getLoungeTitle';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import { AppSession } from 'types/Session';
 import DetailsConfirmedActions from '@components/Details/DetailsConfirmedActions';
+import { Modal } from '@mantine/core';
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
 
@@ -261,6 +262,13 @@ export default function Bookings({ type }: BookingsProps) {
     );
   };
 
+  const handleChangeCheckIn = useCallback(
+    (value: boolean) => {
+      setCheckIn(value);
+    },
+    [setCheckIn]
+  );
+
   const handleChangeDate: ComponentProps<typeof DatePicker>['onChange'] = (
     date
   ) => {
@@ -386,15 +394,20 @@ export default function Bookings({ type }: BookingsProps) {
     [bookingId, bookings]
   );
 
+  const handleCloseModal = useCallback(() => {
+    setCheckIn(false);
+    setBookingId(null);
+  }, [setCheckIn, setBookingId]);
+
   return (
     <>
-      {bookingId !== null ? (
+      <Modal opened={bookingId !== null} onClose={handleCloseModal}>
         <DetailsConfirmedActions
           checkIn={checkIn}
           onClickConfirmCheckIn={handleClickConfirmCheckIn}
-          onChangeCheckIn={() => {}}
+          onChangeCheckIn={handleChangeCheckIn}
         />
-      ) : null}
+      </Modal>
       <Stack spacing={32}>
         <Box sx={{ borderBottom: '1px solid #E1E1E1' }}>
           <Flex gap={16} align="center" mb={8}>
