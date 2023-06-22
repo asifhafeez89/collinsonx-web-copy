@@ -16,7 +16,7 @@ class SignUpPage {
   };
 
   getMarketingCheckbox() {
-    return this.page.getByTestId('marketingCheckboc');
+    return this.page.getByTestId('marketingCheckbox');
   };
 
   getLoginButton() {
