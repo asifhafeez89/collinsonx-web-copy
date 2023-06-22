@@ -11,5 +11,9 @@ class SignUpPage {
     return this.page.getByTestId('lastName');
   };
 
+  getDateOfBirthDatePicker() {
+    return this.page.getByTestId('dateOfBirthDatePicker');
+  };
+
   };
   module.exports = SignUpPage;

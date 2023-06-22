@@ -138,6 +138,7 @@ export default function SignupUser() {
                 ...form.getInputProps('dateOfBirth'),
               }}
               maxDate={new Date()}
+              data-testid="dateOfBirthDatePicker"
             />
             <InputLabel
               readOnly
