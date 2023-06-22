@@ -1,6 +1,5 @@
 import LoginPage from '../pages/LoginPage';
 import { v4 as uuidv4 } from 'uuid';
-// import Mailinator from '../../API/Mailinator.js'
 import { MailinatorClient } from 'mailinator-client';
 import { GetInboxRequest } from 'mailinator-client';
 import { GetMessageRequest } from 'mailinator-client';
@@ -23,8 +22,9 @@ class Login {
     await this._loginPage.getUsernameTextbox(this.page).fill(email);
     await this._loginPage.getLoginButton(this.page).click();
     await this._helper.wait(5000);
+
     const otp = await this._getOTP(uuid);
-    console.log(otp, 'WOOOO');
+
     await this._helper.type(otp);
     await this._loginPage.getVerifyButton(this.page).click();
     await this._helper.wait(5000);
@@ -33,7 +33,7 @@ class Login {
   async _getOTP(uuid) {
     let id;
     const mailinatorClient = new MailinatorClient(
-      'b0078d6d5b65412eb5c4648920feb4fc'
+      '2a32de31d6734501abb238da21c9ac3a'
     );
 
     await mailinatorClient
@@ -45,10 +45,9 @@ class Login {
         if (msgs !== undefined) {
           msgs.forEach((msg) => {
             const to = msg.to;
-            // process message
+            
             if (to == uuid) {
               id = msg.id;
-              console.log(id, 'IDDDD');
             }
           });
         }
@@ -61,7 +60,7 @@ class Login {
         const parts = result?.parts;
         const regex = /(\d{6})<\/div>/g;
         let match = regex.exec(parts[0].body);
-        console.log(match[1].toString(), 'CROSSEDDDDD');
+
         return match[1].toString();
       });
     return otp;
