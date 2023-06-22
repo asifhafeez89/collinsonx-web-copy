@@ -129,7 +129,7 @@ export default function Overview() {
 
   return (
     <>
-      {false && error && isErrorValid(error) ? (
+      {error && isErrorValid(error) ? (
         <Error error={error} />
       ) : (
         <>
