@@ -7,6 +7,7 @@ import {
   Stack,
   Flex,
   Box,
+  Skeleton,
 } from '@collinsonx/design-system/core';
 import { SELECTED_LOUNGE } from 'config';
 import OverviewCard from '@components/OverviewCard';
@@ -260,24 +261,26 @@ export default function Overview() {
                   </>
                 </OverviewCard>
                 <OverviewCard
-                  title="Walkup QR Code"
+                  title="Walk-up QR code"
                   variant="qrcodewalkup"
                   icon={<FourSquares />}
                 >
-                  <Flex gap={72}>
-                    <OverviewMetric
-                      loading={loading}
-                      label="Reveal the QR code used for Walk-up customers"
-                      value={bookingsDeclined}
-                      showMetric={false}
-                    >
-                      <Link href="/qr-code" passHref>
+                  <Skeleton visible={loading}>
+                    <Stack spacing={82}>
+                      <Text color="#9b9ca0" size={16} weight={600}>
+                        Reveal the QR code used for Walk-up customers
+                      </Text>
+                      <Link
+                        href="/qr-code"
+                        passHref
+                        style={{ width: 'fit-content' }}
+                      >
                         <Button variant="default" sx={{ width: 'fit-content' }}>
                           View
                         </Button>
                       </Link>
-                    </OverviewMetric>
-                  </Flex>
+                    </Stack>
+                  </Skeleton>
                 </OverviewCard>
               </Stack>
             </Grid.Col>
