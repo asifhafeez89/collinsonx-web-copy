@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 import Login from '../actions/Login';
 import HasTheUserLoggedIn from '../questions/HasTheUserLoggedIn';
 
-test('has title', async ({ page }) => {
+test('login as a new partner', async ({ page }) => {
   //Given
   let login = new Login(page);
 
