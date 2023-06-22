@@ -43,3 +43,6 @@ storybook-static
 
 # Gitleaks
 gitleaks-report.json
+
+# Playwright
+playwright-report
