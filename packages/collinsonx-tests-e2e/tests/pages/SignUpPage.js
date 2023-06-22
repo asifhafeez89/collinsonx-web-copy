@@ -15,5 +15,9 @@ class SignUpPage {
     return this.page.getByTestId('dateOfBirthDatePicker');
   };
 
+  getMarketingCheckbox() {
+    return this.page.getByTestId('marketingCheckboc');
+  };
+
   };
   module.exports = SignUpPage;

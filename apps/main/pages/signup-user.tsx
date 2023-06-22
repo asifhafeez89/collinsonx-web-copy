@@ -167,6 +167,7 @@ export default function SignupUser() {
                       color: '#FFFFFF',
                     },
                   }}
+                  data-testid="marketingCheckboc"
                 />
               </Flex>
             </Group>
