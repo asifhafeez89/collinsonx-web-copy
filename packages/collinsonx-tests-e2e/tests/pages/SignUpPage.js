@@ -19,5 +19,9 @@ class SignUpPage {
     return this.page.getByTestId('marketingCheckboc');
   };
 
+  getLoginButton() {
+    return this.page.getByTestId('loginAfterSignUp');
+  };
+
   };
   module.exports = SignUpPage;

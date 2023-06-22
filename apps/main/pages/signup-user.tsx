@@ -172,7 +172,7 @@ export default function SignupUser() {
               </Flex>
             </Group>
             <Group>
-              <Button fullWidth type="submit">
+              <Button fullWidth type="submit" data-testid="loginAfterSignUp">
                 Login
               </Button>
             </Group>
