@@ -412,6 +412,9 @@ export default function Bookings({ type }: BookingsProps) {
           },
         }}
         styles={{
+          close: {
+            color: '#000',
+          },
           content: {
             flex: 'none',
           },
