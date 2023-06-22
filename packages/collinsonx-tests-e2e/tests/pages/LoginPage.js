@@ -22,7 +22,7 @@ class LoginPage {
   }
 
   getLoginButton() {
-    return this.page.getByRole('button', { name: 'Login' });
+    return this.page.getByTestId('login');
   }
 
   getVerifyButton() {
