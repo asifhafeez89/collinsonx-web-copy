@@ -129,9 +129,6 @@ export default function Bookings({ type }: BookingsProps) {
 
           const datetime = date.toString().split(' ');
 
-          console.log(bookedFrom);
-          console.log(datetime);
-
           return bookedFrom === datetime[0];
         }),
       };
