@@ -6,7 +6,6 @@ export interface OverviewMetricProps {
   value: string | number | JSX.Element;
   children?: JSX.Element;
   loading?: boolean;
-  showMetric?: boolean;
 }
 const OverviewMetric = ({
   label,
