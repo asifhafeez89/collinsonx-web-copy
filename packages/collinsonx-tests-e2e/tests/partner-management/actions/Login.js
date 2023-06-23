@@ -8,9 +8,9 @@ class Login {
   async asNewUser(boolean) {
     await this.loginPage.goToURL();
 
-    const partner = this.setUser(boolean);
+    const email = this.setUser(boolean);
 
-    await this.loginPage.enterEmailAddress(partner);
+    await this.loginPage.enterEmailAddress(email);
 
     // password will be changed and added to secret variables at a later date
     await this.loginPage.enterPassword('CollinsonXPartner123');
@@ -26,7 +26,7 @@ class Login {
       partner = 'automationuserpartner';
     }
 
-    return partner;
+    return `${partner}@clearroute.testinator.com`;
   };
 
 };
