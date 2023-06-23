@@ -3,7 +3,7 @@ import Login from '../actions/Login';
 import SignUp from '../actions/SignUp';
 import ExpectUserToBeLoggedIn from '../assertions/ExpectUserToBeLoggedIn';
 
-test('login as a new partner', async ({ page }) => {
+test('login as a new user', async ({ page }) => {
   //Given
   let login = new Login(page);
   let signUp = new SignUp(page);
