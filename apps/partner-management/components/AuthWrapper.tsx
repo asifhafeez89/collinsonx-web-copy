@@ -40,8 +40,10 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
   const session: any = useSessionContext();
   useEffect(() => {
     const { accessTokenPayload = {} } = session as any;
-    if (accessTokenPayload.userType && accessTokenPayload.experiences) {
+    if (accessTokenPayload.userType) {
       localStorage.setItem(USER_TYPE, accessTokenPayload.userType);
+    }
+    if (accessTokenPayload.experiences) {
       localStorage.setItem(
         USER_META,
         JSON.stringify({ experiences: accessTokenPayload.experiences })

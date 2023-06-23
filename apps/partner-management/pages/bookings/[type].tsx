@@ -50,6 +50,9 @@ import getSelectedLounge from 'lib/getSelectedLounge';
 import getLoungeTitle from 'lib/getLoungeTitle';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import { AppSession } from 'types/Session';
+import DetailsConfirmedActions from '@components/Details/DetailsConfirmedActions';
+import { Modal } from '@collinsonx/design-system/core';
+import Details from '@components/Details';
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
 
@@ -109,6 +112,7 @@ export default function Bookings({ type }: BookingsProps) {
   const { date } = router.query;
 
   const [bookingId, setBookingId] = useState<string | null>(null);
+  const [checkIn, setCheckIn] = useState(false);
   const [search, setSearch] = useState((router.query.search as string) ?? '');
 
   const [lastUpdate, setLastUpdate] = useState<String>();
@@ -225,17 +229,15 @@ export default function Bookings({ type }: BookingsProps) {
     [confirmBooking, refetchBookings]
   );
 
-  const handleClickConfirmCheckIn = useCallback(
-    (id: string) => {
-      checkInBooking({
-        variables: { checkinBookingId: id },
-        onCompleted: () => {
-          refetchBookings();
-        },
-      });
-    },
-    [checkInBooking, refetchBookings]
-  );
+  const handleClickConfirmCheckIn = useCallback(() => {
+    setBookingId(null);
+    checkInBooking({
+      variables: { checkinBookingId: bookingId },
+      onCompleted: () => {
+        refetchBookings();
+      },
+    });
+  }, [checkInBooking, refetchBookings, bookingId]);
 
   const title = titleMap[type as keyof typeof titleMap];
 
@@ -262,6 +264,13 @@ export default function Bookings({ type }: BookingsProps) {
       { shallow: true }
     );
   };
+
+  const handleChangeCheckIn = useCallback(
+    (value: boolean) => {
+      setCheckIn(value);
+    },
+    [setCheckIn]
+  );
 
   const handleChangeDate: ComponentProps<typeof DatePicker>['onChange'] = (
     date
@@ -346,7 +355,7 @@ export default function Bookings({ type }: BookingsProps) {
                     <Button
                       w={180}
                       fullWidth
-                      onClick={() => handleClickConfirmCheckIn(id)}
+                      onClick={() => handleClickCheckIn(id)}
                       variant="default"
                     >
                       Check customer in
@@ -362,7 +371,14 @@ export default function Bookings({ type }: BookingsProps) {
       );
     }
     return mainColumns;
-  }, [handleClickConfirmCheckIn, handleClickDecline, type]);
+  }, [
+    isSuperUser,
+    handleClickCheckIn,
+    handleClickConfirm,
+    handleClickCancel,
+    handleClickDecline,
+    type,
+  ]);
 
   const table = useReactTable({
     data: bookings,
@@ -377,12 +393,43 @@ export default function Bookings({ type }: BookingsProps) {
   });
 
   const selectedBooking = useMemo(
-    () => (bookingId ? bookings.find((item) => item.id === bookingId)! : null),
+    () =>
+      bookingId ? bookings.find((item) => item.id === bookingId)! : undefined,
     [bookingId, bookings]
   );
 
+  const handleCloseModal = useCallback(() => {
+    setCheckIn(false);
+    setBookingId(null);
+  }, [setCheckIn, setBookingId]);
+
   return (
     <>
+      <Modal
+        opened={bookingId !== null}
+        onClose={handleCloseModal}
+        sx={{
+          '.mantine-Modal-content': {
+            flex: 'none',
+          },
+        }}
+        styles={{
+          close: {
+            color: '#000',
+          },
+          content: {
+            flex: 'none',
+          },
+        }}
+      >
+        <Details booking={selectedBooking}>
+          <DetailsConfirmedActions
+            checkIn={checkIn}
+            onClickConfirmCheckIn={handleClickConfirmCheckIn}
+            onChangeCheckIn={handleChangeCheckIn}
+          />
+        </Details>
+      </Modal>
       <Stack spacing={32}>
         <Box sx={{ borderBottom: '1px solid #E1E1E1' }}>
           <Flex gap={16} align="center" mb={8}>
