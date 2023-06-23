@@ -28,7 +28,7 @@ const checkIsAllowed = (pathname: string) => {
 const clearLocalStorage = () => {
   if (typeof window !== undefined) {
     localStorage.removeItem(PARTNER_ID);
-    //localStorage.removeItem(SELECTED_LOUNGE);
+    localStorage.removeItem(SELECTED_LOUNGE);
     localStorage.removeItem(USER_TYPE);
     localStorage.removeItem(USER_META);
   }
