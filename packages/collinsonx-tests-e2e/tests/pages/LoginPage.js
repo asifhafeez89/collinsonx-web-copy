@@ -1,5 +1,5 @@
 class LoginPage {
-  constructor(page) {
+  constructor(page, expect) {
     this.page = page;
   };
 

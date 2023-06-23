@@ -29,9 +29,7 @@ export default function Book() {
     loading,
     error: fetchError,
     data: experienceData,
-  } = useQuery<{ searchExperiences: Experience[] }>(getSearchExperiences, {
-    variables: { query: router.query?.id },
-  });
+  } = useQuery<{ searchExperiences: Experience[] }>(getSearchExperiences);
 
   const [createLoading, setCreateLoading] = useState(false);
 
@@ -72,15 +70,12 @@ export default function Book() {
 
   const infos = [
     {
-      header: lounge?.location ?? '',
+      header: lounge?.location?.city ?? '',
       description: '',
       icon: <MapPin width={16} height={16} color="#0C8599" />,
     },
     {
-      header:
-        (lounge?.openingHours as unknown as string[])
-          ?.join(',')
-          .substring(0, 20) ?? '-',
+      header: (lounge?.openingHours ?? ('' as string)).slice(0, 21) ?? '-',
       description: '',
       icon: <Clock width={16} height={16} color="#0C8599" />,
     },
@@ -111,7 +106,7 @@ export default function Book() {
                 <Stack spacing={8}>
                   <Stack p={24} spacing={24} bg="#FFF">
                     <LoungeImageTitle
-                      title={lounge.name ?? ''}
+                      title={lounge.loungeName ?? ''}
                       image={
                         lounge.images &&
                         lounge.images[0] &&

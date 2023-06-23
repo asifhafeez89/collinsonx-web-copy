@@ -15,9 +15,8 @@ import ArrivalTime from '@components/ArrivalTime';
 import { useForm } from '@collinsonx/design-system/form';
 import { ComponentProps, useEffect, useState } from 'react';
 import { getLoungeArrivalTime } from 'lib';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-dayjs.extend(utc);
+import styled from '@collinsonx/design-system/styled';
+import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
 
 export interface BookingFormValue {
   date: Date;
@@ -26,6 +25,12 @@ export interface BookingFormValue {
 export interface BookingFormProps {
   onSubmit: (values: BookingFormValue) => void;
 }
+
+const pricingMock = {
+  currency: 'USD',
+  reservationCost: 20.5,
+  lifestyleXReservationCharge: 20.5,
+};
 
 function expandHours(hour: string) {
   const minutes = ['00', '15', '30', '45'];
@@ -70,8 +75,7 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
   const handleClickBook = () => {
     const [h, m] = arrivalTime!.split(':');
 
-    const utcDate = dayjs
-      .utc(date)
+    const utcDate = dayjsTz(date)
       .hour(Number.parseInt(h, 10))
       .minute(Number.parseInt(m, 10));
 
@@ -95,6 +99,16 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
       setArrivalTime('');
     }
   }, [form, setArrivalTime]);
+
+  const Pricing = styled.p`
+    padding-right: 24px;
+    :before {
+      content: '£';
+      font-size: 14px;
+      vertical-align: 10px;
+      position: 'relative';
+    }
+  `;
 
   return (
     <Flex direction="column">
@@ -158,18 +172,19 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
                     />
                     <UnstyledButton
                       type="submit"
-                      sx={{
+                      style={{
                         borderRadius: 8,
                         background: '#fff',
                         color: '#000',
-                        padding: '12px 24px',
-                        width: '30%',
+                        padding: '12px 16px',
+                        width: '65%',
                         textAlign: 'center',
                         fontSize: '18px',
-                        border: '1px solid black',
+                        fontWeight: '600',
+                        border: '2px solid black',
                       }}
                     >
-                      Apply
+                      Add flight details
                     </UnstyledButton>
                   </>
                 ) : (
@@ -178,13 +193,13 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
                       <Text fw={600} color="#000" size={16}>
                         Date of flight
                       </Text>
-                      <Text pt={4}>{dayjs(date).format(DATE_FORMAT)}</Text>
+                      <Text pt={4}>{dayjsTz(date).format(DATE_FORMAT)}</Text>
                     </Box>
                     <Box>
                       <Text fw={600} color="#000" size={16}>
                         Your flight time
                       </Text>
-                      <Text pt={4}>{dayjs(date).format('HH:mm')}</Text>
+                      <Text pt={4}>{dayjsTz(date).format('HH:mm')}</Text>
                     </Box>
                   </>
                 )}
@@ -195,31 +210,71 @@ export default function BookingForm({ onSubmit }: BookingFormProps) {
                 )}
               </Stack>
             </Box>
-            {!edit && (
-              <Box bg="white" p={24}>
-                <Title order={4}>Cancellation policy</Title>
-                <Text size={14}>
-                  Free cancellation for 24 hours. Cancel before{' '}
-                  <strong>{dayjs(date).format(DATE_FORMAT)}</strong> for a
-                  partial refund.
-                </Text>
-              </Box>
-            )}
 
             <Box bg="white" p={24}>
+              <Title order={4}>Cancellation policy</Title>
+              <Text size={14}>
+                Free cancellation for 24 hours. Cancel before{' '}
+                <strong>{dayjsTz(date).format(DATE_FORMAT)}</strong> for a
+                partial refund.{' '}
+                <a href="/" style={{ color: '#946A00', fontWeight: '600' }}>
+                  Learn more
+                </a>
+              </Text>
+            </Box>
+
+            <Box
+              px={24}
+              py={16}
+              h={76}
+              maw={375}
+              style={{
+                display: 'flex',
+                justifyItems: 'center',
+                justifyContent: 'center',
+                alignItems: 'center',
+                // width: '100%',
+                padding: '0 24px',
+                bottom: '40px',
+                backgroundColor: '#FFF',
+              }}
+            >
+              <Box>
+                <Text
+                  style={{
+                    fontSize: '12px',
+                    margin: '0',
+                    padding: '0',
+                  }}
+                >
+                  From
+                </Text>
+                <Pricing
+                  className="currency"
+                  style={{
+                    fontSize: '28px',
+                    fontWeight: '700',
+                    height: '28px',
+                    marginTop: '-10px',
+                    marginBottom: '4px',
+                    color: '#0C8599',
+                  }}
+                >
+                  {pricingMock.reservationCost.toFixed(2)}
+                </Pricing>
+              </Box>
               <Button
                 onClick={handleClickBook}
                 disabled={edit}
-                maw={410}
+                maw={375}
                 sx={{
                   height: 45,
-                  padding: '12px 24px',
                   width: '100%',
                   textAlign: 'center',
                   fontSize: '18px',
                 }}
               >
-                Request lounge booking
+                Continue to payment
               </Button>
             </Box>
           </Stack>

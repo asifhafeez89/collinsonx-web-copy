@@ -12,6 +12,7 @@ import { getTheme } from '@lib/index';
 import { UserProvider } from '@collinsonx/utils/lib/userContext';
 import { useApollo, ApolloProvider } from '@collinsonx/utils/apollo';
 import SessionManager from '@components/SessionManager';
+import { Analytics } from '@vercel/analytics/react';
 
 if (typeof window !== 'undefined') {
   // we only want to call this init function on the frontend, so
@@ -68,6 +69,7 @@ export default function MyApp({ Component, pageProps }: Props) {
                 withNormalizeCSS
               >
                 {getLayout(<Component {...pageProps} />)}
+                <Analytics />
               </MantineProvider>
             </SessionManager>
           </ApolloProvider>

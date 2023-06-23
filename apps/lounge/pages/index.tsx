@@ -40,11 +40,19 @@ export default function Landing() {
           {loading && <CardSkeleton />}
           <LoungeError error={error} />
           {data?.searchExperiences?.map((lounge) => {
-            const { name, location, id, images, openingHours } = lounge;
+            const { loungeName, location, id, images, openingHours, pricing } =
+              lounge;
             return (
               <Card
-                title={name || '-'}
-                subtitle={location || '-'}
+                title={loungeName || '-'}
+                subtitle={location?.city || '-'}
+                price={{
+                  currency: 'GBP',
+                  reservationCost: pricing?.reservationCost as number,
+                  lifestyleXReservationCharge:
+                    pricing?.lifestyleXReservationCharge as number,
+                }}
+                openingHours={openingHours as string | undefined}
                 ImageComponent={
                   <LoungeImage
                     width={309}

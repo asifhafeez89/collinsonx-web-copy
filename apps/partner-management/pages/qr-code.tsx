@@ -1,35 +1,38 @@
 import React from 'react';
 import Layout from '@components/Layout';
-import { useRouter } from 'next/router';
-import { Button, Box, Stack, MediaQuery } from '@collinsonx/design-system/core';
+import { Button, Stack, MediaQuery, Box } from '@collinsonx/design-system/core';
 import Link from 'next/link';
 import { QRCodeSVG } from 'qrcode.react';
+import getSelectedLounge from 'lib/getSelectedLounge';
 
 export default function QRCode() {
-  const router = useRouter();
-
-  const loungeId = '1234567890';
-  const loungeName = 'Lounge Name';
+  const loungeData = getSelectedLounge();
 
   const print = () => {
     window.print();
   };
 
-  return (
+  return loungeData ? (
     <Stack p={32} align="center">
-      <h1>Welcome to {loungeName}</h1>
+      <h1>Welcome to {loungeData.loungeName}</h1>
       <h2>For walk-up check-ins please scan the code below</h2>
       <QRCodeSVG
-        value={`https://collinsonx-web-main-alpha.vercel.app//${loungeId}`}
+        value={`cergea://BookLounge?loungeId=${loungeData.id}`}
         size={400}
       />
+      <Stack p={0} align="center" mt={32} spacing={0}>
+        <p style={{ width: '100%' }}>
+          Please ensure you scan the code using the Scan QR button{' '}
+          <span style={{ fontWeight: 'bold' }}>in the app</span>.
+        </p>
+      </Stack>
       <MediaQuery
         query="print"
         styles={{
           display: 'none',
         }}
       >
-        <Stack p={0} align="center" mt={32} spacing={0}>
+        <Stack p={0} align="center" mt={64} spacing={0}>
           <Button onClick={print} w="50%">
             Print
           </Button>
@@ -45,6 +48,10 @@ export default function QRCode() {
         </Stack>
       </MediaQuery>
     </Stack>
+  ) : (
+    <Box py={40} px={32}>
+      Experience could not be found
+    </Box>
   );
 }
 
