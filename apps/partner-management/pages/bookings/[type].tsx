@@ -184,6 +184,11 @@ export default function Bookings({ type }: BookingsProps) {
     { loading: loadingConfirm, error: confirmError, data: dataConfirm },
   ] = useMutation(confirmBookingMutation);
 
+  const [
+    cancelBooking,
+    { loading: loadingCancel, error: cancelError, data: dataCancel },
+  ] = useMutation(cancelBookingMutation);
+
   const isSuperUser = useMemo(
     () => (session.accessTokenPayload ?? {}).userType === 'SUPER_USER',
     [session]
@@ -201,20 +206,23 @@ export default function Bookings({ type }: BookingsProps) {
     [declineBooking, refetchBookings]
   );
 
-  const handleClickCheckIn = (id: string) => {
-    setBookingId(id);
-  };
+  const handleClickCheckIn = useCallback(
+    (id: string) => {
+      setBookingId(id);
+    },
+    [setBookingId]
+  );
 
   const handleClickCancel = useCallback(
     (id: string) => {
-      confirmBooking({
+      cancelBooking({
         variables: { cancelBookingId: id },
         onCompleted: () => {
           refetchBookings();
         },
       });
     },
-    [confirmBooking, refetchBookings]
+    [cancelBooking, refetchBookings]
   );
 
   const handleClickConfirm = useCallback(
@@ -498,6 +506,7 @@ export default function Bookings({ type }: BookingsProps) {
         <Error error={checkinError} />
         <Error error={confirmError} />
         <Error error={declineError} />
+        <Error error={cancelError} />
         {errorBookings && isErrorValid(errorBookings) && (
           <Error error={errorBookings} />
         )}
