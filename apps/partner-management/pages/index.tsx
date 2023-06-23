@@ -17,7 +17,7 @@ import OverviewSeparator from '@components/OverviewSeparator';
 import Link from 'next/link';
 import { useQuery } from '@collinsonx/utils/apollo';
 import getBookings from '@collinsonx/utils/queries/getBookings';
-import { Booking, BookingStatus } from '@collinsonx/utils';
+import { Booking, BookingStatus, Experience } from '@collinsonx/utils';
 import { getBookingsByType } from '@collinsonx/utils/lib';
 import { useEffect, useMemo, useState } from 'react';
 import { isErrorValid } from 'lib';
@@ -123,7 +123,11 @@ export default function Overview() {
   const experiencesFiltered = experiences.map((experience) => {
     return {
       value: experience.id,
-      label: experience.loungeCode + ' ' + experience.loungeName,
+      label: `${experience.loungeName}${
+        experience.location?.terminal
+          ? ' - ' + experience.location?.terminal
+          : ''
+      }`,
     };
   });
 
@@ -146,12 +150,17 @@ export default function Overview() {
               {/* TODO: Add a check if the user is a superUser  */}
 
               <SelectInput
+                styles={{
+                  root: {
+                    width: '400px',
+                  },
+                }}
                 data={experiencesFiltered}
                 onChange={async (id) => {
                   setSelectExperience(id ?? '');
                 }}
                 value={experienceId.toString()}
-              ></SelectInput>
+              />
             </Stack>
           )}
 
