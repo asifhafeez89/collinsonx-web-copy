@@ -14,6 +14,10 @@ class Login {
 
     // password will be changed and added to secret variables at a later date
     await this._loginPage.enterPassword('CollinsonXPartner123');
+
+    await this._loginPage.saveMyPassword();
+
+    await this._loginPage.login();
   };
 
   // logic for new user is not currently used - will be added after current user tests
