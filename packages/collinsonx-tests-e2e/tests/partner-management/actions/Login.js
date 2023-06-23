@@ -5,8 +5,28 @@ class Login {
     this._loginPage = new LoginPage(page);
   };
 
-  async login() {
-    this.loginPage.goto('http://localhost:3010');
+  async asNewUser(boolean) {
+    await this.loginPage.goToURL();
+
+    const partner = this.setUser(boolean);
+
+    await this.loginPage.enterEmailAddress(partner);
+
+    // password will be changed and added to secret variables at a later date
+    await this.loginPage.enterPassword('CollinsonXPartner123');
+  };
+
+  // logic for new user is not currently used - will be added after current user tests
+  setUser(isNewPartner) {
+    let partner;
+
+    if (isNewPartner == true) {
+      user = uuidv4();
+    } else {
+      partner = 'automationuserpartner';
+    }
+
+    return partner;
   };
 
 };
