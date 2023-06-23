@@ -125,7 +125,7 @@ export default function Bookings({ type }: BookingsProps) {
     } else if (data?.getBookings) {
       result = {
         getBookings: data.getBookings.filter((item) => {
-          const bookedFrom = dayjsTz(item.bookedFrom).format('DD-MM-YYYY');
+          const bookedFrom = dayjsTz(item.bookedFrom).format('YYYY-MM-DD');
 
           const datetime = date.toString().split(' ');
 
@@ -267,7 +267,7 @@ export default function Bookings({ type }: BookingsProps) {
     date
   ) => {
     const dateStr =
-      date !== null ? dayjsTz(date as Date).format('DD-MM-YYYY') : '';
+      date !== null ? dayjsTz(date as Date).format('YYYY-MM-DD') : '';
     router.replace(
       {
         query: { ...router.query, date: dateStr },
@@ -439,7 +439,11 @@ export default function Bookings({ type }: BookingsProps) {
               placeholder="Pick a date"
               clearable
               valueFormat={DATE_FORMAT}
-              defaultValue={date ? new Date(date as string) : undefined}
+              defaultValue={
+                router.isReady && date
+                  ? new Date((date as string) + 'T00:00:00')
+                  : undefined
+              }
               onChange={handleChangeDate}
             />
           </Flex>
