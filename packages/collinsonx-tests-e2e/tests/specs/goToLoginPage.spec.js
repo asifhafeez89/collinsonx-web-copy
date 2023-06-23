@@ -1,7 +1,7 @@
 const { test } = require('@playwright/test');
 import Login from '../actions/Login';
 import SignUp from '../actions/SignUp';
-import ExpectUserToBeLoggedIn from '../questions/HasTheUserLoggedIn';
+import ExpectUserToBeLoggedIn from '../assertions/HasTheUserLoggedIn';
 
 test('login as a new partner', async ({ page }) => {
   //Given
