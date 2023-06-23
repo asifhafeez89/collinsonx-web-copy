@@ -1,5 +1,5 @@
 import { LogoCergea } from '@collinsonx/design-system/assets/logo';
-import { MediaQuery } from '@collinsonx/design-system/core';
+import { Box, Flex, MediaQuery } from '@collinsonx/design-system/core';
 import Link from 'next/link';
 
 interface LayoutProps {
@@ -33,12 +33,22 @@ export default function Layout({
             width: '100%',
             padding: '1rem',
             textAlign: 'center',
+            position: 'relative',
             margin: 0,
           }}
         >
-          <Link href="/">
-            <LogoCergea />
-          </Link>
+          <Flex justify="center" align="center">
+            <Box w="100%">
+              <Link href="/">
+                <LogoCergea />
+              </Link>
+            </Box>
+            <Flex justify="end">
+              <Box>
+                <Link href="/auth/signout">Logout</Link>
+              </Box>
+            </Flex>
+          </Flex>
         </header>
       </MediaQuery>
       {subHeader && (
