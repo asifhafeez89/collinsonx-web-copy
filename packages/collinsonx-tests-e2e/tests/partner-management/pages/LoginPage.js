@@ -4,23 +4,23 @@ class LoginPage {
   };
 
   enterEmailAddress(email) {
-    this.page.getByTestId('email').fill(email);
+    return this.page.getByTestId('email').fill(email);
   };
 
   enterPassword(password) {
-    this.page.getByTestId('password').fill(password);
+    return this.page.getByTestId('password').fill(password);
   };
 
   saveMyPassword() {
-    this.page.getByTestId('saveMyPassword').click();
+    return this.page.getByTestId('saveMyPassword').click();
   };
 
   login() {
-    this.page.getByTestId('login').click();
+    return this.page.getByTestId('login').click();
   };
 
   goToURL() {
-    this.page.goto('http://localhost:3010');
+    return this.page.goto('http://localhost:3010');
   };
 
 };
