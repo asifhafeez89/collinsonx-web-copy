@@ -1,17 +1,17 @@
 import LoginPage from '../pages/LoginPage';
 
-class HasTheUserLoggedIn {
-  constructor(expect) {
-    this._loginPage = new LoginPage(expect);
-  }
+const { expect } = require('@playwright/test');
 
-  verifyTitle() {
-    return this._loginPage.getCollinsonTitle();
-  }
+class ExpectUserToBeLoggedIn {
+  constructor(page) {
+    this._loginPage = new LoginPage(page);
+  };
 
-  async seeHomePageTitle() {
-    await this._loginPage.getHomePageTitle();
-  }
-}
+  async ask() {
+    const title = this._loginPage.getHomePageTitle();
+    
+    await expect(title).toBeVisible();
+  };
+};
 
-module.exports = HasTheUserLoggedIn;
+module.exports = ExpectUserToBeLoggedIn;
