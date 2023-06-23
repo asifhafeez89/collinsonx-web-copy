@@ -6,14 +6,14 @@ class Login {
   };
 
   async asNewUser(boolean) {
-    await this.loginPage.goToURL();
+    await this._loginPage.goToURL();
 
     const email = this.setUser(boolean);
 
-    await this.loginPage.enterEmailAddress(email);
+    await this._loginPage.enterEmailAddress(email);
 
     // password will be changed and added to secret variables at a later date
-    await this.loginPage.enterPassword('CollinsonXPartner123');
+    await this._loginPage.enterPassword('CollinsonXPartner123');
   };
 
   // logic for new user is not currently used - will be added after current user tests
