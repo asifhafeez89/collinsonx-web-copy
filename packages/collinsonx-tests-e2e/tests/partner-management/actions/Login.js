@@ -30,7 +30,7 @@ class Login {
       partner = 'automationuserpartner';
     }
 
-    return `${partner}@clearroute.testinator.com`;
+    return `${partner}@clearrouteteam.testinator.com`;
   };
 
 };
