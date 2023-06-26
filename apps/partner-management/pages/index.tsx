@@ -157,7 +157,7 @@ export default function Overview() {
           <Grid>
             <Grid.Col lg={6}>
               <Stack spacing={24}>
-                <OverviewCard title="Pending requests" variant="pending">
+                <OverviewCard title="Pending requests" variant="pending" data-testid="pendingRequestsTitle">
                   <>
                     {!loading && !bookings[Pending]?.length ? (
                       'You have no pending requests'
@@ -185,6 +185,7 @@ export default function Overview() {
                 <OverviewCard
                   title="Declined / cancelled bookings"
                   variant="declined"
+                  data-testid="cancelledBookingsTitle"
                 >
                   {!loading && !bookingsDeclined ? (
                     'You have no cancelled bookings'
@@ -212,7 +213,7 @@ export default function Overview() {
             </Grid.Col>
             <Grid.Col lg={6}>
               <Stack spacing={24}>
-                <OverviewCard title="Confirmed bookings" variant="confirmed">
+                <OverviewCard title="Confirmed bookings" variant="confirmed" data-testid="confirmedBookingsTitle">
                   <>
                     {!loading && !bookingsConfirmed ? (
                       'You have no confirmed bookings'
@@ -266,6 +267,7 @@ export default function Overview() {
                   title="Walkup QR Code"
                   variant="qrcodewalkup"
                   icon={<FourSquares />}
+                  data-testid="walkupQRcodeTitle"
                 >
                   <Flex gap={72}>
                     <OverviewMetric
