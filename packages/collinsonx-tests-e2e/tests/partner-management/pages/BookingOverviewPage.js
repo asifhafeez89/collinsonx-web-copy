@@ -3,6 +3,10 @@ class BookingOverviewPage {
       this.page = page;
     };
 
+    getPageTitle() {
+        return this.page.getByTestId('bookingOverviewTitle').click();
+    };
+
     viewAllPendingRequests() {
         return this.page.getByTestId('viewAllPendingRequests').click();
     };
