@@ -11,6 +11,7 @@ import { frontendConfig } from 'config/frontendConfig';
 import AuthWrapper from '@components/AuthWrapper';
 import theme from '../theme';
 import { PARTNER_ID } from 'config';
+import { ExperienceProvider } from 'hooks/experience';
 
 type Page<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactElement) => JSX.Element;
@@ -62,15 +63,17 @@ export default function MyApp({ Component, pageProps }: Props) {
       <ApolloProvider client={apolloClient}>
         <SuperTokensWrapper>
           <AuthWrapper>
-            <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
-              {envLabel !== '' && (
-                <div style={{ position: 'absolute', background: 'yellow' }}>
-                  {envLabel}
-                </div>
-              )}
-              {getLayout(<Component {...pageProps} />)}
-              <Analytics />
-            </MantineProvider>
+            <ExperienceProvider>
+              <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
+                {envLabel !== '' && (
+                  <div style={{ position: 'absolute', background: 'yellow' }}>
+                    {envLabel}
+                  </div>
+                )}
+                {getLayout(<Component {...pageProps} />)}
+                <Analytics />
+              </MantineProvider>
+            </ExperienceProvider>
           </AuthWrapper>
         </SuperTokensWrapper>
       </ApolloProvider>
