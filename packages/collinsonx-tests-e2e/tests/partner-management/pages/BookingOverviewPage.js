@@ -4,7 +4,23 @@ class BookingOverviewPage {
     };
 
     getPageTitle() {
-        return this.page.getByTestId('bookingOverviewTitle').click();
+        return this.page.getByTestId('bookingOverviewTitle');
+    };
+
+    getPendingRequestsTitle() {
+        return this.page.getByTestId('pendingRequestsTitle');
+    };
+
+    getConfirmedBookingsTitle() {
+        return this.page.getByTestId('confirmedBookingsTitle');
+    };
+
+    getWalkupQRcodeTitle() {
+        return this.page.getByTestId('walkupQRcodeTitle');
+    };
+
+    getCancelledBookingsTitleTitle() {
+        return this.page.getByTestId('cancelledBookingsTitle');
     };
 
     viewAllPendingRequests() {
