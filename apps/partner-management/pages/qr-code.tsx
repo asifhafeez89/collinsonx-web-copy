@@ -4,20 +4,21 @@ import { Button, Stack, MediaQuery, Box } from '@collinsonx/design-system/core';
 import Link from 'next/link';
 import { QRCodeSVG } from 'qrcode.react';
 import getSelectedLounge from 'lib/getSelectedLounge';
+import useExperience from 'hooks/experience';
 
 export default function QRCode() {
-  const loungeData = getSelectedLounge();
+  const { experience, setExperience } = useExperience();
 
   const print = () => {
     window.print();
   };
 
-  return loungeData ? (
+  return experience ? (
     <Stack p={32} align="center">
-      <h1>Welcome to {loungeData.loungeName}</h1>
+      <h1>Welcome to {experience.loungeName}</h1>
       <h2>For walk-up check-ins please scan the code below</h2>
       <QRCodeSVG
-        value={`cergea://BookLounge?loungeId=${loungeData.id}`}
+        value={`cergea://BookLounge?loungeId=${experience.id}`}
         size={400}
       />
       <Stack p={0} align="center" mt={32} spacing={0}>

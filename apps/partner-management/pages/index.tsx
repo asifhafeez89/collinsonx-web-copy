@@ -28,47 +28,23 @@ import SelectInput from '@collinsonx/design-system/components/inputselect';
 import experiences from '../data/experiences.json';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import { FourSquares } from '@collinsonx/design-system/assets/icons';
+import { useExperience } from 'hooks/experience';
 
 const { Pending, Confirmed, Declined, Cancelled, CheckedIn } = BookingStatus;
 
 export default function Overview() {
   const session: any = useSessionContext();
 
-  const loungeData = getSelectedLounge();
+  const { experience, setExperience } = useExperience();
+
   const [lastUpdate, setLastUpdate] = useState<String>();
-
-  const [experienceId, setSelectExperience] = useState<String>(
-    experiences[0].id
-  );
-
-  useEffect(() => {
-    const selectedExperienceId = localStorage.getItem(SELECTED_LOUNGE);
-
-    if (selectedExperienceId) {
-      setSelectExperience(JSON.parse(selectedExperienceId).id);
-    }
-  }, []);
-
-  useEffect(() => {
-    const selectedLounge = experiences.filter((lounge) => {
-      return lounge.id === experienceId;
-    });
-
-    if (session.accessTokenPayload.userType === 'SUPER_USER') {
-      localStorage.setItem(SELECTED_LOUNGE, JSON.stringify(selectedLounge[0]));
-    }
-  }, [experienceId, session.accessTokenPayload.userType]);
 
   const { loading, error, data } = useQuery<{ getBookings: Booking[] }>(
     getBookings,
     {
       variables: {
-        experienceId:
-          session.accessTokenPayload.userType !== 'SUPER_USER'
-            ? loungeData?.id
-            : experienceId,
+        experienceId: experience.id,
       },
-      skip: !loungeData?.id,
       pollInterval: 300000,
       fetchPolicy: 'network-only',
       notifyOnNetworkStatusChange: true,
@@ -111,7 +87,7 @@ export default function Overview() {
   }, [bookings]);
 
   if (session.accessTokenPayload.userType !== 'SUPER_USER') {
-    if (!loungeData) {
+    if (!experience) {
       return (
         <Box py={40} px={32}>
           Experience could not be found
@@ -142,7 +118,7 @@ export default function Overview() {
           </Title>
           {session.accessTokenPayload.userType !== 'SUPER_USER' && (
             <Text mb={33} size={18}>
-              {getLoungeTitle(loungeData)}
+              {getLoungeTitle(experience)}
             </Text>
           )}
           {session.accessTokenPayload.userType === 'SUPER_USER' && (
@@ -157,9 +133,18 @@ export default function Overview() {
                 }}
                 data={experiencesFiltered}
                 onChange={async (id) => {
-                  setSelectExperience(id ?? '');
+                  const newExperience = experiences.filter(
+                    (item) => item.id === id
+                  )[0]! as Experience;
+
+                  setExperience(newExperience);
+
+                  localStorage.setItem(
+                    SELECTED_LOUNGE,
+                    JSON.stringify(newExperience)
+                  );
                 }}
-                value={experienceId.toString()}
+                value={experience.id}
               />
             </Stack>
           )}
