@@ -16,9 +16,8 @@ import { useRouter } from 'next/router';
 import { bookingConfig } from 'config/booking';
 import { isErrorValid } from 'lib';
 import { useMemo, useState } from 'react';
-import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
-import getSelectedLounge from 'lib/getSelectedLounge';
 import getLoungeTitle from 'lib/getLoungeTitle';
+import useExperience from 'hooks/experience';
 
 interface DetailsProps {
   id: string;
@@ -29,7 +28,7 @@ const { Pending } = BookingStatus;
 export default function Details({ id }: DetailsProps) {
   const router = useRouter();
 
-  const loungeData = getSelectedLounge();
+  const { experience, setExperience } = useExperience();
 
   const {
     loading,
@@ -37,9 +36,9 @@ export default function Details({ id }: DetailsProps) {
     data,
   } = useQuery<{ getBookings: Booking[] }>(getBookings, {
     variables: {
-      experienceId: loungeData?.id,
+      experienceId: experience?.id,
     },
-    skip: !loungeData?.id,
+    skip: !experience?.id,
     pollInterval: 300000,
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
@@ -88,7 +87,7 @@ export default function Details({ id }: DetailsProps) {
     });
   };
 
-  if (!loungeData) {
+  if (!experience) {
     <Box py={40} px={32}>
       Experience could not be found
     </Box>;
@@ -119,7 +118,7 @@ export default function Details({ id }: DetailsProps) {
                 Customer booking details{' '}
                 {lastUpdate && `Last updated ${lastUpdate}`}
               </Title>
-              <Text size={18}>{getLoungeTitle(loungeData)}</Text>
+              <Text size={18}>{getLoungeTitle(experience)}</Text>
             </Box>
             <Error error={declineError} />
             <Error error={confirmError} />

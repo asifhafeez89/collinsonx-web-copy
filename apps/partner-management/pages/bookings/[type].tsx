@@ -46,13 +46,13 @@ import { PageType } from 'config/booking';
 import { GetServerSideProps } from 'next';
 import { expandDate, isErrorValid } from 'lib';
 import { useRouter } from 'next/router';
-import getSelectedLounge from 'lib/getSelectedLounge';
 import getLoungeTitle from 'lib/getLoungeTitle';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import { AppSession } from 'types/Session';
 import DetailsConfirmedActions from '@components/Details/DetailsConfirmedActions';
 import { Modal } from '@collinsonx/design-system/core';
 import Details from '@components/Details';
+import useExperience from 'hooks/experience';
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
 
@@ -84,7 +84,7 @@ export interface BookingsProps {
 }
 
 export default function Bookings({ type }: BookingsProps) {
-  const loungeData = getSelectedLounge();
+  const { experience, setExperience } = useExperience();
 
   let session = useSessionContext() as AppSession;
 
@@ -95,9 +95,9 @@ export default function Bookings({ type }: BookingsProps) {
     refetch: refetchBookings,
   } = useQuery<{ getBookings: Booking[] }>(getBookings, {
     variables: {
-      experienceId: loungeData?.id,
+      experienceId: experience?.id,
     },
-    skip: !loungeData?.id,
+    skip: !experience?.id,
     pollInterval: 300000,
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
@@ -456,7 +456,7 @@ export default function Bookings({ type }: BookingsProps) {
             <Title size={32}>{title}</Title>
           </Flex>
           <Text mb={33} pl={44} size={18}>
-            {getLoungeTitle(loungeData)}
+            {getLoungeTitle(experience)}
           </Text>
         </Box>
         <Flex justify="space-between" align="center">

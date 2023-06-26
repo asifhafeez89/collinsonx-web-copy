@@ -61,26 +61,6 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
     },
   });
 
-  const { loading, error, data } = useQuery<{
-    getPartnerByID: Partner;
-  }>(getPartnerByID, {
-    variables: { getPartnerById: session.userId },
-    skip: !session.userId,
-    onCompleted: (data) => {
-      if (data?.getPartnerByID) {
-        const { experiences } = data.getPartnerByID;
-        if (experiences.length) {
-          if (session.accessTokenPayload.userType !== 'SUPER_USER') {
-            localStorage.setItem(
-              SELECTED_LOUNGE,
-              JSON.stringify(experiences[0])
-            );
-          }
-        }
-      }
-    },
-  });
-
   useEffect(() => {
     const isLoggedIn =
       session.loading === false && session.doesSessionExist === true;
@@ -99,21 +79,8 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
     }
   }, [session]);
 
-  return loading ? (
-    <Flex
-      justify="center"
-      align="center"
-      h="100%"
-      w="100%"
-      style={{ position: 'absolute', top: 0, bottom: 0 }}
-    >
-      <LoaderLifestyleX />
-    </Flex>
-  ) : show ? (
-    <>
-      <Error error={error} />
-      {children}
-    </>
+  return show ? (
+    <>{children}</>
   ) : (
     <div
       style={{
