@@ -33,13 +33,11 @@ export default function MyApp({ Component, pageProps }: Props) {
   const [envLabel, setEnvLabel] = useState<String>('');
 
   useEffect(() => {
-    if (
-      window.location.href.includes('https://partner-uat.test.lifestyle-x.io/')
-    ) {
+    if (window.location.href.includes('https://partner-uat.test.cergea.com/')) {
       setEnvLabel('uat');
     }
 
-    if (window.location.href.includes('https://partner.test.lifestyle-x.io/')) {
+    if (window.location.href.includes('https://partner.test.cergea.com/')) {
       setEnvLabel('test');
     }
 
