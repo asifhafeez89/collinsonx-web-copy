@@ -90,8 +90,8 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
     }
 
     if (isLoggedIn || checkIsAllowed(router.pathname)) {
-      if (userId && typeof userId === 'string') {
-        localStorage.setItem(PARTNER_ID, userId);
+      if (session.userId && typeof session.userId === 'string') {
+        localStorage.setItem(PARTNER_ID, session.userId);
       }
       setShow(true);
     } else {
