@@ -86,6 +86,7 @@ export interface BookingsProps {
 export default function Bookings({ type }: BookingsProps) {
   const loungeData = getSelectedLounge();
 
+  console.log('lougneData ', loungeData);
   let session = useSessionContext() as AppSession;
 
   const {

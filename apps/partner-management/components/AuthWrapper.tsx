@@ -54,7 +54,7 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
   const [isLoggedIn, userId, logout] = useAuth({
     onExpiredSession: () => {
       if (window && !checkIsAllowed(window.location.pathname)) {
-        clearLocalStorage();
+        //clearLocalStorage();
         window.location.href = `/auth/login/?redirectUrl=${
           window.location.pathname + window.location.search
         }`;
