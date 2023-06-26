@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { MailinatorClient } from 'mailinator-client';
 import { GetInboxRequest } from 'mailinator-client';
 import { GetMessageRequest } from 'mailinator-client';
-import Helper from '../../Helpers/Helper';
+import Helper from '../../helpers/Helper';
 
 class Login {
   constructor(page) {
