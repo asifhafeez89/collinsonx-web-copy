@@ -8,6 +8,7 @@ export interface OverviewCardProps {
   variant: PageType | 'qrcodewalkup';
   children?: JSX.Element | string;
   icon?: ReactNode;
+  datatestid?: string;
 }
 
 const Container = styled.div`
@@ -23,6 +24,7 @@ const OverviewCard = ({
   variant,
   children,
   icon,
+  datatestid
 }: OverviewCardProps) => {
   return (
     <Container>
@@ -32,7 +34,7 @@ const OverviewCard = ({
           backgroundColor: bookingPageConfig[variant].color,
         }}
       >
-        <Title color="#25262B" size={20} w={600}>
+        <Title color="#25262B" size={20} w={600} data-testid={datatestid}>
           <span style={{ fontSize: '11px', marginRight: '10px' }}>{icon}</span>
           {title}
         </Title>
