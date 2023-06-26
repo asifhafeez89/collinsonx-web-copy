@@ -51,7 +51,7 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
     }
   }, [session]);
 
-  const [isLoggedIn, userId, logout] = useAuth({
+  const [userId, logout] = useAuth({
     onExpiredSession: () => {
       if (window && !checkIsAllowed(window.location.pathname)) {
         window.location.href = `/auth/login/?redirectUrl=${
@@ -64,8 +64,8 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
   const { loading, error, data } = useQuery<{
     getPartnerByID: Partner;
   }>(getPartnerByID, {
-    variables: { getPartnerById: userId },
-    skip: !userId,
+    variables: { getPartnerById: session.userId },
+    skip: !session.userId,
     onCompleted: (data) => {
       if (data?.getPartnerByID) {
         const { experiences } = data.getPartnerByID;
@@ -82,7 +82,10 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
   });
 
   useEffect(() => {
-    if (!isLoggedIn) {
+    const isLoggedIn =
+      session.loading === false && session.doesSessionExist === true;
+
+    if (!session.loading === false && session.doesSessinExist === false) {
       clearLocalStorage();
     }
 
@@ -94,7 +97,7 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
     } else {
       setShow(false);
     }
-  }, [isLoggedIn]);
+  }, [session]);
 
   return loading ? (
     <Flex
