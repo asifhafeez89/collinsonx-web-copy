@@ -8,7 +8,7 @@ class Login {
   async asNewUser(boolean) {
     await this._loginPage.goToURL();
 
-    const email = this.setUser(boolean);
+    const email = this.setPartnerEmail(boolean);
 
     await this._loginPage.enterEmailAddress(email);
 
@@ -21,11 +21,11 @@ class Login {
   };
 
   // logic for new user is not currently used - will be added after current user tests
-  setUser(isNewPartner) {
+  setPartnerEmail(isNewPartner) {
     let partner;
 
     if (isNewPartner == true) {
-      user = uuidv4();
+      partner = uuidv4();
     } else {
       partner = 'automationuserpartner';
     }
