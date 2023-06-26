@@ -12,7 +12,6 @@ import suExperiences from '../data/experiences.json';
 
 import ErrorComponent from '@components/Error';
 
-// define the props
 type ExperienceState = {
   experience: Experience;
   setExperience(experience: Experience): void;
@@ -21,10 +20,8 @@ type ExperienceState = {
 const ExperienceContext = createContext<ExperienceState | null>(null);
 
 export const useExperience = (): ExperienceState => {
-  // 2. use the useContext hook
   const context = useContext(ExperienceContext);
 
-  // 3. Make sure it's not null!
   if (!context) {
     throw new Error('Please use ExperienceProvider in parent component');
   }
@@ -45,7 +42,6 @@ export const ExperienceProvider = (props: PropsWithChildren) => {
     variables: { getPartnerById: session.userId },
     skip: !session.userId,
     onCompleted: (data) => {
-      // lounge in localStorage
       if (localStorage.getItem(SELECTED_LOUNGE)) {
         setExperience(JSON.parse(localStorage.getItem(SELECTED_LOUNGE)!));
       } else if (data?.getPartnerByID) {
