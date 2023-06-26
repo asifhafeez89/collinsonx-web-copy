@@ -136,7 +136,7 @@ export default function Overview() {
             Booking overview
           </Title>
           {session.accessTokenPayload.userType !== 'SUPER_USER' && (
-            <Text mb={33} size={18}>
+            <Text mb={33} size={18} data-testid="loungeTitle">
               {getLoungeTitle(loungeData)}
             </Text>
           )}
