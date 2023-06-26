@@ -7,6 +7,10 @@ class BookingOverviewPage {
         return this.page.getByTestId('bookingOverviewTitle');
     };
 
+    getLoungeTitle() {
+        return this.page.getByTestId('loungeTitle');
+    };
+
     getPendingRequestsTitle() {
         return this.page.getByTestId('pendingRequestsTitle');
     };

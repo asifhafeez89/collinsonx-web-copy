@@ -13,8 +13,10 @@ class ExpectPartnerToBeLoggedIn {
     const cancelledBookingsTitle = this._bookingOverviewPage.getCancelledBookingsTitleTitle();
     const confirmedBookingsTitle = this._bookingOverviewPage.getConfirmedBookingsTitle();
     const walkupQRcodeTitle = this._bookingOverviewPage.getWalkupQRcodeTitle();
+    const loungeTitle = this._bookingOverviewPage.getLoungeTitle();
     
     await expect(title).toBeVisible();
+    await expect(loungeTitle).toBeVisible();
     await expect(pendingRequestsTitle).toBeVisible();
     await expect(cancelledBookingsTitle).toBeVisible();
     await expect(confirmedBookingsTitle).toBeVisible();
