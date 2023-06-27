@@ -1,5 +1,7 @@
 import { Button, Flex, Text, Portal } from '@collinsonx/design-system/core';
 import styled from '@collinsonx/design-system/styled';
+import { CONSENT } from 'config';
+import { useEffect, useState } from 'react';
 
 const Container = styled.div`
   height: 92px;
@@ -14,9 +16,19 @@ const Container = styled.div`
   z-index: 2147483601;
 `;
 const CookieBanner = () => {
-  const handleClickAccept = () => {};
-  const handleClickDecline = () => {};
-  return (
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    setShow(localStorage.getItem(CONSENT) === null);
+  }, []);
+  const handleClickAccept = () => {
+    localStorage.setItem(CONSENT, 'accept');
+    setShow(false);
+  };
+  const handleClickDecline = () => {
+    localStorage.setItem(CONSENT, 'decline');
+    setShow(false);
+  };
+  return show ? (
     <Portal>
       <Container>
         <Flex h="100%" gap={48} align="center" justify="center">
@@ -31,7 +43,7 @@ const CookieBanner = () => {
         </Flex>
       </Container>
     </Portal>
-  );
+  ) : null;
 };
 
 export default CookieBanner;
