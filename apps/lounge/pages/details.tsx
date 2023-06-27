@@ -20,6 +20,7 @@ import { MapPin } from '@collinsonx/design-system/assets/icons';
 import LoungeImage from '@components/LoungeImage';
 import Layout from '@components/Layout';
 import LoungeError from '@components/LoungeError';
+import styled from '@collinsonx/design-system/styled';
 
 export default function BookLounge() {
   const router = useRouter();
@@ -41,6 +42,16 @@ export default function BookLounge() {
       query: { id: lounge?.id },
     });
   };
+
+  const Pricing = styled.p`
+    padding-right: 24px;
+    :before {
+      content: '£';
+      font-size: 14px;
+      vertical-align: 10px;
+      position: 'relative';
+    }
+  `;
 
   return (
     <Box maw={375} m="auto">
@@ -132,7 +143,7 @@ export default function BookLounge() {
                   subtitleColor="#20C997"
                   style={{ fontSize: '26px' }}
                 >
-                  {lounge?.name ?? '-'}
+                  {lounge?.loungeName ?? '-'}
                 </Heading>
 
                 <Box my={24}>
@@ -145,7 +156,7 @@ export default function BookLounge() {
                       <Stack spacing={8}>
                         <Flex align="center" gap={10}>
                           <MapPin width={16} color="#0C8599" />
-                          <Text fw={600}>{lounge?.location ?? '-'}</Text>
+                          <Text fw={600}>{lounge?.location?.city ?? '-'}</Text>
                         </Flex>
                       </Stack>
                     </Box>
@@ -217,6 +228,32 @@ export default function BookLounge() {
                         backgroundColor: '#FFF',
                       }}
                     >
+                      <Box>
+                        <Text
+                          style={{
+                            fontSize: '12px',
+                            margin: '0',
+                            padding: '0',
+                          }}
+                        >
+                          From
+                        </Text>
+                        {lounge.pricing !== undefined && (
+                          <Pricing
+                            className="currency"
+                            style={{
+                              fontSize: '28px',
+                              fontWeight: '700',
+                              height: '28px',
+                              marginTop: '-10px',
+                              marginBottom: '4px',
+                              color: '#0C8599',
+                            }}
+                          >
+                            {lounge.pricing?.reservationCost?.toFixed(2)}
+                          </Pricing>
+                        )}
+                      </Box>
                       <Button
                         onClick={handleBook}
                         maw={375}
@@ -227,7 +264,7 @@ export default function BookLounge() {
                           fontSize: '18px',
                         }}
                       >
-                        Request lounge booking
+                        Request booking
                       </Button>
                     </Box>
                   </>

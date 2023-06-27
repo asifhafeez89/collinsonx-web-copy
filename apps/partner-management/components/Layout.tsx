@@ -1,5 +1,5 @@
-import { LogoExperienceX } from '@collinsonx/design-system/assets/logo';
-import { MediaQuery } from '@collinsonx/design-system/core';
+import { LogoCergea } from '@collinsonx/design-system/assets/logo';
+import { Box, Flex, MediaQuery } from '@collinsonx/design-system/core';
 import Link from 'next/link';
 
 interface LayoutProps {
@@ -28,16 +28,27 @@ export default function Layout({
       >
         <header
           style={{
-            backgroundColor: '#112132',
+            backgroundColor: '#E6E6E8',
+            borderBottom: '1px solid #A8A8AA',
             width: '100%',
             padding: '1rem',
             textAlign: 'center',
+            position: 'relative',
             margin: 0,
           }}
         >
-          <Link href="/">
-            <LogoExperienceX />
-          </Link>
+          <Flex justify="center" align="center">
+            <Box w="100%">
+              <Link href="/">
+                <LogoCergea />
+              </Link>
+            </Box>
+            <Flex justify="end">
+              <Box>
+                <Link href="/auth/signout">Logout</Link>
+              </Box>
+            </Flex>
+          </Flex>
         </header>
       </MediaQuery>
       {subHeader && (

@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import LayoutPaddingLess from '@components/LayoutPaddingLess';
 import { Container, UnstyledButton } from '@collinsonx/design-system/core';
-import { Stack, Flex, Skeleton, Grid } from '@collinsonx/design-system/core';
+import {
+  Stack,
+  Flex,
+  Skeleton,
+  Grid,
+  Text,
+} from '@collinsonx/design-system/core';
 
 import { Card } from '@collinsonx/design-system';
 import { useForm } from '@collinsonx/design-system/form';
@@ -13,9 +19,9 @@ import { useQuery } from '@collinsonx/utils/apollo';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
 import LoungeImage from '@components/LoungeImage';
 import { useRouter } from 'next/router';
-import dayjs from 'dayjs';
 import LoungeError from '@components/LoungeError';
 import FilterPane from '@components/FilterPane/FilterPane';
+import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
 
 export default function Search() {
   const router = useRouter();
@@ -43,7 +49,7 @@ export default function Search() {
   });
 
   const flightNumber = router.query?.flightnumber as string;
-  const flightDate = dayjs(router.query?.dateofflight as string).format(
+  const flightDate = dayjsTz(router.query?.dateofflight as string).format(
     'DD/MM/YYYY'
   );
 
@@ -139,14 +145,20 @@ export default function Search() {
             <LoungeError error={error} />
             {loading && <Skeleton visible={loading} h={390}></Skeleton>}
             {data?.searchExperiences?.map((lounge) => {
-              const { name, location, id, images } = lounge;
+              const { loungeName, location, id, images, openingHours } = lounge;
               return (
                 <Card
-                  title={name || '-'}
-                  subtitle={location || '-'}
+                  title={loungeName || '-'}
+                  subtitle={location?.city || '-'}
+                  openingHours={openingHours as string}
                   ImageComponent={
                     <LoungeImage width={309} height={126} images={images} />
                   }
+                  price={{
+                    currency: 'USD',
+                    reservationCost: 20.5,
+                    lifestyleXReservationCharge: 17.5,
+                  }}
                   handleClick={() => {
                     goToLoungeDetails(lounge);
                   }}

@@ -5,6 +5,7 @@ const getBookingByID = gql`
     getBookingByID(id: $getBookingById) {
       bookedFrom
       bookedTo
+      metadata
       consumer {
         fullName
         id
@@ -19,8 +20,7 @@ const getBookingByID = gql`
           url
           width
         }
-        location
-        name
+        loungeName
         openingHours
       }
       status

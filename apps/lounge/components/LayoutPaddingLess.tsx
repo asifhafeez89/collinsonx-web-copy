@@ -1,6 +1,6 @@
 import { Box } from '@collinsonx/design-system/core';
 import { Header } from '@collinsonx/design-system';
-import { LogoExperienceX } from '@collinsonx/design-system/assets/logo';
+import { LogoCergea } from '@collinsonx/design-system/assets/logo';
 
 import { Cart, Chat, Home } from '@collinsonx/design-system/assets/icons';
 import useAuth from '@collinsonx/utils/hooks/useAuth';
@@ -26,7 +26,7 @@ export default function LayoutPaddingLess({ children, maw }: LayoutProps) {
     <Box maw={maw} m="auto">
       <Header
         onClickSignout={handleLogout}
-        logo={<LogoExperienceX />}
+        logo={<LogoCergea />}
         items={[
           {
             label: 'Home',

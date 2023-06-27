@@ -43,16 +43,29 @@ const httpLink = new HttpLink({
 
 // a temporary hack to add x-user-id only when
 // user is consumer for demo purposes
-const authLink = (isConsumer: boolean) =>
+const authLink = (
+  isConsumer: boolean,
+  namespace: string = 'EXPERIENCE_X_CONSUMER_ID'
+) =>
   setContext((_, { headers, ...context }) => {
     const userId =
       typeof window !== 'undefined' && isConsumer
-        ? localStorage.getItem('EXPERIENCE_X_CONSUMER_ID')
+        ? localStorage.getItem(namespace)
+        : null;
+    const userType =
+      typeof window !== 'undefined' && isConsumer
+        ? localStorage.getItem('USER_TYPE')
+        : null;
+    const userMeta =
+      typeof window !== 'undefined' && isConsumer
+        ? localStorage.getItem('USER_META')
         : null;
     return {
       headers: {
         ...headers,
         ...(userId ? { 'x-user-id': userId } : {}),
+        ...(userType ? { 'x-user-type': userType } : {}),
+        ...(userMeta ? { 'x-user-metadata': userMeta } : {}),
       },
       ...context,
     };
@@ -78,17 +91,26 @@ export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
 let apolloClient: ApolloClient<any>;
 
-function createApolloClient(isConsumer: boolean) {
+function createApolloClient(isConsumer: boolean, namespace?: string) {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    link: ApolloLink.from([errorLink, authLink(isConsumer), httpLink]),
+    link: ApolloLink.from([
+      errorLink,
+      authLink(isConsumer, namespace),
+      httpLink,
+    ]),
     cache: new InMemoryCache(),
     defaultOptions,
   });
 }
 
-export function initializeApollo(initialState = null, isConsumer: boolean) {
-  const _apolloClient = apolloClient ?? createApolloClient(isConsumer);
+export function initializeApollo(
+  initialState = null,
+  isConsumer: boolean,
+  namespace?: string
+) {
+  const _apolloClient =
+    apolloClient ?? createApolloClient(isConsumer, namespace);
 
   // If your page has Next.js data fetching methods that use Apollo Client, the initial state
   // gets hydrated here
@@ -126,10 +148,14 @@ export function addApolloState(client: any, pageProps: any) {
   return pageProps;
 }
 
-export function useApollo(pageProps: any, isConsumer: boolean) {
+export function useApollo(
+  pageProps: any,
+  isConsumer: boolean,
+  namespace?: string
+) {
   const state = pageProps[APOLLO_STATE_PROP_NAME];
   const store = useMemo(
-    () => initializeApollo(state, isConsumer),
+    () => initializeApollo(state, isConsumer, namespace),
     [state, isConsumer]
   );
   return store;

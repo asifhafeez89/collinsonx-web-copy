@@ -1,4 +1,5 @@
 import { Skeleton, Stack, Text } from '@collinsonx/design-system/core';
+import { ReactNode } from 'react';
 
 export interface OverviewMetricProps {
   label: string;

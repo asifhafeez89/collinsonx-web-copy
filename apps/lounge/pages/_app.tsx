@@ -3,7 +3,7 @@ import { NextPage } from 'next';
 import { ComponentType, ReactElement } from 'react';
 import { Global, MantineProvider } from '@collinsonx/design-system/core';
 import Head from 'next/head';
-
+import { Analytics } from '@vercel/analytics/react';
 import { experienceX } from '@collinsonx/design-system/themes';
 
 import { Be_Vietnam_Pro } from 'next/font/google';
@@ -70,6 +70,7 @@ export default function MyApp({ Component, pageProps }: Props) {
                 })}
               />
               {getLayout(<Component {...pageProps} />)}
+              <Analytics />
             </MantineProvider>
           </SysAuth>
         </SuperTokensWrapper>
