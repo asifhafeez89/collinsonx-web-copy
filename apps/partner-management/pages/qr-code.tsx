@@ -14,8 +14,8 @@ export default function QRCode() {
 
   return experience ? (
     <Stack p={32} align="center">
-      <h1>Welcome to {experience.loungeName}</h1>
       <LogoCergea />
+      <h1>Welcome to {experience.loungeName}</h1>
       <h2>For walk-up check-ins please scan the code below</h2>
       <QRCodeSVG
         value={`cergea://BookLounge?loungeId=${experience.id}`}
