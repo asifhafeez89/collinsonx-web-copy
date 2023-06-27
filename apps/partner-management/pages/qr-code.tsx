@@ -1,10 +1,9 @@
 import React from 'react';
-import Layout from '@components/Layout';
 import { Button, Stack, MediaQuery, Box } from '@collinsonx/design-system/core';
 import Link from 'next/link';
 import { QRCodeSVG } from 'qrcode.react';
-import getSelectedLounge from 'lib/getSelectedLounge';
 import useExperience from 'hooks/experience';
+import { LogoCergea } from '@collinsonx/design-system/assets/logo';
 
 export default function QRCode() {
   const { experience, setExperience } = useExperience();
@@ -15,6 +14,7 @@ export default function QRCode() {
 
   return experience ? (
     <Stack p={32} align="center">
+      <LogoCergea />
       <h1>Welcome to {experience.loungeName}</h1>
       <h2>For walk-up check-ins please scan the code below</h2>
       <QRCodeSVG
@@ -55,7 +55,3 @@ export default function QRCode() {
     </Box>
   );
 }
-
-QRCode.getLayout = (page: JSX.Element) => {
-  return <Layout hasPadding={false}>{page}</Layout>;
-};
