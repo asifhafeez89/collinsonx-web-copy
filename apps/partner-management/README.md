@@ -12,6 +12,6 @@ The app should be up and running at http://localhost:3010.
 
 | Branch | Domain                                                                      |
 | ------ | --------------------------------------------------------------------------- |
-| dev    | (partner.test.lifestyle-x.io)[https://partner.test.lifestyle-x.io/]         |
-| uat    | (partner-uat.test.lifestyle-x.io)[https://partner.uat.lifestyle-x.io/] |
-| main   | (partner.lifestyle-x.io)[http://partner.lifestyle-x.io/]                    |
+| dev    | (partner.test.cergea.com)[https://partner.test.cergea.com/]         |
+| uat    | (partner-uat.test.cergea.com)[https://partner.uat.lifestyle-x.io/] |
+| main   | (partner.cergea.com)[http://partner.lifestyle-x.io/]                    |
