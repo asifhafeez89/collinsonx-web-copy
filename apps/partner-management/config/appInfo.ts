@@ -15,3 +15,5 @@ export const appInfo: AppInfoUserInput = {
   apiDomain,
   websiteDomain: domain,
 };
+
+console.log('appInfo ', appInfo);
