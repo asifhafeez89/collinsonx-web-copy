@@ -57,6 +57,10 @@ export default function Overview() {
     }
   );
 
+  console.log(loungeData?.id);
+  console.log(experienceId);
+  console.log(data);
+
   const bookings = useMemo<Record<BookingStatus, Booking[]>>(() => {
     return getBookingsByType(data?.getBookings ?? []) as Record<
       BookingStatus,
