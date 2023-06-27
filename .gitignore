@@ -46,3 +46,4 @@ gitleaks-report.json
 
 # Playwright
 playwright-report
+test-results
