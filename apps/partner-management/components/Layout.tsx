@@ -43,11 +43,14 @@ export default function Layout({
                 <LogoCergea />
               </Link>
             </Box>
-            <Flex justify="end">
-              <Box>
-                <Link href="/auth/signout">Logout</Link>
-              </Box>
-            </Flex>
+            <Box
+              sx={{
+                position: 'absolute',
+                right: '40px',
+              }}
+            >
+              <Link href="/auth/signout">Logout</Link>
+            </Box>
           </Flex>
         </header>
       </MediaQuery>
