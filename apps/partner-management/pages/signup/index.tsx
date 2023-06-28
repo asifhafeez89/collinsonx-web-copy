@@ -235,22 +235,25 @@ export default function Signup() {
             Create an account
           </Text>
           <form onSubmit={form.onSubmit(handleSignup)}>
-            <TextInput label="Email" mt={40} {...form.getInputProps('email')} />
+            <TextInput label="Email" mt={40} {...form.getInputProps('email')} data-testid="signUpEmail" />
             <PasswordInput
               label="Password"
               mt={32}
               {...form.getInputProps('password')}
+              data-testid="signUpPassword"
             />
             <PasswordInput
               mt={16}
               label="Confirm password"
               {...form.getInputProps('passwordConfirm')}
+              data-testid="signUpConfirmPassword"
             />
             <Button
               mt={40}
               type="submit"
               fullWidth
               disabled={acceptInvitationLoading}
+              data-testid="signUpSubmit"
             >
               Submit
             </Button>

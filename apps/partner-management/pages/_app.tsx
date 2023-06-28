@@ -12,6 +12,7 @@ import AuthWrapper from '@components/AuthWrapper';
 import theme from '../theme';
 import { PARTNER_ID } from 'config';
 import { ExperienceProvider } from 'hooks/experience';
+import CookieBanner from '@components/CookieBanner';
 
 type Page<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactElement) => JSX.Element;
@@ -71,6 +72,7 @@ export default function MyApp({ Component, pageProps }: Props) {
                   </div>
                 )}
                 {getLayout(<Component {...pageProps} />)}
+                <CookieBanner />
                 <Analytics />
               </MantineProvider>
             </ExperienceProvider>
