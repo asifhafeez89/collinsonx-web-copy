@@ -3,6 +3,14 @@ class LoginPage {
     this.page = page;
   };
 
+  async login(email, password) {
+    await this.goToURL();
+    await this.enterEmailAddress(email);
+    await this.enterPassword(password)
+    await this.saveMyPassword();
+    await this.clickLogin();
+  };
+
   enterEmailAddress(email) {
     return this.page.getByTestId('email').fill(email);
   };
@@ -15,7 +23,7 @@ class LoginPage {
     return this.page.getByTestId('saveMyPassword').click();
   };
 
-  login() {
+  clickLogin() {
     return this.page.getByTestId('login').click();
   };
 

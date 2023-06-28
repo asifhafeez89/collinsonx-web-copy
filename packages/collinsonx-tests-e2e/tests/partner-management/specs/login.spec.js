@@ -1,20 +1,21 @@
 const { test } = require('@playwright/test');
-import Login from '../actions/Login';
+import LoginPage from '../pages/LoginPage';
 import SignUp from '../actions/SignUp';
 import ExpectPartnerToBeLoggedIn from '../assertions/ExpectPartnerToBeLoggedIn';
 import { v4 as uuidv4 } from 'uuid';
 import Helper from '../../helpers/Helper';
 
-test('login as a current partner', async ({ page }) => {
-    const login = new Login(page);
+test.only('login as a current partner', async ({ page }) => {
+    const loginPage = new LoginPage(page);
     const expectPartnerToBeLoggedIn = new ExpectPartnerToBeLoggedIn(page);
 
     // password will be changed and added to secret variables at a later date
     const partner = "automationuserpartner";
     const email = `${partner}@clearrouteteam.testinator.com`;
-    const password = "CollinsonXPartner123";
+    // CollinsonXPartner123 for uat, lowercase p for test domains
+    const password = "CollinsonXpartner123";
 
-    await login.login(email, password);
+    await loginPage.login(email, password);
 
     await expectPartnerToBeLoggedIn.ask();
 });
