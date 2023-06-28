@@ -1,15 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import useAuth from '../hooks/useAuth';
-import { PARTNER_ID, SELECTED_LOUNGE, USER_TYPE, USER_META } from 'config';
-import { Partner } from '@collinsonx/utils';
-import { useQuery } from '@collinsonx/utils/apollo';
-import getPartnerByID from '@collinsonx/utils/queries/getPartnerByID';
-import Error from '@components/Error';
-import { Flex } from '@collinsonx/design-system/core';
-import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
+import { PARTNER_ID, USER_TYPE, USER_META } from 'config';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
-import experiences from '../data/experiences.json';
 
 interface AuthWrapperProps {
   children: React.ReactNode;
@@ -25,14 +18,7 @@ const domain =
 const checkIsAllowed = (pathname: string) => {
   return pathname.startsWith('/auth') || pathname.startsWith('/signup');
 };
-const clearLocalStorage = () => {
-  if (typeof window !== undefined) {
-    localStorage.removeItem(PARTNER_ID);
-    localStorage.removeItem(SELECTED_LOUNGE);
-    localStorage.removeItem(USER_TYPE);
-    localStorage.removeItem(USER_META);
-  }
-};
+
 const SysAuth = ({ children }: AuthWrapperProps) => {
   const router = useRouter();
   const [show, setShow] = useState(false);
@@ -65,10 +51,6 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
     const isLoggedIn =
       session.loading === false && session.doesSessionExist === true;
 
-    if (!session.loading === false && session.doesSessinExist === false) {
-      clearLocalStorage();
-    }
-
     if (isLoggedIn || checkIsAllowed(router.pathname)) {
       if (session.userId && typeof session.userId === 'string') {
         localStorage.setItem(PARTNER_ID, session.userId);
@@ -77,6 +59,7 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
     } else {
       setShow(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);
 
   return show ? (
