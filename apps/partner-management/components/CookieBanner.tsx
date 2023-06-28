@@ -1,6 +1,13 @@
-import { Button, Flex, Text, Portal } from '@collinsonx/design-system/core';
+import {
+  Button,
+  Flex,
+  Text,
+  Portal,
+  Anchor,
+} from '@collinsonx/design-system/core';
 import styled from '@collinsonx/design-system/styled';
 import { CONSENT } from 'config';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 const Container = styled.div`
@@ -18,14 +25,10 @@ const Container = styled.div`
 const CookieBanner = () => {
   const [show, setShow] = useState(false);
   useEffect(() => {
-    setShow(localStorage.getItem(CONSENT) === null);
+    setShow(localStorage.getItem(CONSENT) === 'accept');
   }, []);
   const handleClickAccept = () => {
     localStorage.setItem(CONSENT, 'accept');
-    setShow(false);
-  };
-  const handleClickDecline = () => {
-    localStorage.setItem(CONSENT, 'decline');
     setShow(false);
   };
   return show ? (
@@ -33,13 +36,30 @@ const CookieBanner = () => {
       <Container>
         <Flex h="100%" gap={48} align="center" justify="center">
           <Text size={18}>
-            This website uses cookies to ensure you get the best experience.
-            Learn more
+            This website uses cookies to ensure you get the best experience.{' '}
+            <Anchor
+              component={Link}
+              href="#"
+              sx={{
+                fontWeight: 400,
+                color: 'rgba(0, 0, 0, 1)',
+              }}
+            >
+              Learn more
+            </Anchor>
           </Text>
-          <Flex gap={16}>
-            <Button onClick={handleClickAccept}>Accept</Button>
-            <Button onClick={handleClickDecline}>Decline</Button>
-          </Flex>
+          <Button
+            onClick={handleClickAccept}
+            px={32}
+            fw={700}
+            sx={{
+              background: 'rgba(109, 75, 246, 1)',
+              fontSize: 18,
+              height: 48,
+            }}
+          >
+            Accept and close
+          </Button>
         </Flex>
       </Container>
     </Portal>
