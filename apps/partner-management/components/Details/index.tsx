@@ -14,8 +14,7 @@ export interface DetailsProps {
 const Details = ({ children, booking, loading = false }: DetailsProps) => {
   const flightTime = useMemo(() => {
     try {
-      const result =
-        dayjsTz(booking?.metadata?.flightTime).format('HH:mm') ?? '-';
+      const result = dayjsTz(booking?.metadata?.flightTime).format('HH:mm');
       return result;
     } catch (e) {
       return booking?.metadata?.flightTime ?? '-';
