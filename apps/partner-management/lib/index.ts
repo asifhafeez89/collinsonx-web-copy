@@ -1,6 +1,7 @@
 import { Booking } from '@collinsonx/utils';
 import { ApolloError } from '@collinsonx/utils/apollo';
 import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
+import { PARTNER_ID, SELECTED_LOUNGE, USER_META, USER_TYPE } from 'config';
 
 export type Variant = 'pending' | 'confirmed' | 'declined' | 'qrcodewalkup';
 
@@ -40,5 +41,14 @@ export const expandDate = (data?: { getBookings: Booking[] }) => {
         arrivalTime: dayjsTz(row.bookedFrom).format('HH:mm'),
       })),
     };
+  }
+};
+
+export const clearLocalStorage = () => {
+  if (typeof window !== undefined) {
+    localStorage.removeItem(PARTNER_ID);
+    localStorage.removeItem(SELECTED_LOUNGE);
+    localStorage.removeItem(USER_TYPE);
+    localStorage.removeItem(USER_META);
   }
 };
