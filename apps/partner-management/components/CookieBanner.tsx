@@ -25,7 +25,7 @@ const Container = styled.div`
 const CookieBanner = () => {
   const [show, setShow] = useState(false);
   useEffect(() => {
-    setShow(localStorage.getItem(CONSENT) === 'accept');
+    setShow(localStorage.getItem(CONSENT) !== 'accept');
   }, []);
   const handleClickAccept = () => {
     localStorage.setItem(CONSENT, 'accept');
