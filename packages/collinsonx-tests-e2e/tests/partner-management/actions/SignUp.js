@@ -7,10 +7,6 @@ import dotenv from 'dotenv'
 dotenv.config({ path: `.env.tests` })
 
 class SignUp {
-    constructor(page) {
-        this._signUpPage = new SignUpPage(page);
-    };
-
     async receiveRegistrationEmail(email) {
     
       // TODO: apiURL to be dynamic with the environment being tested
@@ -77,14 +73,6 @@ class SignUp {
     
       return formattedURL;
     };
-    
-    async fillInDetails(email, password) {
-      await this._signUpPage.enterEmailAddress(email);
-      await this._signUpPage.enterPassword(password);
-      await this._signUpPage.confirmPassword(password);
-      await this._signupPage.submit();
-    };
-
 };
 
 module.exports = SignUp;

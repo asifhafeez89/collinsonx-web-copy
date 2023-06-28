@@ -1,5 +1,6 @@
 const { test } = require('@playwright/test');
 import LoginPage from '../pages/LoginPage';
+import SignUpPage from '../pages/SignUpPagePage';
 import SignUp from '../actions/SignUp';
 import ExpectPartnerToBeLoggedIn from '../assertions/ExpectPartnerToBeLoggedIn';
 import { v4 as uuidv4 } from 'uuid';
@@ -22,20 +23,21 @@ test.only('login as a current partner', async ({ page }) => {
 
 test('login as a new partner', async ({ page }) => {
     const expectPartnerToBeLoggedIn = new ExpectPartnerToBeLoggedIn(page);
-    let helper = new Helper(page);
-    const signup = new SignUp(page);
+    const helper = new Helper(page);
+    const signUp = new SignUp();
+    const signUpPage = new SignUpPage;
     const login = new Login(page);
 
     const partner = uuidv4();
     const email = `${partner}@clearrouteteam.testinator.com`;
     const password = uuidv4();
 
-    signup.receiveRegistrationEmail(email);
+    signUp.receiveRegistrationEmail(email);
     await helper.wait(5000);
-    const signupURL = await signup.getRegistrationURL(partner);
-    await page.goto(signupURL);
+    const signUpURL = await signUp.getRegistrationURL(partner);
+    await page.goto(signUpURL);
     
-    await signup.fillInDetails();
+    await signUpPage.fillInDetails(email, password);
     
     login.login(email, password);
 

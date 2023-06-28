@@ -2,6 +2,13 @@ class SignUpPage {
     constructor(page) {
       this.page = page;
     };
+
+    async fillInDetails(email, password) {
+      await this.enterEmailAddress(email);
+      await this.enterPassword(password);
+      await this.confirmPassword(password);
+      await this.submit();
+    };
   
     enterEmailAddress(email) {
       return this.page.getByTestId('signUpEmail').fill(email);
