@@ -5,7 +5,7 @@ import ExpectPartnerToBeLoggedIn from '../assertions/ExpectPartnerToBeLoggedIn';
 import { v4 as uuidv4 } from 'uuid';
 import Helper from '../../helpers/Helper';
 
-test.only('login as a current partner', async ({ page }) => {
+test('login as a current partner', async ({ page }) => {
     const login = new Login(page);
     const expectPartnerToBeLoggedIn = new ExpectPartnerToBeLoggedIn(page);
 
@@ -25,7 +25,6 @@ test('login as a new partner', async ({ page }) => {
     const signup = new SignUp(page);
     const login = new Login(page);
 
-    // need to use email and password in login class and signup class
     const partner = uuidv4();
     const email = `${partner}@clearrouteteam.testinator.com`;
     const password = uuidv4();
