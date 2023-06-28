@@ -14,7 +14,7 @@ class SignUp {
     async receiveRegistrationEmail(email) {
     
       // TODO: apiURL to be dynamic with the environment being tested
-      const apiUrl = "https://gateway-api.uat.lifestyle-x.io/graphql"
+      const apiUrl = "https://gateway-api.test.cergea.com/graphql"
 
       const mutation = `
         mutation mutation($invitationInput: InvitationInput) {
@@ -33,7 +33,7 @@ class SignUp {
             inviteeEmail: email,
             userType: "PARTNER",
             experience: {
-              id: process.env.X_USER_ID 
+              id: process.env.EXPERIENCE_ID
             }
           }
       };
