@@ -39,7 +39,7 @@ const CookieBanner = () => {
             This website uses cookies to ensure you get the best experience.{' '}
             <Anchor
               component={Link}
-              href="#"
+              href="https://www.prioritypass.com/privacy-notice"
               sx={{
                 fontWeight: 400,
                 color: 'rgba(0, 0, 0, 1)',
