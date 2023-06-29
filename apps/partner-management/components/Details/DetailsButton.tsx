@@ -3,8 +3,9 @@ import { Button, ButtonProps } from '@collinsonx/design-system/core';
 export interface DetailsButtonProps extends Omit<ButtonProps, 'variant'> {
   variant: 'success' | 'danger';
   onClick?: () => void;
+  datatestid?: string;
 }
-const DetailsButton = ({ variant, ...props }: DetailsButtonProps) => {
+const DetailsButton = ({ variant, ...props, datatestid }: DetailsButtonProps) => {
   return (
     <Button
       sx={({ colors }) => {
@@ -20,6 +21,7 @@ const DetailsButton = ({ variant, ...props }: DetailsButtonProps) => {
       }}
       variant="default"
       {...props}
+      data-testid={datatestid}
     />
   );
 };
