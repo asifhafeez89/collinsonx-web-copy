@@ -25,8 +25,6 @@ import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifesty
 import isInvitationTokenValid from '@collinsonx/utils/queries/isInvitationTokenValid';
 import { signIn } from 'supertokens-auth-react/recipe/emailpassword';
 import { getUserId } from 'supertokens-auth-react/recipe/session';
-import getPartnerByID from '@collinsonx/utils/queries/getPartnerByID';
-import { SELECTED_LOUNGE } from 'config';
 
 export interface FormValues {
   email: string;
@@ -95,24 +93,7 @@ export default function Signup() {
     data: loungeData,
   } = useQuery<{ getExperienceByID: Experience }>(getExperienceByID, {
     variables: { getExperienceById: payload?.experienceID },
-    skip:
-      !payload?.experienceID || !!userId || payload?.userType === 'SUPER_USER',
-  });
-
-  const { loading, error, data } = useQuery<{
-    getPartnerByID: Partner;
-  }>(getPartnerByID, {
-    variables: { getPartnerById: userId },
-    skip: !userId || payload?.userType === 'SUPER_USER',
-    onCompleted: (data) => {
-      if (data?.getPartnerByID) {
-        const { experiences } = data.getPartnerByID;
-        if (experiences.length) {
-          localStorage.setItem(SELECTED_LOUNGE, JSON.stringify(experiences[0]));
-        }
-        router.push('/');
-      }
-    },
+    skip: !payload?.experienceID || payload?.userType === 'SUPER_USER',
   });
 
   const [
@@ -157,11 +138,7 @@ export default function Signup() {
             })
               .then(() => {
                 getUserId().then((userId) => {
-                  if (payload?.userType === 'SUPER_USER') {
-                    router.push('/');
-                  } else {
-                    setUserId(userId);
-                  }
+                  router.push('/');
                 });
               })
               .catch((err) => {
@@ -235,7 +212,12 @@ export default function Signup() {
             Create an account
           </Text>
           <form onSubmit={form.onSubmit(handleSignup)}>
-            <TextInput label="Email" mt={40} {...form.getInputProps('email')} data-testid="signUpEmail" />
+            <TextInput
+              label="Email"
+              mt={40}
+              {...form.getInputProps('email')}
+              data-testid="signUpEmail"
+            />
             <PasswordInput
               label="Password"
               mt={32}
