@@ -145,7 +145,7 @@ export default function Bookings({ type }: BookingsProps) {
               .toLowerCase()
               .includes((search ?? '').trim().toLowerCase()) ||
             (item.id ?? '').toLowerCase() ===
-              (search ?? '').trim().toLowerCase()
+            (search ?? '').trim().toLowerCase()
           );
         }),
       };
@@ -254,9 +254,8 @@ export default function Bookings({ type }: BookingsProps) {
       return '';
     }
     if (date) {
-      return `${
-        type.slice(0, 1).toUpperCase() + type.slice(1)
-      } - arriving ${date}`;
+      return `${type.slice(0, 1).toUpperCase() + type.slice(1)
+        } - arriving ${date}`;
     }
     return `All ${type.slice(0, 1).toUpperCase() + type.slice(1)}`;
   }, [date, type]);
@@ -355,6 +354,7 @@ export default function Bookings({ type }: BookingsProps) {
                     <Button
                       variant="default"
                       onClick={() => handleClickCancel(id)}
+                      data-testid="cancelCustomerBooking"
                     >
                       Cancel
                     </Button>
@@ -365,6 +365,7 @@ export default function Bookings({ type }: BookingsProps) {
                       fullWidth
                       onClick={() => handleClickCheckIn(id)}
                       variant="default"
+                      data-testid="checkCustomerIn"
                     >
                       Check customer in
                     </Button>
