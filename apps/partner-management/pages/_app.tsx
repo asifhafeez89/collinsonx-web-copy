@@ -35,13 +35,11 @@ export default function MyApp({ Component, pageProps }: Props) {
   const [envLabel, setEnvLabel] = useState<String>('');
 
   useEffect(() => {
-    if (
-      window.location.href.includes('https://partner-uat.test.lifestyle-x.io/')
-    ) {
+    if (window.location.href.includes('https://partner.uat.cergea.com/')) {
       setEnvLabel('uat');
     }
 
-    if (window.location.href.includes('https://partner.test.lifestyle-x.io/')) {
+    if (window.location.href.includes('https://partner.test.cergea.com/')) {
       setEnvLabel('test');
     }
 
@@ -54,7 +52,7 @@ export default function MyApp({ Component, pageProps }: Props) {
   return (
     <>
       <Head>
-        <title>CollinsonX</title>
+        <title>Cergea</title>
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
