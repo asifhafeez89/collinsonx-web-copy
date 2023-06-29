@@ -230,7 +230,7 @@ export default function Overview() {
                             <Button
                               variant="default"
                               sx={{ width: 'fit-content' }}
-                              data-testid="viewAllConfirmed"
+                              data-testid="viewTodaysBookings"
                             >
                               Today&apos;s bookings
                             </Button>
@@ -248,6 +248,7 @@ export default function Overview() {
                             <Button
                               variant="default"
                               sx={{ width: 'fit-content' }}
+                              data-testid="viewAllConfirmed"
                             >
                               View all
                             </Button>
