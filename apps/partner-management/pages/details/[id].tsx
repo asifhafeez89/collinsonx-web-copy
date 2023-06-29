@@ -18,6 +18,7 @@ import { isErrorValid } from 'lib';
 import { useMemo, useState } from 'react';
 import getLoungeTitle from 'lib/getLoungeTitle';
 import useExperience from 'hooks/experience';
+import PageTitle from '@components/PageTitle';
 
 interface DetailsProps {
   id: string;
@@ -95,14 +96,18 @@ export default function Details({ id }: DetailsProps) {
 
   if (!loading && !fetchError && !booking) {
     return (
-      <Box py={40} px={32}>
-        Booking could not be found
-      </Box>
+      <>
+        <PageTitle title="Customer booking details" />
+        <Box py={40} px={32}>
+          Booking could not be found
+        </Box>
+      </>
     );
   }
 
   return (
     <>
+      <PageTitle title="Customer booking details" />
       {status && (
         <Notification type={status}>
           {bookingConfig[status].description}
