@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import useAuth from '../hooks/useAuth';
-import { PARTNER_ID, USER_TYPE, USER_META } from 'config';
+import { PARTNER_ID, USER_TYPE, USER_META, SELECTED_LOUNGE } from 'config';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 
 interface AuthWrapperProps {
@@ -48,6 +48,15 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
   });
 
   useEffect(() => {
+    if (session.loading === false && session.doesSessionExist === false) {
+      if (typeof window !== undefined) {
+        localStorage.removeItem(PARTNER_ID);
+        localStorage.removeItem(SELECTED_LOUNGE);
+        localStorage.removeItem(USER_TYPE);
+        localStorage.removeItem(USER_META);
+      }
+    }
+
     const isLoggedIn =
       session.loading === false && session.doesSessionExist === true;
 
