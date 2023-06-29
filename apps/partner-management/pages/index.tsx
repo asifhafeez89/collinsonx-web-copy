@@ -51,8 +51,8 @@ export default function Overview() {
       onCompleted: () =>
         setLastUpdate(
           new Date().toLocaleDateString() +
-            ' ' +
-            new Date().toLocaleTimeString()
+          ' ' +
+          new Date().toLocaleTimeString()
         ),
     }
   );
@@ -99,11 +99,10 @@ export default function Overview() {
   const experiencesFiltered = experiences.map((experience) => {
     return {
       value: experience.id,
-      label: `${experience.loungeName}${
-        experience.location?.terminal
-          ? ' - ' + experience.location?.terminal
-          : ''
-      }`,
+      label: `${experience.loungeName}${experience.location?.terminal
+        ? ' - ' + experience.location?.terminal
+        : ''
+        }`,
     };
   });
 
@@ -152,7 +151,7 @@ export default function Overview() {
           <Grid>
             <Grid.Col lg={6}>
               <Stack spacing={24}>
-                <OverviewCard title="Pending requests" variant="pending">
+                <OverviewCard title="Pending requests" variant="pending" datatestid="pendingRequestsTitle">
                   <>
                     {!loading && !bookings[Pending]?.length ? (
                       'You have no pending requests'
@@ -179,6 +178,7 @@ export default function Overview() {
                 <OverviewCard
                   title="Declined / cancelled bookings"
                   variant="declined"
+                  datatestid="cancelledBookingsTitle"
                 >
                   {!loading && !bookingsDeclined ? (
                     'You have no cancelled bookings'
@@ -205,7 +205,7 @@ export default function Overview() {
             </Grid.Col>
             <Grid.Col lg={6}>
               <Stack spacing={24}>
-                <OverviewCard title="Confirmed bookings" variant="confirmed">
+                <OverviewCard title="Confirmed bookings" variant="confirmed" datatestid="confirmedBookingsTitle">
                   <>
                     {!loading && !bookingsConfirmed ? (
                       'You have no confirmed bookings'
@@ -258,6 +258,7 @@ export default function Overview() {
                   title="Walk-up QR code"
                   variant="qrcodewalkup"
                   icon={<FourSquares />}
+                  datatestid="walkupQRcodeTitle"
                 >
                   <Skeleton visible={loading}>
                     <Stack spacing={82}>
