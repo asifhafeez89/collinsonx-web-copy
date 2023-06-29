@@ -11,7 +11,7 @@ import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import suExperiences from '../data/experiences.json';
 
 import ErrorComponent from '@components/Error';
-import { setItem } from '@collinsonx/utils/lib';
+import { getItem, setItem } from '@collinsonx/utils/lib';
 
 type ExperienceState = {
   experience: Experience;
@@ -43,7 +43,9 @@ export const ExperienceProvider = (props: PropsWithChildren) => {
     variables: { getPartnerById: session.userId },
     skip: !session.userId,
     onCompleted: (data) => {
-      if (data?.getPartnerByID) {
+      if (getItem(SELECTED_LOUNGE)) {
+        setExperience(JSON.parse(getItem(SELECTED_LOUNGE)!));
+      } else if (data?.getPartnerByID) {
         const { experiences } = data.getPartnerByID;
         if (
           experiences.length &&
