@@ -51,12 +51,10 @@ export const ExperienceProvider = (props: PropsWithChildren) => {
           experiences.length &&
           session.accessTokenPayload.userType === 'PARTNER'
         ) {
-          console.log('setting up partner');
           setItem(SELECTED_LOUNGE, JSON.stringify(experiences[0]));
           setExperience(experiences[0]);
         }
       } else if (session.accessTokenPayload.userType === 'SUPER_USER') {
-        console.log('setting up su');
         setItem(SELECTED_LOUNGE, JSON.stringify(suExperiences[0]));
         setExperience(suExperiences[0] as Experience);
       }
