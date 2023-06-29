@@ -112,11 +112,11 @@ export default function Overview() {
         <Error error={error} />
       ) : (
         <>
-          <Title mb={8} size={32}>
+          <Title mb={8} size={32} data-testid="bookingOverviewTitle">
             Booking overview
           </Title>
           {session.accessTokenPayload.userType !== 'SUPER_USER' && (
-            <Text mb={33} size={18}>
+            <Text mb={33} size={18} data-testid="loungeTitle">
               {getLoungeTitle(experience)}
             </Text>
           )}
