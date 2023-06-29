@@ -23,6 +23,7 @@ export default function QRCode() {
         <QRCodeSVG
           value={`cergea://BookLounge?loungeId=${experience.id}`}
           size={400}
+          data-testid="QRcode"
         />
         <Stack p={0} align="center" mt={32} spacing={0}>
           <p style={{ width: '100%' }}>
@@ -37,7 +38,7 @@ export default function QRCode() {
           }}
         >
           <Stack p={0} align="center" mt={64} spacing={0}>
-            <Button onClick={print} w="50%">
+            <Button onClick={print} w="50%" data-testid="printQRcode">
               Print
             </Button>
             <p style={{ width: '50%' }}>
@@ -45,7 +46,7 @@ export default function QRCode() {
               the headers & footers.
             </p>
             <Link href="/" style={{ textDecoration: 'none', width: '50%' }}>
-              <Button variant="default" fullWidth>
+              <Button variant="default" fullWidth data-testid="backToDashboard">
                 Back to dashboard
               </Button>
             </Link>
