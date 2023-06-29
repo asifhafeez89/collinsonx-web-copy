@@ -1,12 +1,12 @@
 const { test } = require('@playwright/test');
 import LoginPage from '../pages/LoginPage';
-import SignUpPage from '../pages/SignUpPagePage';
+import SignUpPage from '../pages/SignUpPage';
 import SignUp from '../actions/SignUp';
 import ExpectPartnerToBeLoggedIn from '../assertions/ExpectPartnerToBeLoggedIn';
 import { v4 as uuidv4 } from 'uuid';
 import Helper from '../../helpers/Helper';
 
-test.only('login as a current partner', async ({ page }) => {
+test('login as a current partner', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const expectPartnerToBeLoggedIn = new ExpectPartnerToBeLoggedIn(page);
 
