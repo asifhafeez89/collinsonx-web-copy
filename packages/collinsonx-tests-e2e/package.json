@@ -14,7 +14,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.31.1",
+    "@playwright/test": "^1.32.3",
     "axios": "^1.4.0",
     "mailinator-client": "^1.0.3"
   }
