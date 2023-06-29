@@ -101,8 +101,8 @@ export default function Overview() {
     return {
       value: experience.id,
       label: `${experience.loungeName}${experience.location?.terminal
-          ? ' - ' + experience.location?.terminal
-          : ''
+        ? ' - ' + experience.location?.terminal
+        : ''
         }`,
     };
   });
@@ -153,165 +153,157 @@ export default function Overview() {
           <Grid>
             <Grid.Col lg={6}>
               <Stack spacing={24}>
-<<<<<<< HEAD
-  <OverviewCard title="Pending requests" variant="pending" datatestid="pendingRequestsTitle">
-=======
                 <OverviewCard
-      title="Pending requests"
-      variant="pending"
-      datatestid="pendingRequestsTitle"
-    >
->>>>>>> origin
-      <>
-        {!loading && !bookings[Pending]?.length ? (
-          'You have no pending requests'
-        ) : (
-          <Flex gap={72} maw="40%">
-            <OverviewMetric
-              loading={loading}
-              label="Recent pending"
-              value={bookings[Pending]?.length || 0}
-            >
-              <Link href="/bookings/pending" passHref>
-                <Button
-                  variant="default"
-                  sx={{ width: 'fit-content' }}
-                  data-testid="viewAllPendingRequests"
+                  title="Pending requests"
+                  variant="pending"
+                  datatestid="pendingRequestsTitle"
                 >
-                  View all
-                </Button>
-              </Link>
-            </OverviewMetric>
-          </Flex>
-        )}
-      </>
-    </OverviewCard>
-    <OverviewCard
-      title="Declined / cancelled bookings"
-      variant="declined"
-      datatestid="cancelledBookingsTitle"
-    >
-      {!loading && !bookingsDeclined ? (
-        'You have no cancelled bookings'
-      ) : (
-        <Flex gap={72} maw="40%">
-          <OverviewMetric
-            loading={loading}
-            label="Recent cancelled"
-            value={bookingsDeclined}
-          >
-            <Link href="/bookings/declined" passHref>
-              <Button
-                variant="default"
-                sx={{ width: 'fit-content' }}
-                data-testid="viewAllDeclined"
-              >
-                View all
-              </Button>
-            </Link>
-          </OverviewMetric>
-        </Flex>
-      )}
-    </OverviewCard>
-  </Stack>
+                  <>
+                    {!loading && !bookings[Pending]?.length ? (
+                      'You have no pending requests'
+                    ) : (
+                      <Flex gap={72} maw="40%">
+                        <OverviewMetric
+                          loading={loading}
+                          label="Recent pending"
+                          value={bookings[Pending]?.length || 0}
+                        >
+                          <Link href="/bookings/pending" passHref>
+                            <Button
+                              variant="default"
+                              sx={{ width: 'fit-content' }}
+                              data-testid="viewAllPendingRequests"
+                            >
+                              View all
+                            </Button>
+                          </Link>
+                        </OverviewMetric>
+                      </Flex>
+                    )}
+                  </>
+                </OverviewCard>
+                <OverviewCard
+                  title="Declined / cancelled bookings"
+                  variant="declined"
+                  datatestid="cancelledBookingsTitle"
+                >
+                  {!loading && !bookingsDeclined ? (
+                    'You have no cancelled bookings'
+                  ) : (
+                    <Flex gap={72} maw="40%">
+                      <OverviewMetric
+                        loading={loading}
+                        label="Recent cancelled"
+                        value={bookingsDeclined}
+                      >
+                        <Link href="/bookings/declined" passHref>
+                          <Button
+                            variant="default"
+                            sx={{ width: 'fit-content' }}
+                            data-testid="viewAllDeclined"
+                          >
+                            View all
+                          </Button>
+                        </Link>
+                      </OverviewMetric>
+                    </Flex>
+                  )}
+                </OverviewCard>
+              </Stack>
             </Grid.Col >
-    <Grid.Col lg={6}>
-      <Stack spacing={24}>
-<<<<<<< HEAD
-  <OverviewCard title="Confirmed bookings" variant="confirmed" datatestid="confirmedBookingsTitle">
-=======
+            <Grid.Col lg={6}>
+              <Stack spacing={24}>
                 <OverviewCard
-      title="Confirmed bookings"
-      variant="confirmed"
-      datatestid="confirmedBookingsTitle"
-    >
->>>>>>> origin
-      <>
-        {!loading && !bookingsConfirmed ? (
-          'You have no confirmed bookings'
-        ) : (
-          <Flex gap={72}>
-            <OverviewMetric
-              loading={loading}
-              label="Today's bookings"
-              value={todaysConfirmed?.length}
-            >
-              <Link
-                href={{
-                  pathname: '/bookings/confirmed',
-                  query: {
-                    date: dayjsTz(new Date()).format('YYYY-MM-DD'),
-                  },
-                }}
-                passHref
-              >
-                <Button
-                  variant="default"
-                  sx={{ width: 'fit-content' }}
-                  data-testid="viewTodaysBookings"
+                  title="Confirmed bookings"
+                  variant="confirmed"
+                  datatestid="confirmedBookingsTitle"
                 >
-                  Today&apos;s bookings
-                </Button>
-              </Link>
-            </OverviewMetric>
-            <Flex justify="center">
-              <OverviewSeparator />
-            </Flex>
-            <OverviewMetric
-              loading={loading}
-              label="All bookings"
-              value={bookingsConfirmed}
-            >
-              <Link href="/bookings/confirmed" passHref>
-                <Button
-                  variant="default"
-                  sx={{ width: 'fit-content' }}
-                  data-testid="viewAllConfirmed"
+                  <>
+                    {!loading && !bookingsConfirmed ? (
+                      'You have no confirmed bookings'
+                    ) : (
+                      <Flex gap={72}>
+                        <OverviewMetric
+                          loading={loading}
+                          label="Today's bookings"
+                          value={todaysConfirmed?.length}
+                        >
+                          <Link
+                            href={{
+                              pathname: '/bookings/confirmed',
+                              query: {
+                                date: dayjsTz(new Date()).format('YYYY-MM-DD'),
+                              },
+                            }}
+                            passHref
+                          >
+                            <Button
+                              variant="default"
+                              sx={{ width: 'fit-content' }}
+                              data-testid="viewTodaysBookings"
+                            >
+                              Today&apos;s bookings
+                            </Button>
+                          </Link>
+                        </OverviewMetric>
+                        <Flex justify="center">
+                          <OverviewSeparator />
+                        </Flex>
+                        <OverviewMetric
+                          loading={loading}
+                          label="All bookings"
+                          value={bookingsConfirmed}
+                        >
+                          <Link href="/bookings/confirmed" passHref>
+                            <Button
+                              variant="default"
+                              sx={{ width: 'fit-content' }}
+                              data-testid="viewAllConfirmed"
+                            >
+                              View all
+                            </Button>
+                          </Link>
+                        </OverviewMetric>
+                      </Flex>
+                    )}
+                  </>
+                </OverviewCard>
+                <OverviewCard
+                  title="Walk-up QR code"
+                  variant="qrcodewalkup"
+                  icon={<FourSquares />}
+                  datatestid="walkupQRcodeTitle"
                 >
-                  View all
-                </Button>
-              </Link>
-            </OverviewMetric>
-          </Flex>
-        )}
-      </>
-    </OverviewCard>
-    <OverviewCard
-      title="Walk-up QR code"
-      variant="qrcodewalkup"
-      icon={<FourSquares />}
-      datatestid="walkupQRcodeTitle"
-    >
-      <Skeleton visible={loading}>
-        <Stack spacing={82}>
-          <Text color="#9b9ca0" size={16} weight={600}>
-            Reveal the QR code used for Walk-up customers
-          </Text>
-          <Link
-            href="/qr-code"
-            passHref
-            style={{ width: 'fit-content' }}
-          >
-            <Button
-              variant="default"
-              sx={{ width: 'fit-content' }}
-              data-testid="viewQRcode"
-            >
-              View
-            </Button>
-          </Link>
-        </Stack>
-      </Skeleton>
-    </OverviewCard>
-  </Stack>
+                  <Skeleton visible={loading}>
+                    <Stack spacing={82}>
+                      <Text color="#9b9ca0" size={16} weight={600}>
+                        Reveal the QR code used for Walk-up customers
+                      </Text>
+                      <Link
+                        href="/qr-code"
+                        passHref
+                        style={{ width: 'fit-content' }}
+                      >
+                        <Button
+                          variant="default"
+                          sx={{ width: 'fit-content' }}
+                          data-testid="viewQRcode"
+                        >
+                          View
+                        </Button>
+                      </Link>
+                    </Stack>
+                  </Skeleton>
+                </OverviewCard>
+              </Stack>
             </Grid.Col >
           </Grid >
-    <Text mb={33} mt={33} size={10}>
-      {lastUpdate && `Last updated ${lastUpdate}`}
-    </Text>
+          <Text mb={33} mt={33} size={10}>
+            {lastUpdate && `Last updated ${lastUpdate}`}
+          </Text>
         </>
       )
-}
+      }
     </>
   );
 }
