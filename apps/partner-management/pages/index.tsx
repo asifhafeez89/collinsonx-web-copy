@@ -166,6 +166,7 @@ export default function Overview() {
                             <Button
                               variant="default"
                               sx={{ width: 'fit-content' }}
+                              data-testid="viewAllPendingRequests"
                             >
                               View all
                             </Button>
@@ -193,6 +194,7 @@ export default function Overview() {
                           <Button
                             variant="default"
                             sx={{ width: 'fit-content' }}
+                            data-testid="viewAllDeclined"
                           >
                             View all
                           </Button>
@@ -228,6 +230,7 @@ export default function Overview() {
                             <Button
                               variant="default"
                               sx={{ width: 'fit-content' }}
+                              data-testid="viewAllConfirmed"
                             >
                               Today&apos;s bookings
                             </Button>
@@ -270,7 +273,7 @@ export default function Overview() {
                         passHref
                         style={{ width: 'fit-content' }}
                       >
-                        <Button variant="default" sx={{ width: 'fit-content' }}>
+                        <Button variant="default" sx={{ width: 'fit-content' }} data-testid="viewQRcode">
                           View
                         </Button>
                       </Link>
