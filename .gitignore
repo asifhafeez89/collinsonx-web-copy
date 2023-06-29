@@ -48,3 +48,4 @@ gitleaks-report.json
 playwright-report
 test-results
 .env.tests
+user.json
