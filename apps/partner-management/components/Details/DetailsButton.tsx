@@ -5,7 +5,11 @@ export interface DetailsButtonProps extends Omit<ButtonProps, 'variant'> {
   onClick?: () => void;
   datatestid?: string;
 }
-const DetailsButton = ({ variant, ...props, datatestid }: DetailsButtonProps) => {
+const DetailsButton = ({
+  variant,
+  datatestid,
+  ...props
+}: DetailsButtonProps) => {
   return (
     <Button
       sx={({ colors }) => {
