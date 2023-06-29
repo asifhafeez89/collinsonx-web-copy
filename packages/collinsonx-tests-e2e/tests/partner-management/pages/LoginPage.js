@@ -7,16 +7,16 @@ class LoginPage {
     await this.goToURL();
     await this.enterEmailAddress(email);
     await this.enterPassword(password)
-    await this.saveMyPassword();
+    // await this.saveMyPassword();
     await this.clickLogin();
   };
 
   enterEmailAddress(email) {
-    return this.page.getByTestId('email').fill(email);
+    return this.page.getByLabel('email').fill(email);
   };
 
   enterPassword(password) {
-    return this.page.getByTestId('password').fill(password);
+    return this.page.getByLabel('Password', { exact: true }).fill(password);
   };
 
   saveMyPassword() {
@@ -24,13 +24,17 @@ class LoginPage {
   };
 
   clickLogin() {
-    return this.page.getByTestId('login').click();
+    // uncomment and delete replacement once deployed!
+    // return this.page.getByTestId('login').click();
+    return this.page.getByRole('button', { name: 'Login' }).click();
   };
 
   goToURL() {
-    return this.page.goto('http://localhost:3010');
+    // currently using deployed environment due to cors issues locally
+    // return this.page.goto('http://localhost:3010');
+    return this.page.goto('https://partner.test.cergea.com/');
   };
 
 };
-  
+
 module.exports = LoginPage;
