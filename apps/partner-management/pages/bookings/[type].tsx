@@ -53,6 +53,7 @@ import DetailsConfirmedActions from '@components/Details/DetailsConfirmedActions
 import { Modal } from '@collinsonx/design-system/core';
 import Details from '@components/Details';
 import useExperience from 'hooks/experience';
+import PageTitle from '@components/PageTitle';
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
 
@@ -413,6 +414,7 @@ export default function Bookings({ type }: BookingsProps) {
 
   return (
     <>
+      <PageTitle title={title} />
       <Modal
         opened={bookingId !== null}
         onClose={handleCloseModal}

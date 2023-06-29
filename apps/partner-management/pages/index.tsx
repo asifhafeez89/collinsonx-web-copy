@@ -29,6 +29,7 @@ import experiences from '../data/experiences.json';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import { FourSquares } from '@collinsonx/design-system/assets/icons';
 import { useExperience } from 'hooks/experience';
+import PageTitle from '@components/PageTitle';
 
 const { Pending, Confirmed, Declined, Cancelled, CheckedIn } = BookingStatus;
 
@@ -113,6 +114,7 @@ export default function Overview() {
         <Error error={error} />
       ) : (
         <>
+          <PageTitle title="Booking overview" />
           <Title mb={8} size={32}>
             Booking overview
           </Title>
