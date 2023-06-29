@@ -115,11 +115,11 @@ export default function Overview() {
       ) : (
         <>
           <PageTitle title="Booking overview" />
-          <Title mb={8} size={32}>
+          <Title mb={8} size={32} data-testid="bookingOverviewTitle">
             Booking overview
           </Title>
           {session.accessTokenPayload.userType !== 'SUPER_USER' && (
-            <Text mb={33} size={18}>
+            <Text mb={33} size={18} data-testid="loungeTitle">
               {getLoungeTitle(experience)}
             </Text>
           )}
@@ -154,7 +154,11 @@ export default function Overview() {
           <Grid>
             <Grid.Col lg={6}>
               <Stack spacing={24}>
-                <OverviewCard title="Pending requests" variant="pending">
+                <OverviewCard
+                  title="Pending requests"
+                  variant="pending"
+                  datatestid="pendingRequestsTitle"
+                >
                   <>
                     {!loading && !bookings[Pending]?.length ? (
                       'You have no pending requests'
@@ -169,6 +173,7 @@ export default function Overview() {
                             <Button
                               variant="default"
                               sx={{ width: 'fit-content' }}
+                              data-testid="viewAllPendingRequests"
                             >
                               View all
                             </Button>
@@ -181,6 +186,7 @@ export default function Overview() {
                 <OverviewCard
                   title="Declined / cancelled bookings"
                   variant="declined"
+                  datatestid="cancelledBookingsTitle"
                 >
                   {!loading && !bookingsDeclined ? (
                     'You have no cancelled bookings'
@@ -195,6 +201,7 @@ export default function Overview() {
                           <Button
                             variant="default"
                             sx={{ width: 'fit-content' }}
+                            data-testid="viewAllDeclined"
                           >
                             View all
                           </Button>
@@ -207,7 +214,11 @@ export default function Overview() {
             </Grid.Col>
             <Grid.Col lg={6}>
               <Stack spacing={24}>
-                <OverviewCard title="Confirmed bookings" variant="confirmed">
+                <OverviewCard
+                  title="Confirmed bookings"
+                  variant="confirmed"
+                  datatestid="confirmedBookingsTitle"
+                >
                   <>
                     {!loading && !bookingsConfirmed ? (
                       'You have no confirmed bookings'
@@ -230,6 +241,7 @@ export default function Overview() {
                             <Button
                               variant="default"
                               sx={{ width: 'fit-content' }}
+                              data-testid="viewTodaysBookings"
                             >
                               Today&apos;s bookings
                             </Button>
@@ -247,6 +259,7 @@ export default function Overview() {
                             <Button
                               variant="default"
                               sx={{ width: 'fit-content' }}
+                              data-testid="viewAllConfirmed"
                             >
                               View all
                             </Button>
@@ -260,6 +273,7 @@ export default function Overview() {
                   title="Walk-up QR code"
                   variant="qrcodewalkup"
                   icon={<FourSquares />}
+                  datatestid="walkupQRcodeTitle"
                 >
                   <Skeleton visible={loading}>
                     <Stack spacing={82}>
@@ -271,7 +285,11 @@ export default function Overview() {
                         passHref
                         style={{ width: 'fit-content' }}
                       >
-                        <Button variant="default" sx={{ width: 'fit-content' }}>
+                        <Button
+                          variant="default"
+                          sx={{ width: 'fit-content' }}
+                          data-testid="viewQRcode"
+                        >
                           View
                         </Button>
                       </Link>

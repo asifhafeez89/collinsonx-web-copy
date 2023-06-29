@@ -11,11 +11,11 @@ const DetailsPendingActions = ({
 }: DetailsPendingActionsProps) => {
   return (
     <Flex w="100%" justify="flex-end" gap={32}>
-      <BookingButton variant="success" onClick={onClickConfirm}>
+      <BookingButton variant="success" onClick={onClickConfirm} datatestid="confirmBooking">
         Confirm
       </BookingButton>
 
-      <BookingButton variant="danger" onClick={onClickDecline}>
+      <BookingButton variant="danger" onClick={onClickDecline} datatestid="declineBooking">
         Decline
       </BookingButton>
     </Flex>
