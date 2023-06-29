@@ -11,6 +11,8 @@ import { frontendConfig } from 'config/frontendConfig';
 import AuthWrapper from '@components/AuthWrapper';
 import theme from '../theme';
 import { PARTNER_ID } from 'config';
+import { ExperienceProvider } from 'hooks/experience';
+import CookieBanner from '@components/CookieBanner';
 
 type Page<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactElement) => JSX.Element;
@@ -33,13 +35,11 @@ export default function MyApp({ Component, pageProps }: Props) {
   const [envLabel, setEnvLabel] = useState<String>('');
 
   useEffect(() => {
-    if (
-      window.location.href.includes('https://partner-uat.test.lifestyle-x.io/')
-    ) {
+    if (window.location.href.includes('https://partner.uat.cergea.com/')) {
       setEnvLabel('uat');
     }
 
-    if (window.location.href.includes('https://partner.test.lifestyle-x.io/')) {
+    if (window.location.href.includes('https://partner.test.cergea.com/')) {
       setEnvLabel('test');
     }
 
@@ -52,24 +52,28 @@ export default function MyApp({ Component, pageProps }: Props) {
   return (
     <>
       <Head>
-        <title>CollinsonX</title>
+        <title>Cergea</title>
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
       </Head>
       <ApolloProvider client={apolloClient}>
         <SuperTokensWrapper>
           <AuthWrapper>
-            <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
-              {envLabel !== '' && (
-                <div style={{ position: 'absolute', background: 'yellow' }}>
-                  {envLabel}
-                </div>
-              )}
-              {getLayout(<Component {...pageProps} />)}
-              <Analytics />
-            </MantineProvider>
+            <ExperienceProvider>
+              <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
+                {envLabel !== '' && (
+                  <div style={{ position: 'absolute', background: 'yellow' }}>
+                    {envLabel}
+                  </div>
+                )}
+                {getLayout(<Component {...pageProps} />)}
+                <CookieBanner />
+                <Analytics />
+              </MantineProvider>
+            </ExperienceProvider>
           </AuthWrapper>
         </SuperTokensWrapper>
       </ApolloProvider>

@@ -33,6 +33,7 @@ export default function SelectInput({ ...props }: SelectProps) {
             },
           },
         },
+        ...(props.styles ? props.styles : {}),
       })}
     />
   );

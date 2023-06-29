@@ -46,10 +46,14 @@ import { PageType } from 'config/booking';
 import { GetServerSideProps } from 'next';
 import { expandDate, isErrorValid } from 'lib';
 import { useRouter } from 'next/router';
-import getSelectedLounge from 'lib/getSelectedLounge';
 import getLoungeTitle from 'lib/getLoungeTitle';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import { AppSession } from 'types/Session';
+import DetailsConfirmedActions from '@components/Details/DetailsConfirmedActions';
+import { Modal } from '@collinsonx/design-system/core';
+import Details from '@components/Details';
+import useExperience from 'hooks/experience';
+import PageTitle from '@components/PageTitle';
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
 
@@ -81,7 +85,7 @@ export interface BookingsProps {
 }
 
 export default function Bookings({ type }: BookingsProps) {
-  const loungeData = getSelectedLounge();
+  const { experience, setExperience } = useExperience();
 
   let session = useSessionContext() as AppSession;
 
@@ -92,9 +96,9 @@ export default function Bookings({ type }: BookingsProps) {
     refetch: refetchBookings,
   } = useQuery<{ getBookings: Booking[] }>(getBookings, {
     variables: {
-      experienceId: loungeData?.id,
+      experienceId: experience?.id,
     },
-    skip: !loungeData?.id,
+    skip: !experience?.id,
     pollInterval: 300000,
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
@@ -109,6 +113,7 @@ export default function Bookings({ type }: BookingsProps) {
   const { date } = router.query;
 
   const [bookingId, setBookingId] = useState<string | null>(null);
+  const [checkIn, setCheckIn] = useState(false);
   const [search, setSearch] = useState((router.query.search as string) ?? '');
 
   const [lastUpdate, setLastUpdate] = useState<String>();
@@ -124,11 +129,13 @@ export default function Bookings({ type }: BookingsProps) {
       result = data;
     } else if (data?.getBookings) {
       result = {
-        getBookings: data.getBookings.filter(
-          (item) =>
-            dayjsTz(item.bookedFrom).format('YYYY-MM-DD') ===
-            dayjsTz(date as string).format('YYYY-MM-DD')
-        ),
+        getBookings: data.getBookings.filter((item) => {
+          const bookedFrom = dayjsTz(item.bookedFrom).format('YYYY-MM-DD');
+
+          const datetime = date.toString().split(' ');
+
+          return bookedFrom === datetime[0];
+        }),
       };
     }
     if (search && result) {
@@ -139,7 +146,7 @@ export default function Bookings({ type }: BookingsProps) {
               .toLowerCase()
               .includes((search ?? '').trim().toLowerCase()) ||
             (item.id ?? '').toLowerCase() ===
-              (search ?? '').trim().toLowerCase()
+            (search ?? '').trim().toLowerCase()
           );
         }),
       };
@@ -178,6 +185,11 @@ export default function Bookings({ type }: BookingsProps) {
     { loading: loadingConfirm, error: confirmError, data: dataConfirm },
   ] = useMutation(confirmBookingMutation);
 
+  const [
+    cancelBooking,
+    { loading: loadingCancel, error: cancelError, data: dataCancel },
+  ] = useMutation(cancelBookingMutation);
+
   const isSuperUser = useMemo(
     () => (session.accessTokenPayload ?? {}).userType === 'SUPER_USER',
     [session]
@@ -195,20 +207,23 @@ export default function Bookings({ type }: BookingsProps) {
     [declineBooking, refetchBookings]
   );
 
-  const handleClickCheckIn = (id: string) => {
-    setBookingId(id);
-  };
+  const handleClickCheckIn = useCallback(
+    (id: string) => {
+      setBookingId(id);
+    },
+    [setBookingId]
+  );
 
   const handleClickCancel = useCallback(
     (id: string) => {
-      confirmBooking({
+      cancelBooking({
         variables: { cancelBookingId: id },
         onCompleted: () => {
           refetchBookings();
         },
       });
     },
-    [confirmBooking, refetchBookings]
+    [cancelBooking, refetchBookings]
   );
 
   const handleClickConfirm = useCallback(
@@ -223,17 +238,15 @@ export default function Bookings({ type }: BookingsProps) {
     [confirmBooking, refetchBookings]
   );
 
-  const handleClickConfirmCheckIn = useCallback(
-    (id: string) => {
-      checkInBooking({
-        variables: { checkinBookingId: id },
-        onCompleted: () => {
-          refetchBookings();
-        },
-      });
-    },
-    [checkInBooking, refetchBookings]
-  );
+  const handleClickConfirmCheckIn = useCallback(() => {
+    setBookingId(null);
+    checkInBooking({
+      variables: { checkinBookingId: bookingId },
+      onCompleted: () => {
+        refetchBookings();
+      },
+    });
+  }, [checkInBooking, refetchBookings, bookingId]);
 
   const title = titleMap[type as keyof typeof titleMap];
 
@@ -242,9 +255,8 @@ export default function Bookings({ type }: BookingsProps) {
       return '';
     }
     if (date) {
-      return `${
-        type.slice(0, 1).toUpperCase() + type.slice(1)
-      } - arriving ${date}`;
+      return `${type.slice(0, 1).toUpperCase() + type.slice(1)
+        } - arriving ${date}`;
     }
     return `All ${type.slice(0, 1).toUpperCase() + type.slice(1)}`;
   }, [date, type]);
@@ -261,11 +273,18 @@ export default function Bookings({ type }: BookingsProps) {
     );
   };
 
+  const handleChangeCheckIn = useCallback(
+    (value: boolean) => {
+      setCheckIn(value);
+    },
+    [setCheckIn]
+  );
+
   const handleChangeDate: ComponentProps<typeof DatePicker>['onChange'] = (
     date
   ) => {
     const dateStr =
-      date !== null ? dayjsTz(date as Date).format('DD-MM-YYYY HH:MM') : '';
+      date !== null ? dayjsTz(date as Date).format('YYYY-MM-DD') : '';
     router.replace(
       {
         query: { ...router.query, date: dateStr },
@@ -336,6 +355,7 @@ export default function Bookings({ type }: BookingsProps) {
                     <Button
                       variant="default"
                       onClick={() => handleClickCancel(id)}
+                      data-testid="cancelCustomerBooking"
                     >
                       Cancel
                     </Button>
@@ -344,8 +364,9 @@ export default function Bookings({ type }: BookingsProps) {
                     <Button
                       w={180}
                       fullWidth
-                      onClick={() => handleClickConfirmCheckIn(id)}
+                      onClick={() => handleClickCheckIn(id)}
                       variant="default"
+                      data-testid="checkCustomerIn"
                     >
                       Check customer in
                     </Button>
@@ -360,7 +381,14 @@ export default function Bookings({ type }: BookingsProps) {
       );
     }
     return mainColumns;
-  }, [handleClickConfirmCheckIn, handleClickDecline, type]);
+  }, [
+    isSuperUser,
+    handleClickCheckIn,
+    handleClickConfirm,
+    handleClickCancel,
+    handleClickDecline,
+    type,
+  ]);
 
   const table = useReactTable({
     data: bookings,
@@ -375,12 +403,44 @@ export default function Bookings({ type }: BookingsProps) {
   });
 
   const selectedBooking = useMemo(
-    () => (bookingId ? bookings.find((item) => item.id === bookingId)! : null),
+    () =>
+      bookingId ? bookings.find((item) => item.id === bookingId)! : undefined,
     [bookingId, bookings]
   );
 
+  const handleCloseModal = useCallback(() => {
+    setCheckIn(false);
+    setBookingId(null);
+  }, [setCheckIn, setBookingId]);
+
   return (
     <>
+      <PageTitle title={title} />
+      <Modal
+        opened={bookingId !== null}
+        onClose={handleCloseModal}
+        sx={{
+          '.mantine-Modal-content': {
+            flex: 'none',
+          },
+        }}
+        styles={{
+          close: {
+            color: '#000',
+          },
+          content: {
+            flex: 'none',
+          },
+        }}
+      >
+        <Details booking={selectedBooking}>
+          <DetailsConfirmedActions
+            checkIn={checkIn}
+            onClickConfirmCheckIn={handleClickConfirmCheckIn}
+            onChangeCheckIn={handleChangeCheckIn}
+          />
+        </Details>
+      </Modal>
       <Stack spacing={32}>
         <Box sx={{ borderBottom: '1px solid #E1E1E1' }}>
           <Flex gap={16} align="center" mb={8}>
@@ -399,7 +459,7 @@ export default function Bookings({ type }: BookingsProps) {
             <Title size={32}>{title}</Title>
           </Flex>
           <Text mb={33} pl={44} size={18}>
-            {getLoungeTitle(loungeData)}
+            {getLoungeTitle(experience)}
           </Text>
         </Box>
         <Flex justify="space-between" align="center">
@@ -437,7 +497,11 @@ export default function Bookings({ type }: BookingsProps) {
               placeholder="Pick a date"
               clearable
               valueFormat={DATE_FORMAT}
-              defaultValue={date ? new Date(date as string) : undefined}
+              defaultValue={
+                router.isReady && date
+                  ? new Date((date as string) + 'T00:00:00')
+                  : undefined
+              }
               onChange={handleChangeDate}
             />
           </Flex>
@@ -445,6 +509,7 @@ export default function Bookings({ type }: BookingsProps) {
         <Error error={checkinError} />
         <Error error={confirmError} />
         <Error error={declineError} />
+        <Error error={cancelError} />
         {errorBookings && isErrorValid(errorBookings) && (
           <Error error={errorBookings} />
         )}

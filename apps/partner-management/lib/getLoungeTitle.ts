@@ -4,6 +4,10 @@ const getLoungeTitle = (loungeData: Experience | undefined) =>
   !loungeData
     ? ''
     : `${loungeData?.loungeName}${
+        loungeData?.location?.airportName
+          ? ' - ' + loungeData?.location?.airportName
+          : ''
+      }${
         loungeData?.location?.terminal
           ? ' - ' + loungeData?.location?.terminal
           : ''

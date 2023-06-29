@@ -4,6 +4,7 @@ import DetailsSection from './DetailsSection';
 import DetailsKeyValue from './DetailsKeyValue';
 import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
 import { Booking } from '@collinsonx/utils';
+import { useMemo } from 'react';
 
 export interface DetailsProps {
   booking: Booking | undefined;
@@ -11,7 +12,14 @@ export interface DetailsProps {
   children?: JSX.Element;
 }
 const Details = ({ children, booking, loading = false }: DetailsProps) => {
-  console.log(booking);
+  const flightTime = useMemo(() => {
+    try {
+      const result = dayjsTz(booking?.metadata?.flightTime).format('HH:mm');
+      return result;
+    } catch (e) {
+      return booking?.metadata?.flightTime ?? '-';
+    }
+  }, [booking]);
   return (
     <Stack spacing={40}>
       <DetailsSection label="Passenger details">
@@ -24,7 +32,7 @@ const Details = ({ children, booking, loading = false }: DetailsProps) => {
           {booking?.metadata?.flightNumber ?? '-'}
         </DetailsKeyValue>
         <DetailsKeyValue label="Flight time" loading={loading}>
-          {booking?.metadata?.flightTime ?? '-'}
+          {flightTime}
         </DetailsKeyValue>
       </DetailsSection>
       <DetailsSection label="Booking details">
@@ -49,7 +57,7 @@ const Details = ({ children, booking, loading = false }: DetailsProps) => {
           )}
         </DetailsKeyValue>
         <DetailsKeyValue label="Guests" loading={loading}>
-          -
+          {booking?.guestCount ?? '-'}
         </DetailsKeyValue>
       </DetailsSection>
       {children}
