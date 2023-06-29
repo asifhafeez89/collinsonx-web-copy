@@ -29,6 +29,7 @@ import experiences from '../data/experiences.json';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import { FourSquares } from '@collinsonx/design-system/assets/icons';
 import { useExperience } from 'hooks/experience';
+import PageTitle from '@components/PageTitle';
 
 const { Pending, Confirmed, Declined, Cancelled, CheckedIn } = BookingStatus;
 
@@ -51,8 +52,8 @@ export default function Overview() {
       onCompleted: () =>
         setLastUpdate(
           new Date().toLocaleDateString() +
-          ' ' +
-          new Date().toLocaleTimeString()
+            ' ' +
+            new Date().toLocaleTimeString()
         ),
     }
   );
@@ -99,10 +100,11 @@ export default function Overview() {
   const experiencesFiltered = experiences.map((experience) => {
     return {
       value: experience.id,
-      label: `${experience.loungeName}${experience.location?.terminal
-        ? ' - ' + experience.location?.terminal
-        : ''
-        }`,
+      label: `${experience.loungeName}${
+        experience.location?.terminal
+          ? ' - ' + experience.location?.terminal
+          : ''
+      }`,
     };
   });
 
@@ -112,6 +114,7 @@ export default function Overview() {
         <Error error={error} />
       ) : (
         <>
+          <PageTitle title="Booking overview" />
           <Title mb={8} size={32} data-testid="bookingOverviewTitle">
             Booking overview
           </Title>
@@ -151,7 +154,11 @@ export default function Overview() {
           <Grid>
             <Grid.Col lg={6}>
               <Stack spacing={24}>
-                <OverviewCard title="Pending requests" variant="pending" datatestid="pendingRequestsTitle">
+                <OverviewCard
+                  title="Pending requests"
+                  variant="pending"
+                  datatestid="pendingRequestsTitle"
+                >
                   <>
                     {!loading && !bookings[Pending]?.length ? (
                       'You have no pending requests'
@@ -207,7 +214,11 @@ export default function Overview() {
             </Grid.Col>
             <Grid.Col lg={6}>
               <Stack spacing={24}>
-                <OverviewCard title="Confirmed bookings" variant="confirmed" datatestid="confirmedBookingsTitle">
+                <OverviewCard
+                  title="Confirmed bookings"
+                  variant="confirmed"
+                  datatestid="confirmedBookingsTitle"
+                >
                   <>
                     {!loading && !bookingsConfirmed ? (
                       'You have no confirmed bookings'
@@ -274,7 +285,11 @@ export default function Overview() {
                         passHref
                         style={{ width: 'fit-content' }}
                       >
-                        <Button variant="default" sx={{ width: 'fit-content' }} data-testid="viewQRcode">
+                        <Button
+                          variant="default"
+                          sx={{ width: 'fit-content' }}
+                          data-testid="viewQRcode"
+                        >
                           View
                         </Button>
                       </Link>

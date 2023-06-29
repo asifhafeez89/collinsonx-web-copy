@@ -11,9 +11,7 @@ const apiDomain = process.env.NEXT_PUBLIC_AUTH_API_URL as string;
 
 export const appInfo: AppInfoUserInput = {
   appName: 'CollinsonX',
-  apiBasePath: '/',
+  apiBasePath: '/supertokens',
   apiDomain,
   websiteDomain: domain,
 };
-
-console.log('appInfo ', appInfo);
