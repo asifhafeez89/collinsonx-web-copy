@@ -5,7 +5,7 @@ import ExpectPartnerToBeLoggedIn from '../assertions/ExpectPartnerToBeLoggedIn';
 
 test.describe('booking overview dashboard', () => {
     test.describe('pending requests', () => {
-        test.only('add pending request', async ({ page }) => {
+        test('add pending request', async ({ page }) => {
             const bookingOverviewPage = new BookingOverviewPage(page);
             const bookingApi = new BookingApi();
             const expectPartnerToBeLoggedIn = new ExpectPartnerToBeLoggedIn(page);
@@ -23,6 +23,30 @@ test.describe('booking overview dashboard', () => {
             const latestCount = await bookingOverviewPage.getPendingRequestCount();
 
             expect(latestCount).toHaveText(initialCount + 1);
+        });
+
+        test('remove pending request', async ({ page }) => {
+            const bookingOverviewPage = new BookingOverviewPage(page);
+            const bookingApi = new BookingApi();
+            const expectPartnerToBeLoggedIn = new ExpectPartnerToBeLoggedIn(page);
+
+            await page.goto('https://partner.test.cergea.com/');
+
+            await page.reload({ waitUntil: "domcontentloaded" });
+
+            await expectPartnerToBeLoggedIn.ask();
+
+            const bookingId = await bookingApi.addPendingRequest();
+
+            const initialCount = await bookingApi.getPendingRequestCount();
+
+            await page.reload({ waitUntil: "domcontentloaded" });
+
+            await bookingApi.deleteBooking(bookingId);
+
+            const latestCount = await bookingOverviewPage.getPendingRequestCount();
+
+            expect(latestCount).toHaveText(initialCount - 1);
         });
     })
 })
