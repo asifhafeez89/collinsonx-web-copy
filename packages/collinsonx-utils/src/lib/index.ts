@@ -16,3 +16,21 @@ export const getBookingsByType = (
   }
   return bookingStatusMap;
 };
+
+const port = process.env.APP_PORT || 3000;
+
+const domain =
+  process.env.NEXT_PUBLIC_SITE_DOMAIN_URL ||
+  process.env.NEXT_PUBLIC_VERCEL_URL ||
+  `http://localhost:${port}`;
+
+export const getItem = (key: string): string | null => {
+  return localStorage.getItem(`${domain}_${key}`);
+};
+
+export const setItem = (key: string, value: string) => {
+  return localStorage.setItem(`${domain}_${key}`, value);
+};
+export const removeItem = (key: string) => {
+  return localStorage.removeItem(`${domain}_${key}`);
+};
