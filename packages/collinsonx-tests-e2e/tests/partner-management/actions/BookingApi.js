@@ -46,7 +46,7 @@ class BookingApi {
 
     const response = await axios.post(this.apiUrl, request);
 
-    const consumerId = response.data.findOrCreateConsumer.id;
+    const consumerId = response.data.data.findOrCreateConsumer.id;
 
     return consumerId;
   };
@@ -98,9 +98,9 @@ class BookingApi {
       'x-user-type': 'CONSUMER'
     };
 
-    const response = await axios.post(apiUrl, request, { headers });
+    const response = await axios.post(this.apiUrl, request, { headers });
 
-    const bookingId = response.data.createBooking.id;
+    const bookingId = response.data.data.createBooking.id;
 
     return bookingId;
   };
@@ -142,8 +142,10 @@ class BookingApi {
       'x-user-type': 'CONSUMER'
     }
 
-    const response = await axios.post(apiUrl, request, { headers });
+    const response = await axios.post(this.apiUrl, request, { headers });
 
-    return response.data;
+    return response.data.data;
   };
 };
+
+module.exports = BookingApi;
