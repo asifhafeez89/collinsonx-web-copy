@@ -19,7 +19,7 @@ test.describe('booking overview dashboard', () => {
 
             await bookingApi.addPendingRequest();
             await page.reload();
-            // has pending gone up by 1?
+
             const latestCount = await bookingOverviewPage.getPendingRequestCount();
 
             expect(latestCount).toHaveText(initialCount + 1);
