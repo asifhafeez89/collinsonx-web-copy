@@ -43,6 +43,10 @@ class BookingOverviewPage {
         return this.page.getByTestId('pendingRequestsCount');
     };
 
+    getConfirmedBookingCount() {
+        return this.page.getByTestId('confirmedBookingCount');
+    };
+
 };
 
 module.exports = BookingOverviewPage;
