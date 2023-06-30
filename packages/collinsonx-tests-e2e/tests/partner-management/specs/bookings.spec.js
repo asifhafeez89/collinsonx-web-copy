@@ -48,5 +48,27 @@ test.describe('booking overview dashboard', () => {
 
             expect(latestCount).toHaveText(initialCount - 1);
         });
-    })
-})
+    });
+
+    test.describe('confirmed bookings', () => {
+        test('add confirmed booking', async ({ page }) => {
+            const bookingOverviewPage = new BookingOverviewPage(page);
+            const bookingApi = new BookingApi();
+            const expectPartnerToBeLoggedIn = new ExpectPartnerToBeLoggedIn(page);
+
+            await page.goto('https://partner.test.cergea.com/');
+            await page.reload({ waitUntil: "domcontentloaded" });
+
+            await expectPartnerToBeLoggedIn.ask();
+
+            const initialCount = await bookingApi.getBookingCount("CONFIRMED");
+
+            await bookingApi.addConfirmedBooking();
+            await page.reload({ waitUntil: "domcontentloaded" });
+
+            const latestCount = await bookingOverviewPage.getConfirmedBookingCount();
+
+            expect(latestCount).toHaveText(initialCount + 1);
+        });
+    });
+});
