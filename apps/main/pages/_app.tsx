@@ -34,7 +34,7 @@ const theme = getTheme();
 export default function MyApp({ Component, pageProps }: Props) {
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page);
-  const apolloClient = useApollo(pageProps, true);
+  const apolloClient = useApollo(pageProps);
 
   return (
     <>

@@ -48,7 +48,7 @@ export default function MyApp({ Component, pageProps }: Props) {
     }
   }, []);
 
-  const apolloClient = useApollo(pageProps, true, PARTNER_ID);
+  const apolloClient = useApollo(pageProps);
   return (
     <>
       <Head>
