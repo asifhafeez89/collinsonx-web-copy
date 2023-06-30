@@ -40,7 +40,7 @@ class BookingOverviewPage {
     };
 
     getPendingRequestCount() {
-        return this.page.getByTestId('pendingRequestsCount').innerText();
+        return this.page.getByTestId('pendingRequestsCount');
     };
 
 };

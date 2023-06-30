@@ -1,13 +1,28 @@
 const { test } = require('@playwright/test');
 import BookingOverviewPage from '../pages/BookingOverviewPage';
+import BookingApi from '../actions/BookingApi';
 import ExpectPartnerToBeLoggedIn from '../assertions/ExpectPartnerToBeLoggedIn';
 
-test.only('view all confirmed bookings', async ({ page }) => {
-    const bookingOverviewPage = new BookingOverviewPage(page);
-    const expectPartnerToBeLoggedIn = new ExpectPartnerToBeLoggedIn(page);
+test.describe('booking overview dashboard', () => {
+    test.describe('pending requests', () => {
+        test.only('add pending request', async ({ page }) => {
+            const bookingOverviewPage = new BookingOverviewPage(page);
+            const bookingApi = new BookingApi();
+            const expectPartnerToBeLoggedIn = new ExpectPartnerToBeLoggedIn(page);
 
-    await page.goto('https://partner.test.cergea.com/');
-    await page.reload();
+            await page.goto('https://partner.test.cergea.com/');
+            await page.reload({ waitUntil: "domcontentloaded" });
 
-    await expectPartnerToBeLoggedIn.ask();
-});
+            await expectPartnerToBeLoggedIn.ask();
+
+            const initialCount = await bookingApi.getPendingRequestCount();
+
+            await bookingApi.addPendingRequest();
+            await page.reload();
+            // has pending gone up by 1?
+            const latestCount = await bookingOverviewPage.getPendingRequestCount();
+
+            expect(latestCount).toHaveText(initialCount + 1);
+        });
+    })
+})
