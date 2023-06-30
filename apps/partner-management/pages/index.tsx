@@ -52,8 +52,8 @@ export default function Overview() {
       onCompleted: () =>
         setLastUpdate(
           new Date().toLocaleDateString() +
-            ' ' +
-            new Date().toLocaleTimeString()
+          ' ' +
+          new Date().toLocaleTimeString()
         ),
     }
   );
@@ -100,11 +100,10 @@ export default function Overview() {
   const experiencesFiltered = experiences.map((experience) => {
     return {
       value: experience.id,
-      label: `${experience.loungeName}${
-        experience.location?.terminal
+      label: `${experience.loungeName}${experience.location?.terminal
           ? ' - ' + experience.location?.terminal
           : ''
-      }`,
+        }`,
     };
   });
 
@@ -165,6 +164,7 @@ export default function Overview() {
                           loading={loading}
                           label="Recent pending"
                           value={bookings[Pending]?.length || 0}
+                          datatestid="pendingRequestsCount"
                         >
                           <Link href="/bookings/pending" passHref>
                             <Button
@@ -193,6 +193,7 @@ export default function Overview() {
                         loading={loading}
                         label="Recent cancelled"
                         value={bookingsDeclined}
+                        datatestid="declinedBookingsCount"
                       >
                         <Link href="/bookings/declined" passHref>
                           <Button
@@ -225,6 +226,7 @@ export default function Overview() {
                           loading={loading}
                           label="Today's bookings"
                           value={todaysConfirmed?.length}
+                          datatestid="todaysBookingsCount"
                         >
                           <Link
                             href={{
@@ -251,6 +253,7 @@ export default function Overview() {
                           loading={loading}
                           label="All bookings"
                           value={bookingsConfirmed}
+                          datatestid="allBookingsCount"
                         >
                           <Link href="/bookings/confirmed" passHref>
                             <Button
