@@ -30,7 +30,7 @@ const defaultOptions: DefaultOptions = {
 
 const httpLink = new HttpLink({
   uri: graphqlUrl,
-  credentials: 'same-origin',
+  credentials: 'include',
 });
 
 // a temporary hack to add x-user-id only when
