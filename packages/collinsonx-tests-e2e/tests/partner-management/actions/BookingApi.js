@@ -7,6 +7,11 @@ class BookingApi {
     this.apiUrl = "https://gateway-api.test.cergea.com/graphql"
   }
 
+  async addConfirmedBooking() {
+    const bookingId = await this.addPendingRequest();
+    await this.confirmBooking(bookingId);
+  };
+
   async addPendingRequest() {
     const consumerId = await this.findOrCreateConsumer();
     const bookingId = await this.createBooking(consumerId);
@@ -182,6 +187,34 @@ class BookingApi {
     const pendingCount = pendingBookings.length;
 
     return pendingCount;
+  };
+
+  async confirmBooking(bookingId) {
+    const mutation = `
+      mutation Mutation($confirmBookingId: ID!) {
+        confirmBooking(id: $confirmBookingId) {
+          consumer {
+            id
+          }
+        }
+      }
+    `;
+
+    const variables = {
+      "confirmBookingId": bookingId
+    };
+
+    const request = {
+      query: mutation,
+      variables: variables
+    };
+
+    const headers = {
+      'x-user-id': process.env.X_USER_ID,
+      'x-user-type': 'SUPER_USER'
+    }
+
+    const response = await axios.post(this.apiUrl, request, { headers });
   };
 
   async deleteBooking(bookingId) {
