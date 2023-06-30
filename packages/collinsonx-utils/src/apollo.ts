@@ -11,7 +11,7 @@ import { setContext } from '@apollo/client/link/context';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
 import { useMemo } from 'react';
-import { getItem } from 'lib';
+import { getItem } from './lib';
 
 const port = process.env.APP_PORT || 3000;
 

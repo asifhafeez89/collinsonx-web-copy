@@ -43,7 +43,10 @@ export const ExperienceProvider = (props: PropsWithChildren) => {
     variables: { getPartnerById: session.userId },
     skip: !session.userId,
     onCompleted: (data) => {
-      if (getItem(SELECTED_LOUNGE)) {
+      if (
+        getItem(SELECTED_LOUNGE) &&
+        session.accessTokenPayload.userType === 'SUPER_USER'
+      ) {
         setExperience(JSON.parse(getItem(SELECTED_LOUNGE)!));
       } else if (data?.getPartnerByID) {
         const { experiences } = data.getPartnerByID;
