@@ -8,7 +8,7 @@ import Session from 'supertokens-auth-react/recipe/session';
 import { PARTNER_ID, SELECTED_LOUNGE, USER_TYPE, USER_META } from 'config';
 import { removeItem } from '@collinsonx/utils/lib';
 
-const clearLocalStorage = () => {
+const clearSessionStorage = () => {
   if (typeof window !== undefined) {
     removeItem(PARTNER_ID);
     removeItem(SELECTED_LOUNGE);
@@ -19,7 +19,7 @@ const clearLocalStorage = () => {
 
 async function logout() {
   await Session.signOut();
-  clearLocalStorage();
+  clearSessionStorage();
   window.location.href = '/';
 }
 

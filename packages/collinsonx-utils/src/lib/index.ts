@@ -25,12 +25,12 @@ const domain =
   `http://localhost:${port}`;
 
 export const getItem = (key: string): string | null => {
-  return localStorage.getItem(`${domain}_${key}`);
+  return sessionStorage.getItem(`${domain}_${key}`);
 };
 
 export const setItem = (key: string, value: string) => {
-  return localStorage.setItem(`${domain}_${key}`, value);
+  return sessionStorage.setItem(`${domain}_${key}`, value);
 };
 export const removeItem = (key: string) => {
-  return localStorage.removeItem(`${domain}_${key}`);
+  return sessionStorage.removeItem(`${domain}_${key}`);
 };
