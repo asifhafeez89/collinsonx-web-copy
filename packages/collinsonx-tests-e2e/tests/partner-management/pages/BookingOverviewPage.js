@@ -1,6 +1,6 @@
 class BookingOverviewPage {
     constructor(page) {
-      this.page = page;
+        this.page = page;
     };
 
     getPageTitle() {
@@ -38,7 +38,11 @@ class BookingOverviewPage {
     viewAllConfirmed() {
         return this.page.getByTestId('viewAllConfirmed').click();
     };
-  
-  };
-    
-  module.exports = BookingOverviewPage;
+
+    getPendingRequestCount() {
+        return this.page.getByTestId('pendingRequestsCount').innerText();
+    };
+
+};
+
+module.exports = BookingOverviewPage;
