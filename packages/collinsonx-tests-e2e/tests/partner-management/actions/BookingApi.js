@@ -149,7 +149,7 @@ class BookingApi {
     return response.data.data.payForBooking.id;
   };
 
-  async getPendingRequestCount() {
+  async getBookingCount(status) {
     const query = `
       query GetBookings($experienceId: ID!) {
         getBookings(experienceID: $experienceId) {
@@ -177,7 +177,7 @@ class BookingApi {
 
     const bookings = response.data.data.getBookings;
 
-    const pendingBookings = bookings.filter(booking => booking.status === "PENDING")
+    const pendingBookings = bookings.filter(booking => booking.status === status)
 
     const pendingCount = pendingBookings.length;
 

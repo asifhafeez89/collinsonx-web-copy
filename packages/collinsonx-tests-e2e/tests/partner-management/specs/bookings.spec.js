@@ -15,7 +15,7 @@ test.describe('booking overview dashboard', () => {
 
             await expectPartnerToBeLoggedIn.ask();
 
-            const initialCount = await bookingApi.getPendingRequestCount();
+            const initialCount = await bookingApi.getBookingCount("PENDING");
 
             await bookingApi.addPendingRequest();
             await page.reload();
@@ -38,7 +38,7 @@ test.describe('booking overview dashboard', () => {
 
             const bookingId = await bookingApi.addPendingRequest();
 
-            const initialCount = await bookingApi.getPendingRequestCount();
+            const initialCount = await bookingApi.getBookingCount("PENDING");
 
             await page.reload({ waitUntil: "domcontentloaded" });
 
