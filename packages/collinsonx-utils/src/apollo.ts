@@ -11,7 +11,7 @@ import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
 import { useMemo } from 'react';
 
-const graphqlUrl = process.env.PRODUCTION_API_URL;
+const graphqlUrl = process.env.NEXT_PUBLIC_PRODUCTION_API_URL;
 
 const defaultOptions: DefaultOptions = {
   watchQuery: {
