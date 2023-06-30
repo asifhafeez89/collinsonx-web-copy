@@ -1,4 +1,6 @@
 import axios from 'axios';
+import dotenv from 'dotenv'
+dotenv.config({ path: `.env.tests` })
 
 class BookingApi {
   constructor() {
@@ -76,7 +78,7 @@ class BookingApi {
     const variables = {
       "bookingInput": {
         "experience": {
-          "id": "29e22c54-6700-50ae-b6bc-96a18bae6d3d"
+          "id": process.env.EXPERIENCE_ID
         },
         "bookedFrom": "2023-06-08T04:53:00.000Z",
         "bookedTo": "2023-06-08T06:53:00.000Z",
@@ -145,6 +147,41 @@ class BookingApi {
     const response = await axios.post(this.apiUrl, request, { headers });
 
     return response.data.data;
+  };
+
+  async getPendingRequestCount() {
+    const query = `
+      query GetBookings($experienceId: ID!) {
+        getBookings(experienceID: $experienceId) {
+          status
+        }
+      }
+    `;
+
+    const variables = {
+      "experienceId": process.env.EXPERIENCE_ID
+    };
+
+    const request = {
+      query: query,
+      variables: variables
+    };
+
+    const headers = {
+      'x-user-id': process.env.X_USER_ID,
+      'x-user-type': 'SUPER_USER'
+    };
+
+    const response = await axios.post(this.apiUrl, request, { headers });
+
+
+    const bookings = response.data.data.getBookings;
+
+    const pendingBookings = bookings.filter(booking => booking.status === "PENDING")
+
+    const pendingCount = pendingBookings.length;
+
+    return pendingCount;
   };
 };
 
