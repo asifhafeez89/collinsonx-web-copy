@@ -146,7 +146,7 @@ class BookingApi {
 
     const response = await axios.post(this.apiUrl, request, { headers });
 
-    return response.data.data;
+    return response.data.data.payForBooking.id;
   };
 
   async getPendingRequestCount() {
@@ -183,6 +183,32 @@ class BookingApi {
 
     return pendingCount;
   };
+
+  async deleteBooking(bookingId) {
+    const mutation = `
+      mutation Mutation($deleteBookingId: ID!) {
+        deleteBooking(id: $deleteBookingId) {
+          id
+        }
+      }
+    `;
+
+    const variables = {
+      "deleteBookingId": bookingId
+    }
+
+    const request = {
+      query: mutation,
+      variables: variables
+    };
+
+    const headers = {
+      'x-user-id': process.env.X_USER_ID,
+      'x-user-type': 'SUPER_USER'
+    };
+
+    await axios.post(this.apiUrl, request, { headers });
+  }
 };
 
 module.exports = BookingApi;
