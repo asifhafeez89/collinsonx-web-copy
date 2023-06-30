@@ -18,7 +18,7 @@ import Link from 'next/link';
 import { useQuery } from '@collinsonx/utils/apollo';
 import getBookings from '@collinsonx/utils/queries/getBookings';
 import { Booking, BookingStatus, Experience } from '@collinsonx/utils';
-import { getBookingsByType } from '@collinsonx/utils/lib';
+import { getBookingsByType, setItem } from '@collinsonx/utils/lib';
 import { useEffect, useMemo, useState } from 'react';
 import { isErrorValid } from 'lib';
 import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
@@ -141,10 +141,7 @@ export default function Overview() {
 
                   setExperience(newExperience);
 
-                  localStorage.setItem(
-                    SELECTED_LOUNGE,
-                    JSON.stringify(newExperience)
-                  );
+                  setItem(SELECTED_LOUNGE, JSON.stringify(newExperience));
                 }}
                 value={experience.id}
               />
