@@ -6,7 +6,6 @@ import {
   Anchor,
 } from '@collinsonx/design-system/core';
 import styled from '@collinsonx/design-system/styled';
-import { getItem, setItem } from '@collinsonx/utils/lib';
 import { CONSENT } from 'config';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -26,10 +25,10 @@ const Container = styled.div`
 const CookieBanner = () => {
   const [show, setShow] = useState(false);
   useEffect(() => {
-    setShow(getItem(CONSENT) !== 'accept');
+    setShow(localStorage.getItem(CONSENT) !== 'accept');
   }, []);
   const handleClickAccept = () => {
-    setItem(CONSENT, 'accept');
+    localStorage.setItem(CONSENT, 'accept');
     setShow(false);
   };
   return show ? (
