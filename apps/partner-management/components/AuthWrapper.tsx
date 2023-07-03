@@ -8,14 +8,6 @@ import { removeItem, setItem } from '@collinsonx/utils/lib';
 interface AuthWrapperProps {
   children: React.ReactNode;
 }
-
-const port = process.env.APP_PORT || 3000;
-const domain =
-  process.env.NEXT_PUBLIC_SITE_DOMAIN_URL ||
-  process.env.NEXT_PUBLIC_VERCEL_URL ||
-  process.env.APP_URL ||
-  `http://partner-local.test.cergea.com:${port}`;
-
 const checkIsAllowed = (pathname: string) => {
   return pathname.startsWith('/auth') || pathname.startsWith('/signup');
 };
