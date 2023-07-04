@@ -55,9 +55,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   } catch (err: any) {
     switch (err.response.status) {
       case 404:
-        res.status(404).json({
-          statusCode: 404,
-          statusText: err.response.statusText
+        res.status(200).json({
+          slots: []
         });
         break;
       case 401:
