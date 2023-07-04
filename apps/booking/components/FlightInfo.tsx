@@ -61,6 +61,7 @@ export const FlightInfo = ({
   const [dateErrorText] = useState('Please select a date');
   const [flightInfoError, setFlightInfoError] = useState('');
   const [flightInfoLoading, setFlightInfoLoading] = useState(false);
+  const [availableSlotsError, setAvailableSlotsError] = useState('');
   const [numberOfGuests, setNumberOfGuests] = useState<number | ''>(1);
   const [opened, { open, close }] = useDisclosure(false);
   const handlers = useRef<NumberInputHandlers>();
@@ -109,12 +110,19 @@ export const FlightInfo = ({
       const flightInformation = response.data.data[0];
       return flightInformation;
     } catch (err: any) {
-      setFlightInfoError('No flight found');
+      setFlightInfoError('No flight found with details supplied. Please check flight number and try again. If the issue persists, please contact support.');
+      setFlightInfoLoading(false);
     }
   };
 
   const getAvailability = async () => {
     const flightInformation = await getFlightDetails();
+
+    if (!flightInformation) {
+      setFlightInfoLoading(false);
+      setFlightInfoError('No flight found with details supplied. Please check flight number and try again. If the issue persists, please contact support.');
+      return;
+    }
 
     try {
       const response = await axios.post('/api/availability', {
@@ -135,12 +143,19 @@ export const FlightInfo = ({
             supplierCode: '123'
         }
       });
+
+      if (response.data.slots.length === 0) {
+        setAvailableSlotsError('No slots available.');
+      }
       setAvailableSlots(response.data.slots);
       setFlightInfoLoading(false);
       onSuccess(flightInformation);
       open();
     } catch (err: any) {
-      console.log(err);
+      setAvailableSlotsError('An error occurred while trying to get availabiliy. Please try again later. If the issue persists, please contact support.');
+      setFlightInfoLoading(false);
+      onSuccess(flightInformation);
+      open();
     }
   };
 
@@ -225,7 +240,6 @@ export const FlightInfo = ({
               </Grid>
             </Grid.Col>
           </Grid>
-
         </Group>
 
         <Group position='center' mt='xl'>
@@ -235,6 +249,11 @@ export const FlightInfo = ({
           >
             Get Availability
           </Button>
+        </Group>
+        <Group>
+          <Text style={{ marginTop: '20px', color: 'red' }}>
+            {flightInfoError}
+          </Text>
         </Group>
       </Box>
       <Modal opened={opened} onClose={close} title='Available Slots'>
@@ -256,7 +275,9 @@ export const FlightInfo = ({
               </Button>
             ))
           :
-            'No Slots available'
+            <Text>
+              { availableSlotsError }
+            </Text>
         }
       </Modal>
     </>
