@@ -6,21 +6,12 @@ import {
   DefaultOptions,
 } from '@apollo/client';
 import { onError } from '@apollo/link-error';
-import { setContext } from '@apollo/client/link/context';
 
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
 import { useMemo } from 'react';
-import { getItem } from './lib';
 
-const port = process.env.APP_PORT || 3000;
-
-const domain =
-  process.env.NEXT_PUBLIC_SITE_DOMAIN_URL ||
-  process.env.NEXT_PUBLIC_VERCEL_URL ||
-  `http://localhost:${port}`;
-
-const graphqlUrl = `${domain}/api/graphql`;
+const graphqlUrl = process.env.NEXT_PUBLIC_PRODUCTION_API_URL;
 
 const defaultOptions: DefaultOptions = {
   watchQuery: {
@@ -39,11 +30,12 @@ const defaultOptions: DefaultOptions = {
 
 const httpLink = new HttpLink({
   uri: graphqlUrl,
-  headers: {},
+  credentials: 'include',
 });
 
 // a temporary hack to add x-user-id only when
 // user is consumer for demo purposes
+/*
 const authLink = (
   isConsumer: boolean,
   namespace: string = 'EXPERIENCE_X_CONSUMER_ID'
@@ -64,7 +56,7 @@ const authLink = (
       },
       ...context,
     };
-  });
+  });*/
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
@@ -86,26 +78,17 @@ export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
 let apolloClient: ApolloClient<any>;
 
-function createApolloClient(isConsumer: boolean, namespace?: string) {
+function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    link: ApolloLink.from([
-      errorLink,
-      authLink(isConsumer, namespace),
-      httpLink,
-    ]),
+    link: ApolloLink.from([errorLink, httpLink]),
     cache: new InMemoryCache(),
     defaultOptions,
   });
 }
 
-export function initializeApollo(
-  initialState = null,
-  isConsumer: boolean,
-  namespace?: string
-) {
-  const _apolloClient =
-    apolloClient ?? createApolloClient(isConsumer, namespace);
+export function initializeApollo(initialState = null) {
+  const _apolloClient = apolloClient ?? createApolloClient();
 
   // If your page has Next.js data fetching methods that use Apollo Client, the initial state
   // gets hydrated here
@@ -143,16 +126,9 @@ export function addApolloState(client: any, pageProps: any) {
   return pageProps;
 }
 
-export function useApollo(
-  pageProps: any,
-  isConsumer: boolean,
-  namespace?: string
-) {
+export function useApollo(pageProps: any) {
   const state = pageProps[APOLLO_STATE_PROP_NAME];
-  const store = useMemo(
-    () => initializeApollo(state, isConsumer, namespace),
-    [state, isConsumer]
-  );
+  const store = useMemo(() => initializeApollo(state), [state]);
   return store;
 }
 
