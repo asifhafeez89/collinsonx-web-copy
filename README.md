@@ -59,4 +59,4 @@ This should resolve the issue.
 
 ## Setup CORS access for partner-management
 
-- Detailed information for local development setup for partner-management app can be found in [this page](https://github.com/CollinsonX/collinsonx-web/blob/dev/apps/partner-management/README.md#setup-cors-access).
+Detailed information for local development setup for partner-management app can be found in [this page](https://github.com/CollinsonX/collinsonx-web/blob/dev/apps/partner-management/README.md#setup-cors-access).
