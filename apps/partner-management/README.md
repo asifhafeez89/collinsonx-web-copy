@@ -32,7 +32,7 @@ Here are the steps to follow to access deployed API through the partner-manageme
 2. Localhost certificates need to be issued using a cli tool like `mkcert`. There are numerous guides online on how to do this, here is one guide for macOS (there are other similar guides for windows etc.). The correct command should take into account uat alias (not 'localhost'):
 
 ```
-mkcert -key-file key.pem -cert-file cert.pem partner-local.uat.cergea.com
+mkcert -key-file partner-local.uat.cergea-key.pem -cert-file partner-local.uat.cergea.pem partner-local.uat.cergea.com
 ```
 
 3. The end result of this process is to produce `partner-local.uat.cergea.com.pem` and `partner-local.uat.cergea.com-key.pem` files, which should then be placed inside `colinsonx-web/apps/partner-management` directory
