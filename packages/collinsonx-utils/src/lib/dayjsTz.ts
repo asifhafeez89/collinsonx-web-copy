@@ -6,8 +6,7 @@ import 'dayjs/locale/fr';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-dayjs.locale('fr');
-dayjs.tz.setDefault('Europe/Paris');
+dayjs.tz.setDefault('Europe/London');
 
 const dayjsTz = (...args: any[]) => {
   return dayjs(...args).tz();
