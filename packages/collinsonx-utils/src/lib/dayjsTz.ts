@@ -1,13 +1,23 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
-import localizedFormat from 'dayjs/plugin/localizedFormat';
+import 'dayjs/locale/fr';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
-dayjs.extend(localizedFormat);
-dayjs.tz.setDefault('Europe/London');
-dayjs().format('L LT');
-const dayjsTz = dayjs.tz;
+
+dayjs.locale('fr');
+dayjs.tz.setDefault('Europe/Paris');
+
+const dayjsTz = (...args: any[]) => {
+  return dayjs(...args).tz();
+};
+
+const timezonedUnix = (value: number) => {
+  return dayjs.unix(value).tz();
+};
+
+dayjsTz.unix = timezonedUnix;
+dayjsTz.duration = (dayjs as any).duration;
 
 export default dayjsTz;
