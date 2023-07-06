@@ -1,11 +1,12 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
-import 'dayjs/locale/fr';
+import 'dayjs/locale/uk';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
+dayjs.locale('uk');
 dayjs.tz.setDefault('Europe/London');
 
 const dayjsTz = (...args: any[]) => {
