@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`<Home /> renders outline variant 1`] = `
-<p>
-  Hello World
-</p>
-`;
