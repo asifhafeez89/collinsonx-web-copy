@@ -54,6 +54,7 @@ import { Modal } from '@collinsonx/design-system/core';
 import Details from '@components/Details';
 import useExperience from 'hooks/experience';
 import PageTitle from '@components/PageTitle';
+import dayjs from 'dayjs';
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
 
@@ -146,7 +147,7 @@ export default function Bookings({ type }: BookingsProps) {
               .toLowerCase()
               .includes((search ?? '').trim().toLowerCase()) ||
             (item.id ?? '').toLowerCase() ===
-            (search ?? '').trim().toLowerCase()
+              (search ?? '').trim().toLowerCase()
           );
         }),
       };
@@ -255,8 +256,9 @@ export default function Bookings({ type }: BookingsProps) {
       return '';
     }
     if (date) {
-      return `${type.slice(0, 1).toUpperCase() + type.slice(1)
-        } - arriving ${date}`;
+      return `${
+        type.slice(0, 1).toUpperCase() + type.slice(1)
+      } - arriving ${date}`;
     }
     return `All ${type.slice(0, 1).toUpperCase() + type.slice(1)}`;
   }, [date, type]);
@@ -283,8 +285,9 @@ export default function Bookings({ type }: BookingsProps) {
   const handleChangeDate: ComponentProps<typeof DatePicker>['onChange'] = (
     date
   ) => {
+    // only place that should not enformce timezone here
     const dateStr =
-      date !== null ? dayjsTz(date as Date).format('YYYY-MM-DD') : '';
+      date !== null ? dayjs(date as Date).format('YYYY-MM-DD') : '';
     router.replace(
       {
         query: { ...router.query, date: dateStr },
