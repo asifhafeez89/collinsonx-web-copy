@@ -52,8 +52,8 @@ export default function Overview() {
       onCompleted: () =>
         setLastUpdate(
           new Date().toLocaleDateString() +
-          ' ' +
-          new Date().toLocaleTimeString()
+            ' ' +
+            new Date().toLocaleTimeString()
         ),
     }
   );
@@ -100,10 +100,11 @@ export default function Overview() {
   const experiencesFiltered = experiences.map((experience) => {
     return {
       value: experience.id,
-      label: `${experience.loungeName}${experience.location?.terminal
+      label: `${experience.loungeName}${
+        experience.location?.terminal
           ? ' - ' + experience.location?.terminal
           : ''
-        }`,
+      }`,
     };
   });
 

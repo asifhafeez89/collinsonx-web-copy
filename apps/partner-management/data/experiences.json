@@ -68,5 +68,9 @@
       "airportName": "London Heathrow",
       "terminal": "Terminal 3"
     }
+  },
+  {
+    "id": "7c622a44-deb8-4665-87dc-8504fc4df751",
+    "loungeName": "3 More London - Cergea Lounge of the Future"
   }
 ]
