@@ -5,6 +5,7 @@ class LoginPage {
 
   async login(email, password) {
     await this.goToURL();
+    await this.acceptCookieBanner();
     await this.enterEmailAddress(email);
     await this.enterPassword(password)
     // await this.saveMyPassword();
@@ -33,6 +34,10 @@ class LoginPage {
     // currently using deployed environment due to cors issues locally
     // return this.page.goto('http://localhost:3010');
     return this.page.goto('/');
+  };
+
+  acceptCookieBanner() {
+    return this.page.getByRole('button', { name: 'Accept and close' }).click();
   };
 
 };

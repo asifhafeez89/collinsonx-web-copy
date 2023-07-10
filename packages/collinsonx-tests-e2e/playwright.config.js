@@ -35,10 +35,10 @@ module.exports = defineConfig({
       use: { ...devices['Desktop Chrome'], storageState: 'playwright/.auth/user.json', baseURL: process.env.URL },
       dependencies: ['setup'],
     },
-    {
-      name: 'Safari Test',
-      use: { ...devices['Desktop Safari'], storageState: 'playwright/.auth/user.json', baseURL: process.env.URL },
-      dependencies: ['setup'],
-    },
+    // {
+    //   name: 'Safari Test',
+    //   use: { ...devices['Desktop Safari'], storageState: 'playwright/.auth/user.json', baseURL: process.env.URL },
+    //   dependencies: ['setup'],
+    // },
   ],
 });

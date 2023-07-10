@@ -1,4 +1,4 @@
-const { test } = require('@playwright/test');
+const { test, expect } = require('@playwright/test');
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
 import SignUp from '../utils/SignUp';
@@ -37,9 +37,28 @@ test('login as a new partner', async ({ page }) => {
     const signUpURL = await signUp.getRegistrationURL(partner);
     await page.goto(signUpURL);
 
+    await signUpPage.acceptCookieBanner();
     await signUpPage.fillInDetails(email, password);
 
-    login.login(email, password);
-
     await expectPartnerToBeLoggedIn.ask();
+});
+
+test('receive error notification of pre-existing registration and get taken to login page', async ({ page }) => {
+    const helper = new Helper(page);
+    const signUp = new SignUp();
+    const signUpPage = new SignUpPage(page);
+
+    const partner = "automationuserpartner";
+    const email = `${partner}@clearrouteteam.testinator.com`;
+    const password = "CollinsonXPartner123";
+
+    signUp.receiveRegistrationEmail(email);
+    await helper.wait(5000);
+    const signUpURL = await signUp.getRegistrationURL(partner);
+    await page.goto(signUpURL);
+
+    await signUpPage.acceptCookieBanner();
+    await signUpPage.fillInDetails(email, password);
+
+    await expect(signUpPage.errorMessageExistingUser()).toBeVisible();
 });
