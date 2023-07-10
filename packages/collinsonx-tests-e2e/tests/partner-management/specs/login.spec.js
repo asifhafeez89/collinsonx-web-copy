@@ -1,7 +1,7 @@
 const { test } = require('@playwright/test');
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
-import SignUp from '../actions/SignUp';
+import SignUp from '../utils/SignUp';
 import ExpectPartnerToBeLoggedIn from '../assertions/ExpectPartnerToBeLoggedIn';
 import { v4 as uuidv4 } from 'uuid';
 import Helper from '../../helpers/Helper';
@@ -36,9 +36,9 @@ test('login as a new partner', async ({ page }) => {
     await helper.wait(5000);
     const signUpURL = await signUp.getRegistrationURL(partner);
     await page.goto(signUpURL);
-    
+
     await signUpPage.fillInDetails(email, password);
-    
+
     login.login(email, password);
 
     await expectPartnerToBeLoggedIn.ask();

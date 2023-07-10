@@ -1,6 +1,6 @@
 const { test } = require('@playwright/test');
 import BookingOverviewPage from '../pages/BookingOverviewPage';
-import BookingApi from '../actions/BookingApi';
+import BookingApi from '../utils/BookingApi';
 import ExpectPartnerToBeLoggedIn from '../assertions/ExpectPartnerToBeLoggedIn';
 
 test.describe('booking overview dashboard', () => {
