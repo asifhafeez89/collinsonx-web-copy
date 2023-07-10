@@ -16,3 +16,14 @@ export const getBookingsByType = (
   }
   return bookingStatusMap;
 };
+
+export const getItem = (key: string): string | null => {
+  return sessionStorage.getItem(key);
+};
+
+export const setItem = (key: string, value: string) => {
+  return sessionStorage.setItem(key, value);
+};
+export const removeItem = (key: string) => {
+  return sessionStorage.removeItem(key);
+};

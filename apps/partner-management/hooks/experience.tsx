@@ -11,6 +11,7 @@ import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import suExperiences from '../data/experiences.json';
 
 import ErrorComponent from '@components/Error';
+import { getItem, setItem } from '@collinsonx/utils/lib';
 
 type ExperienceState = {
   experience: Experience;
@@ -42,19 +43,22 @@ export const ExperienceProvider = (props: PropsWithChildren) => {
     variables: { getPartnerById: session.userId },
     skip: !session.userId,
     onCompleted: (data) => {
-      if (localStorage.getItem(SELECTED_LOUNGE)) {
-        setExperience(JSON.parse(localStorage.getItem(SELECTED_LOUNGE)!));
+      if (
+        getItem(SELECTED_LOUNGE) &&
+        session.accessTokenPayload.userType === 'SUPER_USER'
+      ) {
+        setExperience(JSON.parse(getItem(SELECTED_LOUNGE)!));
       } else if (data?.getPartnerByID) {
         const { experiences } = data.getPartnerByID;
         if (
           experiences.length &&
           session.accessTokenPayload.userType === 'PARTNER'
         ) {
-          localStorage.setItem(SELECTED_LOUNGE, JSON.stringify(experiences[0]));
+          setItem(SELECTED_LOUNGE, JSON.stringify(experiences[0]));
           setExperience(experiences[0]);
         }
       } else if (session.accessTokenPayload.userType === 'SUPER_USER') {
-        localStorage.setItem(SELECTED_LOUNGE, JSON.stringify(suExperiences[0]));
+        setItem(SELECTED_LOUNGE, JSON.stringify(suExperiences[0]));
         setExperience(suExperiences[0] as Experience);
       }
     },

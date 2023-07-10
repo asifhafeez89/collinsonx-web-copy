@@ -6,19 +6,20 @@ import { useEffect } from 'react';
 import Session from 'supertokens-auth-react/recipe/session';
 
 import { PARTNER_ID, SELECTED_LOUNGE, USER_TYPE, USER_META } from 'config';
+import { removeItem } from '@collinsonx/utils/lib';
 
-const clearLocalStorage = () => {
+const clearSessionStorage = () => {
   if (typeof window !== undefined) {
-    localStorage.removeItem(PARTNER_ID);
-    localStorage.removeItem(SELECTED_LOUNGE);
-    localStorage.removeItem(USER_TYPE);
-    localStorage.removeItem(USER_META);
+    removeItem(PARTNER_ID);
+    removeItem(SELECTED_LOUNGE);
+    removeItem(USER_TYPE);
+    removeItem(USER_META);
   }
 };
 
 async function logout() {
   await Session.signOut();
-  clearLocalStorage();
+  clearSessionStorage();
   window.location.href = '/';
 }
 

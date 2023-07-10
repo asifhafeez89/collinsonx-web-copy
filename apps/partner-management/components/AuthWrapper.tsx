@@ -1,20 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import useAuth from '../hooks/useAuth';
-import { PARTNER_ID, USER_TYPE, USER_META } from 'config';
+import { PARTNER_ID, USER_TYPE, USER_META, SELECTED_LOUNGE } from 'config';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
+import { removeItem, setItem } from '@collinsonx/utils/lib';
 
 interface AuthWrapperProps {
   children: React.ReactNode;
 }
-
-const port = process.env.APP_PORT || 3000;
-const domain =
-  process.env.NEXT_PUBLIC_SITE_DOMAIN_URL ||
-  process.env.NEXT_PUBLIC_VERCEL_URL ||
-  process.env.APP_URL ||
-  `http://partner-local.test.cergea.com:${port}`;
-
 const checkIsAllowed = (pathname: string) => {
   return pathname.startsWith('/auth') || pathname.startsWith('/signup');
 };
@@ -27,10 +20,10 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
   useEffect(() => {
     const { accessTokenPayload = {} } = session as any;
     if (accessTokenPayload.userType) {
-      localStorage.setItem(USER_TYPE, accessTokenPayload.userType);
+      setItem(USER_TYPE, accessTokenPayload.userType);
     }
     if (accessTokenPayload.experiences) {
-      localStorage.setItem(
+      setItem(
         USER_META,
         JSON.stringify({ experiences: accessTokenPayload.experiences })
       );
@@ -48,12 +41,21 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
   });
 
   useEffect(() => {
+    if (session.loading === false && session.doesSessionExist === false) {
+      if (typeof window !== undefined) {
+        removeItem(PARTNER_ID);
+        removeItem(SELECTED_LOUNGE);
+        removeItem(USER_TYPE);
+        removeItem(USER_META);
+      }
+    }
+
     const isLoggedIn =
       session.loading === false && session.doesSessionExist === true;
 
     if (isLoggedIn || checkIsAllowed(router.pathname)) {
       if (session.userId && typeof session.userId === 'string') {
-        localStorage.setItem(PARTNER_ID, session.userId);
+        setItem(PARTNER_ID, session.userId);
       }
       setShow(true);
     } else {
