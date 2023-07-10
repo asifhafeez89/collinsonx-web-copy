@@ -1,14 +1,9 @@
 const { defineConfig, devices } = require('@playwright/test');
 
 /**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-require('dotenv').config();
-
-/**
  * @see https://playwright.dev/docs/test-configuration
  */
+
 module.exports = defineConfig({
   // max time (ms) for tests inc. teardown
   timeout: 60000,
@@ -28,14 +23,11 @@ module.exports = defineConfig({
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: 'http://localhost:3000',
     headless: true,
-
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
     // Record tests
     video: 'retain-on-failure'
   },
-
-  /* Configure projects for major browsers */
   projects: [
     { name: 'setup', testMatch: /auth.setup\.js/ },
     {
