@@ -156,38 +156,11 @@ class BookingApi {
   };
 
   async getBookingCount(status) {
-    const query = `
-      query GetBookings($experienceId: ID!) {
-        getBookings(experienceID: $experienceId) {
-          status
-        }
-      }
-    `;
+    const statusBookings = this.getBookings(status);
 
-    const variables = {
-      "experienceId": process.env.EXPERIENCE_ID
-    };
+    const statusBookingsCount = statusBookings.length;
 
-    const request = {
-      query: query,
-      variables: variables
-    };
-
-    const headers = {
-      'x-user-id': process.env.X_USER_ID,
-      'x-user-type': 'SUPER_USER'
-    };
-
-    const response = await axios.post(this.apiUrl, request, { headers });
-
-
-    const bookings = response.data.data.getBookings;
-
-    const pendingBookings = bookings.filter(booking => booking.status === status)
-
-    const pendingCount = pendingBookings.length;
-
-    return pendingCount;
+    return statusBookingsCount;
   };
 
   async confirmBooking(bookingId) {
@@ -243,6 +216,39 @@ class BookingApi {
 
     await axios.post(this.apiUrl, request, { headers });
   }
+
+  async getBookings(status) {
+    const query = `
+      query GetBookings($experienceId: ID!) {
+        getBookings(experienceID: $experienceId) {
+          status
+        }
+      }
+    `;
+
+    const variables = {
+      "experienceId": process.env.EXPERIENCE_ID
+    };
+
+    const request = {
+      query: query,
+      variables: variables
+    };
+
+    const headers = {
+      'x-user-id': process.env.X_USER_ID,
+      'x-user-type': 'SUPER_USER'
+    };
+
+    const response = await axios.post(this.apiUrl, request, { headers });
+
+
+    const bookings = response.data.data.getBookings;
+
+    const statusBookings = bookings.filter(booking => booking.status === status);
+
+    return statusBookings;
+  };
 };
 
 module.exports = BookingApi;
