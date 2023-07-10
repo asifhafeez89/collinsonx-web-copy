@@ -14,7 +14,7 @@ test('login as a current partner', async ({ page }) => {
     const partner = "automationuserpartner";
     const email = `${partner}@clearrouteteam.testinator.com`;
     // CollinsonXPartner123 for uat, lowercase p for test domains
-    const password = "CollinsonXpartner123";
+    const password = "CollinsonXPartner123";
 
     await loginPage.login(email, password);
 
@@ -25,8 +25,8 @@ test('login as a new partner', async ({ page }) => {
     const expectPartnerToBeLoggedIn = new ExpectPartnerToBeLoggedIn(page);
     const helper = new Helper(page);
     const signUp = new SignUp();
-    const signUpPage = new SignUpPage;
-    const login = new Login(page);
+    const signUpPage = new SignUpPage(page);
+    const login = new LoginPage(page);
 
     const partner = uuidv4();
     const email = `${partner}@clearrouteteam.testinator.com`;
