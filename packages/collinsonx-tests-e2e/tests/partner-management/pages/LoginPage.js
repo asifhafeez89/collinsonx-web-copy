@@ -32,7 +32,7 @@ class LoginPage {
   goToURL() {
     // currently using deployed environment due to cors issues locally
     // return this.page.goto('http://localhost:3010');
-    return this.page.goto('https://partner.test.cergea.com/');
+    return this.page.goto('/');
   };
 
 };

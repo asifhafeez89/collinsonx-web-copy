@@ -10,7 +10,7 @@ test.describe('booking overview dashboard', () => {
             const bookingApi = new BookingApi();
             const expectPartnerToBeLoggedIn = new ExpectPartnerToBeLoggedIn(page);
 
-            await page.goto('https://partner.test.cergea.com/');
+            await page.goto('/');
             await page.reload({ waitUntil: "domcontentloaded" });
 
             await expectPartnerToBeLoggedIn.ask();
@@ -30,7 +30,7 @@ test.describe('booking overview dashboard', () => {
             const bookingApi = new BookingApi();
             const expectPartnerToBeLoggedIn = new ExpectPartnerToBeLoggedIn(page);
 
-            await page.goto('https://partner.test.cergea.com/');
+            await page.goto('/');
 
             await page.reload({ waitUntil: "domcontentloaded" });
 
@@ -56,7 +56,7 @@ test.describe('booking overview dashboard', () => {
             const bookingApi = new BookingApi();
             const expectPartnerToBeLoggedIn = new ExpectPartnerToBeLoggedIn(page);
 
-            await page.goto('https://partner.test.cergea.com/');
+            await page.goto('/');
             await page.reload({ waitUntil: "domcontentloaded" });
 
             await expectPartnerToBeLoggedIn.ask();
