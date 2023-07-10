@@ -6,7 +6,7 @@ import ExpectPartnerToBeLoggedIn from '../assertions/ExpectPartnerToBeLoggedIn';
 import { v4 as uuidv4 } from 'uuid';
 import Helper from '../../helpers/Helper';
 
-test('login as a current partner', async ({ page }) => {
+test.only('login as a current partner', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const expectPartnerToBeLoggedIn = new ExpectPartnerToBeLoggedIn(page);
 
@@ -47,6 +47,7 @@ test('receive error notification of pre-existing registration and get taken to l
     const helper = new Helper(page);
     const signUp = new SignUp();
     const signUpPage = new SignUpPage(page);
+    const loginPage = new LoginPage(page);
 
     const partner = "automationuserpartner";
     const email = `${partner}@clearrouteteam.testinator.com`;
@@ -61,4 +62,5 @@ test('receive error notification of pre-existing registration and get taken to l
     await signUpPage.fillInDetails(email, password);
 
     await expect(signUpPage.errorMessageExistingUser()).toBeVisible();
+    await expect(loginPage.title()).toBeVisible();
 });
