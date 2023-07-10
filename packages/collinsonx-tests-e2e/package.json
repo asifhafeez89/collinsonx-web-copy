@@ -6,8 +6,8 @@
     "e2e:dev": "playwright test --headed",
     "e2e:start": "start-server-and-test \"(cd ../../ && pnpm run build && pnpm run start)\" http://localhost:3000 \"playwright test\"",
     "e2e:report": "playwright show-report",
-    "e2e:test": "URL=https://partner.test.cergea.com playwright test --headed",
-    "e2e:uat": "URL=https://partner.uat.cergea.com playwright test --headed"
+    "e2e:test": "ENV=TEST URL=https://partner.test.cergea.com playwright test --headed",
+    "e2e:uat": "ENV=UAT URL=https://partner.uat.cergea.com playwright test --headed"
   },
   "dependencies": {
     "dotenv": "^16.0.3",

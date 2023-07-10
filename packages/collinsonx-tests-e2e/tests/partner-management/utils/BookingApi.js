@@ -1,10 +1,11 @@
 import axios from 'axios';
 import dotenv from 'dotenv'
 dotenv.config({ path: `.env.tests` })
+require('dotenv').config();
 
 class BookingApi {
   constructor() {
-    this.apiUrl = "https://gateway-api.test.cergea.com/graphql"
+    this.apiUrl = `https://gateway-api.${process.env.ENV}.cergea.com/graphql`
   }
 
   async addConfirmedBooking() {
@@ -150,7 +151,7 @@ class BookingApi {
     }
 
     const response = await axios.post(this.apiUrl, request, { headers });
-
+    console.log(response.data)
     return response.data.data.payForBooking.id;
   };
 
