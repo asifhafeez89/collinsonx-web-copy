@@ -98,6 +98,12 @@ export const FlightInfo = ({
     close();
   };
 
+  const sortSlots = (slots: AvailabilitySlot[]) => {
+    return slots.sort((slotA, slotB) => {
+      return dayjs(slotA.startDateTime).isBefore(dayjs(slotB.startDateTime)) ? -1 : 1;
+    });
+  };
+
   const getFlightDetails = async () => {
     const flightBreakdown = validateFlightNumber(flightNumber);
 
@@ -147,7 +153,7 @@ export const FlightInfo = ({
       if (response.data.slots.length === 0) {
         setAvailableSlotsError('No slots available.');
       }
-      setAvailableSlots(response.data.slots);
+      setAvailableSlots(sortSlots(response.data.slots));
       setFlightInfoLoading(false);
       onSuccess(flightInformation);
       open();
@@ -269,11 +275,16 @@ export const FlightInfo = ({
         {
           availableSlots.length > 0
           ?
-            availableSlots.map((slot, i) => (
-              <Button ref={slotRef} variant='outline' onClick={onSelectSlot} key={i} data-selectedslot={i}>
-                {`${dayjs(slot.startDateTime).format('hh:mm')} - ${dayjs(slot.endDateTime).format('hh:mm')}`}
-              </Button>
-            ))
+          <Grid grow>
+             {availableSlots.map((slot, i) => (
+              <Grid.Col span={1} key={`available-slot-${i}`}>
+                <Button ref={slotRef} variant='outline' onClick={onSelectSlot} data-selectedslot={i}>
+                  {`${dayjs(slot.startDateTime).format('hh:mm')} - ${dayjs(slot.endDateTime).format('hh:mm')}`}
+                </Button>
+              </Grid.Col>
+            ))}
+          </Grid>
+
           :
             <Text>
               { availableSlotsError }
