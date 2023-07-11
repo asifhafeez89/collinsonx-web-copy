@@ -6,7 +6,7 @@ import ExpectPartnerToBeLoggedIn from '../assertions/ExpectPartnerToBeLoggedIn';
 import { v4 as uuidv4 } from 'uuid';
 import Helper from '../../helpers/Helper';
 
-test.only('login as a current partner', async ({ page }) => {
+test('login as a current partner', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const expectPartnerToBeLoggedIn = new ExpectPartnerToBeLoggedIn(page);
 
