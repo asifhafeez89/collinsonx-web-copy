@@ -1,3 +1,4 @@
+const { expect } = require('@playwright/test');
 import axios from 'axios';
 import dotenv from 'dotenv'
 dotenv.config({ path: `.env.tests` })
@@ -156,7 +157,7 @@ class BookingApi {
   };
 
   async getBookingCount(status) {
-    const statusBookings = this.getBookings(status);
+    const statusBookings = await this.getBookings(status);
 
     const statusBookingsCount = statusBookings.length;
 
@@ -221,6 +222,7 @@ class BookingApi {
     const query = `
       query GetBookings($experienceId: ID!) {
         getBookings(experienceID: $experienceId) {
+          id
           status
         }
       }
