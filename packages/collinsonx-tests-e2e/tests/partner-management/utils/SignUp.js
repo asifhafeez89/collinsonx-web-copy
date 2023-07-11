@@ -1,4 +1,3 @@
-import SignUpPage from '../pages/SignUpPage';
 import { MailinatorClient } from 'mailinator-client';
 import { GetInboxRequest } from 'mailinator-client';
 import { GetMessageRequest } from 'mailinator-client';

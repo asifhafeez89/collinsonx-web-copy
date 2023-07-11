@@ -26,7 +26,6 @@ test('login as a new partner', async ({ page }) => {
     const helper = new Helper(page);
     const signUp = new SignUp();
     const signUpPage = new SignUpPage(page);
-    const login = new LoginPage(page);
 
     const partner = uuidv4();
     const email = `${partner}@clearrouteteam.testinator.com`;

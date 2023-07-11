@@ -1,4 +1,3 @@
-const { expect } = require('@playwright/test');
 import axios from 'axios';
 import dotenv from 'dotenv'
 dotenv.config({ path: `.env.tests` })
