@@ -4,6 +4,17 @@ import '@testing-library/jest-dom/extend-expect';
 
 import { bookingPageConfig } from 'config/booking';
 
+function hexToRgb(hex: string) {
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result
+    ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16),
+      }
+    : null;
+}
+
 describe('<OverviewCard />', () => {
   it('should render', () => {
     const card = render(<OverviewCard title="Test" variant="confirmed" />);
@@ -26,7 +37,7 @@ describe('<OverviewCard />', () => {
       </OverviewCard>
     );
     expect(card.getByText('Test').parentNode).toHaveStyle(
-      `background-color: ${bookingPageConfig[variant].color}`
+      `background-color: ${hexToRgb(bookingPageConfig[variant].color)}`
     );
   });
   it('should have corresponding background color for confirmed', () => {
@@ -37,7 +48,7 @@ describe('<OverviewCard />', () => {
       </OverviewCard>
     );
     expect(card.getByText('Test').parentNode).toHaveStyle(
-      `background-color: ${bookingPageConfig[variant].color}`
+      `background-color: ${hexToRgb(bookingPageConfig[variant].color)}`
     );
   });
   it('should have corresponding background color for declined', () => {
@@ -48,7 +59,7 @@ describe('<OverviewCard />', () => {
       </OverviewCard>
     );
     expect(card.getByText('Test').parentNode).toHaveStyle(
-      `background-color: ${bookingPageConfig[variant].color}`
+      `background-color: ${hexToRgb(bookingPageConfig[variant].color)}`
     );
   });
 });
