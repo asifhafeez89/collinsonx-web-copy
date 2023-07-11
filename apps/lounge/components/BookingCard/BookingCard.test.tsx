@@ -36,7 +36,7 @@ describe('BookingCard component test', () => {
     render(<BookingCard {...props} />);
     expect(screen.getByText(props.name)).toBeInTheDocument();
     expect(screen.getByText(props.location)).toBeInTheDocument();
-    expect(screen.getByText('9 May 2023')).toBeInTheDocument();
+    expect(screen.getByText('9 травня 2023')).toBeInTheDocument();
     expect(screen.getByText('10:00 lounge arrival time')).toBeInTheDocument();
   });
 
@@ -44,7 +44,7 @@ describe('BookingCard component test', () => {
     render(<BookingCard {...props} date="2023-05-09T14:00:00.000Z" />);
     expect(screen.getByText(props.name)).toBeInTheDocument();
     expect(screen.getByText(props.location)).toBeInTheDocument();
-    expect(screen.getByText('9 May 2023')).toBeInTheDocument();
+    expect(screen.getByText('9 травня 2023')).toBeInTheDocument();
     expect(screen.getByText('14:00 lounge arrival time')).toBeInTheDocument();
   });
 });

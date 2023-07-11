@@ -35,10 +35,6 @@ exports[`<InputLabel /> renders textinput 1`] = `
   position: relative;
 }
 
-.emotion-11:has(input:disabled) .mantine-Input-rightSection {
-  display: none;
-}
-
 .emotion-14 {
   font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
   height: 2.25rem;
@@ -80,7 +76,6 @@ exports[`<InputLabel /> renders textinput 1`] = `
   color: #909296;
   opacity: 0.6;
   cursor: not-allowed;
-  pointer-events: none;
 }
 
 .emotion-14:disabled::-webkit-input-placeholder {
@@ -198,8 +193,8 @@ exports[`<InputLabel /> renders textinput 1`] = `
 >
   <label
     className="emotion-3 emotion-4 emotion-5"
-    htmlFor="mantine-870fuivf2"
-    id="mantine-870fuivf2-label"
+    htmlFor="mantine-yw3spd0im"
+    id="mantine-yw3spd0im-label"
     onMouseDown={[Function]}
   >
     Full name
@@ -216,7 +211,7 @@ exports[`<InputLabel /> renders textinput 1`] = `
     <input
       aria-invalid={false}
       className="emotion-12 emotion-13 emotion-14"
-      id="mantine-870fuivf2"
+      id="mantine-yw3spd0im"
       placeholder="Your name"
       type="text"
     />

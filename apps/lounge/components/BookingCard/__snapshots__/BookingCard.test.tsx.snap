@@ -200,7 +200,7 @@ exports[`BookingCard component test renders correctly 1`] = `
   border: 0.0625rem solid transparent;
   background-color: #228be6;
   color: #fff;
-  margin-top: 1rem;
+  margin-top: 0.75rem;
 }
 
 .emotion-22:focus {
@@ -350,12 +350,12 @@ exports[`BookingCard component test renders correctly 1`] = `
               <div
                 class="emotion-9 emotion-17"
               >
-                9 May 2023
+                9 травня 2023
               </div>
               <div
                 class="emotion-9 emotion-17"
               >
-                10:00
+                11:00
                  lounge arrival time
               </div>
               <button
