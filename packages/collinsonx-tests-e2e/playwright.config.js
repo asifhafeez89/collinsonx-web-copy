@@ -7,7 +7,7 @@ const { defineConfig, devices } = require('@playwright/test');
 module.exports = defineConfig({
   // max time (ms) for tests inc. teardown
   timeout: 60000,
-  testDir: './tests/partner-management',
+  testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
