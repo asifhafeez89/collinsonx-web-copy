@@ -4,7 +4,7 @@ class LoginPage {
   };
 
   getURL() {
-    return this.page.goto('http://localhost:3000');
+    return this.page.goto('/');;
   };
 
   getEmailAddressTextbox() {

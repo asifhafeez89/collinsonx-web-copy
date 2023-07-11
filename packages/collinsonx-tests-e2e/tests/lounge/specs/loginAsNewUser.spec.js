@@ -3,6 +3,8 @@ import Login from '../actions/Login';
 import SignUp from '../actions/SignUp';
 import ExpectUserToBeLoggedIn from '../assertions/ExpectUserToBeLoggedIn';
 
+test.use({ storageState: { cookies: [], origins: [] }, baseURL: `https://${process.env.ENV.toLowerCase()}.lifestyle-x.io` });
+
 test('login as a new user', async ({ page }) => {
   //Given
   let login = new Login(page);
