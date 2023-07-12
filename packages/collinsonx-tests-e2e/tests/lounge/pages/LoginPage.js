@@ -3,6 +3,8 @@ import CheckEmailPage from '../pages/CheckEmailPage';
 import { v4 as uuidv4 } from 'uuid';
 import { MailinatorClient, GetInboxRequest, GetMessageRequest } from 'mailinator-client';
 import Helper from '../../helpers/Helper';
+
+// TODO: refactor to align with the page object model convention (shouldnt rely on other pages,etc)
 class LoginPage {
   constructor(page, expect) {
     this.page = page;
