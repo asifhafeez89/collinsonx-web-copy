@@ -11,8 +11,7 @@ test('login as a current partner', async ({ page }) => {
     const bookingOverviewPage = new BookingOverviewPage(page);
 
     // password will be changed and added to secret variables at a later date
-    const partner = "automationuserpartner";
-    const email = `${partner}@clearrouteteam.testinator.com`;
+    const email = `automationuserpartner@clearrouteteam.testinator.com`;
     // CollinsonXPartner123 for uat, lowercase p for test domains
     const password = "CollinsonXPartner123";
 
