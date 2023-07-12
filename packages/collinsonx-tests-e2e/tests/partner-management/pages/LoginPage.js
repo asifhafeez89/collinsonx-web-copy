@@ -8,7 +8,7 @@ class LoginPage {
     await this.acceptCookieBanner();
     await this.enterEmailAddress(email);
     await this.enterPassword(password)
-    // await this.saveMyPassword();
+    await this.saveMyPassword();
     await this.clickLogin();
   };
 
