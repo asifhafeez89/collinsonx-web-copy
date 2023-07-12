@@ -1,6 +1,7 @@
 const { test, expect } = require('@playwright/test');
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
+import BookingOverviewPage from '../pages/BookingOverviewPage';
 import SignUp from '../utils/SignUp';
 import ExpectPartnerToBeLoggedIn from '../assertions/ExpectPartnerToBeLoggedIn';
 import { v4 as uuidv4 } from 'uuid';
@@ -8,7 +9,7 @@ import Helper from '../../helpers/Helper';
 
 test('login as a current partner', async ({ page }) => {
     const loginPage = new LoginPage(page);
-    const expectPartnerToBeLoggedIn = new ExpectPartnerToBeLoggedIn(page);
+    const bookingOverviewPage = new BookingOverviewPage(page);
 
     // password will be changed and added to secret variables at a later date
     const partner = "automationuserpartner";
@@ -18,7 +19,19 @@ test('login as a current partner', async ({ page }) => {
 
     await loginPage.login(email, password);
 
-    await expectPartnerToBeLoggedIn.ask();
+    const title = bookingOverviewPage.getPageTitle();
+    const pendingRequestsTitle = bookingOverviewPage.getPendingRequestsTitle();
+    const cancelledBookingsTitle = bookingOverviewPage.getCancelledBookingsTitleTitle();
+    const confirmedBookingsTitle = bookingOverviewPage.getConfirmedBookingsTitle();
+    const walkupQRcodeTitle = bookingOverviewPage.getWalkupQRcodeTitle();
+    const loungeTitle = bookingOverviewPage.getLoungeTitle();
+
+    await expect(title).toBeVisible();
+    await expect(loungeTitle).toBeVisible();
+    await expect(pendingRequestsTitle).toBeVisible();
+    await expect(cancelledBookingsTitle).toBeVisible();
+    await expect(confirmedBookingsTitle).toBeVisible();
+    await expect(walkupQRcodeTitle).toBeVisible();
 });
 
 test('login as a new partner', async ({ page }) => {
@@ -39,7 +52,19 @@ test('login as a new partner', async ({ page }) => {
     await signUpPage.acceptCookieBanner();
     await signUpPage.fillInDetails(email, password);
 
-    await expectPartnerToBeLoggedIn.ask();
+    const title = bookingOverviewPage.getPageTitle();
+    const pendingRequestsTitle = bookingOverviewPage.getPendingRequestsTitle();
+    const cancelledBookingsTitle = bookingOverviewPage.getCancelledBookingsTitleTitle();
+    const confirmedBookingsTitle = bookingOverviewPage.getConfirmedBookingsTitle();
+    const walkupQRcodeTitle = bookingOverviewPage.getWalkupQRcodeTitle();
+    const loungeTitle = bookingOverviewPage.getLoungeTitle();
+
+    await expect(title).toBeVisible();
+    await expect(loungeTitle).toBeVisible();
+    await expect(pendingRequestsTitle).toBeVisible();
+    await expect(cancelledBookingsTitle).toBeVisible();
+    await expect(confirmedBookingsTitle).toBeVisible();
+    await expect(walkupQRcodeTitle).toBeVisible();
 });
 
 test('receive error notification of pre-existing registration and get taken to login page', async ({ page }) => {
