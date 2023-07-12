@@ -4,7 +4,7 @@ import SignUpPage from '../pages/SignUpPage';
 
 test.use({ storageState: { cookies: [], origins: [] }, baseURL: `https://${process.env.ENV.toLowerCase()}.lifestyle-x.io` });
 
-test.only('login as a new user', async ({ page }) => {
+test('login as a new user', async ({ page }) => {
   //Given
   let loginPage = new LoginPage(page);
   let signUpPage = new SignUpPage(page);
