@@ -41,6 +41,7 @@ test('login as a new partner', async ({ page }) => {
     const password = uuidv4();
 
     signUp.receiveRegistrationEmail(email);
+    // TODO: refactor 'wait' for ensuring the email has been sent before proceeding
     await helper.wait(5000);
     const signUpURL = await signUp.getRegistrationURL(partner);
     await page.goto(signUpURL);
@@ -69,6 +70,7 @@ test('receive error notification of pre-existing registration and get taken to l
     const password = "CollinsonXPartner123";
 
     signUp.receiveRegistrationEmail(email);
+    // TODO: refactor 'wait' for ensuring the email has been sent before proceeding
     await helper.wait(5000);
     const signUpURL = await signUp.getRegistrationURL(partner);
     await page.goto(signUpURL);

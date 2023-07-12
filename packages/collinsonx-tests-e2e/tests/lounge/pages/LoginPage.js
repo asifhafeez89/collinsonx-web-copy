@@ -16,6 +16,7 @@ class LoginPage {
 
     await this.getEmailAddressTextbox().fill(email);
     await this.getLoginButton().click();
+    // TODO: refactor 'wait' for ensuring the email has been sent before proceeding
     await this.helper.wait(5000);
 
     const otp = await this.getOTP(uuid);
@@ -43,6 +44,7 @@ class LoginPage {
         id = latestMessage.id;
         break;
       } catch {
+        // wait x amount of time before next attempt at checking emails
         await this.helper.wait(3000);
       }
     }
