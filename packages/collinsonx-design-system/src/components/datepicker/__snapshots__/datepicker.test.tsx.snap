@@ -196,8 +196,8 @@ exports[`<Datepicker /> renders datepicker 1`] = `
   >
     <label
       className="emotion-3 emotion-4 emotion-5"
-      htmlFor="mantine-qonoh95ml"
-      id="mantine-qonoh95ml-label"
+      htmlFor="mantine-2k9ntj7du"
+      id="mantine-2k9ntj7du-label"
       onMouseDown={[Function]}
     >
       Date
@@ -212,13 +212,13 @@ exports[`<Datepicker /> renders datepicker 1`] = `
       className="emotion-9 emotion-10 emotion-11"
     >
       <button
-        aria-controls="mantine-7fidcye8g-dropdown"
+        aria-controls="mantine-qdiexlz1g-dropdown"
         aria-expanded={false}
         aria-haspopup="dialog"
         aria-invalid={false}
         className="emotion-12 emotion-13 emotion-12 emotion-15"
         data-dates-input={true}
-        id="mantine-7fidcye8g-target"
+        id="mantine-qdiexlz1g-target"
         onClick={[Function]}
         type="button"
       >
