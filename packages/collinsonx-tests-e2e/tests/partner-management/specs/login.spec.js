@@ -34,6 +34,7 @@ test('login as a current partner', async ({ page }) => {
     await expect(walkupQRcodeTitle).toBeVisible();
 });
 
+// Cannot currently be tested against the local version - uat api sends a test env registration url (mismatched environments)
 test('login as a new partner', async ({ page }) => {
     const bookingOverviewPage = new BookingOverviewPage(page);
     const helper = new Helper(page);
