@@ -23,7 +23,7 @@ class BookingOverviewPage {
         return this.page.getByTestId('walkupQRcodeTitle');
     };
 
-    getCancelledBookingsTitleTitle() {
+    getCancelledBookingsTitle() {
         return this.page.getByTestId('cancelledBookingsTitle');
     };
 

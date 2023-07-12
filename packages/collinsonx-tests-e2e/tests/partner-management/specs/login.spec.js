@@ -21,7 +21,7 @@ test('login as a current partner', async ({ page }) => {
 
     const title = bookingOverviewPage.getPageTitle();
     const pendingRequestsTitle = bookingOverviewPage.getPendingRequestsTitle();
-    const cancelledBookingsTitle = bookingOverviewPage.getCancelledBookingsTitleTitle();
+    const cancelledBookingsTitle = bookingOverviewPage.getCancelledBookingsTitle();
     const confirmedBookingsTitle = bookingOverviewPage.getConfirmedBookingsTitle();
     const walkupQRcodeTitle = bookingOverviewPage.getWalkupQRcodeTitle();
     const loungeTitle = bookingOverviewPage.getLoungeTitle();
@@ -54,7 +54,7 @@ test('login as a new partner', async ({ page }) => {
 
     const title = bookingOverviewPage.getPageTitle();
     const pendingRequestsTitle = bookingOverviewPage.getPendingRequestsTitle();
-    const cancelledBookingsTitle = bookingOverviewPage.getCancelledBookingsTitleTitle();
+    const cancelledBookingsTitle = bookingOverviewPage.getCancelledBookingsTitle();
     const confirmedBookingsTitle = bookingOverviewPage.getConfirmedBookingsTitle();
     const walkupQRcodeTitle = bookingOverviewPage.getWalkupQRcodeTitle();
     const loungeTitle = bookingOverviewPage.getLoungeTitle();
