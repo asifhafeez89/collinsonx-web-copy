@@ -4,7 +4,7 @@ import BookingApi from '../utils/BookingApi';
 
 test.describe('booking overview dashboard', () => {
     test.describe('pending requests', () => {
-        test('add pending request', async ({ page }) => {
+        test('add pending request using the booking API should increase the booking count by 1', async ({ page }) => {
             const bookingOverviewPage = new BookingOverviewPage(page);
             const bookingApi = new BookingApi();
 
@@ -21,7 +21,7 @@ test.describe('booking overview dashboard', () => {
             expect(latestCount).toHaveText(initialCount + 1);
         });
 
-        test('remove pending request', async ({ page }) => {
+        test('remove pending request using the booking API should decrease the booking count by 1', async ({ page }) => {
             const bookingOverviewPage = new BookingOverviewPage(page);
             const bookingApi = new BookingApi();
 
@@ -44,7 +44,7 @@ test.describe('booking overview dashboard', () => {
     });
 
     test.describe('confirmed bookings', () => {
-        test('add confirmed booking', async ({ page }) => {
+        test('add confirmed booking using the booking API should increase the booking count by 1', async ({ page }) => {
             const bookingOverviewPage = new BookingOverviewPage(page);
             const bookingApi = new BookingApi();
 
