@@ -14,8 +14,7 @@ test('login as a current partner', async ({ page }) => {
 
     // password will be changed and added to secret variables at a later date
     const email = `automationuserpartner@clearrouteteam.testinator.com`;
-    // CollinsonXPartner123 for uat, lowercase p for test domains
-    const password = "CollinsonXPartner123";
+    const password = process.env.ENV === "UAT" ? "CollinsonXPartner123" : "CollinsonXpartner123"
 
     await loginPage.login(email, password);
 
@@ -77,7 +76,7 @@ test('receive error notification of pre-existing registration and get taken to l
 
     const partner = "automationuserpartner";
     const email = `${partner}@clearrouteteam.testinator.com`;
-    const password = "CollinsonXPartner123";
+    const password = process.env.ENV === "UAT" ? "CollinsonXPartner123" : "CollinsonXpartner123"
 
     signUp.receiveRegistrationEmail(email);
     // TODO: refactor 'wait' for ensuring the email has been sent before proceeding
