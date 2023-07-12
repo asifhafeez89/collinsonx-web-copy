@@ -5,7 +5,9 @@
   "scripts": {
     "e2e:dev": "playwright test --headed",
     "e2e:start": "start-server-and-test \"(cd ../../ && pnpm run build && pnpm run start)\" http://localhost:3000 \"playwright test\"",
-    "e2e:report": "playwright show-report"
+    "e2e:report": "playwright show-report",
+    "e2e:test": "ENV=TEST URL=https://partner.test.cergea.com playwright test --headed",
+    "e2e:uat": "ENV=UAT URL=https://partner.uat.cergea.com playwright test --headed"
   },
   "dependencies": {
     "dotenv": "^16.0.3",
@@ -14,7 +16,8 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.31.1",
+    "@playwright/test": "^1.32.3",
+    "axios": "^1.4.0",
     "mailinator-client": "^1.0.3"
   }
 }

@@ -33,7 +33,7 @@ export default function Landing() {
   return (
     <Box px={8}>
       <Stack spacing={16} sx={{ position: 'relative' }}>
-        <Title order={1} size={20} align="center">
+        <Title order={1} size={20} align="center" data-testid="homePageTitle">
           Ready for your next experience?
         </Title>
         <Flex direction="column">

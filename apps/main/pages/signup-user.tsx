@@ -103,6 +103,7 @@ export default function SignupUser() {
               placeholder="First name"
               label="First name(s)"
               isWhite={true}
+              data-testid="firstName"
             />
 
             <InputLabel
@@ -113,6 +114,7 @@ export default function SignupUser() {
               placeholder="Last name"
               label="Last name"
               isWhite={true}
+              data-testid="lastName"
             />
             <DatePicker
               icon={<Calendar />}
@@ -136,6 +138,7 @@ export default function SignupUser() {
                 ...form.getInputProps('dateOfBirth'),
               }}
               maxDate={new Date()}
+              data-testid="dateOfBirthDatePicker"
             />
             <InputLabel
               readOnly
@@ -164,11 +167,12 @@ export default function SignupUser() {
                       color: '#FFFFFF',
                     },
                   }}
+                  data-testid="marketingCheckbox"
                 />
               </Flex>
             </Group>
             <Group>
-              <Button fullWidth type="submit">
+              <Button fullWidth type="submit" data-testid="loginAfterSignUp">
                 Login
               </Button>
             </Group>

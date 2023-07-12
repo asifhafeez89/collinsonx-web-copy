@@ -145,9 +145,10 @@ export default function Home(props: unknown) {
                   }}
                   withAsterisk
                   {...form.getInputProps('email')}
+                  data-testid="loginEmailAddress"
                 />
 
-                <Button type="submit">Login</Button>
+                <Button type="submit" data-testid="login">Login</Button>
               </Stack>
             </Stack>
           </form>
