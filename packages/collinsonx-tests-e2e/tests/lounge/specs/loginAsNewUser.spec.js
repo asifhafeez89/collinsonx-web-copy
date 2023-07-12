@@ -17,5 +17,7 @@ test.only('login as a new user', async ({ page }) => {
   await signUpPage.fillInDetails();
 
   //Then
-  await expectUserToBeLoggedIn.ask();
+  const title = loginPage.getHomePageTitle();
+
+  await expect(title).toBeVisible();
 });
