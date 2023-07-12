@@ -22,14 +22,13 @@ import { getBookingsByType, setItem } from '@collinsonx/utils/lib';
 import { useEffect, useMemo, useState } from 'react';
 import { isErrorValid } from 'lib';
 import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
-import getSelectedLounge from 'lib/getSelectedLounge';
 import getLoungeTitle from 'lib/getLoungeTitle';
-import SelectInput from '@collinsonx/design-system/components/inputselect';
 import experiences from '../data/experiences.json';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import { FourSquares } from '@collinsonx/design-system/assets/icons';
 import { useExperience } from 'hooks/experience';
 import PageTitle from '@components/PageTitle';
+import LoadExperiences from '@components/LoadExperiences';
 
 const { Pending, Confirmed, Declined, Cancelled, CheckedIn } = BookingStatus;
 
@@ -127,23 +126,11 @@ export default function Overview() {
             <Stack mb={33} sx={{ width: '300px' }}>
               {/* TODO: Add a check if the user is a superUser  */}
 
-              <SelectInput
-                styles={{
-                  root: {
-                    width: '400px',
-                  },
-                }}
-                data={experiencesFiltered}
-                onChange={async (id) => {
-                  const newExperience = experiences.filter(
-                    (item) => item.id === id
-                  )[0]! as Experience;
-
+              <LoadExperiences
+                onExperienceSelected={(newExperience) => {
                   setExperience(newExperience);
-
-                  setItem(SELECTED_LOUNGE, JSON.stringify(newExperience));
                 }}
-                value={experience.id}
+                selectedExperience={experience}
               />
             </Stack>
           )}
