@@ -10,7 +10,7 @@ class SignUp {
     await this._signUpPage.getFirstNameTextbox().fill(user[0]);
     await this._signUpPage.getLastNameTextbox().fill(user[1]);
 
-    // add datepicker if possible
+    // TODO: add datepicker if possible
 
     await this._signUpPage.getMarketingCheckbox().click();
 
