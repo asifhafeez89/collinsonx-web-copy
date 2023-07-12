@@ -14,7 +14,7 @@ test.describe('booking overview dashboard', () => {
             const initialCount = await bookingApi.getBookingCount("PENDING");
 
             await bookingApi.addPendingRequest();
-            await page.reload();
+            await page.reload({ waitUntil: "domcontentloaded" });
 
             const latestCount = await bookingOverviewPage.getPendingRequestCount();
 
