@@ -9,7 +9,7 @@
     "lint": "next lint",
     "clean": "rm -rf .next && rm -rf .turbo",
     "test": "jest -u",
-    "test:ci": "jest"
+    "test:ci": "jest --coverage=false"
   },
   "dependencies": {
     "@collinsonx/config": "workspace:*",
