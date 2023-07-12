@@ -31,18 +31,26 @@ class Login {
   }
 
   async _getOTP(user) {
-    let id;
-
     const mailinatorClient = new MailinatorClient(
       '2a32de31d6734501abb238da21c9ac3a'
     );
 
-    const inbox = await mailinatorClient.request(
-      new GetInboxRequest('clearrouteteam.testinator.com')
-    );
+    let id;
 
-    const latestMessage = inbox.result.msgs.find(message => message.to === user);
-    id = latestMessage.id;
+    for (let i = 1; i++; i <= 5) {
+      try {
+        const inbox = await mailinatorClient.request(
+          new GetInboxRequest('clearrouteteam.testinator.com')
+        );
+        const latestMessage = inbox.result.msgs.find(
+          (message) => message.to === user
+        );
+        id = latestMessage.id;
+        break;
+      } catch {
+        await this._helper.wait(3000);
+      }
+    }
 
     const otp = await mailinatorClient.request(
       new GetMessageRequest('clearrouteteam.testinator.com', user, id)
