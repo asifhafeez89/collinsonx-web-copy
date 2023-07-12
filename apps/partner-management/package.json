@@ -8,7 +8,8 @@
     "start": "next start -p 3010",
     "lint": "next lint",
     "clean": "rm -rf .next && rm -rf .turbo",
-    "test": "jest -u"
+    "test": "jest -u",
+    "test:ci": "jest"
   },
   "dependencies": {
     "@collinsonx/config": "workspace:*",
