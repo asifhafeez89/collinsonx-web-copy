@@ -26,6 +26,10 @@ jobs:
 
       - name: "Run build, start server then run tests"
         run: |
+          pnpm run build
+          pnpm add --global pm2
+          pm2 --name dev-server start pnpm -- start
+
           export DD_CIVISIBILITY_AGENTLESS_ENABLED=true
           export DD_API_KEY=${{ secrets.DATADOG_API_KEY }}
           export DD_SITE="datadoghq.eu"
@@ -33,9 +37,6 @@ jobs:
           export DD_ENV=ci
           export DD_TAGS="test_type:browser"
 
-          pnpm run build
-          pnpm add --global pm2
-          pm2 --name dev-server start pnpm -- start
           pnpm run e2e:start --filter @collinsonx/tests-e2e
 
       - name: Upload test results
