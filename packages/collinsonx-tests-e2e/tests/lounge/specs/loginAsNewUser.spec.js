@@ -1,20 +1,20 @@
 const { test } = require('@playwright/test');
-import Login from '../actions/Login';
-import SignUp from '../actions/SignUp';
+import LoginPage from '../pages/LoginPage';
+import SignUpPage from '../pages/SignUpPage';
 import ExpectUserToBeLoggedIn from '../assertions/ExpectUserToBeLoggedIn';
 
 test.use({ storageState: { cookies: [], origins: [] }, baseURL: `https://${process.env.ENV.toLowerCase()}.lifestyle-x.io` });
 
-test('login as a new user', async ({ page }) => {
+test.only('login as a new user', async ({ page }) => {
   //Given
-  let login = new Login(page);
-  let signUp = new SignUp(page);
+  let loginPage = new LoginPage(page);
+  let signUpPage = new SignUpPage(page);
   let expectUserToBeLoggedIn = new ExpectUserToBeLoggedIn(page);
 
   //When
-  await login.goTo();
-  await login.login();
-  await signUp.fillInDetails();
+  await loginPage.goToURL();
+  await loginPage.login();
+  await signUpPage.fillInDetails();
 
   //Then
   await expectUserToBeLoggedIn.ask();
