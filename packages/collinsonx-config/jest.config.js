@@ -31,7 +31,7 @@ module.exports = {
     '@collinsonx/design-system/assets/icons$': '<rootDir>/__mocks__/icon.ts',
     '@collinsonx/design-system/assets/graphics$':
       '<rootDir>/__mocks__/graphics',
-    '@collinsonx/utils/queries':'<rootDir>/__mocks__/queries',
+    '@collinsonx/utils/queries': '<rootDir>/__mocks__/queries',
     '@collinsonx/utils/apollo': '<rootDir>/__mocks__/apollo',
   },
   // moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {

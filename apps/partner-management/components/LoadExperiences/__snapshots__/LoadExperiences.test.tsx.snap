@@ -209,7 +209,7 @@ exports[`<LoadExperiences /> should render 1`] = `
           class="emotion-0 emotion-1 emotion-2"
         >
           <div
-            aria-controls="mantine-cj8ntus78"
+            aria-controls="mantine-cvc7atmmz"
             aria-expanded="false"
             aria-haspopup="listbox"
             class=""
@@ -229,15 +229,16 @@ exports[`<LoadExperiences /> should render 1`] = `
                 autocomplete="off"
                 class="emotion-6 emotion-7 emotion-8"
                 data-mantine-stop-propagation="false"
-                id="mantine-cj8ntus78"
+                id="mantine-cvc7atmmz"
                 readonly=""
+                role="dialog"
                 type="search"
                 value="Clubrooms Birmingham - Additional Fee Applies"
               />
               <div
                 class="emotion-9 emotion-10 emotion-11"
               >
-                <svgrurl />
+                <span />
               </div>
             </div>
           </div>
@@ -450,7 +451,7 @@ exports[`<LoadExperiences /> should render 1`] = `
         class="emotion-0 emotion-1 emotion-2"
       >
         <div
-          aria-controls="mantine-cj8ntus78"
+          aria-controls="mantine-cvc7atmmz"
           aria-expanded="false"
           aria-haspopup="listbox"
           class=""
@@ -470,15 +471,16 @@ exports[`<LoadExperiences /> should render 1`] = `
               autocomplete="off"
               class="emotion-6 emotion-7 emotion-8"
               data-mantine-stop-propagation="false"
-              id="mantine-cj8ntus78"
+              id="mantine-cvc7atmmz"
               readonly=""
+              role="dialog"
               type="search"
               value="Clubrooms Birmingham - Additional Fee Applies"
             />
             <div
               class="emotion-9 emotion-10 emotion-11"
             >
-              <svgrurl />
+              <span />
             </div>
           </div>
         </div>

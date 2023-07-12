@@ -1,6 +1,12 @@
 import LoadExperiences from './index';
 import '@testing-library/jest-dom/extend-expect';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  getNodeText,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 jest.mock('@collinsonx/utils/lib/index', () => {
@@ -55,12 +61,10 @@ describe('<LoadExperiences />', () => {
       />
     );
 
-    const input = await screen.getByDisplayValue(
-      'Clubrooms Birmingham - Additional Fee Applies'
-    );
-
     expect(
-      screen.getByDisplayValue('Clubrooms Birmingham - Additional Fee Applies')
+      dropdown.getByDisplayValue(
+        'Clubrooms Birmingham - Additional Fee Applies'
+      )
     ).toBeInTheDocument();
   });
 });
