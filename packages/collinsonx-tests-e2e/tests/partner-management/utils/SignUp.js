@@ -1,6 +1,4 @@
-import { MailinatorClient } from 'mailinator-client';
-import { GetInboxRequest } from 'mailinator-client';
-import { GetMessageRequest } from 'mailinator-client';
+import { MailinatorClient, GetInboxRequest, GetMessageRequest } from 'mailinator-client';
 import axios from 'axios';
 import dotenv from 'dotenv'
 dotenv.config({ path: `.env.tests` })

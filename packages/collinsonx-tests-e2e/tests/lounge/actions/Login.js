@@ -1,9 +1,7 @@
 import LoginPage from '../pages/LoginPage';
 import CheckEmailPage from '../pages/CheckEmailPage';
 import { v4 as uuidv4 } from 'uuid';
-import { MailinatorClient } from 'mailinator-client';
-import { GetInboxRequest } from 'mailinator-client';
-import { GetMessageRequest } from 'mailinator-client';
+import { MailinatorClient, GetInboxRequest, GetMessageRequest } from 'mailinator-client';
 import Helper from '../../helpers/Helper';
 
 class Login {
@@ -41,11 +39,11 @@ class Login {
 
     const inbox = await mailinatorClient.request(
       new GetInboxRequest('clearrouteteam.testinator.com')
-      );
+    );
 
     const latestMessage = inbox.result.msgs.find(message => message.to === user);
     id = latestMessage.id;
-   
+
     const otp = await mailinatorClient.request(
       new GetMessageRequest('clearrouteteam.testinator.com', user, id)
     );
