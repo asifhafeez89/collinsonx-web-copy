@@ -67,7 +67,7 @@ export default function MyApp({ Component, pageProps }: Props) {
                 {envLabel !== '' && (
                   <div
                     style={{
-                      position: 'absolute',
+                      position: 'fixed',
                       background: 'yellow',
                       zIndex: 999,
                     }}
