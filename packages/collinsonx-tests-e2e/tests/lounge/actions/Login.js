@@ -8,7 +8,7 @@ class Login {
   constructor(page) {
     this._loginPage = new LoginPage(page);
     this._helper = new Helper(page);
-    this._checkemailPage = new CheckEmailPage(page);
+    this._checkEmailPage = new CheckEmailPage(page);
   }
 
   goTo() {
@@ -26,7 +26,7 @@ class Login {
     const otp = await this._getOTP(uuid);
 
     await this._helper.type(otp);
-    await this._checkemailPage.getVerifyButton(this.page).click();
+    await this._checkEmailPage.getVerifyButton(this.page).click();
     await this._helper.wait(5000);
   }
 
