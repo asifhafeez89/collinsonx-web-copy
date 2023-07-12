@@ -11,7 +11,7 @@ module.exports = {
     '^.+\\.(ts|tsx|js|jsx)$': [
       'ts-jest',
       {
-        useBabelrc: true,
+        babelConfig: true,
         tsconfig: fromRoot('tsconfig.jest.json'),
       },
     ],
