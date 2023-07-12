@@ -2,12 +2,12 @@ const { test } = require('@playwright/test');
 import BookingOverviewPage from '../pages/BookingOverviewPage';
 import BookingApi from '../utils/BookingApi';
 
+const bookingOverviewPage = new BookingOverviewPage(page);
+const bookingApi = new BookingApi();
+
 test.describe('booking overview dashboard', () => {
     test.describe('pending requests', () => {
         test('add pending request using the booking API should increase the booking count by 1', async ({ page }) => {
-            const bookingOverviewPage = new BookingOverviewPage(page);
-            const bookingApi = new BookingApi();
-
             await page.goto('/');
             await page.reload({ waitUntil: "domcontentloaded" });
 
@@ -22,9 +22,6 @@ test.describe('booking overview dashboard', () => {
         });
 
         test('remove pending request using the booking API should decrease the booking count by 1', async ({ page }) => {
-            const bookingOverviewPage = new BookingOverviewPage(page);
-            const bookingApi = new BookingApi();
-
             await page.goto('/');
 
             await page.reload({ waitUntil: "domcontentloaded" });
@@ -45,9 +42,6 @@ test.describe('booking overview dashboard', () => {
 
     test.describe('confirmed bookings', () => {
         test('add confirmed booking using the booking API should increase the booking count by 1', async ({ page }) => {
-            const bookingOverviewPage = new BookingOverviewPage(page);
-            const bookingApi = new BookingApi();
-
             await page.goto('/');
             await page.reload({ waitUntil: "domcontentloaded" });
 
