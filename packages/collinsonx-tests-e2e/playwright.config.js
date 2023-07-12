@@ -35,6 +35,12 @@ module.exports = defineConfig({
       use: { ...devices['Desktop Chrome'], storageState: 'playwright/.auth/user.json', baseURL: process.env.URL },
       dependencies: ['setup'],
     },
+    {
+      name: 'partner-local',
+      testDir: './tests/partner-management',
+      use: { ...devices['Desktop Chrome'], storageState: 'playwright/.auth/user.json', baseURL: 'https://partner-local.uat.cergea.com:4010', ignoreHTTPSErrors: true },
+      dependencies: ['setup'],
+    },
     // {
     //   name: 'Safari Test',
     //   use: { ...devices['Desktop Safari'], storageState: 'playwright/.auth/user.json', baseURL: process.env.URL },

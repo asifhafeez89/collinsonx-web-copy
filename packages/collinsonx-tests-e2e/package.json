@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "e2e:dev": "playwright test --headed",
+    "e2e:local-partner": "playwright test --project=partner-local --headed",
     "e2e:start": "start-server-and-test \"(cd ../../ && pnpm run build && pnpm run start)\" http://localhost:3000 \"playwright test\"",
     "e2e:report": "playwright show-report",
     "e2e:test": "ENV=TEST URL=https://partner.test.cergea.com playwright test --headed",
