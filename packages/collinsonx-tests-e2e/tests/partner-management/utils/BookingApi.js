@@ -1,12 +1,12 @@
 import axios from 'axios';
-import dotenv from 'dotenv'
-dotenv.config({ path: `.env.tests` })
+import dotenv from 'dotenv';
+dotenv.config({ path: `.env.tests` });
 require('dotenv').config();
 
 class BookingApi {
   constructor() {
     this.apiUrl = `https://gateway-api.${process.env.ENV}.cergea.com/graphql`
-  }
+  };
 
   async addConfirmedBooking() {
     const bookingId = await this.addPendingRequest();
@@ -78,8 +78,8 @@ class BookingApi {
           guestCount
           metadata
         }
-     }`
-
+     }
+    `;
 
     const variables = {
       "bookingInput": {
@@ -94,7 +94,7 @@ class BookingApi {
         "metadata": {},
         "guestCount": 1
       }
-    }
+    };
 
     const request = {
       query: mutation,
@@ -148,10 +148,10 @@ class BookingApi {
     const headers = {
       'x-user-id': consumerId,
       'x-user-type': 'CONSUMER'
-    }
+    };
 
     const response = await axios.post(this.apiUrl, request, { headers });
-    console.log(response.data)
+
     return response.data.data.payForBooking.id;
   };
 
@@ -186,7 +186,7 @@ class BookingApi {
     const headers = {
       'x-user-id': process.env.X_USER_ID,
       'x-user-type': 'SUPER_USER'
-    }
+    };
 
     const response = await axios.post(this.apiUrl, request, { headers });
   };
@@ -202,7 +202,7 @@ class BookingApi {
 
     const variables = {
       "deleteBookingId": bookingId
-    }
+    };
 
     const request = {
       query: mutation,
@@ -242,7 +242,6 @@ class BookingApi {
     };
 
     const response = await axios.post(this.apiUrl, request, { headers });
-
 
     const bookings = response.data.data.getBookings;
 
