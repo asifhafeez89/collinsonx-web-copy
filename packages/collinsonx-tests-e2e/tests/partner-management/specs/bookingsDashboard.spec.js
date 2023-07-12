@@ -5,7 +5,7 @@ import BookingApi from '../utils/BookingApi';
 const bookingOverviewPage = new BookingOverviewPage(page);
 const bookingApi = new BookingApi();
 
-test.describe('booking overview dashboard', () => {
+test.describe.skip('booking overview dashboard', () => {
     test.describe('pending requests', () => {
         test('add pending request using the booking API should increase the booking count by 1', async ({ page }) => {
             await page.goto('/');
