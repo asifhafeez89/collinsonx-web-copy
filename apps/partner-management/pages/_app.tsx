@@ -65,7 +65,13 @@ export default function MyApp({ Component, pageProps }: Props) {
             <ExperienceProvider>
               <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
                 {envLabel !== '' && (
-                  <div style={{ position: 'absolute', background: 'yellow' }}>
+                  <div
+                    style={{
+                      position: 'absolute',
+                      background: 'yellow',
+                      zIndex: 999,
+                    }}
+                  >
                     {envLabel}
                   </div>
                 )}
