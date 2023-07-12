@@ -3,7 +3,6 @@ import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
 import BookingOverviewPage from '../pages/BookingOverviewPage';
 import SignUp from '../utils/SignUp';
-import ExpectPartnerToBeLoggedIn from '../assertions/ExpectPartnerToBeLoggedIn';
 import { v4 as uuidv4 } from 'uuid';
 import Helper from '../../helpers/Helper';
 
@@ -35,10 +34,10 @@ test('login as a current partner', async ({ page }) => {
 });
 
 test('login as a new partner', async ({ page }) => {
-    const expectPartnerToBeLoggedIn = new ExpectPartnerToBeLoggedIn(page);
     const helper = new Helper(page);
     const signUp = new SignUp();
     const signUpPage = new SignUpPage(page);
+    const bookingOverviewPage = new BookingOverviewPage(page);
 
     const partner = uuidv4();
     const email = `${partner}@clearrouteteam.testinator.com`;
