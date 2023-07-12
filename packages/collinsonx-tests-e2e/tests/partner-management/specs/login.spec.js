@@ -6,13 +6,12 @@ import SignUp from '../utils/SignUp';
 import { v4 as uuidv4 } from 'uuid';
 import Helper from '../../helpers/Helper';
 
-const loginPage = new LoginPage(page);
-const bookingOverviewPage = new BookingOverviewPage(page);
-const helper = new Helper(page);
-const signUp = new SignUp();
-const signUpPage = new SignUpPage(page);
+test.use({ storageState: { cookies: [], origins: [] } });
 
 test('login as a current partner', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const bookingOverviewPage = new BookingOverviewPage(page);
+
     // password will be changed and added to secret variables at a later date
     const email = `automationuserpartner@clearrouteteam.testinator.com`;
     // CollinsonXPartner123 for uat, lowercase p for test domains
@@ -36,6 +35,11 @@ test('login as a current partner', async ({ page }) => {
 });
 
 test('login as a new partner', async ({ page }) => {
+    const bookingOverviewPage = new BookingOverviewPage(page);
+    const helper = new Helper(page);
+    const signUp = new SignUp();
+    const signUpPage = new SignUpPage(page);
+
     const partner = uuidv4();
     const email = `${partner}@clearrouteteam.testinator.com`;
     const password = uuidv4();
@@ -65,6 +69,11 @@ test('login as a new partner', async ({ page }) => {
 });
 
 test('receive error notification of pre-existing registration and get taken to login page', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const helper = new Helper(page);
+    const signUp = new SignUp();
+    const signUpPage = new SignUpPage(page);
+
     const partner = "automationuserpartner";
     const email = `${partner}@clearrouteteam.testinator.com`;
     const password = "CollinsonXPartner123";
