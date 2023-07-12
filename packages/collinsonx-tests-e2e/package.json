@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "dotenv": "^16.0.3",
-    "main": "workspace:*",
     "start-server-and-test": "^1.15.4",
     "uuid": "^9.0.0"
   },
