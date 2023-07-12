@@ -193,8 +193,8 @@ exports[`<InputLabel /> renders textinput 1`] = `
 >
   <label
     className="emotion-3 emotion-4 emotion-5"
-    htmlFor="mantine-yw3spd0im"
-    id="mantine-yw3spd0im-label"
+    htmlFor="mantine-qqj0i874l"
+    id="mantine-qqj0i874l-label"
     onMouseDown={[Function]}
   >
     Full name
@@ -211,7 +211,7 @@ exports[`<InputLabel /> renders textinput 1`] = `
     <input
       aria-invalid={false}
       className="emotion-12 emotion-13 emotion-14"
-      id="mantine-yw3spd0im"
+      id="mantine-qqj0i874l"
       placeholder="Your name"
       type="text"
     />

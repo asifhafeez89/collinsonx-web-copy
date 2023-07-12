@@ -401,6 +401,9 @@ importers:
       '@tanstack/react-table':
         specifier: ^8.7.9
         version: 8.8.5(react-dom@18.2.0)(react@18.2.0)
+      '@testing-library/user-event':
+        specifier: ^14.4.3
+        version: 14.4.3(@testing-library/dom@9.2.0)
       '@types/http-proxy':
         specifier: ^1.17.9
         version: 1.17.10
@@ -5332,7 +5335,7 @@ packages:
       dayjs: '>=1.0.0'
       react: '>=16.8.0'
     dependencies:
-      '@mantine/core': 5.10.5(@emotion/react@11.10.6)(@mantine/hooks@5.10.5)(@types/react@18.0.37)(react-dom@18.2.0)(react@18.2.0)
+      '@mantine/core': 5.10.5(@emotion/react@11.10.6)(@mantine/hooks@5.10.5)(@types/react@18.2.8)(react-dom@18.2.0)(react@18.2.0)
       '@mantine/hooks': 5.10.5(react@18.2.0)
       '@mantine/utils': 5.10.5(react@18.2.0)
       dayjs: 1.11.7
@@ -5421,7 +5424,7 @@ packages:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
     dependencies:
-      '@emotion/react': 11.10.6(@types/react@18.0.37)(react@18.2.0)
+      '@emotion/react': 11.10.6(@types/react@18.2.8)(react@18.2.0)
       '@emotion/server': 11.10.0
       '@mantine/styles': 5.10.5(@emotion/react@11.10.6)(react-dom@18.2.0)(react@18.2.0)
       html-react-parser: 1.4.12(react@18.2.0)
@@ -5452,7 +5455,7 @@ packages:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
     dependencies:
-      '@emotion/react': 11.10.6(@types/react@18.0.37)(react@18.2.0)
+      '@emotion/react': 11.10.6(@types/react@18.2.8)(react@18.2.0)
       clsx: 1.1.1
       csstype: 3.0.9
       react: 18.2.0

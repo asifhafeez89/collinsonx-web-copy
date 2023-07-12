@@ -1,11 +1,20 @@
 import LoadExperiences from './index';
-import { render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
-jest.mock('@collinsonx/utils/apollo', () => {
+jest.mock('@collinsonx/utils/lib/index', () => {
   return jest.fn(() => ({
-    useQuery: () => {
+    setItem: () => {
       return [];
+    },
+  }));
+});
+
+jest.mock('@collinsonx/utils/queries', () => {
+  return jest.fn(() => ({
+    getSearchExperiences: () => {
+      return { searchExperiences: [] };
     },
   }));
 });
@@ -13,65 +22,45 @@ jest.mock('@collinsonx/utils/apollo', () => {
 describe('<LoadExperiences />', () => {
   it('should render', () => {
     const experience = {
-      id: 'test',
-      loungeName: 'Heathrow',
+      id: '1ccc3807-a7ed-5a3a-ada8-fd37ac1ab941',
+      loungeName: 'Clubrooms Birmingham - Additional Fee Applies',
       bookings: [],
       invitations: [],
       partners: [],
     };
 
-    const card = render(
+    const dropdown = render(
       <LoadExperiences
         selectedExperience={experience}
         onExperienceSelected={() => console.log()}
       />
     );
 
-    expect(card.getByText('Test')).toBeInTheDocument();
+    expect(dropdown).toMatchSnapshot();
   });
 
-  // it('should render children elements', () => {
-  //   const card = render(
-  //     <OverviewCard title="Test" variant="confirmed">
-  //       Foobar
-  //     </OverviewCard>
-  //   );
-  //   expect(card.getByText('Foobar')).toBeInTheDocument();
-  // });
+  it('should render  element', async () => {
+    const experience = {
+      id: '1ccc3807-a7ed-5a3a-ada8-fd37ac1ab941',
+      loungeName: 'Clubrooms Birmingham - Additional Fee Applies',
+      bookings: [],
+      invitations: [],
+      partners: [],
+    };
 
-  // it('should have corresponding background color for pending', () => {
-  //   const variant = 'pending';
-  //   const card = render(
-  //     <OverviewCard title="Test" variant={variant}>
-  //       Foobar
-  //     </OverviewCard>
-  //   );
-  //   expect(card.getByText('Test').parentNode).toHaveStyle(
-  //     `background-color: ${bookingPageConfig[variant].color}`
-  //   );
-  // });
+    const dropdown = render(
+      <LoadExperiences
+        selectedExperience={experience}
+        onExperienceSelected={() => console.log()}
+      />
+    );
 
-  // it('should have corresponding background color for confirmed', () => {
-  //   const variant = 'confirmed';
-  //   const card = render(
-  //     <OverviewCard title="Test" variant={variant}>
-  //       Foobar
-  //     </OverviewCard>
-  //   );
-  //   expect(card.getByText('Test').parentNode).toHaveStyle(
-  //     `background-color: ${bookingPageConfig[variant].color}`
-  //   );
-  // });
+    const input = await screen.getByDisplayValue(
+      'Clubrooms Birmingham - Additional Fee Applies'
+    );
 
-  // it('should have corresponding background color for declined', () => {
-  //   const variant = 'declined';
-  //   const card = render(
-  //     <OverviewCard title="Test" variant={variant}>
-  //       Foobar
-  //     </OverviewCard>
-  //   );
-  //   expect(card.getByText('Test').parentNode).toHaveStyle(
-  //     `background-color: ${bookingPageConfig[variant].color}`
-  //   );
-  // });
+    expect(
+      screen.getByDisplayValue('Clubrooms Birmingham - Additional Fee Applies')
+    ).toBeInTheDocument();
+  });
 });

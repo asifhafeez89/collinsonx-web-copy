@@ -1,7 +1,7 @@
-import InputSelect from '@collinsonx/design-system/core';
+import InputSelect from '@collinsonx/design-system/components/inputselect/index';
 import { Experience } from '@collinsonx/utils';
 import { useQuery } from '@collinsonx/utils/apollo';
-import { setItem } from '@collinsonx/utils/lib';
+import { setItem } from '@collinsonx/utils/lib/index';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
 import { SELECTED_LOUNGE } from 'config';
 
