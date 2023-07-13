@@ -11,18 +11,6 @@
     "e2e:start": {
       "dependsOn": ["^build"]
     },
-    "main#dev": {
-      "dependsOn": [
-        "@collinsonx/utils#build",
-        "@collinsonx/design-system#build"
-      ]
-    },
-    "lounge#dev": {
-      "dependsOn": [
-        "@collinsonx/utils#build",
-        "@collinsonx/design-system#build"
-      ]
-    },
     "partner-management#dev": {
       "dependsOn": [
         "$NEXT_PUBLIC_VERCEL_URL",
@@ -36,20 +24,6 @@
     },
     "@collinsox/design-system#dev": {
       "dependsOn": ["@collinsonx/utils#build"]
-    },
-    "main#build": {
-      "dependsOn": [
-        "^build",
-        "$LOUNGE_URL",
-        "$NEXT_PUBLIC_AUTH_API_URL",
-        "$PRODUCTION_API_URL",
-        "$APP_PORT",
-        "$SITE_DOMAIN_URL",
-        "$NEXT_PUBLIC_SITE_DOMAIN_URL",
-        "$NEXT_PUBLIC_SESSION_THEME",
-        "$NEXT_PUBLIC_SESSION_SCOPE"
-      ],
-      "outputs": [".next/**"]
     },
     "test": {
       "dependsOn": ["^build"],
