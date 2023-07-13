@@ -51,8 +51,8 @@ export default function Overview() {
       onCompleted: () =>
         setLastUpdate(
           new Date().toLocaleDateString() +
-            ' ' +
-            new Date().toLocaleTimeString()
+          ' ' +
+          new Date().toLocaleTimeString()
         ),
     }
   );
@@ -99,11 +99,10 @@ export default function Overview() {
   const experiencesFiltered = experiences.map((experience) => {
     return {
       value: experience.id,
-      label: `${experience.loungeName}${
-        experience.location?.terminal
-          ? ' - ' + experience.location?.terminal
-          : ''
-      }`,
+      label: `${experience.loungeName}${experience.location?.terminal
+        ? ' - ' + experience.location?.terminal
+        : ''
+        }`,
     };
   });
 
@@ -197,7 +196,7 @@ export default function Overview() {
                   )}
                 </OverviewCard>
               </Stack>
-            </Grid.Col>
+            </Grid.Col >
             <Grid.Col lg={6}>
               <Stack spacing={24}>
                 <OverviewCard
@@ -285,13 +284,14 @@ export default function Overview() {
                   </Skeleton>
                 </OverviewCard>
               </Stack>
-            </Grid.Col>
-          </Grid>
+            </Grid.Col >
+          </Grid >
           <Text mb={33} mt={33} size={10}>
             {lastUpdate && `Last updated ${lastUpdate}`}
           </Text>
         </>
-      )}
+      )
+      }
     </>
   );
 }

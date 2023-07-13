@@ -93,14 +93,15 @@ export default function Login() {
         </Stack>
         <FormContainer>
           <form onSubmit={form.onSubmit(handleLogin)}>
-            <TextInput label="Email" {...form.getInputProps('email')} />
+            <TextInput label="Email" {...form.getInputProps('email')} data-testid="email" />
             <PasswordInput
               label="Password"
               mt={32}
               {...form.getInputProps('password')}
+              data-testid="password"
             />
-            <Checkbox label="Save my password" mt={16} />
-            <Button type="submit" mt={40} fullWidth>
+            <Checkbox label="Save my password" mt={16} data-testid="saveMyPassword" />
+            <Button type="submit" mt={40} fullWidth data-testid="login">
               Login
             </Button>
             <Anchor
