@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import useAuth from '../hooks/useAuth';
 import { PARTNER_ID, USER_TYPE, USER_META, SELECTED_LOUNGE } from 'config';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import { removeItem, setItem } from '@collinsonx/utils/lib';
@@ -13,10 +11,10 @@ const checkIsAllowed = (pathname: string) => {
 };
 
 const SysAuth = ({ children }: AuthWrapperProps) => {
-  const router = useRouter();
   const [show, setShow] = useState(false);
 
   const session: any = useSessionContext();
+  console.log('Auth::session', session);
   useEffect(() => {
     const { accessTokenPayload = {} } = session as any;
     if (accessTokenPayload.userType) {
@@ -30,16 +28,6 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
     }
   }, [session]);
 
-  const [userId, logout] = useAuth({
-    onExpiredSession: () => {
-      if (window && !checkIsAllowed(window.location.pathname)) {
-        window.location.href = `/auth/login/?redirectUrl=${
-          window.location.pathname + window.location.search
-        }`;
-      }
-    },
-  });
-
   useEffect(() => {
     if (session.loading === false && session.doesSessionExist === false) {
       if (typeof window !== undefined) {
@@ -47,13 +35,24 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
         removeItem(SELECTED_LOUNGE);
         removeItem(USER_TYPE);
         removeItem(USER_META);
+
+        if (!checkIsAllowed(window.location.pathname)) {
+          console.log('Auth::Redirecting');
+          window.location.href = `/auth/login/?redirectUrl=${
+            window.location.pathname + window.location.search
+          }`;
+        }
       }
     }
 
     const isLoggedIn =
       session.loading === false && session.doesSessionExist === true;
 
-    if (isLoggedIn || checkIsAllowed(router.pathname)) {
+    console.log('Auth::logged-in::' + isLoggedIn);
+    console.log(
+      'Auth::page-protected::' + !checkIsAllowed(window.location.pathname)
+    );
+    if (isLoggedIn || checkIsAllowed(window.location.pathname)) {
       if (session.userId && typeof session.userId === 'string') {
         setItem(PARTNER_ID, session.userId);
       }
