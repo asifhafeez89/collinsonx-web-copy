@@ -2,7 +2,7 @@ const { test } = require('@playwright/test');
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
 
-test.use({ storageState: { cookies: [], origins: [] }, baseURL: `https://${process.env.ENV.toLowerCase()}.lifestyle-x.io` });
+test.use({ storageState: { cookies: [], origins: [] }, baseURL: `https://${process.env.ENV}.lifestyle-x.io` });
 
 test('login as a new user', async ({ page }) => {
   //Given

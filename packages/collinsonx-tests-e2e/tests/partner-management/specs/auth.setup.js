@@ -5,7 +5,7 @@ const authFile = 'playwright/.auth/user.json';
 
 setup('authenticate', async ({ request }) => {
   const password = process.env.ENV === "UAT" ? "CollinsonXPartner123" : "CollinsonXpartner123"
-  const response = await request.post(`https://authz.${process.env.ENV.toLowerCase()}.cergea.com/supertokens/signin`, {
+  const response = await request.post(`https://authz.${process.env.ENV}.cergea.com/supertokens/signin`, {
     data: {
       "formFields": [
         { "id": "email", "value": "automationuserpartner@clearrouteteam.testinator.com" },
