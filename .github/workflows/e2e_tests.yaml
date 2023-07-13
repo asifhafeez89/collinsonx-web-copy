@@ -37,7 +37,8 @@ jobs:
           export DD_ENV=ci
           export DD_TAGS="test_type:browser"
 
-          pnpm run e2e:start --filter @collinsonx/tests-e2e
+          cd packages/collinsonx-tests-e2e
+          pnpm run e2e:start
 
       - name: Upload test results
         if: always()
