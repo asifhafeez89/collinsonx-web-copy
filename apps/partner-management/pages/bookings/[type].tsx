@@ -54,6 +54,7 @@ import { Modal } from '@collinsonx/design-system/core';
 import Details from '@components/Details';
 import useExperience from 'hooks/experience';
 import PageTitle from '@components/PageTitle';
+import { attemptRefreshingSession } from 'supertokens-auth-react/recipe/session';
 import dayjs from 'dayjs';
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
@@ -88,8 +89,7 @@ export interface BookingsProps {
 export default function Bookings({ type }: BookingsProps) {
   const { experience, setExperience } = useExperience();
 
-  let session = useSessionContext() as AppSession;
-
+  console.log('PollInterval Start');
   const {
     loading: loadingBookings,
     error: errorBookings,
@@ -103,10 +103,16 @@ export default function Bookings({ type }: BookingsProps) {
     pollInterval: 300000,
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
-    onCompleted: () =>
+    onCompleted: () => {
       setLastUpdate(
         new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
-      ),
+      );
+
+      console.log('Poll Interval completed');
+      attemptRefreshingSession().then((success: any) => {
+        console.log(success);
+      });
+    },
   });
 
   const router = useRouter();

@@ -19,6 +19,7 @@ import { useMemo, useState } from 'react';
 import getLoungeTitle from 'lib/getLoungeTitle';
 import useExperience from 'hooks/experience';
 import PageTitle from '@components/PageTitle';
+import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 
 interface DetailsProps {
   id: string;
@@ -28,8 +29,12 @@ const { Pending } = BookingStatus;
 
 export default function Details({ id }: DetailsProps) {
   const router = useRouter();
+  const session: any = useSessionContext();
 
   const { experience, setExperience } = useExperience();
+  const { attemptRefreshingSession } = session as any;
+
+  console.log('Hello');
 
   const {
     loading,
@@ -43,10 +48,16 @@ export default function Details({ id }: DetailsProps) {
     pollInterval: 300000,
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
-    onCompleted: () =>
+    onCompleted: () => {
       setLastUpdate(
         new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
-      ),
+      );
+
+      console.log('hELO');
+      attemptRefreshingSession(true).then((response: any) => {
+        console.log(response);
+      });
+    },
   });
 
   const booking = useMemo(() => {
