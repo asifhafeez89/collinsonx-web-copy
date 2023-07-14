@@ -89,7 +89,9 @@ export interface BookingsProps {
 export default function Bookings({ type }: BookingsProps) {
   const { experience, setExperience } = useExperience();
 
-  console.log('PollInterval Start');
+  let session = useSessionContext() as AppSession;
+
+  console.log('Start of fetching');
   const {
     loading: loadingBookings,
     error: errorBookings,
@@ -108,7 +110,7 @@ export default function Bookings({ type }: BookingsProps) {
         new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
       );
 
-      console.log('Poll Interval completed');
+      console.log('End of fetching');
       attemptRefreshingSession().then((success: any) => {
         console.log(success);
       });
