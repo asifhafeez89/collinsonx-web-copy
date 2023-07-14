@@ -146,7 +146,7 @@ export default function Bookings({ type }: BookingsProps) {
             (item.consumer?.fullName ?? '')
               .toLowerCase()
               .includes((search ?? '').trim().toLowerCase()) ||
-            (item.id ?? '').toLowerCase() ===
+            (item.reference ?? '').toLowerCase() ===
               (search ?? '').trim().toLowerCase()
           );
         }),
@@ -305,8 +305,8 @@ export default function Bookings({ type }: BookingsProps) {
         header: 'Customer name',
         cell: (props) => props.getValue() || '-',
       }),
-      columnHelper.accessor('id', {
-        id: 'id',
+      columnHelper.accessor('reference', {
+        id: 'reference',
         header: 'Booking ID',
         cell: (props) => props.getValue() || '-',
       }),
