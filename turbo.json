@@ -25,6 +25,10 @@
     "@collinsox/design-system#dev": {
       "dependsOn": ["@collinsonx/utils#build"]
     },
+    "test:ci": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
     "test": {
       "dependsOn": ["^build"],
       "outputs": []

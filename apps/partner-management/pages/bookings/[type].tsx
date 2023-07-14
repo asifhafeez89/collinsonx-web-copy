@@ -54,6 +54,7 @@ import { Modal } from '@collinsonx/design-system/core';
 import Details from '@components/Details';
 import useExperience from 'hooks/experience';
 import PageTitle from '@components/PageTitle';
+import { attemptRefreshingSession } from 'supertokens-auth-react/recipe/session';
 import dayjs from 'dayjs';
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
@@ -90,6 +91,7 @@ export default function Bookings({ type }: BookingsProps) {
 
   let session = useSessionContext() as AppSession;
 
+  console.log('Start of fetching');
   const {
     loading: loadingBookings,
     error: errorBookings,
@@ -103,10 +105,16 @@ export default function Bookings({ type }: BookingsProps) {
     pollInterval: 300000,
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
-    onCompleted: () =>
+    onCompleted: () => {
       setLastUpdate(
         new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
-      ),
+      );
+
+      console.log('End of fetching');
+      attemptRefreshingSession().then((success: any) => {
+        console.log(success);
+      });
+    },
   });
 
   const router = useRouter();
@@ -146,7 +154,7 @@ export default function Bookings({ type }: BookingsProps) {
             (item.consumer?.fullName ?? '')
               .toLowerCase()
               .includes((search ?? '').trim().toLowerCase()) ||
-            (item.id ?? '').toLowerCase() ===
+            (item.reference ?? '').toLowerCase() ===
               (search ?? '').trim().toLowerCase()
           );
         }),
@@ -305,8 +313,8 @@ export default function Bookings({ type }: BookingsProps) {
         header: 'Customer name',
         cell: (props) => props.getValue() || '-',
       }),
-      columnHelper.accessor('id', {
-        id: 'id',
+      columnHelper.accessor('reference', {
+        id: 'reference',
         header: 'Booking ID',
         cell: (props) => props.getValue() || '-',
       }),
