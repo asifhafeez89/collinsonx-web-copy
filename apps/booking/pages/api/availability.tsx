@@ -10,9 +10,9 @@ interface AvailabilityProperties {
 }
 
 interface GuestsInfo {
-  adults: number;
-  children: number;
-  infant: number;
+  adultCount: number;
+  childrenCount: number;
+  infantCount: number;
 }
 
 interface ProductInfo {
