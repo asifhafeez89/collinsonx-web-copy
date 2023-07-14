@@ -11,6 +11,7 @@
     "build:partner-management": "turbo run build --filter=partner-management...",
     "build:booking": "turbo run build --filter=booking...",
     "test": "turbo run test -- --coverage=false",
+    "test:ci": "turbo run test:ci",
     "test:coverage": "turbo run test",
     "test:updatesnapshots": "turbo run test -- -u --coverage=false",
     "test:watch": "turbo run test:watch -- --coverage=false",
