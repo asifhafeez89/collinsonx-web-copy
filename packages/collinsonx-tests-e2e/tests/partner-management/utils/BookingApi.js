@@ -174,6 +174,7 @@ class BookingApi {
     // do not move this code below other form elements - this along with 'networkidle' ensures the tax amount is resolved before clicking 'pay"
     await Promise.all([
       await this.page.getByLabel('Postal code').fill('KT1 2AA'),
+      // TODO - fix flakiness. Difficult as the tax subtotal does not have a 'selector'
       await this.page.waitForLoadState('networkidle', { timeout: 5000 })
     ]);
     await this.page.getByLabel('Card number').fill('4242424242424242');
