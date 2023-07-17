@@ -24,7 +24,7 @@ jobs:
         run: |
           pnpm i
 
-      - name: Define hosts mappings
+      - name: Define host mappings (required by cors)
         run: |
           sudo echo "127.0.0.1 partner-local.uat.cergea.com" | sudo tee -a /etc/hosts
       
