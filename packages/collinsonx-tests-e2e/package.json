@@ -19,6 +19,7 @@
   "devDependencies": {
     "@playwright/test": "^1.32.3",
     "axios": "^1.4.0",
-    "mailinator-client": "^1.0.3"
+    "mailinator-client": "^1.0.3",
+    "stripe": "^12.12.0"
   }
 }
