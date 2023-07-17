@@ -19,6 +19,7 @@ import { useMemo, useState } from 'react';
 import getLoungeTitle from 'lib/getLoungeTitle';
 import useExperience from 'hooks/experience';
 import PageTitle from '@components/PageTitle';
+import { attemptRefreshingSession } from 'supertokens-auth-react/recipe/session';
 
 interface DetailsProps {
   id: string;
@@ -43,10 +44,12 @@ export default function Details({ id }: DetailsProps) {
     pollInterval: 300000,
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
-    onCompleted: () =>
+    onCompleted: () => {
+      attemptRefreshingSession().then((success: any) => {});
       setLastUpdate(
         new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
-      ),
+      );
+    },
   });
 
   const booking = useMemo(() => {
