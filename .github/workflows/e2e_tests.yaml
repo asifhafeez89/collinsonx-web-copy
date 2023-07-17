@@ -24,11 +24,25 @@ jobs:
         run: |
           pnpm i
 
-      - name: "Run build, start server then run tests"
+      - name: Define hosts mappings
+        run: |
+          sudo echo "127.0.0.1 partner-local.uat.cergea.com" | sudo tee -a /etc/hosts
+      
+      - name: Partner webapp SSL cert creation (required by cors)
+        run: |
+          apt-get update -y
+          apt-get install wget libnss3-tools
+          wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.3/mkcert-v1.4.3-linux-amd64
+          mv mkcert-v1.4.3-linux-amd64 /usr/bin/mkcert
+          chmod +x /usr/bin/mkcert
+          mkcert -key-file partner-local.uat.cergea.com-key.pem -cert-file partner-local.uat.cergea.com.pem partner-local.uat.cergea.com
+          echo "${{ secrets.ENV_LOCAL_FILE }}" > apps/partner-management/.env.local
+
+      - name: Run partner webapp tests
         run: |
           pnpm run build
           pnpm add --global pm2
-          pm2 --name dev-server start pnpm -- start
+          pm2 --name dev-server start pnpm -- dev
 
           export DD_CIVISIBILITY_AGENTLESS_ENABLED=true
           export DD_API_KEY=${{ secrets.DATADOG_API_KEY }}
@@ -37,8 +51,8 @@ jobs:
           export DD_ENV=ci
           export DD_TAGS="test_type:browser"
 
-          cd packages/collinsonx-tests-e2e
-          pnpm run e2e:start
+          echo "${{ secrets.ENV_TESTS_FILE }}" > packages/collinsonx-tests-e2e/.env.tests
+          pnpm --filter "@collinsonx/tests-e2e" e2e:local-partner
 
       - name: Upload test results
         if: always()
