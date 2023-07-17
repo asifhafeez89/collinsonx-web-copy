@@ -26,12 +26,12 @@ jobs:
 
       - name: Define host mappings (required by cors)
         run: |
+          apt-get update -y
           apt-get install sudo
           sudo echo "127.0.0.1 partner-local.uat.cergea.com" | sudo tee -a /etc/hosts
       
       - name: Partner webapp SSL cert creation (required by cors)
         run: |
-          apt-get update -y
           apt-get install wget libnss3-tools
           wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.3/mkcert-v1.4.3-linux-amd64
           mv mkcert-v1.4.3-linux-amd64 /usr/bin/mkcert
