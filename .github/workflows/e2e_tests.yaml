@@ -36,8 +36,9 @@ jobs:
           wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.3/mkcert-v1.4.3-linux-amd64
           mv mkcert-v1.4.3-linux-amd64 /usr/bin/mkcert
           chmod +x /usr/bin/mkcert
+          cd apps/partner-management
           mkcert -key-file partner-local.uat.cergea.com-key.pem -cert-file partner-local.uat.cergea.com.pem partner-local.uat.cergea.com
-          echo "${{ secrets.ENV_LOCAL_FILE }}" > apps/partner-management/.env.local
+          echo "${{ secrets.ENV_LOCAL_FILE }}" > .env.local
 
       - name: Run partner webapp tests
         run: |
