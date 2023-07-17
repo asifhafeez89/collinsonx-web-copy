@@ -9,6 +9,7 @@ const getBookings = gql`
       type
       metadata
       id
+      reference
       guestCount
       status
       createdAt
