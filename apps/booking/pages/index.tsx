@@ -114,7 +114,7 @@ const Main = ({ consumerNumber, tempBearerToken, }: MainProps) => {
               ?
                 <Grid.Col sm="auto" md="auto" lg={3}>
                   <Text>
-                    Selected Slot: {`${dayjs(selectedSlot?.startDateTime).format('hh:mm')} - ${dayjs(selectedSlot?.endDateTime).format('hh:mm')}`}
+                    Selected Slot: {`${dayjs(selectedSlot?.startDate).format('hh:mm')} - ${dayjs(selectedSlot?.endDate).format('hh:mm')}`}
                   </Text>
                 </Grid.Col>
               : <></>
