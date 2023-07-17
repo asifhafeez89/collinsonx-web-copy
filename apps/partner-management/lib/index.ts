@@ -30,12 +30,13 @@ export const isErrorValid = (error?: ApolloError) => {
   }
 };
 
-export const expandDate = (data?: { getBookings: Booking[] }) => {
+export const expandBooking = (data?: { getBookings: Booking[] }) => {
   if (data) {
     return {
       ...data,
       getBookings: (data?.getBookings ?? []).map((row) => ({
         ...row,
+        _id: row.reference || row.id,
         arrivalDate: dayjsTz(row.bookedFrom).format('YYYY-MM-DD'),
         arrivalTime: dayjsTz(row.bookedFrom).format('HH:mm'),
       })),
