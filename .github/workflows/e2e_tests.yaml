@@ -53,7 +53,7 @@ jobs:
           export DD_TAGS="test_type:browser"
 
           echo "${{ secrets.ENV_TESTS_FILE }}" > packages/collinsonx-tests-e2e/.env.tests
-          pnpm --filter "@collinsonx/tests-e2e" e2e:local-partner
+          pnpm --filter "@collinsonx/tests-e2e" e2e:local-partner-ci
 
       - name: Upload test results
         if: always()
