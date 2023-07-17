@@ -24,7 +24,10 @@ import { isErrorValid } from 'lib';
 import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
 import getLoungeTitle from 'lib/getLoungeTitle';
 import experiences from '../data/experiences.json';
-import { useSessionContext } from 'supertokens-auth-react/recipe/session';
+import {
+  attemptRefreshingSession,
+  useSessionContext,
+} from 'supertokens-auth-react/recipe/session';
 import { FourSquares } from '@collinsonx/design-system/assets/icons';
 import { useExperience } from 'hooks/experience';
 import PageTitle from '@components/PageTitle';
@@ -48,12 +51,14 @@ export default function Overview() {
       pollInterval: 300000,
       fetchPolicy: 'network-only',
       notifyOnNetworkStatusChange: true,
-      onCompleted: () =>
+      onCompleted: () => {
+        attemptRefreshingSession().then((success: any) => {});
         setLastUpdate(
           new Date().toLocaleDateString() +
-          ' ' +
-          new Date().toLocaleTimeString()
-        ),
+            ' ' +
+            new Date().toLocaleTimeString()
+        );
+      },
     }
   );
 
@@ -99,10 +104,11 @@ export default function Overview() {
   const experiencesFiltered = experiences.map((experience) => {
     return {
       value: experience.id,
-      label: `${experience.loungeName}${experience.location?.terminal
-        ? ' - ' + experience.location?.terminal
-        : ''
-        }`,
+      label: `${experience.loungeName}${
+        experience.location?.terminal
+          ? ' - ' + experience.location?.terminal
+          : ''
+      }`,
     };
   });
 
@@ -196,7 +202,7 @@ export default function Overview() {
                   )}
                 </OverviewCard>
               </Stack>
-            </Grid.Col >
+            </Grid.Col>
             <Grid.Col lg={6}>
               <Stack spacing={24}>
                 <OverviewCard
@@ -284,14 +290,13 @@ export default function Overview() {
                   </Skeleton>
                 </OverviewCard>
               </Stack>
-            </Grid.Col >
-          </Grid >
+            </Grid.Col>
+          </Grid>
           <Text mb={33} mt={33} size={10}>
             {lastUpdate && `Last updated ${lastUpdate}`}
           </Text>
         </>
-      )
-      }
+      )}
     </>
   );
 }

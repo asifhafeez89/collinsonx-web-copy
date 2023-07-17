@@ -109,6 +109,7 @@ export default function Bookings({ type }: BookingsProps) {
         new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
       );
 
+      // HACK
       attemptRefreshingSession().then((success: any) => {});
     },
   });

@@ -45,7 +45,9 @@ export default function Details({ id }: DetailsProps) {
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
     onCompleted: () => {
+      // HACK
       attemptRefreshingSession().then((success: any) => {});
+
       setLastUpdate(
         new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
       );
