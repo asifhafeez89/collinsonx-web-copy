@@ -1,0 +1,24 @@
+name: PR Check Partner
+
+on:
+  pull_request:
+    branches: ['dev']
+    paths:
+      - 'apps/partner-management/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - name: Install packages
+        run: pnpm i --frozen-lockfile
+      - name: Run Tests
+        run: pnpm run test:ci --filter partner-management

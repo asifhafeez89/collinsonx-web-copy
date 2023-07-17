@@ -44,7 +44,7 @@ import Error from '@components/Error';
 import DetailsPendingActions from '@components/Details/DetailsPendingActions';
 import { PageType } from 'config/booking';
 import { GetServerSideProps } from 'next';
-import { expandDate, isErrorValid } from 'lib';
+import { expandBooking, isErrorValid } from 'lib';
 import { useRouter } from 'next/router';
 import getLoungeTitle from 'lib/getLoungeTitle';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
@@ -54,6 +54,7 @@ import { Modal } from '@collinsonx/design-system/core';
 import Details from '@components/Details';
 import useExperience from 'hooks/experience';
 import PageTitle from '@components/PageTitle';
+import { attemptRefreshingSession } from 'supertokens-auth-react/recipe/session';
 import dayjs from 'dayjs';
 
 const columnHelper = createColumnHelper<Partial<Booking>>();
@@ -103,10 +104,14 @@ export default function Bookings({ type }: BookingsProps) {
     pollInterval: 300000,
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
-    onCompleted: () =>
+    onCompleted: () => {
       setLastUpdate(
         new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
-      ),
+      );
+
+      // HACK
+      attemptRefreshingSession().then((success: any) => {});
+    },
   });
 
   const router = useRouter();
@@ -125,7 +130,7 @@ export default function Bookings({ type }: BookingsProps) {
 
   const filteredData = useMemo(() => {
     let result;
-    const data = expandDate(dataBookings);
+    const data = expandBooking(dataBookings);
     if (!date) {
       result = data;
     } else if (data?.getBookings) {
@@ -146,7 +151,7 @@ export default function Bookings({ type }: BookingsProps) {
             (item.consumer?.fullName ?? '')
               .toLowerCase()
               .includes((search ?? '').trim().toLowerCase()) ||
-            (item.id ?? '').toLowerCase() ===
+            (item._id ?? '').toLowerCase() ===
               (search ?? '').trim().toLowerCase()
           );
         }),
@@ -305,8 +310,8 @@ export default function Bookings({ type }: BookingsProps) {
         header: 'Customer name',
         cell: (props) => props.getValue() || '-',
       }),
-      columnHelper.accessor('id', {
-        id: 'id',
+      columnHelper.accessor('_id', {
+        id: '_id',
         header: 'Booking ID',
         cell: (props) => props.getValue() || '-',
       }),

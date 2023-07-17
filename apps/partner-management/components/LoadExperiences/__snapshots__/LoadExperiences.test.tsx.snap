@@ -209,7 +209,7 @@ exports[`<LoadExperiences /> should render 1`] = `
           class="emotion-0 emotion-1 emotion-2"
         >
           <div
-            aria-controls="mantine-cvc7atmmz"
+            aria-controls="mantine-"
             aria-expanded="false"
             aria-haspopup="listbox"
             class=""
@@ -229,7 +229,7 @@ exports[`<LoadExperiences /> should render 1`] = `
                 autocomplete="off"
                 class="emotion-6 emotion-7 emotion-8"
                 data-mantine-stop-propagation="false"
-                id="mantine-cvc7atmmz"
+                id="mantine-"
                 readonly=""
                 role="dialog"
                 type="search"
@@ -451,7 +451,7 @@ exports[`<LoadExperiences /> should render 1`] = `
         class="emotion-0 emotion-1 emotion-2"
       >
         <div
-          aria-controls="mantine-cvc7atmmz"
+          aria-controls="mantine-"
           aria-expanded="false"
           aria-haspopup="listbox"
           class=""
@@ -471,7 +471,7 @@ exports[`<LoadExperiences /> should render 1`] = `
               autocomplete="off"
               class="emotion-6 emotion-7 emotion-8"
               data-mantine-stop-propagation="false"
-              id="mantine-cvc7atmmz"
+              id="mantine-"
               readonly=""
               role="dialog"
               type="search"
