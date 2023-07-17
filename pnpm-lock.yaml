@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -38,6 +38,9 @@ importers:
       babel-jest:
         specifier: ^29.6.1
         version: 29.6.1(@babel/core@7.22.9)
+      dd-trace:
+        specifier: ^4.6.0
+        version: 4.6.0
       jest:
         specifier: ^29.6.1
         version: 29.6.1(@types/node@18.16.19)
@@ -145,7 +148,7 @@ importers:
         version: 1.18.1
       next:
         specifier: ^13.1.0
-        version: 13.3.0(@babel/core@7.22.9)(react-dom@18.2.0)(react@18.2.0)
+        version: 13.3.0(@babel/core@7.22.9)(@opentelemetry/api@1.4.1)(react-dom@18.2.0)(react@18.2.0)
       nextjs-cors:
         specifier: ^2.1.2
         version: 2.1.2(next@13.3.0)
@@ -239,7 +242,7 @@ importers:
         version: 3.1.2
       next:
         specifier: ^13.1.0
-        version: 13.3.0(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0)
+        version: 13.3.0(@babel/core@7.21.8)(@opentelemetry/api@1.4.1)(react-dom@18.2.0)(react@18.2.0)
       qrcode.react:
         specifier: ^3.1.0
         version: 3.1.0(react@18.2.0)
@@ -402,7 +405,7 @@ importers:
         version: 2.1.6
       next:
         specifier: ^13.1.0
-        version: 13.3.0(@babel/core@7.21.4)(react-dom@18.2.0)(react@18.2.0)
+        version: 13.3.0(@babel/core@7.21.4)(@opentelemetry/api@1.4.1)(react-dom@18.2.0)(react@18.2.0)
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -423,7 +426,7 @@ importers:
         version: link:../collinsonx-utils
       next:
         specifier: '*'
-        version: 13.3.0(@babel/core@7.22.9)(react-dom@18.2.0)(react@18.2.0)
+        version: 13.3.0(@babel/core@7.22.9)(@opentelemetry/api@1.4.1)(react-dom@18.2.0)(react@18.2.0)
       react:
         specifier: ^17.0.0 || ^18.0.0-0
         version: 18.2.0
@@ -520,7 +523,7 @@ importers:
         version: 1.11.7
       next:
         specifier: ^13.1.0
-        version: 13.3.0(@babel/core@7.21.4)(react-dom@18.2.0)(react@18.2.0)
+        version: 13.3.0(@babel/core@7.21.4)(@opentelemetry/api@1.4.1)(react-dom@18.2.0)(react@18.2.0)
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -649,14 +652,13 @@ importers:
         version: 8.38.0
       eslint-config-next:
         specifier: canary
-        version: 13.4.10-canary.4(eslint@8.38.0)(typescript@4.9.5)
-
+        version: 13.4.7-canary.2(eslint@8.38.0)(typescript@4.9.5)
       eslint-config-prettier:
         specifier: ^8.5.0
         version: 8.8.0(eslint@8.38.0)
       eslint-config-turbo:
         specifier: latest
-        version: 1.10.7(eslint@8.38.0)
+        version: 1.10.3(eslint@8.38.0)
     devDependencies:
       typescript:
         specifier: ^4.8.4
@@ -950,7 +952,7 @@ packages:
       next: ^12.0.0 || ^13.0.0
     dependencies:
       '@apollo/server': 4.6.0(graphql@16.6.0)
-      next: 13.3.0(@babel/core@7.22.9)(react-dom@18.2.0)(react@18.2.0)
+      next: 13.3.0(@babel/core@7.22.9)(@opentelemetry/api@1.4.1)(react-dom@18.2.0)(react@18.2.0)
     dev: false
 
   /@babel/code-frame@7.21.4:
@@ -6069,7 +6071,7 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@jest/types': 29.5.0
-      '@types/node': 18.15.11
+      '@types/node': 18.16.19
       chalk: 4.1.2
       jest-message-util: 29.5.0
       jest-util: 29.5.0
@@ -6288,7 +6290,7 @@ packages:
       '@jest/transform': 29.5.0
       '@jest/types': 29.5.0
       '@jridgewell/trace-mapping': 0.3.18
-      '@types/node': 18.15.11
+      '@types/node': 18.16.19
       chalk: 4.1.2
       collect-v8-coverage: 1.0.1
       exit: 0.1.2
@@ -6486,7 +6488,7 @@ packages:
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
-      '@types/node': 18.16.7
+      '@types/node': 18.16.19
       '@types/yargs': 15.0.15
       chalk: 4.1.2
 
@@ -6496,7 +6498,7 @@ packages:
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
-      '@types/node': 18.15.11
+      '@types/node': 18.16.19
       '@types/yargs': 16.0.5
       chalk: 4.1.2
 
@@ -6710,7 +6712,7 @@ packages:
     dependencies:
       '@mantine/ssr': 5.10.5(@emotion/react@11.10.6)(@emotion/server@11.10.0)(react-dom@18.2.0)(react@18.2.0)
       '@mantine/styles': 5.10.5(@emotion/react@11.10.6)(react-dom@18.2.0)(react@18.2.0)
-      next: 13.3.0(@babel/core@7.22.9)(react-dom@18.2.0)(react@18.2.0)
+      next: 13.3.0(@babel/core@7.22.9)(@opentelemetry/api@1.4.1)(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     transitivePeerDependencies:
@@ -6727,7 +6729,7 @@ packages:
     dependencies:
       '@mantine/ssr': 6.0.8(@emotion/react@11.10.6)(@emotion/server@11.10.0)(react-dom@18.2.0)(react@18.2.0)
       '@mantine/styles': 6.0.8(@emotion/react@11.10.6)(react-dom@18.2.0)(react@18.2.0)
-      next: 13.3.0(@babel/core@7.21.4)(react-dom@18.2.0)(react@18.2.0)
+      next: 13.3.0(@babel/core@7.21.4)(@opentelemetry/api@1.4.1)(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     transitivePeerDependencies:
@@ -6892,8 +6894,8 @@ packages:
   /@next/env@13.3.0:
     resolution: {integrity: sha512-AjppRV4uG3No7L1plinoTQETH+j2F10TEnrMfzbTUYwze5sBUPveeeBAPZPm8OkJZ1epq9OyYKhZrvbD6/9HCQ==}
 
-  /@next/eslint-plugin-next@13.4.10-canary.4:
-    resolution: {integrity: sha512-TjXqK3JOcs7se/MYL/XFuTiQBFEj4HsgZeGn0yxa5/fmgb68YPtdARsF16c1dn/sS/zA6Ww158v/+etBfEv8/w==}
+  /@next/eslint-plugin-next@13.4.7-canary.2:
+    resolution: {integrity: sha512-y8mQVqdr0szkpSD8/ch3x/AVARv/JZf99mPk2utfPN3qNA3+eEZiMZQOtYrHHKYCBRa3RH6PPRFNTOD33nkwWQ==}
     dependencies:
       glob: 7.1.7
     dev: false
@@ -7012,7 +7014,6 @@ packages:
   /@opentelemetry/api@1.4.1:
     resolution: {integrity: sha512-O2yRJce1GOc6PAy3QxFM4NzFiWzvScDC1/5ihYBL6BUEVdq0XMWN01sppE+H6bBXbaFYipjwFLEWLg5PaSOThA==}
     engines: {node: '>=8.0.0'}
-    dev: true
 
   /@opentelemetry/core@1.15.0(@opentelemetry/api@1.4.1):
     resolution: {integrity: sha512-GGTS6BytfaN8OgbCUOnxg/a9WVsVUj0484zXHZuBzvIXx7V4Tmkb0IHnnhS7Q0cBLNLgjNuvrCpQaP8fIvO4bg==}
@@ -7022,14 +7023,14 @@ packages:
     dependencies:
       '@opentelemetry/api': 1.4.1
       '@opentelemetry/semantic-conventions': 1.15.0
-      tslib: 2.5.0
+      tslib: 2.6.0
     dev: true
 
   /@opentelemetry/semantic-conventions@1.15.0:
     resolution: {integrity: sha512-f3wwFrFyCpGrFBrFs7lCUJSCSCGyeKG52c+EKeobs3Dd29M75yO6GYkt6PkYPfDawxSlV5p+4yJPPk8tPObzTQ==}
     engines: {node: '>=14'}
     dependencies:
-      tslib: 2.5.0
+      tslib: 2.6.0
     dev: true
 
   /@parcel/watcher@2.1.0:
@@ -9261,7 +9262,7 @@ packages:
     dependencies:
       '@types/http-cache-semantics': 4.0.1
       '@types/keyv': 3.1.4
-      '@types/node': 18.15.11
+      '@types/node': 18.16.19
       '@types/responselike': 1.0.0
     dev: true
 
@@ -9311,14 +9312,14 @@ packages:
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 18.15.11
+      '@types/node': 18.16.19
     dev: false
 
   /@types/glob@8.1.0:
     resolution: {integrity: sha512-IO+MJPVhoqz+28h1qLAcBEH2+xHMK6MTyHJc7MTnnYb6wsoLR29POVGJ7LycmVXIqyy/4/2ShP5sUwTXuOwb/w==}
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 18.15.11
+      '@types/node': 18.16.19
     dev: false
 
   /@types/graceful-fs@4.1.6:
@@ -9413,7 +9414,7 @@ packages:
   /@types/keyv@3.1.4:
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
     dependencies:
-      '@types/node': 18.15.11
+      '@types/node': 18.16.19
     dev: true
 
   /@types/lodash@4.14.194:
@@ -9553,7 +9554,7 @@ packages:
   /@types/responselike@1.0.0:
     resolution: {integrity: sha512-85Y2BjiufFzaMIlvJDvTTB8Fxl2xfLo4HgmHzVBz08w4wDePCTjYw66PdrolO0kzli3yam/YCgRufyo1DdQVTA==}
     dependencies:
-      '@types/node': 18.15.11
+      '@types/node': 18.16.19
     dev: true
 
   /@types/scheduler@0.16.3:
@@ -9607,7 +9608,7 @@ packages:
   /@types/webpack-sources@3.2.0:
     resolution: {integrity: sha512-Ft7YH3lEVRQ6ls8k4Ff1oB4jN6oy/XmU6tQISKdhfh+1mR+viZFphS6WL0IrtDOzvefmJg5a0s7ZQoRXwqTEFg==}
     dependencies:
-      '@types/node': 18.15.11
+      '@types/node': 18.16.19
       '@types/source-list-map': 0.1.2
       source-map: 0.7.4
     dev: false
@@ -9615,7 +9616,7 @@ packages:
   /@types/webpack@4.41.33:
     resolution: {integrity: sha512-PPajH64Ft2vWevkerISMtnZ8rTs4YmRbs+23c402J0INmxDKCrhZNvwZYtzx96gY2wAtXdrK1BS2fiC8MlLr3g==}
     dependencies:
-      '@types/node': 18.15.11
+      '@types/node': 18.16.19
       '@types/tapable': 1.0.8
       '@types/uglify-js': 3.17.1
       '@types/webpack-sources': 3.2.0
@@ -9626,7 +9627,7 @@ packages:
   /@types/ws@8.5.4:
     resolution: {integrity: sha512-zdQDHKUgcX/zBc4GrwsE/7dVdAD8JR4EuiAXiiUhhfyIJXXb2+PrGshFyeXWQPMmmZ2XxgaqclgpIC7eTXc1mg==}
     dependencies:
-      '@types/node': 18.15.11
+      '@types/node': 18.16.19
     dev: true
 
   /@types/yargs-parser@21.0.0:
@@ -11639,12 +11640,8 @@ packages:
       safe-buffer: 5.2.1
     dev: false
 
-  /cjs-module-lexer@1.2.2:
-    resolution: {integrity: sha512-cOU9usZw8/dXIXKtwa8pM0OTJQuJkxMN6w30csNRUerHfeQ5R6U3kkU/FtJeIf3M202OHfY2U8ccInBG7/xogA==}
-
   /cjs-module-lexer@1.2.3:
     resolution: {integrity: sha512-0TNiGstbQmCFwt4akjjBg5pLRTSyj/PkWQ1ZoO2zntmg9yLqSRxwEa4iCfQLGjqhiqBfOJa7W/E8wfGrTDmlZQ==}
-    dev: true
 
   /class-utils@0.3.6:
     resolution: {integrity: sha512-qOhPa/Fj7s6TY8H8esGu5QNpMMQxz79h+urzrNYN6mn+9BnxlDGf5QZ+XeCDsxSjPqsSR56XOZOJmpeurnLMeg==}
@@ -12351,7 +12348,7 @@ packages:
       path-to-regexp: 0.1.7
       protobufjs: 7.2.4
       retry: 0.10.1
-      semver: 7.5.0
+      semver: 7.5.4
     dev: true
 
   /debounce@1.2.1:
@@ -13215,8 +13212,8 @@ packages:
     optionalDependencies:
       source-map: 0.6.1
 
-  /eslint-config-next@13.4.10-canary.4(eslint@8.38.0)(typescript@4.9.5):
-    resolution: {integrity: sha512-mqVWEaGDJKlMqJb9Y93vL5C8KWJANQUzQef3FrffHEvOJjfbPpK7ukixDeuj+kC+c2jegxM9uSY0/6HmZvuyDQ==}
+  /eslint-config-next@13.4.7-canary.2(eslint@8.38.0)(typescript@4.9.5):
+    resolution: {integrity: sha512-Bky1GBKBdlKCYRJka7OTcLrErOb2R5e7mCi/kWNrmlWRunsw/XqQWJ5FiCX2xO0fs1OnM6zAq6goe0na3Z7Jng==}
     peerDependencies:
       eslint: ^7.23.0 || ^8.0.0
       typescript: '>=3.3.1'
@@ -13224,7 +13221,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@next/eslint-plugin-next': 13.4.10-canary.4
+      '@next/eslint-plugin-next': 13.4.7-canary.2
       '@rushstack/eslint-patch': 1.3.2
       '@typescript-eslint/parser': 5.62.0(eslint@8.38.0)(typescript@4.9.5)
       eslint: 8.38.0
@@ -13233,7 +13230,7 @@ packages:
       eslint-plugin-import: 2.27.5(@typescript-eslint/parser@5.62.0)(eslint-import-resolver-typescript@3.5.5)(eslint@8.38.0)
       eslint-plugin-jsx-a11y: 6.7.1(eslint@8.38.0)
       eslint-plugin-react: 7.32.2(eslint@8.38.0)
-      eslint-plugin-react-hooks: 5.0.0-canary-7118f5dd7-20230705(eslint@8.38.0)
+      eslint-plugin-react-hooks: 4.6.0(eslint@8.38.0)
       typescript: 4.9.5
     transitivePeerDependencies:
       - eslint-import-resolver-webpack
@@ -13249,13 +13246,13 @@ packages:
       eslint: 8.38.0
     dev: false
 
-  /eslint-config-turbo@1.10.7(eslint@8.38.0):
-    resolution: {integrity: sha512-0yHt5UlXVph8S4SOvP6gYehLvYjJj6XFKTYOG/WUQbjlcF0OU4pOT1a1juqmmBPWYlvJ0evt7v+RekY4tOopPQ==}
+  /eslint-config-turbo@1.10.3(eslint@8.38.0):
+    resolution: {integrity: sha512-ggzPfTJfMsMS383oZ4zfTP1zQvyMyiigOQJRUnLt1nqII6SKkTzdKZdwmXRDHU24KFwUfEFtT6c8vnm2VhL0uQ==}
     peerDependencies:
       eslint: '>6.6.0'
     dependencies:
       eslint: 8.38.0
-      eslint-plugin-turbo: 1.10.7(eslint@8.38.0)
+      eslint-plugin-turbo: 1.10.3(eslint@8.38.0)
     dev: false
 
   /eslint-import-resolver-node@0.3.7:
@@ -13380,8 +13377,8 @@ packages:
       semver: 6.3.1
     dev: false
 
-  /eslint-plugin-react-hooks@5.0.0-canary-7118f5dd7-20230705(eslint@8.38.0):
-    resolution: {integrity: sha512-AZYbMo/NW9chdL7vk6HQzQhT+PvTAEVqWk9ziruUoW2kAOcN5qNyelv70e0F1VNQAbvutOC9oc+xfWycI9FxDw==}
+  /eslint-plugin-react-hooks@4.6.0(eslint@8.38.0):
+    resolution: {integrity: sha512-oFc7Itz9Qxh2x4gNHStv3BqJq54ExXmfC+a1NjAta66IAN87Wu0R/QArgIS9qKzX3dXKPI9H5crl9QchNMY9+g==}
     engines: {node: '>=10'}
     peerDependencies:
       eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0
@@ -13413,12 +13410,11 @@ packages:
       string.prototype.matchall: 4.0.8
     dev: false
 
-  /eslint-plugin-turbo@1.10.7(eslint@8.38.0):
-    resolution: {integrity: sha512-YikBHc75DY9VV1vAFUIBekHLQlxqVT5zTNibK8zBQInCUhF7PvyPJc0xXw5FSz8EYtt4uOV3r0Km3CmFRclS4Q==}
+  /eslint-plugin-turbo@1.10.3(eslint@8.38.0):
+    resolution: {integrity: sha512-g3Mnnk7el1FqxHfqbE/MayLvCsYjA/vKmAnUj66kV4AlM7p/EZqdt42NMcMSKtDVEm0w+utQkkzWG2Xsa0Pd/g==}
     peerDependencies:
       eslint: '>6.6.0'
     dependencies:
-      dotenv: 16.0.3
       eslint: 8.38.0
     dev: false
 
@@ -15189,7 +15185,7 @@ packages:
     dependencies:
       acorn: 8.8.2
       acorn-import-assertions: 1.9.0(acorn@8.8.2)
-      cjs-module-lexer: 1.2.2
+      cjs-module-lexer: 1.2.3
       module-details-from-path: 1.0.3
     dev: true
 
@@ -15850,7 +15846,7 @@ packages:
       '@jest/expect': 29.5.0
       '@jest/test-result': 29.5.0
       '@jest/types': 29.5.0
-      '@types/node': 18.15.11
+      '@types/node': 18.16.19
       chalk: 4.1.2
       co: 4.6.0
       dedent: 0.7.0
@@ -16105,7 +16101,7 @@ packages:
       '@jest/environment': 29.5.0
       '@jest/fake-timers': 29.5.0
       '@jest/types': 29.5.0
-      '@types/node': 18.15.11
+      '@types/node': 18.16.19
       jest-mock: 29.5.0
       jest-util: 29.5.0
 
@@ -16140,7 +16136,7 @@ packages:
     dependencies:
       '@jest/types': 26.6.2
       '@types/graceful-fs': 4.1.6
-      '@types/node': 18.15.11
+      '@types/node': 18.16.19
       anymatch: 3.1.3
       fb-watchman: 2.0.2
       graceful-fs: 4.2.11
@@ -16163,7 +16159,7 @@ packages:
     dependencies:
       '@jest/types': 29.5.0
       '@types/graceful-fs': 4.1.6
-      '@types/node': 18.15.11
+      '@types/node': 18.16.19
       anymatch: 3.1.3
       fb-watchman: 2.0.2
       graceful-fs: 4.2.11
@@ -16259,7 +16255,7 @@ packages:
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
       '@jest/types': 27.5.1
-      '@types/node': 18.15.11
+      '@types/node': 18.16.19
     dev: false
 
   /jest-mock@29.5.0:
@@ -16368,7 +16364,7 @@ packages:
       '@jest/test-result': 29.5.0
       '@jest/transform': 29.5.0
       '@jest/types': 29.5.0
-      '@types/node': 18.15.11
+      '@types/node': 18.16.19
       chalk: 4.1.2
       emittery: 0.13.1
       graceful-fs: 4.2.11
@@ -16427,9 +16423,9 @@ packages:
       '@jest/test-result': 29.5.0
       '@jest/transform': 29.5.0
       '@jest/types': 29.5.0
-      '@types/node': 18.15.11
+      '@types/node': 18.16.19
       chalk: 4.1.2
-      cjs-module-lexer: 1.2.2
+      cjs-module-lexer: 1.2.3
       collect-v8-coverage: 1.0.1
       glob: 7.2.3
       graceful-fs: 4.2.11
@@ -16479,7 +16475,7 @@ packages:
     resolution: {integrity: sha512-S5wqyz0DXnNJPd/xfIzZ5Xnp1HrJWBczg8mMfMpN78OJ5eDxXyf+Ygld9wX1DnUWbIbhM1YDY95NjR4CBXkb2g==}
     engines: {node: '>= 10.14.2'}
     dependencies:
-      '@types/node': 18.15.11
+      '@types/node': 18.16.19
       graceful-fs: 4.2.11
     dev: false
 
@@ -16547,7 +16543,7 @@ packages:
     engines: {node: '>= 10.14.2'}
     dependencies:
       '@jest/types': 26.6.2
-      '@types/node': 18.15.11
+      '@types/node': 18.16.19
       chalk: 4.1.2
       graceful-fs: 4.2.11
       is-ci: 2.0.0
@@ -16605,7 +16601,7 @@ packages:
     dependencies:
       '@jest/test-result': 29.5.0
       '@jest/types': 29.5.0
-      '@types/node': 18.15.11
+      '@types/node': 18.16.19
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       emittery: 0.13.1
@@ -16630,7 +16626,7 @@ packages:
     resolution: {integrity: sha512-KWYVV1c4i+jbMpaBC+U++4Va0cp8OisU185o73T1vo99hqi7w8tSJfUXYswwqqrjzwxa6KpRK54WhPvwf5w6PQ==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 18.15.11
+      '@types/node': 18.16.19
       merge-stream: 2.0.0
       supports-color: 7.2.0
     dev: false
@@ -16639,7 +16635,7 @@ packages:
     resolution: {integrity: sha512-7vuh85V5cdDofPyxn58nrPjBktZo0u9x1g8WtjQol+jZDaE+fhN+cIvTj11GndBnMnyfrUOG1sZQxCdjKh+DKg==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 18.15.11
+      '@types/node': 18.16.19
       merge-stream: 2.0.0
       supports-color: 8.1.1
     dev: false
@@ -16648,7 +16644,7 @@ packages:
     resolution: {integrity: sha512-NcrQnevGoSp4b5kg+akIpthoAFHxPBcb5P6mYPY0fUNT+sSvmtu6jlkEle3anczUKIKEbMxFimk9oTP/tpIPgA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      '@types/node': 18.15.11
+      '@types/node': 18.16.19
       jest-util: 29.5.0
       merge-stream: 2.0.0
       supports-color: 8.1.1
@@ -17763,7 +17759,7 @@ packages:
     resolution: {integrity: sha512-9iN1ka/9zmX1ZvLV9ewJYEk9h7RyRRtqdK0woXcqohu8EWIerfPUjYJPg0ULy0UqP7cslmdGc8xKDJcojlKiaw==}
     dev: false
 
-  /next@13.3.0(@babel/core@7.21.4)(react-dom@18.2.0)(react@18.2.0):
+  /next@13.3.0(@babel/core@7.21.4)(@opentelemetry/api@1.4.1)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-OVTw8MpIPa12+DCUkPqRGPS3thlJPcwae2ZL4xti3iBff27goH024xy4q2lhlsdoYiKOi8Kz6uJoLW/GXwgfOA==}
     engines: {node: '>=14.6.0'}
     hasBin: true
@@ -17785,6 +17781,7 @@ packages:
         optional: true
     dependencies:
       '@next/env': 13.3.0
+      '@opentelemetry/api': 1.4.1
       '@swc/helpers': 0.4.14
       busboy: 1.6.0
       caniuse-lite: 1.0.30001480
@@ -17806,7 +17803,7 @@ packages:
       - '@babel/core'
       - babel-plugin-macros
 
-  /next@13.3.0(@babel/core@7.21.8)(react-dom@18.2.0)(react@18.2.0):
+  /next@13.3.0(@babel/core@7.21.8)(@opentelemetry/api@1.4.1)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-OVTw8MpIPa12+DCUkPqRGPS3thlJPcwae2ZL4xti3iBff27goH024xy4q2lhlsdoYiKOi8Kz6uJoLW/GXwgfOA==}
     engines: {node: '>=14.6.0'}
     hasBin: true
@@ -17828,6 +17825,7 @@ packages:
         optional: true
     dependencies:
       '@next/env': 13.3.0
+      '@opentelemetry/api': 1.4.1
       '@swc/helpers': 0.4.14
       busboy: 1.6.0
       caniuse-lite: 1.0.30001480
@@ -17850,7 +17848,7 @@ packages:
       - babel-plugin-macros
     dev: false
 
-  /next@13.3.0(@babel/core@7.22.9)(react-dom@18.2.0)(react@18.2.0):
+  /next@13.3.0(@babel/core@7.22.9)(@opentelemetry/api@1.4.1)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-OVTw8MpIPa12+DCUkPqRGPS3thlJPcwae2ZL4xti3iBff27goH024xy4q2lhlsdoYiKOi8Kz6uJoLW/GXwgfOA==}
     engines: {node: '>=14.6.0'}
     hasBin: true
@@ -17872,6 +17870,7 @@ packages:
         optional: true
     dependencies:
       '@next/env': 13.3.0
+      '@opentelemetry/api': 1.4.1
       '@swc/helpers': 0.4.14
       busboy: 1.6.0
       caniuse-lite: 1.0.30001480
@@ -17900,7 +17899,7 @@ packages:
       next: ^8.1.1-canary.54 || ^9.0.0 || ^10.0.0-0 || ^11.0.0 || ^12.0.0 || ^13.0.0
     dependencies:
       cors: 2.8.5
-      next: 13.3.0(@babel/core@7.22.9)(react-dom@18.2.0)(react@18.2.0)
+      next: 13.3.0(@babel/core@7.22.9)(@opentelemetry/api@1.4.1)(react-dom@18.2.0)(react@18.2.0)
     dev: false
 
   /nice-try@1.0.5:
@@ -17919,10 +17918,6 @@ packages:
   /node-addon-api@3.2.1:
     resolution: {integrity: sha512-mmcei9JghVNDYydghQmeDX8KoAm0FAiYyIcUt/N4nhyAipB17pllZQDOJD2fotxABnt4Mdz+dKTO7eftLg4d0A==}
     dev: true
-
-  /node-addon-api@6.0.0:
-    resolution: {integrity: sha512-GyHvgPvUXBvAkXa0YvYnhilSB1A+FRYMpIVggKzPZqdaZfevZOuzfWzyvgzOwRLHBeo/MMswmJFsrNF4Nw1pmA==}
-    dev: false
 
   /node-addon-api@6.1.0:
     resolution: {integrity: sha512-+eawOlIgy680F0kBzPUNFhMZGtJ1YmqM6l4+Crf4IkImjYrO/mqPwRMh352g23uIaQKFItcQ64I7KMaJxHgAVA==}
@@ -18936,25 +18931,6 @@ packages:
     resolution: {integrity: sha512-1qWaGAzwMpaXJP9opRa23nPnt2Egi7RMNoNBptEE/XwHbcn4fC2b/4U4bKc5arkGkIh2ZabpF2bEb+c5GNHEKA==}
     dev: true
 
-  /prebuild-install@7.1.1:
-    resolution: {integrity: sha512-jAXscXWMcCK8GgCoHOfIr0ODh5ai8mj63L2nWrjuAgXE6tDyYGnx4/8o/rCgU+B4JSyZBKbeZqzhtwtC3ovxjw==}
-    engines: {node: '>=10'}
-    hasBin: true
-    dependencies:
-      detect-libc: 2.0.1
-      expand-template: 2.0.3
-      github-from-package: 0.0.0
-      minimist: 1.2.8
-      mkdirp-classic: 0.5.3
-      napi-build-utils: 1.0.2
-      node-abi: 3.40.0
-      pump: 3.0.0
-      rc: 1.2.8
-      simple-get: 4.0.1
-      tar-fs: 2.1.1
-      tunnel-agent: 0.6.0
-    dev: false
-
   /preferred-pm@3.0.3:
     resolution: {integrity: sha512-+wZgbxNES/KlJs9q40F/1sfOd/j7f1O9JaHcW5Dsn3aUUOZg3L2bjpVUcKV2jvtElYfoTuQiNeMfQJ4kwUAhCQ==}
     engines: {node: '>=10'}
@@ -19124,7 +19100,7 @@ packages:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 18.16.7
+      '@types/node': 18.16.19
       long: 5.2.3
     dev: true
 
