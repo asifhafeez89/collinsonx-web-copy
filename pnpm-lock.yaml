@@ -562,6 +562,9 @@ importers:
       mailinator-client:
         specifier: ^1.0.3
         version: 1.0.3
+      stripe:
+        specifier: ^12.12.0
+        version: 12.12.0
 
   packages/collinsonx-utils:
     dependencies:
@@ -20541,6 +20544,14 @@ packages:
   /strip-outer@2.0.0:
     resolution: {integrity: sha512-A21Xsm1XzUkK0qK1ZrytDUvqsQWict2Cykhvi0fBQntGG5JSprESasEyV1EZ/4CiR5WB5KjzLTrP/bO37B0wPg==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dev: true
+
+  /stripe@12.12.0:
+    resolution: {integrity: sha512-aM9xfyDryiaf/qSWMtJaTMrlc/he3qyx3aVHMqOZqUiMdgTV6lt7tLpFrU0pG+QURm1LAP9GYZ+EcA17446YoQ==}
+    engines: {node: '>=12.*'}
+    dependencies:
+      '@types/node': 18.16.7
+      qs: 6.11.1
     dev: true
 
   /strtok3@7.0.0:

@@ -7,8 +7,8 @@
     "e2e:local-partner": "ENV=UAT playwright test --project=partner-local --headed",
     "e2e:start": "start-server-and-test \"(cd ../../ && pnpm run build && pnpm run start)\" http://localhost:3000 \"playwright test\"",
     "e2e:report": "playwright show-report",
-    "e2e:test-partner": "ENV=TEST URL=https://partner.test.cergea.com playwright test --project=partner-chromium-test --headed",
-    "e2e:uat-partner": "ENV=UAT URL=https://partner.uat.cergea.com playwright test --project=partner-chromium-test --headed"
+    "e2e:test-partner": "ENV=TEST playwright test --project=partner-chromium-test --headed",
+    "e2e:uat-partner": "ENV=UAT playwright test --project=partner-chromium-test --headed"
   },
   "dependencies": {
     "dotenv": "^16.0.3",
@@ -18,6 +18,7 @@
   "devDependencies": {
     "@playwright/test": "^1.32.3",
     "axios": "^1.4.0",
-    "mailinator-client": "^1.0.3"
+    "mailinator-client": "^1.0.3",
+    "stripe": "^12.12.0"
   }
 }

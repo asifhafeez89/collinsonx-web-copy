@@ -39,12 +39,12 @@ class BookingOverviewPage {
         return this.page.getByTestId('viewAllConfirmed').click();
     };
 
-    getPendingRequestCount() {
-        return this.page.getByTestId('pendingRequestsCount');
+    async getPendingRequestCount() {
+        return Number(await this.page.getByTestId('pendingRequestsCount').innerText());
     };
 
-    getConfirmedBookingCount() {
-        return this.page.getByTestId('confirmedBookingCount');
+    async getConfirmedBookingCount() {
+        return Number(await this.page.getByTestId('allBookingsCount').innerText());
     };
 
 };
