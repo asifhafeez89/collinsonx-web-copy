@@ -68,3 +68,88 @@ To run the test they perform:
 2. pnpm i
 3. cd packages/collinsonx-tests-e2e
 4. pnpm run e2e:start
+
+## Notes for testers
+
+### Auth
+
+This section will discuss the set-up, and usage of 'auth' (user.json files) for the tests to use in order to login to the app via the API.
+
+'auth.setup.js' is classed as a 'test' and runs before all other tests in order to create user.json files. These files store auth cookies for the tests to use and automatically be logged in. This uses API calls and so gives us separation between 'login tests' and all other tests (if the UI login functionality is not working then we still have the ability to test other aspects of the app).
+
+```js
+setup('authenticate', async ({ request }) => {
+  const users = ["HEATHROW"];
+  ...
+}
+```
+- users (partners) can be added by adding to the 'users array shown above (uppercasing)
+- the 'secrets' for each user are places in the env.tests file
+- 'setup' (shown above) runs on a loop over the array and creates user.json files using the before-mentioned secrets
+
+#### env.tests
+```
+X_USER_ID=
+EXPERIENCE_ID=
+HEATHROW_USERNAME_UAT=
+HEATHROW_PASSWORD_UAT=
+HEATHROW_USERNAME_TEST=
+HEATHROW_PASSWORD_TEST=
+```
+
+#### playwright.config.js:
+```js
+projects: [
+    { name: 'setup', testMatch: /auth.setup\.js/ },
+    {
+      name: 'partner-chromium-test',
+      testDir: './tests/partner-management',
+      // ENV variable is given by the package.json script
+      use: { 
+        ...devices['Desktop Chrome'], 
+        storageState: 'playwright/.auth/user.json', 
+        baseURL: `https://partner.${process.env.ENV}.cergea.com` 
+      },
+      dependencies: ['setup'],
+    }
+]
+```
+
+- 'projects' - logical groups of tests running with the same configuration. Currently being used to declare baseURL's and testDir's (only one testDir can be assigned to global config/ project)
+- global config is overwritten by project specific config
+
+#### package.json:
+```json
+"scripts": {
+    "e2e:test-partner": "ENV=TEST playwright test --project=partner-chromium-test --headed",
+    "e2e:uat-partner": "ENV=UAT playwright test --project=partner-chromium-test --headed"
+  }
+```
+
+- process.env.ENV is set by the script command where ENV=<ENVIRONMENT>
+- each script points to a specific playwright 'project'
+
+#### usage within spec files:
+```js
+test.describe('booking overview dashboard', () => {
+    test.describe('pending requests', () => {
+        test.describe('add pending request using the booking API', () => {
+            test.use({ storageState: 'playwright/.auth/heathrowUser.json' })
+
+            test('should increase the booking count by 1', async ({ page }) => {
+                ...
+            });
+        });
+        test.describe('remove pending request using the booking API', () => {
+            test.use({ storageState: 'playwright/.auth/gatwickUser.json' })
+            test('should decrease the booking count by 1', async ({ page }) => {
+                ...
+            });
+        });
+
+    });
+});
+```
+- test.use({ storageState: <user>.json)}) must be placed before the test that requires it
+- placing this inside the test will not work as intended, and placing this before a describe step will cause all tests within the describe block to use the same user.json
+- as shown above, you may need to create an additional decribe block within the conventional describe blocks for the intended outcome
