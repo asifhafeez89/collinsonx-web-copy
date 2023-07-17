@@ -26,6 +26,7 @@ jobs:
 
       - name: Define host mappings (required by cors)
         run: |
+          apt-get install sudo
           sudo echo "127.0.0.1 partner-local.uat.cergea.com" | sudo tee -a /etc/hosts
       
       - name: Partner webapp SSL cert creation (required by cors)
