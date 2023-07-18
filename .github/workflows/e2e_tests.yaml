@@ -28,9 +28,7 @@ jobs:
         run: |
           apt-get update -y
           apt-get install sudo -y
-          sudo echo "127.0.0.1 localhost" | sudo tee -a /etc/hosts
           sudo echo "127.0.0.1 partner-local.uat.cergea.com" | sudo tee -a /etc/hosts
-          cat /etc/hosts
       
       - name: Partner webapp SSL cert creation (required by cors)
         run: |
@@ -48,7 +46,7 @@ jobs:
           pnpm add --global pm2
           pm2 --name dev-server start pnpm -- dev
           sleep 50
-          curl http://localhost:3010
+          curl http://127.0.0.1:3010
 
       - name: Upload test results
         if: always()
