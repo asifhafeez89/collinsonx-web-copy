@@ -126,9 +126,9 @@ export default function Details({ id }: DetailsProps) {
             <Box>
               <Title mb={8} size={32}>
                 Customer booking details{' '}
-                {lastUpdate && `Last updated ${lastUpdate}`}
               </Title>
               <Text size={18}>{getLoungeTitle(experience)}</Text>
+              {lastUpdate && `Last updated ${lastUpdate}`}
             </Box>
             <Error error={declineError} />
             <Error error={confirmError} />
