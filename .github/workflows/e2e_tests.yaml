@@ -46,8 +46,7 @@ jobs:
           apt-get install -y netcat
           pnpm run build
           pnpm add --global pm2
-          pm2 --name dev-server start pnpm -- dev
-          pm2 logs dev-server
+          pm2 --name dev-server --interpreter bash start pnpm -- dev
           sleep 20
           echo -n "GET / HTTP/1.1\r\nHost: localhost\r\n\r\n" | nc localhost 3010
           curl http://localhost:3010 -verbose
