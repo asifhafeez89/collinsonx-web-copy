@@ -48,8 +48,9 @@ jobs:
 
       - name: run tests
         run: |
-          lsof -i -P -n | grep LISTEN
-
+          curl http://localhost:3010
+          curl https://partner-local.uat.cergea.com:4010
+          
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v3
