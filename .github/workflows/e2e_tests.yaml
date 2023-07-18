@@ -30,6 +30,7 @@ jobs:
           apt-get install sudo -y
           sudo echo "127.0.0.1 localhost" | sudo tee -a /etc/hosts
           sudo echo "127.0.0.1 partner-local.uat.cergea.com" | sudo tee -a /etc/hosts
+          cat /etc/hosts
       
       - name: Partner webapp SSL cert creation (required by cors)
         run: |
