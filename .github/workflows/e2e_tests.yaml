@@ -47,6 +47,7 @@ jobs:
           pm2 --name dev-server start pnpm -- dev
 
       - name: run tests
+        run: |
           lsof -i -P -n | grep LISTEN
           curl https://partner-local.uat.cergea.com:4010
           curl http://localhost:3010
