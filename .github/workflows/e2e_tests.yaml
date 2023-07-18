@@ -41,15 +41,13 @@ jobs:
           echo "${{ secrets.ENV_LOCAL_FILE }}" > .env.local
 
       - name: Run partner webapp tests
+        env:
+          STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}
         run: |
-          apt-get update -y
-          apt-get install -y netcat
           pnpm run build
           pnpm add --global pm2
           pm2 --name dev-server --interpreter bash start pnpm -- dev
           sleep 10
-          echo -n "GET / HTTP/1.1\r\nHost: localhost\r\n\r\n" | nc localhost 3010
-          curl http://localhost:3010 -verbose
 
           export DD_CIVISIBILITY_AGENTLESS_ENABLED=true
           export DD_API_KEY=${{ secrets.DATADOG_API_KEY }}
