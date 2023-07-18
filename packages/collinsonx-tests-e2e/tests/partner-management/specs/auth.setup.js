@@ -1,19 +1,27 @@
 import { test as setup } from '@playwright/test';
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config({ path: `.env.tests` });
 
-const authFile = 'playwright/.auth/user.json';
 
 setup('authenticate', async ({ request }) => {
-  const password = process.env.ENV === "UAT" ? "CollinsonXPartner123" : "CollinsonXpartner123"
-  const response = await request.post(`https://authz.${process.env.ENV}.cergea.com/supertokens/signin`, {
-    data: {
-      "formFields": [
-        { "id": "email", "value": "automationuserpartner@clearrouteteam.testinator.com" },
-        { "id": "password", "value": password }
-      ]
-    },
-    headers: { "St-Auth-Mode": "cookie" } // required to return 'cookies' in the 'set-cookies' header 
-  });
+  const users = ["HEATHROW"];
 
-  await request.storageState({ path: authFile });
+  for (const user of users) {
+    const password = process.env[user + "_PASSWORD_" + process.env.ENV];
+    const username = process.env[user + "_USERNAME_" + process.env.ENV];
+
+    const response = await request.post(`https://authz.${process.env.ENV}.cergea.com/supertokens/signin`, {
+      data: {
+        "formFields": [
+          { "id": "email", "value": username },
+          { "id": "password", "value": password }
+        ]
+      },
+      headers: { "St-Auth-Mode": "cookie" } // required to return 'cookies' in the 'set-cookies' header 
+    });
+
+    const authFile = `playwright/.auth/${user.toLowerCase()}User.json`;
+
+    await request.storageState({ path: authFile });
+  };
 });
