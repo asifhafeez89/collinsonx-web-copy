@@ -6,6 +6,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.32.0-focal
     steps:
       - uses: actions/checkout@v3
 
@@ -45,9 +47,19 @@ jobs:
           pnpm run build
           pnpm add --global pm2
           pm2 --name dev-server --interpreter bash start pnpm -- dev
-          sleep 20
+          sleep 10
           echo -n "GET / HTTP/1.1\r\nHost: localhost\r\n\r\n" | nc localhost 3010
           curl http://localhost:3010 -verbose
+
+          export DD_CIVISIBILITY_AGENTLESS_ENABLED=true
+          export DD_API_KEY=${{ secrets.DATADOG_API_KEY }}
+          export DD_SITE="datadoghq.eu"
+          export NODE_OPTIONS="-r dd-trace/ci/init"
+          export DD_ENV=ci
+          export DD_TAGS="test_type:browser"
+
+          echo "${{ secrets.ENV_TESTS_FILE }}" > packages/collinsonx-tests-e2e/.env.tests
+          pnpm --filter "@collinsonx/tests-e2e" e2e:local-partner-ci
 
       - name: Upload test results
         if: always()
