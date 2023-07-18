@@ -45,8 +45,9 @@ jobs:
           pnpm run build
           pnpm add --global pm2
           pm2 --name dev-server start pnpm -- dev
-          sleep 50
-          curl http://127.0.0.1:3010
+          sleep 20
+          lsof -i :3010
+          curl http://localhost:3010 -verbose
 
       - name: Upload test results
         if: always()
