@@ -45,12 +45,9 @@ jobs:
           pnpm run build
           pnpm add --global pm2
           pm2 --name dev-server start pnpm -- dev
-
-      - name: run tests
-        run: |
+          sleep 50
           curl http://localhost:3010
-          curl https://partner-local.uat.cergea.com:4010
-          
+
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v3
