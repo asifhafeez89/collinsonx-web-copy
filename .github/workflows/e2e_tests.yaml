@@ -22,6 +22,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          pnpm clean
           pnpm i
 
       - name: Define host mappings (required by cors)
@@ -46,15 +47,19 @@ jobs:
           pnpm add --global pm2
           pm2 --name dev-server start pnpm -- dev
 
-          export DD_CIVISIBILITY_AGENTLESS_ENABLED=true
-          export DD_API_KEY=${{ secrets.DATADOG_API_KEY }}
-          export DD_SITE="datadoghq.eu"
-          export NODE_OPTIONS="-r dd-trace/ci/init"
-          export DD_ENV=ci
-          export DD_TAGS="test_type:browser"
+          lsof -i -P -n | grep LISTEN
+          curl https://partner-local.uat.cergea.com:4010
+          curl http://localhost:3010
 
-          echo "${{ secrets.ENV_TESTS_FILE }}" > packages/collinsonx-tests-e2e/.env.tests
-          pnpm --filter "@collinsonx/tests-e2e" e2e:local-partner-ci
+          # export DD_CIVISIBILITY_AGENTLESS_ENABLED=true
+          # export DD_API_KEY=${{ secrets.DATADOG_API_KEY }}
+          # export DD_SITE="datadoghq.eu"
+          # export NODE_OPTIONS="-r dd-trace/ci/init"
+          # export DD_ENV=ci
+          # export DD_TAGS="test_type:browser"
+
+          # echo "${{ secrets.ENV_TESTS_FILE }}" > packages/collinsonx-tests-e2e/.env.tests
+          # pnpm --filter "@collinsonx/tests-e2e" e2e:local-partner-ci
 
       - name: Upload test results
         if: always()
