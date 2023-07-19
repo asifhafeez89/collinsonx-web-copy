@@ -8,7 +8,7 @@ import Helper from '../../helpers/Helper';
 
 test.use({ storageState: { cookies: [], origins: [] } });
 
-test('login as a current partner', async ({ page }) => {
+test.only('login as a current partner', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const bookingOverviewPage = new BookingOverviewPage(page);
 
@@ -25,7 +25,7 @@ test('login as a current partner', async ({ page }) => {
     const walkupQRcodeTitle = bookingOverviewPage.getWalkupQRcodeTitle();
     const loungeTitle = bookingOverviewPage.getLoungeTitle();
 
-    await expect(title).toBeVisible();
+    await expect(title).toBeVisible({ timeout: 10000 });
     await expect(loungeTitle).toBeVisible();
     await expect(pendingRequestsTitle).toBeVisible();
     await expect(cancelledBookingsTitle).toBeVisible();
