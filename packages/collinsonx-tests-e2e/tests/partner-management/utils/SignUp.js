@@ -44,7 +44,9 @@ class SignUp {
     await axios.post(apiUrl, request, { headers });
   };
 
-  async getRegistrationURL(partner) {
+  async getRegistrationURL(email) {
+    const username = email.split("@")[0];
+
     const mailinatorClient = new MailinatorClient(
       process.env.MAILINATOR_API_TOKEN
     );
@@ -52,15 +54,14 @@ class SignUp {
     const inbox = await mailinatorClient.request(
       new GetInboxRequest(process.env.MAILINATOR_EMAIL_ADDRESS)
     );
-    console.log(inbox)
 
     let id;
 
-    const latestMessage = await inbox.result.msgs.find(message => message.to === partner);
+    const latestMessage = await inbox.result.msgs.find(message => message.to === username);
     id = latestMessage.id;
 
     const latestMessageContents = await mailinatorClient.request(
-      new GetMessageRequest(process.env.MAILINATOR_EMAIL_ADDRESS, partner, id)
+      new GetMessageRequest(process.env.MAILINATOR_EMAIL_ADDRESS, username, id)
     );
 
     const regex = /https.*?(?=\])/;
