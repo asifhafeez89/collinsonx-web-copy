@@ -40,8 +40,8 @@ test('login as a new partner', async ({ page }) => {
     const signUp = new SignUp();
     const signUpPage = new SignUpPage(page);
 
-    const partner = uuidv4();
-    const email = `${partner}${process.env.ENV}@${process.env.MAILINATOR_EMAIL_ADDRESS}`;
+    const partner = uuidv4() + process.env.ENV.toLowerCase();
+    const email = `${partner}@${process.env.MAILINATOR_EMAIL_ADDRESS}`;
     const password = uuidv4();
 
     signUp.receiveRegistrationEmail(email);
