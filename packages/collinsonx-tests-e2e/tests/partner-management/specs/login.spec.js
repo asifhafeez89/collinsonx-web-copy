@@ -13,8 +13,8 @@ test('login as a current partner', async ({ page }) => {
     const bookingOverviewPage = new BookingOverviewPage(page);
 
     // password will be changed and added to secret variables at a later date
-    const email = `automationuserpartner@clearrouteteam.testinator.com`;
-    const password = process.env.ENV === "UAT" ? "CollinsonXPartner123" : "CollinsonXpartner123"
+    const email = `automationuserpartner@${process.env.MAILINATOR_EMAIL_ADDRESS}`;
+    const password = process.env["AUTOMATION_USER_PASSWORD_" + process.env.ENV];
 
     await loginPage.login(email, password);
 
@@ -34,14 +34,14 @@ test('login as a current partner', async ({ page }) => {
 });
 
 // Cannot currently be tested against the local version - uat api sends a test env registration url (mismatched environments)
-test('login as a new partner', async ({ page }) => {
+test.only('login as a new partner', async ({ page }) => {
     const bookingOverviewPage = new BookingOverviewPage(page);
     const helper = new Helper(page);
     const signUp = new SignUp();
     const signUpPage = new SignUpPage(page);
 
     const partner = uuidv4();
-    const email = `${partner}@clearrouteteam.testinator.com`;
+    const email = `${partner}@${process.env.MAILINATOR_EMAIL_ADDRESS}`;
     const password = uuidv4();
 
     signUp.receiveRegistrationEmail(email);
@@ -75,7 +75,7 @@ test('receive error notification of pre-existing registration and get taken to l
     const signUpPage = new SignUpPage(page);
 
     const partner = "automationuserpartner";
-    const email = `${partner}@clearrouteteam.testinator.com`;
+    const email = `${partner}@${process.env.MAILINATOR_EMAIL_ADDRESS}`;
     const password = process.env.ENV === "UAT" ? "CollinsonXPartner123" : "CollinsonXpartner123"
 
     signUp.receiveRegistrationEmail(email);

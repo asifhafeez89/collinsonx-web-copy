@@ -46,12 +46,13 @@ class SignUp {
 
   async getRegistrationURL(partner) {
     const mailinatorClient = new MailinatorClient(
-      '2a32de31d6734501abb238da21c9ac3a'
+      process.env.MAILINATOR_API_TOKEN
     );
 
     const inbox = await mailinatorClient.request(
-      new GetInboxRequest('clearrouteteam.testinator.com')
+      new GetInboxRequest(process.env.MAILINATOR_EMAIL_ADDRESS)
     );
+    console.log(inbox)
 
     let id;
 
@@ -59,7 +60,7 @@ class SignUp {
     id = latestMessage.id;
 
     const latestMessageContents = await mailinatorClient.request(
-      new GetMessageRequest('clearrouteteam.testinator.com', partner, id)
+      new GetMessageRequest(process.env.MAILINATOR_EMAIL_ADDRESS, partner, id)
     );
 
     const regex = /https.*?(?=\])/;
