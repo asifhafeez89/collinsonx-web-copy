@@ -60,6 +60,8 @@ test.describe('booking overview dashboard', () => {
     });
 
     test.describe('confirmed bookings', () => {
+        const user = "BIRMINGHAM";
+        test.use({ storageState: `playwright/.auth/${user.toLowerCase()}User.json` })
         test('add confirmed booking using the booking API should increase the booking count by 1', async ({ page }) => {
             const bookingOverviewPage = new BookingOverviewPage(page);
             const bookingApi = new BookingApi(page);
@@ -67,9 +69,9 @@ test.describe('booking overview dashboard', () => {
             await page.goto('/');
             await page.waitForLoadState('networkidle')
 
-            const initialCount = await bookingApi.getBookingCount("CONFIRMED");
+            const initialCount = await bookingApi.getBookingCount(user, "CONFIRMED");
 
-            await bookingApi.addConfirmedBooking();
+            await bookingApi.addConfirmedBooking(user);
 
             await page.goto('/');
             await page.waitForLoadState('networkidle')

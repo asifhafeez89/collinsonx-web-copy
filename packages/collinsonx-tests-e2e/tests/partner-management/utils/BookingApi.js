@@ -10,8 +10,8 @@ class BookingApi {
     this.page = page;
   };
 
-  async addConfirmedBooking() {
-    const bookingId = (await this.addPendingRequest()).bookingId;
+  async addConfirmedBooking(user) {
+    const bookingId = (await this.addPendingRequest(user)).bookingId;
     await this.confirmBooking(bookingId);
   };
 
