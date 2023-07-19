@@ -285,8 +285,6 @@ class BookingApi {
 
     const response = await axios.post(this.apiUrl, request, { headers });
     const bookings = response.data.data.getBookings;
-    console.log(response)
-    console.log(bookings)
 
     const statusBookings = bookings.filter((booking) => {
       // Both "CONFIRMED" and "CHECKED_IN" statuses appear under the confirmed bookings page

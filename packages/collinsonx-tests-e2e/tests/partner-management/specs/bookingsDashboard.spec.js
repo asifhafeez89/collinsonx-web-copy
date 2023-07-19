@@ -14,7 +14,6 @@ test.describe('booking overview dashboard', () => {
 
                 await page.goto('/');
                 await page.reload({ waitUntil: "domcontentloaded" });
-                await page.waitForLoadState('networkidle')
 
                 const initialCount = await bookingApi.getBookingCount(user, "PENDING");
 
@@ -37,7 +36,6 @@ test.describe('booking overview dashboard', () => {
 
                 await page.goto('/');
                 await page.reload({ waitUntil: "domcontentloaded" });
-                await page.waitForLoadState('networkidle')
 
                 const bookingId = (await bookingApi.addPendingRequest(user)).bookingId;
 
