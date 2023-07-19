@@ -15,10 +15,10 @@ class BookingApi {
     await this.confirmBooking(bookingId);
   };
 
-  async addPendingRequest() {
+  async addPendingRequest(user) {
     const consumerId = await this.findOrCreateConsumer();
-    const bookingId = await this.createBooking(consumerId);
-    const response = await this.stripeBookingPayment(consumerId, bookingId);
+    const bookingId = await this.createBooking(user, consumerId);
+    const response = await this.stripeBookingPayment(user, consumerId, bookingId);
 
     return { bookingId, consumerId };
   };
@@ -41,7 +41,7 @@ class BookingApi {
 
     const variables = {
       "consumerInput": {
-        "emailAddress": "automationconsumer@clearrouteteam.testinator.com",
+        "emailAddress": process.env["AUTOMATION_CONSUMER_USERNAME_" + process.env.ENV],
         "firstName": "Automation",
         "lastName": "Consumer",
         "marketingConsent": false,
@@ -61,7 +61,7 @@ class BookingApi {
     return consumerId;
   };
 
-  async createBooking(consumerId) {
+  async createBooking(user, consumerId) {
     const mutation = `
       mutation CreateBooking($bookingInput: BookingInput) {
         createBooking(bookingInput: $bookingInput) {
@@ -86,10 +86,10 @@ class BookingApi {
     const variables = {
       "bookingInput": {
         "experience": {
-          "id": process.env.EXPERIENCE_ID
+          "id": process.env[user + "_EXPERIENCE_ID"]
         },
-        "bookedFrom": "2023-07-15T04:53:00.000Z",
-        "bookedTo": "2023-07-15T06:53:00.000Z",
+        "bookedFrom": "2023-07-21T04:53:00.000Z",
+        "bookedTo": "2023-07-21T06:53:00.000Z",
         "orderID": null,
         "stripePaymentID": null,
         "type": "RESERVATION",
@@ -115,7 +115,7 @@ class BookingApi {
     return bookingId;
   };
 
-  async stripeBookingPayment(consumerId, bookingId) {
+  async stripeBookingPayment(user, consumerId, bookingId) {
     const stripe = new Stripe(process.env.STRIPE_API_KEY);
 
     const customer = await stripe.customers.create({
@@ -130,7 +130,7 @@ class BookingApi {
     });
 
     const stripePrices = await stripe.prices.search({
-      query: `metadata["internalProductId"]:"${process.env.EXPERIENCE_ID}"`
+      query: `metadata["internalProductId"]:"${process.env[user + "_EXPERIENCE_ID"]}"`
     });
 
     const priceId = stripePrices.data[0]?.id || '';
@@ -175,7 +175,7 @@ class BookingApi {
     await Promise.all([
       await this.page.getByLabel('Postal code').fill('KT1 2AA'),
       // TODO - fix flakiness. Difficult as the tax subtotal does not have a 'selector'
-      await this.page.waitForLoadState('networkidle', { timeout: 5000 })
+      await this.page.waitForLoadState('networkidle')
     ]);
     await this.page.getByLabel('Card number').fill('4242424242424242');
     await this.page.getByLabel('Expiration').fill('1234');
@@ -196,9 +196,8 @@ class BookingApi {
 
   };
 
-  async getBookingCount(status) {
-    const statusBookings = await this.getBookings(status);
-    console.log(statusBookings)
+  async getBookingCount(user, status) {
+    const statusBookings = await this.getBookings(user, status);
 
     const statusBookingsCount = statusBookings.length;
 
@@ -259,7 +258,7 @@ class BookingApi {
     await axios.post(this.apiUrl, request, { headers });
   }
 
-  async getBookings(status) {
+  async getBookings(user, status) {
     const query = `
       query GetBookings($experienceId: ID!) {
         getBookings(experienceID: $experienceId) {
@@ -270,7 +269,7 @@ class BookingApi {
     `;
 
     const variables = {
-      "experienceId": process.env.EXPERIENCE_ID
+      "experienceId": process.env[user + "_EXPERIENCE_ID"]
     };
 
     const request = {

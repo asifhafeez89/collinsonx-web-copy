@@ -4,7 +4,7 @@ dotenv.config({ path: `.env.tests` });
 
 
 setup('authenticate', async ({ request }) => {
-  const users = ["HEATHROW"];
+  const users = ["HEATHROW", "GATWICK"];
 
   for (const user of users) {
     const password = process.env[user + "_PASSWORD_" + process.env.ENV];
