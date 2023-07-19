@@ -170,6 +170,7 @@ class BookingApi {
 
     await this.page.goto(checkoutURL);
 
+    await this.page.locator('#billingCountry').selectOption('United Kingdom');
     // entering the postal code fires off network requests to determine the tax amount
     // do not move this code below other form elements - this along with 'networkidle' ensures the tax amount is resolved before clicking 'pay"
     await Promise.all([
