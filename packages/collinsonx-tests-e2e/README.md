@@ -1,29 +1,65 @@
 # End-to-end Testing
-## Playwright Screenplay Model
-Playwright is a Node.js library for automating web browsers. It provides a high-level API for controlling Chrome, Firefox, and Safari through a single API.
-
-Screenplay is a design pattern for organizing test automation code that separates the concerns of the test code into distinct components: actions, questions, and pages.
-
-### Actions
-An action is a reusable piece of code that represents a user action on a web page. Actions can be anything from clicking a button to filling out a form to navigating to a different page. Actions encapsulate the logic necessary to perform the action and can be reused across multiple tests.
-
-### Questions
-A question is a reusable piece of code that represents a query about the state of a web page. Questions can be used to retrieve information from a web page, such as the text of a heading or the value of a form field. Questions encapsulate the logic necessary to retrieve the information and can be reused across multiple tests.
-
 ### Pages
-A page represents a specific web page or a portion of a web page. Pages encapsulate the logic necessary to interact with the web page and provide a clear separation of concerns between the test code and the underlying web page. Pages can contain both actions and questions.
+A page represents a specific web page or a portion of a web page. Pages encapsulate the logic necessary to interact with the web page and provide a clear separation of concerns between the test code and the underlying web page.
 
 ### Specs
-A spec is a test script that uses the actions and questions to perform a specific test. Specs are organized into suites that group related tests together.
+A spec is a test script that uses the pages and utils to perform a specific test. Specs are organized into suites that group related tests together.
 
-## Login
-Login uses a service called mailinator to work with the passwordless workflow. Once an email with a OTP is send we use the mailinator SDK to get the emails and find the OTP that we use to login
+## Login/Sign-up
+Login/Sign-up uses a service called mailinator to work with the passwordless workflow. Once an email with a OTP is sent we use the mailinator SDK to get the emails and find the OTP that we use to login. On partner sign-up an email is sent to mailinator with a URL that leads to a sign-up form; this URL is extracted and used in playwright to interact with the form to sign-up and automatically login.
 
-## Running tests locally
-1. pnpm i
+## Running tests locally (partner web app)
+
+### Setup CORS access
+
+Setup process got more involved due to recent changes in the backend for CORS access.
+Here are the steps to follow to access deployed API through the partner-management app running on your local machine:
+
+1. The following aliases should be placed inside /etc/hosts file (on your local machine):
+
+```
+127.0.0.1 partner-local.test.cergea.com
+127.0.0.1 partner-local.uat.cergea.com
+127.0.0.1 partner-local.cergea.com
+```
+
+2. Localhost certificates need to be issued using a cli tool like `mkcert`. There are numerous guides online on how to do this, here is one guide for macOS (there are other similar guides for windows etc.). The correct command should take into account uat alias (not 'localhost').
+
+```
+cd apps/partner-management
+```
+
+```
+mkcert -key-file partner-local.uat.cergea.com-key.pem -cert-file partner-local.uat.cergea.com.pem partner-local.uat.cergea.com
+```
+The end result of this process is to produce `partner-local.uat.cergea.com.pem` and `partner-local.uat.cergea.com-key.pem` files.
+
+4. A .env.local should be placed inside `collinsonx-web/apps/partner-management` with the following contents:
+
+```
+PRODUCTION_API_URL=https://gateway-api.uat.cergea.com/graphql
+NEXT_PUBLIC_PRODUCTION_API_URL=https://partner-local.uat.cergea.com:4010/api/graphql
+NEXT_PUBLIC_AUTH_API_URL=https://authz.uat.cergea.com
+SITE_DOMAIN_URL=https://partner-local.uat.cergea.com:4010
+NEXT_PUBLIC_SITE_DOMAIN_URL=https://partner-local.uat.cergea.com:4010
+NEXT_PUBLIC_SESSION_THEME=experience
+```
+
+5. run `pnpm i` from the root directory , then run `pnpm dev` (this will run all of the apps, so instead you may want to run this command in the apps/partner-management/ directory).
+
+UI will be accessible in HTTPS in the following link:
+https://partner-local.uat.cergea.com:4010
+
+This process is to make UI operate with UAT backend (replace with TEST where appropriate if you wish).
+
+6. pnpm i (may need to run pnpm clean beforehand if receiving errors)
+7. from the root directory - cd packages/collinsonx-tests-e2e
+8. pnpm e2e:local-partner
+
+## Running tests for TEST/UAT environments (partner web app)
+1. pnpm i (may need to run pnpm clean beforehand if receiving errors)
 2. cd packages/collinsonx-tests-e2e
-3. pnpm run dev
-4. pnpm run e2e:dev
+4. pnpm e2e:<ENVIRONMENT>-partner
 
 ## Pipeline
 The pipeline is run on Pull Request and will run the e2e_tests.yaml github actions pipeline.
@@ -32,3 +68,88 @@ To run the test they perform:
 2. pnpm i
 3. cd packages/collinsonx-tests-e2e
 4. pnpm run e2e:start
+
+## Notes for testers
+
+### Auth
+
+This section will discuss the set-up, and usage of 'auth' (user.json files) for the tests to use in order to login to the app via the API.
+
+'auth.setup.js' is classed as a 'test' and runs before all other tests in order to create user.json files. These files store auth cookies for the tests to use and automatically be logged in. This uses API calls and so gives us separation between 'login tests' and all other tests (if the UI login functionality is not working then we still have the ability to test other aspects of the app).
+
+```js
+setup('authenticate', async ({ request }) => {
+  const users = ["HEATHROW"];
+  ...
+}
+```
+- users (partners) can be added by adding to the 'users array shown above (uppercasing)
+- the 'secrets' for each user are places in the env.tests file
+- 'setup' (shown above) runs on a loop over the array and creates user.json files using the before-mentioned secrets
+
+#### env.tests
+```
+X_USER_ID=
+EXPERIENCE_ID=
+HEATHROW_USERNAME_UAT=
+HEATHROW_PASSWORD_UAT=
+HEATHROW_USERNAME_TEST=
+HEATHROW_PASSWORD_TEST=
+```
+
+#### playwright.config.js:
+```js
+projects: [
+    { name: 'setup', testMatch: /auth.setup\.js/ },
+    {
+      name: 'partner-chromium-test',
+      testDir: './tests/partner-management',
+      // ENV variable is given by the package.json script
+      use: { 
+        ...devices['Desktop Chrome'], 
+        storageState: 'playwright/.auth/user.json', 
+        baseURL: `https://partner.${process.env.ENV}.cergea.com` 
+      },
+      dependencies: ['setup'],
+    }
+]
+```
+
+- 'projects' - logical groups of tests running with the same configuration. Currently being used to declare baseURL's and testDir's (only one testDir can be assigned to global config/ project)
+- global config is overwritten by project specific config
+
+#### package.json:
+```json
+"scripts": {
+    "e2e:test-partner": "ENV=TEST playwright test --project=partner-chromium-test --headed",
+    "e2e:uat-partner": "ENV=UAT playwright test --project=partner-chromium-test --headed"
+  }
+```
+
+- process.env.ENV is set by the script command where ENV=<ENVIRONMENT>
+- each script points to a specific playwright 'project'
+
+#### usage within spec files:
+```js
+test.describe('booking overview dashboard', () => {
+    test.describe('pending requests', () => {
+        test.describe('add pending request using the booking API', () => {
+            test.use({ storageState: 'playwright/.auth/heathrowUser.json' })
+
+            test('should increase the booking count by 1', async ({ page }) => {
+                ...
+            });
+        });
+        test.describe('remove pending request using the booking API', () => {
+            test.use({ storageState: 'playwright/.auth/gatwickUser.json' })
+            test('should decrease the booking count by 1', async ({ page }) => {
+                ...
+            });
+        });
+
+    });
+});
+```
+- test.use({ storageState: <user>.json)}) must be placed before the test that requires it
+- placing this inside the test will not work as intended, and placing this before a describe step will cause all tests within the describe block to use the same user.json
+- as shown above, you may need to create an additional decribe block within the conventional describe blocks for the intended outcome

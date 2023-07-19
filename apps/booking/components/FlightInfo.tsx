@@ -4,6 +4,7 @@ import {
   ChangeEventHandler,
   useState,
   useRef,
+  useEffect,
 } from 'react';
 import {
   TextInput,
@@ -38,8 +39,8 @@ interface FlightInfoComponentProps {
 }
 
 export interface AvailabilitySlot {
-  startDateTime: string;
-  endDateTime: string;
+  startDate: string;
+  endDate: string;
   maxDuration: number;
 }
 
@@ -65,7 +66,6 @@ export const FlightInfo = ({
   const [numberOfGuests, setNumberOfGuests] = useState<number | ''>(1);
   const [opened, { open, close }] = useDisclosure(false);
   const handlers = useRef<NumberInputHandlers>();
-  const slotRef = useRef<HTMLButtonElement>(null);
 
   const onFlightNumberChange: ChangeEventHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const trimmed = event.target.value?.trim() ?? '';
@@ -90,12 +90,15 @@ export const FlightInfo = ({
     setDateError(false);
   };
 
-  const onSelectSlot = () => {
-    if (slotRef) {
-      const index: any = slotRef?.current?.dataset?.selectedslot ?? 0;
-      onSetSelectedSlot(availableSlots[index]);
-    }
+  const onSelectSlot = (index: number) => {
+    onSetSelectedSlot(availableSlots[index]);
     close();
+  };
+
+  const sortSlots = (slots: AvailabilitySlot[]) => {
+    return slots.sort((slotA, slotB) => {
+      return dayjs(slotA.startDate).isBefore(dayjs(slotB.startDate)) ? -1 : 1;
+    });
   };
 
   const getFlightDetails = async () => {
@@ -133,9 +136,9 @@ export const FlightInfo = ({
             terminal: '-1'
         },
         guests: {
-            adults: numberOfGuests,
-            children: 0,
-            infant: 0
+            adultCount: numberOfGuests,
+            childrenCount: 0,
+            infantCount: 0
         },
         product: {
             productType: 'lounge',
@@ -147,7 +150,7 @@ export const FlightInfo = ({
       if (response.data.slots.length === 0) {
         setAvailableSlotsError('No slots available.');
       }
-      setAvailableSlots(response.data.slots);
+      setAvailableSlots(sortSlots(response.data.slots));
       setFlightInfoLoading(false);
       onSuccess(flightInformation);
       open();
@@ -261,7 +264,7 @@ export const FlightInfo = ({
           {
             availableSlots.length > 0
             ?
-              dayjs(availableSlots[0].startDateTime).format('DD MMMM YYYY')
+              dayjs(availableSlots[0].startDate).format('DD MMMM YYYY')
             :
               ''
           }
@@ -269,11 +272,16 @@ export const FlightInfo = ({
         {
           availableSlots.length > 0
           ?
-            availableSlots.map((slot, i) => (
-              <Button ref={slotRef} variant='outline' onClick={onSelectSlot} key={i} data-selectedslot={i}>
-                {`${dayjs(slot.startDateTime).format('hh:mm')} - ${dayjs(slot.endDateTime).format('hh:mm')}`}
-              </Button>
-            ))
+          <Grid grow>
+             {availableSlots.map((slot, i) => (
+              <Grid.Col span={1} key={`available-slot-${i}`}>
+                <Button variant='outline' onClick={() => { onSelectSlot(i) }} data-selectedslot={i}>
+                  {`${dayjs(slot.startDate).format('hh:mm')} - ${dayjs(slot.endDate).format('hh:mm')}`}
+                </Button>
+              </Grid.Col>
+            ))}
+          </Grid>
+
           :
             <Text>
               { availableSlotsError }

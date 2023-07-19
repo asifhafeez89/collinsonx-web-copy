@@ -41,4 +41,12 @@ yarn-error.log*
 # Storybook
 storybook-static
 
+# Gitleaks
 gitleaks-report.json
+
+# Playwright tests
+playwright-report
+test-results
+.env.tests
+# User auth cookies
+*[Uu]ser.json

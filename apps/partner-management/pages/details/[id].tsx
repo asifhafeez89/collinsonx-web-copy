@@ -19,6 +19,7 @@ import { useMemo, useState } from 'react';
 import getLoungeTitle from 'lib/getLoungeTitle';
 import useExperience from 'hooks/experience';
 import PageTitle from '@components/PageTitle';
+import { attemptRefreshingSession } from 'supertokens-auth-react/recipe/session';
 
 interface DetailsProps {
   id: string;
@@ -43,10 +44,14 @@ export default function Details({ id }: DetailsProps) {
     pollInterval: 300000,
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
-    onCompleted: () =>
+    onCompleted: () => {
+      // HACK
+      attemptRefreshingSession().then((success: any) => {});
+
       setLastUpdate(
         new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
-      ),
+      );
+    },
   });
 
   const booking = useMemo(() => {
@@ -121,9 +126,9 @@ export default function Details({ id }: DetailsProps) {
             <Box>
               <Title mb={8} size={32}>
                 Customer booking details{' '}
-                {lastUpdate && `Last updated ${lastUpdate}`}
               </Title>
               <Text size={18}>{getLoungeTitle(experience)}</Text>
+              {lastUpdate && `Last updated ${lastUpdate}`}
             </Box>
             <Error error={declineError} />
             <Error error={confirmError} />

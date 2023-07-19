@@ -36,6 +36,13 @@ const Details = ({ children, booking, loading = false }: DetailsProps) => {
         </DetailsKeyValue>
       </DetailsSection>
       <DetailsSection label="Booking details">
+        {booking?.reference ? (
+          <DetailsKeyValue label="Reference" loading={loading}>
+            {booking?.reference}
+          </DetailsKeyValue>
+        ) : (
+          <></>
+        )}
         <DetailsKeyValue label="Arrival date" loading={loading}>
           {booking?.bookedFrom ? (
             <Flex align="center" gap={8}>
@@ -60,6 +67,7 @@ const Details = ({ children, booking, loading = false }: DetailsProps) => {
           {booking?.guestCount ?? '-'}
         </DetailsKeyValue>
       </DetailsSection>
+
       {children}
     </Stack>
   );

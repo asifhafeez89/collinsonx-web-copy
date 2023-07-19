@@ -1,7 +1,7 @@
 import { SelectProps, Select } from '@mantine/core';
 import { ArrowDown } from '../../assets/icons';
 
-export default function SelectInput({ ...props }: SelectProps) {
+const InputSelect = ({ ...props }: SelectProps) => {
   return (
     <Select
       {...props}
@@ -14,6 +14,7 @@ export default function SelectInput({ ...props }: SelectProps) {
           },
         },
       }}
+      role="dialog"
       rightSection={<ArrowDown />}
       styles={(theme) => ({
         item: {
@@ -37,4 +38,6 @@ export default function SelectInput({ ...props }: SelectProps) {
       })}
     />
   );
-}
+};
+
+export default InputSelect;

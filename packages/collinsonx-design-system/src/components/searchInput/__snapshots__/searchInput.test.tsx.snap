@@ -10,10 +10,6 @@ exports[`<SearchInput /> renders SearchInput 1`] = `
   position: relative;
 }
 
-.emotion-5:has(input:disabled) .emotion-10 {
-  display: none;
-}
-
 .emotion-8 {
   font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
   height: 2.25rem;
@@ -57,7 +53,6 @@ exports[`<SearchInput /> renders SearchInput 1`] = `
   color: #909296;
   opacity: 0.6;
   cursor: not-allowed;
-  pointer-events: none;
 }
 
 .emotion-8:disabled::-webkit-input-placeholder {
@@ -212,14 +207,6 @@ exports[`<SearchInput /> renders SearchInput 1`] = `
   width: 2.25rem;
 }
 
-.mantine-1surk1h:has(input:disabled) .emotion-10 {
-  display: none;
-}
-
-.mantine-1e6nbp3:has(input:disabled) .emotion-10 {
-  display: none;
-}
-
 .emotion-14 {
   -webkit-tap-highlight-color: transparent;
   font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
@@ -338,7 +325,7 @@ exports[`<SearchInput /> renders SearchInput 1`] = `
     <input
       aria-invalid={false}
       className="emotion-6 emotion-7 emotion-8"
-      id="mantine-bgg0x8ltd"
+      id="mantine-3irtr2u3u"
       onChange={[MockFunction]}
       placeholder="Search for airport or lounge"
       type="text"
