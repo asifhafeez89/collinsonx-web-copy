@@ -176,7 +176,7 @@ class BookingApi {
     await Promise.all([
       await this.page.getByLabel('Postal code').fill('KT1 2AA'),
       // TODO - fix flakiness. Difficult as the tax subtotal does not have a 'selector'
-      await this.page.waitForLoadState('networkidle')
+      await this.page.waitForTimeout(5000)
     ]);
     await this.page.getByLabel('Card number').fill('4242424242424242');
     await this.page.getByLabel('Expiration').fill('1234');
