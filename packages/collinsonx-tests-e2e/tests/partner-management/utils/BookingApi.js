@@ -283,9 +283,15 @@ class BookingApi {
       'x-user-type': 'SUPER_USER'
     };
 
-    const response = await axios.post(this.apiUrl, request, { headers });
+    let count = 0;
+    let bookings;
 
-    const bookings = response.data.data.getBookings;
+    do {
+      count++;
+      const response = await axios.post(this.apiUrl, request, { headers });
+      bookings = response.data.data.getBookings;
+    } while (bookings === undefined || count === 5);
+
 
     const statusBookings = bookings.filter((booking) => {
       // Both "CONFIRMED" and "CHECKED_IN" statuses appear under the confirmed bookings page
