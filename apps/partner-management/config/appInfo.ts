@@ -17,4 +17,4 @@ export const appInfo: AppInfoUserInput = {
   websiteBasePath: '/auth',
 };
 
-console.log('appInfo --- ', appInfo);
+console.log('Auth:appInfo: ', appInfo);

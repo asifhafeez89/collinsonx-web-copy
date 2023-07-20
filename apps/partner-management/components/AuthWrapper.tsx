@@ -37,7 +37,6 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
         removeItem(USER_META);
 
         if (!checkIsAllowed(window.location.pathname)) {
-          console.log('Auth::Redirecting');
           window.location.href = `/auth/login/?redirectUrl=${
             window.location.pathname + window.location.search
           }`;
@@ -48,10 +47,6 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
     const isLoggedIn =
       session.loading === false && session.doesSessionExist === true;
 
-    console.log('Auth::logged-in::' + isLoggedIn);
-    console.log(
-      'Auth::page-protected::' + !checkIsAllowed(window.location.pathname)
-    );
     if (isLoggedIn || checkIsAllowed(window.location.pathname)) {
       if (session.userId && typeof session.userId === 'string') {
         setItem(PARTNER_ID, session.userId);
