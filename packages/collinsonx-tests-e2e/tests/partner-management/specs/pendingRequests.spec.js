@@ -4,7 +4,7 @@ import PendingRequestsPage from '../pages/PendingRequestsPage';
 
 test.describe('pending requests page', () => {
     test.describe('resolving pending requests', () => {
-        const user = "BIRMINGHAM";
+        const user = "BIRMINGHAM_LOUNGE";
         test.use({ storageState: `playwright/.auth/${user.toLowerCase()}User.json` })
         test('decline pending request', async ({ page }) => {
             const bookingApi = new BookingApi(page);
