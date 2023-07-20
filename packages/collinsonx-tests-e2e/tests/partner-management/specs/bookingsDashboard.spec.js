@@ -31,13 +31,11 @@ test.describe('booking overview dashboard', () => {
 
                 const bookingId = (await bookingApi.addPendingRequest(user)).bookingId;
 
-                await page.goto('/', { waitUntil: "networkidle" });
-
                 const initialCount = await bookingApi.getBookingCount(user, "PENDING");
 
                 await bookingApi.deleteBooking(bookingId);
 
-                await page.reload({ waitUntil: "networkidle" });
+                await page.goto('/', { waitUntil: "networkidle" });
 
                 const latestCount = await bookingOverviewPage.getPendingRequestCount();
 
