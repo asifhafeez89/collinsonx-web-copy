@@ -17,10 +17,12 @@ class BookingApi {
 
   async addPendingRequest(user) {
     const consumerId = await this.findOrCreateConsumer();
-    const bookingId = await this.createBooking(user, consumerId);
+    const booking = await this.createBooking(user, consumerId);
+    const bookingId = booking.id;
+    const bookingRef = booking.reference;
     const response = await this.stripeBookingPayment(user, consumerId, bookingId);
 
-    return { bookingId, consumerId };
+    return { bookingId, bookingRef, consumerId };
   };
 
   async findOrCreateConsumer() {
@@ -66,6 +68,7 @@ class BookingApi {
       mutation CreateBooking($bookingInput: BookingInput) {
         createBooking(bookingInput: $bookingInput) {
           id
+          reference
           consumer {
             id
           }
@@ -123,7 +126,9 @@ class BookingApi {
 
     const bookingId = response.data.data.createBooking.id;
 
-    return bookingId;
+    const reference = response.data.data.createBooking.reference;
+
+    return { id: bookingId, reference };
   };
 
   async stripeBookingPayment(user, consumerId, bookingId) {
