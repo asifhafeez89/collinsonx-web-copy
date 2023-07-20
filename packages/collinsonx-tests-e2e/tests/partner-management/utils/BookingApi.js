@@ -83,13 +83,24 @@ class BookingApi {
      }
     `;
 
+    const currentDate = new Date();
+
+    currentDate.setDate(currentDate.getDate() + 2);
+
+    // Format the date as 'YYYY-MM-DDTHH:mm:ss.sssZ'
+    const dateTwoDaysFromNow = currentDate.toISOString();
+
+    currentDate.setHours(currentDate.getHours() + 2);
+
+    const dateTwoDaysTwoHoursFromNow = currentDate.toISOString();
+
     const variables = {
       "bookingInput": {
         "experience": {
           "id": process.env[user + "_EXPERIENCE_ID"]
         },
-        "bookedFrom": "2023-07-21T04:53:00.000Z",
-        "bookedTo": "2023-07-21T06:53:00.000Z",
+        "bookedFrom": dateTwoDaysFromNow,
+        "bookedTo": dateTwoDaysTwoHoursFromNow,
         "orderID": null,
         "stripePaymentID": null,
         "type": "RESERVATION",
