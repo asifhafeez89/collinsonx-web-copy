@@ -276,6 +276,7 @@ class BookingApi {
         getBookings(experienceID: $experienceId) {
           id
           status
+          reference
         }
       }
     `;
