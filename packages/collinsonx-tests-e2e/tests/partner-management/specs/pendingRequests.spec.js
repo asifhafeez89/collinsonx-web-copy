@@ -10,7 +10,9 @@ test.describe('pending requests page', () => {
             const bookingApi = new BookingApi(page);
             const pendingRequestsPage = new PendingRequestsPage(page);
 
-            const bookingRef = (await bookingApi.addPendingRequest(user)).bookingRef;
+            const booking = await bookingApi.addPendingRequest(user);
+            const bookingRef = booking.bookingRef;
+            const bookingId = booking.bookingId;
 
             const initialPendingCount = await bookingApi.getBookingCount(user, "PENDING");
             const initialDeclinedCount = await bookingApi.getBookingCount(user, "DECLINED");
@@ -19,11 +21,16 @@ test.describe('pending requests page', () => {
 
             await pendingRequestsPage.declinePendingRequest(bookingRef);
 
+            await pendingRequestsPage.waitForPendingRequestToBeRemoved(bookingRef);
+
             const finalPendingCount = await bookingApi.getBookingCount(user, "PENDING");
             const finalDeclinedCount = await bookingApi.getBookingCount(user, "DECLINED");
 
+            const bookingStatus = (await bookingApi.getBookingById(bookingId)).status;
+
             expect(finalPendingCount).toBe(initialPendingCount - 1);
             expect(finalDeclinedCount).toBe(initialDeclinedCount + 1);
+            expect(bookingStatus).toBe("DECLINED");
         });
     });
 });

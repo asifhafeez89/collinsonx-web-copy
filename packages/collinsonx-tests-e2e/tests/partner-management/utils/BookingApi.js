@@ -313,6 +313,36 @@ class BookingApi {
 
     return statusBookings;
   };
+
+  async getBookingById(bookingId) {
+    const query = `
+      query Query($getBookingByIdId: ID!) {
+        getBookingByID(id: $getBookingByIdId) {
+          status
+          reference
+        }
+      }
+    `;
+
+    const variables = {
+      "getBookingByIdId": bookingId
+    };
+
+    const request = {
+      query: query,
+      variables: variables
+    };
+
+    const headers = {
+      'x-user-id': process.env.X_USER_ID,
+      'x-user-type': 'SUPER_USER'
+    };
+
+    const response = await axios.post(this.apiUrl, request, { headers });
+    const booking = response.data.data.getBookingByID;
+
+    return booking;
+  };
 };
 
 module.exports = BookingApi;
