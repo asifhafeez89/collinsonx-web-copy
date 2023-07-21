@@ -3,10 +3,10 @@ import BookingApi from '../utils/BookingApi';
 import PendingRequestsPage from '../pages/PendingRequestsPage';
 
 test.describe('pending requests page', () => {
-    test.describe('validate pending requests are for the correct lounge', () => {
+    test.describe('compare UI data to API data', () => {
         const user = "BIRMINGHAM";
         test.use({ storageState: `playwright/.auth/${user.toLowerCase()}User.json` })
-        test('api data matches the displayed UI bookings', async ({ page }) => {
+        test('validate pending requests are for the correct lounge', async ({ page }) => {
             const bookingApi = new BookingApi(page);
             const pendingRequestsPage = new PendingRequestsPage(page);
 
