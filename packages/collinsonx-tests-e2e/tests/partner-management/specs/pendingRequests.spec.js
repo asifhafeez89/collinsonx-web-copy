@@ -34,6 +34,36 @@ test.describe('pending requests page', () => {
                 expect(bookingStatus).toBe("DECLINED");
             });
         });
+        test.describe('confirm pending request', () => {
+            const user = "HEATHROW_LOUNGE";
+            test.use({ storageState: `playwright/.auth/${user.toLowerCase()}User.json` })
+            test('pending request should be removed from the UI and its status updated to "confirmed" in the backend', async ({ page }) => {
+                const bookingApi = new BookingApi(page);
+                const pendingRequestsPage = new PendingRequestsPage(page);
+
+                const booking = await bookingApi.addPendingRequest(user);
+                const bookingRef = booking.bookingRef;
+                const bookingId = booking.bookingId;
+
+                const initialPendingCount = await bookingApi.getBookingCount(user, "PENDING");
+                const initialConfirmedCount = await bookingApi.getBookingCount(user, "CONFIRMED");
+
+                await page.goto('/bookings/pending', { waitUntil: "domcontentloaded" });
+
+                await pendingRequestsPage.confirmPendingRequest(bookingRef);
+
+                await pendingRequestsPage.waitForPendingRequestToBeRemoved(bookingRef);
+
+                const finalPendingCount = await bookingApi.getBookingCount(user, "PENDING");
+                const finalConfirmedCount = await bookingApi.getBookingCount(user, "CONFIRMED");
+
+                const bookingStatus = (await bookingApi.getBookingById(bookingId)).status;
+
+                expect(finalPendingCount).toBe(initialPendingCount - 1);
+                expect(finalConfirmedCount).toBe(initialConfirmedCount + 1);
+                expect(bookingStatus).toBe("CONFIRMED");
+            });
+        });
     });
 
     test.describe('compare UI data to API data', () => {

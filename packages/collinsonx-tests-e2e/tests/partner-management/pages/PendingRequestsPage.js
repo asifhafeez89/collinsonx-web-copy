@@ -12,6 +12,11 @@ class PendingRequestsPage {
         return declineButton.click();
     };
 
+    async confirmPendingRequest(bookingRef) {
+        const confirmButton = await this.page.getByRole('row', { name: bookingRef }).getByTestId('confirmBooking')
+        return confirmButton.click();
+    };
+
     async waitForPendingRequestToBeRemoved(bookingRef) {
         return await this.page.getByRole('row', { name: bookingRef }).waitFor({ state: "detached" });;
     };
