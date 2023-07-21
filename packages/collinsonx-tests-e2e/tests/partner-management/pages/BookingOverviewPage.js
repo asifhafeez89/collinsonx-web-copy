@@ -40,12 +40,20 @@ class BookingOverviewPage {
   };
 
   async getPendingRequestCount() {
-    // retry mechanism - returns displayed pending request count, sometimes returned zero despite this not being the case
+    return await this.getBookingCount('pendingRequestsCount');
+  };
+
+  async getConfirmedBookingCount() {
+    return await this.getBookingCount('allBookingsCount');
+  };
+
+  async getBookingCount(testId) {
+    // retry mechanism - returns displayed booking count, previously sometimes returned zero despite this not being the case
     let count = 0;
     let attempt = 0;
 
     do {
-      const element = await this.page.getByTestId('pendingRequestsCount');
+      const element = await this.page.getByTestId(testId);
       await element.waitFor();
       count = Number(await element.innerText());
       attempt++;
@@ -53,12 +61,6 @@ class BookingOverviewPage {
     } while (count === 0 && attempt <= 5);
 
     return count;
-  };
-
-  async getConfirmedBookingCount() {
-    const element = await this.page.getByTestId('allBookingsCount');
-    await element.waitFor();
-    return Number(await element.innerText());
   };
 
 };
