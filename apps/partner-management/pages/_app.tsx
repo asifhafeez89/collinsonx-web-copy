@@ -39,7 +39,7 @@ if ((datadogenv?.length ?? 0) > 0) {
     site: process.env.NEXT_PUBLIC_DATADOG_SITE,
     service: process.env.NEXT_PUBLIC_DATADOG_SERVICE,
     env: process.env.NEXT_PUBLIC_DATADOG_ENV,
-    version,
+    version: version ?? 'n/a',
     sessionSampleRate: 100,
     sessionReplaySampleRate: 100,
     trackUserInteractions: true,
