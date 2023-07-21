@@ -40,11 +40,15 @@ class BookingOverviewPage {
     };
 
     async getPendingRequestCount() {
-        return Number(await this.page.getByTestId('pendingRequestsCount').innerText());
+        const element = await this.page.getByTestId('pendingRequestsCount');
+        await element.waitFor();
+        return Number(await element.innerText());
     };
 
     async getConfirmedBookingCount() {
-        return Number(await this.page.getByTestId('allBookingsCount').innerText());
+        const element = await this.page.getByTestId('allBookingsCount');
+        await element.waitFor();
+        return Number(await element.innerText());
     };
 
 };

@@ -14,7 +14,7 @@ class LoginPage {
 
   async login() {
     let uuid = uuidv4();
-    let email = uuid + '@clearrouteteam.testinator.com';
+    let email = uuid + process.env.MAILINATOR_EMAIL_ADDRESS;
 
     await this.getEmailAddressTextbox().fill(email);
     await this.getLoginButton().click();
@@ -30,7 +30,7 @@ class LoginPage {
 
   async getOTP(user) {
     const mailinatorClient = new MailinatorClient(
-      '2a32de31d6734501abb238da21c9ac3a'
+      process.env.MAILINATOR_API_TOKEN
     );
 
     let id;
@@ -38,7 +38,7 @@ class LoginPage {
     for (let i = 1; i++; i <= 5) {
       try {
         const inbox = await mailinatorClient.request(
-          new GetInboxRequest('clearrouteteam.testinator.com')
+          new GetInboxRequest(process.env.MAILINATOR_EMAIL_ADDRESS)
         );
         const latestMessage = inbox.result.msgs.find(
           (message) => message.to === user
@@ -52,7 +52,7 @@ class LoginPage {
     }
 
     const otp = await mailinatorClient.request(
-      new GetMessageRequest('clearrouteteam.testinator.com', user, id)
+      new GetMessageRequest(process.env.MAILINATOR_EMAIL_ADDRESS, user, id)
     );
     const regex = /(\d{6})<\/div>/g;
     const match = regex.exec(otp.result.parts[0].body);
