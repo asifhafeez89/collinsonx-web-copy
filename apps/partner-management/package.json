@@ -2,6 +2,7 @@
   "name": "partner-management",
   "license": "MIT",
   "private": true,
+  "version": "1.0.0",
   "scripts": {
     "dev": "next dev -p 3010 | npx local-ssl-proxy --key partner-local.uat.cergea.com-key.pem --cert partner-local.uat.cergea.com.pem --source 4010 --target 3010",
     "build": "next build",
@@ -16,6 +17,7 @@
     "@collinsonx/design-system": "workspace:*",
     "@collinsonx/pages": "workspace:*",
     "@collinsonx/utils": "workspace:*",
+    "@datadog/browser-rum": "^4.45.0",
     "@svgr/webpack": "^6.5.1",
     "@tanstack/react-table": "^8.7.9",
     "@testing-library/user-event": "^14.4.3",

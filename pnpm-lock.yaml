@@ -216,6 +216,9 @@ importers:
       '@collinsonx/utils':
         specifier: workspace:*
         version: link:../../packages/collinsonx-utils
+      '@datadog/browser-rum':
+        specifier: ^4.45.0
+        version: 4.45.0
       '@svgr/webpack':
         specifier: ^6.5.1
         version: 6.5.1
@@ -652,13 +655,13 @@ importers:
         version: 8.38.0
       eslint-config-next:
         specifier: canary
-        version: 13.4.7-canary.2(eslint@8.38.0)(typescript@4.9.5)
+        version: 13.3.5-canary.3(eslint@8.38.0)(typescript@4.9.5)
       eslint-config-prettier:
         specifier: ^8.5.0
         version: 8.8.0(eslint@8.38.0)
       eslint-config-turbo:
         specifier: latest
-        version: 1.10.3(eslint@8.38.0)
+        version: 1.9.3(eslint@8.38.0)
     devDependencies:
       typescript:
         specifier: ^4.8.4
@@ -4971,6 +4974,33 @@ packages:
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
 
+  /@datadog/browser-core@4.45.0:
+    resolution: {integrity: sha512-w0zlk5xiZsg+1XCU5PvI9tymnGhe35j0tLWMgcuwgulKfcUHfXZlYX1NRxWrgRvpFosAi/xwY8viNA6LLSYowQ==}
+    dev: false
+
+  /@datadog/browser-rum-core@4.45.0:
+    resolution: {integrity: sha512-0r0tkjAq2mzWdRhTJgtrFin8Px07bh/V8fnC0CLjqQTHffLhLVqgS4YcjHn1K8LAYLrJDY35lOBuLyl39UmSdQ==}
+    dependencies:
+      '@datadog/browser-core': 4.45.0
+    dev: false
+
+  /@datadog/browser-rum@4.45.0:
+    resolution: {integrity: sha512-xbcXGU1LmTBRX3Ban2+0cqp/HQ3moZB5nr0FBCr+YpCytsRyZDY5o0sUbqrUhUjEdqdzsZ3paqonl4RKs7dLJg==}
+    peerDependencies:
+      '@datadog/browser-logs': 4.45.0
+    peerDependenciesMeta:
+      '@datadog/browser-logs':
+        optional: true
+    dependencies:
+      '@datadog/browser-core': 4.45.0
+      '@datadog/browser-rum-core': 4.45.0
+      '@datadog/browser-worker': 4.45.0
+    dev: false
+
+  /@datadog/browser-worker@4.45.0:
+    resolution: {integrity: sha512-VLbtn78R4LU1quOHWmLKUNndPg4fx85zumeP8j0EYPxJXo674ZPG9IvNsEk0JG5ik7KVm/66VTgLTffyfy/1hw==}
+    dev: false
+
   /@datadog/native-appsec@3.2.0:
     resolution: {integrity: sha512-biAa7EFfuavjSWgSQaCit9CqGzr6Af5nhzfNNGJ38Y/Y387hDvLivAR374kK1z6XoxGZEOa+XPbVogmV/2Bcjw==}
     engines: {node: '>=12'}
@@ -6894,8 +6924,8 @@ packages:
   /@next/env@13.3.0:
     resolution: {integrity: sha512-AjppRV4uG3No7L1plinoTQETH+j2F10TEnrMfzbTUYwze5sBUPveeeBAPZPm8OkJZ1epq9OyYKhZrvbD6/9HCQ==}
 
-  /@next/eslint-plugin-next@13.4.7-canary.2:
-    resolution: {integrity: sha512-y8mQVqdr0szkpSD8/ch3x/AVARv/JZf99mPk2utfPN3qNA3+eEZiMZQOtYrHHKYCBRa3RH6PPRFNTOD33nkwWQ==}
+  /@next/eslint-plugin-next@13.3.5-canary.3:
+    resolution: {integrity: sha512-qKVPQJMsDl21KAAScC0gTDQBS0rBcZ5NYHbOJy2qctww+NoR6RaczTFGP1FCZiYUN8nKwghK9AykYpPAJMVvKQ==}
     dependencies:
       glob: 7.1.7
     dev: false
@@ -13212,8 +13242,8 @@ packages:
     optionalDependencies:
       source-map: 0.6.1
 
-  /eslint-config-next@13.4.7-canary.2(eslint@8.38.0)(typescript@4.9.5):
-    resolution: {integrity: sha512-Bky1GBKBdlKCYRJka7OTcLrErOb2R5e7mCi/kWNrmlWRunsw/XqQWJ5FiCX2xO0fs1OnM6zAq6goe0na3Z7Jng==}
+  /eslint-config-next@13.3.5-canary.3(eslint@8.38.0)(typescript@4.9.5):
+    resolution: {integrity: sha512-mQHFjjQ1ZplzSCb4VG3VSBAEsBxa+M/A0OZIJuqlRjwWR3R5qLbeiaG3uSpHBLsEaBOV0huEZipVp05OMpIhTA==}
     peerDependencies:
       eslint: ^7.23.0 || ^8.0.0
       typescript: '>=3.3.1'
@@ -13221,7 +13251,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@next/eslint-plugin-next': 13.4.7-canary.2
+      '@next/eslint-plugin-next': 13.3.5-canary.3
       '@rushstack/eslint-patch': 1.3.2
       '@typescript-eslint/parser': 5.62.0(eslint@8.38.0)(typescript@4.9.5)
       eslint: 8.38.0
@@ -13246,13 +13276,13 @@ packages:
       eslint: 8.38.0
     dev: false
 
-  /eslint-config-turbo@1.10.3(eslint@8.38.0):
-    resolution: {integrity: sha512-ggzPfTJfMsMS383oZ4zfTP1zQvyMyiigOQJRUnLt1nqII6SKkTzdKZdwmXRDHU24KFwUfEFtT6c8vnm2VhL0uQ==}
+  /eslint-config-turbo@1.9.3(eslint@8.38.0):
+    resolution: {integrity: sha512-QG6jxFQkrGSpQqlFKefPdtgUfr20EbU0s4tGGIuGFOcPuJEdsY6VYZpZUxNJvmMcTGqPgMyOPjAFBKhy/DPHLA==}
     peerDependencies:
       eslint: '>6.6.0'
     dependencies:
       eslint: 8.38.0
-      eslint-plugin-turbo: 1.10.3(eslint@8.38.0)
+      eslint-plugin-turbo: 1.9.3(eslint@8.38.0)
     dev: false
 
   /eslint-import-resolver-node@0.3.7:
@@ -13410,8 +13440,8 @@ packages:
       string.prototype.matchall: 4.0.8
     dev: false
 
-  /eslint-plugin-turbo@1.10.3(eslint@8.38.0):
-    resolution: {integrity: sha512-g3Mnnk7el1FqxHfqbE/MayLvCsYjA/vKmAnUj66kV4AlM7p/EZqdt42NMcMSKtDVEm0w+utQkkzWG2Xsa0Pd/g==}
+  /eslint-plugin-turbo@1.9.3(eslint@8.38.0):
+    resolution: {integrity: sha512-ZsRtksdzk3v+z5/I/K4E50E4lfZ7oYmLX395gkrUMBz4/spJlYbr+GC8hP9oVNLj9s5Pvnm9rLv/zoj5PVYaVw==}
     peerDependencies:
       eslint: '>6.6.0'
     dependencies:
