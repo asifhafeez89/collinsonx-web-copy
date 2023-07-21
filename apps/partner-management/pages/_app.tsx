@@ -12,10 +12,8 @@ import { version } from '../package.json';
 
 import AuthWrapper from '@components/AuthWrapper';
 import theme from '../theme';
-import { PARTNER_ID } from 'config';
 import { ExperienceProvider } from 'hooks/experience';
 import CookieBanner from '@components/CookieBanner';
-import { Odor_Mean_Chey } from 'next/font/google';
 
 type Page<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactElement) => JSX.Element;
