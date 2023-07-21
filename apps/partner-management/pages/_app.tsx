@@ -34,11 +34,11 @@ if (typeof window !== 'undefined') {
 const datadogenv: string | undefined = process.env.NEXT_PUBLIC_DATADOG_ENV;
 if ((datadogenv?.length ?? 0) > 0) {
   datadogRum.init({
-    applicationId: process.env.NEXT_PUBLIC_DATADOG_APP_ID,
-    clientToken: process.env.NEXT_PUBLIC_DATADOG_CLIENT_TOKEN,
-    site: process.env.NEXT_PUBLIC_DATADOG_SITE,
-    service: process.env.NEXT_PUBLIC_DATADOG_SERVICE,
-    env: process.env.NEXT_PUBLIC_DATADOG_ENV,
+    applicationId: process.env.NEXT_PUBLIC_DATADOG_APP_ID ?? '',
+    clientToken: process.env.NEXT_PUBLIC_DATADOG_CLIENT_TOKEN ?? '',
+    site: process.env.NEXT_PUBLIC_DATADOG_SITE ?? '',
+    service: process.env.NEXT_PUBLIC_DATADOG_SERVICE ?? '',
+    env: process.env.NEXT_PUBLIC_DATADOG_ENV ?? '',
     version: version ?? 'n/a',
     sessionSampleRate: 100,
     sessionReplaySampleRate: 100,
