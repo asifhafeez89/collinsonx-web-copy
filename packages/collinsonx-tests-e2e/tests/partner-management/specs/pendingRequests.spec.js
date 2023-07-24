@@ -34,8 +34,8 @@ test.describe('pending requests page', () => {
                 expect(bookingStatus).toBe("DECLINED");
             });
         });
-        test.describe('confirm pending request', () => {
-            const user = "HEATHROW_LOUNGE";
+        test.describe.only('confirm pending request', () => {
+            const user = "GATWICK_LOUNGE";
             test.use({ storageState: `playwright/.auth/${user.toLowerCase()}User.json` })
             test('pending request should be removed from the UI and its status updated to "confirmed" in the backend', async ({ page }) => {
                 const bookingApi = new BookingApi(page);
