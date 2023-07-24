@@ -57,7 +57,7 @@ class BookingOverviewPage {
       await element.waitFor();
       count = Number(await element.innerText());
       attempt++;
-      attempt !== 1 && await page.waitForTimeout(2000);
+      attempt !== 1 && await this.page.waitForTimeout(2000);
     } while (count === 0 && attempt <= 5);
 
     return count;
