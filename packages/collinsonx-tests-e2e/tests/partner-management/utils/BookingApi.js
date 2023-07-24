@@ -213,8 +213,8 @@ class BookingApi {
 
   };
 
-  async getBookingCount(user, status) {
-    const statusBookings = await this.getBookings(user, status);
+  async getBookingCount(user, ...statuses) {
+    const statusBookings = await this.getBookings(user, ...statuses);
 
     const statusBookingsCount = statusBookings.length;
 
@@ -275,7 +275,7 @@ class BookingApi {
     await axios.post(this.apiUrl, request, { headers });
   }
 
-  async getBookings(user, status) {
+  async getBookings(user, ...statuses) {
     const query = `
       query GetBookings($experienceId: ID!) {
         getBookings(experienceID: $experienceId) {
@@ -304,12 +304,7 @@ class BookingApi {
     const bookings = response.data.data.getBookings;
 
     const statusBookings = bookings.filter((booking) => {
-      // Both "CONFIRMED" and "CHECKED_IN" statuses appear under the confirmed bookings page
-      if (status === "CONFIRMED") {
-        return booking.status === "CONFIRMED" || booking.status === "CHECKED_IN";
-      } else {
-        return booking.status === status;
-      };
+      return statuses.includes(booking.status);
     });
 
     return statusBookings;
