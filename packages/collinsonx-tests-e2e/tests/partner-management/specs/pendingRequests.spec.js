@@ -1,4 +1,4 @@
-const { test, expect } = require('@playwright/test');
+import { test, expect } from '../../../baseFixtures';
 import BookingApi from '../utils/BookingApi';
 import PendingRequestsPage from '../pages/PendingRequestsPage';
 
