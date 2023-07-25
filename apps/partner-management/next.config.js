@@ -1,3 +1,5 @@
+const { version } = require('./package.json');
+
 module.exports = {
   webpack(config) {
     config.module.rules.push({
@@ -6,5 +8,8 @@ module.exports = {
       use: ['@svgr/webpack'],
     });
     return config;
+  },
+  publicRuntimeConfig: {
+    version,
   },
 };
