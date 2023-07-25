@@ -44,22 +44,24 @@ class SignUp {
     await axios.post(apiUrl, request, { headers });
   };
 
-  async getRegistrationURL(partner) {
+  async getRegistrationURL(email) {
+    const username = email.split("@")[0];
+
     const mailinatorClient = new MailinatorClient(
-      '2a32de31d6734501abb238da21c9ac3a'
+      process.env.MAILINATOR_API_TOKEN
     );
 
     const inbox = await mailinatorClient.request(
-      new GetInboxRequest('clearrouteteam.testinator.com')
+      new GetInboxRequest(process.env.MAILINATOR_EMAIL_ADDRESS)
     );
 
     let id;
 
-    const latestMessage = await inbox.result.msgs.find(message => message.to === partner);
+    const latestMessage = await inbox.result.msgs.find(message => message.to === username);
     id = latestMessage.id;
 
     const latestMessageContents = await mailinatorClient.request(
-      new GetMessageRequest('clearrouteteam.testinator.com', partner, id)
+      new GetMessageRequest(process.env.MAILINATOR_EMAIL_ADDRESS, username, id)
     );
 
     const regex = /https.*?(?=\])/;

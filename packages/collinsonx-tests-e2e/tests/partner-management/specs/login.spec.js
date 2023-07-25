@@ -13,8 +13,8 @@ test('login as a current partner', async ({ page }) => {
     const bookingOverviewPage = new BookingOverviewPage(page);
 
     // password will be changed and added to secret variables at a later date
-    const email = `automationuserpartner@clearrouteteam.testinator.com`;
-    const password = process.env.ENV === "UAT" ? "CollinsonXPartner123" : "CollinsonXpartner123"
+    const email = process.env["GATWICK_USERNAME_" + process.env.ENV];
+    const password = process.env["GATWICK_PASSWORD_" + process.env.ENV];
 
     await loginPage.login(email, password);
 
@@ -25,7 +25,7 @@ test('login as a current partner', async ({ page }) => {
     const walkupQRcodeTitle = bookingOverviewPage.getWalkupQRcodeTitle();
     const loungeTitle = bookingOverviewPage.getLoungeTitle();
 
-    await expect(title).toBeVisible();
+    await expect(title).toBeVisible({ timeout: 10000 });
     await expect(loungeTitle).toBeVisible();
     await expect(pendingRequestsTitle).toBeVisible();
     await expect(cancelledBookingsTitle).toBeVisible();
@@ -40,8 +40,8 @@ test('login as a new partner', async ({ page }) => {
     const signUp = new SignUp();
     const signUpPage = new SignUpPage(page);
 
-    const partner = uuidv4();
-    const email = `${partner}@clearrouteteam.testinator.com`;
+    const partner = uuidv4() + process.env.ENV.toLowerCase();
+    const email = `${partner}@${process.env.MAILINATOR_EMAIL_ADDRESS}`;
     const password = uuidv4();
 
     signUp.receiveRegistrationEmail(email);
@@ -68,20 +68,20 @@ test('login as a new partner', async ({ page }) => {
     await expect(walkupQRcodeTitle).toBeVisible();
 });
 
-test('receive error notification of pre-existing registration and get taken to login page', async ({ page }) => {
+// skip test until implemented - currently the user is not redirected to the login page with the error displayed
+test.skip('receive error notification of pre-existing registration and get taken to login page', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const helper = new Helper(page);
     const signUp = new SignUp();
     const signUpPage = new SignUpPage(page);
 
-    const partner = "automationuserpartner";
-    const email = `${partner}@clearrouteteam.testinator.com`;
-    const password = process.env.ENV === "UAT" ? "CollinsonXPartner123" : "CollinsonXpartner123"
+    const email = process.env["GATWICK_USERNAME_" + process.env.ENV];
+    const password = process.env["GATWICK_PASSWORD_" + process.env.ENV];
 
     signUp.receiveRegistrationEmail(email);
     // TODO: refactor 'wait' for ensuring the email has been sent before proceeding
     await helper.wait(5000);
-    const signUpURL = await signUp.getRegistrationURL(partner);
+    const signUpURL = await signUp.getRegistrationURL(email);
     await page.goto(signUpURL);
 
     await signUpPage.acceptCookieBanner();

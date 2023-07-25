@@ -269,13 +269,17 @@ export const FlightInfo = ({
               ''
           }
         </Text>
+        <Text style={{ marginBottom: '15px' }}>
+          Maximum allowed stay is 3 hours
+        </Text>
         {
           availableSlots.length > 0
           ?
           <Grid grow>
              {availableSlots.map((slot, i) => (
               <Grid.Col span={1} key={`available-slot-${i}`}>
-                <Button variant='outline' onClick={() => { onSelectSlot(i) }} data-selectedslot={i}>
+                <Button variant='outline' style={{ textAlign: 'center', height: '4rem' }} onClick={() => { onSelectSlot(i) }} data-selectedslot={i}>
+                  Check-in <br /> between <br />
                   {`${dayjs(slot.startDate).format('hh:mm')} - ${dayjs(slot.endDate).format('hh:mm')}`}
                 </Button>
               </Grid.Col>

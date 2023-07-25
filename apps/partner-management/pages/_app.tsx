@@ -7,12 +7,14 @@ import { useApollo, ApolloProvider } from '@collinsonx/utils/apollo';
 import { Analytics } from '@vercel/analytics/react';
 import SuperTokens, { SuperTokensWrapper } from 'supertokens-auth-react';
 import { frontendConfig } from 'config/frontendConfig';
+import { datadogRum } from '@datadog/browser-rum';
 
 import AuthWrapper from '@components/AuthWrapper';
 import theme from '../theme';
-import { PARTNER_ID } from 'config';
 import { ExperienceProvider } from 'hooks/experience';
 import CookieBanner from '@components/CookieBanner';
+
+import getConfig from 'next/config';
 
 type Page<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactElement) => JSX.Element;
@@ -29,12 +31,36 @@ if (typeof window !== 'undefined') {
   SuperTokens.init(frontendConfig());
 }
 
+const { publicRuntimeConfig } = getConfig();
+const version = publicRuntimeConfig?.version;
+
+// Set in Vercel this variable for any environments that need monitoring. Prod and probably UAT
+const datadogenv: string | undefined = process.env.NEXT_PUBLIC_DATADOG_ENV;
+if ((datadogenv?.length ?? 0) > 0) {
+  datadogRum.init({
+    applicationId: process.env.NEXT_PUBLIC_DATADOG_APP_ID ?? '',
+    clientToken: process.env.NEXT_PUBLIC_DATADOG_CLIENT_TOKEN ?? '',
+    site: process.env.NEXT_PUBLIC_DATADOG_SITE ?? '',
+    service: process.env.NEXT_PUBLIC_DATADOG_SERVICE ?? '',
+    env: process.env.NEXT_PUBLIC_DATADOG_ENV ?? '',
+    version: version ?? 'n/a',
+    sessionSampleRate: 100,
+    sessionReplaySampleRate: 100,
+    trackUserInteractions: true,
+    trackResources: true,
+    trackLongTasks: true,
+    defaultPrivacyLevel: 'mask-user-input',
+  });
+  datadogRum.startSessionReplayRecording();
+}
+
 export default function MyApp({ Component, pageProps }: Props) {
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page);
   const [envLabel, setEnvLabel] = useState<String>('');
 
   useEffect(() => {
+    console.log('App::version ', version);
     if (window.location.href.includes('https://partner.uat.cergea.com/')) {
       setEnvLabel('uat');
     }
@@ -49,6 +75,7 @@ export default function MyApp({ Component, pageProps }: Props) {
   }, []);
 
   const apolloClient = useApollo(pageProps);
+
   return (
     <>
       <Head>

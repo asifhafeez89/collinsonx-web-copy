@@ -10,17 +10,19 @@ class BookingApi {
     this.page = page;
   };
 
-  async addConfirmedBooking() {
-    const bookingId = (await this.addPendingRequest()).bookingId;
+  async addConfirmedBooking(user) {
+    const bookingId = (await this.addPendingRequest(user)).bookingId;
     await this.confirmBooking(bookingId);
   };
 
-  async addPendingRequest() {
+  async addPendingRequest(user) {
     const consumerId = await this.findOrCreateConsumer();
-    const bookingId = await this.createBooking(consumerId);
-    const response = await this.stripeBookingPayment(consumerId, bookingId);
+    const booking = await this.createBooking(user, consumerId);
+    const bookingId = booking.id;
+    const bookingRef = booking.reference;
+    const response = await this.stripeBookingPayment(user, consumerId, bookingId);
 
-    return { bookingId, consumerId };
+    return { bookingId, bookingRef, consumerId };
   };
 
   async findOrCreateConsumer() {
@@ -41,7 +43,7 @@ class BookingApi {
 
     const variables = {
       "consumerInput": {
-        "emailAddress": "automationconsumer@clearrouteteam.testinator.com",
+        "emailAddress": process.env["AUTOMATION_CONSUMER_USERNAME_" + process.env.ENV],
         "firstName": "Automation",
         "lastName": "Consumer",
         "marketingConsent": false,
@@ -61,11 +63,12 @@ class BookingApi {
     return consumerId;
   };
 
-  async createBooking(consumerId) {
+  async createBooking(user, consumerId) {
     const mutation = `
       mutation CreateBooking($bookingInput: BookingInput) {
         createBooking(bookingInput: $bookingInput) {
           id
+          reference
           consumer {
             id
           }
@@ -83,13 +86,24 @@ class BookingApi {
      }
     `;
 
+    const currentDate = new Date();
+
+    currentDate.setDate(currentDate.getDate() + 2);
+
+    // Format the date as 'YYYY-MM-DDTHH:mm:ss.sssZ'
+    const dateTwoDaysFromNow = currentDate.toISOString();
+
+    currentDate.setHours(currentDate.getHours() + 2);
+
+    const dateTwoDaysTwoHoursFromNow = currentDate.toISOString();
+
     const variables = {
       "bookingInput": {
         "experience": {
-          "id": process.env.EXPERIENCE_ID
+          "id": process.env[user + "_EXPERIENCE_ID"]
         },
-        "bookedFrom": "2023-07-15T04:53:00.000Z",
-        "bookedTo": "2023-07-15T06:53:00.000Z",
+        "bookedFrom": dateTwoDaysFromNow,
+        "bookedTo": dateTwoDaysTwoHoursFromNow,
         "orderID": null,
         "stripePaymentID": null,
         "type": "RESERVATION",
@@ -112,10 +126,12 @@ class BookingApi {
 
     const bookingId = response.data.data.createBooking.id;
 
-    return bookingId;
+    const reference = response.data.data.createBooking.reference;
+
+    return { id: bookingId, reference };
   };
 
-  async stripeBookingPayment(consumerId, bookingId) {
+  async stripeBookingPayment(user, consumerId, bookingId) {
     const stripe = new Stripe(process.env.STRIPE_API_KEY);
 
     const customer = await stripe.customers.create({
@@ -130,7 +146,7 @@ class BookingApi {
     });
 
     const stripePrices = await stripe.prices.search({
-      query: `metadata["internalProductId"]:"${process.env.EXPERIENCE_ID}"`
+      query: `metadata["internalProductId"]:"${process.env[user + "_EXPERIENCE_ID"]}"`
     });
 
     const priceId = stripePrices.data[0]?.id || '';
@@ -170,12 +186,13 @@ class BookingApi {
 
     await this.page.goto(checkoutURL);
 
+    await this.page.locator('#billingCountry').selectOption('United Kingdom');
     // entering the postal code fires off network requests to determine the tax amount
     // do not move this code below other form elements - this along with 'networkidle' ensures the tax amount is resolved before clicking 'pay"
     await Promise.all([
       await this.page.getByLabel('Postal code').fill('KT1 2AA'),
       // TODO - fix flakiness. Difficult as the tax subtotal does not have a 'selector'
-      await this.page.waitForLoadState('networkidle', { timeout: 5000 })
+      await this.page.waitForTimeout(5000)
     ]);
     await this.page.getByLabel('Card number').fill('4242424242424242');
     await this.page.getByLabel('Expiration').fill('1234');
@@ -196,9 +213,8 @@ class BookingApi {
 
   };
 
-  async getBookingCount(status) {
-    const statusBookings = await this.getBookings(status);
-    console.log(statusBookings)
+  async getBookingCount(user, status) {
+    const statusBookings = await this.getBookings(user, status);
 
     const statusBookingsCount = statusBookings.length;
 
@@ -259,18 +275,19 @@ class BookingApi {
     await axios.post(this.apiUrl, request, { headers });
   }
 
-  async getBookings(status) {
+  async getBookings(user, status) {
     const query = `
       query GetBookings($experienceId: ID!) {
         getBookings(experienceID: $experienceId) {
           id
           status
+          reference
         }
       }
     `;
 
     const variables = {
-      "experienceId": process.env.EXPERIENCE_ID
+      "experienceId": process.env[user + "_EXPERIENCE_ID"]
     };
 
     const request = {
@@ -284,7 +301,6 @@ class BookingApi {
     };
 
     const response = await axios.post(this.apiUrl, request, { headers });
-
     const bookings = response.data.data.getBookings;
 
     const statusBookings = bookings.filter((booking) => {
@@ -297,6 +313,36 @@ class BookingApi {
     });
 
     return statusBookings;
+  };
+
+  async getBookingById(bookingId) {
+    const query = `
+      query Query($getBookingByIdId: ID!) {
+        getBookingByID(id: $getBookingByIdId) {
+          status
+          reference
+        }
+      }
+    `;
+
+    const variables = {
+      "getBookingByIdId": bookingId
+    };
+
+    const request = {
+      query: query,
+      variables: variables
+    };
+
+    const headers = {
+      'x-user-id': process.env.X_USER_ID,
+      'x-user-type': 'SUPER_USER'
+    };
+
+    const response = await axios.post(this.apiUrl, request, { headers });
+    const booking = response.data.data.getBookingByID;
+
+    return booking;
   };
 };
 
