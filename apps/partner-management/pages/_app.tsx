@@ -8,12 +8,13 @@ import { Analytics } from '@vercel/analytics/react';
 import SuperTokens, { SuperTokensWrapper } from 'supertokens-auth-react';
 import { frontendConfig } from 'config/frontendConfig';
 import { datadogRum } from '@datadog/browser-rum';
-import { version } from '../package.json';
 
 import AuthWrapper from '@components/AuthWrapper';
 import theme from '../theme';
 import { ExperienceProvider } from 'hooks/experience';
 import CookieBanner from '@components/CookieBanner';
+
+import getConfig from 'next/config';
 
 type Page<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactElement) => JSX.Element;
@@ -29,6 +30,9 @@ if (typeof window !== 'undefined') {
   // we check typeof window !== 'undefined'
   SuperTokens.init(frontendConfig());
 }
+
+const { publicRuntimeConfig } = getConfig();
+const version = publicRuntimeConfig?.version;
 
 // Set in Vercel this variable for any environments that need monitoring. Prod and probably UAT
 const datadogenv: string | undefined = process.env.NEXT_PUBLIC_DATADOG_ENV;
@@ -56,6 +60,7 @@ export default function MyApp({ Component, pageProps }: Props) {
   const [envLabel, setEnvLabel] = useState<String>('');
 
   useEffect(() => {
+    console.log('App::version ', version);
     if (window.location.href.includes('https://partner.uat.cergea.com/')) {
       setEnvLabel('uat');
     }
@@ -70,6 +75,7 @@ export default function MyApp({ Component, pageProps }: Props) {
   }, []);
 
   const apolloClient = useApollo(pageProps);
+
   return (
     <>
       <Head>

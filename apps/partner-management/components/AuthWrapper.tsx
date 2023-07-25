@@ -14,7 +14,6 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
   const [show, setShow] = useState(false);
 
   const session: any = useSessionContext();
-  console.log('Auth::session', session);
   useEffect(() => {
     const { accessTokenPayload = {} } = session as any;
     if (accessTokenPayload.userType) {
