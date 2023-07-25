@@ -29,7 +29,7 @@ jobs:
           apt-get update -y
           apt-get install sudo -y
           sudo echo "127.0.0.1 partner-local.uat.cergea.com" | sudo tee -a /etc/hosts
-      
+
       - name: Partner webapp SSL cert creation (required by cors)
         run: |
           apt-get install wget libnss3-tools lsof -y
@@ -46,7 +46,7 @@ jobs:
         run: |
           pnpm run build
           pnpm add --global pm2
-          pm2 --name dev-server --interpreter bash start pnpm -- dev
+          pm2 --name dev-server --interpreter bash start pnpm -- e2e:dev
 
           attempt_counter=0
           max_attempts=5

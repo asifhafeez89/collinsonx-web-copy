@@ -16,7 +16,7 @@
     "test:updatesnapshots": "turbo run test -- -u --coverage=false",
     "test:watch": "turbo run test:watch -- --coverage=false",
     "build:utils": "turbo run jest --filter=utils...",
-    "e2e:dev": "turbo run e2e:dev",
+    "e2e:dev": "NODE_ENV=test turbo run dev",
     "e2e:start": "turbo run e2e:start",
     "dev": "turbo run dev",
     "start": "turbo run start",
