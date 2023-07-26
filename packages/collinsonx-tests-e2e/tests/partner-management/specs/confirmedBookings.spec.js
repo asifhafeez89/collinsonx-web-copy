@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 import BookingApi from '../utils/BookingApi';
 import AllConfirmedBookingsPage from '../pages/AllConfirmedBookingsPage';
 
-test.describe.only('all confirmed bookings page', () => {
+test.describe('all confirmed bookings page', () => {
     test.describe('resolving confirmed bookings', () => {
         const user = "HEATHROW_LOUNGE";
         test.use({ storageState: `playwright/.auth/${user.toLowerCase()}User.json` })
