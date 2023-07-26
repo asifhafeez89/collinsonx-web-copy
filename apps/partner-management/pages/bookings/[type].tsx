@@ -312,7 +312,7 @@ export default function Bookings({ type }: BookingsProps) {
       }),
       columnHelper.accessor('_id', {
         id: '_id',
-        header: 'Booking ID',
+        header: 'Booking reference',
         cell: (props) => props.getValue() || '-',
       }),
       columnHelper.accessor('type', {
@@ -495,7 +495,7 @@ export default function Bookings({ type }: BookingsProps) {
                 rightSection: {},
               }}
               rightSection={<Magglass />}
-              placeholder="Search for Customer or Booking ID"
+              placeholder="Search for Customer or Booking reference"
             />
             <DatePicker
               icon={<Calendar />}
