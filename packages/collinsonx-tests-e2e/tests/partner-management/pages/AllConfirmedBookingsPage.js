@@ -1,22 +1,21 @@
 class AllConfirmedBookingsPage {
-    constructor(page) {
+    constructor(page, bookingRef) {
         this.page = page;
+        this.checkCustomerInButton = this.page.getByRole('row', { name: bookingRef }).getByTestId('checkCustomerIn');
     };
 
     title() {
         return this.page.getByRole('heading', { name: 'Confirmed lounge booking management' });
     };
 
-    checkCustomerIn(bookingRef) {
-        const button = this.page.getByRole('row', { name: bookingRef }).getByTestId('checkCustomerIn')
-        button.click();
+    checkCustomerIn() {
+        this.checkCustomerInButton.click();
         this.page.getByRole('checkbox').click();
         return this.page.getByRole('button', { name: 'Check in' }).click();
     };
 
-    waitForCheckedInElement(bookingRef) {
-        const button = this.page.getByRole('row', { name: bookingRef }).getByTestId('checkCustomerIn')
-        return button.waitFor({ state: "detached" });
+    waitForCheckedInElement() {
+        return this.checkCustomerInButton.waitFor({ state: "detached" });
     };
 };
 
