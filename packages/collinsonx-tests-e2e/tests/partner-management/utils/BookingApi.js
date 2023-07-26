@@ -11,10 +11,7 @@ class BookingApi {
   };
 
   async addConfirmedBooking(user) {
-    const booking = (await this.addPendingRequest(user));
-    const bookingId = booking.bookingId;
-    const bookingRef = booking.bookingRef;
-    const consumerId = booking.consumerId;
+    const { bookingId, bookingRef, consumerId } = await this.addPendingRequest(user);
 
     await this.confirmBooking(bookingId);
 
