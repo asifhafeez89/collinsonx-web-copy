@@ -8,17 +8,15 @@ class PendingRequestsPage {
     };
 
     async declinePendingRequest(bookingRef) {
-        const declineButton = await this.page.getByRole('row', { name: bookingRef }).getByTestId('declineBooking')
-        return declineButton.click();
+        return await this.page.getByRole('row', { name: bookingRef }).getByTestId('declineBooking').click();
     };
 
     async confirmPendingRequest(bookingRef) {
-        const confirmButton = await this.page.getByRole('row', { name: bookingRef }).getByTestId('confirmBooking')
-        return confirmButton.click();
+        return confirmButton = await this.page.getByRole('row', { name: bookingRef }).getByTestId('confirmBooking').click();
     };
 
     async waitForPendingRequestToBeRemoved(bookingRef) {
-        return await this.page.getByRole('row', { name: bookingRef }).waitFor({ state: "detached" });;
+        return await this.page.getByRole('row', { name: bookingRef }).waitFor({ state: "detached" });
     };
 };
 
