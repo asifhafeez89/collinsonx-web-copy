@@ -3,7 +3,7 @@ import BookingApi from '../utils/BookingApi';
 import DeclinedBookingsPage from '../pages/DeclinedBookingsPage';
 import BookingOverviewPage from '../pages/BookingOverviewPage';
 
-test.describe.only('declined bookings page', () => {
+test.describe('declined bookings page', () => {
     const user = "GATWICK";
     test.use({ storageState: `playwright/.auth/${user.toLowerCase()}User.json` })
     test('navigate to declined bookings page and validate declined bookings are for the correct lounge', async ({ page }) => {
