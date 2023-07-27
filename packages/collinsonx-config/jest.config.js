@@ -17,9 +17,6 @@ module.exports = {
   snapshotSerializers: ['@emotion/jest/serializer'],
   moduleNameMapper: {
     // '\\.(css|less)$': '<rootDir>/tests/jest/__mocks__/styleMock.js',
-    'next/font/(.*)': require.resolve(
-      'next/dist/build/jest/__mocks__/nextFontMock.js'
-    ),
     '@lib': '<rootDir>/lib/index.ts',
     '@components/(.*)$': '<rootDir>/components/$1',
     '@collinsonx/design-system/assets/logo$': '<rootDir>/__mocks__/logo',
@@ -34,9 +31,6 @@ module.exports = {
     '@collinsonx/utils/queries': '<rootDir>/__mocks__/queries',
     '@collinsonx/utils/apollo': '<rootDir>/__mocks__/apollo',
   },
-  // moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
-  //   prefix: '<rootDir>/',
-  // }),
   coverageDirectory: 'coverage',
   collectCoverage: true,
   collectCoverageFrom: [
