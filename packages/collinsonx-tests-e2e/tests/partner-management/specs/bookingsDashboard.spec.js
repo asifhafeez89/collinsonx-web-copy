@@ -52,7 +52,7 @@ test.describe('booking overview dashboard', () => {
             const bookingOverviewPage = new BookingOverviewPage(page);
             const bookingApi = new BookingApi(page);
 
-            const initialCount = await bookingApi.getBookingCount(user, "CONFIRMED");
+            const initialCount = await bookingApi.getBookingCount(user, 'CONFIRMED', 'CHECKED_IN');
 
             await bookingApi.addConfirmedBooking(user);
 
