@@ -245,7 +245,7 @@ class BookingApi {
     `;
 
     const variables = {
-      "declinesBookingId": bookingId
+      "declineBookingId": bookingId
     };
 
     const request = {
