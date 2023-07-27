@@ -10,7 +10,7 @@
     "lint": "next lint",
     "clean": "rm -rf .next && rm -rf .turbo",
     "test": "jest -u",
-    "test:ci": "jest --coverage=false"
+    "test:ci": "jest --ci --collect-coverage"
   },
   "dependencies": {
     "@collinsonx/config": "workspace:*",
@@ -37,6 +37,7 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.10",
     "autoprefixer": "^10.4.12",
+    "dd-trace": "^4.6.0",
     "eslint": "^8.11.0",
     "eslint-config-collinsonx": "workspace:*",
     "local-ssl-proxy": "^2.0.5",
