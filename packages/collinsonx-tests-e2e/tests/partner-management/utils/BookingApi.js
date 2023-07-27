@@ -10,6 +10,14 @@ class BookingApi {
     this.page = page;
   };
 
+  async addDeclinedBooking(user) {
+    const { bookingId, bookingRef, consumerId } = await this.addPendingRequest(user);
+
+    await this.declineBooking(bookingId);
+
+    return { bookingId, bookingRef, consumerId };
+  };
+
   async addConfirmedBooking(user) {
     const { bookingId, bookingRef, consumerId } = await this.addPendingRequest(user);
 
@@ -222,6 +230,35 @@ class BookingApi {
     const statusBookingsCount = statusBookings.length;
 
     return statusBookingsCount;
+  };
+
+  async declineBooking(bookingId) {
+    const mutation = `
+      mutation DeclineBooking($declineBookingId: ID!) {
+        declineBooking(id: $declineBookingId) {
+          consumer {
+            id
+          }
+          status
+        }
+      }
+    `;
+
+    const variables = {
+      "declineBookingId": bookingId
+    };
+
+    const request = {
+      query: mutation,
+      variables: variables
+    };
+
+    const headers = {
+      'x-user-id': process.env.X_USER_ID,
+      'x-user-type': 'SUPER_USER'
+    };
+
+    const response = await axios.post(this.apiUrl, request, { headers });
   };
 
   async confirmBooking(bookingId) {
