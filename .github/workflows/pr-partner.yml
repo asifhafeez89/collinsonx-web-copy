@@ -19,6 +19,13 @@ jobs:
           node-version: 20
           cache: 'pnpm'
       - name: Install packages
-        run: pnpm i --frozen-lockfile
+        run: pnpm i
       - name: Run Tests
-        run: pnpm run test:ci --filter partner-management
+        run: |
+          export DD_CIVISIBILITY_AGENTLESS_ENABLED=true
+          export DD_API_KEY=${{ secrets.DATADOG_API_KEY }}
+          export DD_SITE="datadoghq.eu"
+          export NODE_OPTIONS="-r dd-trace/ci/init"
+          export DD_ENV=ci
+          export DD_TAGS="test_type:unit"
+          pnpm run test:ci --filter partner-management
