@@ -12,7 +12,4 @@ module.exports = {
   publicRuntimeConfig: {
     version,
   },
-  experimental: {
-    swcPlugins: [['swc-plugin-coverage-instrument']],
-  },
 };

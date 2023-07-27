@@ -11,12 +11,16 @@ export default class _Document extends Document {
   render() {
     return (
       <Html>
-        <Head />
+        <Head>
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
+          <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+        </Head>
         <body>
           <Main />
           <NextScript />
           <Script id="freshChat">
-            {` 
+            {`
               window.fcWidgetMessengerConfig = {
               tags: ["private", "partnerportal"],
             }`}
