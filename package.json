@@ -16,7 +16,6 @@
     "test:updatesnapshots": "turbo run test -- -u --coverage=false",
     "test:watch": "turbo run test:watch -- --coverage=false",
     "build:utils": "turbo run jest --filter=utils...",
-    "e2e:dev": "turbo run dev",
     "e2e:start": "turbo run e2e:start",
     "dev": "turbo run dev",
     "start": "turbo run start",
@@ -43,7 +42,6 @@
     "jest": "^29.6.1",
     "jest-fetch-mock": "^3.0.3",
     "prettier": "^2.8.8",
-    "swc-plugin-coverage-instrument": "^0.0.19",
     "ts-jest": "^29.1.1",
     "turbo": "latest"
   },

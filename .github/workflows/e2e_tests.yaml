@@ -46,7 +46,7 @@ jobs:
         run: |
           pnpm run build
           pnpm add --global pm2
-          pm2 --name dev-server --interpreter bash start pnpm -- e2e:dev
+          pm2 --name dev-server --interpreter bash start pnpm -- dev
 
           attempt_counter=0
           max_attempts=5
@@ -68,6 +68,7 @@ jobs:
           export NODE_OPTIONS="-r dd-trace/ci/init"
           export DD_ENV=ci
           export DD_TAGS="test_type:browser"
+          export INSTRUMENT_CODE=1
 
           echo "${{ secrets.ENV_TESTS_FILE }}" > packages/collinsonx-tests-e2e/.env.tests
           pnpm --filter "@collinsonx/tests-e2e" e2e:local-partner-ci
@@ -78,3 +79,10 @@ jobs:
         with:
           name: playwright-report
           path: packages/collinsonx-tests-e2e/playwright-report
+
+      - name: Upload coverage results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-coverage
+          path: packages/collinsonx-tests-e2e/.nyc_output
