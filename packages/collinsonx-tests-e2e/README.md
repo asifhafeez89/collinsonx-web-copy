@@ -7,17 +7,22 @@ A spec is a test script that uses the pages and utils to perform a specific test
 
 ## Sign-up
 - Sign-up uses a service called Mailinator in order to be able to create random users using a base email address e.g. '@collinsonxteam.testinator.com' (Mailinator collects all emails associated to this base email)
-- On partner sign-up an email is sent to mailinator with a URL that leads to a sign-up form; this URL is extracted (through an api call to Mailinator)and used in playwright to interact with the form to sign-up and automatically login.
+- On partner sign-up an email is sent to Mailinator with a URL that leads to a sign-up form; this URL is extracted (through an api call to Mailinator)and used in playwright to interact with the form to sign-up and automatically login.
 - Checkout the code for this in ./tests/partner-management/utils/SignUp.js
 
 ## Running tests locally
+
+### Setup env.tests file
+
+1. 'env.tests' should be created under collinsonx-web/packages/collinsonx-tests-e2e/.env.tests
+2. Copy and paste secrets into this file (obtain secrets from David Woods until further notice)
 
 ### Setup CORS access
 
 Setup process got more involved due to recent changes in the backend for CORS access.
 Here are the steps to follow to access deployed API through the partner-management app running on your local machine:
 
-1. The following aliases should be placed inside /etc/hosts file (on your local machine):
+3. The following aliases should be placed inside /etc/hosts file (on your local machine):
 
 ```
 127.0.0.1 partner-local.test.cergea.com
@@ -25,7 +30,7 @@ Here are the steps to follow to access deployed API through the partner-manageme
 127.0.0.1 partner-local.cergea.com
 ```
 
-2. Localhost certificates need to be issued using a cli tool like `mkcert`. There are numerous guides online on how to do this, here is one guide for macOS (there are other similar guides for windows etc.). The correct command should take into account uat alias (not 'localhost').
+4. Localhost certificates need to be issued using a cli tool like `mkcert`. There are numerous guides online on how to do this, here is one guide for macOS (there are other similar guides for windows etc.). The correct command should take into account uat alias (not 'localhost').
 
 ```
 cd apps/partner-management
@@ -36,7 +41,7 @@ mkcert -key-file partner-local.uat.cergea.com-key.pem -cert-file partner-local.u
 ```
 The end result of this process is to produce `partner-local.uat.cergea.com.pem` and `partner-local.uat.cergea.com-key.pem` files.
 
-4. A .env.local should be placed inside `collinsonx-web/apps/partner-management` with the following contents:
+5. A .env.local should be placed inside `collinsonx-web/apps/partner-management` with the following contents:
 
 ```
 PRODUCTION_API_URL=https://gateway-api.uat.cergea.com/graphql
@@ -51,15 +56,15 @@ This process is to make UI operate with UAT backend (replace with TEST where app
 
 ### Run Local Server
 
-5. pnpm i (may need to run pnpm clean beforehand if receiving errors)
-6. pm2 start "pnpm dev" --name dev-server  
+6. pnpm i (may need to run pnpm clean beforehand if receiving errors)
+7. pm2 start "pnpm dev" --name dev-server  
 
 UI will be accessible in the following links:
 https://partner-local.uat.cergea.com:4010 or http://localhost:3010
 
 ### Run Partner web app e2e tests
 
-7. pnpm --filter "@collinsonx/tests-e2e" e2e:local-partner  
+8. pnpm --filter "@collinsonx/tests-e2e" e2e:local-partner  
 
 ## Running tests for TEST/UAT environments (partner web app)
 1. pnpm i (may need to run pnpm clean beforehand if receiving errors)
