@@ -56,15 +56,19 @@ This process is to make UI operate with UAT backend (replace with TEST where app
 
 ### Run Local Server
 
-6. pnpm i (may need to run pnpm clean beforehand if receiving errors)
-7. pm2 start "pnpm dev" --name dev-server  
+6. Install pm2 - daemon that runs the application on a local server (see: https://pm2.keymetrics.io/docs/usage/pm2-doc-single-page/)
+```
+$ npm install pm2@latest -g
+```
+7. pnpm i (may need to run pnpm clean beforehand if receiving errors)
+8. pm2 start "pnpm dev" --name dev-server  
 
 UI will be accessible in the following links:
 https://partner-local.uat.cergea.com:4010 or http://localhost:3010
 
 ### Run Partner web app e2e tests
 
-8. pnpm --filter "@collinsonx/tests-e2e" e2e:local-partner  
+9. pnpm --filter "@collinsonx/tests-e2e" e2e:local-partner  
 
 ## Running tests for TEST/UAT environments (partner web app)
 1. pnpm i (may need to run pnpm clean beforehand if receiving errors)
