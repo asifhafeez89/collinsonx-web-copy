@@ -50,6 +50,7 @@ const LoadExperiences = ({
 
             setItem(SELECTED_LOUNGE, JSON.stringify(newExperience));
           }}
+          id='load-experiences--selected'
           value={selectedExperience?.id}
         />
       )}

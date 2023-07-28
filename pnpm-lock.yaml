@@ -265,6 +265,9 @@ importers:
         specifier: ^0.5.0
         version: 0.5.0
     devDependencies:
+      '@emotion/jest':
+        specifier: ^11.10.8
+        version: 11.11.0(@types/jest@29.5.3)
       '@types/react':
         specifier: ^18.0.0
         version: 18.0.37
