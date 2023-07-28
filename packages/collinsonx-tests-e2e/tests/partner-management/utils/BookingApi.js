@@ -3,11 +3,11 @@ import dotenv from 'dotenv';
 dotenv.config({ path: `.env.tests` });
 require('dotenv').config();
 import Stripe from 'stripe';
-import { stripePayment } from '../utils/config';
+import { apiURL, stripePayment } from '../utils/config';
 
 class BookingApi {
   constructor(page) {
-    this.apiUrl = `https://gateway-api.${process.env.ENV}.cergea.com/graphql`
+    this.apiUrl = apiURL
     this.page = page;
   };
 
