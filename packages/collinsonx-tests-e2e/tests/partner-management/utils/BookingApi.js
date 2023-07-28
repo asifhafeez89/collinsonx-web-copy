@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config({ path: `.env.tests` });
 require('dotenv').config();
 import Stripe from 'stripe';
+import { stripePayment } from '../utils/config';
 
 class BookingApi {
   constructor(page) {
@@ -68,7 +69,6 @@ class BookingApi {
     };
 
     const response = await axios.post(this.apiUrl, request);
-    console.log(response.data)
 
     const consumerId = response.data.data.findOrCreateConsumer.id;
 
@@ -189,8 +189,8 @@ class BookingApi {
         enabled: true
       },
       mode: 'payment',
-      success_url: "http://localhost:3000/BookingConfirmed?paymentSuccess=true",
-      cancel_url: "http://localhost:3000/BookLounge?cancelPayment=true",
+      success_url: stripePayment.successURL,
+      cancel_url: stripePayment.cancelledURL,
       automatic_tax: { enabled: true }
     });
 
@@ -214,7 +214,7 @@ class BookingApi {
 
 
     try {
-      await this.page.waitForURL("http://localhost:3000/BookingConfirmed?paymentSuccess=true");
+      await this.page.waitForURL(stripePayment.successURL);
     } catch (error) {
       if (error.message.includes('ERR_CONNECTION_REFUSED')) {
         console.log('ignoring ERR_CONNECTION_REFUSED');

@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test');
 import BookingApi from '../utils/BookingApi';
 import AllConfirmedBookingsPage from '../pages/AllConfirmedBookingsPage';
-import { users } from '../utils/users';
+import { users } from '../utils/config';
 
 test.describe('all confirmed bookings page', () => {
     test.describe('resolving confirmed bookings', () => {

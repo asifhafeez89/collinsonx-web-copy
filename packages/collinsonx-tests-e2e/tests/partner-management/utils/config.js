@@ -12,3 +12,8 @@ export const users = [
   "MEDIUM_CAVE",
   "TINY_CAVE"
 ];
+
+export const stripePayment = {
+  successURL: "http://localhost:3000/BookingConfirmed?paymentSuccess=true",
+  cancelledURL: "http://localhost:3000/BookLounge?cancelPayment=true"
+};

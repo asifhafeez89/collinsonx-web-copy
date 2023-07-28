@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test');
 import BookingApi from '../utils/BookingApi';
 import PendingRequestsPage from '../pages/PendingRequestsPage';
-import { users } from '../utils/users';
+import { users } from '../utils/config';
 
 test.describe('pending requests page', () => {
     test.describe('resolving pending requests', () => {

@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 import BookingApi from '../utils/BookingApi';
 import DeclinedBookingsPage from '../pages/DeclinedBookingsPage';
 import BookingOverviewPage from '../pages/BookingOverviewPage';
-import { users } from '../utils/users';
+import { users } from '../utils/config';
 
 test.describe('declined bookings page', () => {
     const user = users[4];

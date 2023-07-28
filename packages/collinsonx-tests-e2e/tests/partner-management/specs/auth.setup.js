@@ -1,7 +1,7 @@
 import { test as setup } from '@playwright/test';
 import dotenv from 'dotenv';
 dotenv.config({ path: `.env.tests` });
-import { users } from '../utils/users';
+import { users } from '../utils/config';
 
 
 setup('authenticate', async ({ request }) => {
