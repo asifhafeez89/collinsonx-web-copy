@@ -1,11 +1,10 @@
 import { test as setup } from '@playwright/test';
 import dotenv from 'dotenv';
 dotenv.config({ path: `.env.tests` });
+import { users } from '../utils/users';
 
 
 setup('authenticate', async ({ request }) => {
-  const users = ["HEATHROW", "GATWICK", "BIRMINGHAM", "BIRMINGHAM_LOUNGE", "HEATHROW_TERMINAL_3", "HEATHROW_LOUNGE", "GATWICK_LOUNGE", "BIG_CAVE"];
-
   for (const user of users) {
     const password = process.env[user + "_PASSWORD_" + process.env.ENV];
     const username = process.env[user + "_USERNAME_" + process.env.ENV];

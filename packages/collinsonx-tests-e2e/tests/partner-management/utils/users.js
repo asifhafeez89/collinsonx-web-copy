@@ -1,0 +1,14 @@
+export const users = [
+  "BIRMINGHAM",
+  "BIRMINGHAM_LOUNGE",
+  "BIG_CAVE",
+  "CAVE",
+  "GATWICK",
+  "GATWICK_LOUNGE",
+  "HEATHROW",
+  "HEATHROW_LOUNGE",
+  "HEATHROW_TERMINAL_3",
+  "MASSIVE_CAVE",
+  "MEDIUM_CAVE",
+  "TINY_CAVE"
+];

@@ -1,10 +1,11 @@
 const { test, expect } = require('@playwright/test');
 import BookingApi from '../utils/BookingApi';
 import AllConfirmedBookingsPage from '../pages/AllConfirmedBookingsPage';
+import { users } from '../utils/users';
 
 test.describe('all confirmed bookings page', () => {
     test.describe('resolving confirmed bookings', () => {
-        const user = "HEATHROW_LOUNGE";
+        const user = users[3];
         test.use({ storageState: `playwright/.auth/${user.toLowerCase()}User.json` })
         test('customer should be checked in after clicking the "Check customer in" button', async ({ page }) => {
             const bookingApi = new BookingApi(page);

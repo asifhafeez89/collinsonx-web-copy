@@ -54,7 +54,7 @@ class BookingApi {
 
     const variables = {
       "consumerInput": {
-        "emailAddress": process.env["AUTOMATION_CONSUMER_USERNAME_" + process.env.ENV],
+        "emailAddress": process.env["SIGNUP_EMAIL_" + process.env.ENV],
         "firstName": "Automation",
         "lastName": "Consumer",
         "marketingConsent": false,
@@ -68,6 +68,7 @@ class BookingApi {
     };
 
     const response = await axios.post(this.apiUrl, request);
+    console.log(response.data)
 
     const consumerId = response.data.data.findOrCreateConsumer.id;
 

@@ -1,11 +1,12 @@
 const { test, expect } = require('@playwright/test');
 import BookingApi from '../utils/BookingApi';
 import PendingRequestsPage from '../pages/PendingRequestsPage';
+import { users } from '../utils/users';
 
 test.describe('pending requests page', () => {
     test.describe('resolving pending requests', () => {
         test.describe('decline pending request', () => {
-            const user = "BIRMINGHAM_LOUNGE";
+            const user = users[5];
             test.use({ storageState: `playwright/.auth/${user.toLowerCase()}User.json` })
             test('pending request should be removed from the UI and its status updated to "declined" in the backend', async ({ page }) => {
                 const bookingApi = new BookingApi(page);
@@ -35,7 +36,7 @@ test.describe('pending requests page', () => {
             });
         });
         test.describe('confirm pending request', () => {
-            const user = "GATWICK_LOUNGE";
+            const user = users[6];
             test.use({ storageState: `playwright/.auth/${user.toLowerCase()}User.json` })
             test('pending request should be removed from the UI and its status updated to "confirmed" in the backend', async ({ page }) => {
                 const bookingApi = new BookingApi(page);
@@ -67,7 +68,7 @@ test.describe('pending requests page', () => {
     });
 
     test.describe('compare UI data to API data', () => {
-        const user = "HEATHROW_TERMINAL_3";
+        const user = users[7];
         test.use({ storageState: `playwright/.auth/${user.toLowerCase()}User.json` })
         test('validate pending requests are for the correct lounge', async ({ page }) => {
             const bookingApi = new BookingApi(page);
