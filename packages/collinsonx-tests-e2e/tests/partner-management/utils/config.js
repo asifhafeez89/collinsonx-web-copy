@@ -1,4 +1,4 @@
-export const users = [
+const users = [
   "BIRMINGHAM",
   "BIRMINGHAM_LOUNGE",
   "BIG_CAVE",
@@ -12,6 +12,11 @@ export const users = [
   "MEDIUM_CAVE",
   "TINY_CAVE"
 ];
+
+export const userMap = new Map(users.map((user, i) => {
+  let loungeNumber = i + 1
+  return [`lounge${loungeNumber}`, user]
+}));
 
 export const stripePayment = {
   successURL: "http://localhost:3000/BookingConfirmed?paymentSuccess=true",

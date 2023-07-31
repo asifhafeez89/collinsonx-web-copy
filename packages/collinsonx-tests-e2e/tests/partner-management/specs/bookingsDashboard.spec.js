@@ -1,12 +1,12 @@
 const { test, expect } = require('@playwright/test');
 import BookingOverviewPage from '../pages/BookingOverviewPage';
 import BookingApi from '../utils/BookingApi';
-import { users } from '../utils/config';
+import { userMap } from '../utils/config';
 
 test.describe('booking overview dashboard', () => {
     test.describe('pending requests', () => {
         test.describe('add pending request using the booking API', () => {
-            const user = users[0];
+            const user = userMap.get("lounge1");
             test.use({ storageState: `playwright/.auth/${user.toLowerCase()}User.json` })
             test('should increase the booking count by 1', async ({ page }) => {
                 const bookingOverviewPage = new BookingOverviewPage(page);
@@ -24,7 +24,7 @@ test.describe('booking overview dashboard', () => {
             });
         });
         test.describe('remove pending request using the booking API', () => {
-            const user = users[1];
+            const user = userMap.get("lounge2");
             test.use({ storageState: `playwright/.auth/${user.toLowerCase()}User.json` })
             test('should decrease the booking count by 1', async ({ page }) => {
                 const bookingOverviewPage = new BookingOverviewPage(page);
@@ -47,7 +47,7 @@ test.describe('booking overview dashboard', () => {
     });
 
     test.describe('confirmed bookings', () => {
-        const user = users[2];
+        const user = userMap.get("lounge3");
         test.use({ storageState: `playwright/.auth/${user.toLowerCase()}User.json` })
         test('add confirmed booking using the booking API should increase the booking count by 1', async ({ page }) => {
             const bookingOverviewPage = new BookingOverviewPage(page);

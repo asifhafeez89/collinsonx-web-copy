@@ -5,7 +5,7 @@ import BookingOverviewPage from '../pages/BookingOverviewPage';
 import SignUp from '../utils/SignUp';
 import { v4 as uuidv4 } from 'uuid';
 import Helper from '../../helpers/Helper';
-import { users } from '../utils/config';
+import { userMap } from '../utils/config';
 
 test.use({ storageState: { cookies: [], origins: [] } });
 
@@ -13,7 +13,7 @@ test('login as a current partner', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const bookingOverviewPage = new BookingOverviewPage(page);
 
-    const user = users[0];
+    const user = userMap.get("lounge1");
     const email = process.env[user + "_USERNAME_" + process.env.ENV];
     const password = process.env[user + "_PASSWORD_" + process.env.ENV];
 
@@ -76,7 +76,7 @@ test.skip('receive error notification of pre-existing registration and get taken
     const signUp = new SignUp();
     const signUpPage = new SignUpPage(page);
 
-    const user = users[1];
+    const user = userMap.get("lounge2");
     const email = process.env[user + "_USERNAME_" + process.env.ENV];
     const password = process.env[user + "_PASSWORD_" + process.env.ENV];
 
