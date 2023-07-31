@@ -76,8 +76,9 @@ test.skip('receive error notification of pre-existing registration and get taken
     const signUp = new SignUp();
     const signUpPage = new SignUpPage(page);
 
-    const email = process.env["GATWICK_USERNAME_" + process.env.ENV];
-    const password = process.env["GATWICK_PASSWORD_" + process.env.ENV];
+    const user = users[1];
+    const email = process.env[user + "_USERNAME_" + process.env.ENV];
+    const password = process.env[user + "_PASSWORD_" + process.env.ENV];
 
     signUp.receiveRegistrationEmail(email);
     // TODO: refactor 'wait' for ensuring the email has been sent before proceeding
