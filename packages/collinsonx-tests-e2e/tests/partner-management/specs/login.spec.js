@@ -5,16 +5,17 @@ import BookingOverviewPage from '../pages/BookingOverviewPage';
 import SignUp from '../utils/SignUp';
 import { v4 as uuidv4 } from 'uuid';
 import Helper from '../../helpers/Helper';
+import { users } from '../utils/config';
 
 test.use({ storageState: { cookies: [], origins: [] } });
 
-test('login as a current partner', async ({ page }) => {
+test.only('login as a current partner', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const bookingOverviewPage = new BookingOverviewPage(page);
 
-    // password will be changed and added to secret variables at a later date
-    const email = process.env["GATWICK_USERNAME_" + process.env.ENV];
-    const password = process.env["GATWICK_PASSWORD_" + process.env.ENV];
+    const user = users[0];
+    const email = process.env[user + "_USERNAME_" + process.env.ENV];
+    const password = process.env[user + "_PASSWORD_" + process.env.ENV];
 
     await loginPage.login(email, password);
 
