@@ -26,7 +26,7 @@ test.only('login as a current partner', async ({ page }) => {
     const walkupQRcodeTitle = bookingOverviewPage.getWalkupQRcodeTitle();
     const loungeTitle = bookingOverviewPage.getLoungeTitle();
 
-    await expect(title).toBeVisible({ timeout: 10000 });
+    await expect(title).toBeVisible();
     await expect(loungeTitle).toBeVisible();
     await expect(pendingRequestsTitle).toBeVisible();
     await expect(cancelledBookingsTitle).toBeVisible();
