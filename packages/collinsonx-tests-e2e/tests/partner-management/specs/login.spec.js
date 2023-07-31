@@ -9,7 +9,7 @@ import { users } from '../utils/config';
 
 test.use({ storageState: { cookies: [], origins: [] } });
 
-test.only('login as a current partner', async ({ page }) => {
+test('login as a current partner', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const bookingOverviewPage = new BookingOverviewPage(page);
 
