@@ -1,4 +1,4 @@
-import { test as setup } from '@playwright/test';
+import { test as setup } from '../../../baseFixtures';
 import dotenv from 'dotenv';
 dotenv.config({ path: `.env.tests` });
 
@@ -17,7 +17,7 @@ setup('authenticate', async ({ request }) => {
           { "id": "password", "value": password }
         ]
       },
-      headers: { "St-Auth-Mode": "cookie" } // required to return 'cookies' in the 'set-cookies' header 
+      headers: { "St-Auth-Mode": "cookie" } // required to return 'cookies' in the 'set-cookies' header
     });
 
     const authFile = `playwright/.auth/${user.toLowerCase()}User.json`;

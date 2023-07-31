@@ -1,11 +1,4 @@
 import { MantineThemeOverride } from '@collinsonx/design-system/core';
-import { Be_Vietnam_Pro } from 'next/font/google';
-
-const beVietnamPro = Be_Vietnam_Pro({
-  style: ['normal'],
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-});
 
 type ThemeOptions = {
   fontFamily?: string;

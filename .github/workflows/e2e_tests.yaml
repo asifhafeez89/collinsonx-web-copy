@@ -17,7 +17,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -29,7 +29,7 @@ jobs:
           apt-get update -y
           apt-get install sudo -y
           sudo echo "127.0.0.1 partner-local.uat.cergea.com" | sudo tee -a /etc/hosts
-      
+
       - name: Partner webapp SSL cert creation (required by cors)
         run: |
           apt-get install wget libnss3-tools lsof -y
@@ -44,6 +44,8 @@ jobs:
         env:
           STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}
         run: |
+          export INSTRUMENT_CODE=1
+
           pnpm run build
           pnpm add --global pm2
           pm2 --name dev-server --interpreter bash start pnpm -- dev
@@ -78,3 +80,10 @@ jobs:
         with:
           name: playwright-report
           path: packages/collinsonx-tests-e2e/playwright-report
+
+      - name: Upload coverage results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-coverage
+          path: packages/collinsonx-tests-e2e/.nyc_output
