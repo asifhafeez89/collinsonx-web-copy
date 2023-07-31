@@ -1,4 +1,4 @@
-const users = [
+const lounges = [
   "BIRMINGHAM",
   "BIRMINGHAM_LOUNGE",
   "BIG_CAVE",
@@ -13,9 +13,9 @@ const users = [
   "TINY_CAVE"
 ];
 
-export const userMap = new Map(users.map((user, i) => {
+export const loungeMap = new Map(lounges.map((lounge, i) => {
   let loungeNumber = i + 1
-  return [`lounge${loungeNumber}`, user]
+  return [`lounge${loungeNumber}`, lounge]
 }));
 
 export const stripePayment = {

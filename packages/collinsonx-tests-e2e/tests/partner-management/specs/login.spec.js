@@ -5,7 +5,7 @@ import BookingOverviewPage from '../pages/BookingOverviewPage';
 import SignUp from '../utils/SignUp';
 import { v4 as uuidv4 } from 'uuid';
 import Helper from '../../helpers/Helper';
-import { userMap } from '../utils/config';
+import { loungeMap } from '../utils/config';
 
 test.use({ storageState: { cookies: [], origins: [] } });
 
@@ -13,9 +13,9 @@ test('login as a current partner', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const bookingOverviewPage = new BookingOverviewPage(page);
 
-    const user = userMap.get("lounge1");
-    const email = process.env[user + "_USERNAME_" + process.env.ENV];
-    const password = process.env[user + "_PASSWORD_" + process.env.ENV];
+    const lounge = loungeMap.get("lounge1");
+    const email = process.env[lounge + "_USERNAME_" + process.env.ENV];
+    const password = process.env[lounge + "_PASSWORD_" + process.env.ENV];
 
     await loginPage.login(email, password);
 
@@ -76,9 +76,9 @@ test.skip('receive error notification of pre-existing registration and get taken
     const signUp = new SignUp();
     const signUpPage = new SignUpPage(page);
 
-    const user = userMap.get("lounge2");
-    const email = process.env[user + "_USERNAME_" + process.env.ENV];
-    const password = process.env[user + "_PASSWORD_" + process.env.ENV];
+    const lounge = loungeMap.get("lounge2");
+    const email = process.env[lounge + "_USERNAME_" + process.env.ENV];
+    const password = process.env[lounge + "_PASSWORD_" + process.env.ENV];
 
     signUp.receiveRegistrationEmail(email);
     // TODO: refactor 'wait' for ensuring the email has been sent before proceeding

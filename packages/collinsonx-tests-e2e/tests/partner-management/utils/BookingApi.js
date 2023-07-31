@@ -11,28 +11,28 @@ class BookingApi {
     this.page = page;
   };
 
-  async addDeclinedBooking(user) {
-    const { bookingId, bookingRef, consumerId } = await this.addPendingRequest(user);
+  async addDeclinedBooking(lounge) {
+    const { bookingId, bookingRef, consumerId } = await this.addPendingRequest(lounge);
 
     await this.declineBooking(bookingId);
 
     return { bookingId, bookingRef, consumerId };
   };
 
-  async addConfirmedBooking(user) {
-    const { bookingId, bookingRef, consumerId } = await this.addPendingRequest(user);
+  async addConfirmedBooking(lounge) {
+    const { bookingId, bookingRef, consumerId } = await this.addPendingRequest(lounge);
 
     await this.confirmBooking(bookingId);
 
     return { bookingId, bookingRef, consumerId };
   };
 
-  async addPendingRequest(user) {
+  async addPendingRequest(lounge) {
     const consumerId = await this.findOrCreateConsumer();
-    const booking = await this.createBooking(user, consumerId);
+    const booking = await this.createBooking(lounge, consumerId);
     const bookingId = booking.id;
     const bookingRef = booking.reference;
-    const response = await this.stripeBookingPayment(user, consumerId, bookingId);
+    const response = await this.stripeBookingPayment(lounge, consumerId, bookingId);
 
     return { bookingId, bookingRef, consumerId };
   };
@@ -75,7 +75,7 @@ class BookingApi {
     return consumerId;
   };
 
-  async createBooking(user, consumerId) {
+  async createBooking(lounge, consumerId) {
     const mutation = `
       mutation CreateBooking($bookingInput: BookingInput) {
         createBooking(bookingInput: $bookingInput) {
@@ -112,7 +112,7 @@ class BookingApi {
     const variables = {
       "bookingInput": {
         "experience": {
-          "id": process.env[user + "_EXPERIENCE_ID"]
+          "id": process.env[lounge + "_EXPERIENCE_ID"]
         },
         "bookedFrom": dateTwoDaysFromNow,
         "bookedTo": dateTwoDaysTwoHoursFromNow,
@@ -143,7 +143,7 @@ class BookingApi {
     return { id: bookingId, reference };
   };
 
-  async stripeBookingPayment(user, consumerId, bookingId) {
+  async stripeBookingPayment(lounge, consumerId, bookingId) {
     const stripe = new Stripe(process.env.STRIPE_API_KEY);
 
     const customer = await stripe.customers.create({
@@ -158,7 +158,7 @@ class BookingApi {
     });
 
     const stripePrices = await stripe.prices.search({
-      query: `metadata["internalProductId"]:"${process.env[user + "_EXPERIENCE_ID"]}"`
+      query: `metadata["internalProductId"]:"${process.env[lounge + "_EXPERIENCE_ID"]}"`
     });
 
     const priceId = stripePrices.data[0]?.id || '';
@@ -225,8 +225,8 @@ class BookingApi {
 
   };
 
-  async getBookingCount(user, ...statuses) {
-    const statusBookings = await this.getBookings(user, ...statuses);
+  async getBookingCount(lounge, ...statuses) {
+    const statusBookings = await this.getBookings(lounge, ...statuses);
 
     const statusBookingsCount = statusBookings.length;
 
@@ -316,7 +316,7 @@ class BookingApi {
     await axios.post(this.apiUrl, request, { headers });
   }
 
-  async getBookings(user, ...statuses) {
+  async getBookings(lounge, ...statuses) {
     const query = `
       query GetBookings($experienceId: ID!) {
         getBookings(experienceID: $experienceId) {
@@ -328,7 +328,7 @@ class BookingApi {
     `;
 
     const variables = {
-      "experienceId": process.env[user + "_EXPERIENCE_ID"]
+      "experienceId": process.env[lounge + "_EXPERIENCE_ID"]
     };
 
     const request = {
