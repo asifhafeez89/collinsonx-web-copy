@@ -27,6 +27,9 @@ module.exports = defineConfig({
     // Record tests
     video: 'retain-on-failure'
   },
+  expect: {
+    timeout: 10000
+  },
   projects: [
     { name: 'setup', testMatch: /auth.setup\.js/ },
     {

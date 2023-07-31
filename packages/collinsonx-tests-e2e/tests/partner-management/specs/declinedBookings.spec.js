@@ -2,22 +2,23 @@ const { test, expect } = require('@playwright/test');
 import BookingApi from '../utils/BookingApi';
 import DeclinedBookingsPage from '../pages/DeclinedBookingsPage';
 import BookingOverviewPage from '../pages/BookingOverviewPage';
+import { loungeMap } from '../utils/config';
 
 test.describe('declined bookings page', () => {
-    const user = "BIG_CAVE";
-    test.use({ storageState: `playwright/.auth/${user.toLowerCase()}User.json` })
+    const lounge = loungeMap.get("lounge5");
+    test.use({ storageState: `playwright/.auth/${lounge.toLowerCase()}User.json` })
     test('navigate to declined bookings page and validate declined bookings are for the correct lounge', async ({ page }) => {
         const bookingApi = new BookingApi(page);
         const bookingOverviewPage = new BookingOverviewPage(page);
         const declinedBookingsPage = new DeclinedBookingsPage(page);
 
-        await bookingApi.addDeclinedBooking(user);
+        await bookingApi.addDeclinedBooking(lounge);
 
         await page.goto('/', { waitUntil: "domcontentloaded" });
 
         await bookingOverviewPage.viewAllDeclined();
 
-        const statusBookings = await bookingApi.getBookings(user, "DECLINED");
+        const statusBookings = await bookingApi.getBookings(lounge, "DECLINED");
 
         await expect(declinedBookingsPage.title()).toBeVisible();
 

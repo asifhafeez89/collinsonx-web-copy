@@ -1,22 +1,23 @@
 import { test, expect } from '../../../baseFixtures';
 import BookingApi from '../utils/BookingApi';
 import PendingRequestsPage from '../pages/PendingRequestsPage';
+import { loungeMap } from '../utils/config';
 
 test.describe('pending requests page', () => {
     test.describe('resolving pending requests', () => {
         test.describe('decline pending request', () => {
-            const user = "BIRMINGHAM_LOUNGE";
-            test.use({ storageState: `playwright/.auth/${user.toLowerCase()}User.json` })
+            const lounge = loungeMap.get("lounge6");
+            test.use({ storageState: `playwright/.auth/${lounge.toLowerCase()}User.json` })
             test('pending request should be removed from the UI and its status updated to "declined" in the backend', async ({ page }) => {
                 const bookingApi = new BookingApi(page);
                 const pendingRequestsPage = new PendingRequestsPage(page);
 
-                const booking = await bookingApi.addPendingRequest(user);
+                const booking = await bookingApi.addPendingRequest(lounge);
                 const bookingRef = booking.bookingRef;
                 const bookingId = booking.bookingId;
 
-                const initialPendingCount = await bookingApi.getBookingCount(user, "PENDING");
-                const initialDeclinedCount = await bookingApi.getBookingCount(user, "DECLINED");
+                const initialPendingCount = await bookingApi.getBookingCount(lounge, "PENDING");
+                const initialDeclinedCount = await bookingApi.getBookingCount(lounge, "DECLINED");
 
                 await page.goto('/bookings/pending', { waitUntil: "domcontentloaded" });
 
@@ -24,8 +25,8 @@ test.describe('pending requests page', () => {
 
                 await pendingRequestsPage.waitForPendingRequestToBeRemoved(bookingRef);
 
-                const finalPendingCount = await bookingApi.getBookingCount(user, "PENDING");
-                const finalDeclinedCount = await bookingApi.getBookingCount(user, "DECLINED");
+                const finalPendingCount = await bookingApi.getBookingCount(lounge, "PENDING");
+                const finalDeclinedCount = await bookingApi.getBookingCount(lounge, "DECLINED");
 
                 const bookingStatus = (await bookingApi.getBookingById(bookingId)).status;
 
@@ -35,18 +36,18 @@ test.describe('pending requests page', () => {
             });
         });
         test.describe('confirm pending request', () => {
-            const user = "GATWICK_LOUNGE";
-            test.use({ storageState: `playwright/.auth/${user.toLowerCase()}User.json` })
+            const lounge = loungeMap.get("lounge7");
+            test.use({ storageState: `playwright/.auth/${lounge.toLowerCase()}User.json` })
             test('pending request should be removed from the UI and its status updated to "confirmed" in the backend', async ({ page }) => {
                 const bookingApi = new BookingApi(page);
                 const pendingRequestsPage = new PendingRequestsPage(page);
 
-                const booking = await bookingApi.addPendingRequest(user);
+                const booking = await bookingApi.addPendingRequest(lounge);
                 const bookingRef = booking.bookingRef;
                 const bookingId = booking.bookingId;
 
-                const initialPendingCount = await bookingApi.getBookingCount(user, "PENDING");
-                const initialConfirmedCount = await bookingApi.getBookingCount(user, "CONFIRMED");
+                const initialPendingCount = await bookingApi.getBookingCount(lounge, "PENDING");
+                const initialConfirmedCount = await bookingApi.getBookingCount(lounge, "CONFIRMED");
 
                 await page.goto('/bookings/pending', { waitUntil: "domcontentloaded" });
 
@@ -54,8 +55,8 @@ test.describe('pending requests page', () => {
 
                 await pendingRequestsPage.waitForPendingRequestToBeRemoved(bookingRef);
 
-                const finalPendingCount = await bookingApi.getBookingCount(user, "PENDING");
-                const finalConfirmedCount = await bookingApi.getBookingCount(user, "CONFIRMED");
+                const finalPendingCount = await bookingApi.getBookingCount(lounge, "PENDING");
+                const finalConfirmedCount = await bookingApi.getBookingCount(lounge, "CONFIRMED");
 
                 const bookingStatus = (await bookingApi.getBookingById(bookingId)).status;
 
@@ -67,17 +68,17 @@ test.describe('pending requests page', () => {
     });
 
     test.describe('compare UI data to API data', () => {
-        const user = "HEATHROW_TERMINAL_3";
-        test.use({ storageState: `playwright/.auth/${user.toLowerCase()}User.json` })
+        const lounge = loungeMap.get("lounge8");
+        test.use({ storageState: `playwright/.auth/${lounge.toLowerCase()}User.json` })
         test('validate pending requests are for the correct lounge', async ({ page }) => {
             const bookingApi = new BookingApi(page);
             const pendingRequestsPage = new PendingRequestsPage(page);
 
-            await bookingApi.addPendingRequest(user);
+            await bookingApi.addPendingRequest(lounge);
 
             await page.goto('/bookings/pending', { waitUntil: "domcontentloaded" });
 
-            const statusBookings = await bookingApi.getBookings(user, "PENDING");
+            const statusBookings = await bookingApi.getBookings(lounge, "PENDING");
 
             expect(pendingRequestsPage.title()).toBeVisible();
 

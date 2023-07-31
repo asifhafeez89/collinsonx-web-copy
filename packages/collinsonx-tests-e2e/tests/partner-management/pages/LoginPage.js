@@ -25,14 +25,10 @@ class LoginPage {
   };
 
   clickLogin() {
-    // uncomment and delete replacement once deployed!
-    // return this.page.getByTestId('login').click();
     return this.page.getByRole('button', { name: 'Login' }).click();
   };
 
   goToURL() {
-    // currently using deployed environment due to cors issues locally
-    // return this.page.goto('http://localhost:3010');
     return this.page.goto('/');
   };
 

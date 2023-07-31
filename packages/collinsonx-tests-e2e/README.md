@@ -87,12 +87,20 @@ This section will discuss the set-up, and usage of 'auth' (user.json files) for 
 'auth.setup.js' is classed as a 'test' and runs before all other tests in order to create user.json files. These files store auth cookies for the tests to use and automatically be logged in. This uses API calls and so gives us separation between 'login tests' and all other tests (if the UI login functionality is not working then we still have the ability to test other aspects of the app).
 
 ```js
+import { loungeMap } from '../utils/config';
+
 setup('authenticate', async ({ request }) => {
-  const users = ["HEATHROW"];
-  ...
-}
+  for (const lounge of loungeMap.values()) {
+    ...
+  };
+});
 ```
-- users (partners) can be added by adding to the 'users array shown above (uppercasing)
+- users (partners) can be added by adding a lounge to the lounges array in ../utils/config; this updates the loungeMap object which is used per test for authentication:
+```js
+const lounge = loungeMap.get("lounge1");
+test.use({ storageState: `playwright/.auth/${lounge.toLowerCase()}User.json` })
+```
+- simply refer to a lounge as "lounge\<number\>" (if lounges are uopdated in the future then they only need to be updated in the config - DRY)
 - the 'secrets' for each user are placed in the env.tests file
 - 'setup' (shown above) runs on a loop over the array and creates user.json files using the before-mentioned secrets
 - once the json (cookies) have been used by a test, they become invalidated. Hence, usage of the same user may not work. It's best to create a brand new partner for the test to use (separation between tests and their assertions)
@@ -145,14 +153,15 @@ projects: [
 test.describe('booking overview dashboard', () => {
     test.describe('pending requests', () => {
         test.describe('add pending request using the booking API', () => {
-            test.use({ storageState: 'playwright/.auth/heathrowUser.json' })
-
+            const lounge = loungeMap.get("lounge1");
+            test.use({ storageState: `playwright/.auth/${lounge.toLowerCase()}User.json` })
             test('should increase the booking count by 1', async ({ page }) => {
                 ...
             });
         });
         test.describe('remove pending request using the booking API', () => {
-            test.use({ storageState: 'playwright/.auth/gatwickUser.json' })
+            const lounge = loungeMap.get("lounge2");
+            test.use({ storageState: `playwright/.auth/${lounge.toLowerCase()}User.json` })     
             test('should decrease the booking count by 1', async ({ page }) => {
                 ...
             });
@@ -166,7 +175,7 @@ test.describe('booking overview dashboard', () => {
 - as shown above, you may need to create an additional decribe block within the conventional describe blocks for the intended outcome
 
 ## Creating partners for tests
-Each test uses a different user (partner); this creates separation between tests as no assertion will be affected by another test (especially when creating/deleting pending requests etc.).
+Each test uses a different lounge and user (partner); this creates separation between tests as no assertion will be affected by another test (especially when creating/deleting pending requests etc.).
 
 Pre-requisites:
 - Stripe access
@@ -236,7 +245,8 @@ x-user-type: SUPER_USER
 ```
 1) Make the above request to either https://gateway-api.uat.cergea.com/graphql or https://gateway-api.test.cergea.com/graphql
 2) Open Mailinator. Access email and click on the link provided. Enter the email address of the partner, and create a password (must be the same as specified in the env.tests file)
-3) DONE!...at last
+3) update lounges array in config with new lounge name (e.g. add "HEATHROW")
+4) DONE!...at last
 
 Potential Issues - and solutions:
 - GraphQL responds with a null object. Solution - inspect webpage, navigate to the 'Application' tab, then delete the sAccessToken cookie. Retry the mutation

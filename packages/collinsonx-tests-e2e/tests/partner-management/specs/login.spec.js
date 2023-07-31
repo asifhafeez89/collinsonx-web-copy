@@ -5,6 +5,7 @@ import BookingOverviewPage from '../pages/BookingOverviewPage';
 import SignUp from '../utils/SignUp';
 import { v4 as uuidv4 } from 'uuid';
 import Helper from '../../helpers/Helper';
+import { loungeMap } from '../utils/config';
 
 test.use({ storageState: { cookies: [], origins: [] } });
 
@@ -12,9 +13,9 @@ test('login as a current partner', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const bookingOverviewPage = new BookingOverviewPage(page);
 
-    // password will be changed and added to secret variables at a later date
-    const email = process.env["GATWICK_USERNAME_" + process.env.ENV];
-    const password = process.env["GATWICK_PASSWORD_" + process.env.ENV];
+    const lounge = loungeMap.get("lounge1");
+    const email = process.env[lounge + "_USERNAME_" + process.env.ENV];
+    const password = process.env[lounge + "_PASSWORD_" + process.env.ENV];
 
     await loginPage.login(email, password);
 
@@ -25,7 +26,7 @@ test('login as a current partner', async ({ page }) => {
     const walkupQRcodeTitle = bookingOverviewPage.getWalkupQRcodeTitle();
     const loungeTitle = bookingOverviewPage.getLoungeTitle();
 
-    await expect(title).toBeVisible({ timeout: 10000 });
+    await expect(title).toBeVisible();
     await expect(loungeTitle).toBeVisible();
     await expect(pendingRequestsTitle).toBeVisible();
     await expect(cancelledBookingsTitle).toBeVisible();
@@ -75,8 +76,9 @@ test.skip('receive error notification of pre-existing registration and get taken
     const signUp = new SignUp();
     const signUpPage = new SignUpPage(page);
 
-    const email = process.env["GATWICK_USERNAME_" + process.env.ENV];
-    const password = process.env["GATWICK_PASSWORD_" + process.env.ENV];
+    const lounge = loungeMap.get("lounge2");
+    const email = process.env[lounge + "_USERNAME_" + process.env.ENV];
+    const password = process.env[lounge + "_PASSWORD_" + process.env.ENV];
 
     signUp.receiveRegistrationEmail(email);
     // TODO: refactor 'wait' for ensuring the email has been sent before proceeding

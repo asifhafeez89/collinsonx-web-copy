@@ -1,14 +1,13 @@
 import { test as setup } from '../../../baseFixtures';
 import dotenv from 'dotenv';
 dotenv.config({ path: `.env.tests` });
+import { loungeMap } from '../utils/config';
 
 
 setup('authenticate', async ({ request }) => {
-  const users = ["HEATHROW", "GATWICK", "BIRMINGHAM", "BIRMINGHAM_LOUNGE", "HEATHROW_TERMINAL_3", "HEATHROW_LOUNGE", "GATWICK_LOUNGE", "BIG_CAVE"];
-
-  for (const user of users) {
-    const password = process.env[user + "_PASSWORD_" + process.env.ENV];
-    const username = process.env[user + "_USERNAME_" + process.env.ENV];
+  for (const lounge of loungeMap.values()) {
+    const password = process.env[lounge + "_PASSWORD_" + process.env.ENV];
+    const username = process.env[lounge + "_USERNAME_" + process.env.ENV];
 
     const response = await request.post(`https://authz.${process.env.ENV}.cergea.com/supertokens/signin`, {
       data: {
@@ -20,7 +19,7 @@ setup('authenticate', async ({ request }) => {
       headers: { "St-Auth-Mode": "cookie" } // required to return 'cookies' in the 'set-cookies' header
     });
 
-    const authFile = `playwright/.auth/${user.toLowerCase()}User.json`;
+    const authFile = `playwright/.auth/${lounge.toLowerCase()}User.json`;
 
     await request.storageState({ path: authFile });
   };

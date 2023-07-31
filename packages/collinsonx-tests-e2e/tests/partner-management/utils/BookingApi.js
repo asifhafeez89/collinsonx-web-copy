@@ -3,35 +3,36 @@ import dotenv from 'dotenv';
 dotenv.config({ path: `.env.tests` });
 require('dotenv').config();
 import Stripe from 'stripe';
+import { apiURL, stripePayment } from '../utils/config';
 
 class BookingApi {
   constructor(page) {
-    this.apiUrl = `https://gateway-api.${process.env.ENV}.cergea.com/graphql`
+    this.apiUrl = apiURL
     this.page = page;
   };
 
-  async addDeclinedBooking(user) {
-    const { bookingId, bookingRef, consumerId } = await this.addPendingRequest(user);
+  async addDeclinedBooking(lounge) {
+    const { bookingId, bookingRef, consumerId } = await this.addPendingRequest(lounge);
 
     await this.declineBooking(bookingId);
 
     return { bookingId, bookingRef, consumerId };
   };
 
-  async addConfirmedBooking(user) {
-    const { bookingId, bookingRef, consumerId } = await this.addPendingRequest(user);
+  async addConfirmedBooking(lounge) {
+    const { bookingId, bookingRef, consumerId } = await this.addPendingRequest(lounge);
 
     await this.confirmBooking(bookingId);
 
     return { bookingId, bookingRef, consumerId };
   };
 
-  async addPendingRequest(user) {
+  async addPendingRequest(lounge) {
     const consumerId = await this.findOrCreateConsumer();
-    const booking = await this.createBooking(user, consumerId);
+    const booking = await this.createBooking(lounge, consumerId);
     const bookingId = booking.id;
     const bookingRef = booking.reference;
-    const response = await this.stripeBookingPayment(user, consumerId, bookingId);
+    const response = await this.stripeBookingPayment(lounge, consumerId, bookingId);
 
     return { bookingId, bookingRef, consumerId };
   };
@@ -54,7 +55,7 @@ class BookingApi {
 
     const variables = {
       "consumerInput": {
-        "emailAddress": process.env["AUTOMATION_CONSUMER_USERNAME_" + process.env.ENV],
+        "emailAddress": process.env["SIGNUP_EMAIL_" + process.env.ENV],
         "firstName": "Automation",
         "lastName": "Consumer",
         "marketingConsent": false,
@@ -74,7 +75,7 @@ class BookingApi {
     return consumerId;
   };
 
-  async createBooking(user, consumerId) {
+  async createBooking(lounge, consumerId) {
     const mutation = `
       mutation CreateBooking($bookingInput: BookingInput) {
         createBooking(bookingInput: $bookingInput) {
@@ -111,7 +112,7 @@ class BookingApi {
     const variables = {
       "bookingInput": {
         "experience": {
-          "id": process.env[user + "_EXPERIENCE_ID"]
+          "id": process.env[lounge + "_EXPERIENCE_ID"]
         },
         "bookedFrom": dateTwoDaysFromNow,
         "bookedTo": dateTwoDaysTwoHoursFromNow,
@@ -142,7 +143,7 @@ class BookingApi {
     return { id: bookingId, reference };
   };
 
-  async stripeBookingPayment(user, consumerId, bookingId) {
+  async stripeBookingPayment(lounge, consumerId, bookingId) {
     const stripe = new Stripe(process.env.STRIPE_API_KEY);
 
     const customer = await stripe.customers.create({
@@ -157,7 +158,7 @@ class BookingApi {
     });
 
     const stripePrices = await stripe.prices.search({
-      query: `metadata["internalProductId"]:"${process.env[user + "_EXPERIENCE_ID"]}"`
+      query: `metadata["internalProductId"]:"${process.env[lounge + "_EXPERIENCE_ID"]}"`
     });
 
     const priceId = stripePrices.data[0]?.id || '';
@@ -188,8 +189,8 @@ class BookingApi {
         enabled: true
       },
       mode: 'payment',
-      success_url: "http://localhost:3000/BookingConfirmed?paymentSuccess=true",
-      cancel_url: "http://localhost:3000/BookLounge?cancelPayment=true",
+      success_url: stripePayment.successURL,
+      cancel_url: stripePayment.cancelledURL,
       automatic_tax: { enabled: true }
     });
 
@@ -213,7 +214,7 @@ class BookingApi {
 
 
     try {
-      await this.page.waitForURL("http://localhost:3000/BookingConfirmed?paymentSuccess=true");
+      await this.page.waitForURL(stripePayment.successURL);
     } catch (error) {
       if (error.message.includes('ERR_CONNECTION_REFUSED')) {
         console.log('ignoring ERR_CONNECTION_REFUSED');
@@ -224,8 +225,8 @@ class BookingApi {
 
   };
 
-  async getBookingCount(user, ...statuses) {
-    const statusBookings = await this.getBookings(user, ...statuses);
+  async getBookingCount(lounge, ...statuses) {
+    const statusBookings = await this.getBookings(lounge, ...statuses);
 
     const statusBookingsCount = statusBookings.length;
 
@@ -315,7 +316,7 @@ class BookingApi {
     await axios.post(this.apiUrl, request, { headers });
   }
 
-  async getBookings(user, ...statuses) {
+  async getBookings(lounge, ...statuses) {
     const query = `
       query GetBookings($experienceId: ID!) {
         getBookings(experienceID: $experienceId) {
@@ -327,7 +328,7 @@ class BookingApi {
     `;
 
     const variables = {
-      "experienceId": process.env[user + "_EXPERIENCE_ID"]
+      "experienceId": process.env[lounge + "_EXPERIENCE_ID"]
     };
 
     const request = {
