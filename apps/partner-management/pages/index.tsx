@@ -21,7 +21,7 @@ import { Booking, BookingStatus, Experience } from '@collinsonx/utils';
 import { getBookingsByType, setItem } from '@collinsonx/utils/lib';
 import { useEffect, useMemo, useState } from 'react';
 import { isErrorValid } from 'lib';
-import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
+import dayjs from 'dayjs';
 import getLoungeTitle from 'lib/getLoungeTitle';
 import experiences from '../data/experiences.json';
 import {
@@ -83,8 +83,8 @@ export default function Overview() {
       ];
       return allConfirmed.filter(
         (item) =>
-          dayjsTz(item.bookedFrom).format('YYYY-MM-DD') ==
-          dayjsTz(new Date()).format('YYYY-MM-DD')
+          dayjs(item.bookedFrom).format('YYYY-MM-DD') ==
+          dayjs(new Date()).format('YYYY-MM-DD')
       );
     } else {
       return [];
@@ -225,7 +225,7 @@ export default function Overview() {
                             href={{
                               pathname: '/bookings/confirmed',
                               query: {
-                                date: dayjsTz(new Date()).format('YYYY-MM-DD'),
+                                date: dayjs(new Date()).format('YYYY-MM-DD'),
                               },
                             }}
                             passHref
