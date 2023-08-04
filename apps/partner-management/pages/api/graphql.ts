@@ -20,7 +20,7 @@ const handler = (req: NextApiRequest, res: ServerResponse) => {
       req,
       res,
       {
-        target: 'https://gateway-api.uat.cergea.com/graphql',
+        target: process.env.PRODUCTION_API_URL,
         changeOrigin: true,
       },
       (err) => {
