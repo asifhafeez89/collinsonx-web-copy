@@ -1,6 +1,6 @@
 import { Booking } from '@collinsonx/utils';
 import { ApolloError } from '@collinsonx/utils/apollo';
-import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
+import dayjs from 'dayjs';
 
 export type Variant = 'pending' | 'confirmed' | 'declined' | 'qrcodewalkup';
 
@@ -37,8 +37,8 @@ export const expandBooking = (data?: { getBookings: Booking[] }) => {
       getBookings: (data?.getBookings ?? []).map((row) => ({
         ...row,
         _id: row.reference || row.id,
-        arrivalDate: dayjsTz(row.bookedFrom).format('YYYY-MM-DD'),
-        arrivalTime: dayjsTz(row.bookedFrom).format('HH:mm'),
+        arrivalDate: dayjs(row.bookedFrom).format('YYYY-MM-DD'),
+        arrivalTime: dayjs(row.bookedFrom).format('HH:mm'),
       })),
     };
   }

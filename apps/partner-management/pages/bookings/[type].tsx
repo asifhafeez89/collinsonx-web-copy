@@ -21,7 +21,6 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import Status from '@components/Status';
-import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
 
 import {
   BackArrow,
@@ -136,7 +135,7 @@ export default function Bookings({ type }: BookingsProps) {
     } else if (data?.getBookings) {
       result = {
         getBookings: data.getBookings.filter((item) => {
-          const bookedFrom = dayjsTz(item.bookedFrom).format('YYYY-MM-DD');
+          const bookedFrom = dayjs(item.bookedFrom).format('YYYY-MM-DD');
 
           const datetime = date.toString().split(' ');
 

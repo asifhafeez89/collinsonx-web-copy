@@ -2,7 +2,7 @@ import { Flex, Stack } from '@collinsonx/design-system/core';
 import { Calendar, Clock } from '@collinsonx/design-system/assets/icons';
 import DetailsSection from './DetailsSection';
 import DetailsKeyValue from './DetailsKeyValue';
-import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
+import dayjs from 'dayjs';
 import { Booking } from '@collinsonx/utils';
 import { useMemo } from 'react';
 
@@ -14,7 +14,7 @@ export interface DetailsProps {
 const Details = ({ children, booking, loading = false }: DetailsProps) => {
   const flightTime = useMemo(() => {
     try {
-      const result = dayjsTz(booking?.metadata?.flightTime).format('HH:mm');
+      const result = dayjs(booking?.metadata?.flightTime).format('HH:mm');
       return result;
     } catch (e) {
       return booking?.metadata?.flightTime ?? '-';
@@ -47,7 +47,7 @@ const Details = ({ children, booking, loading = false }: DetailsProps) => {
           {booking?.bookedFrom ? (
             <Flex align="center" gap={8}>
               <Calendar width={16} height={16} />
-              {dayjsTz(booking?.bookedFrom).format('DD/MM/YYYY')}
+              {dayjs(booking?.bookedFrom).format('DD/MM/YYYY')}
             </Flex>
           ) : (
             '-'
@@ -57,7 +57,7 @@ const Details = ({ children, booking, loading = false }: DetailsProps) => {
           {booking?.bookedFrom ? (
             <Flex align="center" gap={8}>
               <Clock width={16} height={16} />
-              {dayjsTz(booking?.bookedFrom).format('HH:mm')}
+              {dayjs(booking?.bookedFrom).format('HH:mm')}
             </Flex>
           ) : (
             '-'
