@@ -1,12 +1,7 @@
 import type { AppProps } from 'next/app';
 import { NextPage } from 'next';
 import { useMediaPredicate } from 'react-media-hook';
-import {
-  ComponentType,
-  ReactElement,
-  useState,
-  useEffect,
-} from 'react';
+import { ComponentType, ReactElement, useState, useEffect } from 'react';
 import {
   ActionIcon,
   ColorScheme,
@@ -15,6 +10,7 @@ import {
   MediaQuery,
   Grid,
 } from '@collinsonx/design-system/core';
+import { useApollo, ApolloProvider } from '@collinsonx/utils/apollo';
 import Head from 'next/head';
 import { Analytics } from '@vercel/analytics/react';
 import theme from '../theme';
@@ -35,17 +31,19 @@ export default function MyApp({ Component, pageProps }: Props) {
   const [envLabel, setEnvLabel] = useState<String>('');
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
     key: 'mantine-color-scheme',
-    defaultValue: useMediaPredicate('(prefers-color-scheme: dark)') ? 'dark' : 'light',
+    defaultValue: useMediaPredicate('(prefers-color-scheme: dark)')
+      ? 'dark'
+      : 'light',
     getInitialValueInEffect: true,
   });
+
+  const apolloClient = useApollo(pageProps);
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
   const dark = colorScheme === 'dark';
 
   useEffect(() => {
-    if (
-      window.location.href.includes('https://booking.uat.lifestyle-x.io/')
-    ) {
+    if (window.location.href.includes('https://booking.uat.lifestyle-x.io/')) {
       setEnvLabel('uat');
     }
 
@@ -59,7 +57,7 @@ export default function MyApp({ Component, pageProps }: Props) {
   }, []);
 
   return (
-    <>
+    <ApolloProvider client={apolloClient}>
       <Head>
         <title>Booking</title>
         <meta
@@ -68,10 +66,23 @@ export default function MyApp({ Component, pageProps }: Props) {
         />
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </Head>
-      <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-        <MantineProvider theme={{colorScheme,...theme}} withGlobalStyles withNormalizeCSS>
+      <ColorSchemeProvider
+        colorScheme={colorScheme}
+        toggleColorScheme={toggleColorScheme}
+      >
+        <MantineProvider
+          theme={{ colorScheme, ...theme }}
+          withGlobalStyles
+          withNormalizeCSS
+        >
           {envLabel !== '' && (
-            <div style={{ position: 'absolute', background: 'yellow', color: 'black' }}>
+            <div
+              style={{
+                position: 'absolute',
+                background: 'yellow',
+                color: 'black',
+              }}
+            >
               {envLabel}
             </div>
           )}
@@ -98,9 +109,7 @@ export default function MyApp({ Component, pageProps }: Props) {
               >
                 <Grid grow>
                   <Grid.Col span={11}>
-                    <Link href="/">
-                      Insert Logo here
-                    </Link>
+                    <Link href="/">Insert Logo here</Link>
                   </Grid.Col>
                   <Grid.Col span={1}>
                     <ActionIcon
@@ -109,7 +118,11 @@ export default function MyApp({ Component, pageProps }: Props) {
                       onClick={() => toggleColorScheme()}
                       title="Toggle color scheme"
                     >
-                      {dark ? <IconSun size="1.1rem" /> : <IconMoonStars size="1.1rem" />}
+                      {dark ? (
+                        <IconSun size="1.1rem" />
+                      ) : (
+                        <IconMoonStars size="1.1rem" />
+                      )}
                     </ActionIcon>
                   </Grid.Col>
                 </Grid>
@@ -122,6 +135,6 @@ export default function MyApp({ Component, pageProps }: Props) {
           <Analytics />
         </MantineProvider>
       </ColorSchemeProvider>
-    </>
+    </ApolloProvider>
   );
 }
