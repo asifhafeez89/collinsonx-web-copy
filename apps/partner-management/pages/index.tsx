@@ -15,7 +15,7 @@ import Error from '@components/Error';
 import OverviewSeparator from '@components/OverviewSeparator';
 import Link from 'next/link';
 import { useQuery } from '@collinsonx/utils/apollo';
-import getBookings from '@collinsonx/utils/queries/getBookings';
+import getBookingsOverview from '@collinsonx/utils/queries/getBookingsOverview';
 import { Booking, BookingStatus } from '@collinsonx/utils';
 import { useMemo, useState } from 'react';
 import dayjs from 'dayjs';
@@ -42,7 +42,7 @@ export default function Overview() {
     loading: loadingPending,
     error: errorPending,
     data: dataPending,
-  } = useQuery<{ getBookings: Booking[] }>(getBookings, {
+  } = useQuery<{ getBookings: Booking[] }>(getBookingsOverview, {
     variables: {
       experienceId: experience.id,
       status: Pending,
@@ -62,7 +62,7 @@ export default function Overview() {
     loading: loadingConfirmed,
     error: errorConfirmed,
     data: dataConfirmed,
-  } = useQuery<{ getBookings: Booking[] }>(getBookings, {
+  } = useQuery<{ getBookings: Booking[] }>(getBookingsOverview, {
     variables: {
       experienceId: experience.id,
       status: Confirmed,
@@ -82,7 +82,7 @@ export default function Overview() {
     loading: loadingCheckedIn,
     error: errorCheckedIn,
     data: dataCheckedIn,
-  } = useQuery<{ getBookings: Booking[] }>(getBookings, {
+  } = useQuery<{ getBookings: Booking[] }>(getBookingsOverview, {
     variables: {
       experienceId: experience.id,
       status: CheckedIn,
@@ -102,7 +102,7 @@ export default function Overview() {
     loading: loadingDeclined,
     error: errorDeclined,
     data: dataDeclined,
-  } = useQuery<{ getBookings: Booking[] }>(getBookings, {
+  } = useQuery<{ getBookings: Booking[] }>(getBookingsOverview, {
     variables: {
       experienceId: experience.id,
       status: Declined,
@@ -122,7 +122,7 @@ export default function Overview() {
     loading: loadingCancelled,
     error: errorCancelled,
     data: dataCancelled,
-  } = useQuery<{ getBookings: Booking[] }>(getBookings, {
+  } = useQuery<{ getBookings: Booking[] }>(getBookingsOverview, {
     variables: {
       experienceId: experience.id,
       status: Cancelled,
