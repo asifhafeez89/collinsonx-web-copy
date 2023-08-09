@@ -1,8 +1,8 @@
 import { gql } from '../apollo';
 
 const getBookings = gql`
-  query GetBookings($experienceId: ID!) {
-    getBookings(experienceID: $experienceId) {
+  query GetBookings($status: BookingStatus, $experienceId: ID!) {
+    getBookings(status: $status, experienceID: $experienceId) {
       bookedFrom
       bookedTo
       createdAt
