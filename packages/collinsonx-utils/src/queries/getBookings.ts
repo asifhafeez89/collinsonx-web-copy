@@ -15,34 +15,14 @@ const getBookings = gql`
       createdAt
       updatedAt
       consumer {
-        createdAt
-        crmId
         emailAddress
         firstName
         fullName
         id
-        updatedAt
       }
       experience {
         id
         loungeName
-        images {
-          url
-        }
-        location {
-          airportCode
-          airportName
-          cgTerminal
-          cgTerminalCode
-          city
-          country
-          isoCountryCode
-          lbCountryCode
-          region
-          terminal
-          terminalCode
-          terminalAccessibility
-        }
       }
     }
   }
