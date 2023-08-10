@@ -45,7 +45,7 @@ jobs:
           STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}
         run: |
           export INSTRUMENT_CODE=1
-
+          cd apps/partner-management
           pnpm run build
           pnpm add --global pm2
           pm2 --name dev-server --interpreter bash start pnpm -- dev:uat
