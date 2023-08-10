@@ -3,12 +3,15 @@ import {
   Accordion,
   Grid,
   Text,
+  Button,
+  Group,
+  Box
 } from '@collinsonx/design-system/core';
 import { AvailabilitySlot, FlightInfo } from '../components/FlightInfo';
 import { GetServerSideProps } from 'next';
 import { useState } from 'react';
 import dayjs from 'dayjs';
-
+import { BOOKING_PRICE } from '../config/booking';
 interface MainProps {
   consumerNumber: string | string[];
   tempBearerToken: string | string[];
@@ -50,6 +53,11 @@ const Main = ({ consumerNumber, tempBearerToken, }: MainProps) => {
     setSelectedSlot(selectedSlot);
   }
 
+  const [selectedNumberOfGuests, setSelectedNumberOfGuests] = useState<number | ''>(1);
+  const onSetSelectedNumberOfGuests = (selectedNumberOfGuests: number | '') => {
+    setSelectedNumberOfGuests(selectedNumberOfGuests);
+  }
+  const totalPrice = BOOKING_PRICE * Number(selectedNumberOfGuests);
   return (
     <>
       <Title mb={8} size={32}>
@@ -57,7 +65,7 @@ const Main = ({ consumerNumber, tempBearerToken, }: MainProps) => {
       </Title>
       <p>Consumer Number: {consumerNumber}</p>
       <p>Temporary Bearer Token: {tempBearerToken}</p>
-      <FlightInfo onSuccess={onFlightInfoSuccess} onSetSelectedSlot={onSetSelectedSlot} />
+      <FlightInfo onSuccess={onFlightInfoSuccess} onSetSelectedSlot={onSetSelectedSlot} onSetSelectedNumberOfGuests={onSetSelectedNumberOfGuests} />
       {
         flightData ?
           <Grid style={{ marginTop: '20px' }}>
@@ -116,6 +124,35 @@ const Main = ({ consumerNumber, tempBearerToken, }: MainProps) => {
                   <Text>
                     Selected Slot: {`${dayjs(selectedSlot?.startDate).format('hh:mm')} - ${dayjs(selectedSlot?.endDate).format('hh:mm')}`}
                   </Text>
+                  <Box maw={320} mx='auto' >
+                    <Grid grow>
+                      <Grid.Col span={12}>
+                        <Text style={{ marginTop: '20px', }}>
+                          GBP
+                        </Text>
+                      </Grid.Col>
+                      <Grid.Col span={12}>
+                        <Text style={{ marginTop: '20px', }}>
+                         &pound; {BOOKING_PRICE} / place
+                        </Text>
+                      </Grid.Col>
+                      <Grid.Col span={12}>
+                        <Text style={{ marginTop: '20px', }}>
+                          {selectedNumberOfGuests}  places
+                        </Text>
+                      </Grid.Col>
+                      <Grid.Col span={12}>
+                        <Text style={{ marginTop: '20px', }}>
+                          Total   &pound;  {totalPrice}
+                        </Text>
+                      </Grid.Col>
+                    </Grid>
+                    <Group mt='xl'>
+                      <Button variant='outline' >
+                        Pay for Booking
+                      </Button>
+                    </Group>
+                  </Box>
                 </Grid.Col>
               : <></>
             }

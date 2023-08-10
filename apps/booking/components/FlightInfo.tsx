@@ -36,6 +36,7 @@ interface FlightInfoComponentProps {
   datePickerTestId?: string;
   timePickerTestId?: string;
   onSetSelectedSlot: (selectedSlot: AvailabilitySlot) => void;
+  onSetSelectedNumberOfGuests: (selectedNumberOfGuests: number | '') => void;
 }
 
 export interface AvailabilitySlot {
@@ -52,6 +53,7 @@ export const FlightInfo = ({
   datePickerTestId,
   timePickerTestId,
   onSetSelectedSlot,
+  onSetSelectedNumberOfGuests
 }: FlightInfoComponentProps) => {
   const [flightNumber, setFlightNumber] = useState('');
   const [availableSlots, setAvailableSlots] = useState(Array<AvailabilitySlot>);
@@ -92,6 +94,7 @@ export const FlightInfo = ({
 
   const onSelectSlot = (index: number) => {
     onSetSelectedSlot(availableSlots[index]);
+    onSetSelectedNumberOfGuests(numberOfGuests);
     close();
   };
 
