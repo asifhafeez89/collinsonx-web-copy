@@ -116,8 +116,6 @@ class BookingApi {
         },
         "bookedFrom": dateTwoDaysFromNow,
         "bookedTo": dateTwoDaysTwoHoursFromNow,
-        "orderID": null,
-        "stripePaymentID": null,
         "type": "RESERVATION",
         "metadata": {},
         "guestCount": 1
@@ -141,6 +139,7 @@ class BookingApi {
     const reference = response.data.data.createBooking.reference;
 
     return { id: bookingId, reference };
+
   };
 
   async stripeBookingPayment(lounge, consumerId, bookingId) {
