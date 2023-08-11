@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3011",
+    "dev": "next dev -p 3011 | npx local-ssl-proxy --key partner-local.test.cergea.com-key.pem --cert partner-local.test.cergea.com.pem --source 4011 --target 3011",
     "build": "next build",
     "start": "next start -p 3011",
     "lint": "next lint",
@@ -42,6 +42,7 @@
     "graphql": "^16.6.0",
     "graphql-tag": "^2.12.6",
     "http-proxy": "^1.18.1",
+    "local-ssl-proxy": "^2.0.5",
     "next": "^13.1.0",
     "nextjs-cors": "^2.1.2",
     "react": "^18.2.0",
