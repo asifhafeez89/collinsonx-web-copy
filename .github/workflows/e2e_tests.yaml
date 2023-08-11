@@ -71,6 +71,7 @@ jobs:
           export DD_ENV=ci
           export DD_TAGS="test_type:browser"
 
+          cd -
           echo "${{ secrets.ENV_TESTS_FILE }}" > packages/collinsonx-tests-e2e/.env.tests
           pnpm --filter "@collinsonx/tests-e2e" e2e:local-partner-ci
       
