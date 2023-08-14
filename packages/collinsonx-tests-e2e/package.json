@@ -4,10 +4,9 @@
   "private": true,
   "scripts": {
     "e2e:dev": "playwright test --headed",
-    "e2e:local-partner": "ENV=UAT playwright test --project=partner-local --headed",
-    "e2e:local-partner-ci": "ENV=UAT playwright test --project=partner-local",
     "e2e:start": "playwright test",
     "e2e:report": "playwright show-report",
+    "e2e:ci-partner": "ENV=TEST playwright test --project=partner-chromium-test",
     "e2e:test-partner": "ENV=TEST playwright test --project=partner-chromium-test --headed",
     "e2e:uat-partner": "ENV=UAT playwright test --project=partner-chromium-test --headed"
   },
