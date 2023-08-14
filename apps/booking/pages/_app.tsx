@@ -13,6 +13,7 @@ import { UserProvider } from '@collinsonx/utils/lib/userContext';
 import { useApollo, ApolloProvider } from '@collinsonx/utils/apollo';
 import SessionManager from '@components/SessionManager';
 import { Analytics } from '@vercel/analytics/react';
+import AuthWrapper from '@components/AuthWrapper';
 
 if (typeof window !== 'undefined') {
   // we only want to call this init function on the frontend, so
@@ -48,30 +49,32 @@ export default function MyApp({ Component, pageProps }: Props) {
       <UserProvider>
         <SuperTokensWrapper>
           <ApolloProvider client={apolloClient}>
-            <SessionManager>
-              <MantineProvider
-                theme={{
-                  ...theme,
-                  globalStyles: ({ colors }) => ({
-                    ...theme.globalStyles,
-                    body: {
-                      backgroundColor: colors.splashColor[0],
-                      color: '#FFF',
-                      margin: 0,
-                    },
-                    'html, body, #__next': {
-                      height: '100%',
-                      backgroundColor: '#112132',
-                    },
-                  }),
-                }}
-                withGlobalStyles
-                withNormalizeCSS
-              >
-                {getLayout(<Component {...pageProps} />)}
-                <Analytics />
-              </MantineProvider>
-            </SessionManager>
+            <AuthWrapper>
+              <SessionManager>
+                <MantineProvider
+                  theme={{
+                    ...theme,
+                    globalStyles: ({ colors }) => ({
+                      ...theme.globalStyles,
+                      body: {
+                        backgroundColor: colors.splashColor[0],
+                        color: '#FFF',
+                        margin: 0,
+                      },
+                      'html, body, #__next': {
+                        height: '100%',
+                        backgroundColor: '#112132',
+                      },
+                    }),
+                  }}
+                  withGlobalStyles
+                  withNormalizeCSS
+                >
+                  {getLayout(<Component {...pageProps} />)}
+                  <Analytics />
+                </MantineProvider>
+              </SessionManager>
+            </AuthWrapper>
           </ApolloProvider>
         </SuperTokensWrapper>
       </UserProvider>

@@ -1,0 +1,14 @@
+{
+  "extends": "@collinsonx/config/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@lib": ["lib/index"],
+      "@lib/*": ["lib/*"],
+      "@components": ["components/index"],
+      "@components/*": ["components/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
+}

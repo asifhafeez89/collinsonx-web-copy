@@ -1,0 +1,165 @@
+[
+  {
+    "id": "abc-123",
+    "lounge": {
+      "id": "41d5e8fe-eaa6-4ada-a200-06298c032fb8",
+      "name": "The Club, Pitsburgh PA international",
+      "location": "Pittsburgh PA International",
+      "facilities": [
+        "DISABLE",
+        "TV",
+        "NOSMOKE",
+        "REFRESH",
+        "AIRCON",
+        "SHOWER",
+        "ALCOHOL",
+        "NEWSMAG",
+        "FLTINFO",
+        "DMC",
+        "FAX",
+        "WIFI"
+      ],
+      "openingHours": [
+        "Monday: 04:30 - 20:00\r\nTuesday: 04:30 - 20:00\r\nWednesday: 04:30 - 20:00\r\nThursday: 04:30 - 20:00\r\nFriday: 04:30 - 20:00\r\nSaturday: 04:30 - 19:30\r\nSunday: 04:30 - 20:00\r\n "
+      ],
+      "conditions": "Access is permitted 3 hours prior to scheduled flight departure - Children under 2 years are admitted free - All children must be accompanied by an adult - Alcoholic drinks are only available to passengers 21 years of age or older - Computer workstation and printer available.",
+      "images": [
+        {
+          "altText": "The Club , Pitsburgh PA international",
+          "url": "https://cdn03.collinson.cn/lounge-media/image/PIT4-7872.jpg",
+          "height": 375,
+          "width": 500,
+          "id": "1854d428-cf4f-4c6e-8032-571419bb00ab"
+        },
+        {
+          "altText": "The Club , Pitsburgh PA international",
+          "url": "https://cdn03.collinson.cn/lounge-media/image/PIT4-7873.jpg",
+          "height": 375,
+          "width": 500,
+          "id": "1854d428-cf4f-4c6e-8032-571419bb00ac"
+        },
+        {
+          "altText": "The Club , Pitsburgh PA international",
+          "url": "https://cdn03.collinson.cn/lounge-media/image/PIT4-7874.jpg",
+          "height": 375,
+          "width": 500,
+          "id": "1854d428-cf4f-4c6e-8032-571419bb00aw"
+        },
+        {
+          "altText": "The Club , Pitsburgh PA international",
+          "url": "https://cdn03.collinson.cn/lounge-media/image/PIT4-7875.jpg",
+          "height": 375,
+          "width": 500,
+          "id": "1854d428-cf4f-4c6e-8032-571419bb00ad"
+        },
+        {
+          "altText": "The Club , Pitsburgh PA international",
+          "url": "https://cdn03.collinson.cn/lounge-media/image/PIT4-7876.jpg",
+          "height": 375,
+          "width": 500,
+          "id": "1854d428-cf4f-4c6e-8032-571419bb00ai"
+        },
+        {
+          "altText": "The Club , Pitsburgh PA international",
+          "url": "https://cdn03.collinson.cn/lounge-media/image/PIT4-7877.jpg",
+          "height": 375,
+          "width": 500,
+          "id": "1854d428-cf4f-4c6e-8032-571419bb00ce"
+        }
+      ]
+    },
+    "bookingState": "CONFIRMED",
+    "reservationDate": "2023-02-11 10:30",
+    "additionalRequests": "asdasd"
+  },
+  {
+    "id": "xyz-456",
+    "lounge": {
+      "id": "469642c3-e607-4396-9d7a-4c74f91d176d",
+      "name": "The Club LAS - Terminal 3",
+      "location": "Las Vegas (NV)",
+      "facilities": [
+        "DISABLE",
+        "TV",
+        "INTERNT",
+        "NOSMOKE",
+        "REFRESH",
+        "AIRCON",
+        "SHOWER",
+        "ALCOHOL",
+        "NEWSMAG",
+        "FLTINFO",
+        "TEL",
+        "DMC",
+        "FAX",
+        "WIFI"
+      ],
+      "openingHours": ["06:30 - 22:30 daily\r\n"],
+      "conditions": "Access is permitted 3 hours prior to scheduled flight departure - Children under 2 years are admitted free - All children must be accompanied by an adult - Alcoholic drinks are only available to passengers 21 years of age or older - Computer workstation and printer available.",
+      "images": [
+        {
+          "altText": "The Club at LAS_Harry Field Intl_USA",
+          "url": "https://cdn03.collinson.cn/lounge-media/image/LAS3-13908.jpg",
+          "height": 375,
+          "width": 500,
+          "id": "1854d428-cf4f-4c6e-8032-571419bb00ae"
+        },
+        {
+          "altText": "The Club at LAS_Harry Field Intl_USA",
+          "url": "https://cdn03.collinson.cn/lounge-media/image/LAS3-13909.jpg",
+          "height": 375,
+          "width": 500,
+          "id": "2854d428-cf4f-4c6e-8032-571419bb00ae"
+        }
+      ]
+    },
+    "bookingState": "DECLINED",
+    "reservationDate": "2023-03-19 17:30",
+    "additionalRequests": ""
+  },
+  {
+    "id": "qwe-485",
+    "lounge": {
+      "id": "469642c3-e607-4396-9d7a-4c74f91d176d",
+      "name": "The Club LAS - Terminal 3",
+      "location": "Las Vegas (NV)",
+      "facilities": [
+        "DISABLE",
+        "TV",
+        "INTERNT",
+        "NOSMOKE",
+        "REFRESH",
+        "AIRCON",
+        "SHOWER",
+        "ALCOHOL",
+        "NEWSMAG",
+        "FLTINFO",
+        "TEL",
+        "DMC",
+        "FAX",
+        "WIFI"
+      ],
+      "openingHours": ["06:30 - 22:30 daily\r\n"],
+      "conditions": "Access is permitted 3 hours prior to scheduled flight departure - Children under 2 years are admitted free - All children must be accompanied by an adult - Alcoholic drinks are only available to passengers 21 years of age or older - Computer workstation and printer available.",
+      "images": [
+        {
+          "altText": "The Club at LAS_Harry Field Intl_USA",
+          "url": "https://cdn03.collinson.cn/lounge-media/image/LAS3-13908.jpg",
+          "height": 375,
+          "width": 500,
+          "id": "1854d428-cf4f-4c6e-8032-571419bb00ae"
+        },
+        {
+          "altText": "The Club at LAS_Harry Field Intl_USA",
+          "url": "https://cdn03.collinson.cn/lounge-media/image/LAS3-13909.jpg",
+          "height": 375,
+          "width": 500,
+          "id": "2854d428-cf4f-4c6e-8032-571419bb00ae"
+        }
+      ]
+    },
+    "bookingState": "PENDING",
+    "reservationDate": "2023-03-19 19:00",
+    "additionalRequests": ""
+  }
+]
