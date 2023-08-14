@@ -50,6 +50,7 @@ jobs:
           cd apps/partner-management
           pm2 --name dev-server --interpreter bash start pnpm -- dev:test
 
+
           attempt_counter=0
           max_attempts=5
 
