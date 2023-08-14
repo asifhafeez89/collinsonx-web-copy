@@ -1,121 +1,161 @@
-import { Title, Accordion, Grid, Text } from '@collinsonx/design-system/core';
-import { AvailabilitySlot, FlightInfo } from '../components/FlightInfo';
-import { GetServerSideProps } from 'next';
-import { useState } from 'react';
-import dayjs from 'dayjs';
-import Booking from '@components/Booking';
+import { Title, Stack, Flex } from '@collinsonx/design-system/core';
+import { Button } from '@collinsonx/design-system/core';
+import { getThemeKey } from '../lib/index';
+import { useForm } from '@collinsonx/design-system/form';
+import { useRouter } from 'next/router';
+import { useEffect, useRef, useState } from 'react';
+import LayoutLogin from '@components/LayoutLogin';
+import {
+  createPasswordlessCode,
+  useSessionContext,
+} from '@collinsonx/utils/supertokens';
+import { InputLabel } from '@collinsonx/design-system';
+import validateEmail from '@collinsonx/utils/lib/validateEmail';
+import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 
-interface MainProps {
-  consumerNumber: string | string[];
-  tempBearerToken: string | string[];
-}
-interface DepartureFlightInfo {
-  airport: { iata: string };
-  date: { local: string; utc: string };
-  terminal: string;
-  time: { local: string; utc: string };
-}
+const themeKey = getThemeKey();
 
-interface FlightInfo {
-  departure: DepartureFlightInfo;
-  arrival: DepartureFlightInfo;
+interface FormValues {
+  email: string;
 }
 
-export const getServerSideProps: GetServerSideProps<MainProps> = async ({
-  req,
-}) => {
-  const consumerNumber = req.headers['x-consumernumber'] ?? '';
-  const tempBearerToken = req.headers['authorization'] ?? '';
-  return {
-    props: {
-      consumerNumber,
-      tempBearerToken,
+export default function Home(props: unknown) {
+  const session = useSessionContext();
+
+  const [loading, setLoading] = useState(true);
+
+  const router = useRouter();
+  const [loginError, setLoginError] = useState('');
+
+  const ref = useRef(false);
+
+  const form = useForm({
+    initialValues: {
+      email: '',
     },
-  };
-};
+    validate: {
+      email: (value: string) =>
+        validateEmail(value) ? null : 'Please enter a valid email address.',
+    },
+  });
 
-const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
-  const [flightData, setFlightData] = useState<FlightInfo>();
-  const [selectedSlot, setSelectedSlot] = useState<AvailabilitySlot>();
-  const onFlightInfoSuccess = (flightInfo: FlightInfo) => {
-    setFlightData(flightInfo);
-  };
+  useEffect(() => {
+    if (session && !session.loading) {
+      const { userId } = session;
+      if (userId) {
+        if (!ref.current) {
+          router.push('/booking');
+          ref.current = true;
+        }
+      } else {
+        setLoading(false);
+      }
+    }
+  }, [session, router]);
 
-  const onSetSelectedSlot = (selectedSlot: AvailabilitySlot) => {
-    setSelectedSlot(selectedSlot);
+  const handleClickContinue = async ({ email }: FormValues) => {
+    if (!validateEmail(email.trim())) {
+      setLoginError('Invalid email');
+    } else {
+      try {
+        await createPasswordlessCode({
+          email,
+        });
+        router.push({
+          pathname: '/checkemail',
+          query: { email, redirectUrl: router.query?.redirectUrl },
+        });
+      } catch (err: any) {
+        console.log(err);
+        if (err.isSuperTokensGeneralError === true) {
+          // this may be a custom error message sent from the API by you,
+          // or if the input email / phone number is not valid.
+          window.alert(err.message);
+        } else {
+          window.alert('Oops! Something went wrong.');
+        }
+      }
+    }
   };
 
   return (
     <>
-      <Title mb={8} size={32}>
-        Welcome to Booking
-      </Title>
-      <p>Consumer Number: {consumerNumber}</p>
-      <p>Temporary Bearer Token: {tempBearerToken}</p>
-      <FlightInfo
-        onSuccess={onFlightInfoSuccess}
-        onSetSelectedSlot={onSetSelectedSlot}
-      />
-      {flightData ? (
-        <Grid style={{ marginTop: '20px' }}>
-          <Grid.Col sm="auto" md="auto" lg={3}>
-            <Accordion variant="separated">
-              <Accordion.Item value="customization">
-                <Accordion.Control>
-                  Departing Flight Information
-                </Accordion.Control>
-                <Accordion.Panel>
-                  <p>Departing Airport: {flightData.departure.airport.iata}</p>
-                  <p>
-                    Departing Date (local): {flightData.departure.date.local}
-                  </p>
-                  <p>Departing Date (utc): {flightData.departure.date.utc}</p>
-                  <p>
-                    Departing Time (local): {flightData.departure.time.local}
-                  </p>
-                  <p>Departing Time (utc): {flightData.departure.time.utc}</p>
-                </Accordion.Panel>
-              </Accordion.Item>
-              <Accordion.Item value="flexibility">
-                <Accordion.Control>
-                  Arrival Flight Information
-                </Accordion.Control>
-                <Accordion.Panel>
-                  <p>Arrival Airport: {flightData.arrival.airport.iata}</p>
-                  <p>Arrival Date (local): {flightData.arrival.date.local}</p>
-                  <p>Arrival Date (utc): {flightData.arrival.date.utc}</p>
-                  <p>Arrival Time (local): {flightData.arrival.time.local}</p>
-                  <p>Arrival Time (utc): {flightData.arrival.time.utc}</p>
-                </Accordion.Panel>
-              </Accordion.Item>
-            </Accordion>
-          </Grid.Col>
-          {selectedSlot ? (
-            <Grid.Col sm="auto" md="auto" lg={3}>
-              <Text>
-                Selected Slot:{' '}
-                {`${dayjs(selectedSlot?.startDate).format('hh:mm')} - ${dayjs(
-                  selectedSlot?.endDate
-                ).format('hh:mm')}`}
-              </Text>
-
-              <Booking
-                slotDateFrom={selectedSlot?.startDate}
-                sletDateEnd={selectedSlot?.endDate}
-                guests={3}
-                flightNumber={'ba7'}
-                flightDate={new Date(flightData.departure.date.utc)}
-              />
-            </Grid.Col>
-          ) : (
-            <></>
-          )}
-        </Grid>
+      {loading ? (
+        <Flex justify="center" align="center" h="100%">
+          <LoaderLifestyleX />
+        </Flex>
       ) : (
-        ''
+        <LayoutLogin>
+          <form onSubmit={form.onSubmit(handleClickContinue)}>
+            {themeKey !== 'dinersClub' && (
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                  overflow: 'hidden',
+                  width: '100%',
+                  height: '50%',
+                }}
+              >
+                <div
+                  style={{
+                    backgroundColor: '#182E45',
+                    width: '150vh',
+                    height: '150vh',
+                    position: 'absolute',
+                    bottom: '-100vh',
+                    left: '-75vh',
+                    borderTopRightRadius: '50%',
+                  }}
+                />
+              </div>
+            )}
+
+            <Stack spacing={50}>
+              <Stack spacing={24} sx={{ height: '100%' }}>
+                <Title order={1} size={20} align="center">
+                  Login to your account
+                </Title>
+                <InputLabel
+                  type="email"
+                  autoFocus
+                  placeholder="Your email address"
+                  label="Your email address"
+                  isWhite={true}
+                  styles={{
+                    root: {
+                      display: 'flex',
+                      flexDirection: 'column',
+                    },
+                    description: {
+                      order: 1,
+                      marginTop: '4px',
+                      marginBottom: '0',
+                    },
+                    label: {
+                      order: -2,
+                    },
+                    input: {
+                      order: -1,
+                    },
+                    error: {
+                      order: 2,
+                    },
+                  }}
+                  withAsterisk
+                  {...form.getInputProps('email')}
+                  data-testid="loginEmailAddress"
+                />
+
+                <Button type="submit" data-testid="login">
+                  Login
+                </Button>
+              </Stack>
+            </Stack>
+          </form>
+        </LayoutLogin>
       )}
     </>
   );
-};
-
-export default Main;
+}
