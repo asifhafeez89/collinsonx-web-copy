@@ -4,7 +4,7 @@ import { Be_Vietnam_Pro } from 'next/font/google';
 import { LogoCergea } from '@collinsonx/design-system/assets/logo';
 
 import { Cart, Chat, Home } from '@collinsonx/design-system/assets/icons';
-import useAuth from '@collinsonx/utils/hooks/useAuth';
+import useAuth from '../hooks/useAuth';
 
 const beVietnamPro = Be_Vietnam_Pro({
   style: ['normal'],

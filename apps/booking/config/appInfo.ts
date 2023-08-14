@@ -21,7 +21,7 @@ export const apiAvailabilityInfo = {
 
 export const appInfo: AppInfoUserInput = {
   appName: 'CollinsonX',
-  apiBasePath: '/',
+  apiBasePath: '/supertokens',
   apiDomain,
   websiteDomain: domain,
 };

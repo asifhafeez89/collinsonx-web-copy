@@ -70,16 +70,16 @@ export default function CheckEmail() {
       });
       if (response.status === 'OK') {
         // existing user - move to success page
-        if (data?.getConsumerByEmailAddress !== null) {
-          if (redirectUrl) {
-            router.push(redirectUrl);
-          } else {
-            router.push('/lounge');
-          }
+        // if (data?.getConsumerByEmailAddress !== null) {
+        if (redirectUrl) {
+          router.push(redirectUrl);
         } else {
-          // new user - move to registration
-          router.push({ pathname: '/signup-user', query: { email } });
+          router.push('/booking');
         }
+        // } else {
+        //   // new user - move to registration
+        //   router.push({ pathname: '/signup-user', query: { email } });
+        // }
 
         // TODO add userId in apollo context
       } else if (response.status === 'INCORRECT_USER_INPUT_CODE_ERROR') {

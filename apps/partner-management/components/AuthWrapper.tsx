@@ -35,11 +35,11 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
         removeItem(USER_TYPE);
         removeItem(USER_META);
 
-        // if (!checkIsAllowed(window.location.pathname)) {
-        //   window.location.href = `/auth/login/?redirectUrl=${
-        //     window.location.pathname + window.location.search
-        //   }`;
-        // }
+        if (!checkIsAllowed(window.location.pathname)) {
+          window.location.href = `/auth/login/?redirectUrl=${
+            window.location.pathname + window.location.search
+          }`;
+        }
       }
     }
 
