@@ -2,16 +2,42 @@
   "$schema": "https://turborepo.org/schema.json",
   "pipeline": {
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": [".next/**", "dist/**", "storybook-static/**"]
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        ".next/**",
+        "dist/**",
+        "storybook-static/**"
+      ]
     },
     "e2e:dev": {
       "cache": false
     },
     "e2e:start": {
-      "dependsOn": ["^build"]
+      "dependsOn": [
+        "^build"
+      ]
     },
-    "partner-management#dev": {
+    "partner-management#dev:test": {
+      "dependsOn": [
+        "$PRODUCTION_API_URL",
+        "$NEXT_PUBLIC_VERCEL_URL",
+        "$APP_URL",
+        "$APP_PORT",
+        "$NEXT_PUBLIC_SITE_DOMAIN_URL",
+        "$NEXT_PUBLIC_AUTH_API_URL",
+        "$NEXT_PUBLIC_SESSION_SCOPE",
+        "$NEXT_PUBLIC_DATADOG_SERVICE",
+        "$NEXT_PUBLIC_DATADOG_SITE",
+        "$NEXT_PUBLIC_DATADOG_ENV",
+        "$NEXT_PUBLIC_DATADOG_APP_ID",
+        "$NEXT_PUBLIC_DATADOG_CLIENT_TOKEN",
+        "@collinsonx/utils#build",
+        "@collinsonx/design-system#build"
+      ]
+    },
+    "partner-management#dev:uat": {
       "dependsOn": [
         "$PRODUCTION_API_URL",
         "$NEXT_PUBLIC_VERCEL_URL",
@@ -30,17 +56,25 @@
       ]
     },
     "@collinsox/storybook#dev": {
-      "dependsOn": ["@collinsonx/utils#build"]
+      "dependsOn": [
+        "@collinsonx/utils#build"
+      ]
     },
     "@collinsox/design-system#dev": {
-      "dependsOn": ["@collinsonx/utils#build"]
+      "dependsOn": [
+        "@collinsonx/utils#build"
+      ]
     },
     "test:ci": {
-      "dependsOn": ["^build"],
+      "dependsOn": [
+        "^build"
+      ],
       "outputs": []
     },
     "test": {
-      "dependsOn": ["^build"],
+      "dependsOn": [
+        "^build"
+      ],
       "outputs": []
     },
     "lint": {

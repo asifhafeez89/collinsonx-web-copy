@@ -36,13 +36,7 @@ module.exports = defineConfig({
       name: 'partner-chromium-test',
       testDir: './tests/partner-management',
       // ENV variable is given by the package.json script
-      use: { ...devices['Desktop Chrome'], storageState: 'playwright/.auth/user.json', baseURL: `https://partner.${process.env.ENV}.cergea.com` },
-      dependencies: ['setup'],
-    },
-    {
-      name: 'partner-local',
-      testDir: './tests/partner-management',
-      use: { ...devices['Desktop Chrome'], storageState: 'playwright/.auth/user.json', baseURL: 'https://partner-local.uat.cergea.com:4010', ignoreHTTPSErrors: true },
+      use: { ...devices['Desktop Chrome'], storageState: 'playwright/.auth/user.json', baseURL: `https://partner.${process.env.ENV}.cergea.com`, ignoreHTTPSErrors: true },
       dependencies: ['setup'],
     },
     // {

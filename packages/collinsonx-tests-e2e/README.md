@@ -68,7 +68,7 @@ https://partner-local.test.cergea.com:4010 or http://localhost:3010
 
 ### Run Partner web app e2e tests
 
-10. pnpm --filter "@collinsonx/tests-e2e" e2e:local-partner  
+10. pnpm --filter "@collinsonx/tests-e2e" e2e:test-partner  
 
 ## Running tests for TEST/UAT environments (partner web app)
 1. pnpm i (may need to run pnpm clean beforehand if receiving errors)
