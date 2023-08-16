@@ -4,8 +4,7 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "dev": "next dev -p 3010 | npx local-ssl-proxy --key partner-local.test.cergea.com-key.pem --cert partner-local.test.cergea.com.pem --source 4010 --target 3010",
-    "build": "next build",
+    "dev": "next dev -p 3010 | npx local-ssl-proxy --key partner-local.uat.cergea.com-key.pem --cert partner-local.uat.cergea.com.pem --source 4010 --target 3010",    "build": "next build",
     "start": "next start -p 3010",
     "lint": "next lint",
     "clean": "rm -rf .next && rm -rf .turbo",

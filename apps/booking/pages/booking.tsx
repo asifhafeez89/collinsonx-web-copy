@@ -101,7 +101,7 @@ const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
 
               <Booking
                 slotDateFrom={selectedSlot?.startDate}
-                sletDateEnd={selectedSlot?.endDate}
+                slotDateEnd={selectedSlot?.endDate}
                 guests={3}
                 flightNumber={'ba7'}
                 flightDate={new Date(flightData.departure.date.utc)}
