@@ -31,6 +31,10 @@ exports[`<SelectInput /> renders SelectInput 1`] = `
   position: relative;
 }
 
+.emotion-8:has(input:disabled) .emotion-13 {
+  display: none;
+}
+
 .emotion-11 {
   font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
   height: 2.25rem;
@@ -69,6 +73,7 @@ exports[`<SelectInput /> renders SelectInput 1`] = `
   color: #909296;
   opacity: 0.6;
   cursor: not-allowed;
+  pointer-events: none;
 }
 
 .emotion-11:disabled::-webkit-input-placeholder {
@@ -209,19 +214,27 @@ exports[`<SelectInput /> renders SelectInput 1`] = `
   width: 2.25rem;
 }
 
+.mantine-1surk1h:has(input:disabled) .emotion-13 {
+  display: none;
+}
+
+.mantine-1e6nbp3:has(input:disabled) .emotion-13 {
+  display: none;
+}
+
 <div
   className="emotion-0 emotion-1 emotion-2"
 >
   <label
     className="emotion-3 emotion-4 emotion-5"
-    htmlFor="mantine-srkdu305v"
-    id="mantine-srkdu305v-label"
+    htmlFor="mantine-ama7o2xxl"
+    id="mantine-ama7o2xxl-label"
     onMouseDown={[Function]}
   >
     Your favorite framework/library
   </label>
   <div
-    aria-controls="mantine-srkdu305v"
+    aria-controls="mantine-ama7o2xxl"
     aria-expanded={false}
     aria-haspopup="listbox"
     aria-owns={null}
@@ -246,7 +259,7 @@ exports[`<SelectInput /> renders SelectInput 1`] = `
         className="emotion-9 emotion-10 emotion-11"
         data-mantine-stop-propagation={false}
         disabled={false}
-        id="mantine-srkdu305v"
+        id="mantine-ama7o2xxl"
         name={null}
         onBlur={[Function]}
         onChange={[Function]}
