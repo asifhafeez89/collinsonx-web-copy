@@ -10,7 +10,6 @@ import { onError } from '@apollo/link-error';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
 import { useMemo } from 'react';
-import Supertokens from 'supertokens-auth-react';
 
 const graphqlUrl = process.env.NEXT_PUBLIC_PRODUCTION_API_URL;
 
@@ -80,25 +79,10 @@ import { setContext } from '@apollo/client/link/context';
 
 let apolloClient: ApolloClient<any>;
 
-const authLink = (
-  isConsumer: boolean,
-  namespace: string = 'EXPERIENCE_X_CONSUMER_ID'
-) =>
-  setContext(async (_: any, { headers, ...context }) => {
-    const token = await Supertokens.getAccessToken();
-    return {
-      headers: {
-        ...headers,
-        Authorization: `Bearer ${token}`,
-      },
-      ...context,
-    };
-  });
-
 function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    link: ApolloLink.from([errorLink, httpLink, authLink(false)]),
+    link: ApolloLink.from([errorLink, httpLink]),
     cache: new InMemoryCache(),
     defaultOptions,
   });
