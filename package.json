@@ -17,7 +17,6 @@
     "test:watch": "turbo run test:watch -- --coverage=false",
     "build:utils": "turbo run jest --filter=utils...",
     "e2e:start": "turbo run e2e:start",
-    "dev": "turbo run dev",
     "dev:uat": "turbo run dev:uat",
     "dev:test": "turbo run dev:test",
     "start": "turbo run start",

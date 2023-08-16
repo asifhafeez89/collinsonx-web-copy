@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app';
 import { NextPage } from 'next';
-import { ComponentType, ReactElement, useState, useEffect } from 'react';
+import { ReactElement, useState, useEffect, ReactNode } from 'react';
 import { MantineProvider } from '@collinsonx/design-system/core';
 import Head from 'next/head';
 import { useApollo, ApolloProvider } from '@collinsonx/utils/apollo';
@@ -16,13 +16,12 @@ import CookieBanner from '@components/CookieBanner';
 
 import getConfig from 'next/config';
 
-type Page<P = {}> = NextPage<P> & {
-  getLayout?: (page: ReactElement) => JSX.Element;
-  layout?: ComponentType;
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode;
 };
 
-type Props = AppProps & {
-  Component: Page;
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
 };
 
 if (typeof window !== 'undefined') {
@@ -54,7 +53,7 @@ if ((datadogenv?.length ?? 0) > 0) {
   datadogRum.startSessionReplayRecording();
 }
 
-export default function MyApp({ Component, pageProps }: Props) {
+export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page);
   const [envLabel, setEnvLabel] = useState<String>('');
