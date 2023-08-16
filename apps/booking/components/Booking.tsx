@@ -38,7 +38,7 @@ export default function Booking({
 
   const handleClickCreateBooking = () => {
     const bookingInput = {
-      experience: { id: 'b' },
+      experience: { id: 'e1d306ee-92d2-5168-b61f-c97de201c6b8' },
       bookedFrom: dayjs(slotDateFrom),
       bookedTo: dayjs(slodDateEnd),
       type: 'RESERVATION',

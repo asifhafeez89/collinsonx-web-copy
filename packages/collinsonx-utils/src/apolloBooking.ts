@@ -6,11 +6,10 @@ import {
   DefaultOptions,
 } from '@apollo/client';
 import { onError } from '@apollo/link-error';
-
+import Session from 'supertokens-auth-react/recipe/session';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
 import { useMemo } from 'react';
-import Supertokens from 'supertokens-auth-react';
 
 const graphqlUrl = process.env.NEXT_PUBLIC_PRODUCTION_API_URL;
 
@@ -34,31 +33,6 @@ const httpLink = new HttpLink({
   credentials: 'include',
 });
 
-// a temporary hack to add x-user-id only when
-// user is consumer for demo purposes
-/*
-const authLink = (
-  isConsumer: boolean,
-  namespace: string = 'EXPERIENCE_X_CONSUMER_ID'
-) =>
-  setContext((_, { headers, ...context }) => {
-    const userId =
-      typeof window !== 'undefined' && isConsumer ? getItem(namespace) : null;
-    const userType =
-      typeof window !== 'undefined' && isConsumer ? getItem('USER_TYPE') : null;
-    const userMeta =
-      typeof window !== 'undefined' && isConsumer ? getItem('USER_META') : null;
-    return {
-      headers: {
-        ...headers,
-        ...(userId ? { 'x-user-id': userId } : {}),
-        ...(userType ? { 'x-user-type': userType } : {}),
-        ...(userMeta ? { 'x-user-metadata': userMeta } : {}),
-      },
-      ...context,
-    };
-  });*/
-
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.forEach(({ message, locations, path }) =>
@@ -80,29 +54,30 @@ import { setContext } from '@apollo/client/link/context';
 
 let apolloClient: ApolloClient<any>;
 
-const authLink = (
-  isConsumer: boolean,
-  namespace: string = 'EXPERIENCE_X_CONSUMER_ID'
-) =>
-  setContext(async (_: any, { headers, ...context }) => {
-    const token = await Supertokens.getAccessToken();
-    return {
-      headers: {
-        ...headers,
-        Authorization: `Bearer ${token}`,
-      },
-      ...context,
-    };
-  });
-
 function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    link: ApolloLink.from([errorLink, httpLink, authLink(false)]),
+    link: ApolloLink.from([
+      onError(({ graphQLErrors, networkError }) => {
+        if (graphQLErrors)
+          graphQLErrors.forEach(({ message, locations, path }) =>
+            console.log(
+              `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+            )
+          );
+        if (networkError)
+          console.log(
+            `[Network error]: ${networkError}. Backend is unreachable. Is it running?`
+          );
+      }),
+      httpLink,
+    ]),
     cache: new InMemoryCache(),
     defaultOptions,
   });
 }
+
+// , authLink(false)
 
 export function initializeApollo(initialState = null) {
   const _apolloClient = apolloClient ?? createApolloClient();

@@ -3,6 +3,7 @@ export {
   doesSessionExist,
   useSessionContext,
   getUserId,
+  getAccessToken,
 } from 'supertokens-auth-react/recipe/session';
 
 export type { InputType } from 'supertokens-auth-react/recipe/session';

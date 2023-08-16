@@ -30,13 +30,13 @@ export default function Home(props: unknown) {
   const ref = useRef(false);
 
   const form = useForm({
-    initialValues: {
-      email: '',
-    },
-    validate: {
-      email: (value: string) =>
-        validateEmail(value) ? null : 'Please enter a valid email address.',
-    },
+    // initialValues: {
+    //   email: '',
+    // },
+    // validate: {
+    //   email: (value: string) =>
+    //     validateEmail(value) ? null : 'Please enter a valid email address.',
+    // },
   });
 
   useEffect(() => {
@@ -54,28 +54,28 @@ export default function Home(props: unknown) {
   }, [session, router]);
 
   const handleClickContinue = async ({ email }: FormValues) => {
-    if (!validateEmail(email.trim())) {
-      setLoginError('Invalid email');
-    } else {
-      try {
-        await createPasswordlessCode({
-          email,
-        });
-        router.push({
-          pathname: '/checkemail',
-          query: { email, redirectUrl: router.query?.redirectUrl },
-        });
-      } catch (err: any) {
-        console.log(err);
-        if (err.isSuperTokensGeneralError === true) {
-          // this may be a custom error message sent from the API by you,
-          // or if the input email / phone number is not valid.
-          window.alert(err.message);
-        } else {
-          window.alert('Oops! Something went wrong.');
-        }
+    // if (!validateEmail(email.trim())) {
+    //   setLoginError('Invalid email');
+    // } else {
+    try {
+      await createPasswordlessCode({
+        email,
+      });
+      router.push({
+        pathname: '/checkemail',
+        query: { email, redirectUrl: router.query?.redirectUrl },
+      });
+    } catch (err: any) {
+      console.log(err);
+      if (err.isSuperTokensGeneralError === true) {
+        // this may be a custom error message sent from the API by you,
+        // or if the input email / phone number is not valid.
+        window.alert(err.message);
+      } else {
+        window.alert('Oops! Something went wrong.');
       }
     }
+    // }
   };
 
   return (
@@ -118,7 +118,7 @@ export default function Home(props: unknown) {
                   Login to your account
                 </Title>
                 <InputLabel
-                  type="email"
+                  type="text"
                   autoFocus
                   placeholder="Your email address"
                   label="Your email address"
