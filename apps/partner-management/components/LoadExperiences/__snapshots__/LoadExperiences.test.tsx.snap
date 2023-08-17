@@ -24,6 +24,10 @@ exports[`<LoadExperiences /> should render 1`] = `
   position: relative;
 }
 
+.emotion-5:has(input:disabled) .emotion-10 {
+  display: none;
+}
+
 .emotion-8 {
   font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
   height: 2.25rem;
@@ -62,6 +66,7 @@ exports[`<LoadExperiences /> should render 1`] = `
   color: #909296;
   opacity: 0.6;
   cursor: not-allowed;
+  pointer-events: none;
 }
 
 .emotion-8:disabled::-webkit-input-placeholder {
@@ -200,6 +205,14 @@ exports[`<LoadExperiences /> should render 1`] = `
   -webkit-justify-content: center;
   justify-content: center;
   width: 2.25rem;
+}
+
+.mantine-1surk1h:has(input:disabled) .emotion-10 {
+  display: none;
+}
+
+.mantine-1e6nbp3:has(input:disabled) .emotion-10 {
+  display: none;
 }
 
 <body>
@@ -267,6 +280,10 @@ exports[`<LoadExperiences /> should render 1`] = `
   position: relative;
 }
 
+.emotion-5:has(input:disabled) .emotion-10 {
+  display: none;
+}
+
 .emotion-8 {
   font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
   height: 2.25rem;
@@ -305,6 +322,7 @@ exports[`<LoadExperiences /> should render 1`] = `
   color: #909296;
   opacity: 0.6;
   cursor: not-allowed;
+  pointer-events: none;
 }
 
 .emotion-8:disabled::-webkit-input-placeholder {
@@ -443,6 +461,14 @@ exports[`<LoadExperiences /> should render 1`] = `
   -webkit-justify-content: center;
   justify-content: center;
   width: 2.25rem;
+}
+
+.mantine-1surk1h:has(input:disabled) .emotion-10 {
+  display: none;
+}
+
+.mantine-1e6nbp3:has(input:disabled) .emotion-10 {
+  display: none;
 }
 
 <div>

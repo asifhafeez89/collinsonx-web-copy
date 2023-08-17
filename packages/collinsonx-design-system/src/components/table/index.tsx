@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, ReactNode } from 'react';
 import {
   useReactTable,
   getSortedRowModel,
@@ -17,11 +17,7 @@ import styled, { StyledComponent } from '@emotion/styled';
 
 import { Magglass, RedCircle, GreenCircle } from '../../assets/icons';
 
-const CustomTable = ({ ...props }: { children: JSX.Element[] }) => (
-  <Table {...props} />
-);
-
-const StyledTable = styled(CustomTable)`
+const StyledTable = styled(Table as any)`
   border: 1px solid #d3d3d3;
   border-radius: 4px;
   border-spacing: 0;
@@ -309,10 +305,12 @@ const TableX = () => {
                   {row.getVisibleCells().map((cell) => {
                     return (
                       <td key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
+                        {
+                          flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          ) as ReactNode
+                        }
                       </td>
                     );
                   })}
