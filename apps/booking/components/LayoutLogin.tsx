@@ -1,6 +1,5 @@
 import { Center, Container, Stack } from '@collinsonx/design-system/core';
 import React, { ReactNode } from 'react';
-import { getThemeKey } from '@lib';
 
 import {
   LogoCergea,
@@ -19,9 +18,7 @@ const logos = {
   dinersClub: LogoDinersClubWhite,
 };
 
-const themeKey = getThemeKey();
-
-const Logo = logos[themeKey as keyof typeof logos] ?? LogoCergea;
+const Logo = LogoCergea;
 
 export default function LayoutLogin({ children }: LayoutProps) {
   return (
