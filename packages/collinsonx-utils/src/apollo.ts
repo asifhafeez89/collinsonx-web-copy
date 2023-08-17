@@ -50,7 +50,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 });
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
-import { setContext } from '@apollo/client/link/context';
 
 let apolloClient: ApolloClient<any>;
 
