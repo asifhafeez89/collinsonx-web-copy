@@ -76,10 +76,6 @@ export default function CheckEmail() {
         } else {
           router.push('/booking');
         }
-        // } else {
-        //   // new user - move to registration
-        //   router.push({ pathname: '/signup-user', query: { email } });
-        // }
 
         // TODO add userId in apollo context
       } else if (response.status === 'INCORRECT_USER_INPUT_CODE_ERROR') {

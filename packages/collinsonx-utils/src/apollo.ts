@@ -33,31 +33,6 @@ const httpLink = new HttpLink({
   credentials: 'include',
 });
 
-// a temporary hack to add x-user-id only when
-// user is consumer for demo purposes
-/*
-const authLink = (
-  isConsumer: boolean,
-  namespace: string = 'EXPERIENCE_X_CONSUMER_ID'
-) =>
-  setContext((_, { headers, ...context }) => {
-    const userId =
-      typeof window !== 'undefined' && isConsumer ? getItem(namespace) : null;
-    const userType =
-      typeof window !== 'undefined' && isConsumer ? getItem('USER_TYPE') : null;
-    const userMeta =
-      typeof window !== 'undefined' && isConsumer ? getItem('USER_META') : null;
-    return {
-      headers: {
-        ...headers,
-        ...(userId ? { 'x-user-id': userId } : {}),
-        ...(userType ? { 'x-user-type': userType } : {}),
-        ...(userMeta ? { 'x-user-metadata': userMeta } : {}),
-      },
-      ...context,
-    };
-  });*/
-
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.forEach(({ message, locations, path }) =>
