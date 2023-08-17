@@ -1,7 +1,9 @@
-export const constants = {
+const constants = {
   TIMEFORMAT: 'HH:mm',
 };
 
-export const cookiesNames = {
+const cookiesNames = {
   consumerid: 'EXPERIENCE_X_CONSUMER_ID',
 };
+
+export { constants, cookiesNames };

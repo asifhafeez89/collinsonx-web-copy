@@ -16,7 +16,7 @@ import {
 } from '@collinsonx/design-system/core';
 import { BookingType } from '../types/booking';
 import { ChangeEvent, useState } from 'react';
-import { constants } from 'constants';
+import { constants } from '../constants';
 
 interface BookingProps {
   slotDateFrom: string;

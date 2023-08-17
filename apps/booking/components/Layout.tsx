@@ -2,7 +2,7 @@ import { Container, MantineProvider } from '@collinsonx/design-system/core';
 import { Header, experienceX } from '@collinsonx/design-system';
 import { Be_Vietnam_Pro } from 'next/font/google';
 import { LogoCergea } from '@collinsonx/design-system/assets/logo';
-import { cookiesNames } from 'constants';
+import { cookiesNames } from '../constants';
 
 import { Cart, Chat, Home } from '@collinsonx/design-system/assets/icons';
 import useAuth from '../hooks/useAuth';

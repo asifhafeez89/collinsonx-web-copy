@@ -1,5 +1,5 @@
 import { useSessionContext } from '@collinsonx/utils/supertokens';
-import { cookiesNames } from 'constants';
+import { cookiesNames } from '../constants';
 import { ReactElement, useEffect } from 'react';
 
 export interface SessionManagerProps {
