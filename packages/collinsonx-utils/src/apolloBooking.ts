@@ -6,7 +6,7 @@ import {
   DefaultOptions,
 } from '@apollo/client';
 import { onError } from '@apollo/link-error';
-
+import Session from 'supertokens-auth-react/recipe/session';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
 import { useMemo } from 'react';
@@ -50,17 +50,34 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 });
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
+import { setContext } from '@apollo/client/link/context';
 
 let apolloClient: ApolloClient<any>;
 
 function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    link: ApolloLink.from([errorLink, httpLink]),
+    link: ApolloLink.from([
+      onError(({ graphQLErrors, networkError }) => {
+        if (graphQLErrors)
+          graphQLErrors.forEach(({ message, locations, path }) =>
+            console.log(
+              `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+            )
+          );
+        if (networkError)
+          console.log(
+            `[Network error]: ${networkError}. Backend is unreachable. Is it running?`
+          );
+      }),
+      httpLink,
+    ]),
     cache: new InMemoryCache(),
     defaultOptions,
   });
 }
+
+// , authLink(false)
 
 export function initializeApollo(initialState = null) {
   const _apolloClient = apolloClient ?? createApolloClient();

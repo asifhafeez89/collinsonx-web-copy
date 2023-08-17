@@ -64,7 +64,7 @@ const titleMap = {
   declined: 'Declined lounge booking management',
 };
 
-const bookingTypeMap = {
+export const bookingTypeMap = {
   [BookingType.Reservation]: 'Reservation',
   [BookingType.WalkUp]: 'Walk-up',
 };

@@ -48,7 +48,6 @@ NEXT_PUBLIC_PRODUCTION_API_URL=https://partner-local.test.cergea.com:4010/api/gr
 NEXT_PUBLIC_AUTH_API_URL=https://authz.test.cergea.com
 SITE_DOMAIN_URL=https://partner-local.test.cergea.com:4010
 NEXT_PUBLIC_SITE_DOMAIN_URL=https://partner-local.test.cergea.com:4010
-NEXT_PUBLIC_SESSION_THEME=experience
 ```
 
 This process is to make UI operate with TEST backend (replace with UAT where appropriate if you wish).
@@ -61,14 +60,14 @@ $ npm install pm2@latest -g
 ```
 7. pnpm i (may need to run pnpm clean beforehand if receiving errors)
 8. cd apps/partner-management
-9. pm2 start "pnpm dev:test" --name dev-server  
+9. pm2 start "pnpm dev:test" --name dev-server
 
 UI will be accessible in the following links:
 https://partner-local.test.cergea.com:4010 or http://localhost:3010
 
 ### Run Partner web app e2e tests
 
-10. pnpm --filter "@collinsonx/tests-e2e" e2e:test-partner  
+10. pnpm --filter "@collinsonx/tests-e2e" e2e:test-partner
 
 ## Running tests for TEST/UAT environments (partner web app)
 1. pnpm i (may need to run pnpm clean beforehand if receiving errors)
@@ -124,10 +123,10 @@ projects: [
       name: 'partner-chromium-test',
       testDir: './tests/partner-management',
       // ENV variable is given by the package.json script
-      use: { 
-        ...devices['Desktop Chrome'], 
-        storageState: 'playwright/.auth/user.json', 
-        baseURL: `https://partner.${process.env.ENV}.cergea.com` 
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'playwright/.auth/user.json',
+        baseURL: `https://partner.${process.env.ENV}.cergea.com`
       },
       dependencies: ['setup'],
     }
@@ -161,7 +160,7 @@ test.describe('booking overview dashboard', () => {
         });
         test.describe('remove pending request using the booking API', () => {
             const lounge = loungeMap.get("lounge2");
-            test.use({ storageState: `playwright/.auth/${lounge.toLowerCase()}User.json` })     
+            test.use({ storageState: `playwright/.auth/${lounge.toLowerCase()}User.json` })
             test('should decrease the booking count by 1', async ({ page }) => {
                 ...
             });

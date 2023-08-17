@@ -19,9 +19,7 @@ import {
   Modal,
   LoadingOverlay,
 } from '@collinsonx/design-system/core';
-import {
-  DatePickerInput,
-} from '@collinsonx/design-system/date';
+import { DatePickerInput } from '@collinsonx/design-system/date';
 import { IconCalendar } from '@tabler/icons-react';
 import { validateFlightNumber } from '../utils/flightValidation';
 import axios from 'axios';
@@ -36,7 +34,6 @@ interface FlightInfoComponentProps {
   datePickerTestId?: string;
   timePickerTestId?: string;
   onSetSelectedSlot: (selectedSlot: AvailabilitySlot) => void;
-  onSetSelectedNumberOfGuests: (selectedNumberOfGuests: number | '') => void;
 }
 
 export interface AvailabilitySlot {
@@ -53,12 +50,13 @@ export const FlightInfo = ({
   datePickerTestId,
   timePickerTestId,
   onSetSelectedSlot,
-  onSetSelectedNumberOfGuests
 }: FlightInfoComponentProps) => {
   const [flightNumber, setFlightNumber] = useState('');
   const [availableSlots, setAvailableSlots] = useState(Array<AvailabilitySlot>);
   const [flightNumberError, setFlightNumberError] = useState(false);
-  const [flightNumErrorText, setFlightNumErrorText] = useState('Please enter a flight number');
+  const [flightNumErrorText, setFlightNumErrorText] = useState(
+    'Please enter a flight number'
+  );
   const [flightDate, setFlightDate] = useState<Date>();
   const [dateError, setDateError] = useState(false);
   const [dateErrorText] = useState('Please select a date');
@@ -69,7 +67,9 @@ export const FlightInfo = ({
   const [opened, { open, close }] = useDisclosure(false);
   const handlers = useRef<NumberInputHandlers>();
 
-  const onFlightNumberChange: ChangeEventHandler = (event: ChangeEvent<HTMLInputElement>) => {
+  const onFlightNumberChange: ChangeEventHandler = (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
     const trimmed = event.target.value?.trim() ?? '';
 
     if (!trimmed) {
@@ -94,7 +94,6 @@ export const FlightInfo = ({
 
   const onSelectSlot = (index: number) => {
     onSetSelectedSlot(availableSlots[index]);
-    onSetSelectedNumberOfGuests(numberOfGuests);
     close();
   };
 
@@ -116,7 +115,9 @@ export const FlightInfo = ({
       const flightInformation = response.data.data[0];
       return flightInformation;
     } catch (err: any) {
-      setFlightInfoError('No flight found with details supplied. Please check flight number and try again. If the issue persists, please contact support.');
+      setFlightInfoError(
+        'No flight found with details supplied. Please check flight number and try again. If the issue persists, please contact support.'
+      );
       setFlightInfoLoading(false);
     }
   };
@@ -126,28 +127,30 @@ export const FlightInfo = ({
 
     if (!flightInformation) {
       setFlightInfoLoading(false);
-      setFlightInfoError('No flight found with details supplied. Please check flight number and try again. If the issue persists, please contact support.');
+      setFlightInfoError(
+        'No flight found with details supplied. Please check flight number and try again. If the issue persists, please contact support.'
+      );
       return;
     }
 
     try {
       const response = await axios.post('/api/availability', {
         flightInformation: {
-            type: 'DEPARTURE',
-            dateTime: `${flightInformation?.departure.date.local} ${flightInformation?.departure.time.local}`,
-            airport: flightInformation?.departure.airport,
-            terminal: '-1'
+          type: 'DEPARTURE',
+          dateTime: `${flightInformation?.departure.date.local} ${flightInformation?.departure.time.local}`,
+          airport: flightInformation?.departure.airport,
+          terminal: '-1',
         },
         guests: {
-            adultCount: numberOfGuests,
-            childrenCount: 0,
-            infantCount: 0
+          adultCount: numberOfGuests,
+          childrenCount: 0,
+          infantCount: 0,
         },
         product: {
-            productType: 'lounge',
-            productID: '1139',
-            supplierCode: '123'
-        }
+          productType: 'lounge',
+          productID: '1139',
+          supplierCode: '123',
+        },
       });
 
       if (response.data.slots.length === 0) {
@@ -158,7 +161,9 @@ export const FlightInfo = ({
       onSuccess(flightInformation);
       open();
     } catch (err: any) {
-      setAvailableSlotsError('An error occurred while trying to get availabiliy. Please try again later. If the issue persists, please contact support.');
+      setAvailableSlotsError(
+        'An error occurred while trying to get availabiliy. Please try again later. If the issue persists, please contact support.'
+      );
       setFlightInfoLoading(false);
       onSuccess(flightInformation);
       open();
@@ -187,11 +192,11 @@ export const FlightInfo = ({
 
   return (
     <>
-      <Box maw={320} mx='auto'>
+      <Box maw={320} mx="auto">
         <LoadingOverlay visible={flightInfoLoading} overlayBlur={2} />
         <TextInput
-          label='Flight Number'
-          placeholder='Flight Number'
+          label="Flight Number"
+          placeholder="Flight Number"
           value={flightNumber}
           onChange={onFlightNumberChange}
           error={flightNumberError ? flightNumErrorText : ''}
@@ -199,11 +204,11 @@ export const FlightInfo = ({
           withAsterisk
         />
         <DatePickerInput
-          icon={<IconCalendar size='1.5rem' stroke={1.5} />}
-          label='Departure Date'
-          placeholder='Departure Date'
+          icon={<IconCalendar size="1.5rem" stroke={1.5} />}
+          label="Departure Date"
+          placeholder="Departure Date"
           maw={400}
-          mx='auto'
+          mx="auto"
           minDate={new Date()}
           value={flightDate}
           onChange={onDateChanged}
@@ -214,14 +219,16 @@ export const FlightInfo = ({
         <Group spacing={5}>
           <Grid grow>
             <Grid.Col span={12}>
-              <Text style={{ marginTop: '10px' }}>
-                Number of Guests:
-              </Text>
+              <Text style={{ marginTop: '10px' }}>Number of Guests:</Text>
             </Grid.Col>
             <Grid.Col>
               <Grid>
                 <Grid.Col span={2}>
-                  <ActionIcon size={'2.625rem'} variant='default' onClick={() => handlers.current?.decrement()}>
+                  <ActionIcon
+                    size={'2.625rem'}
+                    variant="default"
+                    onClick={() => handlers.current?.decrement()}
+                  >
                     –
                   </ActionIcon>
                 </Grid.Col>
@@ -234,12 +241,16 @@ export const FlightInfo = ({
                     max={10}
                     min={1}
                     step={1}
-                    size='md'
+                    size="md"
                     styles={{ input: { textAlign: 'center' } }}
                   />
                 </Grid.Col>
                 <Grid.Col span={2}>
-                  <ActionIcon size={'2.625rem'} variant='default' onClick={() => handlers.current?.increment()}>
+                  <ActionIcon
+                    size={'2.625rem'}
+                    variant="default"
+                    onClick={() => handlers.current?.increment()}
+                  >
                     +
                   </ActionIcon>
                 </Grid.Col>
@@ -248,11 +259,8 @@ export const FlightInfo = ({
           </Grid>
         </Group>
 
-        <Group position='center' mt='xl'>
-          <Button
-            variant='outline'
-            onClick={onSearch}
-          >
+        <Group position="center" mt="xl">
+          <Button variant="outline" onClick={onSearch}>
             Get Availability
           </Button>
         </Group>
@@ -262,38 +270,38 @@ export const FlightInfo = ({
           </Text>
         </Group>
       </Box>
-      <Modal opened={opened} onClose={close} title='Available Slots'>
+      <Modal opened={opened} onClose={close} title="Available Slots">
         <Text style={{ marginBottom: '15px' }}>
-          {
-            availableSlots.length > 0
-            ?
-              dayjs(availableSlots[0].startDate).format('DD MMMM YYYY')
-            :
-              ''
-          }
+          {availableSlots.length > 0
+            ? dayjs(availableSlots[0].startDate).format('DD MMMM YYYY')
+            : ''}
         </Text>
         <Text style={{ marginBottom: '15px' }}>
           Maximum allowed stay is 3 hours
         </Text>
-        {
-          availableSlots.length > 0
-          ?
+        {availableSlots.length > 0 ? (
           <Grid grow>
-             {availableSlots.map((slot, i) => (
+            {availableSlots.map((slot, i) => (
               <Grid.Col span={1} key={`available-slot-${i}`}>
-                <Button variant='outline' style={{ textAlign: 'center', height: '4rem' }} onClick={() => { onSelectSlot(i) }} data-selectedslot={i}>
+                <Button
+                  variant="outline"
+                  style={{ textAlign: 'center', height: '4rem' }}
+                  onClick={() => {
+                    onSelectSlot(i);
+                  }}
+                  data-selectedslot={i}
+                >
                   Check-in <br /> between <br />
-                  {`${dayjs(slot.startDate).format('hh:mm')} - ${dayjs(slot.endDate).format('hh:mm')}`}
+                  {`${dayjs(slot.startDate).format('hh:mm')} - ${dayjs(
+                    slot.endDate
+                  ).format('hh:mm')}`}
                 </Button>
               </Grid.Col>
             ))}
           </Grid>
-
-          :
-            <Text>
-              { availableSlotsError }
-            </Text>
-        }
+        ) : (
+          <Text>{availableSlotsError}</Text>
+        )}
       </Modal>
     </>
   );

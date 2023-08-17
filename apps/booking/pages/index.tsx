@@ -1,166 +1,133 @@
+import { Title, Stack, Flex } from '@collinsonx/design-system/core';
+import { Button } from '@collinsonx/design-system/core';
+import { useForm } from '@collinsonx/design-system/form';
+import { useRouter } from 'next/router';
+import { useEffect, useRef, useState } from 'react';
+import LayoutLogin from '@components/LayoutLogin';
 import {
-  Title,
-  Accordion,
-  Grid,
-  Text,
-  Button,
-  Group,
-  Box
-} from '@collinsonx/design-system/core';
-import { AvailabilitySlot, FlightInfo } from '../components/FlightInfo';
-import { GetServerSideProps } from 'next';
-import { useState } from 'react';
-import dayjs from 'dayjs';
-import { BOOKING_PRICE } from '../config/booking';
-interface MainProps {
-  consumerNumber: string | string[];
-  tempBearerToken: string | string[];
-}
-interface DepartureFlightInfo {
-  airport: { iata: string };
-  date: { local: string, utc: string };
-  terminal: string;
-  time: { local: string, utc: string };
+  createPasswordlessCode,
+  useSessionContext,
+} from '@collinsonx/utils/supertokens';
+import { InputLabel } from '@collinsonx/design-system';
+import validateEmail from '@collinsonx/utils/lib/validateEmail';
+import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
+
+interface FormValues {
+  email: string;
 }
 
-interface FlightInfo {
-  departure: DepartureFlightInfo;
-  arrival: DepartureFlightInfo;
-}
+export default function Home(props: unknown) {
+  const session = useSessionContext();
 
-export const getServerSideProps: GetServerSideProps<MainProps> = async ({
-  req,
-}) => {
-  const consumerNumber = req.headers['x-consumernumber'] ?? '';
-  const tempBearerToken = req.headers['authorization'] ?? '';
-  return {
-    props: {
-      consumerNumber,
-      tempBearerToken,
+  const [loading, setLoading] = useState(true);
+
+  const router = useRouter();
+  const [loginError, setLoginError] = useState('');
+
+  const ref = useRef(false);
+
+  const form = useForm({
+    initialValues: {
+      email: '',
     },
+    validate: {
+      email: (value: string) =>
+        validateEmail(value) ? null : 'Please enter a valid email address.',
+    },
+  });
+
+  useEffect(() => {
+    if (session && !session.loading) {
+      const { userId } = session;
+      if (userId) {
+        if (!ref.current) {
+          router.push('/booking');
+          ref.current = true;
+        }
+      } else {
+        setLoading(false);
+      }
+    }
+  }, [session, router]);
+
+  const handleClickContinue = async ({ email }: FormValues) => {
+    if (!validateEmail(email.trim())) {
+      setLoginError('Invalid email');
+    } else {
+      try {
+        await createPasswordlessCode({
+          email,
+        });
+        router.push({
+          pathname: '/checkemail',
+          query: { email, redirectUrl: router.query?.redirectUrl },
+        });
+      } catch (err: any) {
+        console.log(err);
+        if (err.isSuperTokensGeneralError === true) {
+          // this may be a custom error message sent from the API by you,
+          // or if the input email / phone number is not valid.
+          window.alert(err.message);
+        } else {
+          window.alert('Oops! Something went wrong.');
+        }
+      }
+    }
   };
-};
 
-const Main = ({ consumerNumber, tempBearerToken, }: MainProps) => {
-
-  const [flightData, setFlightData] = useState<FlightInfo>();
-  const [selectedSlot, setSelectedSlot] = useState<AvailabilitySlot>();
-  const onFlightInfoSuccess = (flightInfo: FlightInfo) => {
-    setFlightData(flightInfo);
-  }
-
-  const onSetSelectedSlot = (selectedSlot: AvailabilitySlot) => {
-    setSelectedSlot(selectedSlot);
-  }
-
-  const [selectedNumberOfGuests, setSelectedNumberOfGuests] = useState<number | ''>(1);
-  const onSetSelectedNumberOfGuests = (selectedNumberOfGuests: number | '') => {
-    setSelectedNumberOfGuests(selectedNumberOfGuests);
-  }
-  const totalPrice = BOOKING_PRICE * Number(selectedNumberOfGuests);
   return (
     <>
-      <Title mb={8} size={32}>
-        Welcome to Booking
-      </Title>
-      <p>Consumer Number: {consumerNumber}</p>
-      <p>Temporary Bearer Token: {tempBearerToken}</p>
-      <FlightInfo onSuccess={onFlightInfoSuccess} onSetSelectedSlot={onSetSelectedSlot} onSetSelectedNumberOfGuests={onSetSelectedNumberOfGuests} />
-      {
-        flightData ?
-          <Grid style={{ marginTop: '20px' }}>
-            <Grid.Col sm="auto" md="auto" lg={3}>
-              <Accordion variant="separated">
-                <Accordion.Item value="customization">
-                  <Accordion.Control>
-                    Departing Flight Information
-                  </Accordion.Control>
-                  <Accordion.Panel>
-                    <p>
-                      Departing Airport: {flightData.departure.airport.iata}
-                    </p>
-                    <p>
-                      Departing Date (local): {flightData.departure.date.local}
-                    </p>
-                    <p>
-                      Departing Date (utc): {flightData.departure.date.utc}
-                    </p>
-                    <p>
-                      Departing Time (local): {flightData.departure.time.local}
-                    </p>
-                    <p>
-                      Departing Time (utc): {flightData.departure.time.utc}
-                    </p>
-                  </Accordion.Panel>
-                </Accordion.Item>
-                <Accordion.Item value="flexibility">
-                  <Accordion.Control>
-                    Arrival Flight Information
-                  </Accordion.Control>
-                  <Accordion.Panel>
-                    <p>
-                      Arrival Airport: {flightData.arrival.airport.iata}
-                    </p>
-                    <p>
-                      Arrival Date (local): {flightData.arrival.date.local}
-                    </p>
-                    <p>
-                      Arrival Date (utc): {flightData.arrival.date.utc}
-                    </p>
-                    <p>
-                      Arrival Time (local): {flightData.arrival.time.local}
-                    </p>
-                    <p>
-                      Arrival Time (utc): {flightData.arrival.time.utc}
-                    </p>
-                  </Accordion.Panel>
-                </Accordion.Item>
-              </Accordion>
-            </Grid.Col>
-            {
-              selectedSlot
-              ?
-                <Grid.Col sm="auto" md="auto" lg={3}>
-                  <Text>
-                    Selected Slot: {`${dayjs(selectedSlot?.startDate).format('hh:mm')} - ${dayjs(selectedSlot?.endDate).format('hh:mm')}`}
-                  </Text>
-                  <Box maw={320} mx='auto' >
-                    <Grid grow>
-                      <Grid.Col span={12}>
-                        <Text style={{ marginTop: '20px', }}>
-                          GBP
-                        </Text>
-                      </Grid.Col>
-                      <Grid.Col span={12}>
-                        <Text style={{ marginTop: '20px', }}>
-                         &pound; {BOOKING_PRICE} / place
-                        </Text>
-                      </Grid.Col>
-                      <Grid.Col span={12}>
-                        <Text style={{ marginTop: '20px', }}>
-                          {selectedNumberOfGuests}  places
-                        </Text>
-                      </Grid.Col>
-                      <Grid.Col span={12}>
-                        <Text style={{ marginTop: '20px', }}>
-                          Total   &pound;  {totalPrice}
-                        </Text>
-                      </Grid.Col>
-                    </Grid>
-                    <Group mt='xl'>
-                      <Button variant='outline' >
-                        Pay for Booking
-                      </Button>
-                    </Group>
-                  </Box>
-                </Grid.Col>
-              : <></>
-            }
-          </Grid>
-         : ''
-      }
+      {loading ? (
+        <Flex justify="center" align="center" h="100%">
+          <LoaderLifestyleX />
+        </Flex>
+      ) : (
+        <LayoutLogin>
+          <form onSubmit={form.onSubmit(handleClickContinue)}>
+            <Stack spacing={50}>
+              <Stack spacing={24} sx={{ height: '100%' }}>
+                <Title order={1} size={20} align="center">
+                  Login to your account
+                </Title>
+                <InputLabel
+                  type="text"
+                  autoFocus
+                  placeholder="Your email address"
+                  label="Your email address"
+                  isWhite={true}
+                  styles={{
+                    root: {
+                      display: 'flex',
+                      flexDirection: 'column',
+                    },
+                    description: {
+                      order: 1,
+                      marginTop: '4px',
+                      marginBottom: '0',
+                    },
+                    label: {
+                      order: -2,
+                    },
+                    input: {
+                      order: -1,
+                    },
+                    error: {
+                      order: 2,
+                    },
+                  }}
+                  withAsterisk
+                  {...form.getInputProps('email')}
+                  data-testid="loginEmailAddress"
+                />
+
+                <Button type="submit" data-testid="login">
+                  Login
+                </Button>
+              </Stack>
+            </Stack>
+          </form>
+        </LayoutLogin>
+      )}
     </>
   );
 }
-
-export default Main;
