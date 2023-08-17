@@ -20,18 +20,6 @@
     "@collinsonx/design-system": "workspace:*",
     "@collinsonx/pages": "workspace:*",
     "@collinsonx/utils": "workspace:*",
-<<<<<<< HEAD
-    "@emotion/react": "^11.10.5",
-    "@emotion/server": "^11.10.0",
-    "@emotion/styled": "^11.10.5",
-    "@mantine/core": "^5.10.4",
-    "@mantine/dates": "^5.10.3",
-    "@mantine/form": "^6.0.1",
-    "@mantine/hooks": "^5.10.2",
-    "@mantine/next": "^5.10.2",
-    "@stripe/react-stripe-js": "^2.1.1",
-    "@stripe/stripe-js": "^1.54.2",
-=======
     "@emotion/react": "^11.11.1",
     "@emotion/server": "^11.11.0",
     "@emotion/styled": "^11.11.0",
@@ -40,7 +28,6 @@
     "@mantine/form": "^6.0.19",
     "@mantine/hooks": "^5.10.5",
     "@mantine/next": "^5.10.5",
->>>>>>> dev
     "@svgr/webpack": "^6.5.1",
     "@tabler/icons-react": "^2.30.0",
     "@types/node": "^18.17.5",
@@ -53,12 +40,7 @@
     "graphql": "^16.8.0",
     "graphql-tag": "^2.12.6",
     "http-proxy": "^1.18.1",
-<<<<<<< HEAD
-    "local-ssl-proxy": "^2.0.5",
-    "next": "^13.1.0",
-=======
     "next": "^13.2.4",
->>>>>>> dev
     "nextjs-cors": "^2.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
