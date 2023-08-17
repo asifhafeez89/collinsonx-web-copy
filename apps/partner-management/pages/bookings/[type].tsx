@@ -97,6 +97,7 @@ export default function Bookings({ type }: BookingsProps) {
     refetch: refetchBookings,
   } = useQuery<{ getBookings: Booking[] }>(getBookings, {
     variables: {
+      status: typeMap[type],
       experienceId: experience?.id,
     },
     skip: !experience?.id,

@@ -78,6 +78,11 @@ export default function Home(props: unknown) {
     // }
   };
 
+  const [selectedNumberOfGuests, setSelectedNumberOfGuests] = useState<number | ''>(1);
+  const onSetSelectedNumberOfGuests = (selectedNumberOfGuests: number | '') => {
+    setSelectedNumberOfGuests(selectedNumberOfGuests);
+  }
+  const totalPrice = BOOKING_PRICE * Number(selectedNumberOfGuests);
   return (
     <>
       {loading ? (
