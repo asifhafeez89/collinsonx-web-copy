@@ -69,8 +69,6 @@ export default function CheckEmail() {
         userInputCode: code,
       });
       if (response.status === 'OK') {
-        // existing user - move to success page
-        // if (data?.getConsumerByEmailAddress !== null) {
         if (redirectUrl) {
           router.push(redirectUrl);
         } else {
