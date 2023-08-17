@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3011 | npx local-ssl-proxy --key partner-local.test.cergea.com-key.pem --cert partner-local.test.cergea.com.pem --source 4011 --target 3011",
+    "dev:uat": "next dev -p 3011 | npx local-ssl-proxy --key partner-local.uat.cergea.com-key.pem --cert partner-local.uat.cergea.com.pem --source 4011 --target 3011",
+    "dev:test": "next dev -p 3011 | npx local-ssl-proxy --key partner-local.test.cergea.com-key.pem --cert partner-local.test.cergea.com.pem --source 4011 --target 3011",
     "build": "next build",
     "start": "next start -p 3011",
     "lint": "next lint",
