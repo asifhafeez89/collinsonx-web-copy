@@ -1,4 +1,5 @@
 import { useSessionContext } from '@collinsonx/utils/supertokens';
+import { cookiesNames } from 'constants';
 import { ReactElement, useEffect } from 'react';
 
 export interface SessionManagerProps {
@@ -7,7 +8,7 @@ export interface SessionManagerProps {
 const SessionManager = ({ children }: SessionManagerProps) => {
   const session = useSessionContext();
 
-  const NAMESPACE = 'EXPERIENCE_X_CONSUMER_ID';
+  const NAMESPACE = cookiesNames.consumerid;
 
   useEffect(() => {
     if (!session.loading) {

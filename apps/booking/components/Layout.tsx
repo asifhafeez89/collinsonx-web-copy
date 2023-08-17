@@ -2,6 +2,7 @@ import { Container, MantineProvider } from '@collinsonx/design-system/core';
 import { Header, experienceX } from '@collinsonx/design-system';
 import { Be_Vietnam_Pro } from 'next/font/google';
 import { LogoCergea } from '@collinsonx/design-system/assets/logo';
+import { cookiesNames } from 'constants';
 
 import { Cart, Chat, Home } from '@collinsonx/design-system/assets/icons';
 import useAuth from '../hooks/useAuth';
@@ -20,7 +21,7 @@ export default function Layout({ children }: LayoutProps) {
   const [isLoggedIn, userId, logout] = useAuth({});
 
   const handleLogout = async () => {
-    localStorage.removeItem('EXPERIENCE_X_CONSUMER_ID');
+    localStorage.removeItem(cookiesNames.consumerid);
     if (typeof logout === 'function') {
       await logout();
       // https://github.com/vercel/next.js/issues/40481
@@ -29,27 +30,6 @@ export default function Layout({ children }: LayoutProps) {
   };
   return (
     <>
-      <Header
-        onClickSignout={handleLogout}
-        logo={<LogoCergea />}
-        items={[
-          {
-            label: 'Home',
-            link: '/',
-            icon: <Home color="#112132" />,
-          },
-          {
-            label: 'My trips',
-            link: '/bookings',
-            icon: <Cart color="#112132" />,
-          },
-          {
-            label: 'AI Travel companion',
-            link: '/companion',
-            icon: <Chat color="#112132" />,
-          },
-        ]}
-      />
       <Container
         p={16}
         sx={{

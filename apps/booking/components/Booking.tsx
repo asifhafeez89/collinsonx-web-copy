@@ -14,7 +14,9 @@ import {
   Modal,
   LoadingOverlay,
 } from '@collinsonx/design-system/core';
+import { BookingType } from '../types/booking';
 import { ChangeEvent, useState } from 'react';
+import { constants } from 'constants';
 
 interface BookingProps {
   slotDateFrom: string;
@@ -41,11 +43,11 @@ export default function Booking({
       experience: { id: 'e1d306ee-92d2-5168-b61f-c97de201c6b8' },
       bookedFrom: dayjs(slotDateFrom),
       bookedTo: dayjs(slotDateEnd),
-      type: 'RESERVATION',
+      type: BookingType.Reservation,
       guestCount: guests + 1,
       metadata: {
         flightNumber,
-        flightTime: dayjs(flightDate).format('HH:mm'),
+        flightTime: dayjs(flightDate).format(constants.TIMEFORMAT),
       },
     };
 
