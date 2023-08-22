@@ -41,6 +41,7 @@
     "graphql": "^16.8.0",
     "graphql-tag": "^2.12.6",
     "http-proxy": "^1.18.1",
+    "local-ssl-proxy": "^2.0.5",
     "next": "^13.2.4",
     "nextjs-cors": "^2.1.2",
     "react": "^18.2.0",
