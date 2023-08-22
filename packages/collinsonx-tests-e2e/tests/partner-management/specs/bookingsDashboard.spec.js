@@ -1,19 +1,20 @@
-const { test, expect } = require('@playwright/test');
+import { test, expect } from '../../../baseFixtures';
 import BookingOverviewPage from '../pages/BookingOverviewPage';
 import BookingApi from '../utils/BookingApi';
+import { loungeMap } from '../utils/config';
 
 test.describe('booking overview dashboard', () => {
     test.describe('pending requests', () => {
         test.describe('add pending request using the booking API', () => {
-            const user = "HEATHROW";
-            test.use({ storageState: `playwright/.auth/${user.toLowerCase()}User.json` })
+            const lounge = loungeMap.get("lounge1");
+            test.use({ storageState: `playwright/.auth/${lounge.toLowerCase()}User.json` })
             test('should increase the booking count by 1', async ({ page }) => {
                 const bookingOverviewPage = new BookingOverviewPage(page);
                 const bookingApi = new BookingApi(page);
 
-                const initialCount = await bookingApi.getBookingCount(user, "PENDING");
+                const initialCount = await bookingApi.getBookingCount(lounge, "PENDING");
 
-                await bookingApi.addPendingRequest(user);
+                await bookingApi.addPendingRequest(lounge);
 
                 await page.goto('/', { waitUntil: "networkidle" });
 
@@ -23,15 +24,21 @@ test.describe('booking overview dashboard', () => {
             });
         });
         test.describe('remove pending request using the booking API', () => {
-            const user = "GATWICK";
-            test.use({ storageState: `playwright/.auth/${user.toLowerCase()}User.json` })
+            const lounge = loungeMap.get("lounge2");
+            test.use({ storageState: `playwright/.auth/${lounge.toLowerCase()}User.json` })
             test('should decrease the booking count by 1', async ({ page }) => {
                 const bookingOverviewPage = new BookingOverviewPage(page);
                 const bookingApi = new BookingApi(page);
 
-                const bookingId = (await bookingApi.addPendingRequest(user)).bookingId;
+                const bookingId = (await bookingApi.addPendingRequest(lounge)).bookingId;
 
-                const initialCount = await bookingApi.getBookingCount(user, "PENDING");
+                let initialCount = await bookingApi.getBookingCount(lounge, "PENDING");
+
+                // requires atleast 2 bookings so that there is atleast 1 leftover for the assertion
+                if (initialCount === 1) {
+                    await bookingApi.addPendingRequest(lounge);
+                    initialCount = await bookingApi.getBookingCount(lounge, "PENDING");
+                };
 
                 await bookingApi.deleteBooking(bookingId);
 
@@ -46,15 +53,15 @@ test.describe('booking overview dashboard', () => {
     });
 
     test.describe('confirmed bookings', () => {
-        const user = "BIRMINGHAM";
-        test.use({ storageState: `playwright/.auth/${user.toLowerCase()}User.json` })
+        const lounge = loungeMap.get("lounge3");
+        test.use({ storageState: `playwright/.auth/${lounge.toLowerCase()}User.json` })
         test('add confirmed booking using the booking API should increase the booking count by 1', async ({ page }) => {
             const bookingOverviewPage = new BookingOverviewPage(page);
             const bookingApi = new BookingApi(page);
 
-            const initialCount = await bookingApi.getBookingCount(user, "CONFIRMED");
+            const initialCount = await bookingApi.getBookingCount(lounge, 'CONFIRMED', 'CHECKED_IN');
 
-            await bookingApi.addConfirmedBooking(user);
+            await bookingApi.addConfirmedBooking(lounge);
 
             await page.goto('/', { waitUntil: "networkidle" });
 

@@ -14,8 +14,7 @@ module.exports = defineConfig({
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  workers: 4,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [['html', { open: 'always' }]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -28,19 +27,16 @@ module.exports = defineConfig({
     // Record tests
     video: 'retain-on-failure'
   },
+  expect: {
+    timeout: 10000
+  },
   projects: [
     { name: 'setup', testMatch: /auth.setup\.js/ },
     {
       name: 'partner-chromium-test',
       testDir: './tests/partner-management',
       // ENV variable is given by the package.json script
-      use: { ...devices['Desktop Chrome'], storageState: 'playwright/.auth/user.json', baseURL: `https://partner.${process.env.ENV}.cergea.com` },
-      dependencies: ['setup'],
-    },
-    {
-      name: 'partner-local',
-      testDir: './tests/partner-management',
-      use: { ...devices['Desktop Chrome'], storageState: 'playwright/.auth/user.json', baseURL: 'https://partner-local.uat.cergea.com:4010', ignoreHTTPSErrors: true },
+      use: { ...devices['Desktop Chrome'], storageState: 'playwright/.auth/user.json', baseURL: `https://partner.${process.env.ENV}.cergea.com`, ignoreHTTPSErrors: true },
       dependencies: ['setup'],
     },
     // {

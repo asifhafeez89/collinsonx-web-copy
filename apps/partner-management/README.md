@@ -45,7 +45,6 @@ NEXT_PUBLIC_PRODUCTION_API_URL=https://partner-local.uat.cergea.com:4010/api/gra
 NEXT_PUBLIC_AUTH_API_URL=https://authz.uat.cergea.com
 SITE_DOMAIN_URL=https://partner-local.uat.cergea.com:4010
 NEXT_PUBLIC_SITE_DOMAIN_URL=https://partner-local.uat.cergea.com:4010
-NEXT_PUBLIC_SESSION_THEME=experience
 ```
 
 5. Once everything is in place, you are in `dev` branch, pulled latest changes and ran `pnpm i` , you need to run `pnpm dev` .
