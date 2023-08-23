@@ -6,6 +6,7 @@ import {
   useRef,
   useEffect,
 } from 'react';
+
 import {
   TextInput,
   Button,
@@ -23,11 +24,10 @@ import {
   DatePickerInput,
 } from '@collinsonx/design-system/date';
 import { IconCalendar } from '@tabler/icons-react';
-import { validateFlightNumber } from '../utils/flightValidation';
+import { validateFlightNumber } from '../../utils/flightValidation';
 import axios from 'axios';
-import { APIFlightInfoResponse } from 'pages/api/flight';
-import { useDisclosure } from '@mantine/hooks';
-
+import { APIFlightInfoResponse,APIFlightInfo } from 'pages/api/flight';
+import  FlightInfoNew  from '../flightInfo/FlightInfoNew';
 interface FlightInfoComponentProps {
   onSuccess: (data: any) => void;
   onError?: (newError: any) => void;
@@ -35,7 +35,10 @@ interface FlightInfoComponentProps {
   inputTestId?: string;
   datePickerTestId?: string;
   timePickerTestId?: string;
-  onSetSelectedSlot: (selectedSlot: AvailabilitySlot) => void;
+}
+
+interface FlightInfoProps {
+  flightInfo: APIFlightInfo
 }
 
 export interface AvailabilitySlot {
@@ -51,10 +54,9 @@ export const FlightInfo = ({
   inputTestId,
   datePickerTestId,
   timePickerTestId,
-  onSetSelectedSlot,
 }: FlightInfoComponentProps) => {
+
   const [flightNumber, setFlightNumber] = useState('');
-  const [availableSlots, setAvailableSlots] = useState(Array<AvailabilitySlot>);
   const [flightNumberError, setFlightNumberError] = useState(false);
   const [flightNumErrorText, setFlightNumErrorText] = useState('Please enter a flight number');
   const [flightDate, setFlightDate] = useState<Date>();
@@ -62,14 +64,12 @@ export const FlightInfo = ({
   const [dateErrorText] = useState('Please select a date');
   const [flightInfoError, setFlightInfoError] = useState('');
   const [flightInfoLoading, setFlightInfoLoading] = useState(false);
-  const [availableSlotsError, setAvailableSlotsError] = useState('');
   const [numberOfGuests, setNumberOfGuests] = useState<number | ''>(1);
-  const [opened, { open, close }] = useDisclosure(false);
   const handlers = useRef<NumberInputHandlers>();
+  const [flightInfoDtls, setflightInfoDtls] = useState<APIFlightInfo | null>(null);
 
   const onFlightNumberChange: ChangeEventHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const trimmed = event.target.value?.trim() ?? '';
-
     if (!trimmed) {
       setFlightNumberError(true);
       setFlightNumErrorText('Please enter a flight number');
@@ -89,28 +89,16 @@ export const FlightInfo = ({
     setFlightDate(newDate);
     setDateError(false);
   };
-
-  const onSelectSlot = (index: number) => {
-    onSetSelectedSlot(availableSlots[index]);
-    close();
-  };
-
-  const sortSlots = (slots: AvailabilitySlot[]) => {
-    return slots.sort((slotA, slotB) => {
-      return dayjs(slotA.startDate).isBefore(dayjs(slotB.startDate)) ? -1 : 1;
-    });
-  };
-
   const getFlightDetails = async () => {
     const flightBreakdown = validateFlightNumber(flightNumber);
-
     try {
-      const response = await axios.post<APIFlightInfoResponse>('/api/flight', {
+        const response = await axios.post<APIFlightInfoResponse>('/api/flight', {
         carrierCode: flightBreakdown[1] ?? '',
         flightNumber: flightBreakdown[2] ?? '',
         departureDate: dayjs(flightDate).format('YYYY-MM-DD'),
       });
       const flightInformation = response.data.data[0];
+      setflightInfoDtls(flightInformation);
       return flightInformation;
     } catch (err: any) {
       setFlightInfoError('No flight found with details supplied. Please check flight number and try again. If the issue persists, please contact support.');
@@ -120,49 +108,17 @@ export const FlightInfo = ({
 
   const getAvailability = async () => {
     const flightInformation = await getFlightDetails();
-
     if (!flightInformation) {
       setFlightInfoLoading(false);
       setFlightInfoError('No flight found with details supplied. Please check flight number and try again. If the issue persists, please contact support.');
       return;
-    }
-
-    try {
-      const response = await axios.post('/api/availability', {
-        flightInformation: {
-            type: 'DEPARTURE',
-            dateTime: `${flightInformation?.departure.date.local} ${flightInformation?.departure.time.local}`,
-            airport: flightInformation?.departure.airport,
-            terminal: '-1'
-        },
-        guests: {
-            adultCount: numberOfGuests,
-            childrenCount: 0,
-            infantCount: 0
-        },
-        product: {
-            productType: 'lounge',
-            productID: '1139',
-            supplierCode: '123'
-        }
-      });
-
-      if (response.data.slots.length === 0) {
-        setAvailableSlotsError('No slots available.');
-      }
-      setAvailableSlots(sortSlots(response.data.slots));
-      setFlightInfoLoading(false);
+    }else{
       onSuccess(flightInformation);
-      open();
-    } catch (err: any) {
-      setAvailableSlotsError('An error occurred while trying to get availabiliy. Please try again later. If the issue persists, please contact support.');
-      setFlightInfoLoading(false);
-      onSuccess(flightInformation);
-      open();
     }
   };
 
   const onSearch = () => {
+    
     if (flightInfoLoading) {
       return;
     }
@@ -178,7 +134,7 @@ export const FlightInfo = ({
     }
 
     setFlightInfoError('');
-    setFlightInfoLoading(true);
+    setFlightInfoLoading(false);
     getAvailability();
   };
 
@@ -252,6 +208,8 @@ export const FlightInfo = ({
           >
             Get Availability
           </Button>
+  
+{  flightInfoDtls!==null &&  <FlightInfoNew flightInfo={flightInfoDtls}></FlightInfoNew>  }
         </Group>
         <Group>
           <Text style={{ marginTop: '20px', color: 'red' }}>
@@ -259,39 +217,7 @@ export const FlightInfo = ({
           </Text>
         </Group>
       </Box>
-      <Modal opened={opened} onClose={close} title='Available Slots'>
-        <Text style={{ marginBottom: '15px' }}>
-          {
-            availableSlots.length > 0
-            ?
-              dayjs(availableSlots[0].startDate).format('DD MMMM YYYY')
-            :
-              ''
-          }
-        </Text>
-        <Text style={{ marginBottom: '15px' }}>
-          Maximum allowed stay is 3 hours
-        </Text>
-        {
-          availableSlots.length > 0
-          ?
-          <Grid grow>
-             {availableSlots.map((slot, i) => (
-              <Grid.Col span={1} key={`available-slot-${i}`}>
-                <Button variant='outline' style={{ textAlign: 'center', height: '4rem' }} onClick={() => { onSelectSlot(i) }} data-selectedslot={i}>
-                  Check-in <br /> between <br />
-                  {`${dayjs(slot.startDate).format('hh:mm')} - ${dayjs(slot.endDate).format('hh:mm')}`}
-                </Button>
-              </Grid.Col>
-            ))}
-          </Grid>
-
-          :
-            <Text>
-              { availableSlotsError }
-            </Text>
-        }
-      </Modal>
+     
     </>
   );
 };

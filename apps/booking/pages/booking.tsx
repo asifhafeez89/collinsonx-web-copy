@@ -1,5 +1,7 @@
 import { Title, Accordion, Grid, Text } from '@collinsonx/design-system/core';
-import { AvailabilitySlot, FlightInfo } from '../components/FlightInfo';
+import { AvailabilitySlot, FlightInfo } from '../components/flightInfo/FlightInfo';
+
+
 import { GetServerSideProps } from 'next';
 import { useState } from 'react';
 import dayjs from 'dayjs';
@@ -52,10 +54,11 @@ const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
       </Title>
       <p>Consumer Number: {consumerNumber}</p>
       <p>Temporary Bearer Token: {tempBearerToken}</p>
+
       <FlightInfo
         onSuccess={onFlightInfoSuccess}
-        onSetSelectedSlot={onSetSelectedSlot}
       />
+
       {flightData ? (
         <Grid style={{ marginTop: '20px' }}>
           <Grid.Col sm="auto" md="auto" lg={3}>
@@ -101,7 +104,7 @@ const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
 
               <Booking
                 slotDateFrom={selectedSlot?.startDate}
-                sletDateEnd={selectedSlot?.endDate}
+                slodDateEnd={selectedSlot?.endDate}
                 guests={3}
                 flightNumber={'ba7'}
                 flightDate={new Date(flightData.departure.date.utc)}
