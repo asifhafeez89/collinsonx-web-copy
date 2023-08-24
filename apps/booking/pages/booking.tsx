@@ -36,9 +36,6 @@ export const getServerSideProps: GetServerSideProps<MainProps> = async ({
 };
 
 const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
-  const [flightData, setFlightData] = useState<FlightInfo>();
-  const [selectedSlot, setSelectedSlot] = useState<AvailabilitySlot>();
-  const [selectedGuests, setSelectedGuests] = useState<AvailabilitySlot>();
   const onFlightInfoSuccess = (flightInfo: FlightInfo) => {
     setFlightData(flightInfo);
   };

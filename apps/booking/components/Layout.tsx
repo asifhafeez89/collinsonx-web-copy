@@ -1,4 +1,5 @@
 import {
+  Box,
   Center,
   Container,
   Divider,
@@ -52,19 +53,25 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <Container
-      pt={40}
-      px={16}
+      pt={10}
+      px={0}
       sx={{
-        maxWidth: '375px',
+        maxWidth: '100%',
         height: '100%',
         overflow: 'hidden',
-        backgroundColor: '#000000',
+        backgroundColor: '#F3F2F3',
       }}
     >
-      <Center pt={8}>
-        <Logo />
-        <Divider my="sm" />
-      </Center>
+      <Box
+        sx={{
+          borderBottom: '1px solid #cccc',
+          width: '100%',
+        }}
+      >
+        <Center pb={8} pt={8} mt={-10} sx={{ backgroundColor: '#ffffff' }}>
+          <Logo />
+        </Center>
+      </Box>
       {children}
     </Container>
   );

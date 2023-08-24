@@ -74,7 +74,7 @@ export default function CheckEmail() {
         // if (redirectUrl) {
         //   router.push(redirectUrl);
         // } else {
-        router.push('/booking');
+        router.push('/check-availability');
         // }
 
         // TODO add userId in apollo context

@@ -6,6 +6,7 @@ import {
   Group,
   Notification,
   Checkbox,
+  Title,
 } from '@collinsonx/design-system/core';
 import { useForm } from '@collinsonx/design-system/form';
 import LayoutLogin from '../../components/LayoutLogin';
@@ -95,13 +96,20 @@ export default function SignupUser() {
         })}
       >
         <Stack spacing={50}>
-          <Stack spacing={24} sx={{ height: '100%' }}>
-            <PageTitle
-              title="Sign up with email"
-              onClickBack={() => router.push('/')}
-              variant="white"
-            />
-
+          <Stack
+            spacing={24}
+            sx={{
+              height: '100%',
+              width: '440px',
+              margin: '0 auto',
+              '@media (max-width: 40em)': {
+                width: '100%',
+              },
+            }}
+          >
+            <Title order={1} size={20} align="center">
+              Register
+            </Title>
             <Error error={error} />
             <InputLabel
               autoFocus
@@ -110,7 +118,7 @@ export default function SignupUser() {
               {...form.getInputProps('firstname')}
               placeholder="First name"
               label="First name(s)"
-              isWhite={true}
+              isWhite={false}
               data-testid="firstName"
             />
 
@@ -121,32 +129,8 @@ export default function SignupUser() {
               {...form.getInputProps('lastname')}
               placeholder="Last name"
               label="Last name"
-              isWhite={true}
+              isWhite={false}
               data-testid="lastName"
-            />
-            <DatePicker
-              icon={<Calendar />}
-              sx={({ colors }) => ({
-                marginTop: '20px',
-                '.mantine-Input-icon': {
-                  paddingLeft: 14,
-                },
-                Input: {
-                  paddingLeft: 56,
-                  border: '1px solid #CED4DA',
-                  borderRadius: 4,
-                  color: colors.gray[6],
-                },
-              })}
-              label="Date of birth"
-              placeholder="Pick a date"
-              clearable={false}
-              valueFormat={DATE_FORMAT}
-              {...{
-                ...form.getInputProps('dateOfBirth'),
-              }}
-              maxDate={new Date()}
-              data-testid="dateOfBirthDatePicker"
             />
             <InputLabel
               readOnly
@@ -157,7 +141,7 @@ export default function SignupUser() {
               value={email}
               placeholder="Your email address"
               label="Your email address"
-              isWhite={true}
+              isWhite={false}
             />
             <Text>
               We will send you a unique code via email to complete the login.
@@ -172,7 +156,7 @@ export default function SignupUser() {
                   styles={{
                     label: {
                       order: -2,
-                      color: '#FFFFFF',
+                      color: '#000000',
                     },
                   }}
                   data-testid="marketingCheckbox"
