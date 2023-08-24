@@ -1,6 +1,7 @@
 import {
   Center,
   Container,
+  Divider,
   MantineProvider,
 } from '@collinsonx/design-system/core';
 import { Header, experienceX } from '@collinsonx/design-system';
@@ -62,6 +63,7 @@ export default function Layout({ children }: LayoutProps) {
     >
       <Center pt={8}>
         <Logo />
+        <Divider my="sm" />
       </Center>
       {children}
     </Container>

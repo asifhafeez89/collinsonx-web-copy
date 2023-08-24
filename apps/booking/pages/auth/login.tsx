@@ -1,4 +1,4 @@
-import { Title, Stack, Flex } from '@collinsonx/design-system/core';
+import { Title, Stack, Flex, Box } from '@collinsonx/design-system/core';
 import { Button } from '@collinsonx/design-system/core';
 import { useForm } from '@collinsonx/design-system/form';
 import { useRouter } from 'next/router';
@@ -8,6 +8,7 @@ import {
   createPasswordlessCode,
   useSessionContext,
 } from '@collinsonx/utils/supertokens';
+import { Breadcramp } from '@collinsonx/design-system';
 import { InputLabel } from '@collinsonx/design-system';
 import validateEmail from '@collinsonx/utils/lib/validateEmail';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
@@ -37,15 +38,17 @@ export default function Home(props: unknown) {
   });
 
   useEffect(() => {
+    console.log('session: ');
     console.log(session);
+    debugger;
     if (session && !session.loading) {
       const { userId } = session;
-
+      console.log(userId);
       if (userId) {
-        if (!ref.current) {
-          router.push('/booking');
-          ref.current = true;
-        }
+        // if (!ref.current) {
+        router.push('/booking');
+        ref.current = true;
+        // }
       } else {
         setLoading(false);
       }
@@ -61,7 +64,7 @@ export default function Home(props: unknown) {
           email,
         });
         router.push({
-          pathname: '/checkemail',
+          pathname: '/auth/check-code',
           query: { email, redirectUrl: router.query?.redirectUrl },
         });
       } catch (err: any) {
@@ -85,18 +88,31 @@ export default function Home(props: unknown) {
         </Flex>
       ) : (
         <LayoutLogin>
+          <Stack sx={{ width: '100%' }}>
+            <Breadcramp title="Back to Gatwick" url="https://bbc.co.uk" />
+          </Stack>
           <form onSubmit={form.onSubmit(handleClickContinue)}>
             <Stack spacing={50}>
-              <Stack spacing={24} sx={{ height: '100%' }}>
+              <Stack
+                spacing={24}
+                sx={{
+                  height: '100%',
+                  width: '440px',
+                  margin: '0 auto',
+                  '@media (max-width: 40em)': {
+                    width: '100%',
+                  },
+                }}
+              >
                 <Title order={1} size={20} align="center">
-                  Confirm your email address
+                  Confirm your email
                 </Title>
                 <InputLabel
                   type="text"
                   autoFocus
-                  placeholder="Your email address"
+                  placeholder="Confirm your email address"
                   label="Your email address"
-                  isWhite={true}
+                  isWhite={false}
                   styles={{
                     root: {
                       display: 'flex',

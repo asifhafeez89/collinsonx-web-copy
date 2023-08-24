@@ -10,7 +10,7 @@ const theme = (
   colors: {
     headerNavBg: ['#FFF'],
     headerNavColor: ['#FFF'],
-    brandColor: ['#000000'],
+    brandColor: ['#827127'],
     splashColor: ['#FFF'],
   },
   colorScheme: 'light',
@@ -22,7 +22,7 @@ const theme = (
   globalStyles: ({ colors }) => ({
     body: {
       height: '100%',
-      color: colors.orange,
+      color: colors.dark[4],
       fontWeight: 400,
     },
     html: {
@@ -74,7 +74,7 @@ const theme = (
       styles: ({ colors }) => ({
         label: {
           fontSize: '18px',
-          color: 'white',
+          color: 'black',
         },
         required: {
           color: colors.red[6],
