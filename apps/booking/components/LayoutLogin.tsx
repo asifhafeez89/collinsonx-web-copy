@@ -1,5 +1,6 @@
 import { Center, Container, Stack } from '@collinsonx/design-system/core';
 import React, { ReactNode } from 'react';
+import { getThemeKey } from '@lib';
 
 import {
   LogoCergea,
@@ -18,7 +19,9 @@ const logos = {
   dinersClub: LogoDinersClubWhite,
 };
 
-const Logo = LogoCergea;
+const themeKey = getThemeKey();
+
+const Logo = logos[themeKey as keyof typeof logos] ?? LogoCergea;
 
 export default function LayoutLogin({ children }: LayoutProps) {
   return (
@@ -29,7 +32,7 @@ export default function LayoutLogin({ children }: LayoutProps) {
         maxWidth: '375px',
         height: '100%',
         overflow: 'hidden',
-        backgroundColor: '#112132',
+        backgroundColor: '#ffffff',
       }}
     >
       <Stack spacing={40} sx={{ height: '100%' }}>

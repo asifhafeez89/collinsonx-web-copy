@@ -4,6 +4,7 @@ import { GetServerSideProps } from 'next';
 import { useState } from 'react';
 import dayjs from 'dayjs';
 import Booking from '@components/Booking';
+import Layout from '@components/Layout';
 
 interface MainProps {
   consumerNumber: string | string[];
@@ -47,7 +48,7 @@ const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
   };
 
   return (
-    <>
+    <Layout>
       <Title mb={8} size={32}>
         Welcome to Booking
       </Title>
@@ -115,7 +116,7 @@ const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
       ) : (
         ''
       )}
-    </>
+    </Layout>
   );
 };
 

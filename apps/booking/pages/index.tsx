@@ -37,8 +37,10 @@ export default function Home(props: unknown) {
   });
 
   useEffect(() => {
+    console.log(session);
     if (session && !session.loading) {
       const { userId } = session;
+
       if (userId) {
         if (!ref.current) {
           router.push('/booking');

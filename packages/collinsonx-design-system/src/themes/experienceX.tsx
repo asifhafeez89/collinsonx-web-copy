@@ -8,10 +8,10 @@ const theme = (
   { fontFamily }: ThemeOptions = { fontFamily: 'Be Vietnam Pro' }
 ): MantineThemeOverride => ({
   colors: {
-    headerNavBg: ['#25262B'],
+    headerNavBg: ['#FFF'],
     headerNavColor: ['#FFF'],
-    brandColor: ['#946A00'],
-    splashColor: ['#112232'],
+    brandColor: ['#000000'],
+    splashColor: ['#FFF'],
   },
   colorScheme: 'light',
   primaryColor: 'brandColor',
@@ -22,7 +22,7 @@ const theme = (
   globalStyles: ({ colors }) => ({
     body: {
       height: '100%',
-      color: colors.dark[6],
+      color: colors.orange,
       fontWeight: 400,
     },
     html: {

@@ -68,6 +68,9 @@ export default function CheckEmail() {
       let response = await consumePasswordlessCode({
         userInputCode: code,
       });
+
+      console.log(response);
+
       if (response.status === 'OK') {
         if (redirectUrl) {
           router.push(redirectUrl);
@@ -204,7 +207,7 @@ export default function CheckEmail() {
             <div
               style={{
                 background:
-                  'linear-gradient(180deg, #182E45 0%, #112132 28.78%)',
+                  'linear-gradient(180deg, #182E45 0%, #fffff 28.78%)',
                 height: '55vh',
                 width: 'auto',
                 maxWidth: '500px',

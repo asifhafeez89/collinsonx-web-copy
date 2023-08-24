@@ -13,6 +13,8 @@ export default function Auth() {
     try {
       const response = await consumePasswordlessCode();
 
+      console.log(response);
+
       if (response.status === 'OK') {
         const { email } = response.user;
 
@@ -21,7 +23,7 @@ export default function Auth() {
           router.push({ pathname: '/signup-user', query: { email } });
         } else {
           // user sign in success
-          router.push('/lounge');
+          router.push('/booking');
         }
       } else {
         // this can happen if the magic link has expired or is invalid

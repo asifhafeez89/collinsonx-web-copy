@@ -13,6 +13,8 @@ import { useApollo, ApolloProvider } from '@collinsonx/utils/apolloBooking';
 import SessionManager from '@components/SessionManager';
 import { Analytics } from '@vercel/analytics/react';
 import AuthWrapper from '@components/AuthWrapper';
+import { experienceX } from '@collinsonx/design-system/themes';
+import { Be_Vietnam_Pro } from 'next/font/google';
 
 if (typeof window !== 'undefined') {
   // we only want to call this init function on the frontend, so
@@ -28,6 +30,12 @@ type Page<P = {}> = NextPage<P> & {
 type Props = AppProps & {
   Component: Page;
 };
+
+const beVietnamPro = Be_Vietnam_Pro({
+  style: ['normal'],
+  subsets: ['latin'],
+  weight: ['400', '600', '700'],
+});
 
 export default function MyApp({ Component, pageProps }: Props) {
   // Use the layout defined at the page level, if available
@@ -48,7 +56,13 @@ export default function MyApp({ Component, pageProps }: Props) {
           <ApolloProvider client={apolloClient}>
             <AuthWrapper>
               <SessionManager>
-                <MantineProvider withGlobalStyles withNormalizeCSS>
+                <MantineProvider
+                  theme={experienceX({
+                    fontFamily: beVietnamPro.style.fontFamily,
+                  })}
+                  withGlobalStyles
+                  withNormalizeCSS
+                >
                   {getLayout(<Component {...pageProps} />)}
                   <Analytics />
                 </MantineProvider>
