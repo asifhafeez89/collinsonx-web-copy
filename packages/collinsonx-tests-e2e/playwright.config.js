@@ -38,6 +38,17 @@ module.exports = defineConfig({
       // ENV variable is given by the package.json script
       use: { ...devices['Desktop Chrome'], storageState: 'playwright/.auth/user.json', baseURL: `https://partner.${process.env.ENV}.cergea.com`, ignoreHTTPSErrors: true },
       dependencies: ['setup'],
+      // Skip running the acessibility tests
+      testIgnore: 'accessibility.spec.js'
+    },
+    {
+      name: 'accessibility-tests',
+      testDir: './tests/partner-management',
+      // ENV variable is given by the package.json script
+      use: { ...devices['Desktop Chrome'], storageState: 'playwright/.auth/user.json', baseURL: `https://partner.${process.env.ENV}.cergea.com`, ignoreHTTPSErrors: true },
+      dependencies: ['setup'],
+      // Only run the accessibility tests
+      testMatch: 'accessibility.spec.js'
     },
     // {
     //   name: 'Safari Test',
