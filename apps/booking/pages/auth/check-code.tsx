@@ -63,8 +63,6 @@ export default function CheckEmail() {
   };
 
   const handleClickConfirm = async () => {
-    console.log('hello');
-    debugger;
     setLoading(true);
     if (code?.length === 6) {
       let response = await consumePasswordlessCode({

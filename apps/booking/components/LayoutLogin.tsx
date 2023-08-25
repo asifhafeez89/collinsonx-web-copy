@@ -8,11 +8,8 @@ import {
 import React, { ReactNode } from 'react';
 import { getThemeKey } from '@lib';
 
-import {
-  LogoCergea,
-  LogoAmex,
-  LogoDinersClubWhite,
-} from '@collinsonx/design-system/assets/logo';
+import { LogoCergea, LogoHSBC } from '@collinsonx/design-system/assets/logo';
+import router, { useRouter } from 'next/router';
 
 interface LayoutProps {
   children: ReactNode;
@@ -20,16 +17,20 @@ interface LayoutProps {
 
 const logos = {
   experienceX: LogoCergea,
-  amexBlack: LogoAmex,
-  amexPlatinum: LogoAmex,
-  dinersClub: LogoDinersClubWhite,
+  hsbc: LogoHSBC,
 };
 
-const themeKey = getThemeKey();
-
-const Logo = logos[themeKey as keyof typeof logos] ?? LogoCergea;
-
 export default function LayoutLogin({ children }: LayoutProps) {
+  const router = useRouter();
+  const themeKey = getThemeKey();
+
+  const { partner } = router?.query;
+
+  console.log('partner', partner);
+
+  const Logo = logos[partner as keyof typeof logos] ?? LogoCergea;
+
+  console.log('logo', Logo);
   return (
     <Container
       pt={10}

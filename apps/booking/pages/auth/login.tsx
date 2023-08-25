@@ -38,9 +38,6 @@ export default function Home(props: unknown) {
   });
 
   useEffect(() => {
-    console.log('session: ');
-    console.log(session);
-    debugger;
     if (session && !session.loading) {
       const { userId } = session;
       console.log(userId);

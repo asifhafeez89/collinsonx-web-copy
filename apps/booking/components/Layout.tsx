@@ -12,13 +12,10 @@ import useAuth from '@collinsonx/utils/hooks/useAuth';
 
 import { getThemeKey } from '@lib';
 
-import {
-  LogoCergea,
-  LogoAmex,
-  LogoDinersClubWhite,
-} from '@collinsonx/design-system/assets/logo';
+import { LogoCergea, LogoHSBC } from '@collinsonx/design-system/assets/logo';
 
 import { ReactNode } from 'react';
+import { useRouter } from 'next/router';
 
 interface LayoutProps {
   children: ReactNode;
@@ -35,9 +32,7 @@ export default function Layout({ children }: LayoutProps) {
 
   const logos = {
     experienceX: LogoCergea,
-    amexBlack: LogoAmex,
-    amexPlatinum: LogoAmex,
-    dinersClub: LogoDinersClubWhite,
+    hsbc: LogoHSBC,
   };
 
   const handleLogout = async () => {
@@ -49,7 +44,14 @@ export default function Layout({ children }: LayoutProps) {
     }
   };
   const themeKey = getThemeKey();
-  const Logo = logos[themeKey as keyof typeof logos] ?? LogoCergea;
+  const router = useRouter();
+  const { partner } = router.query;
+
+  console.log('partner', partner);
+
+  const Logo = logos[partner as keyof typeof logos] ?? LogoCergea;
+
+  console.log('logo', Logo);
 
   return (
     <Container
