@@ -134,6 +134,12 @@ class BookingApi {
 
     const response = await axios.post(this.apiUrl, request, { headers });
 
+    const createBookingObj = response.data.data.createBooking;
+
+    if (createBookingObj === null) {
+      throw new Error("The response createBooking object is null. The method of authorisation, or the credentials themselves, may be incorrect.");
+    };
+
     const bookingId = response.data.data.createBooking.id;
 
     const reference = response.data.data.createBooking.reference;
@@ -259,6 +265,10 @@ class BookingApi {
     };
 
     const response = await axios.post(this.apiUrl, request, { headers });
+
+    if (response.data.errors) {
+      throw new Error(response.data.errors[0].message)
+    };
   };
 
   async confirmBooking(bookingId) {
@@ -287,6 +297,10 @@ class BookingApi {
     };
 
     const response = await axios.post(this.apiUrl, request, { headers });
+
+    if (response.data.errors) {
+      throw new Error(response.data.errors[0].message)
+    };
   };
 
   async deleteBooking(bookingId) {
@@ -312,7 +326,11 @@ class BookingApi {
       'x-user-type': 'SUPER_USER'
     };
 
-    await axios.post(this.apiUrl, request, { headers });
+    const response = await axios.post(this.apiUrl, request, { headers });
+
+    if (response.data.errors) {
+      throw new Error(response.data.errors[0].message)
+    };
   }
 
   async getBookings(lounge, ...statuses) {
@@ -341,6 +359,9 @@ class BookingApi {
     };
 
     const response = await axios.post(this.apiUrl, request, { headers });
+
+    // No error handling - unauthorised requests will always return 200 with an empty array
+
     const bookings = response.data.data.getBookings;
 
     const statusBookings = bookings.filter((booking) => {
@@ -375,6 +396,11 @@ class BookingApi {
     };
 
     const response = await axios.post(this.apiUrl, request, { headers });
+
+    if (response.data.errors) {
+      throw new Error(response.data.errors[0].message)
+    };
+
     const booking = response.data.data.getBookingByID;
 
     return booking;
