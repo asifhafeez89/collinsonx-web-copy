@@ -47,11 +47,7 @@ export default function Layout({ children }: LayoutProps) {
   const router = useRouter();
   const { partner } = router.query;
 
-  console.log('partner', partner);
-
   const Logo = logos[partner as keyof typeof logos] ?? LogoCergea;
-
-  console.log('logo', Logo);
 
   return (
     <Container

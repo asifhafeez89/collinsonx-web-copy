@@ -84,7 +84,6 @@ export default function SignupUser() {
           updateConsumerCall({
             variables: { consumerInput },
             onCompleted: (data) => {
-              console.log('success ', data);
               if (data?.updateConsumer?.id) {
                 router.push('/lounge');
               }

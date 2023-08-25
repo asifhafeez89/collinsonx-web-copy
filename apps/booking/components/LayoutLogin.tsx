@@ -26,11 +26,8 @@ export default function LayoutLogin({ children }: LayoutProps) {
 
   const { partner } = router?.query;
 
-  console.log('partner', partner);
-
   const Logo = logos[partner as keyof typeof logos] ?? LogoCergea;
 
-  console.log('logo', Logo);
   return (
     <Container
       pt={10}
