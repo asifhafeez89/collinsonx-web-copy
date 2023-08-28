@@ -15,7 +15,7 @@ export interface DetailsProps {
 const Details = ({ children, booking, loading = false }: DetailsProps) => {
   const flightTime = useMemo(
     () => getTime(booking?.metadata?.flightTime),
-    [booking?.metadata]
+    [booking]
   );
   return (
     <Stack spacing={40}>
