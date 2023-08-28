@@ -17,6 +17,10 @@ class AllConfirmedBookingsPage {
     waitForCheckedInElement() {
         return this.checkCustomerInButton.waitFor({ state: "detached" });
     };
+
+    goToURL() {
+        return this.page.goto('/bookings/confirmed', { waitUntil: "networkidle" });
+    };
 };
 
 module.exports = AllConfirmedBookingsPage;

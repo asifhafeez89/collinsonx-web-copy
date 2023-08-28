@@ -6,9 +6,12 @@
     "e2e:dev": "playwright test --headed",
     "e2e:start": "playwright test",
     "e2e:report": "playwright show-report",
-    "e2e:ci-partner": "ENV=TEST playwright test --project=partner-chromium-test",
-    "e2e:test-partner": "ENV=TEST playwright test --project=partner-chromium-test --headed",
-    "e2e:uat-partner": "ENV=UAT playwright test --project=partner-chromium-test --headed"
+    "e2e:ci-partner": "cross-env ENV=TEST playwright test --project=partner-chromium-test",
+    "e2e:ci-partner-accessibility": "cross-env ENV=TEST playwright test --project=accessibility-tests",
+    "e2e:test-partner": "cross-env ENV=TEST playwright test --project=partner-chromium-test --headed",
+    "e2e:test-partner-accessibility": "cross-env ENV=TEST playwright test --project=accessibility-tests --headed",
+    "e2e:uat-partner": "cross-env ENV=UAT playwright test --project=partner-chromium-test --headed",
+    "e2e:uat-partner-accessibility": "cross-env ENV=UAT playwright test --project=accessibility-tests --headed"
   },
   "dependencies": {
     "dotenv": "^16.3.1",
@@ -16,8 +19,11 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.7.3",
     "@playwright/test": "^1.37.0",
+    "axe-result-pretty-print": "^1.0.2",
     "axios": "^1.4.0",
+    "cross-env": "^7.0.3",
     "dd-trace": "^4.12.0",
     "mailinator-client": "^1.0.3",
     "stripe": "^12.18.0"

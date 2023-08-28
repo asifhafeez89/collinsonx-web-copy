@@ -41,7 +41,13 @@ class SignUp {
       'x-user-type': 'SUPER_USER'
     }
 
-    await axios.post(apiUrl, request, { headers });
+    const response = await axios.post(apiUrl, request, { headers });
+
+    const createInvitationObj = response.data.data.createInvitation;
+
+    if (createInvitationObj === null) {
+      throw new Error("The createInvitation response object is null. The registration email was unable to be sent out. The method of authorisation, or the credentials themselves, may be incorrect.")
+    };
   };
 
   async getRegistrationURL(email) {
@@ -51,26 +57,45 @@ class SignUp {
       process.env.MAILINATOR_API_TOKEN
     );
 
-    const inbox = await mailinatorClient.request(
-      new GetInboxRequest(process.env.MAILINATOR_EMAIL_ADDRESS)
-    );
 
-    let id;
+    try {
+      let latestMessage;
+      let count = 0;
 
-    const latestMessage = await inbox.result.msgs.find(message => message.to === username);
-    id = latestMessage.id;
+      while (latestMessage === undefined && count < 3) {
+        count > 0 && await new Promise(resolve => setTimeout(resolve, 5000));
 
-    const latestMessageContents = await mailinatorClient.request(
-      new GetMessageRequest(process.env.MAILINATOR_EMAIL_ADDRESS, username, id)
-    );
+        const inbox = await mailinatorClient.request(
+          new GetInboxRequest(process.env.MAILINATOR_EMAIL_ADDRESS)
+        );
 
-    const regex = /https.*?(?=\])/;
+        latestMessage = await inbox.result.msgs.find(message => message.to === username);
 
-    const url = regex.exec(latestMessageContents.result.parts[0].body);
+        count++;
+      };
 
-    const formattedURL = url[0].toString().replace(/(&#x2F;)/g, "/").replaceAll("&#x3D;", "=");
+      if (latestMessage === undefined) {
+        throw new Error("Could not find the OTP email. Check the user's email is correct in relation to the Mailinator account being used.")
+      };
 
-    return formattedURL;
+      const id = latestMessage.id;
+
+      const latestMessageContents = await mailinatorClient.request(
+        new GetMessageRequest(process.env.MAILINATOR_EMAIL_ADDRESS, username, id)
+      );
+
+      const regex = /https.*?(?=\])/;
+
+      const url = regex.exec(latestMessageContents.result.parts[0].body);
+
+      const formattedURL = url[0].toString().replace(/(&#x2F;)/g, "/").replaceAll("&#x3D;", "=");
+
+      return formattedURL;
+    } catch (err) {
+      throw err
+    };
+
+
   };
 };
 

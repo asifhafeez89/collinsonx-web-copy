@@ -18,6 +18,10 @@ class PendingRequestsPage {
     async waitForPendingRequestToBeRemoved(bookingRef) {
         return await this.page.getByRole('row', { name: bookingRef }).waitFor({ state: "detached" });
     };
+
+    goToURL() {
+        return this.page.goto('/bookings/pending', { waitUntil: "networkidle" });
+    };
 };
 
 module.exports = PendingRequestsPage;

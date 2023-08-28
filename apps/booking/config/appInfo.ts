@@ -20,8 +20,9 @@ export const apiAvailabilityInfo = {
 };
 
 export const appInfo: AppInfoUserInput = {
-  appName: 'CollinsonX',
+  appName: 'Cergea',
   apiBasePath: '/supertokens',
   apiDomain,
   websiteDomain: domain,
+  websiteBasePath: '/auth',
 };
