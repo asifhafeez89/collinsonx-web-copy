@@ -3,6 +3,7 @@ import { Calendar, Clock } from '@collinsonx/design-system/assets/icons';
 import DetailsSection from './DetailsSection';
 import DetailsKeyValue from './DetailsKeyValue';
 import dayjs from 'dayjs';
+import getTime from 'lib/getTime';
 import { Booking } from '@collinsonx/utils';
 import { useMemo } from 'react';
 
@@ -12,14 +13,10 @@ export interface DetailsProps {
   children?: JSX.Element;
 }
 const Details = ({ children, booking, loading = false }: DetailsProps) => {
-  const flightTime = useMemo(() => {
-    try {
-      const result = dayjs(booking?.metadata?.flightTime).format('HH:mm');
-      return result;
-    } catch (e) {
-      return booking?.metadata?.flightTime ?? '-';
-    }
-  }, [booking]);
+  const flightTime = useMemo(
+    () => getTime(booking?.metadata?.flightTime),
+    [booking?.metadata]
+  );
   return (
     <Stack spacing={40}>
       <DetailsSection label="Passenger details">
