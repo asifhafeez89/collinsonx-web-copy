@@ -17,6 +17,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { sendPasswordResetEmail } from 'supertokens-auth-react/recipe/emailpassword';
+import Link from 'next/link';
 
 export interface FormValues {
   email: string;
@@ -87,16 +88,25 @@ export default function ResetRequest() {
           <FormContainer>
             <form onSubmit={form.onSubmit(handleSubmit)}>
               <Stack spacing={40}>
-                <Text>
+                <Text size={18}>
                   Enter the email address you use to login and we&apos;ll send
                   you a link to reset your password.
                 </Text>
                 <TextInput label="Email" {...form.getInputProps('email')} />
                 <Button type="submit">Next</Button>
-                <Text sx={{ fontSize: 16 }}>
-                  If you’ve forgotten your email please contact support at
-                  help@collinson.co.uk or call 01234 345498 for help with
-                  getting access to your account.
+                <Text sx={{ fontSize: 18 }}>
+                  If you have forgotten your email, please contact our support
+                  team using the chat on the partner portal or email{' '}
+                  <Anchor
+                    size={18}
+                    fw={400}
+                    style={{ textDecoration: 'none' }}
+                    href="mailto:partner-cergea@collinsongroup.com"
+                    component={Link}
+                  >
+                    partner-cergea@collinsongroup.com
+                  </Anchor>{' '}
+                  for help in accessing your account.
                 </Text>
               </Stack>
             </form>

@@ -21,7 +21,6 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import Status from '@components/Status';
-import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
 
 import {
   BackArrow,
@@ -65,7 +64,7 @@ const titleMap = {
   declined: 'Declined lounge booking management',
 };
 
-const bookingTypeMap = {
+export const bookingTypeMap = {
   [BookingType.Reservation]: 'Reservation',
   [BookingType.WalkUp]: 'Walk-up',
 };
@@ -98,6 +97,7 @@ export default function Bookings({ type }: BookingsProps) {
     refetch: refetchBookings,
   } = useQuery<{ getBookings: Booking[] }>(getBookings, {
     variables: {
+      status: typeMap[type],
       experienceId: experience?.id,
     },
     skip: !experience?.id,
@@ -136,7 +136,7 @@ export default function Bookings({ type }: BookingsProps) {
     } else if (data?.getBookings) {
       result = {
         getBookings: data.getBookings.filter((item) => {
-          const bookedFrom = dayjsTz(item.bookedFrom).format('YYYY-MM-DD');
+          const bookedFrom = dayjs(item.bookedFrom).format('YYYY-MM-DD');
 
           const datetime = date.toString().split(' ');
 

@@ -5,7 +5,7 @@ const domain =
   process.env.NEXT_PUBLIC_SITE_DOMAIN_URL ||
   process.env.NEXT_PUBLIC_VERCEL_URL ||
   process.env.APP_URL ||
-  `http://partner-local.test.lifestyle-x.io:${port}`;
+  `http://localhost:${port}`;
 
 const apiDomain = process.env.NEXT_PUBLIC_AUTH_API_URL as string;
 
@@ -19,10 +19,10 @@ export const apiAvailabilityInfo = {
   key: process.env.SNAPLOGIC_KEY,
 };
 
-
 export const appInfo: AppInfoUserInput = {
-  appName: 'CollinsonX',
-  apiBasePath: '/',
+  appName: 'Cergea',
+  apiBasePath: '/supertokens',
   apiDomain,
   websiteDomain: domain,
+  websiteBasePath: '/auth',
 };
