@@ -39,9 +39,12 @@ const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
   const onFlightInfoSuccess = (flightInfo: FlightInfo) => {
     setFlightData(flightInfo);
   };
-
+  const [flightData, setFlightData] = useState<FlightInfo | undefined>();
+  const [availabilitySlots, selectedSlots] = useState<
+    AvailabilitySlot | undefined
+  >();
   const onSetSelectedSlot = (selectedSlot: AvailabilitySlot) => {
-    setSelectedSlot(selectedSlot);
+    //setSelectedSlot(selectedSlot);
   };
 
   return (
@@ -89,7 +92,7 @@ const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
               </Accordion.Item>
             </Accordion>
           </Grid.Col>
-          {selectedSlot ? (
+          {/* {selectedSlot ? (
             <Grid.Col sm="auto" md="auto" lg={3}>
               <Text>
                 Selected Slot:{' '}
@@ -108,7 +111,7 @@ const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
             </Grid.Col>
           ) : (
             <></>
-          )}
+          )} */}
         </Grid>
       ) : (
         ''
