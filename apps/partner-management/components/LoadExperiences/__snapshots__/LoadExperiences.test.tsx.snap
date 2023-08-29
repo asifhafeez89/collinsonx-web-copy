@@ -239,12 +239,13 @@ exports[`<LoadExperiences /> should render 1`] = `
               <input
                 aria-autocomplete="list"
                 aria-invalid="false"
+                aria-label="Search lounges"
                 autocomplete="off"
                 class="emotion-6 emotion-7 emotion-8"
                 data-mantine-stop-propagation="false"
                 id="load-experiences--selected"
                 readonly=""
-                role="dialog"
+                role="none"
                 type="search"
                 value="Clubrooms Birmingham - Additional Fee Applies"
               />
@@ -494,12 +495,13 @@ exports[`<LoadExperiences /> should render 1`] = `
             <input
               aria-autocomplete="list"
               aria-invalid="false"
+              aria-label="Search lounges"
               autocomplete="off"
               class="emotion-6 emotion-7 emotion-8"
               data-mantine-stop-propagation="false"
               id="load-experiences--selected"
               readonly=""
-              role="dialog"
+              role="none"
               type="search"
               value="Clubrooms Birmingham - Additional Fee Applies"
             />
