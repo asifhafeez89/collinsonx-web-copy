@@ -16,5 +16,3 @@ export const appInfo: AppInfoUserInput = {
   websiteDomain: domain,
   websiteBasePath: '/auth',
 };
-
-console.log('Auth:appInfo: ', appInfo);
