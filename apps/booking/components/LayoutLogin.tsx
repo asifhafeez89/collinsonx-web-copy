@@ -22,7 +22,6 @@ const logos = {
 
 export default function LayoutLogin({ children }: LayoutProps) {
   const router = useRouter();
-  const themeKey = getThemeKey();
 
   const { partner } = router?.query;
 

@@ -13,8 +13,9 @@ import { useApollo, ApolloProvider } from '@collinsonx/utils/apolloBooking';
 import SessionManager from '@components/SessionManager';
 import { Analytics } from '@vercel/analytics/react';
 import AuthWrapper from '@components/AuthWrapper';
-import { experienceX } from '@collinsonx/design-system/themes';
+import { experienceX, hsbc } from '@collinsonx/design-system/themes';
 import { Be_Vietnam_Pro } from 'next/font/google';
+import router, { useRouter } from 'next/router';
 
 if (typeof window !== 'undefined') {
   // we only want to call this init function on the frontend, so
@@ -42,6 +43,30 @@ export default function MyApp({ Component, pageProps }: Props) {
   const getLayout = Component.getLayout ?? ((page) => page);
   const apolloClient = useApollo(pageProps);
 
+  const router = useRouter();
+
+  const { partner } = router?.query;
+
+  const themes = {
+    experienceX: 'experienceX',
+    hsbc: 'hsbc',
+  };
+
+  const themeSettingsShared = {
+    fontFamily: beVietnamPro.style.fontFamily,
+  };
+
+  function callThemeFunction(name: string) {
+    switch (name) {
+      case 'experienceX':
+        return experienceX(themeSettingsShared);
+      case 'hsbc':
+        return hsbc(themeSettingsShared);
+      default:
+        console.error(`Call theme function ${name} not found.`);
+    }
+  }
+
   return (
     <>
       <Head>
@@ -57,9 +82,15 @@ export default function MyApp({ Component, pageProps }: Props) {
             <AuthWrapper>
               <SessionManager>
                 <MantineProvider
-                  theme={experienceX({
-                    fontFamily: beVietnamPro.style.fontFamily,
-                  })}
+                  theme={
+                    partner === 'hsbc'
+                      ? hsbc({
+                          fontFamily: beVietnamPro.style.fontFamily,
+                        })
+                      : experienceX({
+                          fontFamily: beVietnamPro.style.fontFamily,
+                        })
+                  }
                   withGlobalStyles
                   withNormalizeCSS
                 >
