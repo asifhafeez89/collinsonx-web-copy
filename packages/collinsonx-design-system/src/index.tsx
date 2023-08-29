@@ -16,4 +16,5 @@ export { default as ResultsContainer } from './components/resultsContainer';
 export { default as LoungeImageTitle } from './components/loungeImageTitle';
 export { default as Details } from './components/details';
 export { default as TableX } from './components/table';
+export { default as Breadcramp } from './components/breadcramp';
 export * from './themes';

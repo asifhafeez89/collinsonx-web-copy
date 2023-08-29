@@ -2,7 +2,7 @@ import { createStyles } from '@mantine/core';
 
 export const useStyles = createStyles((theme) => ({
   drawerHeader: {
-    backgroundColor: '#112132',
+    backgroundColor: '#ffffff',
     padding: 15,
     display: 'flex',
     flexDirection: 'row',

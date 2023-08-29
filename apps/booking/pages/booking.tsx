@@ -4,6 +4,7 @@ import { GetServerSideProps } from 'next';
 import { useState } from 'react';
 import dayjs from 'dayjs';
 import Booking from '@components/Booking';
+import Layout from '@components/Layout';
 
 interface MainProps {
   consumerNumber: string | string[];
@@ -35,9 +36,6 @@ export const getServerSideProps: GetServerSideProps<MainProps> = async ({
 };
 
 const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
-  const [flightData, setFlightData] = useState<FlightInfo>();
-  const [selectedSlot, setSelectedSlot] = useState<AvailabilitySlot>();
-  const [selectedGuests, setSelectedGuests] = useState<AvailabilitySlot>();
   const onFlightInfoSuccess = (flightInfo: FlightInfo) => {
     setFlightData(flightInfo);
   };
@@ -47,7 +45,7 @@ const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
   };
 
   return (
-    <>
+    <Layout>
       <Title mb={8} size={32}>
         Welcome to Booking
       </Title>
@@ -115,7 +113,7 @@ const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
       ) : (
         ''
       )}
-    </>
+    </Layout>
   );
 };
 
