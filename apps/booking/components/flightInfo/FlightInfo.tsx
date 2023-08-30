@@ -20,14 +20,12 @@ import {
   Modal,
   LoadingOverlay,
 } from '@collinsonx/design-system/core';
-import {
-  DatePickerInput,
-} from '@collinsonx/design-system/date';
+import { DatePickerInput } from '@collinsonx/design-system/date';
 import { IconCalendar } from '@tabler/icons-react';
 import { validateFlightNumber } from '../../utils/flightValidation';
 import axios from 'axios';
-import { APIFlightInfoResponse,APIFlightInfo } from 'pages/api/flight';
-import  FlightInfoNew  from '../flightInfo/FlightInfoNew';
+import { APIFlightInfoResponse, APIFlightInfo } from 'pages/api/flight';
+import FlightInfoNew from '../flightInfo/FlightInfoNew';
 interface FlightInfoComponentProps {
   onSuccess: (data: any) => void;
   onError?: (newError: any) => void;
@@ -38,7 +36,7 @@ interface FlightInfoComponentProps {
 }
 
 interface FlightInfoProps {
-  flightInfo: APIFlightInfo
+  flightInfo: APIFlightInfo;
 }
 
 export interface AvailabilitySlot {
@@ -55,10 +53,11 @@ export const FlightInfo = ({
   datePickerTestId,
   timePickerTestId,
 }: FlightInfoComponentProps) => {
-
   const [flightNumber, setFlightNumber] = useState('');
   const [flightNumberError, setFlightNumberError] = useState(false);
-  const [flightNumErrorText, setFlightNumErrorText] = useState('Please enter a flight number');
+  const [flightNumErrorText, setFlightNumErrorText] = useState(
+    'Please enter a flight number'
+  );
   const [flightDate, setFlightDate] = useState<Date>();
   const [dateError, setDateError] = useState(false);
   const [dateErrorText] = useState('Please select a date');
@@ -66,9 +65,13 @@ export const FlightInfo = ({
   const [flightInfoLoading, setFlightInfoLoading] = useState(false);
   const [numberOfGuests, setNumberOfGuests] = useState<number | ''>(1);
   const handlers = useRef<NumberInputHandlers>();
-  const [flightInfoDtls, setflightInfoDtls] = useState<APIFlightInfo | null>(null);
+  const [flightInfoDtls, setflightInfoDtls] = useState<APIFlightInfo | null>(
+    null
+  );
 
-  const onFlightNumberChange: ChangeEventHandler = (event: ChangeEvent<HTMLInputElement>) => {
+  const onFlightNumberChange: ChangeEventHandler = (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
     const trimmed = event.target.value?.trim() ?? '';
     if (!trimmed) {
       setFlightNumberError(true);
@@ -92,7 +95,7 @@ export const FlightInfo = ({
   const getFlightDetails = async () => {
     const flightBreakdown = validateFlightNumber(flightNumber);
     try {
-        const response = await axios.post<APIFlightInfoResponse>('/api/flight', {
+      const response = await axios.post<APIFlightInfoResponse>('/api/flight', {
         carrierCode: flightBreakdown[1] ?? '',
         flightNumber: flightBreakdown[2] ?? '',
         departureDate: dayjs(flightDate).format('YYYY-MM-DD'),
@@ -101,7 +104,9 @@ export const FlightInfo = ({
       setflightInfoDtls(flightInformation);
       return flightInformation;
     } catch (err: any) {
-      setFlightInfoError('No flight found with details supplied. Please check flight number and try again. If the issue persists, please contact support.');
+      setFlightInfoError(
+        'No flight found with details supplied. Please check flight number and try again. If the issue persists, please contact support.'
+      );
       setFlightInfoLoading(false);
     }
   };
@@ -110,15 +115,16 @@ export const FlightInfo = ({
     const flightInformation = await getFlightDetails();
     if (!flightInformation) {
       setFlightInfoLoading(false);
-      setFlightInfoError('No flight found with details supplied. Please check flight number and try again. If the issue persists, please contact support.');
+      setFlightInfoError(
+        'No flight found with details supplied. Please check flight number and try again. If the issue persists, please contact support.'
+      );
       return;
-    }else{
+    } else {
       onSuccess(flightInformation);
     }
   };
 
   const onSearch = () => {
-    
     if (flightInfoLoading) {
       return;
     }
@@ -140,11 +146,11 @@ export const FlightInfo = ({
 
   return (
     <>
-      <Box maw={320} mx='auto'>
+      <Box maw={320} mx="auto">
         <LoadingOverlay visible={flightInfoLoading} overlayBlur={2} />
         <TextInput
-          label='Flight Number'
-          placeholder='Flight Number'
+          label="Flight Number"
+          placeholder="Flight Number"
           value={flightNumber}
           onChange={onFlightNumberChange}
           error={flightNumberError ? flightNumErrorText : ''}
@@ -152,11 +158,11 @@ export const FlightInfo = ({
           withAsterisk
         />
         <DatePickerInput
-          icon={<IconCalendar size='1.5rem' stroke={1.5} />}
-          label='Departure Date'
-          placeholder='Departure Date'
+          icon={<IconCalendar size="1.5rem" stroke={1.5} />}
+          label="Departure Date"
+          placeholder="Departure Date"
           maw={400}
-          mx='auto'
+          mx="auto"
           minDate={new Date()}
           value={flightDate}
           onChange={onDateChanged}
@@ -167,14 +173,16 @@ export const FlightInfo = ({
         <Group spacing={5}>
           <Grid grow>
             <Grid.Col span={12}>
-              <Text style={{ marginTop: '10px' }}>
-                Number of Guests:
-              </Text>
+              <Text style={{ marginTop: '10px' }}>Number of Guests:</Text>
             </Grid.Col>
             <Grid.Col>
               <Grid>
                 <Grid.Col span={2}>
-                  <ActionIcon size={'2.625rem'} variant='default' onClick={() => handlers.current?.decrement()}>
+                  <ActionIcon
+                    size={'2.625rem'}
+                    variant="default"
+                    onClick={() => handlers.current?.decrement()}
+                  >
                     –
                   </ActionIcon>
                 </Grid.Col>
@@ -187,12 +195,16 @@ export const FlightInfo = ({
                     max={10}
                     min={1}
                     step={1}
-                    size='md'
+                    size="md"
                     styles={{ input: { textAlign: 'center' } }}
                   />
                 </Grid.Col>
                 <Grid.Col span={2}>
-                  <ActionIcon size={'2.625rem'} variant='default' onClick={() => handlers.current?.increment()}>
+                  <ActionIcon
+                    size={'2.625rem'}
+                    variant="default"
+                    onClick={() => handlers.current?.increment()}
+                  >
                     +
                   </ActionIcon>
                 </Grid.Col>
@@ -201,15 +213,14 @@ export const FlightInfo = ({
           </Grid>
         </Group>
 
-        <Group position='center' mt='xl'>
-          <Button
-            variant='outline'
-            onClick={onSearch}
-          >
+        <Group position="center" mt="xl">
+          <Button variant="outline" onClick={onSearch}>
             Get Availability
           </Button>
-  
-{  flightInfoDtls!==null &&  <FlightInfoNew flightInfo={flightInfoDtls}></FlightInfoNew>  }
+
+          {flightInfoDtls !== null && (
+            <FlightInfoNew flightInfo={flightInfoDtls}></FlightInfoNew>
+          )}
         </Group>
         <Group>
           <Text style={{ marginTop: '20px', color: 'red' }}>
@@ -217,7 +228,6 @@ export const FlightInfo = ({
           </Text>
         </Group>
       </Box>
-     
     </>
   );
 };

@@ -1,6 +1,8 @@
 import { Title, Accordion, Grid, Text } from '@collinsonx/design-system/core';
-import { AvailabilitySlot, FlightInfo } from '../components/flightInfo/FlightInfo';
-
+import {
+  AvailabilitySlot,
+  FlightInfo,
+} from '../components/flightInfo/FlightInfo';
 
 import { GetServerSideProps } from 'next';
 import { useState } from 'react';
@@ -55,9 +57,7 @@ const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
       <p>Consumer Number: {consumerNumber}</p>
       <p>Temporary Bearer Token: {tempBearerToken}</p>
 
-      <FlightInfo
-        onSuccess={onFlightInfoSuccess}
-      />
+      <FlightInfo onSuccess={onFlightInfoSuccess} />
 
       {flightData ? (
         <Grid style={{ marginTop: '20px' }}>
