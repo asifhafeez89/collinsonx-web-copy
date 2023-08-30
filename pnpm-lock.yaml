@@ -55,28 +55,10 @@ importers:
         version: 2.8.8
       ts-jest:
         specifier: ^29.1.1
-        version: 29.1.1(@babel/core@7.22.10)(babel-jest@29.6.2)(jest@29.6.2)(typescript@5.1.3)
+        version: 29.1.1(@babel/core@7.22.10)(babel-jest@29.6.2)(jest@29.6.2)(typescript@5.2.2)
       turbo:
         specifier: latest
         version: 1.10.13
-
-  apps/baas-testing-app:
-    dependencies:
-      '@collinsonx/config':
-        specifier: workspace:*
-        version: link:../../packages/collinsonx-config
-      '@collinsonx/design-system':
-        specifier: workspace:*
-        version: link:../../packages/collinsonx-design-system
-      next:
-        specifier: 13.4.19
-        version: 13.4.19(@babel/core@7.22.10)(@opentelemetry/api@1.4.1)(react-dom@18.2.0)(react@18.2.0)
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
 
   apps/booking:
     dependencies:
@@ -317,7 +299,40 @@ importers:
         specifier: 5.1.3
         version: 5.1.3
 
+  apps/testing-app:
+    dependencies:
+      '@collinsonx/config':
+        specifier: workspace:*
+        version: link:../../packages/collinsonx-config
+      '@collinsonx/constants':
+        specifier: workspace:*
+        version: link:../../packages/collinsonx-constants
+      '@collinsonx/design-system':
+        specifier: workspace:*
+        version: link:../../packages/collinsonx-design-system
+      next:
+        specifier: 13.4.19
+        version: 13.4.19(@babel/core@7.22.10)(@opentelemetry/api@1.4.1)(react-dom@18.2.0)(react@18.2.0)
+      react:
+        specifier: 18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: 18.2.0
+        version: 18.2.0(react@18.2.0)
+
   packages/collinsonx-config: {}
+
+  packages/collinsonx-constants:
+    devDependencies:
+      '@swc/cli':
+        specifier: ^0.1.62
+        version: 0.1.62(@swc/core@1.3.77)(chokidar@3.5.3)
+      '@swc/core':
+        specifier: ^1.3.77
+        version: 1.3.77(@swc/helpers@0.5.1)
+      typescript:
+        specifier: ^5.2.2
+        version: 5.2.2
 
   packages/collinsonx-design-system:
     dependencies:
@@ -16631,7 +16646,7 @@ packages:
       yargs-parser: 21.1.1
     dev: false
 
-  /ts-jest@29.1.1(@babel/core@7.22.10)(babel-jest@29.6.2)(jest@29.6.2)(typescript@5.1.3):
+  /ts-jest@29.1.1(@babel/core@7.22.10)(babel-jest@29.6.2)(jest@29.6.2)(typescript@5.2.2):
     resolution: {integrity: sha512-D6xjnnbP17cC85nliwGiL+tpoKN0StpgE0TeOjXQTU6MVCfsB4v7aW05CgQ/1OywGb0x/oy9hHFnN+sczTiRaA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     hasBin: true
@@ -16662,7 +16677,7 @@ packages:
       lodash.memoize: 4.1.2
       make-error: 1.3.6
       semver: 7.5.4
-      typescript: 5.1.3
+      typescript: 5.2.2
       yargs-parser: 21.1.1
     dev: true
 
@@ -16992,6 +17007,12 @@ packages:
     resolution: {integrity: sha512-XH627E9vkeqhlZFQuL+UsyAXEnibT0kWR2FWONlr4sTjvxyJYnyefgrkyECLzM5NenmKzRAy2rR/OlYLA1HkZw==}
     engines: {node: '>=14.17'}
     hasBin: true
+
+  /typescript@5.2.2:
+    resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: true
 
   /ua-parser-js@1.0.35:
     resolution: {integrity: sha512-fKnGuqmTBnIE+/KXSzCn4db8RTigUzw1AN0DmdU6hJovUTbYJKyqj+8Mt1c4VfRDnOVJnENmfYkIPZ946UrSAA==}

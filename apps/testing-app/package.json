@@ -8,6 +8,7 @@
   "dependencies": {
     "@collinsonx/config": "workspace:*",
     "@collinsonx/design-system": "workspace:*",
+    "@collinsonx/constants": "workspace:*",
     "next": "13.4.19",
     "react": "18.2.0",
     "react-dom": "18.2.0"
