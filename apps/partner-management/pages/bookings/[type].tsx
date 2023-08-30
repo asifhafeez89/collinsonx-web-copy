@@ -425,6 +425,7 @@ export default function Bookings({ type }: BookingsProps) {
     <>
       <PageTitle title={title} />
       <Modal
+        closeButtonProps={{ title: 'Close' }}
         opened={bookingId !== null}
         onClose={handleCloseModal}
         sx={{
@@ -454,6 +455,7 @@ export default function Bookings({ type }: BookingsProps) {
           <Flex gap={16} align="center" mb={8}>
             <Link href="/">
               <ActionIcon
+                aria-label="Back"
                 sx={{
                   svg: {
                     width: 20,
