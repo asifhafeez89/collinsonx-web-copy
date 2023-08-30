@@ -114,6 +114,54 @@ export default function Bookings({ type }: BookingsProps) {
     },
   });
 
+  const {
+    loading: loadingCheckedInBookings,
+    error: errorCheckdeInBookings,
+    data: dataCheckedInBookings,
+    refetch: refetchCheckedInBookings,
+  } = useQuery<{ getBookings: Booking[] }>(getBookings, {
+    variables: {
+      status: BookingStatus.CheckedIn,
+      experienceId: experience?.id,
+    },
+    skip: !experience?.id || type !== 'confirmed',
+    pollInterval: 300000,
+    fetchPolicy: 'network-only',
+    notifyOnNetworkStatusChange: true,
+    onCompleted: () => {
+      setLastUpdate(
+        new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
+      );
+
+      // HACK
+      attemptRefreshingSession().then((success: any) => {});
+    },
+  });
+
+  const {
+    loading: loadingCancelledBookings,
+    error: errorCancelledInBookings,
+    data: dataCancelledBookings,
+    refetch: refetchCancelledInBookings,
+  } = useQuery<{ getBookings: Booking[] }>(getBookings, {
+    variables: {
+      status: BookingStatus.Cancelled,
+      experienceId: experience?.id,
+    },
+    skip: !experience?.id || type !== 'declined',
+    pollInterval: 300000,
+    fetchPolicy: 'network-only',
+    notifyOnNetworkStatusChange: true,
+    onCompleted: () => {
+      setLastUpdate(
+        new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
+      );
+
+      // HACK
+      attemptRefreshingSession().then((success: any) => {});
+    },
+  });
+
   const router = useRouter();
 
   const { date } = router.query;
@@ -130,7 +178,33 @@ export default function Bookings({ type }: BookingsProps) {
 
   const filteredData = useMemo(() => {
     let result;
-    const data = expandBooking(dataBookings);
+    const mergedData =
+      type === 'confirmed'
+        ? {
+            getBookings:
+              !loadingCheckedInBookings && !loadingBookings
+                ? [
+                    ...(dataBookings ? dataBookings.getBookings : []),
+                    ...(dataCheckedInBookings
+                      ? dataCheckedInBookings.getBookings
+                      : []),
+                  ]
+                : [],
+          }
+        : type === 'declined'
+        ? {
+            getBookings:
+              !loadingCancelledBookings && !loadingBookings
+                ? [
+                    ...(dataBookings ? dataBookings.getBookings : []),
+                    ...(dataCancelledBookings
+                      ? dataCancelledBookings.getBookings
+                      : []),
+                  ]
+                : [],
+          }
+        : dataBookings;
+    const data = expandBooking(mergedData);
     if (!date) {
       result = data;
     } else if (data?.getBookings) {
@@ -158,7 +232,17 @@ export default function Bookings({ type }: BookingsProps) {
       };
     }
     return result;
-  }, [date, search, dataBookings]);
+  }, [
+    date,
+    search,
+    dataBookings,
+    dataCheckedInBookings,
+    type,
+    loadingBookings,
+    loadingCheckedInBookings,
+    loadingCancelledBookings,
+    dataCancelledBookings,
+  ]);
 
   const bookings = useMemo<Booking[]>(() => {
     let types;
