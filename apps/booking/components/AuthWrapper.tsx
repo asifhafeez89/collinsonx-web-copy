@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { PARTNER_ID, USER_TYPE, USER_META, SELECTED_LOUNGE } from 'config';
+import { USER_ID, USER_TYPE, USER_META, SELECTED_LOUNGE } from 'config';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import { removeItem, setItem } from '@collinsonx/utils/lib';
 
@@ -42,7 +42,7 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
 
     if (isLoggedIn || checkIsAllowed(window.location.pathname)) {
       if (session.userId && typeof session.userId === 'string') {
-        setItem(PARTNER_ID, session.userId);
+        setItem(USER_ID, session.userId);
       }
       setShow(true);
     } else {
@@ -59,7 +59,7 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
         padding: 0,
         top: 0,
         left: 0,
-        backgroundColor: '#112132',
+        backgroundColor: '#ffffff',
         position: 'fixed',
         height: '100vh',
         width: '100vw',

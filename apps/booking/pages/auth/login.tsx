@@ -1,6 +1,5 @@
-import { Title, Stack, Flex } from '@collinsonx/design-system/core';
+import { Title, Stack, Flex, Box } from '@collinsonx/design-system/core';
 import { Button } from '@collinsonx/design-system/core';
-import { getThemeKey } from '../lib/index';
 import { useForm } from '@collinsonx/design-system/form';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
@@ -9,11 +8,10 @@ import {
   createPasswordlessCode,
   useSessionContext,
 } from '@collinsonx/utils/supertokens';
+import { Breadcramp } from '@collinsonx/design-system';
 import { InputLabel } from '@collinsonx/design-system';
 import validateEmail from '@collinsonx/utils/lib/validateEmail';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
-
-const themeKey = getThemeKey();
 
 interface FormValues {
   email: string;
@@ -30,23 +28,23 @@ export default function Home(props: unknown) {
   const ref = useRef(false);
 
   const form = useForm({
-    // initialValues: {
-    //   email: '',
-    // },
-    // validate: {
-    //   email: (value: string) =>
-    //     validateEmail(value) ? null : 'Please enter a valid email address.',
-    // },
+    initialValues: {
+      email: '',
+    },
+    validate: {
+      email: (value: string) =>
+        validateEmail(value) ? null : 'Please enter a valid email address.',
+    },
   });
 
   useEffect(() => {
     if (session && !session.loading) {
       const { userId } = session;
       if (userId) {
-        if (!ref.current) {
-          router.push('/booking');
-          ref.current = true;
-        }
+        // if (!ref.current) {
+        router.push('/booking');
+        ref.current = true;
+        // }
       } else {
         setLoading(false);
       }
@@ -54,28 +52,28 @@ export default function Home(props: unknown) {
   }, [session, router]);
 
   const handleClickContinue = async ({ email }: FormValues) => {
-    // if (!validateEmail(email.trim())) {
-    //   setLoginError('Invalid email');
-    // } else {
-    try {
-      await createPasswordlessCode({
-        email,
-      });
-      router.push({
-        pathname: '/checkemail',
-        query: { email, redirectUrl: router.query?.redirectUrl },
-      });
-    } catch (err: any) {
-      console.log(err);
-      if (err.isSuperTokensGeneralError === true) {
-        // this may be a custom error message sent from the API by you,
-        // or if the input email / phone number is not valid.
-        window.alert(err.message);
-      } else {
-        window.alert('Oops! Something went wrong.');
+    if (!validateEmail(email.trim())) {
+      setLoginError('Invalid email');
+    } else {
+      try {
+        await createPasswordlessCode({
+          email,
+        });
+        router.push({
+          pathname: '/auth/check-code',
+          query: { email, redirectUrl: router.query?.redirectUrl },
+        });
+      } catch (err: any) {
+        console.log(err);
+        if (err.isSuperTokensGeneralError === true) {
+          // this may be a custom error message sent from the API by you,
+          // or if the input email / phone number is not valid.
+          window.alert(err.message);
+        } else {
+          window.alert('Oops! Something went wrong.');
+        }
       }
     }
-    // }
   };
 
   return (
@@ -86,43 +84,31 @@ export default function Home(props: unknown) {
         </Flex>
       ) : (
         <LayoutLogin>
+          <Stack sx={{ width: '100%' }}>
+            <Breadcramp title="Back to Gatwick" url="https://bbc.co.uk" />
+          </Stack>
           <form onSubmit={form.onSubmit(handleClickContinue)}>
-            {themeKey !== 'dinersClub' && (
-              <div
-                style={{
-                  position: 'absolute',
-                  bottom: 0,
-                  left: 0,
-                  overflow: 'hidden',
-                  width: '100%',
-                  height: '50%',
+            <Stack spacing={50}>
+              <Stack
+                spacing={24}
+                sx={{
+                  height: '100%',
+                  width: '440px',
+                  margin: '0 auto',
+                  '@media (max-width: 40em)': {
+                    width: '100%',
+                  },
                 }}
               >
-                <div
-                  style={{
-                    backgroundColor: '#182E45',
-                    width: '150vh',
-                    height: '150vh',
-                    position: 'absolute',
-                    bottom: '-100vh',
-                    left: '-75vh',
-                    borderTopRightRadius: '50%',
-                  }}
-                />
-              </div>
-            )}
-
-            <Stack spacing={50}>
-              <Stack spacing={24} sx={{ height: '100%' }}>
                 <Title order={1} size={20} align="center">
-                  Login to your account
+                  Confirm your email
                 </Title>
                 <InputLabel
                   type="text"
                   autoFocus
-                  placeholder="Your email address"
+                  placeholder="Confirm your email address"
                   label="Your email address"
-                  isWhite={true}
+                  isWhite={false}
                   styles={{
                     root: {
                       display: 'flex',

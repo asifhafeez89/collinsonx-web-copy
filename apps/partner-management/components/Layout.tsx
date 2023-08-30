@@ -39,7 +39,7 @@ export default function Layout({
         >
           <Flex justify="center" align="center">
             <Box w="100%">
-              <Link href="/">
+              <Link href="/" aria-label="Overview">
                 <LogoCergea />
               </Link>
             </Box>

@@ -14,7 +14,7 @@ const InputSelect = ({ ...props }: SelectProps) => {
           },
         },
       }}
-      role="dialog"
+      role="none"
       rightSection={<ArrowDown />}
       styles={(theme) => ({
         item: {

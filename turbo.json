@@ -2,45 +2,125 @@
   "$schema": "https://turborepo.org/schema.json",
   "pipeline": {
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": [".next/**", "dist/**", "storybook-static/**"]
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        ".next/**",
+        "dist/**",
+        "storybook-static/**"
+      ]
     },
     "e2e:dev": {
       "cache": false
     },
     "e2e:start": {
-      "dependsOn": ["^build"]
-    },
-    "partner-management#dev": {
       "dependsOn": [
-        "$PRODUCTION_API_URL",
-        "$NEXT_PUBLIC_VERCEL_URL",
-        "$APP_URL",
-        "$APP_PORT",
-        "$NEXT_PUBLIC_SITE_DOMAIN_URL",
-        "$NEXT_PUBLIC_AUTH_API_URL",
-        "$NEXT_PUBLIC_SESSION_SCOPE",
-        "$NEXT_PUBLIC_DATADOG_SERVICE",
-        "$NEXT_PUBLIC_DATADOG_SITE",
-        "$NEXT_PUBLIC_DATADOG_ENV",
-        "$NEXT_PUBLIC_DATADOG_APP_ID",
-        "$NEXT_PUBLIC_DATADOG_CLIENT_TOKEN",
+        "^build"
+      ]
+    },
+    "booking#dev:test": {
+      "dependsOn": [
         "@collinsonx/utils#build",
         "@collinsonx/design-system#build"
+      ],
+      "env": [
+        "PRODUCTION_API_URL",
+        "NEXT_PUBLIC_VERCEL_URL",
+        "APP_URL",
+        "APP_PORT",
+        "NEXT_PUBLIC_SESSION_THEME",
+        "NEXT_PUBLIC_SITE_DOMAIN_URL",
+        "NEXT_PUBLIC_AUTH_API_URL",
+        "NEXT_PUBLIC_SESSION_SCOPE",
+        "NEXT_PUBLIC_DATADOG_SERVICE",
+        "NEXT_PUBLIC_DATADOG_SITE",
+        "NEXT_PUBLIC_DATADOG_ENV",
+        "NEXT_PUBLIC_DATADOG_APP_ID",
+        "NEXT_PUBLIC_DATADOG_CLIENT_TOKEN"
+      ]
+    },
+    "booking#dev:uat": {
+      "dependsOn": [
+        "@collinsonx/utils#build",
+        "@collinsonx/design-system#build"
+      ],
+      "env": [
+        "PRODUCTION_API_URL",
+        "NEXT_PUBLIC_VERCEL_URL",
+        "APP_URL",
+        "APP_PORT",
+        "NEXT_PUBLIC_SESSION_THEME",
+        "NEXT_PUBLIC_SITE_DOMAIN_URL",
+        "NEXT_PUBLIC_AUTH_API_URL",
+        "NEXT_PUBLIC_SESSION_SCOPE",
+        "NEXT_PUBLIC_DATADOG_SERVICE",
+        "NEXT_PUBLIC_DATADOG_SITE",
+        "NEXT_PUBLIC_DATADOG_ENV",
+        "NEXT_PUBLIC_DATADOG_APP_ID",
+        "NEXT_PUBLIC_DATADOG_CLIENT_TOKEN"
+      ]
+    },
+    "partner-management#dev:test": {
+      "dependsOn": [
+        "@collinsonx/utils#build",
+        "@collinsonx/design-system#build"
+      ],
+      "env": [
+        "PRODUCTION_API_URL",
+        "NEXT_PUBLIC_VERCEL_URL",
+        "APP_URL",
+        "APP_PORT",
+        "NEXT_PUBLIC_SITE_DOMAIN_URL",
+        "NEXT_PUBLIC_AUTH_API_URL",
+        "NEXT_PUBLIC_SESSION_SCOPE",
+        "NEXT_PUBLIC_DATADOG_SERVICE",
+        "NEXT_PUBLIC_DATADOG_SITE",
+        "NEXT_PUBLIC_DATADOG_ENV",
+        "NEXT_PUBLIC_DATADOG_APP_ID",
+        "NEXT_PUBLIC_DATADOG_CLIENT_TOKEN"
+      ]
+    },
+    "partner-management#dev:uat": {
+      "dependsOn": [
+        "@collinsonx/utils#build",
+        "@collinsonx/design-system#build"
+      ],
+      "env": [
+        "PRODUCTION_API_URL",
+        "NEXT_PUBLIC_VERCEL_URL",
+        "APP_URL",
+        "APP_PORT",
+        "NEXT_PUBLIC_SITE_DOMAIN_URL",
+        "NEXT_PUBLIC_AUTH_API_URL",
+        "NEXT_PUBLIC_SESSION_SCOPE",
+        "NEXT_PUBLIC_DATADOG_SERVICE",
+        "NEXT_PUBLIC_DATADOG_SITE",
+        "NEXT_PUBLIC_DATADOG_ENV",
+        "NEXT_PUBLIC_DATADOG_APP_ID",
+        "NEXT_PUBLIC_DATADOG_CLIENT_TOKEN"
       ]
     },
     "@collinsox/storybook#dev": {
-      "dependsOn": ["@collinsonx/utils#build"]
+      "dependsOn": [
+        "@collinsonx/utils#build"
+      ]
     },
     "@collinsox/design-system#dev": {
-      "dependsOn": ["@collinsonx/utils#build"]
+      "dependsOn": [
+        "@collinsonx/utils#build"
+      ]
     },
     "test:ci": {
-      "dependsOn": ["^build"],
+      "dependsOn": [
+        "^build"
+      ],
       "outputs": []
     },
     "test": {
-      "dependsOn": ["^build"],
+      "dependsOn": [
+        "^build"
+      ],
       "outputs": []
     },
     "lint": {

@@ -64,7 +64,7 @@ const titleMap = {
   declined: 'Declined lounge booking management',
 };
 
-const bookingTypeMap = {
+export const bookingTypeMap = {
   [BookingType.Reservation]: 'Reservation',
   [BookingType.WalkUp]: 'Walk-up',
 };
@@ -97,6 +97,7 @@ export default function Bookings({ type }: BookingsProps) {
     refetch: refetchBookings,
   } = useQuery<{ getBookings: Booking[] }>(getBookings, {
     variables: {
+      status: typeMap[type],
       experienceId: experience?.id,
     },
     skip: !experience?.id,
@@ -424,6 +425,7 @@ export default function Bookings({ type }: BookingsProps) {
     <>
       <PageTitle title={title} />
       <Modal
+        closeButtonProps={{ title: 'Close' }}
         opened={bookingId !== null}
         onClose={handleCloseModal}
         sx={{
@@ -453,6 +455,7 @@ export default function Bookings({ type }: BookingsProps) {
           <Flex gap={16} align="center" mb={8}>
             <Link href="/">
               <ActionIcon
+                aria-label="Back"
                 sx={{
                   svg: {
                     width: 20,

@@ -22,37 +22,35 @@ A spec is a test script that uses the pages and utils to perform a specific test
 Setup process got more involved due to recent changes in the backend for CORS access.
 Here are the steps to follow to access deployed API through the partner-management app running on your local machine:
 
-3. The following aliases should be placed inside /etc/hosts file (on your local machine):
+3. The following alias should be placed inside /etc/hosts file (on your local machine):
 
 ```
 127.0.0.1 partner-local.test.cergea.com
-127.0.0.1 partner-local.uat.cergea.com
-127.0.0.1 partner-local.cergea.com
+
 ```
 
-4. Localhost certificates need to be issued using a cli tool like `mkcert`. There are numerous guides online on how to do this, here is one guide for macOS (there are other similar guides for windows etc.). The correct command should take into account uat alias (not 'localhost').
+4. Localhost certificates need to be issued using a cli tool like `mkcert`. There are numerous guides online on how to do this, here is one guide for macOS (there are other similar guides for windows etc.). The correct command should take into account TEST alias (not 'localhost').
 
 ```
 cd apps/partner-management
 ```
 
 ```
-mkcert -key-file partner-local.uat.cergea.com-key.pem -cert-file partner-local.uat.cergea.com.pem partner-local.uat.cergea.com
+mkcert -key-file partner-local.test.cergea.com-key.pem -cert-file partner-local.test.cergea.com.pem partner-local.test.cergea.com
 ```
-The end result of this process is to produce `partner-local.uat.cergea.com.pem` and `partner-local.uat.cergea.com-key.pem` files.
+The end result of this process is to produce `partner-local.test.cergea.com.pem` and `partner-local.test.cergea.com-key.pem` files.
 
 5. A .env.local should be placed inside `collinsonx-web/apps/partner-management` with the following contents:
 
 ```
-PRODUCTION_API_URL=https://gateway-api.uat.cergea.com/graphql
-NEXT_PUBLIC_PRODUCTION_API_URL=https://partner-local.uat.cergea.com:4010/api/graphql
-NEXT_PUBLIC_AUTH_API_URL=https://authz.uat.cergea.com
-SITE_DOMAIN_URL=https://partner-local.uat.cergea.com:4010
-NEXT_PUBLIC_SITE_DOMAIN_URL=https://partner-local.uat.cergea.com:4010
-NEXT_PUBLIC_SESSION_THEME=experience
+PRODUCTION_API_URL=https://gateway-api.test.cergea.com/graphql
+NEXT_PUBLIC_PRODUCTION_API_URL=https://partner-local.test.cergea.com:4010/api/graphql
+NEXT_PUBLIC_AUTH_API_URL=https://authz.test.cergea.com
+SITE_DOMAIN_URL=https://partner-local.test.cergea.com:4010
+NEXT_PUBLIC_SITE_DOMAIN_URL=https://partner-local.test.cergea.com:4010
 ```
 
-This process is to make UI operate with UAT backend (replace with TEST where appropriate if you wish).
+This process is to make UI operate with TEST backend (replace with UAT where appropriate if you wish).
 
 ### Run Local Server
 
@@ -61,14 +59,15 @@ This process is to make UI operate with UAT backend (replace with TEST where app
 $ npm install pm2@latest -g
 ```
 7. pnpm i (may need to run pnpm clean beforehand if receiving errors)
-8. pm2 start "pnpm dev" --name dev-server  
+8. cd apps/partner-management
+9. pm2 start "pnpm dev:test" --name dev-server
 
 UI will be accessible in the following links:
-https://partner-local.uat.cergea.com:4010 or http://localhost:3010
+https://partner-local.test.cergea.com:4010 or http://localhost:3010
 
 ### Run Partner web app e2e tests
 
-9. pnpm --filter "@collinsonx/tests-e2e" e2e:local-partner  
+10. pnpm --filter "@collinsonx/tests-e2e" e2e:test-partner
 
 ## Running tests for TEST/UAT environments (partner web app)
 1. pnpm i (may need to run pnpm clean beforehand if receiving errors)
@@ -124,10 +123,10 @@ projects: [
       name: 'partner-chromium-test',
       testDir: './tests/partner-management',
       // ENV variable is given by the package.json script
-      use: { 
-        ...devices['Desktop Chrome'], 
-        storageState: 'playwright/.auth/user.json', 
-        baseURL: `https://partner.${process.env.ENV}.cergea.com` 
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'playwright/.auth/user.json',
+        baseURL: `https://partner.${process.env.ENV}.cergea.com`
       },
       dependencies: ['setup'],
     }
@@ -161,7 +160,7 @@ test.describe('booking overview dashboard', () => {
         });
         test.describe('remove pending request using the booking API', () => {
             const lounge = loungeMap.get("lounge2");
-            test.use({ storageState: `playwright/.auth/${lounge.toLowerCase()}User.json` })     
+            test.use({ storageState: `playwright/.auth/${lounge.toLowerCase()}User.json` })
             test('should decrease the booking count by 1', async ({ page }) => {
                 ...
             });

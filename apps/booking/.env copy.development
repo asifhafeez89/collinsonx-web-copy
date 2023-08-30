@@ -1,7 +1,8 @@
-PRODUCTION_API_URL=https://gateway-api.test.lifestyle-x.io/graphql
-NEXT_PUBLIC_PRODUCTION_API_URL=https://partner-local.test.cergea.com:4010/api/graphql
-NEXT_PUBLIC_AUTH_API_URL=https://authz.test.cergea.com/supertokens/
-FLIGHT_INFO_URL=https://api.oag.com/flight-instances
-FLIGHT_INFO_KEY=""
-SNAPLOGIC_URL=""
-SNAPLOGIC_KEY=""
+PRODUCTION_API_URL=
+NEXT_PUBLIC_PRODUCTION_API_URL=
+NEXT_PUBLIC_AUTH_API_URL=
+FLIGHT_INFO_URL=
+FLIGHT_INFO_KEY=
+SNAPLOGIC_URL=
+SNAPLOGIC_KEY=
+NEXT_PUBLIC_SESSION_SCOPE=

@@ -32,7 +32,13 @@ test.describe('booking overview dashboard', () => {
 
                 const bookingId = (await bookingApi.addPendingRequest(lounge)).bookingId;
 
-                const initialCount = await bookingApi.getBookingCount(lounge, "PENDING");
+                let initialCount = await bookingApi.getBookingCount(lounge, "PENDING");
+
+                // requires atleast 2 bookings so that there is atleast 1 leftover for the assertion
+                if (initialCount === 1) {
+                    await bookingApi.addPendingRequest(lounge);
+                    initialCount = await bookingApi.getBookingCount(lounge, "PENDING");
+                };
 
                 await bookingApi.deleteBooking(bookingId);
 

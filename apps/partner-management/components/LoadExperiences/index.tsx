@@ -34,25 +34,28 @@ const LoadExperiences = ({
   return (
     <div>
       {data?.searchExperiences && (
-        <InputSelect
-          styles={{
-            root: {
-              width: '400px',
-            },
-          }}
-          data={experiencesFiltered ?? []}
-          onChange={async (id: string) => {
-            const newExperience = data?.searchExperiences.filter(
-              (item: Experience) => item.id === id
-            )[0]! as Experience;
+        <>
+          <InputSelect
+            aria-label="Search lounges"
+            styles={{
+              root: {
+                width: '400px',
+              },
+            }}
+            data={experiencesFiltered ?? []}
+            onChange={async (id: string) => {
+              const newExperience = data?.searchExperiences.filter(
+                (item: Experience) => item.id === id
+              )[0]! as Experience;
 
-            onExperienceSelected(newExperience);
+              onExperienceSelected(newExperience);
 
-            setItem(SELECTED_LOUNGE, JSON.stringify(newExperience));
-          }}
-          id='load-experiences--selected'
-          value={selectedExperience?.id}
-        />
+              setItem(SELECTED_LOUNGE, JSON.stringify(newExperience));
+            }}
+            id="load-experiences--selected"
+            value={selectedExperience?.id}
+          />
+        </>
       )}
     </div>
   );

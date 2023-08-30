@@ -13,7 +13,7 @@ import {
   createPasswordlessCode,
 } from '@collinsonx/utils/supertokens';
 import LayoutLogin from '@components/LayoutLogin';
-import { AuthInput } from '@collinsonx/design-system';
+import { AuthInput, Breadcramp } from '@collinsonx/design-system';
 import { LoginCode } from '@collinsonx/design-system/assets/graphics';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 import { useEffect, useRef, useState } from 'react';
@@ -69,16 +69,10 @@ export default function CheckEmail() {
         userInputCode: code,
       });
       if (response.status === 'OK') {
-        // existing user - move to success page
-        // if (data?.getConsumerByEmailAddress !== null) {
-        if (redirectUrl) {
-          router.push(redirectUrl);
-        } else {
-          router.push('/booking');
-        }
+        // if (redirectUrl) {
+        //   router.push(redirectUrl);
         // } else {
-        //   // new user - move to registration
-        //   router.push({ pathname: '/signup-user', query: { email } });
+        router.push('/check-availability');
         // }
 
         // TODO add userId in apollo context
@@ -118,9 +112,23 @@ export default function CheckEmail() {
       ) : (
         <LayoutLogin>
           <Stack px={8} align="center" sx={{ position: 'relative', zIndex: 2 }}>
-            <Stack spacing={24} align="center">
+            <Stack sx={{ width: '100%' }}>
+              <Breadcramp title="Back to Gatwick" url="https://bbc.co.uk" />
+            </Stack>
+            <Stack
+              spacing={24}
+              align="center"
+              sx={{
+                height: '100%',
+                width: '440px',
+                margin: '0 auto',
+                '@media (max-width: 40em)': {
+                  width: '100%',
+                },
+              }}
+            >
               <Title order={1} size={20}>
-                Check your email
+                Check your emails
               </Title>
               <Error error={error} />
               <Text align="center">
@@ -148,7 +156,7 @@ export default function CheckEmail() {
               <Box
                 my={16}
                 sx={{
-                  backgroundColor: '#445C75',
+                  backgroundColor: '#C8C9CA',
                   height: '1px',
                   width: '100%',
                 }}
@@ -163,7 +171,7 @@ export default function CheckEmail() {
                   variant="outline"
                   disabled={count > 0}
                   onClick={handleClickResend}
-                  sx={{ borderColor: 'white', color: 'white' }}
+                  sx={{ borderColor: '#2C2C2C', color: '#2C2C2C' }}
                 >
                   Resend
                 </Button>
@@ -185,45 +193,7 @@ export default function CheckEmail() {
                 </Text>
               )}
             </Stack>
-            <Flex mt={58} align="center" direction="column">
-              <Box
-                sx={{
-                  width: '100%',
-                  maxWidth: '342px',
-                  maxHeight: '304px',
-                }}
-              >
-                <LoginCode />
-              </Box>
-            </Flex>
           </Stack>
-          <div
-            style={{
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-              overflow: 'hidden',
-              width: '100%',
-              height: '50%',
-            }}
-          >
-            <div
-              style={{
-                background:
-                  'linear-gradient(180deg, #182E45 0%, #112132 28.78%)',
-                height: '55vh',
-                width: 'auto',
-                maxWidth: '500px',
-                position: 'absolute',
-                marginLeft: 'auto',
-                marginRight: 'auto',
-                left: 0,
-                right: 0,
-                bottom: '-270px',
-                borderRadius: '50%',
-              }}
-            />
-          </div>
         </LayoutLogin>
       )}
     </>

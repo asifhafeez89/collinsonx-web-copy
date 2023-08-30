@@ -8,6 +8,7 @@ import { GetServerSideProps } from 'next';
 import { useState } from 'react';
 import dayjs from 'dayjs';
 import Booking from '@components/Booking';
+import Layout from '@components/Layout';
 
 interface MainProps {
   consumerNumber: string | string[];
@@ -39,18 +40,19 @@ export const getServerSideProps: GetServerSideProps<MainProps> = async ({
 };
 
 const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
-  const [flightData, setFlightData] = useState<FlightInfo>();
-  const [selectedSlot, setSelectedSlot] = useState<AvailabilitySlot>();
   const onFlightInfoSuccess = (flightInfo: FlightInfo) => {
     setFlightData(flightInfo);
   };
-
+  const [flightData, setFlightData] = useState<FlightInfo | undefined>();
+  const [availabilitySlots, selectedSlots] = useState<
+    AvailabilitySlot | undefined
+  >();
   const onSetSelectedSlot = (selectedSlot: AvailabilitySlot) => {
-    setSelectedSlot(selectedSlot);
+    //setSelectedSlot(selectedSlot);
   };
 
   return (
-    <>
+    <Layout>
       <Title mb={8} size={32}>
         Welcome to Booking
       </Title>
@@ -93,7 +95,7 @@ const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
               </Accordion.Item>
             </Accordion>
           </Grid.Col>
-          {selectedSlot ? (
+          {/* {selectedSlot ? (
             <Grid.Col sm="auto" md="auto" lg={3}>
               <Text>
                 Selected Slot:{' '}
@@ -112,12 +114,12 @@ const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
             </Grid.Col>
           ) : (
             <></>
-          )}
+          )} */}
         </Grid>
       ) : (
         ''
       )}
-    </>
+    </Layout>
   );
 };
 

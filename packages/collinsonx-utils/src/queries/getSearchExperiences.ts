@@ -1,22 +1,17 @@
-import { gql } from '../apollo';
+import { gql } from '@apollo/client';
 
 const getSearchExperiences = gql`
   query SearchExperiences($query: String) {
     searchExperiences(query: $query) {
-      additionalInformation
-      conditions
       id
-      directions
-      facilities
       loungeName
       loungeCode
-      accessPeriod
-      airsideLandside
-      hasActiveLounges
-      passengerType
-      ppboOperatorName
-      serviceCentre
-      uniqueValueKey
+      location {
+        airportName
+        city
+        country
+        terminal
+      }
       pricing {
         pricingType
         currency
@@ -24,30 +19,20 @@ const getSearchExperiences = gql`
         lifestyleXReservationCharge
         walkInCostCurrentPPRate
         lifestyleXWalkInCharge
+        lifestyleXReservationCharge
         vat
       }
-      location {
-        airportCode
-        airportName
-        cgTerminal
-        cgTerminalCode
-        city
-        country
-        isoCountryCode
-        lbCountryCode
-        region
-        terminal
-        terminalCode
-        terminalAccessibility
-      }
+      facilities
+      openingHours
+      conditions
+      directions
       images {
-        url
         altText
+        url
         height
         width
         id
       }
-      openingHours
     }
   }
 `;

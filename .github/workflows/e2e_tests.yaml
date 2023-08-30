@@ -7,7 +7,7 @@ jobs:
   test:
     runs-on: e2e-test-runner
     container:
-      image: mcr.microsoft.com/playwright:v1.32.0-focal
+      image: mcr.microsoft.com/playwright:v1.37.0-focal
     steps:
       - uses: actions/checkout@v3
 
@@ -18,7 +18,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 20
-          cache: 'pnpm'
+          cache: "pnpm"
 
       - name: Install dependencies
         run: |
@@ -28,7 +28,7 @@ jobs:
         run: |
           apt-get update -y
           apt-get install sudo -y
-          sudo echo "127.0.0.1 partner-local.uat.cergea.com" | sudo tee -a /etc/hosts
+          sudo echo "127.0.0.1 partner-local.test.cergea.com" | sudo tee -a /etc/hosts
 
       - name: Partner webapp SSL cert creation (required by cors)
         run: |
@@ -37,18 +37,19 @@ jobs:
           mv mkcert-v1.4.3-linux-amd64 /usr/bin/mkcert
           chmod +x /usr/bin/mkcert
           cd apps/partner-management
-          mkcert -key-file partner-local.uat.cergea.com-key.pem -cert-file partner-local.uat.cergea.com.pem partner-local.uat.cergea.com
-          echo "${{ secrets.ENV_LOCAL_FILE }}" > .env.local
+          mkcert -key-file partner-local.test.cergea.com-key.pem -cert-file partner-local.test.cergea.com.pem partner-local.test.cergea.com
+          echo "${{ secrets.ENV_TEST_LOCAL_FILE }}" > .env.local
 
       - name: Run partner webapp tests
         env:
           STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}
         run: |
           export INSTRUMENT_CODE=1
-
-          pnpm run build
+          pnpm run build --filter partner-management
           pnpm add --global pm2
-          pm2 --name dev-server --interpreter bash start pnpm -- dev
+          cd apps/partner-management
+          pm2 --name dev-server --interpreter bash start pnpm -- dev:test
+
 
           attempt_counter=0
           max_attempts=5
@@ -71,8 +72,16 @@ jobs:
           export DD_ENV=ci
           export DD_TAGS="test_type:browser"
 
+          cd -
           echo "${{ secrets.ENV_TESTS_FILE }}" > packages/collinsonx-tests-e2e/.env.tests
-          pnpm --filter "@collinsonx/tests-e2e" e2e:local-partner-ci
+          pnpm --filter "@collinsonx/tests-e2e" e2e:ci-partner
+
+      - name: Archive npm failure logs
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: npm-logs
+          path: ~/.npm/_logs
 
       - name: Upload test results
         if: always()

@@ -22,7 +22,6 @@ const themes = {
 };
 
 const themeKey = process.env.NEXT_PUBLIC_SESSION_THEME;
-
 let theme: MantineThemeOverride;
 
 export const getThemeKey = () => themeKey || 'experienceX';
