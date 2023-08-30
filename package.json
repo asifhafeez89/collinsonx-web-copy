@@ -20,7 +20,7 @@
     "dev:uat": "turbo run dev:uat",
     "dev:test": "turbo run dev:test",
     "dev:test:booking": "turbo run dev:test --filter=booking...",
-    "dev:test:partner": "turbo run dev:test --filter=partner-management...",
+    "dev:test:partner-management": "turbo run dev:test --filter=partner-management...",
     "start": "turbo run start",
     "clean": "turbo run clean && rm -rf node_modules",
     "lint": "turbo run lint",
