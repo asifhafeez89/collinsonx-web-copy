@@ -1,19 +1,21 @@
 import { Anchor, NavLink } from '@mantine/core';
+
 import { ArrowLeft } from '../../assets/icons';
 
 interface BreadcrampProps {
   title: string;
   url: string;
+  color: string;
 }
 
-export default function Breadcramp({ title, url }: BreadcrampProps) {
+export default function Breadcramp({ title, url, color }: BreadcrampProps) {
   return (
     <Anchor
       href={url}
       target="_blank"
-      sx={{ width: 'fit-content', textDecoration: 'none' }}
+      sx={{ width: 'fit-content' }}
     >
-      <NavLink label={title} icon={<ArrowLeft size="1rem" stroke={1.5} />} />
+      <NavLink label={title} icon={<ArrowLeft size="1rem" stroke={1.5} />} styles={{ label: { color: color } }}/>
     </Anchor>
   );
 }
