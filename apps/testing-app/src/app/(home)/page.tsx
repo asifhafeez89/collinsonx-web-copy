@@ -2,10 +2,17 @@
 
 import type { NextPage } from 'next';
 
+import Button from '@collinsonx/design-system/components/button';
+
 import Layout from '@/components/MainLayout';
 
 const PageContent = () => {
-  return 'Baas - Testing App';
+  return (
+    <>
+      <span>Hello</span>
+      <Button>Setting</Button>
+    </>
+  );
 };
 
 const Page: NextPage = () => {
