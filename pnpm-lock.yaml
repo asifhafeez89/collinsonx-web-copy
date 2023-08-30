@@ -65,6 +65,9 @@ importers:
       '@collinsonx/config':
         specifier: workspace:*
         version: link:../../packages/collinsonx-config
+      '@collinsonx/design-system':
+        specifier: workspace:*
+        version: link:../../packages/collinsonx-design-system
       next:
         specifier: 13.4.19
         version: 13.4.19(@babel/core@7.22.10)(@opentelemetry/api@1.4.1)(react-dom@18.2.0)(react@18.2.0)
