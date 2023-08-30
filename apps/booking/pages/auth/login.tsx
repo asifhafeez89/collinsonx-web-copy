@@ -1,4 +1,4 @@
-import { Title, Stack, Flex, Box } from '@collinsonx/design-system/core';
+import { Title, Stack, Flex, Text } from '@collinsonx/design-system/core';
 import { Button } from '@collinsonx/design-system/core';
 import { useForm } from '@collinsonx/design-system/form';
 import { useRouter } from 'next/router';
@@ -78,6 +78,10 @@ export default function Home(props: unknown) {
     }
   };
 
+  const brandColor = getTheme().colors?.brandColor?.[0] as string;
+  // this will be covered by https://lifestyle-x.atlassian.net/browse/BAAS-95
+  const loungeTitle = "Gatwick Airport".toUpperCase();
+
   return (
     <>
       {loading ? (
@@ -87,10 +91,9 @@ export default function Home(props: unknown) {
       ) : (
         <LayoutLogin>
           <Stack sx={{ width: '100%' }}>
-            <Breadcramp title="Back to Gatwick" url="https://bbc.co.uk" />
+            <Breadcramp title={loungeTitle} url="#" color={brandColor}/>
           </Stack>
           <form onSubmit={form.onSubmit(handleClickContinue)}>
-            <Stack spacing={50}>
               <Stack
                 spacing={24}
                 sx={{
@@ -99,48 +102,40 @@ export default function Home(props: unknown) {
                   margin: '0 auto',
                   '@media (max-width: 40em)': {
                     width: '100%',
+                    padding: '16px 24px 0 24px',
                   },
                 }}
               >
-                <Title order={1} size={20} align="center">
-                  Confirm your email
-                </Title>
-                <InputLabel
-                  type="text"
-                  autoFocus
-                  placeholder="Confirm your email address"
-                  label="Your email address"
-                  isWhite={false}
-                  styles={{
-                    root: {
-                      display: 'flex',
-                      flexDirection: 'column',
-                    },
-                    description: {
-                      order: 1,
-                      marginTop: '4px',
-                      marginBottom: '0',
-                    },
-                    label: {
-                      order: -2,
-                    },
-                    input: {
-                      order: -1,
-                    },
-                    error: {
-                      order: 2,
+                <Title
+                  order={1}
+                  size={20}
+                  sx={{
+                    textAlign: 'center',
+                    '@media (max-width: 40em)': {
+                      textAlign: 'left',
                     },
                   }}
-                  withAsterisk
-                  {...form.getInputProps('email')}
-                  data-testid="loginEmailAddress"
-                />
-
+                >
+                  Enter your email address
+                </Title>
+                <Stack spacing={10}>
+                  <InputLabel
+                    type="text"
+                    autoFocus
+                    placeholder="stark@gmail.com"
+                    label="Email address"
+                    withAsterisk
+                    {...form.getInputProps('email')}
+                    data-testid="loginEmailAddress"
+                  />
+                  <Text align="left">
+                    We will send you a unique code via email to proceed
+                  </Text>
+                </Stack>
                 <Button type="submit" data-testid="login">
-                  Login
+                  Continue
                 </Button>
               </Stack>
-            </Stack>
           </form>
         </LayoutLogin>
       )}
