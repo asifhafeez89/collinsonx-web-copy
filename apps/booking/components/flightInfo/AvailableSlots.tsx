@@ -3,7 +3,7 @@ import { useQuery } from '@collinsonx/utils/apollo';
 import getAvailableSlots from '@collinsonx/utils/queries/getAvailableSlots';
 import { Availability, Slots } from '@collinsonx/utils';
 import { APIFlightInfo } from 'pages/api/flight';
-import { Button, Text, Grid } from '@collinsonx/design-system/core';
+import { Button, Text, Grid, Select } from '@collinsonx/design-system/core';
 import dayjs from 'dayjs';
 
 interface FlightInfoProps {
@@ -11,8 +11,8 @@ interface FlightInfoProps {
 }
 
 const AvailableSlots = ({ flightInfo }: FlightInfoProps) => {
-  const [availableSlots, setAvailableSlots] = useState<Array<Slots>>();
-  const [selectedSlot, setSelectedSlot] = useState<Slots>();
+  const [availableSlots, setAvailableSlots] = useState<Array<Slots>>([]);
+  const [selectedSlot, setSelectedSlot] = useState<Slots>([]);
   const [flightInfoLoading, setFlightInfoLoading] = useState(false);
   const { loading, error, data } = useQuery<{
     getAvailableSlots: Availability;
@@ -49,39 +49,42 @@ const AvailableSlots = ({ flightInfo }: FlightInfoProps) => {
       setSelectedSlot(availableSlots[index]);
     }
   };
+
+  interface AvailableSlotsSelectBoxProps {
+    availableSlots: Array<Slots>;
+  }
+
+  const AvailableSlotsSelectBox = ({
+    availableSlots,
+  }: AvailableSlotsSelectBoxProps) => {
+    const data = availableSlots.map((slot) => {
+      const value = `${slot.startDate}-${slot.endDate}`;
+      const startDate = dayjs(slot.startDate).format('hh:mm');
+      const endDate = dayjs(slot.endDate).format('hh::mm');
+      const label = ` ${startDate}-${endDate}`;
+
+      return {
+        value,
+        label,
+      };
+    });
+
+    return (
+      <Select
+        label="Available slots"
+        placeholder="Select available slot"
+        data={data}
+      />
+    );
+  };
+
   return (
     <div>
       <Grid grow>
-        {availableSlots?.map((slot, i) => (
-          <Grid.Col span={1} key={`available-slot-${i}`}>
-            <Button
-              variant="outline"
-              style={{ textAlign: 'center', height: '4rem' }}
-              onClick={() => {
-                onSelectSlot(i);
-              }}
-              data-selectedslot={i}
-            >
-              Check-in <br /> between <br />
-              {`${dayjs(slot.startDate).format('hh:mm')} - ${dayjs(
-                slot.endDate
-              ).format('hh:mm')}`}
-            </Button>
-          </Grid.Col>
-        ))}
+        {availableSlots.length > 0 && (
+          <AvailableSlotsSelectBox availableSlots={availableSlots} />
+        )}
       </Grid>
-
-      <br />
-      {selectedSlot ? (
-        <Text>
-          Selected Slot:{' '}
-          {`${dayjs(selectedSlot?.startDate).format('hh:mm')} - ${dayjs(
-            selectedSlot?.endDate
-          ).format('hh:mm')}`}
-        </Text>
-      ) : (
-        <></>
-      )}
     </div>
   );
 };
