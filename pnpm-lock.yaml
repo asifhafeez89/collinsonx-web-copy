@@ -299,7 +299,7 @@ importers:
         specifier: 5.1.3
         version: 5.1.3
 
-  apps/testing-app:
+  apps/placeholder-app:
     dependencies:
       '@collinsonx/config':
         specifier: workspace:*
@@ -310,6 +310,9 @@ importers:
       '@collinsonx/design-system':
         specifier: workspace:*
         version: link:../../packages/collinsonx-design-system
+      '@mantine/core':
+        specifier: ^6.0.19
+        version: 6.0.19(@emotion/react@11.11.1)(@mantine/hooks@6.0.19)(@types/react@18.2.20)(react-dom@18.2.0)(react@18.2.0)
       next:
         specifier: 13.4.19
         version: 13.4.19(@babel/core@7.22.10)(@opentelemetry/api@1.4.1)(react-dom@18.2.0)(react@18.2.0)
@@ -709,7 +712,7 @@ importers:
         version: 8.47.0
       eslint-config-next:
         specifier: canary
-        version: 13.4.20-canary.12(eslint@8.47.0)(typescript@4.9.5)
+        version: 13.4.20-canary.13(eslint@8.47.0)(typescript@4.9.5)
       eslint-config-prettier:
         specifier: ^8.10.0
         version: 8.10.0(eslint@8.47.0)
@@ -2317,6 +2320,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.13.11
+    dev: false
 
   /@babel/template@7.22.5:
     resolution: {integrity: sha512-X7yV7eiwAxdj9k94NEylvbVHLiVG1nvzCV2EAowhxLTwODV1jl9UzZ48leOC0sH7OnuHrIkllaBgneUykIcZaw==}
@@ -4390,8 +4394,8 @@ packages:
     resolution: {integrity: sha512-FsAT5x0jF2kkhNkKkukhsyYOrRqtSxrEhfliniIq0bwWbuXLgyt3Gv0Ml+b91XwjwArmuP7NxCiGd++GGKdNMQ==}
     dev: false
 
-  /@next/eslint-plugin-next@13.4.20-canary.12:
-    resolution: {integrity: sha512-CnBefCO79E8DWuOU2O+ibxxiE8JWqOj47xzWP+NEHiORT7Tl+P3RcAfxC6L7doD3l+L85unWNTqI+n8Ecb3cZw==}
+  /@next/eslint-plugin-next@13.4.20-canary.13:
+    resolution: {integrity: sha512-l9Yfo5fH2saoQjZWOSOm+XdGyMCpG1YP8XBhRQ9H+DX4lA+anGc/3css4FTZCy/SKRBStjvJFs+wAHdlexRqcw==}
     dependencies:
       glob: 7.1.7
     dev: false
@@ -10296,8 +10300,8 @@ packages:
     optionalDependencies:
       source-map: 0.6.1
 
-  /eslint-config-next@13.4.20-canary.12(eslint@8.47.0)(typescript@4.9.5):
-    resolution: {integrity: sha512-JiuCz7+03AjmykNuhsuApsYr43UkyA33bDCPsYnc5qMBx9MaWAHg5hw6BOsPr+yaJZR/TEhGo41o9fHzkEMCCg==}
+  /eslint-config-next@13.4.20-canary.13(eslint@8.47.0)(typescript@4.9.5):
+    resolution: {integrity: sha512-jGTp1jz0Ef3QtpsPr3g0DWPDEfWzRRXePHN6rT2/rLVG2fe0REPhVvY14suepwCm9OtPdxDcM4DLq/aLbwWiVA==}
     peerDependencies:
       eslint: ^7.23.0 || ^8.0.0
       typescript: '>=3.3.1'
@@ -10305,7 +10309,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@next/eslint-plugin-next': 13.4.20-canary.12
+      '@next/eslint-plugin-next': 13.4.20-canary.13
       '@rushstack/eslint-patch': 1.3.3
       '@typescript-eslint/parser': 5.62.0(eslint@8.47.0)(typescript@4.9.5)
       eslint: 8.47.0
@@ -15150,7 +15154,7 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      '@babel/runtime': 7.22.6
+      '@babel/runtime': 7.22.10
       react: 18.2.0
       use-composed-ref: 1.3.0(react@18.2.0)
       use-latest: 1.2.1(@types/react@18.2.20)(react@18.2.0)
@@ -15323,6 +15327,7 @@ packages:
 
   /regenerator-runtime@0.13.11:
     resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==}
+    dev: false
 
   /regenerator-runtime@0.14.0:
     resolution: {integrity: sha512-srw17NI0TUWHuGa5CFGGmhfNIeja30WMBfbslPNhf6JrqQlLN5gcrvig1oqPxiVaXb0oW0XRKtH6Nngs5lKCIA==}
