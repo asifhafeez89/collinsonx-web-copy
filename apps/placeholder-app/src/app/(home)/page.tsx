@@ -4,12 +4,11 @@ import type { NextPage } from 'next';
 
 // import Button from '@collinsonx/design-system/components/button';
 
-import {
-  Product,
-  Client,
-  getClients,
-  getProducts,
-} from '@collinsonx/constants/dist/enums';
+// @ts-ignore
+import { Product, Client } from '@collinsonx/constants/dist/enums';
+
+// @ts-ignore
+import { getClients, getProducts } from '@collinsonx/constants/dist/enums';
 
 import { Select } from '@mantine/core';
 
