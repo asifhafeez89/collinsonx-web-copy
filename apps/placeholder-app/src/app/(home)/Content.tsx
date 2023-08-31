@@ -13,19 +13,7 @@ import { getClients, getProducts } from '@collinsonx/constants/dist/enums';
 
 import schema, { SchemaType } from './schema';
 
-enum Lounge {
-  'Swissport_Lounges_1' = 'Swissport Lounges 1',
-  'Swissport_Lounges_2' = 'Swissport Lounges 2',
-  'Swissport_Lounges_3' = 'Swissport Lounges 3',
-}
-
-function getLounges(): Array<Lounge> {
-  return [
-    Lounge.Swissport_Lounges_1,
-    Lounge.Swissport_Lounges_2,
-    Lounge.Swissport_Lounges_3,
-  ];
-}
+import { LoungeSchema, lounges } from '@/data/Lounge';
 
 interface ClientSelectBoxProps {
   setClient: Dispatch<SetStateAction<Client>>;
@@ -70,14 +58,17 @@ function ProductSelectBox({ setProduct }: ProductSelectBoxProps) {
 }
 
 interface LoungeSelectBoxProps {
-  setLounge: Dispatch<SetStateAction<Lounge>>;
+  setLounge: Dispatch<SetStateAction<LoungeSchema>>;
 }
 
 function LoungeSelectBox({ setLounge }: LoungeSelectBoxProps) {
-  const data = getLounges().map((lounge: Lounge) => {
+  const data = lounges.map((lounge: LoungeSchema) => {
+    const value = lounge.LoungeCode;
+    const label = `${lounge.LoungeCode} - ${lounge.LoungeName} - ${lounge.AirportName}`;
+
     return {
-      value: lounge.toLowerCase(),
-      label: lounge,
+      value,
+      label,
     };
   });
 
@@ -105,7 +96,7 @@ const Content = () => {
 
   const [product, setProduct] = useState<Product>(null);
   const [client, setClient] = useState<Client>(null);
-  const [lounge, setLounge] = useState<Lounge>(Lounge.Swissport_Lounges_1);
+  const [lounge, setLounge] = useState<LoungeSchema>(lounges[0]);
 
   const [jwt, setJWT] = useState('');
 
