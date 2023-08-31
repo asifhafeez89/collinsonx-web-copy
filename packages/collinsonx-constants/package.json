@@ -7,7 +7,8 @@
     "build:swc": "swc src -d dist",
     "build": "pnpm clean && pnpm build:swc && pnpm types",
     "types": "tsc",
-    "publish": "pnpm build"
+    "publish": "pnpm build",
+    "postinstall": "pnpm build"
   },
   "devDependencies": {
     "@swc/cli": "^0.1.62",
