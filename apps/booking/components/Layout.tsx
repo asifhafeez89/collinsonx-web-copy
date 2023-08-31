@@ -1,5 +1,4 @@
 import { Box, Center, Container } from '@collinsonx/design-system/core';
-import { Be_Vietnam_Pro } from 'next/font/google';
 import useAuth from '@collinsonx/utils/hooks/useAuth';
 
 import { LogoCergea, LogoHSBC } from '@collinsonx/design-system/assets/logo';
@@ -11,18 +10,12 @@ interface LayoutProps {
   children: ReactNode;
 }
 
-const beVietnamPro = Be_Vietnam_Pro({
-  style: ['normal'],
-  subsets: ['latin'],
-  weight: ['400', '600', '700'],
-});
-
 export default function Layout({ children }: LayoutProps) {
   const [isLoggedIn, userId, logout] = useAuth({});
   const { payload, setPayload } = usePayload();
 
   const logos = {
-    CERGEA: <LogoCergea width={100} height={100} />,
+    CERGEA: <LogoCergea width={200} height={50} />,
     LOUNGE_KEY: <></>,
     PRIORITY_PASS: <></>,
     HSBC: <LogoHSBC width={50} height={50} />,

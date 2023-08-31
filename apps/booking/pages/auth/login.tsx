@@ -51,7 +51,7 @@ export default function Home(props: unknown) {
         setLoading(false);
       }
     }
-  }, [session, router]);
+  }, [session, router, token]);
 
   const handleClickContinue = async ({ email }: FormValues) => {
     if (!validateEmail(email.trim())) {
