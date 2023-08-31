@@ -6,8 +6,6 @@ import { appInfo } from './appInfo';
 export const frontendConfig = () => {
   const sessionTokenFrontendDomain = process.env.NEXT_PUBLIC_SESSION_SCOPE;
 
-  console.log('Auth:sessionTokenFrontendDomain: ', sessionTokenFrontendDomain);
-
   return {
     appInfo,
     recipeList: [

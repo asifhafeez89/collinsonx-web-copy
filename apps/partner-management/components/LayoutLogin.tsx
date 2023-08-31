@@ -31,7 +31,7 @@ export default function LayoutLogin({
           margin: 0,
         }}
       >
-        <Link href="/">
+        <Link href="/" aria-label="Home">
           <LogoCergea />
         </Link>
       </header>

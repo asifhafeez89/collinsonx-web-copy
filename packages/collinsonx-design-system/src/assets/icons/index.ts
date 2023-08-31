@@ -28,4 +28,5 @@ export { default as Magglass } from './magglass.svg';
 export { default as GreenCircle } from './greencircle.svg';
 export { default as RedCircle } from './redcircle.svg';
 export { default as ArrowDown } from './arrowdown.svg';
+export { default as ArrowLeft } from './arrowleft.svg';
 export { default as FourSquares } from './foursquares.svg';
