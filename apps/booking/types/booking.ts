@@ -8,20 +8,19 @@ export const bookingTypeMap = {
   [BookingType.WalkUp]: 'Walk-up',
 };
 
-export type Brand = 'PRIORITY_PASS' | 'LOUNGE_KEY' | 'CERGEA' | 'HSBC';
+export type AccountProvider = 'PP' | 'LK' | 'CERGEA';
 
 /**
  * field types are subject to change - placing string temporarily
  * https://lifestyle-x-wiki.atlassian.net/wiki/spaces/BAAS/pages/97419266/How+will+we+redirect+to+the+Bridge+App#Parameters-to-be-received-when-opening-the-Bridge-App-from-PP%2FLK
  */
 export interface BridgePayload {
-  consumerNumber: string;
   membershipNumber: string;
   email?: string;
   firstName?: string;
   lastName?: string;
-  brand_affiliation: Brand;
+  accountProvider: AccountProvider;
   lounge: string;
-  client?: string;
-  source_code: string;
+  membershipType?: string;
+  sourceCode: string;
 }

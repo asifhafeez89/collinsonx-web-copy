@@ -31,20 +31,6 @@ interface FlightInfo {
   arrival: DepartureFlightInfo;
 }
 
-/**
- * Baseic field validation for payload
- * @param payload
- * @returns
- */
-const validatePayload = (payload: BridgePayload) =>
-  hasRequired(payload, [
-    'consumerNumber',
-    'membershipNumber',
-    'brand_affiliation',
-    'lounge',
-    'source_code',
-  ]);
-
 export const getServerSideProps: GetServerSideProps<MainProps> = async ({
   req,
 }) => {
@@ -81,14 +67,13 @@ const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
           Welcome to Booking
         </Title>
         <Stack spacing={2}>
-          <Text>Consumer number: {payload.consumerNumber}</Text>
           <Text>Membership number: {payload.membershipNumber}</Text>
           <Text>Email: {payload.email}</Text>
           <Text>First name: {payload.firstName}</Text>
           <Text>Last name: {payload.lastName}</Text>
-          <Text>Brand affiliation: {payload.brand_affiliation}</Text>
+          <Text>Account provider: {payload.accountProvider}</Text>
           <Text>Lounge: {payload.lounge}</Text>
-          <Text>Source code: {payload.source_code}</Text>
+          <Text>Source code: {payload.sourceCode}</Text>
         </Stack>
         {consumerNumber && tempBearerToken ? (
           <Stack spacing={2} mt={20}>

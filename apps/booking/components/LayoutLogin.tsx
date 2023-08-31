@@ -28,7 +28,12 @@ export default function LayoutLogin({ children }: LayoutProps) {
         }}
       >
         <Center pb={8} pt={8} sx={{ backgroundColor: '#ffffff' }}>
-          <AppLogo brand={payload?.brand_affiliation!} />
+          {payload && (
+            <AppLogo
+              accountProvider={payload.accountProvider}
+              membershipType={payload.membershipType}
+            />
+          )}
         </Center>
       </Box>
       <Box pt={10} sx={{ margin: '0 auto' }}>

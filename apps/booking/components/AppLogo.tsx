@@ -5,19 +5,27 @@ import {
   LogoPriorityPass,
 } from '@collinsonx/design-system/assets/logo';
 import { ReactNode } from 'react';
-import { Brand } from 'types/booking';
+import { AccountProvider } from 'types/booking';
 
-const logos: Record<Brand, ReactNode> = {
+const logos: Record<AccountProvider | string, ReactNode> = {
   CERGEA: <LogoCergea width={200} height={100} />,
-  LOUNGE_KEY: <LogoLoungeKey width={200} height={100} />,
-  PRIORITY_PASS: <LogoPriorityPass width={200} height={100} />,
+  LK: <LogoLoungeKey width={200} height={100} />,
+  PP: <LogoPriorityPass width={200} height={100} />,
   HSBC: <LogoHSBC width={50} height={50} />,
+  Barclays: <></>,
 };
 
 interface AppLogoProps {
-  brand: Brand;
+  accountProvider: AccountProvider;
+  membershipType?: string;
 }
 
-const AppLogo = ({ brand }: AppLogoProps) => logos[brand];
+const AppLogo = ({ accountProvider, membershipType }: AppLogoProps) => {
+  if (membershipType && logos[membershipType]) {
+    return logos[membershipType];
+  } else {
+    return logos[accountProvider];
+  }
+};
 
 export default AppLogo;

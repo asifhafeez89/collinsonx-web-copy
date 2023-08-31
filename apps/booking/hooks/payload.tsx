@@ -40,11 +40,10 @@ const beVietnamPro = Be_Vietnam_Pro({
  */
 const validatePayload = (payload: BridgePayload) =>
   hasRequired(payload, [
-    'consumerNumber',
     'membershipNumber',
-    'brand_affiliation',
+    'accountProvider',
     'lounge',
-    'source_code',
+    'sourceCode',
   ]);
 
 export const PayloadProvider = (props: PropsWithChildren) => {
