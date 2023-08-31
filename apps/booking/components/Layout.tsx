@@ -70,7 +70,7 @@ export default function Layout({ children }: LayoutProps) {
           <Logo />
         </Center>
       </Box>
-      {children}
+      <Box p={20}>{children}</Box>
     </Container>
   );
 }
