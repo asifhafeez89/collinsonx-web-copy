@@ -11,6 +11,7 @@ import { experienceX } from '@collinsonx/design-system';
 
 type PayloadState = {
   payload: BridgePayload | undefined;
+  token: string;
   setPayload(payload: BridgePayload): void;
 };
 
@@ -70,7 +71,9 @@ export const PayloadProvider = (props: PropsWithChildren) => {
   }, [router]);
 
   return (
-    <PayloadContext.Provider value={{ payload, setPayload }}>
+    <PayloadContext.Provider
+      value={{ payload, setPayload, token: router.query.token as string }}
+    >
       {error && <Box>{error}</Box>}
       {payload && !error ? (
         <MantineProvider

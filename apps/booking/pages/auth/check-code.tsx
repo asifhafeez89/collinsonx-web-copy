@@ -21,7 +21,7 @@ import Error from '@components/Error';
 import usePayload from 'hooks/payload';
 
 export default function CheckEmail() {
-  const { payload, setPayload } = usePayload();
+  const { token, payload, setPayload } = usePayload();
   const router = useRouter();
   const email = router.query?.email as string;
   const redirectUrl = router.query?.redirectUrl as string;
@@ -72,7 +72,7 @@ export default function CheckEmail() {
         // if (redirectUrl) {
         //   router.push(redirectUrl);
         // } else {
-        router.push('/check-availability');
+        router.push({ pathname: '/check-availability', query: { token } });
         // }
 
         // TODO add userId in apollo context
@@ -100,7 +100,7 @@ export default function CheckEmail() {
   };
 
   const handleClickReenter = () => {
-    router.push('/');
+    router.push({ pathname: '/', query: { token } });
   };
 
   return (

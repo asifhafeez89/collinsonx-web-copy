@@ -28,7 +28,7 @@ import Error from '@components/Error';
 import usePayload from 'hooks/payload';
 
 export default function SignupUser() {
-  const { payload, setPayload } = usePayload();
+  const { token } = usePayload();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const DATE_FORMAT = 'DD/MM/YYYY';
@@ -87,7 +87,7 @@ export default function SignupUser() {
             variables: { consumerInput },
             onCompleted: (data) => {
               if (data?.updateConsumer?.id) {
-                router.push('/lounge');
+                router.push({ pathname: '/lounge', query: { token } });
               }
             },
             onError: () => {
