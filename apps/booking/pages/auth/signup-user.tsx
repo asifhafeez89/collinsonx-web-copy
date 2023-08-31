@@ -25,8 +25,10 @@ import { useRouter } from 'next/router';
 import validateEmail from '@collinsonx/utils/lib/validateEmail';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 import Error from '@components/Error';
+import usePayload from 'hooks/payload';
 
 export default function SignupUser() {
+  const { payload, setPayload } = usePayload();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const DATE_FORMAT = 'DD/MM/YYYY';

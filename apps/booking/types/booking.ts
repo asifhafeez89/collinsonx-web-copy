@@ -8,7 +8,7 @@ export const bookingTypeMap = {
   [BookingType.WalkUp]: 'Walk-up',
 };
 
-export type Brand = 'PRIORITY_PASS' | 'CERGEA' | 'HSBC';
+export type Brand = 'PRIORITY_PASS' | 'LOUNGE_KEY' | 'CERGEA' | 'HSBC';
 
 /**
  * field types are subject to change - placing string temporarily

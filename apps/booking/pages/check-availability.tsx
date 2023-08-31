@@ -14,6 +14,7 @@ import {
 } from '@collinsonx/design-system';
 import LoungeError from '@components/LoungeError';
 import { Clock, MapPin } from '@collinsonx/design-system/assets/icons';
+import usePayload from 'hooks/payload';
 
 interface MainProps {
   consumerNumber: string | string[];
@@ -32,6 +33,7 @@ interface FlightInfo {
 }
 
 const CheckAvailability = () => {
+  const { payload, setPayload } = usePayload();
   const [flightData, setFlightData] = useState<FlightInfo>();
   const [selectedSlot, setSelectedSlot] = useState<AvailabilitySlot>();
   const [selectedGuests, setSelectedGuests] = useState<AvailabilitySlot>();

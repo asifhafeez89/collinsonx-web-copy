@@ -12,6 +12,7 @@ import { Breadcramp } from '@collinsonx/design-system';
 import { InputLabel } from '@collinsonx/design-system';
 import validateEmail from '@collinsonx/utils/lib/validateEmail';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
+import usePayload from 'hooks/payload';
 
 interface FormValues {
   email: string;
@@ -21,6 +22,7 @@ export default function Home(props: unknown) {
   const session = useSessionContext();
 
   const [loading, setLoading] = useState(true);
+  const { payload, setPayload } = usePayload();
 
   const router = useRouter();
   const [loginError, setLoginError] = useState('');
