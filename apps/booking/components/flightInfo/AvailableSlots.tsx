@@ -8,9 +8,10 @@ import dayjs from 'dayjs';
 
 interface FlightInfoProps {
   flightInfo: APIFlightInfo;
+  setLoadingOverlay: () => void;
 }
 
-const AvailableSlots = ({ flightInfo }: FlightInfoProps) => {
+const AvailableSlots = ({ flightInfo, setLoadingOverlay }: FlightInfoProps) => {
   const [availableSlots, setAvailableSlots] = useState<Array<Slots>>([]);
   const [selectedSlot, setSelectedSlot] = useState<Slots>([]);
   const [flightInfoLoading, setFlightInfoLoading] = useState(false);
@@ -68,7 +69,7 @@ const AvailableSlots = ({ flightInfo }: FlightInfoProps) => {
         label,
       };
     });
-
+    setLoadingOverlay();
     return (
       <Select
         label="Available slots"

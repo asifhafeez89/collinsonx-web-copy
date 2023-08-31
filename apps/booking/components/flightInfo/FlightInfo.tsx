@@ -125,6 +125,7 @@ export const FlightInfo = ({
   };
 
   const onSearch = () => {
+    setFlightInfoLoading(true);
     if (flightInfoLoading) {
       return;
     }
@@ -140,8 +141,11 @@ export const FlightInfo = ({
     }
 
     setFlightInfoError('');
-    setFlightInfoLoading(false);
     getAvailability();
+  };
+
+  const setLoadingOverlay = () => {
+    setFlightInfoLoading(false);
   };
 
   return (
@@ -219,7 +223,10 @@ export const FlightInfo = ({
           </Button>
 
           {flightInfoDtls !== null && (
-            <FlightInfoNew flightInfo={flightInfoDtls}></FlightInfoNew>
+            <FlightInfoNew
+              flightInfo={flightInfoDtls}
+              setLoadingOverlay={setLoadingOverlay}
+            ></FlightInfoNew>
           )}
         </Group>
         <Group>
