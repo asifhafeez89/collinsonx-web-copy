@@ -11,7 +11,6 @@ export const bookingTypeMap = {
 export type AccountProvider = 'PP' | 'LK' | 'CERGEA';
 
 /**
- * field types are subject to change - placing string temporarily
  * https://lifestyle-x-wiki.atlassian.net/wiki/spaces/BAAS/pages/97419266/How+will+we+redirect+to+the+Bridge+App#Parameters-to-be-received-when-opening-the-Bridge-App-from-PP%2FLK
  */
 export interface BridgePayload {
