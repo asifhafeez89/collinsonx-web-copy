@@ -64,6 +64,7 @@ export const FlightInfo = ({
   const [flightInfoError, setFlightInfoError] = useState('');
   const [flightInfoLoading, setFlightInfoLoading] = useState(false);
   const [numberOfGuests, setNumberOfGuests] = useState<number | ''>(1);
+  const [guestscount, setGuestsCount] = useState<number>(1);
   const handlers = useRef<NumberInputHandlers>();
   const [flightInfoDtls, setflightInfoDtls] = useState<APIFlightInfo | null>(
     null
@@ -142,6 +143,8 @@ export const FlightInfo = ({
 
     setFlightInfoError('');
     getAvailability();
+    const guestCount = Number(numberOfGuests);
+    setGuestsCount(guestCount);
   };
 
   const setLoadingOverlay = () => {
@@ -226,6 +229,7 @@ export const FlightInfo = ({
             <FlightInfoNew
               flightInfo={flightInfoDtls}
               setLoadingOverlay={setLoadingOverlay}
+              numberOfGuests={guestscount}
             ></FlightInfoNew>
           )}
         </Group>

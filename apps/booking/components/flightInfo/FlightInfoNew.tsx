@@ -4,12 +4,18 @@ import { useState } from 'react';
 interface FlightInfoProps {
   flightInfo: APIFlightInfo;
   setLoadingOverlay: () => void;
+  numberOfGuests: number;
 }
-const FlightInfoNew = ({ flightInfo, setLoadingOverlay }: FlightInfoProps) => {
+const FlightInfoNew = ({
+  flightInfo,
+  setLoadingOverlay,
+  numberOfGuests,
+}: FlightInfoProps) => {
   return (
     <AvailableSlots
       flightInfo={flightInfo}
       setLoadingOverlay={setLoadingOverlay}
+      numberOfGuests={numberOfGuests}
     ></AvailableSlots>
   );
 };

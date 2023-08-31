@@ -9,11 +9,16 @@ import dayjs from 'dayjs';
 interface FlightInfoProps {
   flightInfo: APIFlightInfo;
   setLoadingOverlay: () => void;
+  numberOfGuests: number;
 }
 
-const AvailableSlots = ({ flightInfo, setLoadingOverlay }: FlightInfoProps) => {
+const AvailableSlots = ({
+  flightInfo,
+  setLoadingOverlay,
+  numberOfGuests,
+}: FlightInfoProps) => {
   const [availableSlots, setAvailableSlots] = useState<Array<Slots>>([]);
-  const [selectedSlot, setSelectedSlot] = useState<Slots>([]);
+  const [selectedSlot, setSelectedSlot] = useState<Slots>();
   const [flightInfoLoading, setFlightInfoLoading] = useState(false);
   const { loading, error, data } = useQuery<{
     getAvailableSlots: Availability;
@@ -27,7 +32,7 @@ const AvailableSlots = ({ flightInfo, setLoadingOverlay }: FlightInfoProps) => {
           terminal: '-1',
         },
         guests: {
-          adultCount: 5,
+          adultCount: numberOfGuests,
           childrenCount: 0,
           infantCount: 0,
         },
