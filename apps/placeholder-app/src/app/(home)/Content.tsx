@@ -2,15 +2,16 @@
 
 import { useState, Dispatch, SetStateAction } from 'react';
 
-import { useInputState } from '@mantine/hooks';
-
-import { Select, Button, Textarea, TextInput, em } from '@mantine/core';
+import { useForm, joiResolver } from '@mantine/form';
+import { Select, Button, Textarea, TextInput } from '@mantine/core';
 
 // @ts-ignore
 import { Product, Client } from '@collinsonx/constants/dist/enums';
 
 // @ts-ignore
 import { getClients, getProducts } from '@collinsonx/constants/dist/enums';
+
+import schema, { SchemaType } from './schema';
 
 enum Lounge {
   'Swissport_Lounges_1' = 'Swissport Lounges 1',
@@ -91,60 +92,72 @@ function LoungeSelectBox({ setLounge }: LoungeSelectBoxProps) {
 }
 
 const Content = () => {
+  const form = useForm({
+    validate: joiResolver(schema),
+    initialValues: {
+      consumerNumber: '',
+      membershipNumber: '',
+      email: '',
+      firstName: '',
+      lastName: '',
+    },
+  });
+
   const [product, setProduct] = useState<Product>(null);
   const [client, setClient] = useState<Client>(null);
   const [lounge, setLounge] = useState<Lounge>(Lounge.Swissport_Lounges_1);
 
-  const [firstName, setFirstName] = useInputState<string>('');
-  const [lastName, setLastName] = useInputState<string>('');
-  const [email, setEmail] = useInputState<string>('');
-
   const [jwt, setJWT] = useState('');
 
-  const createNewJWT = () => {
+  const createNewJWT = (values: SchemaType) => {
     const response = {
-      consumerNumber: '',
-      membershipNumber: '',
-      email: email,
-      firstName: firstName,
-      lastName: lastName,
-      brand_affiliation: '',
-      lounge: lounge,
-      client: client,
-      product: product,
+      ...values,
+      lounge,
+      product,
+      client,
     };
 
     setJWT(JSON.stringify(response));
-    console.log('submited');
   };
 
   return (
     <>
       <h1>Placeholder App</h1>
 
-      <TextInput
-        value={firstName}
-        onChange={setFirstName}
-        placeholder="Please add your first name"
-      />
-      <TextInput
-        value={lastName}
-        onChange={setLastName}
-        placeholder="Plase add your last name"
-      />
+      <form onSubmit={form.onSubmit((values) => createNewJWT(values))}>
+        <TextInput
+          placeholder="Please add your consumer number"
+          {...form.getInputProps('consumerNumber')}
+        />
 
-      <TextInput
-        value={email}
-        onChange={setEmail}
-        placeholder="Plase add your email"
-      />
+        <TextInput
+          {...form.getInputProps('membershipNumber')}
+          placeholder="Please add your membership number"
+        />
 
-      <ProductSelectBox setProduct={setProduct} />
-      <ClientSelectBox setClient={setClient} />
-      <LoungeSelectBox setLounge={setLounge} />
+        <TextInput
+          {...form.getInputProps('firstName')}
+          placeholder="Please add your first name"
+        />
 
-      <Button onClick={createNewJWT}>Generate a JWT</Button>
-      {jwt.length > 0 && <Textarea value={jwt} />}
+        <TextInput
+          {...form.getInputProps('lastName')}
+          placeholder="Please add your last name"
+        />
+
+        <TextInput
+          {...form.getInputProps('email')}
+          placeholder="Plase add your email"
+        />
+
+        <ProductSelectBox setProduct={setProduct} />
+        <ClientSelectBox setClient={setClient} />
+        <LoungeSelectBox setLounge={setLounge} />
+
+        <Button type="submit">Generate a JWT</Button>
+      </form>
+
+      {jwt.length > 0 && <Textarea value={jwt} readOnly />}
     </>
   );
 };
