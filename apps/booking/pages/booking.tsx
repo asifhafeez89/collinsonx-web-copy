@@ -10,9 +10,10 @@ import {
   Stack,
 } from '@collinsonx/design-system/core';
 import Layout from '@components/Layout';
-import { AvailabilitySlot, FlightInfo } from '../components/FlightInfo';
-import { hasRequired } from '@lib';
-import { BridgePayload } from 'types/booking';
+import {
+  AvailabilitySlot,
+  FlightInfo,
+} from '../components/flightInfo/FlightInfo';
 import usePayload from 'hooks/payload';
 
 interface MainProps {
@@ -86,10 +87,7 @@ const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
         ) : undefined}
 
         <Box mt={20}>
-          <FlightInfo
-            onSuccess={onFlightInfoSuccess}
-            onSetSelectedSlot={onSetSelectedSlot}
-          />
+          <FlightInfo onSuccess={onFlightInfoSuccess} />
         </Box>
         {flightData ? (
           <Grid mt={20}>
@@ -138,7 +136,7 @@ const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
 
               <Booking
                 slotDateFrom={selectedSlot?.startDate}
-                slotDateEnd={selectedSlot?.endDate}
+                slodDateEnd={selectedSlot?.endDate}
                 guests={3}
                 flightNumber={'ba7'}
                 flightDate={new Date(flightData.departure.date.utc)}
