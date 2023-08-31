@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'React';
+import { useState, useEffect } from 'react';
 import { useQuery } from '@collinsonx/utils/apollo';
 import getAvailableSlots from '@collinsonx/utils/queries/getAvailableSlots';
 import { Availability, Slots } from '@collinsonx/utils';
