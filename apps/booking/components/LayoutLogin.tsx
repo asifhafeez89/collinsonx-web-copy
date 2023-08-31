@@ -19,8 +19,8 @@ interface LayoutProps {
 
 const logos: Record<Brand, ReactNode> = {
   CERGEA: <LogoCergea width={100} height={100} />,
-  LOUNGE_KEY: <></>,
-  PRIORITY_PASS: <></>,
+  LOUNGE_KEY: <></>, //TODO add logo in ds
+  PRIORITY_PASS: <></>, // TODO add logo in ds
   HSBC: <LogoHSBC width={50} height={50} />,
 };
 
