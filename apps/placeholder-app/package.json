@@ -5,6 +5,10 @@
     "build": "next build",
     "start": "next start"
   },
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ],
   "dependencies": {
     "@collinsonx/config": "workspace:*",
     "@collinsonx/constants": "workspace:*",
@@ -14,8 +18,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
-  "moduleDirectories": [
-    "node_modules",
-    "src"
-  ]
+  "devDependencies": {
+    "@types/react": "^18.2.21"
+  }
 }
