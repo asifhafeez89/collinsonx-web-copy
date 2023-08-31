@@ -114,6 +114,13 @@ const theme = (
         },
       }),
     },
+    NavLink: {
+      styles: ({ colors }) => ({
+        label: {
+          color: colors.brandColor
+        }
+      })
+    },
   },
 });
 

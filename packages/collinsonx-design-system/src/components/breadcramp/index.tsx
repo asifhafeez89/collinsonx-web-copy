@@ -5,17 +5,16 @@ import { ArrowLeft } from '../../assets/icons';
 interface BreadcrampProps {
   title: string;
   url: string;
-  color: string;
 }
 
-export default function Breadcramp({ title, url, color }: BreadcrampProps) {
+export default function Breadcramp({ title, url }: BreadcrampProps) {
   return (
     <Anchor
       href={url}
       target="_blank"
       sx={{ width: 'fit-content' }}
     >
-      <NavLink label={title} icon={<ArrowLeft size="1rem" stroke={1.5} />} styles={{ label: { color: color } }}/>
+      <NavLink label={title} icon={<ArrowLeft size="1rem" stroke={1.5} />} />
     </Anchor>
   );
 }

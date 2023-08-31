@@ -78,7 +78,6 @@ export default function Home(props: unknown) {
     }
   };
 
-  const brandColor = getTheme().colors?.brandColor?.[0] as string;
   // this will be covered by https://lifestyle-x.atlassian.net/browse/BAAS-95
   const loungeTitle = "Gatwick Airport".toUpperCase();
 
@@ -91,7 +90,7 @@ export default function Home(props: unknown) {
       ) : (
         <LayoutLogin>
           <Stack sx={{ width: '100%' }}>
-            <Breadcramp title={loungeTitle} url="#" color={brandColor}/>
+            <Breadcramp title={loungeTitle} url="#" />
           </Stack>
           <form onSubmit={form.onSubmit(handleClickContinue)}>
               <Stack
