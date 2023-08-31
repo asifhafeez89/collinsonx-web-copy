@@ -13,6 +13,7 @@ import {
 import Layout from '@components/Layout';
 import { AvailabilitySlot, FlightInfo } from '../components/FlightInfo';
 import { hasRequired } from '@lib';
+import { BridgePayload } from 'types/booking';
 
 interface MainProps {
   consumerNumber: string | string[];
@@ -28,22 +29,6 @@ interface DepartureFlightInfo {
 interface FlightInfo {
   departure: DepartureFlightInfo;
   arrival: DepartureFlightInfo;
-}
-
-/**
- * field types are subject to change - placing string temporarily
- * https://lifestyle-x-wiki.atlassian.net/wiki/spaces/BAAS/pages/97419266/How+will+we+redirect+to+the+Bridge+App#Parameters-to-be-received-when-opening-the-Bridge-App-from-PP%2FLK
- */
-interface BridgePayload {
-  consumerNumber: string;
-  membershipNumber: string;
-  email?: string;
-  firstName?: string;
-  lastName?: string;
-  brand_affiliation: string;
-  lounge: string;
-  client?: string;
-  source_code: string;
 }
 
 const validatePayload = (payload: BridgePayload) =>
@@ -102,31 +87,30 @@ const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
     //setSelectedSlot(selectedSlot);
   };
 
-  return (
-    <Layout>
+  return payload && !tokenError ? (
+    <Layout brand={payload.brand_affiliation}>
       <Title mb={8} size={32}>
         Welcome to Booking
       </Title>
       {tokenError && <Text c="red.5">{tokenError}</Text>}
-      {payload && !tokenError ? (
-        <Stack spacing={2}>
-          <Text>Consumer number: {payload.consumerNumber}</Text>
-          <Text>Membership number: {payload.membershipNumber}</Text>
-          <Text>Email: {payload.email}</Text>
-          <Text>First name: {payload.firstName}</Text>
-          <Text>Last name: {payload.lastName}</Text>
-          <Text>Brand affiliation: {payload.brand_affiliation}</Text>
-          <Text>Lounge: {payload.lounge}</Text>
-          <Text>Source code: {payload.source_code}</Text>
-        </Stack>
-      ) : (
-        <Stack spacing={2}>
+      <Stack spacing={2}>
+        <Text>Consumer number: {payload.consumerNumber}</Text>
+        <Text>Membership number: {payload.membershipNumber}</Text>
+        <Text>Email: {payload.email}</Text>
+        <Text>First name: {payload.firstName}</Text>
+        <Text>Last name: {payload.lastName}</Text>
+        <Text>Brand affiliation: {payload.brand_affiliation}</Text>
+        <Text>Lounge: {payload.lounge}</Text>
+        <Text>Source code: {payload.source_code}</Text>
+      </Stack>
+      {consumerNumber && tempBearerToken ? (
+        <Stack spacing={2} mt={20}>
           <Text>Consumer Number (depracated): {consumerNumber}</Text>
           <Text>Temporary Bearer Token (deprecated): {tempBearerToken}</Text>
           <Text>Consumer Number (depracated): {consumerNumber}</Text>
           <Text>Temporary Bearer Token (deprecated): {tempBearerToken}</Text>
         </Stack>
-      )}
+      ) : undefined}
 
       <Box mt={20}>
         <FlightInfo
@@ -193,6 +177,8 @@ const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
         ''
       )}
     </Layout>
+  ) : (
+    <></>
   );
 };
 

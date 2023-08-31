@@ -16,9 +16,11 @@ import { LogoCergea, LogoHSBC } from '@collinsonx/design-system/assets/logo';
 
 import { ReactNode } from 'react';
 import { useRouter } from 'next/router';
+import { Brand } from 'types/booking';
 
 interface LayoutProps {
   children: ReactNode;
+  brand: Brand;
 }
 
 const beVietnamPro = Be_Vietnam_Pro({
@@ -27,12 +29,12 @@ const beVietnamPro = Be_Vietnam_Pro({
   weight: ['400', '600', '700'],
 });
 
-export default function Layout({ children }: LayoutProps) {
+export default function Layout({ children, brand }: LayoutProps) {
   const [isLoggedIn, userId, logout] = useAuth({});
 
   const logos = {
-    experienceX: LogoCergea,
-    hsbc: LogoHSBC,
+    CERGEA: <LogoCergea width={100} height={100} />,
+    HSBC: <LogoHSBC width={50} height={50} />,
   };
 
   const handleLogout = async () => {
@@ -45,9 +47,8 @@ export default function Layout({ children }: LayoutProps) {
   };
   const themeKey = getThemeKey();
   const router = useRouter();
-  const { partner } = router.query;
 
-  const Logo = logos[partner as keyof typeof logos] ?? LogoCergea;
+  const logo = logos[brand as keyof typeof logos] ?? logos['CERGEA'];
 
   return (
     <Container
@@ -66,8 +67,8 @@ export default function Layout({ children }: LayoutProps) {
           width: '100%',
         }}
       >
-        <Center pb={8} pt={8} mt={-10} sx={{ backgroundColor: '#ffffff' }}>
-          <Logo />
+        <Center pb={8} pt={8} sx={{ backgroundColor: '#ffffff' }}>
+          {logo}
         </Center>
       </Box>
       <Box p={20}>{children}</Box>
