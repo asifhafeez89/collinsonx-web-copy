@@ -13,6 +13,7 @@ import { InputLabel } from '@collinsonx/design-system';
 import validateEmail from '@collinsonx/utils/lib/validateEmail';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 import usePayload from 'hooks/payload';
+import colors from 'ui/colour-constants';
 
 interface FormValues {
   email: string;
@@ -35,7 +36,7 @@ export default function Home(props: unknown) {
     },
     validate: {
       email: (value: string) =>
-        validateEmail(value) ? null : 'Please enter a valid email address.',
+        validateEmail(value) ? null : 'Wrong email format, try again',
     },
   });
 
@@ -115,8 +116,11 @@ export default function Home(props: unknown) {
                 >
                   Enter your email address
                 </Title>
+                <Text>
+                  Enter email address where you will receive your booking information
+                </Text>
                 <Stack spacing={10}>
-                  <Text><Text span color='#fa5252'>*</Text> Email address</Text>
+                  <Text><Text span color={colors.red}>*</Text> Email address</Text>
                   <InputLabel
                     type="text"
                     autoFocus
@@ -126,7 +130,7 @@ export default function Home(props: unknown) {
                     data-testid="loginEmailAddress"
                   />
                   <Text align="left">
-                  We will send you a unique code via email to proceed
+                    We will send you a unique code via email to proceed
                   </Text>
                 </Stack>
                 <Button type="submit" data-testid="login">
