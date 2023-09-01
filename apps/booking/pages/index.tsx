@@ -1,9 +1,10 @@
 import { Title, Text, Stack } from '@collinsonx/design-system/core';
 import Layout from '@components/Layout';
 import usePayload from 'hooks/payload';
+import Link from 'next/link';
 
 const Home = () => {
-  const { payload, setPayload } = usePayload();
+  const { payload, token, setPayload } = usePayload();
 
   return (
     payload && (
@@ -21,6 +22,9 @@ const Home = () => {
           <Text>Lounge: {payload.lounge.LoungeCode}</Text>
           <Text>Source code: {payload.sourceCode}</Text>
         </Stack>
+        <Link href={{ pathname: '/booking', query: { in: token } }}>
+          Create booking
+        </Link>
       </Layout>
     )
   );

@@ -11,7 +11,7 @@ import { experienceX } from '@collinsonx/design-system';
 
 type PayloadState = {
   payload: BridgePayload | undefined;
-  token: string;
+  token: string | undefined;
   setPayload(payload: BridgePayload): void;
 };
 
@@ -53,11 +53,13 @@ const secret = jose.base64url.decode(
 export const PayloadProvider = (props: PropsWithChildren) => {
   const router = useRouter();
   const [payload, setPayload] = useState<BridgePayload>();
+  const [token, setToken] = useState<string>();
   const [error, setError] = useState<string>();
 
   useEffect(() => {
     if (router.isReady) {
       const token = router.query.in as string;
+      setToken(token);
       jose
         .jwtDecrypt(token, secret)
         .then((result) => {
@@ -79,9 +81,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
   }, [router]);
 
   return (
-    <PayloadContext.Provider
-      value={{ payload, setPayload, token: router.query.token as string }}
-    >
+    <PayloadContext.Provider value={{ payload, setPayload, token }}>
       {error && <Box>{error}</Box>}
       {payload && !error ? (
         <MantineProvider
