@@ -13,7 +13,12 @@ import { useApollo, ApolloProvider } from '@collinsonx/utils/apolloBooking';
 import SessionManager from '@components/SessionManager';
 import { Analytics } from '@vercel/analytics/react';
 import AuthWrapper from '@components/AuthWrapper';
-import { experienceX, hsbc } from '@collinsonx/design-system/themes';
+import {
+  experienceX,
+  hsbc,
+  loungeKey,
+  priorityPass,
+} from '@collinsonx/design-system/themes';
 import { Be_Vietnam_Pro } from 'next/font/google';
 import router, { useRouter } from 'next/router';
 
@@ -45,11 +50,17 @@ export default function MyApp({ Component, pageProps }: Props) {
 
   const router = useRouter();
 
-  const { partner } = router?.query;
+  interface Partner {
+    partner?: string;
+  }
+
+  const { partner }: Partner = router?.query;
 
   const themes = {
-    experienceX: 'experienceX',
+    default: 'experienceX',
     hsbc: 'hsbc',
+    priorityPass: 'priorityPass',
+    loungeKey: 'loungeKey',
   };
 
   const themeSettingsShared = {
@@ -58,12 +69,16 @@ export default function MyApp({ Component, pageProps }: Props) {
 
   function callThemeFunction(name: string) {
     switch (name) {
-      case 'experienceX':
+      case 'cergea':
         return experienceX(themeSettingsShared);
       case 'hsbc':
         return hsbc(themeSettingsShared);
+      case 'priorityPass':
+        return priorityPass(themeSettingsShared);
+      case 'loungeKey':
+        return loungeKey(themeSettingsShared);
       default:
-        console.error(`Call theme function ${name} not found.`);
+        return experienceX(themeSettingsShared);
     }
   }
 
@@ -82,15 +97,7 @@ export default function MyApp({ Component, pageProps }: Props) {
             <AuthWrapper>
               <SessionManager>
                 <MantineProvider
-                  theme={
-                    partner === 'hsbc'
-                      ? hsbc({
-                          fontFamily: beVietnamPro.style.fontFamily,
-                        })
-                      : experienceX({
-                          fontFamily: beVietnamPro.style.fontFamily,
-                        })
-                  }
+                  theme={callThemeFunction(partner ?? 'experienceX')}
                   withGlobalStyles
                   withNormalizeCSS
                 >

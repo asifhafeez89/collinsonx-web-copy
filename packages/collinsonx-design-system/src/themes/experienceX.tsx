@@ -74,7 +74,7 @@ const theme = (
       styles: ({ colors }) => ({
         label: {
           fontSize: '18px',
-          color: 'black',
+          color: colors.dark[6],
         },
         required: {
           color: colors.red[6],

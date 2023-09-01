@@ -39,6 +39,38 @@ const theme = (
     fontWeight: 600,
   },
   components: {
+    DatePickerInput: {
+      styles: ({ colors }) => ({
+        icon: {
+          paddingLeft: 14,
+        },
+        rightSection: {
+          button: {
+            color: colors.dark[6],
+          },
+        },
+        input: {
+          borderRadius: 4,
+          paddingLeft: 56,
+          '&[data-with-icon=true]': { paddingLeft: 56 },
+        },
+        day: {
+          '&[data-weekend=true]': {
+            color: colors.red[7],
+          },
+        },
+      }),
+    },
+    DatePicker: {
+      styles: ({ colors }) => ({
+        calendarHeader: {
+          color: colors.dark[6],
+        },
+        calendarHeaderControl: {
+          color: colors.dark[6],
+        },
+      }),
+    },
     InputWrapper: {
       styles: ({ colors }) => ({
         label: {
@@ -110,7 +142,7 @@ const theme = (
         },
         label: {
           fontFamily,
-          color: colors.dark[6],
+          color: colors.dark[5],
         },
       }),
     },

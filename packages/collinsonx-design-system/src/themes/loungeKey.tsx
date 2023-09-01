@@ -82,7 +82,7 @@ const theme = (
     Button: {
       styles: ({ colors }) => ({
         root: {
-          backgroundColor: '#827127',
+          backgroundColor: '#00af41',
           color: '#000',
         },
         label: {
@@ -110,7 +110,7 @@ const theme = (
         },
         label: {
           fontFamily,
-          color: colors.dark[6],
+          color: colors.dark[5],
         },
       }),
     },

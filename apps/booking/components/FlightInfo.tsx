@@ -260,9 +260,7 @@ export const FlightInfo = ({
         </Group>
 
         <Group position="center" mt="xl">
-          <Button variant="outline" onClick={onSearch}>
-            Get Availability
-          </Button>
+          <Button onClick={onSearch}>Get Availability</Button>
         </Group>
         <Group>
           <Text style={{ marginTop: '20px', color: 'red' }}>

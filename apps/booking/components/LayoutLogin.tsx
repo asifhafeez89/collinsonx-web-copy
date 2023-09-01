@@ -8,7 +8,12 @@ import {
 import React, { ReactNode } from 'react';
 import { getThemeKey } from '@lib';
 
-import { LogoCergea, LogoHSBC } from '@collinsonx/design-system/assets/logo';
+import {
+  LogoCergea,
+  LogoHSBC,
+  LogoLK,
+  LogoPP,
+} from '@collinsonx/design-system/assets/logo';
 import router, { useRouter } from 'next/router';
 
 interface LayoutProps {
@@ -18,12 +23,16 @@ interface LayoutProps {
 const logos = {
   experienceX: LogoCergea,
   hsbc: LogoHSBC,
+  loungeKey: LogoLK,
+  permissionpass: LogoPP,
 };
 
 export default function LayoutLogin({ children }: LayoutProps) {
   const router = useRouter();
 
   const { partner } = router?.query;
+
+  console.log(`Partner ${partner}`);
 
   const Logo = logos[partner as keyof typeof logos] ?? LogoCergea;
 

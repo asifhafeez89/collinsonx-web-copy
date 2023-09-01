@@ -4,6 +4,7 @@ import {
   Container,
   Divider,
   MantineProvider,
+  Image,
 } from '@collinsonx/design-system/core';
 import { Header, experienceX } from '@collinsonx/design-system';
 import { Be_Vietnam_Pro } from 'next/font/google';
@@ -12,7 +13,12 @@ import useAuth from '@collinsonx/utils/hooks/useAuth';
 
 import { getThemeKey } from '@lib';
 
-import { LogoCergea, LogoHSBC } from '@collinsonx/design-system/assets/logo';
+import {
+  LogoCergea,
+  LogoHSBC,
+  LogoLK,
+  LogoPP,
+} from '@collinsonx/design-system/assets/logo';
 
 import { ReactNode } from 'react';
 import { useRouter } from 'next/router';
@@ -33,6 +39,8 @@ export default function Layout({ children }: LayoutProps) {
   const logos = {
     experienceX: LogoCergea,
     hsbc: LogoHSBC,
+    loungeKey: LogoLK,
+    priorityPass: LogoPP,
   };
 
   const handleLogout = async () => {
@@ -48,6 +56,7 @@ export default function Layout({ children }: LayoutProps) {
   const { partner } = router.query;
 
   const Logo = logos[partner as keyof typeof logos] ?? LogoCergea;
+  console.log(Logo);
 
   return (
     <Container
@@ -67,7 +76,7 @@ export default function Layout({ children }: LayoutProps) {
         }}
       >
         <Center pb={8} pt={8} mt={-10} sx={{ backgroundColor: '#ffffff' }}>
-          <Logo />
+          <Logo width={200} height={100} />
         </Center>
       </Box>
       {children}
