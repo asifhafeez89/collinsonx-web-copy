@@ -69,13 +69,7 @@ export default function CheckEmail() {
         userInputCode: code,
       });
       if (response.status === 'OK') {
-        // if (redirectUrl) {
-        //   router.push(redirectUrl);
-        // } else {
         router.push({ pathname: '/check-availability', query: { in: token } });
-        // }
-
-        // TODO add userId in apollo context
       } else if (response.status === 'INCORRECT_USER_INPUT_CODE_ERROR') {
         setLoading(false);
         // the user entered an invalid OTP

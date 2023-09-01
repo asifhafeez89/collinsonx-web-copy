@@ -47,6 +47,8 @@ const documents = {
     types.GetConsumerByIdDocument,
   '\n  query GetExperienceByID($getExperienceById: String) {\n    getExperienceByID(id: $getExperienceById) {\n      id\n      loungeName\n      loungeCode\n      location {\n        airportName\n        airportCode\n        terminal\n        terminalCode\n        country\n        city\n        region\n        isoCountryCode\n        lbCountryCode\n      }\n    }\n  }\n':
     types.GetExperienceByIdDocument,
+  '\n  query GetFlightDetails($flightDetails: FlightDetailsInput!) {\n    getFlightDetails(flightDetails: $flightDetails) {\n      arrival {\n        airport\n        terminal\n        dateTime {\n          local\n          utc\n        }\n      }\n      departure {\n        airport\n        terminal\n        dateTime {\n          local\n          utc\n        }\n      }\n    }\n  }\n':
+    types.GetFlightDetailsDocument,
   '\n  query GetInvitationByID($getInvitationById: ID!) {\n    getInvitationByID(id: $getInvitationById) {\n      createdAt\n      experience {\n        id\n      }\n      id\n      inviteeEmail\n      updatedAt\n    }\n  }\n':
     types.GetInvitationByIdDocument,
   '\n  query GetPartnerByID($getPartnerById: ID!) {\n    getPartnerByID(id: $getPartnerById) {\n      experiences {\n        id\n        loungeName\n        location {\n          airportName\n          terminal\n        }\n      }\n      id\n      lastName\n      updatedAt\n      firstName\n      fullName\n      createdAt\n      emailAddress\n    }\n  }\n':
@@ -173,6 +175,12 @@ export function graphql(
 export function graphql(
   source: '\n  query GetExperienceByID($getExperienceById: String) {\n    getExperienceByID(id: $getExperienceById) {\n      id\n      loungeName\n      loungeCode\n      location {\n        airportName\n        airportCode\n        terminal\n        terminalCode\n        country\n        city\n        region\n        isoCountryCode\n        lbCountryCode\n      }\n    }\n  }\n'
 ): (typeof documents)['\n  query GetExperienceByID($getExperienceById: String) {\n    getExperienceByID(id: $getExperienceById) {\n      id\n      loungeName\n      loungeCode\n      location {\n        airportName\n        airportCode\n        terminal\n        terminalCode\n        country\n        city\n        region\n        isoCountryCode\n        lbCountryCode\n      }\n    }\n  }\n'];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  query GetFlightDetails($flightDetails: FlightDetailsInput!) {\n    getFlightDetails(flightDetails: $flightDetails) {\n      arrival {\n        airport\n        terminal\n        dateTime {\n          local\n          utc\n        }\n      }\n      departure {\n        airport\n        terminal\n        dateTime {\n          local\n          utc\n        }\n      }\n    }\n  }\n'
+): (typeof documents)['\n  query GetFlightDetails($flightDetails: FlightDetailsInput!) {\n    getFlightDetails(flightDetails: $flightDetails) {\n      arrival {\n        airport\n        terminal\n        dateTime {\n          local\n          utc\n        }\n      }\n      departure {\n        airport\n        terminal\n        dateTime {\n          local\n          utc\n        }\n      }\n    }\n  }\n'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

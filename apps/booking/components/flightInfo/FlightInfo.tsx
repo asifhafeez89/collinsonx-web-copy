@@ -26,8 +26,10 @@ import { validateFlightNumber } from '../../utils/flightValidation';
 import axios from 'axios';
 import { APIFlightInfoResponse, APIFlightInfo } from 'pages/api/flight';
 import FlightInfoNew from '../flightInfo/FlightInfoNew';
+import { FlightDetails, Slots } from '@collinsonx/utils';
+import FlightData from './FlightData';
+
 interface FlightInfoComponentProps {
-  onSuccess: (data: any) => void;
   onError?: (newError: any) => void;
   screenName?: string;
   inputTestId?: string;
@@ -36,7 +38,7 @@ interface FlightInfoComponentProps {
 }
 
 interface FlightInfoProps {
-  flightInfo: APIFlightInfo;
+  flightInfo: FlightDetails;
 }
 
 export interface AvailabilitySlot {
@@ -47,7 +49,6 @@ export interface AvailabilitySlot {
 
 export const FlightInfo = ({
   onError,
-  onSuccess,
   screenName,
   inputTestId,
   datePickerTestId,
@@ -58,7 +59,7 @@ export const FlightInfo = ({
   const [flightNumErrorText, setFlightNumErrorText] = useState(
     'Please enter a flight number'
   );
-  const [flightDate, setFlightDate] = useState<Date>();
+  const [flightDate, setFlightDate] = useState<Date>(new Date());
   const [dateError, setDateError] = useState(false);
   const [dateErrorText] = useState('Please select a date');
   const [flightInfoError, setFlightInfoError] = useState('');
@@ -69,6 +70,9 @@ export const FlightInfo = ({
   const [flightInfoDtls, setflightInfoDtls] = useState<APIFlightInfo | null>(
     null
   );
+  const [flightData, setflightData] = useState<FlightDetails>();
+
+  const [showComponent, setShowComponent] = useState(false);
 
   const onFlightNumberChange: ChangeEventHandler = (
     event: ChangeEvent<HTMLInputElement>
@@ -93,37 +97,6 @@ export const FlightInfo = ({
     setFlightDate(newDate);
     setDateError(false);
   };
-  const getFlightDetails = async () => {
-    const flightBreakdown = validateFlightNumber(flightNumber);
-    try {
-      const response = await axios.post<APIFlightInfoResponse>('/api/flight', {
-        carrierCode: flightBreakdown[1] ?? '',
-        flightNumber: flightBreakdown[2] ?? '',
-        departureDate: dayjs(flightDate).format('YYYY-MM-DD'),
-      });
-      const flightInformation = response.data.data[0];
-      setflightInfoDtls(flightInformation);
-      return flightInformation;
-    } catch (err: any) {
-      setFlightInfoError(
-        'No flight found with details supplied. Please check flight number and try again. If the issue persists, please contact support.'
-      );
-      setFlightInfoLoading(false);
-    }
-  };
-
-  const getAvailability = async () => {
-    const flightInformation = await getFlightDetails();
-    if (!flightInformation) {
-      setFlightInfoLoading(false);
-      setFlightInfoError(
-        'No flight found with details supplied. Please check flight number and try again. If the issue persists, please contact support.'
-      );
-      return;
-    } else {
-      onSuccess(flightInformation);
-    }
-  };
 
   const onSearch = () => {
     setFlightInfoLoading(true);
@@ -142,13 +115,16 @@ export const FlightInfo = ({
     }
 
     setFlightInfoError('');
-    getAvailability();
+    setShowComponent(true);
     const guestCount = Number(numberOfGuests);
     setGuestsCount(guestCount);
   };
 
   const setLoadingOverlay = () => {
     setFlightInfoLoading(false);
+  };
+  const onFlightInfoSuccess = (flightDetails: FlightDetails) => {
+    setflightData(flightDetails);
   };
 
   return (
@@ -224,13 +200,14 @@ export const FlightInfo = ({
           <Button variant="outline" onClick={onSearch}>
             Get Availability
           </Button>
-
-          {flightInfoDtls !== null && (
+          {flightData ? (
             <FlightInfoNew
-              flightInfo={flightInfoDtls}
+              flightInfo={flightData}
               setLoadingOverlay={setLoadingOverlay}
               numberOfGuests={guestscount}
             ></FlightInfoNew>
+          ) : (
+            ''
           )}
         </Group>
         <Group>
@@ -239,6 +216,14 @@ export const FlightInfo = ({
           </Text>
         </Group>
       </Box>
+
+      {showComponent && (
+        <FlightData
+          flightNumber={flightNumber}
+          departureDate={flightDate}
+          onSuccess={onFlightInfoSuccess}
+        ></FlightData>
+      )}
     </>
   );
 };

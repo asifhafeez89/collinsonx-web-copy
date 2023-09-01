@@ -84,8 +84,8 @@ const secret = jose.base64url.decode(
 
 async function decryptJWT(jwt: string) {
   const { payload, protectedHeader } = await jose.jwtDecrypt(jwt, secret, {
-    issuer: 'urn:example:issuer',
-    audience: 'urn:example:audience',
+    issuer: 'urn:collinson:issuer',
+    audience: 'urn:collinson:audience',
   });
 
   return {
