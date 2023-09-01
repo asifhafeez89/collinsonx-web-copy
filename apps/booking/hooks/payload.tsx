@@ -4,10 +4,16 @@ import { useRouter } from 'next/router';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { createContext, useContext } from 'react';
 
-import { BridgePayload } from 'types/booking';
+import { AccountProvider, BridgePayload, MembershipType } from 'types/booking';
 import * as jose from 'jose';
 import { Be_Vietnam_Pro } from 'next/font/google';
-import { experienceX } from '@collinsonx/design-system';
+
+import {
+  experienceX,
+  hsbc,
+  loungeKey,
+  priorityPass,
+} from '@collinsonx/design-system/themes';
 
 type PayloadState = {
   payload: BridgePayload | undefined;
@@ -32,6 +38,32 @@ const beVietnamPro = Be_Vietnam_Pro({
   subsets: ['latin'],
   weight: ['400', '600', '700'],
 });
+
+const themes = {
+  default: 'experienceX',
+  hsbc: 'hsbc',
+  priorityPass: 'priorityPass',
+  loungeKey: 'loungeKey',
+};
+
+const themeSettingsShared = {
+  fontFamily: beVietnamPro.style.fontFamily,
+};
+
+function callThemeFunction(name: AccountProvider | MembershipType) {
+  switch (name) {
+    case 'Cergea':
+      return experienceX(themeSettingsShared);
+    case 'HSBC':
+      return hsbc(themeSettingsShared);
+    case 'PP':
+      return priorityPass(themeSettingsShared);
+    case 'LK':
+      return loungeKey(themeSettingsShared);
+    default:
+      return experienceX(themeSettingsShared);
+  }
+}
 
 /**
  * Basic field validation for payload
@@ -96,9 +128,9 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       {error && <Box>{error}</Box>}
       {payload && !error ? (
         <MantineProvider
-          theme={experienceX({
-            fontFamily: beVietnamPro.style.fontFamily,
-          })}
+          theme={callThemeFunction(
+            payload?.membershipType || payload?.accountProvider || 'Cergea'
+          )}
           withGlobalStyles
           withNormalizeCSS
         >
