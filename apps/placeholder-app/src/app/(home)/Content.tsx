@@ -15,6 +15,8 @@ import { LoungeSchema, lounges } from '@/data/Lounge';
 
 import schema, { SchemaType } from './schema';
 import { encryptJWT, decryptJWT } from './jwt';
+import urls from './urls';
+import { firstNames, lastNames } from './names';
 
 interface ClientSelectBoxProps {
   setClient: Dispatch<SetStateAction<Client>>;
@@ -51,7 +53,7 @@ function ProductSelectBox({ setProduct }: ProductSelectBoxProps) {
 
   return (
     <Select
-      placeholder="Please select a product"
+      placeholder="Please select an account provider"
       data={data}
       onChange={setProduct}
     />
@@ -67,9 +69,14 @@ function LoungeSelectBox({ setLounge }: LoungeSelectBoxProps) {
     const value = lounge.LoungeCode;
     const label = `${lounge.LoungeCode} - ${lounge.LoungeName} - ${lounge.AirportName}`;
 
+    // Requirement: Lounges BHD1 and BIRM are not available in BaaS.
+    const disabled =
+      lounge.LoungeCode === 'BHD1' || lounge.LoungeCode === 'BIRM';
+
     return {
       value,
       label,
+      disabled,
     };
   });
 
@@ -83,39 +90,13 @@ function LoungeSelectBox({ setLounge }: LoungeSelectBoxProps) {
   );
 }
 
-const Content = () => {
-  const form = useForm({
-    validate: joiResolver(schema),
-    initialValues: {
-      consumerNumber: '',
-      membershipNumber: '',
-      email: '',
-      firstName: '',
-      lastName: '',
-    },
-  });
+interface DebugBoxProps {
+  jwt: string;
+  object: string;
+}
 
-  const [product, setProduct] = useState<Product>(null);
-  const [client, setClient] = useState<Client>(null);
-  const [lounge, setLounge] = useState<LoungeSchema>(lounges[0]);
-
-  const [object, setObject] = useState('');
-  const [jwt, setJWT] = useState('');
+function DebugBox({ jwt, object }: DebugBoxProps) {
   const [jwtPayload, setJWTPayload] = useState('');
-
-  const createNewJWT = async (values: SchemaType) => {
-    const response = {
-      ...values,
-      lounge,
-      product,
-      client,
-    };
-
-    setObject(JSON.stringify(response));
-
-    const jwtToken = await encryptJWT(response);
-    setJWT(jwtToken);
-  };
 
   const decodeOnClickHandler = async () => {
     const response = await decryptJWT(jwt);
@@ -125,75 +106,125 @@ const Content = () => {
 
   return (
     <>
-      <h1>Placeholder App</h1>
-
-      <form onSubmit={form.onSubmit((values) => createNewJWT(values))}>
-        <p>Consumer number</p>
-        <TextInput
-          placeholder="Please add your consumer number"
-          {...form.getInputProps('consumerNumber')}
-        />
-
-        <p>Membership number</p>
-        <TextInput
-          {...form.getInputProps('membershipNumber')}
-          placeholder="Please add your membership number"
-        />
-
-        <p>First name</p>
-        <TextInput
-          {...form.getInputProps('firstName')}
-          placeholder="Please add your first name"
-        />
-
-        <p>Last name</p>
-        <TextInput
-          {...form.getInputProps('lastName')}
-          placeholder="Please add your last name"
-        />
-
-        <p>Email</p>
-        <TextInput
-          {...form.getInputProps('email')}
-          placeholder="Plase add your email"
-        />
-
-        <p>Product</p>
-        <ProductSelectBox setProduct={setProduct} />
-
-        <p>Client</p>
-        <ClientSelectBox setClient={setClient} />
-
-        <p>Lounge</p>
-        <LoungeSelectBox setLounge={setLounge} />
-
-        <br />
-        <Button type="submit">Generate a JWT</Button>
-      </form>
-
       {object.length > 0 && (
         <>
-          <p>Object:</p>
+          <div>Object:</div>
           <Textarea value={object} readOnly />
         </>
       )}
       {jwt.length > 0 && (
         <>
-          <p>
+          <div>
             JWT:
             <Textarea value={jwt} readOnly />
-          </p>
-          <Button onClick={decodeOnClickHandler}>Decode JWT</Button>
+          </div>
+
+          <br />
+          <div>
+            <Button onClick={decodeOnClickHandler}>Decode JWT</Button>
+          </div>
         </>
       )}
       {jwtPayload.length > 0 && (
         <>
-          <p>
+          <div>
             Payload:
             <Textarea value={jwtPayload} readOnly />
-          </p>
+          </div>
         </>
       )}
+    </>
+  );
+}
+
+const Content = () => {
+  const form = useForm({
+    validate: joiResolver(schema),
+    initialValues: {
+      membershipNumber: '',
+      email: '',
+    },
+  });
+
+  // TODO: refactoring
+  const [product, setProduct] = useState<Product>(null);
+  const [client, setClient] = useState<Client>(null);
+  const [lounge, setLounge] = useState<LoungeSchema>(lounges[0]);
+  const [firstName, setFirstName] = useState<string | null>('');
+  const [lastName, setLastName] = useState<string | null>('');
+  const [domain, setDomain] = useState<string | null>('');
+  // const [debugModeIsActive, setDebugModeIsActive] = useState(true);
+
+  const [object, setObject] = useState('');
+  const [jwt, setJWT] = useState('');
+
+  const createNewJWT = async (values: SchemaType) => {
+    if (product === null) {
+      alert('The account provider is required!');
+      return;
+    }
+
+    const response = {
+      ...values,
+      firstName,
+      lastName,
+      lounge,
+      client,
+      // TODO: refactoring
+      accountProvider: product,
+    };
+
+    setObject(JSON.stringify(response));
+
+    const jwtToken = await encryptJWT(response);
+    setJWT(jwtToken);
+
+    const url = `${domain}?in=${jwtToken}`;
+
+    window.open(url);
+  };
+
+  return (
+    <>
+      <h1>Placeholder App</h1>
+
+      <form onSubmit={form.onSubmit((values) => createNewJWT(values))}>
+        <Select
+          placeholder="Please select an env"
+          data={urls}
+          onChange={setDomain}
+        />
+
+        <TextInput
+          {...form.getInputProps('membershipNumber')}
+          placeholder="Please add your membership number"
+        />
+
+        <Select
+          placeholder="Please select a valid first name"
+          data={firstNames}
+          onChange={setFirstName}
+        />
+
+        <Select
+          placeholder="Please select a valid last name"
+          data={lastNames}
+          onChange={setLastName}
+        />
+
+        <TextInput
+          {...form.getInputProps('email')}
+          placeholder="Plase add your email"
+        />
+
+        <ProductSelectBox setProduct={setProduct} />
+        <ClientSelectBox setClient={setClient} />
+        <LoungeSelectBox setLounge={setLounge} />
+
+        <br />
+        <Button type="submit">Pre-book</Button>
+      </form>
+      <DebugBox jwt={jwt} object={object} />
     </>
   );
 };

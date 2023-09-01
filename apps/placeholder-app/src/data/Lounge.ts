@@ -1,4 +1,4 @@
-enum AirportCode {
+export enum AirportCode {
   BHD = 'BHD',
   BHX = 'BHX',
   BRS = 'BRS',
