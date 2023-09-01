@@ -3,7 +3,7 @@
 import { useState, Dispatch, SetStateAction } from 'react';
 
 import { useForm, joiResolver } from '@mantine/form';
-import { Select, Button, Textarea, TextInput } from '@mantine/core';
+import { Select, Button, Textarea, TextInput, Switch } from '@mantine/core';
 
 // @ts-ignore
 import { AccountProvider, Client } from '@collinsonx/constants/dist/enums';
@@ -115,6 +115,7 @@ function DebugBox({ jwt, object }: DebugBoxProps) {
 
   return (
     <>
+      <p>Secret key: {process.env.NEXT_PUBLIC_JWT_SECRET_KEY || ''}</p>
       {object.length > 0 && (
         <>
           <div>Object:</div>
@@ -162,7 +163,7 @@ const Content = () => {
   const [firstName, setFirstName] = useState<string | null>('');
   const [lastName, setLastName] = useState<string | null>('');
   const [domain, setDomain] = useState<string | null>('');
-  // const [debugModeIsActive, setDebugModeIsActive] = useState(true);
+  const [debugModeIsActive, setDebugModeIsActive] = useState(false);
 
   const [object, setObject] = useState('');
   const [jwt, setJWT] = useState('');
@@ -191,7 +192,6 @@ const Content = () => {
   return (
     <>
       <h1>Placeholder App</h1>
-
       <form onSubmit={form.onSubmit((values) => createNewJWT(values))}>
         <Select
           placeholder="Please select an env"
@@ -233,7 +233,14 @@ const Content = () => {
         <br />
         <Button type="submit">Pre-book</Button>
       </form>
-      <DebugBox jwt={jwt} object={object} />
+      <br />
+      <Switch
+        label="Debug mode"
+        checked={debugModeIsActive}
+        onChange={(event) => setDebugModeIsActive(event.currentTarget.checked)}
+      />
+      <br />
+      {debugModeIsActive && <DebugBox jwt={jwt} object={object} />}
     </>
   );
 };
