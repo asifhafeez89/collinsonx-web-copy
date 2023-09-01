@@ -205,7 +205,7 @@ export default function CheckEmail() {
                 </Flex>
               </Box>
               {count > 0 && (
-                <Text size={14} fw={400} align='center'>
+                <Text size={14} fw={400}>
                   You can resend the unique code in {count} seconds
                 </Text>
               )}

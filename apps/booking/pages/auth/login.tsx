@@ -125,7 +125,6 @@ export default function Home(props: unknown) {
                     type="text"
                     autoFocus
                     placeholder="stark@gmail.com"
-                    withAsterisk
                     {...form.getInputProps('email')}
                     data-testid="loginEmailAddress"
                   />
