@@ -11,7 +11,11 @@ import {
   Text,
 } from '@collinsonx/design-system/core';
 import dayjs from 'dayjs';
-import { IATA, VERSION, YYYYMMDD } from '../../config/Constants';
+import {
+  AIRPORT_CODE_TYPE,
+  OAG_API_VERSION,
+  YYYYMMDD,
+} from '../../config/Constants';
 import { formatDate } from '../../utils/DateFormatter';
 
 interface FlightInfoProps {
@@ -37,7 +41,7 @@ const FlightData = ({
   onSuccess,
 }: FlightInfoProps) => {
   const flightBreakdown = validateFlightNumber(flightNumber);
-  const [flightData, setflightData] = useState<FlightDetails>();
+  const [flightData, setFlightData] = useState<FlightDetails>();
   const [flightInfoLoading, setFlightInfoLoading] = useState(false);
 
   const { loading, error, data } = useQuery<{
@@ -46,17 +50,17 @@ const FlightData = ({
     variables: {
       flightDetails: {
         carrierCode: flightBreakdown[1] ?? '',
-        codeType: IATA,
+        codeType: AIRPORT_CODE_TYPE,
         departureDate: formatDate(departureDate, YYYYMMDD),
         flightNumber: flightBreakdown[2] ?? '',
-        version: VERSION,
+        version: OAG_API_VERSION,
       },
     },
     pollInterval: 300000,
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
     onCompleted: (data) => {
-      setflightData(data?.getFlightDetails[0]);
+      setFlightData(data?.getFlightDetails[0]);
       onSuccess(data?.getFlightDetails[0]);
     },
   });
