@@ -18,6 +18,7 @@ import {
   Grid,
   Modal,
   LoadingOverlay,
+  Title,
 } from '@collinsonx/design-system/core';
 import { DatePickerInput } from '@collinsonx/design-system/date';
 import { IconCalendar } from '@tabler/icons-react';
@@ -192,8 +193,12 @@ export const FlightInfo = ({
 
   return (
     <>
-      <Box maw={320} mx="auto">
+      <Box mx="auto" sx={{ borderBottom: '1px solid  #C8C9CA' }}>
         <LoadingOverlay visible={flightInfoLoading} overlayBlur={2} />
+        <Title order={3} size={18}>
+          Flight Details
+        </Title>
+        <Group spacing={'xl'} pb={24}>
         <TextInput
           label="Flight Number"
           placeholder="Flight Number"
@@ -202,12 +207,15 @@ export const FlightInfo = ({
           error={flightNumberError ? flightNumErrorText : ''}
           required={true}
           withAsterisk
+          fz={18}
+          w={270}
         />
         <DatePickerInput
           icon={<IconCalendar size="1.5rem" stroke={1.5} />}
           label="Departure Date"
           placeholder="Departure Date"
           maw={400}
+          w={270}
           mx="auto"
           minDate={new Date()}
           value={flightDate}
@@ -216,52 +224,10 @@ export const FlightInfo = ({
           required={true}
           withAsterisk
         />
-        <Group spacing={5}>
-          <Grid grow>
-            <Grid.Col span={12}>
-              <Text style={{ marginTop: '10px' }}>Number of Guests:</Text>
-            </Grid.Col>
-            <Grid.Col>
-              <Grid>
-                <Grid.Col span={2}>
-                  <ActionIcon
-                    size={'2.625rem'}
-                    variant="default"
-                    onClick={() => handlers.current?.decrement()}
-                  >
-                    –
-                  </ActionIcon>
-                </Grid.Col>
-                <Grid.Col span={3}>
-                  <NumberInput
-                    hideControls
-                    value={numberOfGuests}
-                    onChange={(val) => setNumberOfGuests(val)}
-                    handlersRef={handlers}
-                    max={10}
-                    min={1}
-                    step={1}
-                    size="md"
-                    styles={{ input: { textAlign: 'center' } }}
-                  />
-                </Grid.Col>
-                <Grid.Col span={2}>
-                  <ActionIcon
-                    size={'2.625rem'}
-                    variant="default"
-                    onClick={() => handlers.current?.increment()}
-                  >
-                    +
-                  </ActionIcon>
-                </Grid.Col>
-              </Grid>
-            </Grid.Col>
-          </Grid>
         </Group>
-
         <Group position="center" mt="xl">
-          <Button variant="outline" onClick={onSearch}>
-            Get Availability
+          <Button onClick={onSearch}>
+            CHECK AVAILABILITY
           </Button>
         </Group>
         <Group>
