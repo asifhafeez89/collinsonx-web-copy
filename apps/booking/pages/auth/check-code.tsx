@@ -1,10 +1,10 @@
 import {
   Button,
-  Title,
   Stack,
   Text,
   Box,
   Flex,
+  PinInput,
 } from '@collinsonx/design-system/core';
 import { useRouter } from 'next/router';
 import {
@@ -12,20 +12,20 @@ import {
   createPasswordlessCode,
 } from '@collinsonx/utils/supertokens';
 import LayoutLogin from '@components/LayoutLogin';
-import { AuthInput, Breadcramp } from '@collinsonx/design-system';
+import { Breadcramp } from '@collinsonx/design-system';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 import { useEffect, useRef, useState } from 'react';
 import getConsumerByEmailAddress from '@collinsonx/utils/queries/getConsumerByEmailAddress';
 import { useQuery } from '@collinsonx/utils/apollo';
 import Error from '@components/Error';
 import usePayload from 'hooks/payload';
+import useBreakpoint from 'hooks/useBreakpoint';
 
 export default function CheckEmail() {
   const { token, payload, setPayload } = usePayload();
   const router = useRouter();
   const email = router.query?.email as string;
-  const redirectUrl = router.query?.redirectUrl as string;
-
+  const mobileBreakpoint = useBreakpoint();
   const [code, setCode] = useState<string>();
 
   const [loading, setLoading] = useState(false);
@@ -105,10 +105,7 @@ export default function CheckEmail() {
         </Flex>
       ) : (
         <LayoutLogin>
-          <Stack px={8} align="center" sx={{ position: 'relative', zIndex: 2 }}>
-            <Stack sx={{ width: '100%' }}>
-              <Breadcramp title="Back to Gatwick" url="https://bbc.co.uk" />
-            </Stack>
+            <Breadcramp title="Check your email" url='#' />
             <Stack
               spacing={24}
               align="center"
@@ -118,57 +115,98 @@ export default function CheckEmail() {
                 margin: '0 auto',
                 '@media (max-width: 40em)': {
                   width: '100%',
+                  padding: '16px 24px 0 24px',
                 },
               }}
             >
-              <Title order={1} size={20}>
-                Check your emails
-              </Title>
               <Error error={error} />
-              <Text align="center">
-                We have sent a confirmation code to {email}.
-              </Text>
-              <Box>
-                <Text align="center" size={14}>
-                  Wrong email?
-                </Text>
-                <Button
-                  variant="subtle"
-                  fw={400}
-                  sx={{
-                    fontSize: '14px',
-                    height: '20px',
-                    color: '#20C997',
-                    textDecoration: 'underline',
-                  }}
-                  onClick={handleClickReenter}
-                  compact
-                >
-                  Re-enter your address
-                </Button>
-              </Box>
-              <Box
-                my={16}
+              <Text
+                size='18px'
                 sx={{
-                  backgroundColor: '#C8C9CA',
-                  height: '1px',
-                  width: '100%',
+                  textAlign: 'center',
+                  '@media (max-width: 40em)': {
+                    textAlign: 'left',
+                  },
                 }}
-              />
-              <Box mx={-0.5}>
-                <AuthInput handleCodeChange={(code) => setCode(code)} />
-              </Box>
-              <Flex direction="row" align="center" w="100%" gap={16} mt={8}>
-                <Button
-                  py={8}
-                  fullWidth
-                  variant="outline"
-                  disabled={count > 0}
-                  onClick={handleClickResend}
-                  sx={{ borderColor: '#2C2C2C', color: '#2C2C2C' }}
                 >
-                  Resend
-                </Button>
+                Enter the passcode we’ve sent by email to {email}
+              </Text>
+              {!mobileBreakpoint && (
+                <Box>
+                  <Text align="center" size={14}>
+                    Wrong email?
+                  </Text>
+                  <Button
+                    variant="subtle"
+                    fw={400}
+                    sx={{
+                      fontSize: '14px',
+                      height: '20px',
+                      color: '#20C997',
+                      textDecoration: 'underline',
+                    }}
+                    onClick={handleClickReenter}
+                    compact
+                  >
+                    Re-enter your address
+                  </Button>
+                </Box>
+              )}
+              {!mobileBreakpoint && (
+                <Box
+                  my={16}
+                  sx={{
+                    backgroundColor: '#C8C9CA',
+                    height: '1px',
+                    width: '100%',
+                  }}
+                />
+              )}
+              <Box mx={-0.5}>
+                <Text sx={{ padding: '0 0 0.5rem 0' }}>
+                  <Text span color='#fa5252'>*</Text>One time passcode
+                </Text>
+                <PinInput
+                  onChange={(code) => setCode(code)}
+                  placeholder='-'
+                  length={6}
+                  oneTimeCode
+                  size='xl'
+                  spacing='8px'
+                  sx={{
+                    input: {
+                      borderRadius: '8px',
+                      fontSize: '1rem'
+                    }
+                  }}
+                  inputMode='numeric'
+                />
+              </Box>
+              {mobileBreakpoint && (
+                <Text
+                  size={14}
+                  fw={400}
+                  sx={{ width: '100%', textAlign: 'left' }}
+                >
+                  Didn't receieve a code? <Text component='a' href='#' onClick={handleClickResend} color='#6D4BF6'>Send again</Text>
+                </Text>
+              )}
+              <Flex direction="row" align="center" w="100%" gap={16} mt={8}>
+                {!mobileBreakpoint && (
+                  <Button
+                    py={8}
+                    fullWidth
+                    variant="outline"
+                    disabled={count > 0}
+                    onClick={handleClickResend}
+                    sx={{
+                      borderColor: '#2C2C2C',
+                      color: '#2C2C2C',
+                    }}
+                  >
+                    Resend
+                  </Button>
+                )}
                 <Button
                   fullWidth
                   py={8}
@@ -181,13 +219,12 @@ export default function CheckEmail() {
                   Verify
                 </Button>
               </Flex>
-              {count > 0 && (
-                <Text size={14} fw={400}>
-                  You can resend the unique code in {count} seconds
-                </Text>
-              )}
+                {!mobileBreakpoint && count > 0 && (
+                    <Text size={14} fw={400} align='center'>
+                    You can resend the unique code in {count} seconds
+                  </Text>
+                )}
             </Stack>
-          </Stack>
         </LayoutLogin>
       )}
     </>
