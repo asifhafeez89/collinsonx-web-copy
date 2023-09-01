@@ -7,7 +7,7 @@ import Session from 'supertokens-auth-react/recipe/session';
 
 async function logout(token?: string) {
   await Session.signOut();
-  window.location.href = '/auth/login/?token=' + token;
+  window.location.href = '/auth/login/?in=' + token;
 }
 
 export default function Signout() {
