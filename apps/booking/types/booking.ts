@@ -44,7 +44,7 @@ export interface BridgePayload {
   firstName?: string;
   lastName?: string;
   accountProvider: AccountProvider;
-  lounge: LoungeSchema;
+  lounge: string;
   membershipType?: string;
   sourceCode: string;
 }
