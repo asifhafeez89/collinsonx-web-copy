@@ -11,9 +11,10 @@ import { Product, Client } from '@collinsonx/constants/dist/enums';
 // @ts-ignore
 import { getClients, getProducts } from '@collinsonx/constants/dist/enums';
 
-import schema, { SchemaType } from './schema';
-
 import { LoungeSchema, lounges } from '@/data/Lounge';
+
+import schema, { SchemaType } from './schema';
+import { encryptJWT } from './jwt';
 
 interface ClientSelectBoxProps {
   setClient: Dispatch<SetStateAction<Client>>;
@@ -98,9 +99,10 @@ const Content = () => {
   const [client, setClient] = useState<Client>(null);
   const [lounge, setLounge] = useState<LoungeSchema>(lounges[0]);
 
+  const [object, setObject] = useState('');
   const [jwt, setJWT] = useState('');
 
-  const createNewJWT = (values: SchemaType) => {
+  const createNewJWT = async (values: SchemaType) => {
     const response = {
       ...values,
       lounge,
@@ -108,7 +110,10 @@ const Content = () => {
       client,
     };
 
-    setJWT(JSON.stringify(response));
+    setObject(JSON.stringify(response));
+
+    const jwtToken = await encryptJWT(response);
+    setJWT(jwtToken);
   };
 
   return (
@@ -116,39 +121,63 @@ const Content = () => {
       <h1>Placeholder App</h1>
 
       <form onSubmit={form.onSubmit((values) => createNewJWT(values))}>
+        <p>Consumer number</p>
         <TextInput
           placeholder="Please add your consumer number"
           {...form.getInputProps('consumerNumber')}
         />
 
+        <p>Membership number</p>
         <TextInput
           {...form.getInputProps('membershipNumber')}
           placeholder="Please add your membership number"
         />
 
+        <p>First name</p>
         <TextInput
           {...form.getInputProps('firstName')}
           placeholder="Please add your first name"
         />
 
+        <p>Last name</p>
         <TextInput
           {...form.getInputProps('lastName')}
           placeholder="Please add your last name"
         />
 
+        <p>Email</p>
         <TextInput
           {...form.getInputProps('email')}
           placeholder="Plase add your email"
         />
 
+        <p>Product</p>
         <ProductSelectBox setProduct={setProduct} />
+
+        <p>Client</p>
         <ClientSelectBox setClient={setClient} />
+
+        <p>Lounge</p>
         <LoungeSelectBox setLounge={setLounge} />
 
+        <br />
         <Button type="submit">Generate a JWT</Button>
       </form>
 
-      {jwt.length > 0 && <Textarea value={jwt} readOnly />}
+      {object.length > 0 && (
+        <>
+          <p>Object:</p>
+          <Textarea value={object} readOnly />
+        </>
+      )}
+      {jwt.length > 0 && (
+        <>
+          <p>
+            JWT:
+            <Textarea value={jwt} readOnly />
+          </p>
+        </>
+      )}
     </>
   );
 };
