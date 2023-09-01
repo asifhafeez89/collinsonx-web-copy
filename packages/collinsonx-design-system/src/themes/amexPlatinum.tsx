@@ -83,10 +83,10 @@ const theme = (
       styles: ({ colors }) => ({
         root: {
           backgroundColor: '#FFF',
-          color: '#000',
+          color: colors.headerNavColor,
         },
         label: {
-          color: '#000',
+          color: colors.headerNavColor,
         },
       }),
     },
@@ -117,7 +117,7 @@ const theme = (
     NavLink: {
       styles: ({ colors }) => ({
         label: {
-          color: colors.brandColor
+          color: colors.headerNavColor
         }
       })
     },
