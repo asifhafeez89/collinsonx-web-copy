@@ -89,9 +89,7 @@ export default function Home(props: unknown) {
         </Flex>
       ) : (
         <LayoutLogin>
-          <Stack sx={{ width: '100%' }}>
-            <Breadcramp title={loungeTitle} url="#" />
-          </Stack>
+          <Breadcramp title={loungeTitle} url='#' />
           <form onSubmit={form.onSubmit(handleClickContinue)}>
               <Stack
                 spacing={24}
@@ -118,17 +116,17 @@ export default function Home(props: unknown) {
                   Enter your email address
                 </Title>
                 <Stack spacing={10}>
+                  <Text><Text span color='#fa5252'>*</Text> Email address</Text>
                   <InputLabel
                     type="text"
                     autoFocus
                     placeholder="stark@gmail.com"
-                    label="Email address"
                     withAsterisk
                     {...form.getInputProps('email')}
                     data-testid="loginEmailAddress"
                   />
                   <Text align="left">
-                    We will send you a unique code via email to proceed
+                  We will send you a unique code via email to proceed
                   </Text>
                 </Stack>
                 <Button type="submit" data-testid="login">
