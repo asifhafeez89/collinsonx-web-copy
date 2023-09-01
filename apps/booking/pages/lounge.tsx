@@ -73,6 +73,11 @@ const Lounge = () => {
         wrap="wrap"
       >
         <LoungeInfo />
+        <GuestInfo />
+        <FlightInfo
+          onSuccess={onFlightInfoSuccess}
+          onSetSelectedSlot={onSetSelectedSlot}
+        />
       </Flex>
     </Layout>
   );
