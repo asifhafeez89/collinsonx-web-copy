@@ -149,6 +149,9 @@ importers:
       http-proxy:
         specifier: ^1.18.1
         version: 1.18.1
+      jose:
+        specifier: ^4.14.4
+        version: 4.14.4
       local-ssl-proxy:
         specifier: ^2.0.5
         version: 2.0.5
@@ -12731,7 +12734,6 @@ packages:
 
   /jose@4.14.4:
     resolution: {integrity: sha512-j8GhLiKmUAh+dsFXlX1aJCbt5KMibuKb+d7j1JaOJG6s2UjX1PQlW+OKB/sD4a/5ZYF4RcmYmLSndOoU3Lt/3g==}
-    dev: true
 
   /joycon@3.1.1:
     resolution: {integrity: sha512-34wB/Y7MW7bzjKRjUKTa46I2Z7eV62Rkhva+KkopW7Qvv/OSWBqvkSY7vusOPrNuZcUG3tApvdVgNB8POj3SPw==}

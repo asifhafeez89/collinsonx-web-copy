@@ -1,14 +1,20 @@
-import { Title, Accordion, Grid, Text } from '@collinsonx/design-system/core';
+import { GetServerSideProps } from 'next';
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+import {
+  Title,
+  Accordion,
+  Grid,
+  Text,
+  Box,
+  Stack,
+} from '@collinsonx/design-system/core';
+import Layout from '@components/Layout';
 import {
   AvailabilitySlot,
   FlightInfo,
 } from '../components/flightInfo/FlightInfo';
-
-import { GetServerSideProps } from 'next';
-import { useState } from 'react';
-import dayjs from 'dayjs';
-import Booking from '@components/Booking';
-import Layout from '@components/Layout';
+import usePayload from 'hooks/payload';
 
 interface MainProps {
   consumerNumber: string | string[];
@@ -40,6 +46,10 @@ export const getServerSideProps: GetServerSideProps<MainProps> = async ({
 };
 
 const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
+  const router = useRouter();
+
+  const { payload, setPayload } = usePayload();
+
   const onFlightInfoSuccess = (flightInfo: FlightInfo) => {
     setFlightData(flightInfo);
   };
@@ -52,50 +62,59 @@ const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
   };
 
   return (
-    <Layout>
-      <Title mb={8} size={32}>
-        Welcome to Booking
-      </Title>
-      <p>Consumer Number: {consumerNumber}</p>
-      <p>Temporary Bearer Token: {tempBearerToken}</p>
-
-      <FlightInfo onSuccess={onFlightInfoSuccess} />
-
-      {flightData ? (
-        <Grid style={{ marginTop: '20px' }}>
-          <Grid.Col sm="auto" md="auto" lg={3}>
-            <Accordion variant="separated">
-              <Accordion.Item value="customization">
-                <Accordion.Control>
-                  Departing Flight Information
-                </Accordion.Control>
-                <Accordion.Panel>
-                  <p>Departing Airport: {flightData.departure.airport.iata}</p>
-                  <p>
-                    Departing Date (local): {flightData.departure.date.local}
-                  </p>
-                  <p>Departing Date (utc): {flightData.departure.date.utc}</p>
-                  <p>
-                    Departing Time (local): {flightData.departure.time.local}
-                  </p>
-                  <p>Departing Time (utc): {flightData.departure.time.utc}</p>
-                </Accordion.Panel>
-              </Accordion.Item>
-              <Accordion.Item value="flexibility">
-                <Accordion.Control>
-                  Arrival Flight Information
-                </Accordion.Control>
-                <Accordion.Panel>
-                  <p>Arrival Airport: {flightData.arrival.airport.iata}</p>
-                  <p>Arrival Date (local): {flightData.arrival.date.local}</p>
-                  <p>Arrival Date (utc): {flightData.arrival.date.utc}</p>
-                  <p>Arrival Time (local): {flightData.arrival.time.local}</p>
-                  <p>Arrival Time (utc): {flightData.arrival.time.utc}</p>
-                </Accordion.Panel>
-              </Accordion.Item>
-            </Accordion>
-          </Grid.Col>
-          {/* {selectedSlot ? (
+    payload && (
+      <Layout>
+        <Title mb={8} size={32}>
+          Welcome to Booking
+        </Title>
+        {consumerNumber && tempBearerToken ? (
+          <Stack spacing={2} mt={20}>
+            <Text>Consumer Number (depracated): {consumerNumber}</Text>
+            <Text>Temporary Bearer Token (deprecated): {tempBearerToken}</Text>
+            <Text>Consumer Number (depracated): {consumerNumber}</Text>
+            <Text>Temporary Bearer Token (deprecated): {tempBearerToken}</Text>
+          </Stack>
+        ) : undefined}
+        <Box mt={20}>
+          <FlightInfo onSuccess={onFlightInfoSuccess} />
+        </Box>
+        {flightData ? (
+          <Grid mt={20}>
+            <Grid.Col sm="auto" md="auto" lg={3}>
+              <Accordion variant="separated">
+                <Accordion.Item value="customization">
+                  <Accordion.Control>
+                    Departing Flight Information
+                  </Accordion.Control>
+                  <Accordion.Panel>
+                    <p>
+                      Departing Airport: {flightData.departure.airport.iata}
+                    </p>
+                    <p>
+                      Departing Date (local): {flightData.departure.date.local}
+                    </p>
+                    <p>Departing Date (utc): {flightData.departure.date.utc}</p>
+                    <p>
+                      Departing Time (local): {flightData.departure.time.local}
+                    </p>
+                    <p>Departing Time (utc): {flightData.departure.time.utc}</p>
+                  </Accordion.Panel>
+                </Accordion.Item>
+                <Accordion.Item value="flexibility">
+                  <Accordion.Control>
+                    Arrival Flight Information
+                  </Accordion.Control>
+                  <Accordion.Panel>
+                    <p>Arrival Airport: {flightData.arrival.airport.iata}</p>
+                    <p>Arrival Date (local): {flightData.arrival.date.local}</p>
+                    <p>Arrival Date (utc): {flightData.arrival.date.utc}</p>
+                    <p>Arrival Time (local): {flightData.arrival.time.local}</p>
+                    <p>Arrival Time (utc): {flightData.arrival.time.utc}</p>
+                  </Accordion.Panel>
+                </Accordion.Item>
+              </Accordion>
+            </Grid.Col>
+            {/* {selectedSlot ? (
             <Grid.Col sm="auto" md="auto" lg={3}>
               <Text>
                 Selected Slot:{' '}
@@ -115,11 +134,12 @@ const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
           ) : (
             <></>
           )} */}
-        </Grid>
-      ) : (
-        ''
-      )}
-    </Layout>
+          </Grid>
+        ) : (
+          ''
+        )}
+      </Layout>
+    )
   );
 };
 

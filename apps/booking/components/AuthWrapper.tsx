@@ -29,10 +29,11 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
       if (typeof window !== undefined) {
         removeItem(USER_META);
 
+        const urlParams = new URLSearchParams(window.location.search);
+        const tokenParam = urlParams.get('in');
+
         if (!checkIsAllowed(window.location.pathname)) {
-          window.location.href = `/auth/login/?redirectUrl=${
-            window.location.pathname + window.location.search
-          }`;
+          window.location.href = `/auth/login/?in=${tokenParam}`;
         }
       }
     }
