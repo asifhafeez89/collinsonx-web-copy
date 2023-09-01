@@ -171,7 +171,7 @@ const Content = () => {
       firstName,
       lastName,
       lounge,
-      client,
+      membershipType: client,
       accountProvider,
     };
 
