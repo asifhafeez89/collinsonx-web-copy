@@ -1,8 +1,9 @@
 import AvailableSlots from './AvailableSlots';
 import { APIFlightInfo } from 'pages/api/flight';
 import { useState } from 'react';
+import { FlightDetails, Slots } from '@collinsonx/utils';
 interface FlightInfoProps {
-  flightInfo: APIFlightInfo;
+  flightInfo: FlightDetails;
   setLoadingOverlay: () => void;
   numberOfGuests: number;
 }

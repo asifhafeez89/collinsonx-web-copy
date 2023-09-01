@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useQuery } from '@collinsonx/utils/apollo';
 import getAvailableSlots from '@collinsonx/utils/queries/getAvailableSlots';
-import { Availability, Slots } from '@collinsonx/utils';
+import { Availability, Slots, FlightDetails } from '@collinsonx/utils';
 import { APIFlightInfo } from 'pages/api/flight';
 import { Button, Text, Grid, Select } from '@collinsonx/design-system/core';
 import dayjs from 'dayjs';
+import { TRAVEL_TYPE, LOUNGE, TIME_FORMAT } from '../../config/Constants';
+import { formatDate } from '../../utils/DateFormatter';
 
 interface FlightInfoProps {
-  flightInfo: APIFlightInfo;
+  flightInfo: FlightDetails;
   setLoadingOverlay: () => void;
   numberOfGuests: number;
 }
@@ -26,9 +28,9 @@ const AvailableSlots = ({
     variables: {
       data: {
         flightInformation: {
-          type: 'DEPARTURE',
-          dateTime: `${flightInfo?.departure?.date.local} ${flightInfo?.departure?.time.local}`,
-          airport: flightInfo?.departure?.airport.iata,
+          type: TRAVEL_TYPE,
+          dateTime: flightInfo?.departure?.dateTime?.local,
+          airport: flightInfo?.departure?.airport,
           terminal: '-1',
         },
         guests: {
@@ -37,7 +39,7 @@ const AvailableSlots = ({
           infantCount: 0,
         },
         product: {
-          productType: 'Lounge',
+          productType: LOUNGE,
           productID: '1139',
           supplierCode: '123',
         },
@@ -65,10 +67,9 @@ const AvailableSlots = ({
   }: AvailableSlotsSelectBoxProps) => {
     const data = availableSlots.map((slot) => {
       const value = `${slot.startDate}-${slot.endDate}`;
-      const startDate = dayjs(slot.startDate).format('hh:mm');
-      const endDate = dayjs(slot.endDate).format('hh::mm');
+      const startDate = formatDate(slot.startDate, TIME_FORMAT);
+      const endDate = formatDate(slot.endDate, TIME_FORMAT);
       const label = ` ${startDate}-${endDate}`;
-
       return {
         value,
         label,

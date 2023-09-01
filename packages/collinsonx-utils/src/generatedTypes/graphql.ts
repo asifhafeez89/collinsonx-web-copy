@@ -46,7 +46,7 @@ export type Availability = {
 export type AvailabilityInput = {
   flightInformation: FlightInformation;
   guests: Guests;
-  product: Product;
+  product: LegacyProductInput;
 };
 
 /** A record for the sale of a service, this could be either a reservation, walkup or other state. */
@@ -62,6 +62,8 @@ export type Booking = {
   invoice?: Maybe<Scalars['String']>;
   metadata?: Maybe<Scalars['JSONObject']>;
   orderID?: Maybe<Scalars['String']>;
+  price?: Maybe<Scalars['Float']>;
+  price_currency?: Maybe<Scalars['String']>;
   reference: Scalars['String'];
   status: BookingStatus;
   stripePaymentID?: Maybe<Scalars['String']>;
@@ -95,11 +97,13 @@ export enum BookingStatus {
   Cancelled = 'CANCELLED',
   /** The booking has now been redeemed after being confirmed */
   CheckedIn = 'CHECKED_IN',
+  CompletedVisit = 'COMPLETED_VISIT',
   Confirmed = 'CONFIRMED',
   Declined = 'DECLINED',
   Errored = 'ERRORED',
   /** A booking has been created, but not yet paid for */
   Initialized = 'INITIALIZED',
+  NoShow = 'NO_SHOW',
   /** Booking has been paid for and is now pending confirmation from the operator */
   Pending = 'PENDING',
 }
@@ -110,34 +114,78 @@ export enum BookingType {
   WalkUp = 'WALK_UP',
 }
 
+export type Brand = {
+  __typename?: 'Brand';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+};
+
+/** New consumers default to CERGEA brand. */
+export enum BrandAffiliation {
+  Cergea = 'CERGEA',
+  LoungeKey = 'LOUNGE_KEY',
+  PriorityPass = 'PRIORITY_PASS',
+}
+
+export type BrandInput = {
+  name: Scalars['String'];
+};
+
 export enum CodeType {
   Faa = 'FAA',
   Iata = 'IATA',
   Icao = 'ICAO',
 }
 
+/** A consumer is the end user of our applications that consume our goods and services */
 export type Consumer = {
   __typename?: 'Consumer';
   bookings: Array<Booking>;
+  brandAffiliations?: Maybe<Array<Maybe<BrandAffiliation>>>;
   createdAt: Scalars['Date'];
+  /** In salesforce we have a record of our consumer to manage their lifecycle and manage marketing */
   crmId?: Maybe<Scalars['String']>;
   dateOfBirth?: Maybe<Scalars['Date']>;
+  /** Current a mandatory field as we use email as our primary login method */
   emailAddress: Scalars['String'];
   firstName?: Maybe<Scalars['String']>;
   fullName?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   lastName?: Maybe<Scalars['String']>;
+  membership?: Maybe<Membership>;
   phone?: Maybe<Scalars['String']>;
   updatedAt: Scalars['Date'];
 };
 
 export type ConsumerInput = {
+  brandAffiliations?: InputMaybe<Array<InputMaybe<BrandAffiliation>>>;
   dateOfBirth?: InputMaybe<Scalars['Date']>;
   emailAddress: Scalars['String'];
   firstName?: InputMaybe<Scalars['String']>;
   lastName?: InputMaybe<Scalars['String']>;
   marketingConsent?: InputMaybe<Scalars['Boolean']>;
   phone?: InputMaybe<Scalars['String']>;
+};
+
+export enum DayOfWeek {
+  Friday = 'FRIDAY',
+  Monday = 'MONDAY',
+  Saturday = 'SATURDAY',
+  Sunday = 'SUNDAY',
+  Thursday = 'THURSDAY',
+  Tuesday = 'TUESDAY',
+  Wednesday = 'WEDNESDAY',
+}
+
+export type DaySchedule = {
+  __typename?: 'DaySchedule';
+  dayOfWeek: DayOfWeek;
+  schedule: Array<Schedule>;
+};
+
+export type DayScheduleInput = {
+  dayOfWeek: DayOfWeek;
+  schedule: Array<ScheduleInput>;
 };
 
 export type Departure = {
@@ -163,7 +211,7 @@ export type Experience = {
   images?: Maybe<Array<Maybe<Image>>>;
   invitations: Array<Invitation>;
   isDeleted?: Maybe<Scalars['Boolean']>;
-  location?: Maybe<Location>;
+  location?: Maybe<LegacyLocation>;
   loungeCode?: Maybe<Scalars['String']>;
   loungeName?: Maybe<Scalars['String']>;
   loungeOffers?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -173,8 +221,9 @@ export type Experience = {
   partners: Array<Partner>;
   passengerType?: Maybe<Scalars['String']>;
   ppboOperatorName?: Maybe<Scalars['String']>;
-  pricing?: Maybe<Pricing>;
+  pricing?: Maybe<LegacyPricing>;
   redemption?: Maybe<Redemption>;
+  reservationOnlyFeeStripeProductID?: Maybe<Scalars['String']>;
   reservationRequestEmail?: Maybe<Scalars['String']>;
   reservationStripeProductID?: Maybe<Scalars['String']>;
   serviceCentre?: Maybe<Scalars['String']>;
@@ -223,6 +272,17 @@ export type FlightInformation = {
   type: Scalars['String'];
 };
 
+export type GeoJson = {
+  __typename?: 'GeoJSON';
+  coordinates: Array<Array<Array<Scalars['Float']>>>;
+  type: Scalars['String'];
+};
+
+export type GeoJsonInput = {
+  coordinates: Array<Array<Array<Scalars['Float']>>>;
+  type: Scalars['String'];
+};
+
 export type GeoQueryInput = {
   lat?: InputMaybe<Scalars['Float']>;
   lng?: InputMaybe<Scalars['Float']>;
@@ -240,6 +300,205 @@ export type Guests = {
   infantCount: Scalars['Int'];
 };
 
+export enum IsoCountryCode {
+  Afg = 'AFG',
+  Ago = 'AGO',
+  Alb = 'ALB',
+  And = 'AND',
+  Are = 'ARE',
+  Arg = 'ARG',
+  Arm = 'ARM',
+  Atg = 'ATG',
+  Aus = 'AUS',
+  Aut = 'AUT',
+  Aze = 'AZE',
+  Bdi = 'BDI',
+  Bel = 'BEL',
+  Ben = 'BEN',
+  Bfa = 'BFA',
+  Bgd = 'BGD',
+  Bgr = 'BGR',
+  Bhr = 'BHR',
+  Bhs = 'BHS',
+  Bih = 'BIH',
+  Blr = 'BLR',
+  Blz = 'BLZ',
+  Bol = 'BOL',
+  Bra = 'BRA',
+  Brb = 'BRB',
+  Brn = 'BRN',
+  Btn = 'BTN',
+  Bwa = 'BWA',
+  Caf = 'CAF',
+  Can = 'CAN',
+  Che = 'CHE',
+  Chl = 'CHL',
+  Chn = 'CHN',
+  Civ = 'CIV',
+  Cmr = 'CMR',
+  Cod = 'COD',
+  Cog = 'COG',
+  Col = 'COL',
+  Com = 'COM',
+  Cpv = 'CPV',
+  Cri = 'CRI',
+  Cub = 'CUB',
+  Cyp = 'CYP',
+  Cze = 'CZE',
+  Deu = 'DEU',
+  Dji = 'DJI',
+  Dma = 'DMA',
+  Dnk = 'DNK',
+  Dom = 'DOM',
+  Dza = 'DZA',
+  Ecu = 'ECU',
+  Egy = 'EGY',
+  Eri = 'ERI',
+  Esp = 'ESP',
+  Est = 'EST',
+  Eth = 'ETH',
+  Fin = 'FIN',
+  Fji = 'FJI',
+  Fra = 'FRA',
+  Fsm = 'FSM',
+  Gab = 'GAB',
+  Gbr = 'GBR',
+  Geo = 'GEO',
+  Gha = 'GHA',
+  Gin = 'GIN',
+  Gmb = 'GMB',
+  Gnb = 'GNB',
+  Gnq = 'GNQ',
+  Grc = 'GRC',
+  Grd = 'GRD',
+  Gtm = 'GTM',
+  Guy = 'GUY',
+  Hnd = 'HND',
+  Hrv = 'HRV',
+  Hti = 'HTI',
+  Hun = 'HUN',
+  Idn = 'IDN',
+  Ind = 'IND',
+  Irl = 'IRL',
+  Irn = 'IRN',
+  Irq = 'IRQ',
+  Isl = 'ISL',
+  Isr = 'ISR',
+  Ita = 'ITA',
+  Jam = 'JAM',
+  Jor = 'JOR',
+  Jpn = 'JPN',
+  Kaz = 'KAZ',
+  Ken = 'KEN',
+  Kgz = 'KGZ',
+  Khm = 'KHM',
+  Kir = 'KIR',
+  Kna = 'KNA',
+  Kor = 'KOR',
+  Kwt = 'KWT',
+  Lao = 'LAO',
+  Lbn = 'LBN',
+  Lbr = 'LBR',
+  Lby = 'LBY',
+  Lca = 'LCA',
+  Lie = 'LIE',
+  Lka = 'LKA',
+  Lso = 'LSO',
+  Ltu = 'LTU',
+  Lux = 'LUX',
+  Lva = 'LVA',
+  Mar = 'MAR',
+  Mco = 'MCO',
+  Mda = 'MDA',
+  Mdg = 'MDG',
+  Mdv = 'MDV',
+  Mex = 'MEX',
+  Mhl = 'MHL',
+  Mkd = 'MKD',
+  Mli = 'MLI',
+  Mlt = 'MLT',
+  Mmr = 'MMR',
+  Mne = 'MNE',
+  Mng = 'MNG',
+  Moz = 'MOZ',
+  Mrt = 'MRT',
+  Mus = 'MUS',
+  Mwi = 'MWI',
+  Mys = 'MYS',
+  Nam = 'NAM',
+  Ner = 'NER',
+  Nga = 'NGA',
+  Nic = 'NIC',
+  Nld = 'NLD',
+  Nor = 'NOR',
+  Npl = 'NPL',
+  Nru = 'NRU',
+  Nzl = 'NZL',
+  Omn = 'OMN',
+  Pak = 'PAK',
+  Pan = 'PAN',
+  Per = 'PER',
+  Phl = 'PHL',
+  Plw = 'PLW',
+  Png = 'PNG',
+  Pol = 'POL',
+  Prk = 'PRK',
+  Prt = 'PRT',
+  Pry = 'PRY',
+  Pse = 'PSE',
+  Qat = 'QAT',
+  Rou = 'ROU',
+  Rus = 'RUS',
+  Rwa = 'RWA',
+  Sau = 'SAU',
+  Sdn = 'SDN',
+  Sen = 'SEN',
+  Sgp = 'SGP',
+  Slb = 'SLB',
+  Sle = 'SLE',
+  Slv = 'SLV',
+  Smr = 'SMR',
+  Som = 'SOM',
+  Srb = 'SRB',
+  Ssd = 'SSD',
+  Stp = 'STP',
+  Sur = 'SUR',
+  Svk = 'SVK',
+  Svn = 'SVN',
+  Swe = 'SWE',
+  Swz = 'SWZ',
+  Syc = 'SYC',
+  Syr = 'SYR',
+  Tcd = 'TCD',
+  Tgo = 'TGO',
+  Tha = 'THA',
+  Tjk = 'TJK',
+  Tkm = 'TKM',
+  Tls = 'TLS',
+  Ton = 'TON',
+  Tto = 'TTO',
+  Tun = 'TUN',
+  Tur = 'TUR',
+  Tuv = 'TUV',
+  Twn = 'TWN',
+  Tza = 'TZA',
+  Uga = 'UGA',
+  Ukr = 'UKR',
+  Ury = 'URY',
+  Usa = 'USA',
+  Uzb = 'UZB',
+  Vat = 'VAT',
+  Vct = 'VCT',
+  Ven = 'VEN',
+  Vnm = 'VNM',
+  Vut = 'VUT',
+  Wsm = 'WSM',
+  Yem = 'YEM',
+  Zaf = 'ZAF',
+  Zmb = 'ZMB',
+  Zwe = 'ZWE',
+}
+
 export type Image = {
   __typename?: 'Image';
   altText?: Maybe<Scalars['String']>;
@@ -251,6 +510,7 @@ export type Image = {
   width?: Maybe<Scalars['Int']>;
 };
 
+/** This allows us to send invitations for access, currently creating a partner account and linking it to an experience */
 export type Invitation = {
   __typename?: 'Invitation';
   createdAt: Scalars['Date'];
@@ -267,13 +527,16 @@ export type InvitationInput = {
   userType: InvitationUserType;
 };
 
+/** The types of user invitation that can be sent */
 export enum InvitationUserType {
+  /** An operator who can see the details for a single experience */
   Partner = 'PARTNER',
+  /** An admin user that has access to all experiences and full permissions */
   SuperUser = 'SUPER_USER',
 }
 
-export type Location = {
-  __typename?: 'Location';
+export type LegacyLocation = {
+  __typename?: 'LegacyLocation';
   _geoloc?: Maybe<Geoloc>;
   airportCode?: Maybe<Scalars['String']>;
   airportName?: Maybe<Scalars['String']>;
@@ -289,28 +552,107 @@ export type Location = {
   terminalCode?: Maybe<Scalars['String']>;
 };
 
+export type LegacyPricing = {
+  __typename?: 'LegacyPricing';
+  currency?: Maybe<Scalars['String']>;
+  lifestyleXReservationCharge?: Maybe<Scalars['Float']>;
+  lifestyleXWalkInCharge?: Maybe<Scalars['Float']>;
+  pricingType?: Maybe<Scalars['String']>;
+  reservationCost?: Maybe<Scalars['Float']>;
+  reservationOnlyFee?: Maybe<Scalars['Float']>;
+  vat?: Maybe<Scalars['Int']>;
+  walkInCostCurrentPPRate?: Maybe<Scalars['Float']>;
+};
+
+export type LegacyProductInput = {
+  productID: Scalars['String'];
+  productType?: InputMaybe<ProductType>;
+  supplierCode: Scalars['String'];
+};
+
+export type Location = {
+  __typename?: 'Location';
+  city?: Maybe<Scalars['String']>;
+  code?: Maybe<Scalars['String']>;
+  country: Scalars['String'];
+  geoJSON?: Maybe<GeoJson>;
+  isoCountryCode: IsoCountryCode;
+  landside?: Maybe<Scalars['Boolean']>;
+  terminalCode?: Maybe<Scalars['String']>;
+};
+
+export type LocationInput = {
+  city?: InputMaybe<Scalars['String']>;
+  code?: InputMaybe<Scalars['String']>;
+  country: Scalars['String'];
+  geoJSON?: InputMaybe<GeoJsonInput>;
+  isoCountryCode: IsoCountryCode;
+  landside?: InputMaybe<Scalars['Boolean']>;
+  terminalCode?: InputMaybe<Scalars['String']>;
+};
+
+/** A membership that is associated to a consumer */
+export type Membership = {
+  __typename?: 'Membership';
+  id?: Maybe<Scalars['ID']>;
+  type?: Maybe<MembershipType>;
+};
+
+export type MembershipInput = {
+  id: Scalars['ID'];
+  type: MembershipType;
+};
+
+export enum MembershipType {
+  AmexGold = 'AMEX_GOLD',
+}
+
 export type Mutation = {
   __typename?: 'Mutation';
   acceptInvitation?: Maybe<Invitation>;
+  /** This is used to link a membership to a consumer */
+  addMembership?: Maybe<Consumer>;
   cancelBooking?: Maybe<Booking>;
   cancelInvitation?: Maybe<Invitation>;
   checkinBooking?: Maybe<Booking>;
   confirmBooking?: Maybe<Booking>;
   createBooking?: Maybe<Booking>;
+  createBrand?: Maybe<Brand>;
   createInvitation?: Maybe<Invitation>;
+  createOutlet?: Maybe<Outlet>;
+  createProduct?: Maybe<Product>;
   declineBooking?: Maybe<Booking>;
   deleteBooking?: Maybe<Booking>;
+  deleteBrand?: Maybe<Brand>;
+  deleteOutlet?: Maybe<Outlet>;
+  deleteProduct?: Maybe<Product>;
+  findAndCompleteBookings: Array<Booking>;
+  /** This is used to generate a consumer, but if they are already created we will return their details */
   findOrCreateConsumer?: Maybe<Consumer>;
+  /** This is used to generate a partner, but if they are already created we will return their details */
   findOrCreatePartner?: Maybe<Partner>;
+  /**
+   * A partner is limited to view the bookings of certain experiences, this allows you to link an
+   * experience to the partner record so they can view bookings for that experience.
+   */
   linkExperience?: Maybe<Partner>;
+  noShowBooking?: Maybe<Booking>;
   payForBooking?: Maybe<Booking>;
   unlinkExperience?: Maybe<Partner>;
+  updateBrand?: Maybe<Brand>;
+  /** Change or update the consumer record with additional information */
   updateConsumer?: Maybe<Consumer>;
+  updateOutlet?: Maybe<Outlet>;
   updatePartner?: Maybe<Partner>;
+  updateProduct?: Maybe<Product>;
 };
 
 export type MutationAcceptInvitationArgs = {
   acceptInvitationInput: AcceptInvitationInput;
+};
+
+export type MutationAddMembershipArgs = {
+  membershipInput?: InputMaybe<MembershipInput>;
 };
 
 export type MutationCancelBookingArgs = {
@@ -333,8 +675,20 @@ export type MutationCreateBookingArgs = {
   bookingInput?: InputMaybe<BookingInput>;
 };
 
+export type MutationCreateBrandArgs = {
+  brandInput?: InputMaybe<BrandInput>;
+};
+
 export type MutationCreateInvitationArgs = {
   invitationInput?: InputMaybe<InvitationInput>;
+};
+
+export type MutationCreateOutletArgs = {
+  outletInput?: InputMaybe<OutletInput>;
+};
+
+export type MutationCreateProductArgs = {
+  productInput?: InputMaybe<ProductInput>;
 };
 
 export type MutationDeclineBookingArgs = {
@@ -343,6 +697,22 @@ export type MutationDeclineBookingArgs = {
 
 export type MutationDeleteBookingArgs = {
   id: Scalars['ID'];
+};
+
+export type MutationDeleteBrandArgs = {
+  id: Scalars['ID'];
+};
+
+export type MutationDeleteOutletArgs = {
+  id: Scalars['ID'];
+};
+
+export type MutationDeleteProductArgs = {
+  id: Scalars['ID'];
+};
+
+export type MutationFindAndCompleteBookingsArgs = {
+  status: BookingStatus;
 };
 
 export type MutationFindOrCreateConsumerArgs = {
@@ -358,6 +728,10 @@ export type MutationLinkExperienceArgs = {
   partnerKey?: InputMaybe<PartnerKey>;
 };
 
+export type MutationNoShowBookingArgs = {
+  id: Scalars['ID'];
+};
+
 export type MutationPayForBookingArgs = {
   id: Scalars['ID'];
   paymentInput?: InputMaybe<PaymentInput>;
@@ -368,12 +742,38 @@ export type MutationUnlinkExperienceArgs = {
   partnerKey?: InputMaybe<PartnerKey>;
 };
 
+export type MutationUpdateBrandArgs = {
+  brandInput?: InputMaybe<BrandInput>;
+  id: Scalars['ID'];
+};
+
 export type MutationUpdateConsumerArgs = {
   consumerInput?: InputMaybe<ConsumerInput>;
 };
 
+export type MutationUpdateOutletArgs = {
+  id: Scalars['ID'];
+  outletInput?: InputMaybe<OutletInput>;
+};
+
 export type MutationUpdatePartnerArgs = {
   partnerInput?: InputMaybe<PartnerInput>;
+};
+
+export type MutationUpdateProductArgs = {
+  id: Scalars['ID'];
+  productInput?: InputMaybe<ProductInput>;
+};
+
+export type OpeningHours = {
+  __typename?: 'OpeningHours';
+  schedules: Array<DaySchedule>;
+  variations?: Maybe<Array<Maybe<Variation>>>;
+};
+
+export type OpeningHoursInput = {
+  schedules: Array<DayScheduleInput>;
+  variations?: InputMaybe<Array<InputMaybe<VariationInput>>>;
 };
 
 export type Operator = {
@@ -382,6 +782,44 @@ export type Operator = {
   id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
 };
+
+export type Outlet = {
+  __typename?: 'Outlet';
+  contentType: OutletContentType;
+  hasDisabledAccess: Scalars['Boolean'];
+  id: Scalars['ID'];
+  legacyCode?: Maybe<Scalars['String']>;
+  location: Location;
+  metadata: Scalars['JSONObject'];
+  name: Scalars['String'];
+  openingHours: OpeningHours;
+  reservationEmail?: Maybe<Scalars['String']>;
+};
+
+export enum OutletContentType {
+  Airport = 'AIRPORT',
+}
+
+export type OutletInput = {
+  contentType: OutletContentType;
+  hasDisabledAccess: Scalars['Boolean'];
+  legacyCode?: InputMaybe<Scalars['String']>;
+  location: LocationInput;
+  metadata: Scalars['JSONObject'];
+  name: Scalars['String'];
+  openingHours: OpeningHoursInput;
+  reservationEmail?: InputMaybe<Scalars['String']>;
+};
+
+export type OutletKey = {
+  id: Scalars['ID'];
+};
+
+export enum OutletProductCategory {
+  Carpark = 'CARPARK',
+  LoungeAccess = 'LOUNGE_ACCESS',
+  SleepPod = 'SLEEP_POD',
+}
 
 export type Partner = {
   __typename?: 'Partner';
@@ -413,20 +851,64 @@ export type PaymentInput = {
 
 export type Pricing = {
   __typename?: 'Pricing';
-  currency?: Maybe<Scalars['String']>;
-  lifestyleXReservationCharge?: Maybe<Scalars['Float']>;
-  lifestyleXWalkInCharge?: Maybe<Scalars['Float']>;
-  pricingType?: Maybe<Scalars['String']>;
-  reservationCost?: Maybe<Scalars['Float']>;
-  vat?: Maybe<Scalars['Int']>;
-  walkInCostCurrentPPRate?: Maybe<Scalars['Float']>;
+  /** This is the cost to the partner */
+  cost: Scalars['Float'];
+  costCurrency: Scalars['String'];
+  /** This is the tax percentage to be applied to the cost */
+  defaultTaxPercentage: Scalars['Int'];
+  /** This is the cost to the customer */
+  rrp: Scalars['Float'];
+  rrpCurrency: Scalars['String'];
+};
+
+export type PricingInput = {
+  /** This is the cost to the partner */
+  cost: Scalars['Float'];
+  costCurrency: Scalars['String'];
+  defaultTaxPercentage: Scalars['Int'];
+  /** This is the cost to the customer */
+  rrp: Scalars['Float'];
+  rrpCurrency: Scalars['String'];
 };
 
 export type Product = {
-  productID: Scalars['String'];
-  productType?: InputMaybe<ProductType>;
-  supplierCode: Scalars['String'];
+  __typename?: 'Product';
+  category: OutletProductCategory;
+  contentType: ProductContentType;
+  id: Scalars['ID'];
+  metadata: Scalars['JSONObject'];
+  name: Scalars['String'];
+  outlet?: Maybe<Outlet>;
+  ppStripeID: Scalars['String'];
+  pricing: Pricing;
+  state: ProductState;
 };
+
+export enum ProductContentType {
+  AirportLounge = 'AIRPORT_LOUNGE',
+}
+
+export type ProductInput = {
+  category: OutletProductCategory;
+  contentType: ProductContentType;
+  metadata: Scalars['JSONObject'];
+  name: Scalars['String'];
+  outlet: OutletKey;
+  ppStripeID: Scalars['String'];
+  pricing: PricingInput;
+  state: ProductState;
+};
+
+export type ProductKey = {
+  id: Scalars['ID'];
+};
+
+export enum ProductState {
+  Active = 'ACTIVE',
+  Archived = 'ARCHIVED',
+  Deleted = 'DELETED',
+  Draft = 'DRAFT',
+}
 
 export enum ProductType {
   Lounge = 'Lounge',
@@ -437,6 +919,7 @@ export type Query = {
   getAvailableSlots: Availability;
   getBookingByID?: Maybe<Booking>;
   getBookings: Array<Booking>;
+  getBrandByID?: Maybe<Brand>;
   getConsumer?: Maybe<Consumer>;
   getConsumerByEmailAddress?: Maybe<Consumer>;
   getConsumerByID?: Maybe<Consumer>;
@@ -444,9 +927,11 @@ export type Query = {
   getFlightDetails: Array<FlightDetails>;
   getInvitationByID?: Maybe<Invitation>;
   getInvitations: Array<Invitation>;
+  getOutletByID?: Maybe<Outlet>;
   getPartner?: Maybe<Partner>;
   getPartnerByEmailAddress?: Maybe<Partner>;
   getPartnerByID?: Maybe<Partner>;
+  getProductByID?: Maybe<Product>;
   isInvitationTokenValid?: Maybe<Scalars['Boolean']>;
   searchExperiences?: Maybe<Array<Maybe<Experience>>>;
 };
@@ -462,6 +947,10 @@ export type QueryGetBookingByIdArgs = {
 export type QueryGetBookingsArgs = {
   experienceID: Scalars['ID'];
   status?: InputMaybe<BookingStatus>;
+};
+
+export type QueryGetBrandByIdArgs = {
+  id: Scalars['ID'];
 };
 
 export type QueryGetConsumerByEmailAddressArgs = {
@@ -488,11 +977,19 @@ export type QueryGetInvitationsArgs = {
   experienceID?: InputMaybe<Scalars['ID']>;
 };
 
+export type QueryGetOutletByIdArgs = {
+  id: Scalars['ID'];
+};
+
 export type QueryGetPartnerByEmailAddressArgs = {
   emailAddress: Scalars['String'];
 };
 
 export type QueryGetPartnerByIdArgs = {
+  id: Scalars['ID'];
+};
+
+export type QueryGetProductByIdArgs = {
   id: Scalars['ID'];
 };
 
@@ -512,6 +1009,17 @@ export type Redemption = {
   isGuestAllowed?: Maybe<Scalars['Boolean']>;
 };
 
+export type Schedule = {
+  __typename?: 'Schedule';
+  endTime: Scalars['String'];
+  startTime: Scalars['String'];
+};
+
+export type ScheduleInput = {
+  endTime: Scalars['String'];
+  startTime: Scalars['String'];
+};
+
 export type Slots = {
   __typename?: 'Slots';
   endDate?: Maybe<Scalars['Date']>;
@@ -522,6 +1030,22 @@ export type Slots = {
 export enum TimezoneType {
   Local = 'LOCAL',
   Utc = 'UTC',
+}
+
+export type Variation = {
+  __typename?: 'Variation';
+  date: Scalars['String'];
+  type: VariationType;
+};
+
+export type VariationInput = {
+  date: Scalars['String'];
+  type: VariationType;
+};
+
+export enum VariationType {
+  Annual = 'ANNUAL',
+  DateSpecific = 'DATE_SPECIFIC',
 }
 
 export type AcceptInvitationMutationVariables = Exact<{
@@ -841,7 +1365,7 @@ export type GetExperienceByIdQuery = {
     loungeName?: string | null;
     loungeCode?: string | null;
     location?: {
-      __typename?: 'Location';
+      __typename?: 'LegacyLocation';
       airportName?: string | null;
       airportCode?: string | null;
       terminal?: string | null;
@@ -853,6 +1377,37 @@ export type GetExperienceByIdQuery = {
       lbCountryCode?: string | null;
     } | null;
   } | null;
+};
+
+export type GetFlightDetailsQueryVariables = Exact<{
+  flightDetails: FlightDetailsInput;
+}>;
+
+export type GetFlightDetailsQuery = {
+  __typename?: 'Query';
+  getFlightDetails: Array<{
+    __typename?: 'FlightDetails';
+    arrival?: {
+      __typename?: 'Arrival';
+      airport?: string | null;
+      terminal?: string | null;
+      dateTime?: {
+        __typename?: 'FlightDateTime';
+        local?: string | null;
+        utc?: string | null;
+      } | null;
+    } | null;
+    departure?: {
+      __typename?: 'Departure';
+      airport?: string | null;
+      terminal?: string | null;
+      dateTime?: {
+        __typename?: 'FlightDateTime';
+        local?: string | null;
+        utc?: string | null;
+      } | null;
+    } | null;
+  }>;
 };
 
 export type GetInvitationByIdQueryVariables = Exact<{
@@ -891,7 +1446,7 @@ export type GetPartnerByIdQuery = {
       id: string;
       loungeName?: string | null;
       location?: {
-        __typename?: 'Location';
+        __typename?: 'LegacyLocation';
         airportName?: string | null;
         terminal?: string | null;
       } | null;
@@ -915,14 +1470,14 @@ export type SearchExperiencesQuery = {
     conditions?: string | null;
     directions?: string | null;
     location?: {
-      __typename?: 'Location';
+      __typename?: 'LegacyLocation';
       airportName?: string | null;
       city?: string | null;
       country?: string | null;
       terminal?: string | null;
     } | null;
     pricing?: {
-      __typename?: 'Pricing';
+      __typename?: 'LegacyPricing';
       pricingType?: string | null;
       currency?: string | null;
       reservationCost?: number | null;
@@ -2251,6 +2806,127 @@ export const GetExperienceByIdDocument = {
 } as unknown as DocumentNode<
   GetExperienceByIdQuery,
   GetExperienceByIdQueryVariables
+>;
+export const GetFlightDetailsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetFlightDetails' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'flightDetails' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'FlightDetailsInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'getFlightDetails' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'flightDetails' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'flightDetails' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'arrival' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'airport' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'terminal' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'dateTime' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'local' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'utc' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'departure' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'airport' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'terminal' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'dateTime' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'local' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'utc' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GetFlightDetailsQuery,
+  GetFlightDetailsQueryVariables
 >;
 export const GetInvitationByIdDocument = {
   kind: 'Document',

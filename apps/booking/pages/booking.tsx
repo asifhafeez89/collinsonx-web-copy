@@ -20,17 +20,6 @@ interface MainProps {
   consumerNumber: string | string[];
   tempBearerToken: string | string[];
 }
-interface DepartureFlightInfo {
-  airport: { iata: string };
-  date: { local: string; utc: string };
-  terminal: string;
-  time: { local: string; utc: string };
-}
-
-interface FlightInfo {
-  departure: DepartureFlightInfo;
-  arrival: DepartureFlightInfo;
-}
 
 export const getServerSideProps: GetServerSideProps<MainProps> = async ({
   req,
@@ -76,68 +65,8 @@ const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
           </Stack>
         ) : undefined}
         <Box mt={20}>
-          <FlightInfo onSuccess={onFlightInfoSuccess} />
+          <FlightInfo />
         </Box>
-        {flightData ? (
-          <Grid mt={20}>
-            <Grid.Col sm="auto" md="auto" lg={3}>
-              <Accordion variant="separated">
-                <Accordion.Item value="customization">
-                  <Accordion.Control>
-                    Departing Flight Information
-                  </Accordion.Control>
-                  <Accordion.Panel>
-                    <p>
-                      Departing Airport: {flightData.departure.airport.iata}
-                    </p>
-                    <p>
-                      Departing Date (local): {flightData.departure.date.local}
-                    </p>
-                    <p>Departing Date (utc): {flightData.departure.date.utc}</p>
-                    <p>
-                      Departing Time (local): {flightData.departure.time.local}
-                    </p>
-                    <p>Departing Time (utc): {flightData.departure.time.utc}</p>
-                  </Accordion.Panel>
-                </Accordion.Item>
-                <Accordion.Item value="flexibility">
-                  <Accordion.Control>
-                    Arrival Flight Information
-                  </Accordion.Control>
-                  <Accordion.Panel>
-                    <p>Arrival Airport: {flightData.arrival.airport.iata}</p>
-                    <p>Arrival Date (local): {flightData.arrival.date.local}</p>
-                    <p>Arrival Date (utc): {flightData.arrival.date.utc}</p>
-                    <p>Arrival Time (local): {flightData.arrival.time.local}</p>
-                    <p>Arrival Time (utc): {flightData.arrival.time.utc}</p>
-                  </Accordion.Panel>
-                </Accordion.Item>
-              </Accordion>
-            </Grid.Col>
-            {/* {selectedSlot ? (
-            <Grid.Col sm="auto" md="auto" lg={3}>
-              <Text>
-                Selected Slot:{' '}
-                {`${dayjs(selectedSlot?.startDate).format('hh:mm')} - ${dayjs(
-                  selectedSlot?.endDate
-                ).format('hh:mm')}`}
-              </Text>
-
-              <Booking
-                slotDateFrom={selectedSlot?.startDate}
-                slodDateEnd={selectedSlot?.endDate}
-                guests={3}
-                flightNumber={'ba7'}
-                flightDate={new Date(flightData.departure.date.utc)}
-              />
-            </Grid.Col>
-          ) : (
-            <></>
-          )} */}
-          </Grid>
-        ) : (
-          ''
-        )}
       </Layout>
     )
   );
