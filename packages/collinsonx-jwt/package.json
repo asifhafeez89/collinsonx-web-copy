@@ -1,0 +1,18 @@
+{
+  "name": "@collinsonx/jwt",
+  "version": "0.0.1",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build:swc": "swc src -d dist",
+    "build": "pnpm clean && pnpm build:swc && pnpm types",
+    "types": "tsc",
+    "publish": "pnpm build",
+    "postinstall": "pnpm build"
+  },
+  "devDependencies": {
+    "@swc/cli": "^0.1.62",
+    "@swc/core": "^1.3.77",
+    "typescript": "^5.2.2",
+    "jose": "^4.14.4"
+  }
+}

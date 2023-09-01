@@ -14,12 +14,17 @@ import { getClients } from '@collinsonx/constants/dist/enums';
 // @ts-ignore
 import { getAccountProviders } from '@collinsonx/constants/dist/enums';
 
+// @ts-ignore
+import { encryptJWT, decryptJWT } from '@collinsonx/jwt/dist';
+
 import { LoungeSchema, lounges } from '@/data/Lounge';
 
 import schema, { SchemaType } from './schema';
-import { encryptJWT, decryptJWT } from './jwt';
+// import { encryptJWT, decryptJWT } from './jwt';
 import urls from './urls';
 import { firstNames, lastNames } from './names';
+
+const secretPhase = 'zH4NRP1HMALxxCFnRZABFA7GOJtzU_gIj02alfL1lvI';
 
 interface ClientSelectBoxProps {
   setClient: Dispatch<SetStateAction<Client>>;
@@ -104,7 +109,7 @@ function DebugBox({ jwt, object }: DebugBoxProps) {
   const [jwtPayload, setJWTPayload] = useState('');
 
   const decodeOnClickHandler = async () => {
-    const response = await decryptJWT(jwt);
+    const response = await decryptJWT(jwt, secretPhase);
 
     setJWTPayload(JSON.stringify(response.payload));
   };
@@ -164,8 +169,6 @@ const Content = () => {
   const [jwt, setJWT] = useState('');
 
   const createNewJWT = async (values: SchemaType) => {
-    console.log('');
-
     const response = {
       ...values,
       firstName,
@@ -177,7 +180,7 @@ const Content = () => {
 
     setObject(JSON.stringify(response));
 
-    const jwtToken = await encryptJWT(response);
+    const jwtToken = await encryptJWT(response, secretPhase);
     setJWT(jwtToken);
 
     const url = `${domain}?in=${jwtToken}`;

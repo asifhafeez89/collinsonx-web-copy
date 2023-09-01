@@ -310,6 +310,9 @@ importers:
       '@collinsonx/design-system':
         specifier: workspace:*
         version: link:../../packages/collinsonx-design-system
+      '@collinsonx/jwt':
+        specifier: workspace:*
+        version: link:../../packages/collinsonx-jwt
       '@mantine/core':
         specifier: ^6.0.19
         version: 6.0.19(@emotion/react@11.11.1)(@mantine/hooks@6.0.19)(@types/react@18.2.21)(react-dom@18.2.0)(react@18.2.0)
@@ -322,9 +325,6 @@ importers:
       joi:
         specifier: ^17.10.0
         version: 17.10.0
-      jose:
-        specifier: ^4.14.4
-        version: 4.14.4
       next:
         specifier: 13.4.19
         version: 13.4.19(@babel/core@7.22.10)(@opentelemetry/api@1.4.1)(react-dom@18.2.0)(react@18.2.0)
@@ -482,6 +482,21 @@ importers:
       typescript:
         specifier: 4.9.5
         version: 4.9.5
+
+  packages/collinsonx-jwt:
+    devDependencies:
+      '@swc/cli':
+        specifier: ^0.1.62
+        version: 0.1.62(@swc/core@1.3.77)(chokidar@3.5.3)
+      '@swc/core':
+        specifier: ^1.3.77
+        version: 1.3.77(@swc/helpers@0.5.1)
+      jose:
+        specifier: ^4.14.4
+        version: 4.14.4
+      typescript:
+        specifier: ^5.2.2
+        version: 5.2.2
 
   packages/collinsonx-pages:
     dependencies:
@@ -12925,6 +12940,7 @@ packages:
 
   /jose@4.14.4:
     resolution: {integrity: sha512-j8GhLiKmUAh+dsFXlX1aJCbt5KMibuKb+d7j1JaOJG6s2UjX1PQlW+OKB/sD4a/5ZYF4RcmYmLSndOoU3Lt/3g==}
+    dev: true
 
   /joycon@3.1.1:
     resolution: {integrity: sha512-34wB/Y7MW7bzjKRjUKTa46I2Z7eV62Rkhva+KkopW7Qvv/OSWBqvkSY7vusOPrNuZcUG3tApvdVgNB8POj3SPw==}
@@ -15291,7 +15307,7 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      '@babel/runtime': 7.22.10
+      '@babel/runtime': 7.22.6
       react: 18.2.0
       use-composed-ref: 1.3.0(react@18.2.0)
       use-latest: 1.2.1(@types/react@18.2.21)(react@18.2.0)
