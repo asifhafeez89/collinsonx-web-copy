@@ -8,7 +8,7 @@ export const bookingTypeMap = {
   [BookingType.WalkUp]: 'Walk-up',
 };
 
-export type AccountProvider = 'PP' | 'LK' | 'CERGEA';
+export type AccountProvider = 'PP' | 'LK' | 'Cergea';
 
 enum AirportCode {
   BHD = 'BHD',

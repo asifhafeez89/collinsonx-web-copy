@@ -50,6 +50,18 @@ const secret = jose.base64url.decode(
   process.env.NEXT_PUBLIC_JWT_SECRET as string
 );
 
+async function decryptJWT(jwt: string) {
+  const { payload, protectedHeader } = await jose.jwtDecrypt(jwt, secret, {
+    issuer: 'urn:example:issuer',
+    audience: 'urn:example:audience',
+  });
+
+  return {
+    payload,
+    protectedHeader,
+  };
+}
+
 export const PayloadProvider = (props: PropsWithChildren) => {
   const router = useRouter();
   const [payload, setPayload] = useState<BridgePayload>();
@@ -60,8 +72,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
     if (router.isReady) {
       const token = router.query.in as string;
       setToken(token);
-      jose
-        .jwtDecrypt(token, secret)
+      decryptJWT(token)
         .then((result) => {
           const payload = result.payload as unknown as BridgePayload;
 

@@ -8,7 +8,7 @@ import { ReactNode } from 'react';
 import { AccountProvider } from 'types/booking';
 
 const logos: Record<AccountProvider | string, ReactNode> = {
-  CERGEA: <LogoCergea width={200} height={100} />,
+  Cergea: <LogoCergea width={200} height={50} />,
   LK: <LogoLoungeKey width={200} height={100} />,
   PP: <LogoPriorityPass width={200} height={100} />,
   HSBC: <LogoHSBC width={50} height={50} />,
