@@ -16,25 +16,7 @@ import {
 } from '../components/flightInfo/FlightInfo';
 import usePayload from 'hooks/payload';
 
-interface MainProps {
-  consumerNumber: string | string[];
-  tempBearerToken: string | string[];
-}
-
-export const getServerSideProps: GetServerSideProps<MainProps> = async ({
-  req,
-}) => {
-  const consumerNumber = req.headers['x-consumernumber'] ?? '';
-  const tempBearerToken = req.headers['authorization'] ?? '';
-  return {
-    props: {
-      consumerNumber,
-      tempBearerToken,
-    },
-  };
-};
-
-const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
+const Main = () => {
   const router = useRouter();
 
   const { payload, setPayload } = usePayload();
@@ -52,14 +34,6 @@ const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
         <Title mb={8} size={32}>
           Welcome to Booking
         </Title>
-        {consumerNumber && tempBearerToken ? (
-          <Stack spacing={2} mt={20}>
-            <Text>Consumer Number (depracated): {consumerNumber}</Text>
-            <Text>Temporary Bearer Token (deprecated): {tempBearerToken}</Text>
-            <Text>Consumer Number (depracated): {consumerNumber}</Text>
-            <Text>Temporary Bearer Token (deprecated): {tempBearerToken}</Text>
-          </Stack>
-        ) : undefined}
         <Box mt={20}>
           <FlightInfo />
         </Box>
