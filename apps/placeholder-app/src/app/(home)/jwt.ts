@@ -11,7 +11,7 @@ async function encryptJWT(object: JWTPayload): Promise<string> {
     .setIssuedAt()
     .setIssuer('urn:example:issuer')
     .setAudience('urn:example:audience')
-    .setExpirationTime('2h')
+    .setExpirationTime('12h')
     .encrypt(secret);
 
   return jwt;

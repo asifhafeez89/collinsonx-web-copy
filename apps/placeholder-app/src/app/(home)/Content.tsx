@@ -14,7 +14,7 @@ import { getClients, getProducts } from '@collinsonx/constants/dist/enums';
 import { LoungeSchema, lounges } from '@/data/Lounge';
 
 import schema, { SchemaType } from './schema';
-import { encryptJWT } from './jwt';
+import { encryptJWT, decryptJWT } from './jwt';
 
 interface ClientSelectBoxProps {
   setClient: Dispatch<SetStateAction<Client>>;
@@ -101,6 +101,7 @@ const Content = () => {
 
   const [object, setObject] = useState('');
   const [jwt, setJWT] = useState('');
+  const [jwtPayload, setJWTPayload] = useState('');
 
   const createNewJWT = async (values: SchemaType) => {
     const response = {
@@ -114,6 +115,12 @@ const Content = () => {
 
     const jwtToken = await encryptJWT(response);
     setJWT(jwtToken);
+  };
+
+  const decodeOnClickHandler = async () => {
+    const response = await decryptJWT(jwt);
+
+    setJWTPayload(JSON.stringify(response.payload));
   };
 
   return (
@@ -175,6 +182,15 @@ const Content = () => {
           <p>
             JWT:
             <Textarea value={jwt} readOnly />
+          </p>
+          <Button onClick={decodeOnClickHandler}>Decode JWT</Button>
+        </>
+      )}
+      {jwtPayload.length > 0 && (
+        <>
+          <p>
+            Payload:
+            <Textarea value={jwtPayload} readOnly />
           </p>
         </>
       )}
