@@ -5,6 +5,7 @@ import {
   Box,
   Flex,
   PinInput,
+  Title,
 } from '@collinsonx/design-system/core';
 import { useRouter } from 'next/router';
 import {
@@ -19,16 +20,15 @@ import getConsumerByEmailAddress from '@collinsonx/utils/queries/getConsumerByEm
 import { useQuery } from '@collinsonx/utils/apollo';
 import Error from '@components/Error';
 import usePayload from 'hooks/payload';
-import useBreakpoint from 'hooks/useBreakpoint';
+import colors from 'ui/colour-constants';
 
 export default function CheckEmail() {
   const { token, payload, setPayload } = usePayload();
   const router = useRouter();
   const email = router.query?.email as string;
-  const mobileBreakpoint = useBreakpoint();
   const [code, setCode] = useState<string>();
 
-  const [loading, setLoading] = useState(false);
+  const [pinError, setPinError] = useState(false);
   const [count, setCount] = useState(20);
 
   let interval = useRef<NodeJS.Timeout>();
@@ -63,30 +63,19 @@ export default function CheckEmail() {
   };
 
   const handleClickConfirm = async () => {
-    setLoading(true);
     if (code?.length === 6) {
       let response = await consumePasswordlessCode({
         userInputCode: code,
       });
+
       if (response.status === 'OK') {
         router.push({ pathname: '/check-availability', query: { in: token } });
-      } else if (response.status === 'INCORRECT_USER_INPUT_CODE_ERROR') {
-        setLoading(false);
-        // the user entered an invalid OTP
-        window.alert(
-          'Wrong OTP! Please try again. Number of attempts left: ' +
-            (response.maximumCodeInputAttempts -
-              response.failedCodeInputAttemptCount)
-        );
-      } else if (response.status === 'EXPIRED_USER_INPUT_CODE_ERROR') {
-        setLoading(false);
-        // it can come here if the entered OTP was correct, but has expired because
-        // it was generated too long ago.
-        window.alert(
-          'Old OTP entered. Please regenerate a new one and try again'
-        );
+      } else if (
+        response.status === 'INCORRECT_USER_INPUT_CODE_ERROR' ||
+        response.status === 'EXPIRED_USER_INPUT_CODE_ERROR'
+      ) {
+        setPinError(true);
       } else {
-        setLoading(false);
         // this can happen if the user tried an incorrect OTP too many times.
         window.alert('Login failed. Please try again');
       }
@@ -97,15 +86,18 @@ export default function CheckEmail() {
     router.push({ pathname: '/', query: { in: token } });
   };
 
+  // this will be covered by https://lifestyle-x.atlassian.net/browse/BAAS-95
+  const loungeTitle = "Gatwick Airport".toUpperCase();
+
   return (
     <>
-      {loading || loadingGetConsumer ? (
+      {loadingGetConsumer ? (
         <Flex justify="center" align="center" h="100%">
           <LoaderLifestyleX />
         </Flex>
       ) : (
         <LayoutLogin>
-            <Breadcramp title="Check your email" url='#' />
+            <Breadcramp title={loungeTitle} url='#' />
             <Stack
               spacing={24}
               align="center"
@@ -119,76 +111,68 @@ export default function CheckEmail() {
                 },
               }}
             >
+              <Title size="26">Check your email</Title>
               <Error error={error} />
               <Text
                 size='18px'
-                align={mobileBreakpoint ? 'left' : 'center'}
+                align='center'
                 >
-                Enter the passcode we’ve sent by email to {email}
+                We have sent a unique code to
+                <Text weight={700} >{email}</Text>
               </Text>
-              {!mobileBreakpoint && (
-                <Box>
-                  <Text align="center" size={14}>
-                    Wrong email?
-                  </Text>
-                  <Button
-                    variant="subtle"
-                    fw={400}
-                    sx={{
-                      fontSize: '14px',
-                      height: '20px',
-                      color: '#20C997',
-                      textDecoration: 'underline',
-                    }}
-                    onClick={handleClickReenter}
-                    compact
-                  >
-                    Re-enter your address
-                  </Button>
-                </Box>
-              )}
-              {!mobileBreakpoint && (
-                <Box
-                  my={16}
+              <Box>
+                <Text align="center" size={16}>
+                  Wrong email?
+                </Text>
+                <Button
+                  fw={700}
                   sx={{
-                    backgroundColor: '#C8C9CA',
-                    height: '1px',
-                    width: '100%',
+                    fontSize: 16,
+                    height: '20px',
+                    color: colors.blue,
+                    backgroundColor: 'transparent',
+                    textDecoration: 'underline',
                   }}
-                />
-              )}
-              <Box mx={-0.5}>
-                <Text sx={{ padding: '0 0 0.5rem 0' }}>
-                  <Text span color='#fa5252'>*</Text>One time passcode
+                  onClick={handleClickReenter}
+                  compact
+                >
+                  Re-enter your email address
+                </Button>
+              </Box>
+              <Box
+                sx={{
+                  backgroundColor: colors.dividerGrey,
+                  height: '1px',
+                  width: '100%',
+                }}
+              />
+              <Box>
+                <Text fw={700} size={12}>
+                  One time passcode
                 </Text>
                 <PinInput
                   onChange={(code) => setCode(code)}
                   placeholder='-'
                   length={6}
-                  oneTimeCode
                   size='xl'
                   spacing='8px'
                   sx={{
+                    padding: '0.5rem 0 0.5rem 0',
                     input: {
-                      borderRadius: '8px',
-                      fontSize: '1rem'
+                      borderRadius: 8,
+                      fontSize: 18,
+                      fontWeight: 'bold',
                     }
                   }}
                   inputMode='numeric'
                 />
-              </Box>
-              {mobileBreakpoint && (
-                <Text
-                  size={14}
-                  fw={400}
-                  align='left'
-                  sx={{ width: '100%' }}
-                >
-                  Didn't receieve a code? <Text component='a' href='#' onClick={handleClickResend} color='#6D4BF6'>Send again</Text>
-                </Text>
-              )}
-              <Flex direction="row" align="center" w="100%" gap={16} mt={8}>
-                {!mobileBreakpoint && (
+                {pinError && (
+                  <Text sx={{ color: colors.errorRed }} align='center' size={16} >
+                    Perhaps a code is invalid or has expired.<br />
+                    Please try again
+                  </Text>
+                )}
+                <Flex direction="row" align="center" w="100%" gap={16} mt={8} sx={{ padding: '1.5rem 0 0 0' }}>
                   <Button
                     py={8}
                     fullWidth
@@ -196,30 +180,35 @@ export default function CheckEmail() {
                     disabled={count > 0}
                     onClick={handleClickResend}
                     sx={{
-                      borderColor: '#2C2C2C',
-                      color: '#2C2C2C',
+                      borderColor: colors.buttonBlack,
+                      color: colors.buttonBlack,
+                      borderWidth: 2,
+                      fontSize: 18,
+                      height: 44
                     }}
                   >
-                    Resend
+                    RESEND
                   </Button>
-                )}
-                <Button
-                  fullWidth
-                  py={8}
-                  onClick={handleClickConfirm}
-                  sx={{
-                    borderRadius: 4,
-                  }}
-                  data-testid="verify"
-                >
-                  Verify
-                </Button>
-              </Flex>
-                {!mobileBreakpoint && count > 0 && (
-                    <Text size={14} fw={400} align='center'>
-                    You can resend the unique code in {count} seconds
-                  </Text>
-                )}
+                  <Button
+                    fullWidth
+                    py={8}
+                    onClick={handleClickConfirm}
+                    sx={{
+                      borderRadius: 4,
+                      fontSize: 18,
+                      height: 44
+                    }}
+                    data-testid="verify"
+                  >
+                    VERIFY
+                  </Button>
+                </Flex>
+              </Box>
+              {count > 0 && (
+                <Text size={14} fw={400} align='center'>
+                  You can resend the unique code in {count} seconds
+                </Text>
+              )}
             </Stack>
         </LayoutLogin>
       )}
