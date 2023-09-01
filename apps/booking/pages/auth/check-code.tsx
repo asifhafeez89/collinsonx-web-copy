@@ -72,7 +72,7 @@ export default function CheckEmail() {
         // if (redirectUrl) {
         //   router.push(redirectUrl);
         // } else {
-        router.push({ pathname: '/check-availability', query: { token } });
+        router.push({ pathname: '/check-availability', query: { in: token } });
         // }
 
         // TODO add userId in apollo context
@@ -100,7 +100,7 @@ export default function CheckEmail() {
   };
 
   const handleClickReenter = () => {
-    router.push({ pathname: '/', query: { token } });
+    router.push({ pathname: '/', query: { in: token } });
   };
 
   return (

@@ -46,7 +46,9 @@ const validatePayload = (payload: BridgePayload) =>
     'sourceCode',
   ]);
 
-const secret = jose.base64url.decode(process.env.NEXT_PUBLIC_JWT_SECRET);
+const secret = jose.base64url.decode(
+  process.env.NEXT_PUBLIC_JWT_SECRET as string
+);
 
 export const PayloadProvider = (props: PropsWithChildren) => {
   const router = useRouter();

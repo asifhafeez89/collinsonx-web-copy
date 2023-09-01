@@ -87,7 +87,7 @@ export default function SignupUser() {
             variables: { consumerInput },
             onCompleted: (data) => {
               if (data?.updateConsumer?.id) {
-                router.push({ pathname: '/lounge', query: { token } });
+                router.push({ pathname: '/lounge', query: { in: token } });
               }
             },
             onError: () => {

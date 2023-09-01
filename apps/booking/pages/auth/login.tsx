@@ -44,7 +44,7 @@ export default function Home(props: unknown) {
       const { userId } = session;
       if (userId) {
         // if (!ref.current) {
-        router.push({ pathname: '/booking', query: { token } });
+        router.push({ pathname: '/booking', query: { in: token } });
         ref.current = true;
         // }
       } else {
@@ -63,7 +63,7 @@ export default function Home(props: unknown) {
         });
         router.push({
           pathname: '/auth/check-code',
-          query: { email, redirectUrl: router.query?.redirectUrl, token },
+          query: { email, redirectUrl: router.query?.redirectUrl, in: token },
         });
       } catch (err: any) {
         console.log(err);
