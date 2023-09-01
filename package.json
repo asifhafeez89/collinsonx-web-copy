@@ -46,7 +46,7 @@
     "jest-fetch-mock": "^3.0.3",
     "prettier": "^2.8.8",
     "ts-jest": "^29.1.1",
-    "turbo": "latest"
+    "turbo": "^1.10.13"
   },
   "packageManager": "pnpm@7.15.0"
 }
