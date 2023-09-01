@@ -12,7 +12,7 @@ const theme = (
       styles: ({ colors }) => ({
         label: {
           fontSize: '1rem',
-          marginTop: '100px',
+          marginTop: '10px',
           marginBottom: '10px',
         },
       }),
@@ -21,7 +21,7 @@ const theme = (
       styles: ({ colors }) => ({
         label: {
           fontSize: '1rem',
-          marginTop: '100px',
+          marginTop: '10px',
           marginBottom: '10px',
         },
       }),
