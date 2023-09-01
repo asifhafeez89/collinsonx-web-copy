@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 
 import Session from 'supertokens-auth-react/recipe/session';
 
-async function logout(token: string) {
+async function logout(token?: string) {
   await Session.signOut();
   window.location.href = '/auth/login/?token=' + token;
 }
