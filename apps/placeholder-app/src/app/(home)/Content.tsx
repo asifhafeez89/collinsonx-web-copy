@@ -32,7 +32,7 @@ function ClientSelectBox({ setClient }: ClientSelectBoxProps) {
 
   return (
     <Select
-      placeholder="Please select a client"
+      placeholder="Please select a membership type"
       data={data}
       onChange={setClient}
     />
@@ -141,6 +141,7 @@ const Content = () => {
   const form = useForm({
     validate: joiResolver(schema),
     initialValues: {
+      sourceCode: '',
       membershipNumber: '',
       email: '',
     },
@@ -196,8 +197,13 @@ const Content = () => {
         />
 
         <TextInput
+          {...form.getInputProps('sourceCode')}
+          placeholder="Please add source code details"
+        />
+
+        <TextInput
           {...form.getInputProps('membershipNumber')}
-          placeholder="Please add your membership number"
+          placeholder="Please add membership number details"
         />
 
         <Select
