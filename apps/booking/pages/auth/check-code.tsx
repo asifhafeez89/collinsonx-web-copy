@@ -122,12 +122,7 @@ export default function CheckEmail() {
               <Error error={error} />
               <Text
                 size='18px'
-                sx={{
-                  textAlign: 'center',
-                  '@media (max-width: 40em)': {
-                    textAlign: 'left',
-                  },
-                }}
+                align={mobileBreakpoint ? 'left' : 'center'}
                 >
                 Enter the passcode we’ve sent by email to {email}
               </Text>
@@ -186,7 +181,8 @@ export default function CheckEmail() {
                 <Text
                   size={14}
                   fw={400}
-                  sx={{ width: '100%', textAlign: 'left' }}
+                  align='left'
+                  sx={{ width: '100%' }}
                 >
                   Didn't receieve a code? <Text component='a' href='#' onClick={handleClickResend} color='#6D4BF6'>Send again</Text>
                 </Text>
