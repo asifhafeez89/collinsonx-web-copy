@@ -46,6 +46,8 @@ const validatePayload = (payload: BridgePayload) =>
     'sourceCode',
   ]);
 
+const secret = jose.base64url.decode(process.env.NEXT_PUBLIC_JWT_SECRET);
+
 export const PayloadProvider = (props: PropsWithChildren) => {
   const router = useRouter();
   const [payload, setPayload] = useState<BridgePayload>();
@@ -54,18 +56,23 @@ export const PayloadProvider = (props: PropsWithChildren) => {
   useEffect(() => {
     if (router.isReady) {
       const { token } = router.query;
+      jose
+        .jwtDecrypt(token as string, secret)
+        .then((result) => {
+          const payload = result.payload as unknown as BridgePayload;
 
-      try {
-        const payload = jose.decodeJwt(token as string) as any;
-        if (!validatePayload(payload)) {
-          setError('Token is invalid');
-        }
-        setPayload(payload);
-      } catch (e: any) {
-        setError(
-          e.hasOwnProperty('message') ? (e.message as string) : 'Invalid token'
-        );
-      }
+          if (!validatePayload(payload)) {
+            setError('Token is invalid');
+          }
+          setPayload(payload);
+        })
+        .catch((e) => {
+          setError(
+            e.hasOwnProperty('message')
+              ? (e.message as string)
+              : 'Invalid token'
+          );
+        });
     }
   }, [router]);
 

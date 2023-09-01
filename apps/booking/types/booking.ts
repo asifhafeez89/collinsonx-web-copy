@@ -10,6 +10,31 @@ export const bookingTypeMap = {
 
 export type AccountProvider = 'PP' | 'LK' | 'CERGEA';
 
+enum AirportCode {
+  BHD = 'BHD',
+  BHX = 'BHX',
+  BRS = 'BRS',
+  EDI = 'EDI',
+  HUY = 'HUY',
+  INV = 'INV',
+  LPL = 'LPL',
+  MAN = 'MAN',
+  NCL = 'NCL',
+}
+
+export type LoungeSchema = {
+  LoungeCode: string;
+  Partner: {
+    IntegrationId: string;
+    UID: string;
+  };
+  ServiceCentre: string;
+  LoungeName: string;
+  PPBOOperatorName: string;
+  AirportCode: AirportCode;
+  AirportName: string;
+};
+
 /**
  * https://lifestyle-x-wiki.atlassian.net/wiki/spaces/BAAS/pages/97419266/How+will+we+redirect+to+the+Bridge+App#Parameters-to-be-received-when-opening-the-Bridge-App-from-PP%2FLK
  */
@@ -19,7 +44,7 @@ export interface BridgePayload {
   firstName?: string;
   lastName?: string;
   accountProvider: AccountProvider;
-  lounge: string;
+  lounge: LoungeSchema;
   membershipType?: string;
   sourceCode: string;
 }

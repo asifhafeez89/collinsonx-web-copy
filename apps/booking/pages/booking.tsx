@@ -74,7 +74,7 @@ const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
           <Text>Last name: {payload.lastName}</Text>
           <Text>Account provider: {payload.accountProvider}</Text>
           <Text>Membership type: {payload.membershipType}</Text>
-          <Text>Lounge: {payload.lounge}</Text>
+          <Text>Lounge: {payload.lounge.LoungeCode}</Text>
           <Text>Source code: {payload.sourceCode}</Text>
         </Stack>
         {consumerNumber && tempBearerToken ? (
