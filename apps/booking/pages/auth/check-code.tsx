@@ -72,7 +72,7 @@ export default function CheckEmail() {
         // if (redirectUrl) {
         //   router.push(redirectUrl);
         // } else {
-        router.push('/check-availability');
+        router.push('/lounge');
         // }
 
         // TODO add userId in apollo context
