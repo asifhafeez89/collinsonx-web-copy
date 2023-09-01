@@ -1,4 +1,4 @@
 import Client, { getClients } from './Clients';
-import Product, { getProducts } from './Products';
+import AccountProvider, { getAccountProviders } from './AccountProviders';
 
-export { Client, Product, getClients, getProducts };
+export { Client, AccountProvider, getClients, getAccountProviders };

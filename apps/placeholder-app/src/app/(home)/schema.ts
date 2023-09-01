@@ -1,13 +1,8 @@
 import Joi from 'joi';
 
 const schema = Joi.object({
-  sourceCode: Joi.string()
-    .optional()
-    .max(15)
-    .message('SourceCode is a varchar(15)'),
-  membershipNumber: Joi.string()
-    .min(2)
-    .message('Membership number should have at least 2 letters'),
+  sourceCode: Joi.string().optional().allow('').max(15),
+  membershipNumber: Joi.string().optional().allow(''),
   email: Joi.string()
     .optional()
     .email({ tlds: { allow: false } })

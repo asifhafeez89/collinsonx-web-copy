@@ -6,10 +6,13 @@ import { useForm, joiResolver } from '@mantine/form';
 import { Select, Button, Textarea, TextInput } from '@mantine/core';
 
 // @ts-ignore
-import { Product, Client } from '@collinsonx/constants/dist/enums';
+import { AccountProvider, Client } from '@collinsonx/constants/dist/enums';
 
 // @ts-ignore
-import { getClients, getProducts } from '@collinsonx/constants/dist/enums';
+import { getClients } from '@collinsonx/constants/dist/enums';
+
+// @ts-ignore
+import { getAccountProviders } from '@collinsonx/constants/dist/enums';
 
 import { LoungeSchema, lounges } from '@/data/Lounge';
 
@@ -25,7 +28,7 @@ interface ClientSelectBoxProps {
 function ClientSelectBox({ setClient }: ClientSelectBoxProps) {
   const data = getClients().map((client: Client) => {
     return {
-      value: client.toLowerCase(),
+      value: client,
       label: client,
     };
   });
@@ -39,15 +42,17 @@ function ClientSelectBox({ setClient }: ClientSelectBoxProps) {
   );
 }
 
-interface ProductSelectBoxProps {
-  setProduct: Dispatch<SetStateAction<Client>>;
+interface AccountProviderSelectBoxProps {
+  setAccountProvider: Dispatch<SetStateAction<AccountProvider>>;
 }
 
-function ProductSelectBox({ setProduct }: ProductSelectBoxProps) {
-  const data = getProducts().map((product: Product) => {
+function AccountProviderSelectBox({
+  setAccountProvider,
+}: AccountProviderSelectBoxProps) {
+  const data = getAccountProviders().map((accountProvider: AccountProvider) => {
     return {
-      value: product.toLowerCase(),
-      label: product,
+      value: accountProvider,
+      label: accountProvider,
     };
   });
 
@@ -55,13 +60,13 @@ function ProductSelectBox({ setProduct }: ProductSelectBoxProps) {
     <Select
       placeholder="Please select an account provider"
       data={data}
-      onChange={setProduct}
+      onChange={setAccountProvider}
     />
   );
 }
 
 interface LoungeSelectBoxProps {
-  setLounge: Dispatch<SetStateAction<LoungeSchema>>;
+  setLounge: Dispatch<SetStateAction<string>>;
 }
 
 function LoungeSelectBox({ setLounge }: LoungeSelectBoxProps) {
@@ -147,10 +152,9 @@ const Content = () => {
     },
   });
 
-  // TODO: refactoring
-  const [product, setProduct] = useState<Product>(null);
+  const [accountProvider, setAccountProvider] = useState<AccountProvider>(null);
   const [client, setClient] = useState<Client>(null);
-  const [lounge, setLounge] = useState<LoungeSchema>(lounges[0]);
+  const [lounge, setLounge] = useState<string>('');
   const [firstName, setFirstName] = useState<string | null>('');
   const [lastName, setLastName] = useState<string | null>('');
   const [domain, setDomain] = useState<string | null>('');
@@ -160,10 +164,7 @@ const Content = () => {
   const [jwt, setJWT] = useState('');
 
   const createNewJWT = async (values: SchemaType) => {
-    if (product === null) {
-      alert('The account provider is required!');
-      return;
-    }
+    console.log('');
 
     const response = {
       ...values,
@@ -171,8 +172,7 @@ const Content = () => {
       lastName,
       lounge,
       client,
-      // TODO: refactoring
-      accountProvider: product,
+      accountProvider,
     };
 
     setObject(JSON.stringify(response));
@@ -223,7 +223,7 @@ const Content = () => {
           placeholder="Plase add your email"
         />
 
-        <ProductSelectBox setProduct={setProduct} />
+        <AccountProviderSelectBox setAccountProvider={setAccountProvider} />
         <ClientSelectBox setClient={setClient} />
         <LoungeSelectBox setLounge={setLounge} />
 
