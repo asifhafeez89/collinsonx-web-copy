@@ -34,40 +34,6 @@ export default function MyApp({ Component, pageProps }: Props) {
   const getLayout = Component.getLayout ?? ((page) => page);
   const apolloClient = useApollo(pageProps);
 
-  const router = useRouter();
-
-  interface Partner {
-    partner?: string;
-  }
-
-  const { partner }: Partner = router?.query;
-
-  const themes = {
-    default: 'experienceX',
-    hsbc: 'hsbc',
-    priorityPass: 'priorityPass',
-    loungeKey: 'loungeKey',
-  };
-
-  const themeSettingsShared = {
-    fontFamily: beVietnamPro.style.fontFamily,
-  };
-
-  function callThemeFunction(name: string) {
-    switch (name) {
-      case 'cergea':
-        return experienceX(themeSettingsShared);
-      case 'hsbc':
-        return hsbc(themeSettingsShared);
-      case 'priorityPass':
-        return priorityPass(themeSettingsShared);
-      case 'loungeKey':
-        return loungeKey(themeSettingsShared);
-      default:
-        return experienceX(themeSettingsShared);
-    }
-  }
-
   return (
     <>
       <Head>
