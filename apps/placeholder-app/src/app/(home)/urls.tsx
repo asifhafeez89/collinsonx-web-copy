@@ -1,7 +1,11 @@
 const urls = [
   {
-    value: 'https://booking.cergea.com',
+    value: 'https://booking.test.cergea.com',
     label: 'Test',
+  },
+  {
+    value: 'https://booking.cergea.com',
+    label: 'Prod',
   },
 ];
 
