@@ -35,14 +35,9 @@ interface FlightInfo {
 }
 
 const CheckAvailability = () => {
-  const [flightData, setFlightData] = useState<FlightInfo>();
   const [selectedSlot, setSelectedSlot] = useState<AvailabilitySlot>();
   const [selectedGuests, setSelectedGuests] = useState<AvailabilitySlot>();
   const router = useRouter();
-
-  const onFlightInfoSuccess = (flightInfo: FlightInfo) => {
-    setFlightData(flightInfo);
-  };
 
   const onSetSelectedSlot = (selectedSlot: AvailabilitySlot) => {
     setSelectedSlot(selectedSlot);
@@ -103,7 +98,7 @@ const CheckAvailability = () => {
           )}{' '}
           <Box sx={{ borderBottom: '1px solid  #C8C9CA' }}>
             <h2>{lounge?.loungeName}</h2>
-            <FlightInfo onSuccess={onFlightInfoSuccess} />
+            <FlightInfo />
           </Box>
         </Flex>
       )}
