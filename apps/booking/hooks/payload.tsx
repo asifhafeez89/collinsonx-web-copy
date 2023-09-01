@@ -55,9 +55,9 @@ export const PayloadProvider = (props: PropsWithChildren) => {
 
   useEffect(() => {
     if (router.isReady) {
-      const { token } = router.query;
+      const token = router.query.in as string;
       jose
-        .jwtDecrypt(token as string, secret)
+        .jwtDecrypt(token, secret)
         .then((result) => {
           const payload = result.payload as unknown as BridgePayload;
 
