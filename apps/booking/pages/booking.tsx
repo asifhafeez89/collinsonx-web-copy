@@ -67,16 +67,6 @@ const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
         <Title mb={8} size={32}>
           Welcome to Booking
         </Title>
-        <Stack spacing={2}>
-          <Text>Membership number: {payload.membershipNumber}</Text>
-          <Text>Email: {payload.email}</Text>
-          <Text>First name: {payload.firstName}</Text>
-          <Text>Last name: {payload.lastName}</Text>
-          <Text>Account provider: {payload.accountProvider}</Text>
-          <Text>Membership type: {payload.membershipType}</Text>
-          <Text>Lounge: {payload.lounge.LoungeCode}</Text>
-          <Text>Source code: {payload.sourceCode}</Text>
-        </Stack>
         {consumerNumber && tempBearerToken ? (
           <Stack spacing={2} mt={20}>
             <Text>Consumer Number (depracated): {consumerNumber}</Text>
@@ -85,7 +75,6 @@ const Main = ({ consumerNumber, tempBearerToken }: MainProps) => {
             <Text>Temporary Bearer Token (deprecated): {tempBearerToken}</Text>
           </Stack>
         ) : undefined}
-
         <Box mt={20}>
           <FlightInfo onSuccess={onFlightInfoSuccess} />
         </Box>
