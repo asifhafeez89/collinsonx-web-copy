@@ -12,6 +12,7 @@ import { Breadcramp } from '@collinsonx/design-system';
 import { InputLabel } from '@collinsonx/design-system';
 import validateEmail from '@collinsonx/utils/lib/validateEmail';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
+import usePayload from 'hooks/payload';
 
 interface FormValues {
   email: string;
@@ -21,6 +22,7 @@ export default function Home(props: unknown) {
   const session = useSessionContext();
 
   const [loading, setLoading] = useState(true);
+  const { token } = usePayload();
 
   const router = useRouter();
   const [loginError, setLoginError] = useState('');
@@ -42,14 +44,14 @@ export default function Home(props: unknown) {
       const { userId } = session;
       if (userId) {
         // if (!ref.current) {
-        router.push('/booking');
+        router.push({ pathname: '/booking', query: { in: token } });
         ref.current = true;
         // }
       } else {
         setLoading(false);
       }
     }
-  }, [session, router]);
+  }, [session, router, token]);
 
   const handleClickContinue = async ({ email }: FormValues) => {
     if (!validateEmail(email.trim())) {
@@ -61,7 +63,7 @@ export default function Home(props: unknown) {
         });
         router.push({
           pathname: '/auth/check-code',
-          query: { email, redirectUrl: router.query?.redirectUrl },
+          query: { email, redirectUrl: router.query?.redirectUrl, in: token },
         });
       } catch (err: any) {
         console.log(err);

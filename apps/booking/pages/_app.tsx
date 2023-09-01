@@ -1,7 +1,6 @@
 import type { AppProps } from 'next/app';
 import { NextPage } from 'next';
 import { ComponentType, ReactElement } from 'react';
-import { MantineProvider } from '@collinsonx/design-system/core';
 import Head from 'next/head';
 import { frontendConfig } from '../config/frontendConfig';
 import SuperTokensReact, {
@@ -13,14 +12,7 @@ import { useApollo, ApolloProvider } from '@collinsonx/utils/apolloBooking';
 import SessionManager from '@components/SessionManager';
 import { Analytics } from '@vercel/analytics/react';
 import AuthWrapper from '@components/AuthWrapper';
-import {
-  experienceX,
-  hsbc,
-  loungeKey,
-  priorityPass,
-} from '@collinsonx/design-system/themes';
-import { Be_Vietnam_Pro } from 'next/font/google';
-import router, { useRouter } from 'next/router';
+import { PayloadProvider } from 'hooks/payload';
 
 if (typeof window !== 'undefined') {
   // we only want to call this init function on the frontend, so
@@ -36,12 +28,6 @@ type Page<P = {}> = NextPage<P> & {
 type Props = AppProps & {
   Component: Page;
 };
-
-const beVietnamPro = Be_Vietnam_Pro({
-  style: ['normal'],
-  subsets: ['latin'],
-  weight: ['400', '600', '700'],
-});
 
 export default function MyApp({ Component, pageProps }: Props) {
   // Use the layout defined at the page level, if available
@@ -96,14 +82,10 @@ export default function MyApp({ Component, pageProps }: Props) {
           <ApolloProvider client={apolloClient}>
             <AuthWrapper>
               <SessionManager>
-                <MantineProvider
-                  theme={callThemeFunction(partner ?? 'experienceX')}
-                  withGlobalStyles
-                  withNormalizeCSS
-                >
+                <PayloadProvider>
                   {getLayout(<Component {...pageProps} />)}
                   <Analytics />
-                </MantineProvider>
+                </PayloadProvider>
               </SessionManager>
             </AuthWrapper>
           </ApolloProvider>
