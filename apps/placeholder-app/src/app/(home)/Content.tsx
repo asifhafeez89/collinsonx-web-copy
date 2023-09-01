@@ -20,11 +20,9 @@ import { encryptJWT, decryptJWT } from '@collinsonx/jwt/dist';
 import { LoungeSchema, lounges } from '@/data/Lounge';
 
 import schema, { SchemaType } from './schema';
-// import { encryptJWT, decryptJWT } from './jwt';
+
 import urls from './urls';
 import { firstNames, lastNames } from './names';
-
-const secretPhase = 'zH4NRP1HMALxxCFnRZABFA7GOJtzU_gIj02alfL1lvI';
 
 interface ClientSelectBoxProps {
   setClient: Dispatch<SetStateAction<Client>>;
@@ -109,6 +107,7 @@ function DebugBox({ jwt, object }: DebugBoxProps) {
   const [jwtPayload, setJWTPayload] = useState('');
 
   const decodeOnClickHandler = async () => {
+    const secretPhase = process.env.NEXT_PUBLIC_JWT_SECRET_KEY || '';
     const response = await decryptJWT(jwt, secretPhase);
 
     setJWTPayload(JSON.stringify(response.payload));
@@ -180,6 +179,7 @@ const Content = () => {
 
     setObject(JSON.stringify(response));
 
+    const secretPhase = process.env.NEXT_PUBLIC_JWT_SECRET_KEY || '';
     const jwtToken = await encryptJWT(response, secretPhase);
     setJWT(jwtToken);
 
