@@ -5,7 +5,7 @@ import { Availability, Slots, FlightDetails } from '@collinsonx/utils';
 import { APIFlightInfo } from 'pages/api/flight';
 import { Button, Text, Grid, Select } from '@collinsonx/design-system/core';
 import dayjs from 'dayjs';
-import { TRAVEL_TYPE, LOUNGE, HHMM } from '../../config/Constants';
+import { TRAVEL_TYPE, LOUNGE, TIME_FORMAT } from '../../config/Constants';
 import { formatDate } from '../../utils/DateFormatter';
 
 interface FlightInfoProps {
@@ -67,8 +67,8 @@ const AvailableSlots = ({
   }: AvailableSlotsSelectBoxProps) => {
     const data = availableSlots.map((slot) => {
       const value = `${slot.startDate}-${slot.endDate}`;
-      const startDate = formatDate(slot.startDate, HHMM);
-      const endDate = formatDate(slot.endDate, HHMM);
+      const startDate = formatDate(slot.startDate, TIME_FORMAT);
+      const endDate = formatDate(slot.endDate, TIME_FORMAT);
       const label = ` ${startDate}-${endDate}`;
       return {
         value,

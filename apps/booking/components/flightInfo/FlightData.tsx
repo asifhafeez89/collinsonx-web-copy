@@ -14,7 +14,7 @@ import dayjs from 'dayjs';
 import {
   AIRPORT_CODE_TYPE,
   OAG_API_VERSION,
-  YYYYMMDD,
+  DATE_FORMAT,
 } from '../../config/Constants';
 import { formatDate } from '../../utils/DateFormatter';
 
@@ -51,7 +51,7 @@ const FlightData = ({
       flightDetails: {
         carrierCode: flightBreakdown[1] ?? '',
         codeType: AIRPORT_CODE_TYPE,
-        departureDate: formatDate(departureDate, YYYYMMDD),
+        departureDate: formatDate(departureDate, DATE_FORMAT),
         flightNumber: flightBreakdown[2] ?? '',
         version: OAG_API_VERSION,
       },
