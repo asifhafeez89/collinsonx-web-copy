@@ -21,10 +21,6 @@ const Main = () => {
 
   const { payload, setPayload } = usePayload();
 
-  const onFlightInfoSuccess = (flightInfo: FlightInfo) => {
-    setFlightData(flightInfo);
-  };
-  const [flightData, setFlightData] = useState<FlightInfo | undefined>();
   const [availabilitySlots, selectedSlots] = useState<
     AvailabilitySlot | undefined
   >();
