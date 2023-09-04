@@ -78,10 +78,12 @@ const Lounge = () => {
     data: experienceData,
   } = useQuery<{ searchExperiences: Experience[] }>(getSearchExperiences);
 
-  const { payload } = usePayload();
+  const { payload, loungeCode } = usePayload();
 
   const lounge = useMemo(() => {
-    return experienceData?.searchExperiences[0]; // testing
+    return experienceData?.searchExperiences.filter(
+      (item) => item.loungeCode === loungeCode
+    )[0];
   }, [experienceData]);
 
   return (
@@ -96,27 +98,31 @@ const Lounge = () => {
         </Anchor>
       </Group>
       <Flex justify="center" align="center">
-        <Stack maw={591} spacing={24}>
-          <LoungeInfo lounge={lounge} loading={loadingExperience} />
-          <FlightInfo
-            step={step}
-            date={date}
-            onChangeDate={setDate}
-            flightNumber={flightNumber}
-            onChangeFlightNumber={setFlightNumber}
-          />
-          <Box sx={{ borderBottom: '1px solid  #C8C9CA' }} />
-          <GuestInfo
-            step={step}
-            guests={guests}
-            onChangeGuests={handleChangeGuests}
-          />
-          <Center w="100%">
-            <Button onClick={handleClickCheckAvailability}>
-              CHECK AVAILABILITY
-            </Button>
-          </Center>
-        </Stack>
+        {!lounge && !loadingExperience ? (
+          <Text>Could not find lounge</Text>
+        ) : (
+          <Stack maw={591} spacing={24}>
+            <LoungeInfo lounge={lounge} loading={loadingExperience} />
+            <FlightInfo
+              step={step}
+              date={date}
+              onChangeDate={setDate}
+              flightNumber={flightNumber}
+              onChangeFlightNumber={setFlightNumber}
+            />
+            <Box sx={{ borderBottom: '1px solid  #C8C9CA' }} />
+            <GuestInfo
+              step={step}
+              guests={guests}
+              onChangeGuests={handleChangeGuests}
+            />
+            <Center w="100%">
+              <Button onClick={handleClickCheckAvailability}>
+                CHECK AVAILABILITY
+              </Button>
+            </Center>
+          </Stack>
+        )}
       </Flex>
     </Layout>
   );

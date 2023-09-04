@@ -49,12 +49,16 @@ export const LoungeInfo = ({ lounge, loading }: LoungeInfoProps) => {
 
   return (
     <Flex p={24} gap={16} direction="row" bg="#FFF">
-      <Image
-        width={176}
-        height={128}
-        src="https://cdn03.collinson.cn/lounge-media/image/BHX6-13756.jpg"
-        alt="lounge image"
-      />
+      <Skeleton visible={loading} w={200} h={128}>
+        {lounge?.images && lounge.images[0] ? (
+          <Image
+            width={176}
+            height={128}
+            src={lounge?.images[0].url}
+            alt="lounge image"
+          />
+        ) : undefined}
+      </Skeleton>
       <Flex direction="column" w="100%" gap={loading ? 16 : undefined}>
         <Skeleton visible={loading}>
           <Title order={2} size={32}>
@@ -65,7 +69,9 @@ export const LoungeInfo = ({ lounge, loading }: LoungeInfoProps) => {
           <Text size={18}>{loungeLocation}</Text>
         </Skeleton>
         <Skeleton visible={loading}>
-          <Text size={18}>{loungePrice}</Text>
+          <Text size={28} fw={700}>
+            {loungePrice}
+          </Text>
         </Skeleton>
       </Flex>
     </Flex>

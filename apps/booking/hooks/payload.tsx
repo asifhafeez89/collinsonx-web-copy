@@ -12,6 +12,7 @@ import { experienceX } from '@collinsonx/design-system';
 type PayloadState = {
   payload: BridgePayload | undefined;
   token: string | undefined;
+  loungeCode: string | undefined;
   setPayload(payload: BridgePayload): void;
 };
 
@@ -65,12 +66,15 @@ async function decryptJWT(jwt: string) {
 export const PayloadProvider = (props: PropsWithChildren) => {
   const router = useRouter();
   const [payload, setPayload] = useState<BridgePayload>();
+  const [loungeCode, setLoungeCode] = useState<string>();
   const [token, setToken] = useState<string>();
   const [error, setError] = useState<string>();
 
   useEffect(() => {
     if (router.isReady) {
       const token = router.query.in as string;
+      const loungeCode = router.query.lc as string;
+      setLoungeCode(loungeCode);
       setToken(token);
       decryptJWT(token)
         .then((result) => {
@@ -92,7 +96,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
   }, [router]);
 
   return (
-    <PayloadContext.Provider value={{ payload, setPayload, token }}>
+    <PayloadContext.Provider value={{ payload, setPayload, token, loungeCode }}>
       {error && <Box>{error}</Box>}
       {payload && !error ? (
         <MantineProvider
