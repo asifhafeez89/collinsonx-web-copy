@@ -57,8 +57,11 @@ const GuestInfo = () => {
         />
       </SimpleGrid>
       <Text size={14}>
-        Refer to <Anchor color="blue">lounge conditions</Anchor> for age
-        restrictions
+        Refer to{' '}
+        <Anchor color="blue" href="https://mantine.dev/" target="_blank">
+          lounge conditions
+        </Anchor>{' '}
+        for age restrictions
       </Text>
     </Stack>
   );

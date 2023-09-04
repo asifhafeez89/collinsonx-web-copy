@@ -36,7 +36,7 @@ const QuantityInput: React.FC<QuantityInputProps> = ({
           onChange={(val) => onChange(val)}
           handlersRef={handlers}
           max={10}
-          min={1}
+          min={0}
           step={1}
           size="md"
           w={80}

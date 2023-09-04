@@ -199,17 +199,6 @@ export const FlightInfo = ({
           Flight Details
         </Title>
         <Group spacing={'xl'} pb={24}>
-        <TextInput
-          label="Flight Number"
-          placeholder="Flight Number"
-          value={flightNumber}
-          onChange={onFlightNumberChange}
-          error={flightNumberError ? flightNumErrorText : ''}
-          required={true}
-          withAsterisk
-          fz={18}
-          w={270}
-        />
         <DatePickerInput
           icon={<IconCalendar size="1.5rem" stroke={1.5} />}
           label="Departure Date"
@@ -223,6 +212,17 @@ export const FlightInfo = ({
           error={dateError ? dateErrorText : ''}
           required={true}
           withAsterisk
+        />
+        <TextInput
+          label="Flight Number"
+          placeholder="Flight Number"
+          value={flightNumber}
+          onChange={onFlightNumberChange}
+          error={flightNumberError ? flightNumErrorText : ''}
+          required={true}
+          withAsterisk
+          fz={18}
+          w={270}
         />
         </Group>
         <Group position="center" mt="xl">

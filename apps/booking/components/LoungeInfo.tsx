@@ -29,9 +29,9 @@ export const LoungeInfo = ({}: LoungeInfoProps) => {
         />
         <Stack>
           <Title order={2} size={32}>
-            {'Plaza Premium Lounge'}
+            {'[Lounge Name]'}
           </Title>
-          <Text size={18}>{'London Gatwick, North Terminal'}</Text>
+          <Text size={18}>{'[Airport], [Terminal]'}</Text>
           <Text size={28}>{'£8.00 GBP'}</Text>
         </Stack>
       </Flex>
