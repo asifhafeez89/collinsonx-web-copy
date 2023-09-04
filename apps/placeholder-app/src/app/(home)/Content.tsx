@@ -73,18 +73,19 @@ interface LoungeSelectBoxProps {
 }
 
 function LoungeSelectBox({ setLounge }: LoungeSelectBoxProps) {
-  const data = lounges.map((lounge: LoungeSchema) => {
-    const value = lounge.LoungeCode;
-    const label = `${lounge.LoungeCode} - ${lounge.LoungeName} - ${lounge.AirportName}`;
+  const data = lounges.map((lounge: LoungeSchema, i: number) => {
+    let value = lounge.LoungeCode;
 
     // Requirement: Lounges BHD1 and BIRM are not available in BaaS.
-    const disabled =
-      lounge.LoungeCode === 'BHD1' || lounge.LoungeCode === 'BIRM';
+    let label = `${lounge.LoungeCode} - ${lounge.LoungeName} - ${lounge.AirportName}`;
+    if (lounge.LoungeCode === 'BHD1' || lounge.LoungeCode === 'BIRM') {
+      label = `${label} - Not supported`;
+      value = i.toString();
+    }
 
     return {
       value,
       label,
-      disabled,
     };
   });
 
@@ -169,6 +170,11 @@ const Content = () => {
   const [jwt, setJWT] = useState('');
 
   const createNewJWT = async (values: SchemaType) => {
+    if (lounge.length === 1) {
+      alert('Lounges BHD1 and BIRM are not available in BaaS');
+      return;
+    }
+
     const response = {
       ...values,
       firstName,
