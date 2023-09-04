@@ -63,7 +63,7 @@ const Lounge = () => {
     <Layout>
       <Group pt={16} px={120} position="apart">
         <Breadcramp title="BACK TO LOUNGE" url="https://bbc.co.uk" />
-        <Anchor>FAQs</Anchor>
+        <Anchor href="https://mantine.dev/" target="_blank">FAQs</Anchor>
       </Group>
       <Flex
         gap="md"
