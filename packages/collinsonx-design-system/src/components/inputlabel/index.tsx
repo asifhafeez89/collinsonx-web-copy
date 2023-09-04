@@ -11,7 +11,7 @@ export default function InputLabel({
   isWhite = false,
   ...props
 }: InputLabelProps) {
-  const inputColor = isWhite ? '#FFFFFF' : '#000000';
+  const inputColor = isWhite ? '#FFFFFF' : '#25262B';
 
   return (
     <>
