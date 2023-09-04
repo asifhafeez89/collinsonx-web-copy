@@ -86,7 +86,7 @@ export default function SignupUser() {
             onCompleted: (data) => {
               if (data?.updateConsumer?.id) {
                 router.push({
-                  pathname: '/check-availability',
+                  pathname: '/booking',
                   query: { in: token },
                 });
               }
