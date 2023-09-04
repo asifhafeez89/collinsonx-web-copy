@@ -8,6 +8,7 @@ import {
   Stack,
   Box,
   Button,
+  Text,
   Center,
 } from '@collinsonx/design-system/core';
 import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
@@ -22,6 +23,7 @@ import {
 import GuestInfo from '@components/GuestInfo';
 import usePayload from 'hooks/payload';
 import { BookingGuests, ViewStep } from 'types/booking';
+import { ArrowLeft } from '@collinsonx/design-system/assets/icons';
 
 interface MainProps {
   consumerNumber: string | string[];
@@ -85,8 +87,11 @@ const Lounge = () => {
   return (
     <Layout>
       <Group mx={120} position="apart">
-        <Anchor href="https://bbc.co.uk">BACK TO LOUNGE</Anchor>
-        <Anchor href="https://mantine.dev/" target="_blank">
+        <Group spacing={4}>
+          <ArrowLeft />
+          <Anchor href="#">BACK TO LOUNGE</Anchor>
+        </Group>
+        <Anchor href="#" target="_blank">
           FAQs
         </Anchor>
       </Group>
