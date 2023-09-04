@@ -85,7 +85,10 @@ export default function SignupUser() {
             variables: { consumerInput },
             onCompleted: (data) => {
               if (data?.updateConsumer?.id) {
-                router.push({ pathname: '/lounge', query: { in: token } });
+                router.push({
+                  pathname: '/check-availability',
+                  query: { in: token },
+                });
               }
             },
             onError: () => {
