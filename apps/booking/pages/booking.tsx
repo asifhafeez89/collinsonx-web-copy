@@ -77,13 +77,10 @@ const Lounge = () => {
   } = useQuery<{ searchExperiences: Experience[] }>(getSearchExperiences);
 
   const { payload } = usePayload();
-  console.log('payload ', payload);
 
   const lounge = useMemo(() => {
     return experienceData?.searchExperiences[0]; // testing
   }, [experienceData]);
-
-  console.log(lounge, experienceData);
 
   return (
     <Layout>
