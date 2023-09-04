@@ -35,9 +35,9 @@ export default function SignupUser() {
 
   const form = useForm({
     initialValues: {
-      email: payload?.email as string,
-      firstname: payload?.firstName,
-      lastname: payload?.lastName,
+      email: (payload ? payload.email : '') as string,
+      firstname: (payload ? payload.firstName : '') as string,
+      lastname: (payload ? payload.lastName : '') as string,
       marketingConsent: false,
       dateOfBirth: new Date('1990-01-01'),
     },

@@ -33,11 +33,11 @@ export default function Login(props: unknown) {
 
   const form = useForm({
     initialValues: {
-      email: payload?.email,
+      email: (payload ? payload.email : '') as string,
     },
     validate: {
       email: (value: string) =>
-        validateEmail(value) ? null : 'Wrong email format, try again',
+        validateEmail(value) ? undefined : 'Wrong email format, try again',
     },
   });
 
