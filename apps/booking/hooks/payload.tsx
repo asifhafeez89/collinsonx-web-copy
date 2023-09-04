@@ -61,7 +61,7 @@ function callThemeFunction(name: AccountProvider | MembershipType) {
     case 'LK':
       return loungeKey(themeSettingsShared);
     default:
-      return experienceX(themeSettingsShared);
+      return priorityPass(themeSettingsShared);
   }
 }
 
@@ -129,7 +129,9 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       {payload && !error ? (
         <MantineProvider
           theme={callThemeFunction(
-            payload?.membershipType || payload?.accountProvider || 'Cergea'
+            payload?.membershipType === 'HSBC'
+              ? 'HSBC'
+              : payload?.accountProvider || 'PP'
           )}
           withGlobalStyles
           withNormalizeCSS

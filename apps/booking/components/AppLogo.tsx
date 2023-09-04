@@ -11,7 +11,7 @@ const logos: Record<AccountProvider | string, ReactNode> = {
   Cergea: <LogoCergea width={200} height={50} />,
   LK: <LogoLK width={200} height={100} />,
   PP: <LogoPP width={200} height={100} />,
-  HSBC: <LogoHSBC width={50} height={50} />,
+  HSBC: <LogoHSBC width={200} height={100} />,
   Barclays: <></>,
 };
 
