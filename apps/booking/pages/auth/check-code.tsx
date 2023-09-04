@@ -69,7 +69,11 @@ export default function CheckEmail() {
       });
 
       if (response.status === 'OK') {
-        router.push({ pathname: '/check-availability', query: { in: token } });
+        if(response.createdNewUser) {
+          router.push({ pathname: '/auth/signup-user', query: { email, in: token }})
+        } else {
+          router.push({ pathname: '/check-availability', query: { in: token } });
+        }
       } else if (
         response.status === 'INCORRECT_USER_INPUT_CODE_ERROR' ||
         response.status === 'EXPIRED_USER_INPUT_CODE_ERROR'
@@ -79,6 +83,8 @@ export default function CheckEmail() {
         // this can happen if the user tried an incorrect OTP too many times.
         window.alert('Login failed. Please try again');
       }
+    } else {
+      setPinError(true);
     }
   };
 
