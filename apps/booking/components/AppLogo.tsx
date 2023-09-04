@@ -1,17 +1,17 @@
 import {
   LogoCergea,
   LogoHSBC,
-  LogoLoungeKey,
-  LogoPriorityPass,
+  LogoLK,
+  LogoPP,
 } from '@collinsonx/design-system/assets/logo';
 import { ReactNode } from 'react';
 import { AccountProvider } from 'types/booking';
 
 const logos: Record<AccountProvider | string, ReactNode> = {
   Cergea: <LogoCergea width={200} height={50} />,
-  LK: <LogoLoungeKey width={200} height={100} />,
-  PP: <LogoPriorityPass width={200} height={100} />,
-  HSBC: <LogoHSBC width={50} height={50} />,
+  LK: <LogoLK width={200} height={100} />,
+  PP: <LogoPP width={200} height={100} />,
+  HSBC: <LogoHSBC width={200} height={100} />,
   Barclays: <></>,
 };
 
@@ -23,8 +23,10 @@ interface AppLogoProps {
 const AppLogo = ({ accountProvider, membershipType }: AppLogoProps) => {
   if (membershipType && logos[membershipType]) {
     return logos[membershipType];
-  } else {
+  } else if (accountProvider) {
     return logos[accountProvider];
+  } else {
+    return logos['PP'];
   }
 };
 
