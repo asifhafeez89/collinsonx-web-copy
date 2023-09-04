@@ -19,8 +19,9 @@ interface FormValues {
   email: string;
 }
 
-export default function Home(props: unknown) {
+export default function Login(props: unknown) {
   const session = useSessionContext();
+  const { payload } = usePayload();
 
   const [loading, setLoading] = useState(true);
   const { token } = usePayload();
@@ -32,7 +33,7 @@ export default function Home(props: unknown) {
 
   const form = useForm({
     initialValues: {
-      email: '',
+      email: payload?.email,
     },
     validate: {
       email: (value: string) =>
@@ -80,7 +81,7 @@ export default function Home(props: unknown) {
   };
 
   // this will be covered by https://lifestyle-x.atlassian.net/browse/BAAS-95
-  const loungeTitle = "Gatwick Airport".toUpperCase();
+  const loungeTitle = 'Gatwick Airport'.toUpperCase();
 
   return (
     <>
@@ -90,52 +91,58 @@ export default function Home(props: unknown) {
         </Flex>
       ) : (
         <LayoutLogin>
-          <Breadcramp title={loungeTitle} url='#' />
+          <Breadcramp title={loungeTitle} url="#" />
           <form onSubmit={form.onSubmit(handleClickContinue)}>
-              <Stack
-                spacing={24}
+            <Stack
+              spacing={24}
+              sx={{
+                height: '100%',
+                width: '440px',
+                margin: '0 auto',
+                '@media (max-width: 40em)': {
+                  width: '100%',
+                  padding: '16px 24px 0 24px',
+                },
+              }}
+            >
+              <Title
+                order={1}
+                size={20}
                 sx={{
-                  height: '100%',
-                  width: '440px',
-                  margin: '0 auto',
+                  textAlign: 'center',
                   '@media (max-width: 40em)': {
-                    width: '100%',
-                    padding: '16px 24px 0 24px',
+                    textAlign: 'left',
                   },
                 }}
               >
-                <Title
-                  order={1}
-                  size={20}
-                  sx={{
-                    textAlign: 'center',
-                    '@media (max-width: 40em)': {
-                      textAlign: 'left',
-                    },
-                  }}
-                >
-                  Enter your email address
-                </Title>
+                Enter your email address
+              </Title>
+              <Text>
+                Enter email address where you will receive your booking
+                information
+              </Text>
+              <Stack spacing={10}>
                 <Text>
-                  Enter email address where you will receive your booking information
+                  <Text span color={colors.red}>
+                    *
+                  </Text>{' '}
+                  Email address
                 </Text>
-                <Stack spacing={10}>
-                  <Text><Text span color={colors.red}>*</Text> Email address</Text>
-                  <InputLabel
-                    type="text"
-                    autoFocus
-                    placeholder="stark@gmail.com"
-                    {...form.getInputProps('email')}
-                    data-testid="loginEmailAddress"
-                  />
-                  <Text align="left">
-                    We will send you a unique code via email to proceed
-                  </Text>
-                </Stack>
-                <Button type="submit" data-testid="login">
-                  Continue
-                </Button>
+                <InputLabel
+                  type="text"
+                  autoFocus
+                  placeholder="stark@gmail.com"
+                  {...form.getInputProps('email')}
+                  data-testid="loginEmailAddress"
+                />
+                <Text align="left">
+                  We will send you a unique code via email to proceed
+                </Text>
               </Stack>
+              <Button type="submit" data-testid="login">
+                Continue
+              </Button>
+            </Stack>
           </form>
         </LayoutLogin>
       )}

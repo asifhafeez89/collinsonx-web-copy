@@ -28,18 +28,16 @@ import Error from '@components/Error';
 import usePayload from 'hooks/payload';
 
 export default function SignupUser() {
-  const { token } = usePayload();
+  const { token, payload } = usePayload();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const DATE_FORMAT = 'DD/MM/YYYY';
 
-  const { email } = router.query;
-
   const form = useForm({
     initialValues: {
-      email: email as string,
-      firstname: undefined,
-      lastname: undefined,
+      email: payload?.email as string,
+      firstname: payload?.firstName,
+      lastname: payload?.lastName,
       marketingConsent: false,
       dateOfBirth: new Date('1990-01-01'),
     },
@@ -139,7 +137,6 @@ export default function SignupUser() {
               type="email"
               withAsterisk
               {...form.getInputProps('email')}
-              value={email}
               placeholder="Your email address"
               label="Your email address"
               isWhite={false}
