@@ -1,39 +1,17 @@
-import {
-  Box,
-  Center,
-  Container,
-  Divider,
-  MantineProvider,
-} from '@collinsonx/design-system/core';
-import { Header, experienceX } from '@collinsonx/design-system';
-import { Be_Vietnam_Pro } from 'next/font/google';
-import { Cart, Chat, Home } from '@collinsonx/design-system/assets/icons';
+import { Box, Center, Container } from '@collinsonx/design-system/core';
 import useAuth from '@collinsonx/utils/hooks/useAuth';
 
-import { getThemeKey } from '@lib';
-
-import { LogoCergea, LogoHSBC } from '@collinsonx/design-system/assets/logo';
-
 import { ReactNode } from 'react';
-import { useRouter } from 'next/router';
+import usePayload from 'hooks/payload';
+import AppLogo from './AppLogo';
 
 interface LayoutProps {
   children: ReactNode;
 }
 
-const beVietnamPro = Be_Vietnam_Pro({
-  style: ['normal'],
-  subsets: ['latin'],
-  weight: ['400', '600', '700'],
-});
-
 export default function Layout({ children }: LayoutProps) {
   const [isLoggedIn, userId, logout] = useAuth({});
-
-  const logos = {
-    experienceX: LogoCergea,
-    hsbc: LogoHSBC,
-  };
+  const { payload, setPayload } = usePayload();
 
   const handleLogout = async () => {
     localStorage.removeItem('EXPERIENCE_X_CONSUMER_ID');
@@ -43,15 +21,9 @@ export default function Layout({ children }: LayoutProps) {
       window.location.href = '/';
     }
   };
-  const themeKey = getThemeKey();
-  const router = useRouter();
-  const { partner } = router.query;
-
-  const Logo = logos[partner as keyof typeof logos] ?? LogoCergea;
 
   return (
     <Container
-      pt={10}
       px={0}
       sx={{
         maxWidth: '100%',
@@ -66,11 +38,16 @@ export default function Layout({ children }: LayoutProps) {
           width: '100%',
         }}
       >
-        <Center pb={8} pt={8} mt={-10} sx={{ backgroundColor: '#ffffff' }}>
-          <Logo />
+        <Center pb={8} pt={8} sx={{ backgroundColor: '#ffffff' }}>
+          {payload && (
+            <AppLogo
+              accountProvider={payload.accountProvider}
+              membershipType={payload.membershipType}
+            />
+          )}
         </Center>
       </Box>
-      {children}
+      <Box p={20}>{children}</Box>
     </Container>
   );
 }

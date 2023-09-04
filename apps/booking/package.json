@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev:uat": "next dev -p 3011 | npx local-ssl-proxy --key partner-local.uat.cergea.com-key.pem --cert partner-local.uat.cergea.com.pem --source 4011 --target 3011",
-    "dev:test": "next dev -p 3011 | npx local-ssl-proxy --key partner-local.test.cergea.com-key.pem --cert partner-local.test.cergea.com.pem --source 4011 --target 3011",
+    "dev:uat": "next dev -p 3011 | npx local-ssl-proxy --key booking-local.uat.cergea.com-key.pem --cert booking-local.uat.cergea.com.pem --source 4011 --target 3011",
+    "dev:test": "next dev -p 3011 | npx local-ssl-proxy --key booking-local.test.cergea.com-key.pem --cert booking-local.test.cergea.com.pem --source 4011 --target 3011",
     "build": "next build",
     "start": "next start -p 3011",
     "lint": "next lint",
@@ -41,6 +41,7 @@
     "graphql": "^16.8.0",
     "graphql-tag": "^2.12.6",
     "http-proxy": "^1.18.1",
+    "jose": "^4.14.4",
     "local-ssl-proxy": "^2.0.5",
     "next": "^13.2.4",
     "nextjs-cors": "^2.1.2",

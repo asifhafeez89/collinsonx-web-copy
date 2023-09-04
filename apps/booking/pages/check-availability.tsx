@@ -1,7 +1,10 @@
 import Layout from '@components/Layout';
 import { useMemo, useState } from 'react';
 import { ApolloError, useMutation, useQuery } from '@collinsonx/utils/apollo';
-import { AvailabilitySlot, FlightInfo } from '../components/FlightInfo';
+import {
+  AvailabilitySlot,
+  FlightInfo,
+} from '../components/flightInfo/FlightInfo';
 import { Box, Flex, Stack } from '@collinsonx/design-system/core';
 import { Breadcramp } from '@collinsonx/design-system';
 import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
@@ -14,6 +17,7 @@ import {
 } from '@collinsonx/design-system';
 import LoungeError from '@components/LoungeError';
 import { Clock, MapPin } from '@collinsonx/design-system/assets/icons';
+import usePayload from 'hooks/payload';
 
 interface MainProps {
   consumerNumber: string | string[];
@@ -32,14 +36,10 @@ interface FlightInfo {
 }
 
 const CheckAvailability = () => {
-  const [flightData, setFlightData] = useState<FlightInfo>();
+  const { payload, setPayload } = usePayload();
   const [selectedSlot, setSelectedSlot] = useState<AvailabilitySlot>();
   const [selectedGuests, setSelectedGuests] = useState<AvailabilitySlot>();
   const router = useRouter();
-
-  const onFlightInfoSuccess = (flightInfo: FlightInfo) => {
-    setFlightData(flightInfo);
-  };
 
   const onSetSelectedSlot = (selectedSlot: AvailabilitySlot) => {
     setSelectedSlot(selectedSlot);
@@ -100,10 +100,7 @@ const CheckAvailability = () => {
           )}{' '}
           <Box sx={{ borderBottom: '1px solid  #C8C9CA' }}>
             <h2>{lounge?.loungeName}</h2>
-            <FlightInfo
-              onSuccess={onFlightInfoSuccess}
-              onSetSelectedSlot={onSetSelectedSlot}
-            />
+            <FlightInfo />
           </Box>
         </Flex>
       )}

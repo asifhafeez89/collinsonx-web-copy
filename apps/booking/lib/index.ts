@@ -43,3 +43,13 @@ export const getTheme = () => {
     return theme;
   }
 };
+
+/**
+ * Basic field validations for object
+ * @param object
+ * @param requiredKeys
+ * @returns
+ */
+export const hasRequired = (object: any, requiredKeys: string[]) =>
+  Object.keys(object).filter((key) => requiredKeys.includes(key)).length ===
+  requiredKeys.length;

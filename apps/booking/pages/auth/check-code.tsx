@@ -5,7 +5,6 @@ import {
   Text,
   Box,
   Flex,
-  Notification,
 } from '@collinsonx/design-system/core';
 import { useRouter } from 'next/router';
 import {
@@ -14,14 +13,15 @@ import {
 } from '@collinsonx/utils/supertokens';
 import LayoutLogin from '@components/LayoutLogin';
 import { AuthInput, Breadcramp } from '@collinsonx/design-system';
-import { LoginCode } from '@collinsonx/design-system/assets/graphics';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 import { useEffect, useRef, useState } from 'react';
 import getConsumerByEmailAddress from '@collinsonx/utils/queries/getConsumerByEmailAddress';
 import { useQuery } from '@collinsonx/utils/apollo';
 import Error from '@components/Error';
+import usePayload from 'hooks/payload';
 
 export default function CheckEmail() {
+  const { token, payload, setPayload } = usePayload();
   const router = useRouter();
   const email = router.query?.email as string;
   const redirectUrl = router.query?.redirectUrl as string;
@@ -69,13 +69,7 @@ export default function CheckEmail() {
         userInputCode: code,
       });
       if (response.status === 'OK') {
-        // if (redirectUrl) {
-        //   router.push(redirectUrl);
-        // } else {
-        router.push('/check-availability');
-        // }
-
-        // TODO add userId in apollo context
+        router.push({ pathname: '/check-availability', query: { in: token } });
       } else if (response.status === 'INCORRECT_USER_INPUT_CODE_ERROR') {
         setLoading(false);
         // the user entered an invalid OTP
@@ -100,7 +94,7 @@ export default function CheckEmail() {
   };
 
   const handleClickReenter = () => {
-    router.push('/');
+    router.push({ pathname: '/', query: { in: token } });
   };
 
   return (
