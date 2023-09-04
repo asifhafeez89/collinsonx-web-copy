@@ -6,14 +6,18 @@ import {
   SimpleGrid,
   Anchor,
   NumberInputHandlers,
+  Grid,
 } from '@collinsonx/design-system/core';
 import QuantityInput from './QuantityInput';
+import { BookingGuests, ViewStep } from 'types/booking';
 
-const GuestInfo = () => {
-  const [numberOfAdults, setNumberOfAdults] = useState<number | ''>(1);
-  const [numberOfChildren, setNumberOfChildren] = useState<number | ''>(0);
-  const [numberOfInfants, setNumberOfInfants] = useState<number | ''>(0);
-  const [numberOfSeniors, setNumberOfSeniors] = useState<number | ''>(0);
+export interface GuestInfoProps {
+  step: ViewStep;
+  guests: BookingGuests;
+  onChangeGuests: (type: keyof BookingGuests, value: number) => void;
+}
+
+const GuestInfo = ({ step, guests, onChangeGuests }: GuestInfoProps) => {
   const handlers = [
     useRef<NumberInputHandlers>(),
     useRef<NumberInputHandlers>(),
@@ -26,36 +30,47 @@ const GuestInfo = () => {
       <Title order={3} size={18}>
         Who&apos;s coming?
       </Title>
-      <SimpleGrid cols={2}>
-        <QuantityInput
-          label="Adults"
-          ageRange="12+"
-          value={numberOfAdults}
-          onChange={(val) => setNumberOfAdults(val)}
-          handlers={handlers[0]}
-        />
-        <QuantityInput
-          label="Children"
-          ageRange="Ages 2-11"
-          value={numberOfChildren}
-          onChange={(val) => setNumberOfChildren(val)}
-          handlers={handlers[1]}
-        />
-        <QuantityInput
-          label="Infants"
-          ageRange="Ages 0-2"
-          value={numberOfInfants}
-          onChange={(val) => setNumberOfInfants(val)}
-          handlers={handlers[2]}
-        />
-        <QuantityInput
-          label="Seniors"
-          ageRange="Ages 65+"
-          value={numberOfSeniors}
-          onChange={(val) => setNumberOfSeniors(val)}
-          handlers={handlers[3]}
-        />
-      </SimpleGrid>
+      <Grid>
+        <Grid.Col lg={6}>
+          <QuantityInput
+            label="Adults"
+            ageRange="12+"
+            value={guests.adults}
+            onChange={(val) => onChangeGuests('adults', Number(val))}
+            handlers={handlers[0]}
+          />
+        </Grid.Col>
+
+        <Grid.Col lg={6}>
+          <QuantityInput
+            label="Children"
+            ageRange="Ages 2-11"
+            value={guests.children}
+            onChange={(val) => onChangeGuests('children', Number(val))}
+            handlers={handlers[1]}
+          />
+        </Grid.Col>
+
+        <Grid.Col lg={6}>
+          <QuantityInput
+            label="Infants"
+            ageRange="Ages 0-2"
+            value={guests.infants}
+            onChange={(val) => onChangeGuests('infants', Number(val))}
+            handlers={handlers[2]}
+          />
+        </Grid.Col>
+
+        <Grid.Col lg={6}>
+          <QuantityInput
+            label="Seniors"
+            ageRange="Ages 65+"
+            value={guests.seniors}
+            onChange={(val) => onChangeGuests('seniors', Number(val))}
+            handlers={handlers[3]}
+          />
+        </Grid.Col>
+      </Grid>
       <Text size={14}>
         Refer to{' '}
         <Anchor color="blue" href="https://mantine.dev/" target="_blank">

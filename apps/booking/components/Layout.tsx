@@ -1,5 +1,4 @@
 import { Box, Center, Container } from '@collinsonx/design-system/core';
-import useAuth from '@collinsonx/utils/hooks/useAuth';
 
 import { ReactNode } from 'react';
 import usePayload from 'hooks/payload';
@@ -10,17 +9,7 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: LayoutProps) {
-  const [isLoggedIn, userId, logout] = useAuth({});
   const { payload, setPayload } = usePayload();
-
-  const handleLogout = async () => {
-    localStorage.removeItem('EXPERIENCE_X_CONSUMER_ID');
-    if (typeof logout === 'function') {
-      await logout();
-      // https://github.com/vercel/next.js/issues/40481
-      window.location.href = '/';
-    }
-  };
 
   return (
     <Container
@@ -47,7 +36,7 @@ export default function Layout({ children }: LayoutProps) {
           )}
         </Center>
       </Box>
-      <Box p={20}>{children}</Box>
+      <Box p={16}>{children}</Box>
     </Container>
   );
 }

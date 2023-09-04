@@ -1,40 +1,77 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   Title,
   Image,
   Flex,
   Text,
   Stack,
+  Skeleton,
 } from '@collinsonx/design-system/core';
+import { Experience } from '@collinsonx/utils';
 
-interface LoungeInfoProps {}
+interface LoungeInfoProps {
+  lounge?: Experience;
+  loading: boolean;
+}
 
-export const LoungeInfo = ({}: LoungeInfoProps) => {
+const currencyMap: Record<string, string> = {
+  GBP: String.fromCharCode(163),
+};
+
+const getCurrencySymbol = (currency: string) =>
+  currencyMap[currency] || currency;
+
+export const LoungeInfo = ({ lounge, loading }: LoungeInfoProps) => {
+  const loungeLocation = useMemo(
+    () =>
+      lounge && lounge.location
+        ? lounge.location.airportName
+          ? lounge.location.airportName +
+            `${lounge.location.terminal ? ', ' + lounge.location.terminal : ''}`
+          : ''
+        : '-',
+    [lounge]
+  );
+
+  const loungePrice = useMemo(
+    () =>
+      lounge?.pricing?.currency
+        ? getCurrencySymbol(lounge.pricing.currency) +
+          ' ' +
+          lounge.pricing.reservationCost
+        : '',
+    [lounge]
+  );
+
+  if (!loading && !lounge) {
+    return null;
+  }
+
   return (
-    <>
-      <Flex
-        gap={16}
-        justify="center"
-        align="center"
-        direction="row"
-        wrap="wrap"
-        p={24}
-      >
-        <Image
-          width={176}
-          height={128}
-          mx="auto"
-          src="https://cdn03.collinson.cn/lounge-media/image/BHX6-13756.jpg"
-          alt="lounge image"
-        />
-        <Stack>
-          <Title order={2} size={32}>
-            {'[Lounge Name]'}
+    <Flex p={24} gap={16} direction="row" bg="#FFF">
+      <Image
+        width={176}
+        height={128}
+        src="https://cdn03.collinson.cn/lounge-media/image/BHX6-13756.jpg"
+        alt="lounge image"
+      />
+      <Flex direction="column">
+        <Skeleton visible={loading}>
+          <Title order={2} size={32} w="100%">
+            {lounge ? lounge.loungeName : '-'}
           </Title>
-          <Text size={18}>{'[Airport], [Terminal]'}</Text>
-          <Text size={28}>{'£8.00 GBP'}</Text>
-        </Stack>
+        </Skeleton>
+        <Skeleton visible={loading}>
+          <Text size={18} w="100%">
+            {loungeLocation}
+          </Text>
+        </Skeleton>
+        <Skeleton visible={loading}>
+          <Text size={28} w="100%">
+            {loungePrice}
+          </Text>
+        </Skeleton>
       </Flex>
-    </>
+    </Flex>
   );
 };

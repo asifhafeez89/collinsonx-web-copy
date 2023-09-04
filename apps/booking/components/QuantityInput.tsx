@@ -1,5 +1,12 @@
 import React from 'react';
-import { ActionIcon, Group, Text, Flex, Stack, NumberInput } from '@collinsonx/design-system/core';
+import {
+  ActionIcon,
+  Group,
+  Text,
+  Flex,
+  Stack,
+  NumberInput,
+} from '@collinsonx/design-system/core';
 
 interface QuantityInputProps {
   label: string;
@@ -17,7 +24,7 @@ const QuantityInput: React.FC<QuantityInputProps> = ({
   handlers,
 }) => {
   return (
-    <Flex justify="center" align="center" direction="row" wrap="wrap">
+    <Flex align="center" direction="row" wrap="wrap">
       <Stack>
         <Text size={18}>{label}</Text>
         <Text size={12}>Ages {ageRange}</Text>

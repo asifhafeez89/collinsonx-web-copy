@@ -4,6 +4,8 @@ import {
   ChangeEventHandler,
   useState,
   useRef,
+  Dispatch,
+  SetStateAction,
   useEffect,
 } from 'react';
 
@@ -20,6 +22,7 @@ import {
   Modal,
   LoadingOverlay,
   Title,
+  Stack,
 } from '@collinsonx/design-system/core';
 import { DatePickerInput } from '@collinsonx/design-system/date';
 import { IconCalendar } from '@tabler/icons-react';
@@ -29,8 +32,17 @@ import { APIFlightInfoResponse, APIFlightInfo } from 'pages/api/flight';
 import FlightInfoNew from '../flightInfo/FlightInfoNew';
 import { FlightDetails, Slots } from '@collinsonx/utils';
 import FlightData from './FlightData';
+import { ViewStep } from 'types/booking';
+
+type SetState<T> = Dispatch<SetStateAction<T | undefined>>;
 
 interface FlightInfoComponentProps {
+  date?: string;
+  flightNumber?: string;
+  onChangeDate: SetState<string>;
+  onChangeFlightNumber: SetState<string>;
+  step: ViewStep;
+
   onError?: (newError: any) => void;
   screenName?: string;
   inputTestId?: string;
@@ -54,8 +66,12 @@ export const FlightInfo = ({
   inputTestId,
   datePickerTestId,
   timePickerTestId,
+
+  date,
+  flightNumber,
+  onChangeDate,
+  onChangeFlightNumber,
 }: FlightInfoComponentProps) => {
-  const [flightNumber, setFlightNumber] = useState('');
   const [flightNumberError, setFlightNumberError] = useState(false);
   const [flightNumErrorText, setFlightNumErrorText] = useState(
     'Please enter a flight number'
@@ -88,7 +104,7 @@ export const FlightInfo = ({
     } else {
       setFlightNumberError(false);
     }
-    setFlightNumber(trimmed);
+    onChangeFlightNumber(trimmed);
   };
 
   const onDateChanged = (newDate: Date) => {
@@ -105,7 +121,7 @@ export const FlightInfo = ({
       return;
     }
 
-    if (!validateFlightNumber(flightNumber)[0]) {
+    if (!validateFlightNumber(flightNumber || '')[0]) {
       setFlightNumberError(true);
       return;
     }
@@ -130,42 +146,40 @@ export const FlightInfo = ({
 
   return (
     <>
-      <Box mx="auto" sx={{ borderBottom: '1px solid  #C8C9CA' }}>
-        <LoadingOverlay visible={flightInfoLoading} overlayBlur={2} />
+      <LoadingOverlay visible={flightInfoLoading} overlayBlur={2} />
+      <Stack spacing={16}>
         <Title order={3} size={18}>
           Flight Details
         </Title>
-        <Group spacing={'xl'} pb={24}>
-        <DatePickerInput
-          icon={<IconCalendar size="1.5rem" stroke={1.5} />}
-          label="Departure Date"
-          placeholder="Departure Date"
-          maw={400}
-          w={270}
-          mx="auto"
-          minDate={new Date()}
-          value={flightDate}
-          onChange={onDateChanged}
-          error={dateError ? dateErrorText : ''}
-          required={true}
-          withAsterisk
-        />
-        <TextInput
-          label="Flight Number"
-          placeholder="Flight Number"
-          value={flightNumber}
-          onChange={onFlightNumberChange}
-          error={flightNumberError ? flightNumErrorText : ''}
-          required={true}
-          withAsterisk
-          fz={18}
-          w={270}
-        />
+        <Group spacing={16}>
+          <DatePickerInput
+            icon={<IconCalendar size="1.5rem" stroke={1.5} />}
+            label="Departure Date"
+            placeholder="Departure Date"
+            maw={400}
+            w={270}
+            minDate={new Date()}
+            value={flightDate}
+            onChange={onDateChanged}
+            error={dateError ? dateErrorText : ''}
+            required={true}
+            withAsterisk
+          />
+          <TextInput
+            label="Flight Number"
+            placeholder="Flight Number"
+            value={flightNumber}
+            onChange={onFlightNumberChange}
+            error={flightNumberError ? flightNumErrorText : ''}
+            required={true}
+            withAsterisk
+            fz={18}
+            w={270}
+          />
         </Group>
-        <Group position="center" mt="xl">
-          <Button onClick={onSearch}>
-            CHECK AVAILABILITY
-          </Button>
+        {/*
+        <Group position="center">
+          <Button onClick={onSearch}>CHECK AVAILABILITY</Button>
           {flightData ? (
             <FlightInfoNew
               flightInfo={flightData}
@@ -176,16 +190,17 @@ export const FlightInfo = ({
             ''
           )}
         </Group>
-        <Group>
-          <Text style={{ marginTop: '20px', color: 'red' }}>
-            {flightInfoError}
-          </Text>
-        </Group>
-      </Box>
+          <Group>
+            <Text style={{ marginTop: '20px', color: 'red' }}>
+              {flightInfoError}
+            </Text>
+          </Group>
+            */}
+      </Stack>
 
       {showComponent && (
         <FlightData
-          flightNumber={flightNumber}
+          flightNumber={flightNumber || ''}
           departureDate={flightDate}
           onSuccess={onFlightInfoSuccess}
         ></FlightData>
