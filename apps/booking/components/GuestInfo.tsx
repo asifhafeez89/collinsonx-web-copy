@@ -24,7 +24,7 @@ const GuestInfo = () => {
   return (
     <Stack>
       <Title order={3} size={18}>
-        Who's coming?
+        Who&apos;s coming?
       </Title>
       <SimpleGrid cols={2}>
         <QuantityInput

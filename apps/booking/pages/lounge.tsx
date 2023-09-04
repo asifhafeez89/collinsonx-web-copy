@@ -13,7 +13,10 @@ import {
 } from '@collinsonx/design-system';
 import { Clock, MapPin } from '@collinsonx/design-system/assets/icons';
 import { LoungeInfo } from '@components/LoungeInfo';
-import { AvailabilitySlot, FlightInfo } from '../components/FlightInfo';
+import {
+  AvailabilitySlot,
+  FlightInfo,
+} from '../components/flightInfo/FlightInfo';
 import GuestInfo from '@components/GuestInfo';
 
 interface MainProps {
@@ -63,7 +66,9 @@ const Lounge = () => {
     <Layout>
       <Group pt={16} px={120} position="apart">
         <Breadcramp title="BACK TO LOUNGE" url="https://bbc.co.uk" />
-        <Anchor href="https://mantine.dev/" target="_blank">FAQs</Anchor>
+        <Anchor href="https://mantine.dev/" target="_blank">
+          FAQs
+        </Anchor>
       </Group>
       <Flex
         gap="md"
@@ -74,10 +79,7 @@ const Lounge = () => {
       >
         <LoungeInfo />
         <GuestInfo />
-        <FlightInfo
-          onSuccess={onFlightInfoSuccess}
-          onSetSelectedSlot={onSetSelectedSlot}
-        />
+        <FlightInfo />
       </Flex>
     </Layout>
   );
