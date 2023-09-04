@@ -126,6 +126,13 @@ const baseTheme = ({
           }
         })
       },
+      Checkbox: {
+        styles: ({ colors }) => ({
+          input: {
+            borderColor: colors.brandColor,
+          },
+        })
+      },
     },
   };
 };
