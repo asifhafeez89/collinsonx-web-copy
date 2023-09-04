@@ -23,6 +23,7 @@ import {
   LoadingOverlay,
   Title,
   Stack,
+  Flex,
 } from '@collinsonx/design-system/core';
 import { DatePickerInput } from '@collinsonx/design-system/date';
 import { IconCalendar } from '@tabler/icons-react';
@@ -151,7 +152,7 @@ export const FlightInfo = ({
         <Title order={3} size={18}>
           Flight Details
         </Title>
-        <Group spacing={16}>
+        <Flex direction="row" justify="space-between">
           <DatePickerInput
             icon={<IconCalendar size="1.5rem" stroke={1.5} />}
             label="Departure Date"
@@ -176,7 +177,7 @@ export const FlightInfo = ({
             fz={18}
             w={270}
           />
-        </Group>
+        </Flex>
         {/*
         <Group position="center">
           <Button onClick={onSearch}>CHECK AVAILABILITY</Button>

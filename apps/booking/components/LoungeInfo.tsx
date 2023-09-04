@@ -35,7 +35,7 @@ export const LoungeInfo = ({ lounge, loading }: LoungeInfoProps) => {
 
   const loungePrice = useMemo(
     () =>
-      lounge?.pricing?.currency
+      lounge?.pricing?.currency && lounge.pricing.reservationCost
         ? getCurrencySymbol(lounge.pricing.currency) +
           ' ' +
           lounge.pricing.reservationCost
@@ -55,21 +55,17 @@ export const LoungeInfo = ({ lounge, loading }: LoungeInfoProps) => {
         src="https://cdn03.collinson.cn/lounge-media/image/BHX6-13756.jpg"
         alt="lounge image"
       />
-      <Flex direction="column">
+      <Flex direction="column" w="100%" gap={loading ? 16 : undefined}>
         <Skeleton visible={loading}>
-          <Title order={2} size={32} w="100%">
+          <Title order={2} size={32}>
             {lounge ? lounge.loungeName : '-'}
           </Title>
         </Skeleton>
         <Skeleton visible={loading}>
-          <Text size={18} w="100%">
-            {loungeLocation}
-          </Text>
+          <Text size={18}>{loungeLocation}</Text>
         </Skeleton>
         <Skeleton visible={loading}>
-          <Text size={28} w="100%">
-            {loungePrice}
-          </Text>
+          <Text size={18}>{loungePrice}</Text>
         </Skeleton>
       </Flex>
     </Flex>
