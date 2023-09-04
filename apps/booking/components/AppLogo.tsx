@@ -23,8 +23,10 @@ interface AppLogoProps {
 const AppLogo = ({ accountProvider, membershipType }: AppLogoProps) => {
   if (membershipType && logos[membershipType]) {
     return logos[membershipType];
-  } else {
+  } else if (accountProvider) {
     return logos[accountProvider];
+  } else {
+    return logos['PP'];
   }
 };
 

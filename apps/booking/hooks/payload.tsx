@@ -39,13 +39,6 @@ const beVietnamPro = Be_Vietnam_Pro({
   weight: ['400', '600', '700'],
 });
 
-const themes = {
-  default: 'experienceX',
-  hsbc: 'hsbc',
-  priorityPass: 'priorityPass',
-  loungeKey: 'loungeKey',
-};
-
 const themeSettingsShared = {
   fontFamily: beVietnamPro.style.fontFamily,
 };
