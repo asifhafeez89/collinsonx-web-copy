@@ -1,10 +1,11 @@
 import {
   Button,
-  Title,
   Stack,
   Text,
   Box,
   Flex,
+  PinInput,
+  Title,
 } from '@collinsonx/design-system/core';
 import { useRouter } from 'next/router';
 import {
@@ -12,23 +13,22 @@ import {
   createPasswordlessCode,
 } from '@collinsonx/utils/supertokens';
 import LayoutLogin from '@components/LayoutLogin';
-import { AuthInput, Breadcramp } from '@collinsonx/design-system';
+import { Breadcramp } from '@collinsonx/design-system';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 import { useEffect, useRef, useState } from 'react';
 import getConsumerByEmailAddress from '@collinsonx/utils/queries/getConsumerByEmailAddress';
 import { useQuery } from '@collinsonx/utils/apollo';
 import Error from '@components/Error';
 import usePayload from 'hooks/payload';
+import colors from 'ui/colour-constants';
 
 export default function CheckEmail() {
   const { token, payload, setPayload } = usePayload();
   const router = useRouter();
   const email = router.query?.email as string;
-  const redirectUrl = router.query?.redirectUrl as string;
-
   const [code, setCode] = useState<string>();
 
-  const [loading, setLoading] = useState(false);
+  const [pinError, setPinError] = useState(false);
   const [count, setCount] = useState(20);
 
   let interval = useRef<NodeJS.Timeout>();
@@ -63,33 +63,28 @@ export default function CheckEmail() {
   };
 
   const handleClickConfirm = async () => {
-    setLoading(true);
     if (code?.length === 6) {
       let response = await consumePasswordlessCode({
         userInputCode: code,
       });
+
       if (response.status === 'OK') {
-        router.push({ pathname: '/check-availability', query: { in: token } });
-      } else if (response.status === 'INCORRECT_USER_INPUT_CODE_ERROR') {
-        setLoading(false);
-        // the user entered an invalid OTP
-        window.alert(
-          'Wrong OTP! Please try again. Number of attempts left: ' +
-            (response.maximumCodeInputAttempts -
-              response.failedCodeInputAttemptCount)
-        );
-      } else if (response.status === 'EXPIRED_USER_INPUT_CODE_ERROR') {
-        setLoading(false);
-        // it can come here if the entered OTP was correct, but has expired because
-        // it was generated too long ago.
-        window.alert(
-          'Old OTP entered. Please regenerate a new one and try again'
-        );
+        if(response.createdNewUser) {
+          router.push({ pathname: '/auth/signup-user', query: { email, in: token }})
+        } else {
+          router.push({ pathname: '/check-availability', query: { in: token } });
+        }
+      } else if (
+        response.status === 'INCORRECT_USER_INPUT_CODE_ERROR' ||
+        response.status === 'EXPIRED_USER_INPUT_CODE_ERROR'
+      ) {
+        setPinError(true);
       } else {
-        setLoading(false);
         // this can happen if the user tried an incorrect OTP too many times.
         window.alert('Login failed. Please try again');
       }
+    } else {
+      setPinError(true);
     }
   };
 
@@ -97,18 +92,18 @@ export default function CheckEmail() {
     router.push({ pathname: '/', query: { in: token } });
   };
 
+  // this will be covered by https://lifestyle-x.atlassian.net/browse/BAAS-95
+  const loungeTitle = "Gatwick Airport".toUpperCase();
+
   return (
     <>
-      {loading || loadingGetConsumer ? (
+      {loadingGetConsumer ? (
         <Flex justify="center" align="center" h="100%">
           <LoaderLifestyleX />
         </Flex>
       ) : (
         <LayoutLogin>
-          <Stack px={8} align="center" sx={{ position: 'relative', zIndex: 2 }}>
-            <Stack sx={{ width: '100%' }}>
-              <Breadcramp title="Back to Gatwick" url="https://bbc.co.uk" />
-            </Stack>
+            <Breadcramp title={loungeTitle} url='#' />
             <Stack
               spacing={24}
               align="center"
@@ -118,76 +113,109 @@ export default function CheckEmail() {
                 margin: '0 auto',
                 '@media (max-width: 40em)': {
                   width: '100%',
+                  padding: '16px 24px 0 24px',
                 },
               }}
             >
-              <Title order={1} size={20}>
-                Check your emails
-              </Title>
+              <Title size="26">Check your email</Title>
               <Error error={error} />
-              <Text align="center">
-                We have sent a confirmation code to {email}.
+              <Text
+                size='18px'
+                align='center'
+                >
+                We have sent a unique code to
+                <Text weight={700} >{email}</Text>
               </Text>
               <Box>
-                <Text align="center" size={14}>
+                <Text align="center" size={16}>
                   Wrong email?
                 </Text>
                 <Button
-                  variant="subtle"
-                  fw={400}
+                  fw={700}
                   sx={{
-                    fontSize: '14px',
+                    fontSize: 16,
                     height: '20px',
-                    color: '#20C997',
+                    color: colors.blue,
+                    backgroundColor: 'transparent',
                     textDecoration: 'underline',
                   }}
                   onClick={handleClickReenter}
                   compact
                 >
-                  Re-enter your address
+                  Re-enter your email address
                 </Button>
               </Box>
               <Box
-                my={16}
                 sx={{
-                  backgroundColor: '#C8C9CA',
+                  backgroundColor: colors.dividerGrey,
                   height: '1px',
                   width: '100%',
                 }}
               />
-              <Box mx={-0.5}>
-                <AuthInput handleCodeChange={(code) => setCode(code)} />
-              </Box>
-              <Flex direction="row" align="center" w="100%" gap={16} mt={8}>
-                <Button
-                  py={8}
-                  fullWidth
-                  variant="outline"
-                  disabled={count > 0}
-                  onClick={handleClickResend}
-                  sx={{ borderColor: '#2C2C2C', color: '#2C2C2C' }}
-                >
-                  Resend
-                </Button>
-                <Button
-                  fullWidth
-                  py={8}
-                  onClick={handleClickConfirm}
+              <Box>
+                <Text fw={700} size={12}>
+                  One time passcode
+                </Text>
+                <PinInput
+                  onChange={(code) => setCode(code)}
+                  placeholder='-'
+                  length={6}
+                  size='xl'
+                  spacing='8px'
                   sx={{
-                    borderRadius: 4,
+                    padding: '0.5rem 0 0.5rem 0',
+                    input: {
+                      borderRadius: 8,
+                      fontSize: 18,
+                      fontWeight: 'bold',
+                    }
                   }}
-                  data-testid="verify"
-                >
-                  Verify
-                </Button>
-              </Flex>
+                  inputMode='numeric'
+                />
+                {pinError && (
+                  <Text sx={{ color: colors.errorRed }} align='center' size={16} >
+                    Perhaps a code is invalid or has expired.<br />
+                    Please try again
+                  </Text>
+                )}
+                <Flex direction="row" align="center" w="100%" gap={16} mt={8} sx={{ padding: '1.5rem 0 0 0' }}>
+                  <Button
+                    py={8}
+                    fullWidth
+                    variant="outline"
+                    disabled={count > 0}
+                    onClick={handleClickResend}
+                    sx={{
+                      borderColor: colors.buttonBlack,
+                      color: colors.buttonBlack,
+                      borderWidth: 2,
+                      fontSize: 18,
+                      height: 44
+                    }}
+                  >
+                    RESEND
+                  </Button>
+                  <Button
+                    fullWidth
+                    py={8}
+                    onClick={handleClickConfirm}
+                    sx={{
+                      borderRadius: 4,
+                      fontSize: 18,
+                      height: 44
+                    }}
+                    data-testid="verify"
+                  >
+                    VERIFY
+                  </Button>
+                </Flex>
+              </Box>
               {count > 0 && (
                 <Text size={14} fw={400}>
                   You can resend the unique code in {count} seconds
                 </Text>
               )}
             </Stack>
-          </Stack>
         </LayoutLogin>
       )}
     </>

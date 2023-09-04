@@ -28,6 +28,7 @@ export default function InputLabel({
             marginBottom: '0',
           },
           label: {
+            padding: '0 0 0.5rem 0',
             order: -2,
             color: inputColor,
           },

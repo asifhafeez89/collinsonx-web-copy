@@ -88,7 +88,7 @@ const baseTheme = ({
         styles: ({ colors }) => ({
           root: {
             backgroundColor: buttonBackground,
-            color: '#000',
+            color: colors.headerNavColor,
           },
           label: {
             color: buttonFontColour,
@@ -118,6 +118,13 @@ const baseTheme = ({
             color: colors.dark[6],
           },
         }),
+      },
+      NavLink: {
+        styles: ({ colors }) => ({
+          label: {
+            color: colors.brandColor
+          }
+        })
       },
     },
   };
