@@ -14,10 +14,16 @@ import { BookingGuests, ViewStep } from 'types/booking';
 export interface GuestInfoProps {
   step: ViewStep;
   guests: BookingGuests;
+  loading: boolean;
   onChangeGuests: (type: keyof BookingGuests, value: number) => void;
 }
 
-const GuestInfo = ({ step, guests, onChangeGuests }: GuestInfoProps) => {
+const GuestInfo = ({
+  step,
+  guests,
+  onChangeGuests,
+  loading,
+}: GuestInfoProps) => {
   const handlers = [
     useRef<NumberInputHandlers>(),
     useRef<NumberInputHandlers>(),
@@ -33,6 +39,7 @@ const GuestInfo = ({ step, guests, onChangeGuests }: GuestInfoProps) => {
       <Grid>
         <Grid.Col lg={6}>
           <QuantityInput
+            disabled={loading}
             label="Adults"
             ageRange="12+"
             value={guests.adults}
@@ -43,6 +50,7 @@ const GuestInfo = ({ step, guests, onChangeGuests }: GuestInfoProps) => {
 
         <Grid.Col lg={6}>
           <QuantityInput
+            disabled={loading}
             label="Children"
             ageRange="Ages 2-11"
             value={guests.children}
@@ -53,6 +61,7 @@ const GuestInfo = ({ step, guests, onChangeGuests }: GuestInfoProps) => {
 
         <Grid.Col lg={6}>
           <QuantityInput
+            disabled={loading}
             label="Infants"
             ageRange="Ages 0-2"
             value={guests.infants}
@@ -63,6 +72,7 @@ const GuestInfo = ({ step, guests, onChangeGuests }: GuestInfoProps) => {
 
         <Grid.Col lg={6}>
           <QuantityInput
+            disabled={loading}
             label="Seniors"
             ageRange="Ages 65+"
             value={guests.seniors}

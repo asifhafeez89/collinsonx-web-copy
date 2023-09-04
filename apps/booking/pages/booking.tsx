@@ -10,6 +10,7 @@ import {
   Button,
   Text,
   Center,
+  Skeleton,
 } from '@collinsonx/design-system/core';
 import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
 import { useRouter } from 'next/router';
@@ -84,46 +85,61 @@ const Lounge = () => {
     return experienceData?.searchExperiences.filter(
       (item) => item.loungeCode === loungeCode
     )[0];
-  }, [experienceData]);
+  }, [experienceData, loungeCode]);
 
   return (
     <Layout>
-      <Group mx={120} position="apart">
-        <Group spacing={4}>
-          <ArrowLeft />
-          <Anchor href="#">BACK TO LOUNGE</Anchor>
-        </Group>
-        <Anchor href="#" target="_blank">
-          FAQs
-        </Anchor>
-      </Group>
-      <Flex justify="center" align="center">
-        {!lounge && !loadingExperience ? (
-          <Text>Could not find lounge</Text>
-        ) : (
-          <Stack maw={591} spacing={24}>
-            <LoungeInfo lounge={lounge} loading={loadingExperience} />
-            <FlightInfo
-              step={step}
-              date={date}
-              onChangeDate={setDate}
-              flightNumber={flightNumber}
-              onChangeFlightNumber={setFlightNumber}
-            />
-            <Box sx={{ borderBottom: '1px solid  #C8C9CA' }} />
-            <GuestInfo
-              step={step}
-              guests={guests}
-              onChangeGuests={handleChangeGuests}
-            />
-            <Center w="100%">
-              <Button onClick={handleClickCheckAvailability}>
-                CHECK AVAILABILITY
-              </Button>
-            </Center>
-          </Stack>
-        )}
-      </Flex>
+      {!lounge && !loadingExperience ? (
+        <Center>
+          <Text>
+            Something went wrong. This service is not available for the moment
+          </Text>
+        </Center>
+      ) : (
+        <Stack spacing={16}>
+          <Group mx={120} position="apart">
+            <Group spacing={4}>
+              <Skeleton visible={loadingExperience}>
+                <ArrowLeft />
+                <Anchor href="#">
+                  BACK TO {lounge?.loungeName?.toUpperCase()}
+                </Anchor>
+              </Skeleton>
+            </Group>
+            <Anchor href="#" target="_blank">
+              FAQs
+            </Anchor>
+          </Group>
+          <Flex justify="center" align="center">
+            <Stack maw={591} spacing={24}>
+              <LoungeInfo lounge={lounge} loading={loadingExperience} />
+              <FlightInfo
+                step={step}
+                date={date}
+                loading={loadingExperience}
+                onChangeDate={setDate}
+                flightNumber={flightNumber}
+                onChangeFlightNumber={setFlightNumber}
+              />
+              <Box sx={{ borderBottom: '1px solid  #C8C9CA' }} />
+              <GuestInfo
+                step={step}
+                guests={guests}
+                loading={loadingExperience}
+                onChangeGuests={handleChangeGuests}
+              />
+              <Center w="100%">
+                <Button
+                  disabled={loadingExperience}
+                  onClick={handleClickCheckAvailability}
+                >
+                  CHECK AVAILABILITY
+                </Button>
+              </Center>
+            </Stack>
+          </Flex>
+        </Stack>
+      )}
     </Layout>
   );
 };

@@ -43,6 +43,7 @@ interface FlightInfoComponentProps {
   onChangeDate: SetState<string>;
   onChangeFlightNumber: SetState<string>;
   step: ViewStep;
+  loading: boolean;
 
   onError?: (newError: any) => void;
   screenName?: string;
@@ -72,6 +73,7 @@ export const FlightInfo = ({
   flightNumber,
   onChangeDate,
   onChangeFlightNumber,
+  loading,
 }: FlightInfoComponentProps) => {
   const [flightNumberError, setFlightNumberError] = useState(false);
   const [flightNumErrorText, setFlightNumErrorText] = useState(
@@ -157,6 +159,7 @@ export const FlightInfo = ({
             icon={<IconCalendar size="1.5rem" stroke={1.5} />}
             label="Departure Date"
             placeholder="Departure Date"
+            disabled={loading}
             maw={400}
             w={270}
             minDate={new Date()}
@@ -167,6 +170,7 @@ export const FlightInfo = ({
             withAsterisk
           />
           <TextInput
+            disabled={loading}
             label="Flight Number"
             placeholder="Flight Number"
             value={flightNumber}

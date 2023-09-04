@@ -11,6 +11,7 @@ import {
 interface QuantityInputProps {
   label: string;
   ageRange: string;
+  disabled: boolean;
   value: number | '';
   onChange: (val: number | '') => void;
   handlers: React.MutableRefObject<any>;
@@ -22,6 +23,7 @@ const QuantityInput: React.FC<QuantityInputProps> = ({
   value,
   onChange,
   handlers,
+  disabled,
 }) => {
   return (
     <Flex align="center" direction="row" wrap="wrap">
@@ -31,6 +33,7 @@ const QuantityInput: React.FC<QuantityInputProps> = ({
       </Stack>
       <Group>
         <ActionIcon
+          disabled={disabled}
           size={'2.625rem'}
           variant="default"
           onClick={() => handlers.current?.decrement()}
@@ -38,6 +41,7 @@ const QuantityInput: React.FC<QuantityInputProps> = ({
           –
         </ActionIcon>
         <NumberInput
+          disabled={disabled}
           hideControls
           value={value}
           onChange={(val) => onChange(val)}
@@ -50,6 +54,7 @@ const QuantityInput: React.FC<QuantityInputProps> = ({
           styles={{ input: { textAlign: 'center' } }}
         />
         <ActionIcon
+          disabled={disabled}
           size={'2.625rem'}
           variant="default"
           onClick={() => handlers.current?.increment()}
