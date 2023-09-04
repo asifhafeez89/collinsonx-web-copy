@@ -161,19 +161,23 @@ const Content = () => {
       sourceCode: '',
       membershipNumber: '',
       email: '',
+      customFirstName: '',
+      customLastName: '',
     },
   });
 
-  const [accountProvider, setAccountProvider] = useState<AccountProvider>(null);
-  const [client, setClient] = useState<Client>(null);
   const [lounge, setLounge] = useState<string>('');
-  const [firstName, setFirstName] = useState<string | null>('');
-  const [lastName, setLastName] = useState<string | null>('');
   const [domain, setDomain] = useState<string | null>('');
   const [debugModeIsActive, setDebugModeIsActive] = useState(false);
 
+  const [firstName, setFirstName] = useState<string | null>('');
+  const [lastName, setLastName] = useState<string | null>('');
+
+  const [accountProvider, setAccountProvider] = useState<AccountProvider>(null);
   const [accountProviderAllowNull, setAccountProviderAllowNull] =
     useState<boolean>(false);
+
+  const [client, setClient] = useState<Client>(null);
   const [clientAllowNull, setClientAllowNull] = useState<boolean>(false);
 
   const [object, setObject] = useState('');
@@ -182,18 +186,28 @@ const Content = () => {
   const createNewJWT = async (values: SchemaType) => {
     let membershipType = client;
     if (clientAllowNull) {
-      membershipType = new String('');
+      membershipType = '';
     }
 
     let accountProviderValue = accountProvider;
     if (accountProviderAllowNull) {
-      membershipType = new String('');
+      membershipType = '';
     }
 
+    const firstNameValue = values.customFirstName.length
+      ? values.customFirstName
+      : firstName;
+
+    const lastNameValue = values.customLastName.length
+      ? values.customLastName
+      : lastName;
+
     const response = {
-      ...values,
-      firstName,
-      lastName,
+      sourceCode: values.sourceCode,
+      membershipNumber: values.membershipNumber,
+      email: values.email,
+      firstName: firstNameValue,
+      lastName: lastNameValue,
       lounge,
       membershipType,
       accountProvider: accountProviderValue,
@@ -250,6 +264,12 @@ const Content = () => {
               onChange={setFirstName}
             />
           </Grid.Col>
+          <Grid.Col span={6}>
+            <TextInput
+              {...form.getInputProps('customFirstName')}
+              placeholder="Please add a custom first name"
+            />
+          </Grid.Col>
         </Grid>
 
         <Grid>
@@ -258,6 +278,12 @@ const Content = () => {
               placeholder="Please select a valid last name"
               data={lastNames}
               onChange={setLastName}
+            />
+          </Grid.Col>
+          <Grid.Col span={6}>
+            <TextInput
+              {...form.getInputProps('customLastName')}
+              placeholder="Please add a custom last name"
             />
           </Grid.Col>
         </Grid>

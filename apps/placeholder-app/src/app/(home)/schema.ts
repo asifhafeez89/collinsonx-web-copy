@@ -8,12 +8,16 @@ const schema = Joi.object({
     .email({ tlds: { allow: false } })
     .allow('')
     .message('Invalid email'),
+  customFirstName: Joi.string().optional().allow(''),
+  customLastName: Joi.string().optional().allow(''),
 });
 
 export type SchemaType = {
   sourceCode: string;
   membershipNumber: string;
   email: string;
+  customFirstName: string;
+  customLastName: string;
 };
 
 export default schema;
