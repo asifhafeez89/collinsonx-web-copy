@@ -3,7 +3,14 @@
 import { useState, Dispatch, SetStateAction } from 'react';
 
 import { useForm, joiResolver } from '@mantine/form';
-import { Select, Button, Textarea, TextInput, Switch } from '@mantine/core';
+import {
+  Select,
+  Button,
+  Textarea,
+  TextInput,
+  Switch,
+  Grid,
+} from '@mantine/core';
 
 // @ts-ignore
 import { AccountProvider, Client } from '@collinsonx/constants/dist/enums';
@@ -74,13 +81,12 @@ interface LoungeSelectBoxProps {
 
 function LoungeSelectBox({ setLounge }: LoungeSelectBoxProps) {
   const data = lounges.map((lounge: LoungeSchema, i: number) => {
-    let value = lounge.LoungeCode;
+    const value = lounge.LoungeCode;
 
     // Requirement: Lounges BHD1 and BIRM are not available in BaaS.
     let label = `${lounge.LoungeCode} - ${lounge.LoungeName} - ${lounge.AirportName}`;
     if (lounge.LoungeCode === 'BHD1' || lounge.LoungeCode === 'BIRM') {
       label = `${label} - Not supported`;
-      value = i.toString();
     }
 
     return {
@@ -166,13 +172,22 @@ const Content = () => {
   const [domain, setDomain] = useState<string | null>('');
   const [debugModeIsActive, setDebugModeIsActive] = useState(false);
 
+  const [accountProviderAllowNull, setAccountProviderAllowNull] =
+    useState<boolean>(false);
+  const [clientAllowNull, setClientAllowNull] = useState<boolean>(false);
+
   const [object, setObject] = useState('');
   const [jwt, setJWT] = useState('');
 
   const createNewJWT = async (values: SchemaType) => {
-    if (lounge.length === 1) {
-      alert('Lounges BHD1 and BIRM are not available in BaaS');
-      return;
+    let membershipType = client;
+    if (clientAllowNull) {
+      membershipType = new String('');
+    }
+
+    let accountProviderValue = accountProvider;
+    if (accountProviderAllowNull) {
+      membershipType = new String('');
     }
 
     const response = {
@@ -180,8 +195,8 @@ const Content = () => {
       firstName,
       lastName,
       lounge,
-      membershipType: client,
-      accountProvider,
+      membershipType,
+      accountProvider: accountProviderValue,
     };
 
     setObject(JSON.stringify(response));
@@ -199,42 +214,95 @@ const Content = () => {
     <>
       <h1>Placeholder App</h1>
       <form onSubmit={form.onSubmit((values) => createNewJWT(values))}>
-        <Select
-          placeholder="Please select an env"
-          data={urls}
-          onChange={setDomain}
-        />
+        <Grid>
+          <Grid.Col span={6}>
+            <Select
+              placeholder="Please select an env"
+              data={urls}
+              onChange={setDomain}
+            />
+          </Grid.Col>
+        </Grid>
 
-        <TextInput
-          {...form.getInputProps('sourceCode')}
-          placeholder="Please add source code details"
-        />
+        <Grid>
+          <Grid.Col span={6}>
+            <TextInput
+              {...form.getInputProps('sourceCode')}
+              placeholder="Please add source code details"
+            />
+          </Grid.Col>
+        </Grid>
 
-        <TextInput
-          {...form.getInputProps('membershipNumber')}
-          placeholder="Please add membership number details"
-        />
+        <Grid>
+          <Grid.Col span={6}>
+            <TextInput
+              {...form.getInputProps('membershipNumber')}
+              placeholder="Please add membership number details"
+            />
+          </Grid.Col>
+        </Grid>
 
-        <Select
-          placeholder="Please select a valid first name"
-          data={firstNames}
-          onChange={setFirstName}
-        />
+        <Grid>
+          <Grid.Col span={6}>
+            <Select
+              placeholder="Please select a valid first name"
+              data={firstNames}
+              onChange={setFirstName}
+            />
+          </Grid.Col>
+        </Grid>
 
-        <Select
-          placeholder="Please select a valid last name"
-          data={lastNames}
-          onChange={setLastName}
-        />
+        <Grid>
+          <Grid.Col span={6}>
+            <Select
+              placeholder="Please select a valid last name"
+              data={lastNames}
+              onChange={setLastName}
+            />
+          </Grid.Col>
+        </Grid>
 
-        <TextInput
-          {...form.getInputProps('email')}
-          placeholder="Plase add your email"
-        />
-
-        <AccountProviderSelectBox setAccountProvider={setAccountProvider} />
-        <ClientSelectBox setClient={setClient} />
-        <LoungeSelectBox setLounge={setLounge} />
+        <Grid>
+          <Grid.Col span={6}>
+            <TextInput
+              {...form.getInputProps('email')}
+              placeholder="Plase add your email"
+            />
+          </Grid.Col>
+        </Grid>
+        <Grid>
+          <Grid.Col span={6}>
+            <AccountProviderSelectBox setAccountProvider={setAccountProvider} />
+          </Grid.Col>
+          <Grid.Col span={4}>
+            <Switch
+              label="Test with empty value"
+              checked={accountProviderAllowNull}
+              onChange={(event) =>
+                setAccountProviderAllowNull(event.currentTarget.checked)
+              }
+            />
+          </Grid.Col>
+        </Grid>
+        <Grid>
+          <Grid.Col span={6}>
+            <ClientSelectBox setClient={setClient} />
+          </Grid.Col>
+          <Grid.Col span={4}>
+            <Switch
+              label="Test with empty value"
+              checked={clientAllowNull}
+              onChange={(event) =>
+                setClientAllowNull(event.currentTarget.checked)
+              }
+            />
+          </Grid.Col>
+        </Grid>
+        <Grid>
+          <Grid.Col span={6}>
+            <LoungeSelectBox setLounge={setLounge} />
+          </Grid.Col>
+        </Grid>
 
         <br />
         <Button type="submit">Pre-book</Button>
