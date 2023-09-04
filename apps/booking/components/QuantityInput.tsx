@@ -4,8 +4,8 @@ import {
   Group,
   Text,
   Flex,
-  Stack,
   NumberInput,
+  Box,
 } from '@collinsonx/design-system/core';
 
 interface QuantityInputProps {
@@ -15,6 +15,8 @@ interface QuantityInputProps {
   value: number | '';
   onChange: (val: number | '') => void;
   handlers: React.MutableRefObject<any>;
+  max: number;
+  min: number;
 }
 
 const QuantityInput: React.FC<QuantityInputProps> = ({
@@ -24,16 +26,31 @@ const QuantityInput: React.FC<QuantityInputProps> = ({
   onChange,
   handlers,
   disabled,
+  max,
+  min,
 }) => {
   return (
     <Flex align="center" direction="row" wrap="wrap">
-      <Stack>
-        <Text size={18}>{label}</Text>
+      <Box w={85}>
+        <Text size={18} fw={600}>
+          {label}
+        </Text>
         <Text size={12}>Ages {ageRange}</Text>
-      </Stack>
-      <Group>
+      </Box>
+      <Group spacing={0}>
         <ActionIcon
-          disabled={disabled}
+          h={50}
+          sx={{
+            fontSize: 24,
+            borderTopRightRadius: 0,
+            borderBottomRightRadius: 0,
+            borderRight: 0,
+            ':disabled': {
+              borderColor: '#ced4da',
+              backgroundColor: '#FFF',
+            },
+          }}
+          disabled={disabled || Number(value) <= min}
           size={'2.625rem'}
           variant="default"
           onClick={() => handlers.current?.decrement()}
@@ -41,20 +58,42 @@ const QuantityInput: React.FC<QuantityInputProps> = ({
           –
         </ActionIcon>
         <NumberInput
+          readOnly
           disabled={disabled}
           hideControls
           value={value}
           onChange={(val) => onChange(val)}
           handlersRef={handlers}
-          max={10}
-          min={0}
+          max={max}
+          min={min}
           step={1}
           size="md"
           w={80}
-          styles={{ input: { textAlign: 'center' } }}
+          styles={{
+            input: {
+              fontSize: 18,
+              ':focus': {
+                borderColor: '#ced4da',
+              },
+              textAlign: 'center',
+              borderLeft: 'none',
+              borderRight: 'none',
+            },
+          }}
         />
         <ActionIcon
-          disabled={disabled}
+          h={50}
+          sx={{
+            fontSize: 24,
+            borderTopLeftRadius: 0,
+            borderBottomLeftRadius: 0,
+            borderLeft: 0,
+            ':disabled': {
+              borderColor: '#ced4da',
+              backgroundColor: '#FFF',
+            },
+          }}
+          disabled={disabled || Number(value) >= max}
           size={'2.625rem'}
           variant="default"
           onClick={() => handlers.current?.increment()}

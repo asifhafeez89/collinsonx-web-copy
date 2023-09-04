@@ -39,6 +39,8 @@ const GuestInfo = ({
       <Grid>
         <Grid.Col lg={6}>
           <QuantityInput
+            min={0}
+            max={10}
             disabled={loading}
             label="Adults"
             ageRange="12+"
@@ -50,9 +52,11 @@ const GuestInfo = ({
 
         <Grid.Col lg={6}>
           <QuantityInput
+            min={0}
+            max={10}
             disabled={loading}
             label="Children"
-            ageRange="Ages 2-11"
+            ageRange="2-11"
             value={guests.children}
             onChange={(val) => onChangeGuests('children', Number(val))}
             handlers={handlers[1]}
@@ -61,9 +65,11 @@ const GuestInfo = ({
 
         <Grid.Col lg={6}>
           <QuantityInput
+            min={0}
+            max={10}
             disabled={loading}
             label="Infants"
-            ageRange="Ages 0-2"
+            ageRange="0-2"
             value={guests.infants}
             onChange={(val) => onChangeGuests('infants', Number(val))}
             handlers={handlers[2]}
@@ -72,9 +78,11 @@ const GuestInfo = ({
 
         <Grid.Col lg={6}>
           <QuantityInput
+            min={0}
+            max={10}
             disabled={loading}
             label="Seniors"
-            ageRange="Ages 65+"
+            ageRange="65+"
             value={guests.seniors}
             onChange={(val) => onChangeGuests('seniors', Number(val))}
             handlers={handlers[3]}
