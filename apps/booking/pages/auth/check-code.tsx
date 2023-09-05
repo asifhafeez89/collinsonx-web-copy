@@ -133,7 +133,6 @@ export default function CheckEmail() {
                 </Text>
                 <Anchor
                   fw={700}
-                  inline={false}
                   sx={{
                     color: colors.blue,
                     backgroundColor: 'transparent',
