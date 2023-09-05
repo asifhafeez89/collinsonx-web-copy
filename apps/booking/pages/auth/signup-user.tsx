@@ -6,13 +6,11 @@ import {
   Notification,
   Checkbox,
   Title,
+  Skeleton,
 } from '@collinsonx/design-system/core';
 import { useForm } from '@collinsonx/design-system/form';
 import LayoutLogin from '../../components/LayoutLogin';
-import {
-  Breadcramp,
-  InputLabel,
-} from '@collinsonx/design-system';
+import { Breadcramp, InputLabel } from '@collinsonx/design-system';
 import { useState } from 'react';
 import updateConsumer from '@collinsonx/utils/mutations/updateConsumer';
 import { useMutation } from '@collinsonx/utils/apollo';
@@ -25,7 +23,7 @@ import usePayload from 'hooks/payload';
 import colors from 'ui/colour-constants';
 
 export default function SignupUser() {
-  const { token, payload } = usePayload();
+  const { token, payload, loungeCode, lounge } = usePayload();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -63,7 +61,11 @@ export default function SignupUser() {
           ))}
         </Notification>
       )}
-      <Breadcramp title="Back to Gatwick" url="https://bbc.co.uk" />
+      <Stack sx={{ width: '100%' }}>
+        <Skeleton visible={!lounge}>
+          <Breadcramp title={lounge?.loungeName || 'Back to lounge'} url="#" />
+        </Skeleton>
+      </Stack>
       <form
         onSubmit={form.onSubmit((values: any) => {
           const consumerInput: ConsumerInput = {
@@ -79,8 +81,8 @@ export default function SignupUser() {
             onCompleted: (data) => {
               if (data?.updateConsumer?.id) {
                 router.push({
-                  pathname: '/booking',
-                  query: { in: token },
+                  pathname: '/',
+                  query: { in: token, lc: loungeCode },
                 });
               }
             },
@@ -100,11 +102,11 @@ export default function SignupUser() {
               '@media (max-width: 40em)': {
                 padding: '1rem 1.5rem 0 1.5rem',
                 width: '100%',
-                marginBottom: '150px'
+                marginBottom: '150px',
               },
             }}
           >
-            <Text size={18} align='center'>
+            <Text size={18} align="center">
               Your session has expired, please confirm your details
             </Text>
             <Title order={1} size={24} align="center">
@@ -112,7 +114,12 @@ export default function SignupUser() {
             </Title>
             <Error error={error} />
             <Stack spacing={8}>
-              <Text><Text span color={colors.red}>*</Text> First name(s)</Text>
+              <Text>
+                <Text span color={colors.red}>
+                  *
+                </Text>
+                First name(s)
+              </Text>
               <InputLabel
                 autoFocus
                 type="text"
@@ -123,7 +130,12 @@ export default function SignupUser() {
               />
             </Stack>
             <Stack spacing={8}>
-              <Text><Text span color={colors.red}>*</Text> Last name</Text>
+              <Text>
+                <Text span color={colors.red}>
+                  *
+                </Text>{' '}
+                Last name
+              </Text>
               <InputLabel
                 type="text"
                 withAsterisk

@@ -1,7 +1,12 @@
-import { Box, MantineProvider } from '@collinsonx/design-system/core';
+import {
+  Box,
+  MantineProvider,
+  Center,
+  Text,
+} from '@collinsonx/design-system/core';
 import { hasRequired } from '@lib';
 import { useRouter } from 'next/router';
-import { PropsWithChildren, useEffect, useState } from 'react';
+import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
 import { createContext, useContext } from 'react';
 
 import { AccountProvider, BridgePayload, MembershipType } from 'types/booking';
@@ -14,10 +19,16 @@ import {
   loungeKey,
   priorityPass,
 } from '@collinsonx/design-system/themes';
+import { useQuery } from '@collinsonx/utils/apollo';
+import { Experience } from '@collinsonx/utils';
+import { getSearchExperiences } from '@collinsonx/utils/queries';
+import Layout from '@components/Layout';
 
 type PayloadState = {
   payload: BridgePayload | undefined;
   token: string | undefined;
+  loungeCode: string | undefined;
+  lounge: Experience | undefined;
   setPayload(payload: BridgePayload): void;
 };
 
@@ -32,31 +43,6 @@ export const usePayload = (): PayloadState => {
 
   return context;
 };
-
-const beVietnamPro = Be_Vietnam_Pro({
-  style: ['normal'],
-  subsets: ['latin'],
-  weight: ['400', '600', '700'],
-});
-
-const themeSettingsShared = {
-  fontFamily: beVietnamPro.style.fontFamily,
-};
-
-function callThemeFunction(name: AccountProvider | MembershipType) {
-  switch (name) {
-    case 'Cergea':
-      return experienceX(themeSettingsShared);
-    case 'HSBC':
-      return hsbc(themeSettingsShared);
-    case 'PP':
-      return priorityPass(themeSettingsShared);
-    case 'LK':
-      return loungeKey(themeSettingsShared);
-    default:
-      return priorityPass(themeSettingsShared);
-  }
-}
 
 /**
  * Basic field validation for payload
@@ -87,15 +73,58 @@ async function decryptJWT(jwt: string) {
   };
 }
 
+const beVietnamPro = Be_Vietnam_Pro({
+  style: ['normal'],
+  subsets: ['latin'],
+  weight: ['400', '600', '700'],
+});
+
+const themeSettingsShared = {
+  fontFamily: beVietnamPro.style.fontFamily,
+};
+
+function callThemeFunction(name: AccountProvider | MembershipType) {
+  switch (name) {
+    case 'Cergea':
+      return experienceX(themeSettingsShared);
+    case 'HSBC':
+      return hsbc(themeSettingsShared);
+    case 'PP':
+      return priorityPass(themeSettingsShared);
+    case 'LK':
+      return loungeKey(themeSettingsShared);
+    default:
+      return priorityPass(themeSettingsShared);
+  }
+}
+
 export const PayloadProvider = (props: PropsWithChildren) => {
   const router = useRouter();
   const [payload, setPayload] = useState<BridgePayload>();
+  const [loungeCode, setLoungeCode] = useState<string>();
   const [token, setToken] = useState<string>();
   const [error, setError] = useState<string>();
+  const [loungeNotFound, setLoungeNotFound] = useState(false);
+
+  const {
+    loading: loadingLounge,
+    error: loungeError,
+    data: loungeData,
+  } = useQuery<{ searchExperiences: Experience[] }>(getSearchExperiences, {
+    skip: !loungeCode,
+  });
+
+  const lounge = useMemo(() => {
+    return loungeData?.searchExperiences.filter(
+      (item) => item.loungeCode === loungeCode
+    )[0];
+  }, [loungeData, loungeCode]);
 
   useEffect(() => {
     if (router.isReady) {
       const token = router.query.in as string;
+      const loungeCode = router.query.lc as string;
+      setLoungeCode(loungeCode);
       setToken(token);
       decryptJWT(token)
         .then((result) => {
@@ -117,7 +146,9 @@ export const PayloadProvider = (props: PropsWithChildren) => {
   }, [router]);
 
   return (
-    <PayloadContext.Provider value={{ payload, setPayload, token }}>
+    <PayloadContext.Provider
+      value={{ payload, setPayload, token, lounge, loungeCode }}
+    >
       {error && <Box>{error}</Box>}
       {payload && !error ? (
         <MantineProvider
@@ -129,7 +160,18 @@ export const PayloadProvider = (props: PropsWithChildren) => {
           withGlobalStyles
           withNormalizeCSS
         >
-          {props.children}
+          {loungeError || (!loadingLounge && !lounge) ? (
+            <Layout>
+              <Center>
+                <Text>
+                  Something went wrong. This service is not available for the
+                  moment
+                </Text>
+              </Center>
+            </Layout>
+          ) : (
+            props.children
+          )}
         </MantineProvider>
       ) : undefined}
     </PayloadContext.Provider>
