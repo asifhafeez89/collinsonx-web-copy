@@ -6,32 +6,33 @@ type InfoGroup = {
   header?: string;
   description?: string;
   icon?: React.ReactNode;
+  direction?: 'row| column';
 };
 
 interface LoungeDetailsProps {
   title?: string;
   infos: InfoGroup[];
+  direction: 'row';
 }
-
-const ContentWrapper = styled.div`
-  background: #fff;
-`;
 
 /**
  * Primary UI component for user interaction
  */
-export default function LoungeDetails({ title, infos }: LoungeDetailsProps) {
+export default function LoungeDetails({
+  title,
+  infos,
+  direction,
+}: LoungeDetailsProps) {
   return (
-    <ContentWrapper>
-      <Stack spacing={8}>
+    <div>
+      <Flex direction={direction} align="center" gap={48}>
         {infos.map((info, i) => (
-          <Flex direction="row" align="center" key={i} gap={8}>
-            <Flex align="center">{info.icon}</Flex>
+          <div key={i}>
             <Box fw={600}>{info.header}</Box>
             <Box>{info.description}</Box>
-          </Flex>
+          </div>
         ))}
-      </Stack>
-    </ContentWrapper>
+      </Flex>
+    </div>
   );
 }

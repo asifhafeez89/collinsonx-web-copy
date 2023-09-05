@@ -39,3 +39,13 @@ RedButton.args = {
   variant: 'outline',
   color: 'red',
 };
+
+export const SpacedCentered = Template.bind({});
+// // More on args: https://storybook.js.org/docs/react/writing-stories/args
+SpacedCentered.args = {
+  label: 'Button',
+  variant: 'outline',
+  color: 'black',
+  align: 'center',
+  spacing: '20px',
+};

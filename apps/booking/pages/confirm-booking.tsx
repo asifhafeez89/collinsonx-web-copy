@@ -11,7 +11,7 @@ import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
 import { Box, Flex, Stack } from '@collinsonx/design-system/core';
 import { useRouter } from 'next/router';
 import createBooking from '@collinsonx/utils/mutations/createBooking';
-import Link from 'next/link';
+
 import { Breadcramp } from '@collinsonx/design-system';
 import { Clock, MapPin } from '@collinsonx/design-system/assets/icons';
 import { useMemo, useState } from 'react';
@@ -19,7 +19,8 @@ import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifesty
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
 import LoungeError from '@components/LoungeError';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
-export default function ConfirmAvailability() {
+
+export default function Book() {
   const router = useRouter();
 
   const {
@@ -110,20 +111,6 @@ export default function ConfirmAvailability() {
                       </p>
                     </Flex>
                   </EditableTitle>
-                  <EditableTitle title="Cancelation policy" as="h2">
-                    <p style={{ padding: '0', margin: '0' }}>
-                      Free cancellation for 24 hours. Cancel before [date of
-                      flight] for a partial refund.
-                    </p>
-                    <Link href="cancelation-policy">Learn more</Link>
-                  </EditableTitle>
-
-                  <div>
-                    <p>
-                      As your flight is at 7:00am, your maximum stay is 3 hours
-                      prior.
-                    </p>
-                  </div>
 
                   <EditableTitle
                     title="Estimated time of arrival"
@@ -144,7 +131,7 @@ export default function ConfirmAvailability() {
                 align="center"
                 handleClick={handleSubmit}
               >
-                CONFIRM
+                GO TO PAYMENT
               </Button>
             </Box>
           )}
@@ -154,4 +141,4 @@ export default function ConfirmAvailability() {
   );
 }
 
-ConfirmAvailability.getLayout = (page: JSX.Element) => <>{page}</>;
+Book.getLayout = (page: JSX.Element) => <>{page}</>;

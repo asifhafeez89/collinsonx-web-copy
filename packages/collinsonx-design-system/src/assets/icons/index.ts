@@ -30,3 +30,4 @@ export { default as RedCircle } from './redcircle.svg';
 export { default as ArrowDown } from './arrowdown.svg';
 export { default as ArrowLeft } from './arrowleft.svg';
 export { default as FourSquares } from './foursquares.svg';
+export { default as Pencil } from './pencil.svg';
