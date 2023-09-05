@@ -114,6 +114,8 @@ const baseTheme = ({
             },
           },
           label: {
+            fontWeight: 400,
+            fontSize: '1rem',
             fontFamily,
             color: colors.dark[6],
           },
@@ -124,6 +126,18 @@ const baseTheme = ({
           label: {
             color: colors.brandColor
           }
+        })
+      },
+      Checkbox: {
+        styles: ({ colors }) => ({
+          input: {
+            borderColor: colors.brandColor,
+            borderWidth: 2,
+            '&:checked': {
+              backgroundColor: colors.brandColor,
+              borderColor: colors.brandColor
+            }
+          },
         })
       },
     },

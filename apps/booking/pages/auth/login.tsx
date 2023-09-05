@@ -113,7 +113,7 @@ export default function Login(props: unknown) {
                 margin: '0 auto',
                 '@media (max-width: 40em)': {
                   width: '100%',
-                  padding: '16px 24px 0 24px',
+                  padding: '1rem 1.5rem 0 1.5rem',
                 },
               }}
             >

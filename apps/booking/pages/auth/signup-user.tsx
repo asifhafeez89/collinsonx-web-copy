@@ -3,7 +3,6 @@ import {
   Stack,
   Text,
   Flex,
-  Group,
   Notification,
   Checkbox,
   Title,
@@ -11,13 +10,7 @@ import {
 } from '@collinsonx/design-system/core';
 import { useForm } from '@collinsonx/design-system/form';
 import LayoutLogin from '../../components/LayoutLogin';
-import { Calendar } from '@collinsonx/design-system/assets/icons';
-import {
-  Breadcramp,
-  DatePicker,
-  InputLabel,
-  PageTitle,
-} from '@collinsonx/design-system';
+import { Breadcramp, InputLabel } from '@collinsonx/design-system';
 import { useState } from 'react';
 import updateConsumer from '@collinsonx/utils/mutations/updateConsumer';
 import { useMutation } from '@collinsonx/utils/apollo';
@@ -27,12 +20,12 @@ import validateEmail from '@collinsonx/utils/lib/validateEmail';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 import Error from '@components/Error';
 import usePayload from 'hooks/payload';
+import colors from 'ui/colour-constants';
 
 export default function SignupUser() {
   const { token, payload, loungeCode, lounge } = usePayload();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const DATE_FORMAT = 'DD/MM/YYYY';
 
   const form = useForm({
     initialValues: {
@@ -42,7 +35,6 @@ export default function SignupUser() {
       marketingConsent: false,
       dateOfBirth: new Date('1990-01-01'),
     },
-
     validate: {
       email: (value: string) =>
         validateEmail(value) ? null : 'Please enter a valid email address.',
@@ -108,70 +100,64 @@ export default function SignupUser() {
               width: '440px',
               margin: '0 auto',
               '@media (max-width: 40em)': {
+                padding: '1rem 1.5rem 0 1.5rem',
                 width: '100%',
+                marginBottom: '150px',
               },
             }}
           >
-            <Title order={1} size={20} align="center">
-              Register
+            <Text size={18} align="center">
+              Your session has expired, please confirm your details
+            </Text>
+            <Title order={1} size={24} align="center">
+              Update details
             </Title>
             <Error error={error} />
+            <Stack spacing={8}>
+              <Text>
+                <Text span color={colors.red}>
+                  *
+                </Text>{' '}
+                First name(s)
+              </Text>
+              <InputLabel
+                autoFocus
+                type="text"
+                withAsterisk
+                {...form.getInputProps('firstname')}
+                placeholder="First name"
+                data-testid="firstName"
+              />
+            </Stack>
+            <Stack spacing={8}>
+              <Text>
+                <Text span color={colors.red}>
+                  *
+                </Text>{' '}
+                Last name
+              </Text>
+              <InputLabel
+                type="text"
+                withAsterisk
+                {...form.getInputProps('lastname')}
+                placeholder="Last name"
+                data-testid="lastName"
+              />
+            </Stack>
             <InputLabel
-              autoFocus
-              type="text"
-              withAsterisk
-              {...form.getInputProps('firstname')}
-              placeholder="First name"
-              label="First name(s)"
-              isWhite={false}
-              data-testid="firstName"
-            />
-
-            <InputLabel
-              autoFocus
-              type="text"
-              withAsterisk
-              {...form.getInputProps('lastname')}
-              placeholder="Last name"
-              label="Last name"
-              isWhite={false}
-              data-testid="lastName"
-            />
-            <InputLabel
-              readOnly
-              autoFocus
-              type="email"
-              withAsterisk
               {...form.getInputProps('email')}
-              placeholder="Your email address"
-              label="Your email address"
-              isWhite={false}
+              label="Email address"
             />
-            <Text>
-              We will send you a unique code via email to complete the login.
-            </Text>
-            <Group>
-              <Flex mih={50} align="flex-start" direction="row" wrap="wrap">
-                <Checkbox
-                  label="I agree to receive personalised marketing emails."
-                  {...form.getInputProps('marketingConsent', {
-                    type: 'checkbox',
-                  })}
-                  styles={{
-                    label: {
-                      order: -2,
-                      color: '#000000',
-                    },
-                  }}
-                  data-testid="marketingCheckbox"
-                />
-              </Flex>
-            </Group>
-            <Group>
-              <Button fullWidth type="submit" data-testid="loginAfterSignUp">
-                Login
-              </Button>
-            </Group>
+            <Checkbox
+              label="I agree to receive personalised marketing emails."
+              {...form.getInputProps('marketingConsent', {
+                type: 'checkbox',
+              })}
+              data-testid="marketingCheckbox"
+            />
+            <Button fullWidth type="submit" data-testid="loginAfterSignUp">
+              Login
+            </Button>
           </Stack>
         </Stack>
       </form>
