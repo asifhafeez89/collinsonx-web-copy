@@ -28,7 +28,7 @@ import Error from '@components/Error';
 import usePayload from 'hooks/payload';
 
 export default function SignupUser() {
-  const { token, payload } = usePayload();
+  const { token, payload, loungeCode } = usePayload();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const DATE_FORMAT = 'DD/MM/YYYY';
@@ -86,8 +86,8 @@ export default function SignupUser() {
             onCompleted: (data) => {
               if (data?.updateConsumer?.id) {
                 router.push({
-                  pathname: '/booking',
-                  query: { in: token },
+                  pathname: '/',
+                  query: { in: token, lc: loungeCode },
                 });
               }
             },

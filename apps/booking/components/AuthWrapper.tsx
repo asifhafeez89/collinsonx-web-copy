@@ -31,9 +31,10 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
 
         const urlParams = new URLSearchParams(window.location.search);
         const tokenParam = urlParams.get('in');
+        const loungeParam = urlParams.get('lc');
 
         if (!checkIsAllowed(window.location.pathname)) {
-          window.location.href = `/auth/login/?in=${tokenParam}`;
+          window.location.href = `/auth/login/?lc=${loungeParam}&in=${tokenParam}`;
         }
       }
     }

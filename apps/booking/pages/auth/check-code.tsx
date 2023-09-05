@@ -63,6 +63,8 @@ export default function CheckEmail() {
     setCount(20);
   };
 
+  console.log(loungeCode);
+
   const handleClickConfirm = async () => {
     if (code?.length === 6) {
       let response = await consumePasswordlessCode({
@@ -77,7 +79,7 @@ export default function CheckEmail() {
           });
         } else {
           router.push({
-            pathname: '/check-availability',
+            pathname: '/',
             query: { in: token, lc: loungeCode },
           });
         }
@@ -96,7 +98,10 @@ export default function CheckEmail() {
   };
 
   const handleClickReenter = () => {
-    router.push({ pathname: '/', query: { in: token, lc: loungeCode } });
+    router.push({
+      pathname: '/auth/login',
+      query: { in: token, lc: loungeCode },
+    });
   };
 
   return (
