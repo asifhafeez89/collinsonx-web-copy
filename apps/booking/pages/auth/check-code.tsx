@@ -6,6 +6,7 @@ import {
   Flex,
   PinInput,
   Title,
+  Anchor,
 } from '@collinsonx/design-system/core';
 import { useRouter } from 'next/router';
 import {
@@ -89,7 +90,7 @@ export default function CheckEmail() {
   };
 
   const handleClickReenter = () => {
-    router.push({ pathname: '/', query: { in: token } });
+    router.push({ pathname: '/auth/login', query: { in: token } });
   };
 
   // this will be covered by https://lifestyle-x.atlassian.net/browse/BAAS-95
@@ -113,7 +114,7 @@ export default function CheckEmail() {
                 margin: '0 auto',
                 '@media (max-width: 40em)': {
                   width: '100%',
-                  padding: '16px 24px 0 24px',
+                  padding: '1rem 1.5rem 0 1.5rem',
                 },
               }}
             >
@@ -126,24 +127,21 @@ export default function CheckEmail() {
                 We have sent a unique code to
                 <Text weight={700} >{email}</Text>
               </Text>
-              <Box>
+              <Box sx={{ textAlign: 'center' }}>
                 <Text align="center" size={16}>
                   Wrong email?
                 </Text>
-                <Button
+                <Anchor
                   fw={700}
                   sx={{
-                    fontSize: 16,
-                    height: '20px',
                     color: colors.blue,
                     backgroundColor: 'transparent',
                     textDecoration: 'underline',
                   }}
                   onClick={handleClickReenter}
-                  compact
                 >
                   Re-enter your email address
-                </Button>
+                </Anchor>
               </Box>
               <Box
                 sx={{
