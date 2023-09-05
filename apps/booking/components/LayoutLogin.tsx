@@ -1,4 +1,5 @@
 import { Box, Center, Container, ScrollArea } from '@collinsonx/design-system/core';
+import { useViewportSize } from '@collinsonx/design-system/hooks';
 import React, { ReactNode } from 'react';
 
 import usePayload from 'hooks/payload';
@@ -10,14 +11,15 @@ interface LayoutProps {
 
 export default function LayoutLogin({ children }: LayoutProps) {
   const { payload, setPayload } = usePayload();
+  const { height } = useViewportSize();
 
   return (
-    <ScrollArea>
+    <ScrollArea type='never'>
       <Container
         px={0}
         sx={{
           maxWidth: '100%',
-          height: '100%',
+          minHeight: `${height}px`,
           overflow: 'hidden',
           backgroundColor: '#F3F2F3',
         }}
