@@ -21,9 +21,10 @@ import { useQuery } from '@collinsonx/utils/apollo';
 import Error from '@components/Error';
 import usePayload from 'hooks/payload';
 import colors from 'ui/colour-constants';
+import { Skeleton } from '@collinsonx/design-system/core';
 
 export default function CheckEmail() {
-  const { token, loungeCode, payload, setPayload } = usePayload();
+  const { token, lounge, loungeCode, payload, setPayload } = usePayload();
   const router = useRouter();
   const email = router.query?.email as string;
   const [code, setCode] = useState<string>();
@@ -109,7 +110,12 @@ export default function CheckEmail() {
         </Flex>
       ) : (
         <LayoutLogin>
-          <Breadcramp title={loungeTitle} url="#" />
+          <Skeleton visible={!lounge}>
+            <Breadcramp
+              title={lounge?.loungeName || 'Back to lounge'}
+              url="#"
+            />
+          </Skeleton>
           <Stack
             spacing={24}
             align="center"

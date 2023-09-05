@@ -73,73 +73,50 @@ const Lounge = () => {
     setSelectedSlot(selectedSlot);
   };
 
-  const {
-    loading: loadingExperience,
-    error: fetchError,
-    data: experienceData,
-  } = useQuery<{ searchExperiences: Experience[] }>(getSearchExperiences);
-
-  const { payload, loungeCode } = usePayload();
-
-  const lounge = useMemo(() => {
-    return experienceData?.searchExperiences.filter(
-      (item) => item.loungeCode === loungeCode
-    )[0];
-  }, [experienceData, loungeCode]);
+  const { payload, lounge } = usePayload();
 
   return (
     <Layout>
-      {!lounge && !loadingExperience ? (
-        <Center>
-          <Text>
-            Something went wrong. This service is not available for the moment
-          </Text>
-        </Center>
-      ) : (
-        <Stack spacing={16}>
-          <Group mx={120} position="apart">
-            <Group spacing={4}>
-              <Skeleton visible={loadingExperience}>
-                <ArrowLeft />
-                <Anchor href="#">
-                  BACK TO {lounge?.loungeName?.toUpperCase()}
-                </Anchor>
-              </Skeleton>
-            </Group>
-            <Anchor href="#" target="_blank">
-              FAQs
-            </Anchor>
+      <Stack spacing={16}>
+        <Group mx={120} position="apart">
+          <Group spacing={4}>
+            <Skeleton visible={!lounge}>
+              <ArrowLeft />
+              <Anchor href="#">
+                BACK TO {lounge?.loungeName?.toUpperCase()}
+              </Anchor>
+            </Skeleton>
           </Group>
-          <Flex justify="center" align="center">
-            <Stack maw={591} spacing={24}>
-              <LoungeInfo lounge={lounge} loading={loadingExperience} />
-              <FlightInfo
-                step={step}
-                date={date}
-                loading={loadingExperience}
-                onChangeDate={setDate}
-                flightNumber={flightNumber}
-                onChangeFlightNumber={setFlightNumber}
-              />
-              <Box sx={{ borderBottom: '1px solid  #C8C9CA' }} />
-              <GuestInfo
-                step={step}
-                guests={guests}
-                loading={loadingExperience}
-                onChangeGuests={handleChangeGuests}
-              />
-              <Center w="100%">
-                <Button
-                  disabled={loadingExperience}
-                  onClick={handleClickCheckAvailability}
-                >
-                  CHECK AVAILABILITY
-                </Button>
-              </Center>
-            </Stack>
-          </Flex>
-        </Stack>
-      )}
+          <Anchor href="#" target="_blank">
+            FAQs
+          </Anchor>
+        </Group>
+        <Flex justify="center" align="center">
+          <Stack maw={591} spacing={24}>
+            <LoungeInfo lounge={lounge} loading={!lounge} />
+            <FlightInfo
+              step={step}
+              date={date}
+              loading={!lounge}
+              onChangeDate={setDate}
+              flightNumber={flightNumber}
+              onChangeFlightNumber={setFlightNumber}
+            />
+            <Box sx={{ borderBottom: '1px solid  #C8C9CA' }} />
+            <GuestInfo
+              step={step}
+              guests={guests}
+              loading={!lounge}
+              onChangeGuests={handleChangeGuests}
+            />
+            <Center w="100%">
+              <Button disabled={!lounge} onClick={handleClickCheckAvailability}>
+                CHECK AVAILABILITY
+              </Button>
+            </Center>
+          </Stack>
+        </Flex>
+      </Stack>
     </Layout>
   );
 };
