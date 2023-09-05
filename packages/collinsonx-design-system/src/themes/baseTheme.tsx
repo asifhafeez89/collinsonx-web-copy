@@ -114,6 +114,8 @@ const baseTheme = ({
             },
           },
           label: {
+            fontWeight: 400,
+            fontSize: '1rem',
             fontFamily,
             color: colors.dark[6],
           },
