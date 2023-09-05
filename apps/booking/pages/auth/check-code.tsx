@@ -99,9 +99,6 @@ export default function CheckEmail() {
     router.push({ pathname: '/', query: { in: token, lc: loungeCode } });
   };
 
-  // this will be covered by https://lifestyle-x.atlassian.net/browse/BAAS-95
-  const loungeTitle = 'Gatwick Airport'.toUpperCase();
-
   return (
     <>
       {loadingGetConsumer ? (

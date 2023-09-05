@@ -1,4 +1,10 @@
-import { Title, Stack, Flex, Text } from '@collinsonx/design-system/core';
+import {
+  Title,
+  Stack,
+  Flex,
+  Text,
+  Skeleton,
+} from '@collinsonx/design-system/core';
 import { Button } from '@collinsonx/design-system/core';
 import { useForm } from '@collinsonx/design-system/form';
 import { useRouter } from 'next/router';
@@ -21,7 +27,7 @@ interface FormValues {
 
 export default function Login(props: unknown) {
   const session = useSessionContext();
-  const { payload } = usePayload();
+  const { payload, lounge } = usePayload();
 
   const [loading, setLoading] = useState(true);
   const { token } = usePayload();
@@ -80,9 +86,6 @@ export default function Login(props: unknown) {
     }
   };
 
-  // this will be covered by https://lifestyle-x.atlassian.net/browse/BAAS-95
-  const loungeTitle = 'Gatwick Airport'.toUpperCase();
-
   return (
     <>
       {loading ? (
@@ -91,7 +94,12 @@ export default function Login(props: unknown) {
         </Flex>
       ) : (
         <LayoutLogin>
-          <Breadcramp title={loungeTitle} url="#" />
+          <Skeleton visible={!lounge}>
+            <Breadcramp
+              title={lounge?.loungeName || 'Back to lounge'}
+              url="#"
+            />
+          </Skeleton>
           <form onSubmit={form.onSubmit(handleClickContinue)}>
             <Stack
               spacing={24}
