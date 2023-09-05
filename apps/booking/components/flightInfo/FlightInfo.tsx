@@ -3,23 +3,12 @@ import {
   ChangeEvent,
   ChangeEventHandler,
   useState,
-  useRef,
   Dispatch,
   SetStateAction,
-  useEffect,
 } from 'react';
 
 import {
   TextInput,
-  Button,
-  Group,
-  Box,
-  NumberInput,
-  ActionIcon,
-  NumberInputHandlers,
-  Text,
-  Grid,
-  Modal,
   LoadingOverlay,
   Title,
   Stack,
@@ -28,12 +17,9 @@ import {
 import { DatePickerInput } from '@collinsonx/design-system/date';
 import { IconCalendar } from '@tabler/icons-react';
 import { validateFlightNumber } from '../../utils/flightValidation';
-import axios from 'axios';
-import { APIFlightInfoResponse, APIFlightInfo } from 'pages/api/flight';
-import FlightInfoNew from '../flightInfo/FlightInfoNew';
-import { FlightDetails, Slots } from '@collinsonx/utils';
-import FlightData from './FlightData';
+import { FlightDetails } from '@collinsonx/utils';
 import { ViewStep } from 'types/booking';
+import { DATE_FORMAT } from 'config/Constants';
 
 type SetState<T> = Dispatch<SetStateAction<T | undefined>>;
 
@@ -63,12 +49,6 @@ export interface AvailabilitySlot {
 }
 
 export const FlightInfo = ({
-  onError,
-  screenName,
-  inputTestId,
-  datePickerTestId,
-  timePickerTestId,
-
   date,
   flightNumber,
   onChangeDate,
@@ -79,20 +59,9 @@ export const FlightInfo = ({
   const [flightNumErrorText, setFlightNumErrorText] = useState(
     'Please enter a flight number'
   );
-  const [flightDate, setFlightDate] = useState<Date>(new Date());
   const [dateError, setDateError] = useState(false);
   const [dateErrorText] = useState('Please select a date');
-  const [flightInfoError, setFlightInfoError] = useState('');
   const [flightInfoLoading, setFlightInfoLoading] = useState(false);
-  const [numberOfGuests, setNumberOfGuests] = useState<number | ''>(1);
-  const [guestscount, setGuestsCount] = useState<number>(1);
-  const handlers = useRef<NumberInputHandlers>();
-  const [flightInfoDtls, setflightInfoDtls] = useState<APIFlightInfo | null>(
-    null
-  );
-  const [flightData, setflightData] = useState<FlightDetails>();
-
-  const [showComponent, setShowComponent] = useState(false);
 
   const onFlightNumberChange: ChangeEventHandler = (
     event: ChangeEvent<HTMLInputElement>
@@ -110,41 +79,8 @@ export const FlightInfo = ({
     onChangeFlightNumber(trimmed);
   };
 
-  const onDateChanged = (newDate: Date) => {
-    if (!newDate) {
-      setDateError(true);
-    }
-    setFlightDate(newDate);
-    setDateError(false);
-  };
-
-  const onSearch = () => {
-    setFlightInfoLoading(true);
-    if (flightInfoLoading) {
-      return;
-    }
-
-    if (!validateFlightNumber(flightNumber || '')[0]) {
-      setFlightNumberError(true);
-      return;
-    }
-
-    if (!flightDate) {
-      setDateError(true);
-      return;
-    }
-
-    setFlightInfoError('');
-    setShowComponent(true);
-    const guestCount = Number(numberOfGuests);
-    setGuestsCount(guestCount);
-  };
-
-  const setLoadingOverlay = () => {
-    setFlightInfoLoading(false);
-  };
-  const onFlightInfoSuccess = (flightDetails: FlightDetails) => {
-    setflightData(flightDetails);
+  const onDateChanged = (date: Date) => {
+    onChangeDate(dayjs(date).format(DATE_FORMAT));
   };
 
   return (
@@ -163,7 +99,7 @@ export const FlightInfo = ({
             maw={400}
             w={270}
             minDate={new Date()}
-            value={flightDate}
+            value={dayjs(date).toDate()}
             onChange={onDateChanged}
             error={dateError ? dateErrorText : ''}
             required={true}
@@ -182,34 +118,7 @@ export const FlightInfo = ({
             w={270}
           />
         </Flex>
-        {/*
-        <Group position="center">
-          <Button onClick={onSearch}>CHECK AVAILABILITY</Button>
-          {flightData ? (
-            <FlightInfoNew
-              flightInfo={flightData}
-              setLoadingOverlay={setLoadingOverlay}
-              numberOfGuests={guestscount}
-            ></FlightInfoNew>
-          ) : (
-            ''
-          )}
-        </Group>
-          <Group>
-            <Text style={{ marginTop: '20px', color: 'red' }}>
-              {flightInfoError}
-            </Text>
-          </Group>
-            */}
       </Stack>
-
-      {showComponent && (
-        <FlightData
-          flightNumber={flightNumber || ''}
-          departureDate={flightDate}
-          onSuccess={onFlightInfoSuccess}
-        ></FlightData>
-      )}
     </>
   );
 };
