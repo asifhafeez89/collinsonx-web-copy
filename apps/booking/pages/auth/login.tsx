@@ -125,7 +125,7 @@ export default function Login(props: unknown) {
                 <Text>
                   <Text span color={colors.red}>
                     *
-                  </Text>{' '}
+                  </Text>
                   Email address
                 </Text>
                 <InputLabel
