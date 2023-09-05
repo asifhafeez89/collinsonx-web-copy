@@ -130,6 +130,11 @@ const baseTheme = ({
         styles: ({ colors }) => ({
           input: {
             borderColor: colors.brandColor,
+            borderWidth: 2,
+            '&:checked': {
+              backgroundColor: colors.brandColor,
+              borderColor: colors.brandColor
+            }
           },
         })
       },

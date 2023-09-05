@@ -142,11 +142,6 @@ export default function SignupUser() {
               {...form.getInputProps('marketingConsent', {
                 type: 'checkbox',
               })}
-              styles={{
-                input: {
-                  borderWidth: 2,
-                },
-              }}
               data-testid="marketingCheckbox"
             />
             <Button fullWidth type="submit" data-testid="loginAfterSignUp">
