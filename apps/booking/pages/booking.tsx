@@ -1,6 +1,5 @@
 import Layout from '@components/Layout';
-import { useMemo, useState } from 'react';
-import { useQuery } from '@collinsonx/utils/apollo';
+import { useState } from 'react';
 import {
   Anchor,
   Group,
@@ -8,13 +7,9 @@ import {
   Stack,
   Box,
   Button,
-  Text,
   Center,
   Skeleton,
 } from '@collinsonx/design-system/core';
-import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
-import { useRouter } from 'next/router';
-import { getSearchExperiences } from '@collinsonx/utils/queries';
 
 import { LoungeInfo } from '@components/LoungeInfo';
 import {
@@ -25,11 +20,6 @@ import GuestInfo from '@components/GuestInfo';
 import usePayload from 'hooks/payload';
 import { BookingGuests, ViewStep } from 'types/booking';
 import { ArrowLeft } from '@collinsonx/design-system/assets/icons';
-
-interface MainProps {
-  consumerNumber: string | string[];
-  tempBearerToken: string | string[];
-}
 
 interface DepartureFlightInfo {
   airport: { iata: string };
@@ -44,8 +34,6 @@ interface FlightInfo {
 }
 
 const Lounge = () => {
-  const router = useRouter();
-
   const [step, setStep] = useState<ViewStep>('EDIT');
   const [date, setDate] = useState<string>();
   const [flightNumber, setFlightNumber] = useState<string>();
