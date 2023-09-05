@@ -8,7 +8,6 @@ interface BookingModalProps {
   onClickClose: () => void;
   children?: JSX.Element;
 }
-
 function BookingModal({ booking, onClickClose, children }: BookingModalProps) {
   return (
     <Modal
