@@ -4,6 +4,7 @@ import React, { ReactNode } from 'react';
 
 import usePayload from 'hooks/payload';
 import AppLogo from './AppLogo';
+import colors from 'ui/colour-constants';
 
 interface LayoutProps {
   children: ReactNode;
@@ -21,16 +22,16 @@ export default function LayoutLogin({ children }: LayoutProps) {
           maxWidth: '100%',
           minHeight: `${height}px`,
           overflow: 'hidden',
-          backgroundColor: '#F3F2F3',
+          backgroundColor: colors.background,
         }}
       >
         <Box
           sx={{
-            borderBottom: '1px solid #cccc',
+            borderBottom: `1px solid ${colors.boxBorder}`,
             width: '100%',
           }}
         >
-          <Center pb={8} pt={8} sx={{ backgroundColor: '#ffffff' }}>
+          <Center pb={8} pt={8} sx={{ backgroundColor: colors.white }}>
             {payload && (
               <AppLogo
                 accountProvider={payload.accountProvider}
@@ -39,7 +40,7 @@ export default function LayoutLogin({ children }: LayoutProps) {
             )}
           </Center>
         </Box>
-        <Box pt={10} sx={{ margin: '0 auto' }}>
+        <Box pt={10}>
           {children}
         </Box>
       </Container>
