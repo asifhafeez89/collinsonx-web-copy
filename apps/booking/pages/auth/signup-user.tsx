@@ -7,6 +7,7 @@ import {
   Notification,
   Checkbox,
   Title,
+  Skeleton,
 } from '@collinsonx/design-system/core';
 import { useForm } from '@collinsonx/design-system/form';
 import LayoutLogin from '../../components/LayoutLogin';
@@ -28,7 +29,7 @@ import Error from '@components/Error';
 import usePayload from 'hooks/payload';
 
 export default function SignupUser() {
-  const { token, payload, loungeCode } = usePayload();
+  const { token, payload, loungeCode, lounge } = usePayload();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const DATE_FORMAT = 'DD/MM/YYYY';
@@ -69,7 +70,9 @@ export default function SignupUser() {
         </Notification>
       )}
       <Stack sx={{ width: '100%' }}>
-        <Breadcramp title="Back to Gatwick" url="https://bbc.co.uk" />
+        <Skeleton visible={!lounge}>
+          <Breadcramp title={lounge?.loungeName || 'Back to lounge'} url="#" />
+        </Skeleton>
       </Stack>
       <form
         onSubmit={form.onSubmit((values: any) => {
