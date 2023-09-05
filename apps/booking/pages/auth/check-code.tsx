@@ -6,6 +6,7 @@ import {
   Flex,
   PinInput,
   Title,
+  Skeleton,
 } from '@collinsonx/design-system/core';
 import { useRouter } from 'next/router';
 import {
@@ -21,10 +22,9 @@ import { useQuery } from '@collinsonx/utils/apollo';
 import Error from '@components/Error';
 import usePayload from 'hooks/payload';
 import colors from 'ui/colour-constants';
-import { Skeleton } from '@collinsonx/design-system/core';
 
 export default function CheckEmail() {
-  const { token, lounge, loungeCode, payload, setPayload } = usePayload();
+  const { token, payload, setPayload, loungeCode, lounge } = usePayload();
   const router = useRouter();
   const email = router.query?.email as string;
   const [code, setCode] = useState<string>();
@@ -62,8 +62,6 @@ export default function CheckEmail() {
     } catch (e) {}
     setCount(20);
   };
-
-  console.log(loungeCode);
 
   const handleClickConfirm = async () => {
     if (code?.length === 6) {
@@ -168,7 +166,7 @@ export default function CheckEmail() {
                 One time passcode
               </Text>
               <PinInput
-                onChange={(code: string) => setCode(code)}
+                onChange={(code) => setCode(code)}
                 placeholder="-"
                 length={6}
                 size="xl"
