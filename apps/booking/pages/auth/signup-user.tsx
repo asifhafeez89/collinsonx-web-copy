@@ -99,7 +99,7 @@ export default function SignupUser() {
               width: '440px',
               margin: '0 auto',
               '@media (max-width: 40em)': {
-                padding: '16px 24px 0 24px',
+                padding: '1rem 1.5rem 0 1.5rem',
                 width: '100%',
                 marginBottom: '150px'
               },
