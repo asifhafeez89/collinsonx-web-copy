@@ -6,7 +6,6 @@ import {
   Notification,
   Checkbox,
   Title,
-  ScrollArea,
 } from '@collinsonx/design-system/core';
 import { useForm } from '@collinsonx/design-system/form';
 import LayoutLogin from '../../components/LayoutLogin';
