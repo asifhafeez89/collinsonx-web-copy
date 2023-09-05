@@ -6,7 +6,6 @@ import { createContext, useContext } from 'react';
 
 import { AccountProvider, BridgePayload, MembershipType } from 'types/booking';
 import * as jose from 'jose';
-import { Be_Vietnam_Pro } from 'next/font/google';
 
 import {
   experienceX,
@@ -33,28 +32,18 @@ export const usePayload = (): PayloadState => {
   return context;
 };
 
-const beVietnamPro = Be_Vietnam_Pro({
-  style: ['normal'],
-  subsets: ['latin'],
-  weight: ['400', '600', '700'],
-});
-
-const themeSettingsShared = {
-  fontFamily: beVietnamPro.style.fontFamily,
-};
-
 function callThemeFunction(name: AccountProvider | MembershipType) {
   switch (name) {
     case 'Cergea':
-      return experienceX(themeSettingsShared);
+      return experienceX();
     case 'HSBC':
-      return hsbc(themeSettingsShared);
+      return hsbc();
     case 'PP':
-      return priorityPass(themeSettingsShared);
+      return priorityPass();
     case 'LK':
-      return loungeKey(themeSettingsShared);
+      return loungeKey();
     default:
-      return priorityPass(themeSettingsShared);
+      return priorityPass();
   }
 }
 

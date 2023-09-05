@@ -1,4 +1,4 @@
-import { ColorSchemeProvider, MantineThemeOverride } from '@mantine/core';
+import { MantineThemeOverride } from '@mantine/core';
 import baseTheme from './baseTheme';
 
 type ThemeOptions = {
@@ -8,6 +8,6 @@ type ThemeOptions = {
 const theme = (
   { fontFamily }: ThemeOptions = { fontFamily: 'BentonSans Book' }
 ): MantineThemeOverride =>
-  baseTheme({ buttonBackground: '#827127', buttonFontColour: 'white' });
+  baseTheme({ mainColour: '#827127', buttonFontColour: 'white' });
 
 export default theme;

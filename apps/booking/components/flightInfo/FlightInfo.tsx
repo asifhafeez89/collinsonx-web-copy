@@ -198,7 +198,7 @@ export const FlightInfo = ({
 
         <Group position="center" mt="xl">
           <Button variant="outline" onClick={onSearch}>
-            Get Availability
+            {`Get Availability`.toUpperCase()}
           </Button>
           {flightData ? (
             <FlightInfoNew

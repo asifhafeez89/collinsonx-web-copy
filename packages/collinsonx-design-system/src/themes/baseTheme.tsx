@@ -1,29 +1,29 @@
-import { ColorSchemeProvider, MantineThemeOverride } from '@mantine/core';
+import { MantineThemeOverride } from '@mantine/core';
+import { useMantineTheme } from '@mantine/core';
 
 type ThemeOptions = {
   fontFamily?: string;
-  buttonBackground?: string;
+  mainColour?: string;
   buttonFontColour?: string;
 };
 
 const baseTheme = ({
   fontFamily,
-  buttonBackground,
+  mainColour,
   buttonFontColour,
 }: ThemeOptions): MantineThemeOverride => {
+  const theme = useMantineTheme();
   return {
     colors: {
       headerNavBg: ['#D3DAE1'],
       headerNavColor: ['#000'],
-      mainColor: ['#FFF'],
+      mainColor: [mainColour],
       brandColor: ['#D3DAE1'],
-      splashColor: ['#858B91'],
-      brandBlue: ['#006FCF'],
+      buttonFontColour: [buttonFontColour],
     },
     primaryColor: 'mainColor',
     primaryShade: 0,
     defaultRadius: 4,
-    //spacing: { xs: 15, sm: 20, md: 25, lg: 30, xl: 40 },
     fontFamily,
     globalStyles: ({ colors }) => ({
       body: {
@@ -87,8 +87,11 @@ const baseTheme = ({
       Button: {
         styles: ({ colors }) => ({
           root: {
-            backgroundColor: buttonBackground,
+            backgroundColor: colors.mainColor,
             color: colors.headerNavColor,
+            '&:hover': {
+              backgroundColor: theme.fn.darken(colors.mainColor[0], 0.05),
+            },
           },
           label: {
             color: buttonFontColour,
@@ -122,9 +125,9 @@ const baseTheme = ({
       NavLink: {
         styles: ({ colors }) => ({
           label: {
-            color: colors.brandColor
-          }
-        })
+            color: colors.brandColor,
+          },
+        }),
       },
     },
   };
