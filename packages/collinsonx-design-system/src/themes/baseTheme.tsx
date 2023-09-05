@@ -81,13 +81,16 @@ const baseTheme = ({
         }),
       },
       Button: {
-        styles: ({ colors }) => ({
+        styles: (theme) => ({
           root: {
             borderRadius: 4,
             fontSize: 18,
             height: 44,
-            backgroundColor: colors.brandColor,
-            color: colors.headerNavColor,
+            backgroundColor: theme.colors.brandColor,
+            color: theme.colors.headerNavColor,
+            ':hover': {
+              backgroundColor: theme.fn.darken(theme.colors.brandColor[0], 0.05)
+            }
           },
           label: {
             color: '#fff',
@@ -121,7 +124,7 @@ const baseTheme = ({
         }),
       },
       NavLink: {
-        styles: ({ colors }) => ({
+        styles: () => ({
           label: {
             color: '#827127'
           }
