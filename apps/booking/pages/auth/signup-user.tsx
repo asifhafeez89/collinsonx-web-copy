@@ -6,6 +6,7 @@ import {
   Notification,
   Checkbox,
   Title,
+  ScrollArea,
 } from '@collinsonx/design-system/core';
 import { useForm } from '@collinsonx/design-system/form';
 import LayoutLogin from '../../components/LayoutLogin';
@@ -99,6 +100,7 @@ export default function SignupUser() {
               '@media (max-width: 40em)': {
                 padding: '16px 24px 0 24px',
                 width: '100%',
+                marginBottom: '150px'
               },
             }}
           >
