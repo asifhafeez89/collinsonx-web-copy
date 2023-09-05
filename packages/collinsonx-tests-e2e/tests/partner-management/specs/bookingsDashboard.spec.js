@@ -2,6 +2,8 @@ import { test, expect } from '../../../baseFixtures';
 import BookingOverviewPage from '../pages/BookingOverviewPage';
 import BookingApi from '../utils/BookingApi';
 import { loungeMap } from '../utils/config';
+import { apiURL } from '../utils/config';
+
 
 test.describe('booking overview dashboard', () => {
     test.describe('pending requests', () => {

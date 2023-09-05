@@ -6,9 +6,10 @@ import Stripe from 'stripe';
 import { apiURL, stripePayment } from '../utils/config';
 
 class BookingApi {
-  constructor(page) {
+  constructor(page, request) {
     this.apiUrl = apiURL
-    this.page = page;
+    this.page = page
+    this.request = request
   };
 
   async addDeclinedBooking(lounge) {
@@ -75,7 +76,7 @@ class BookingApi {
     return consumerId;
   };
 
-  async createBooking(lounge, consumerId) {
+  async createBooking(lounge) {
     const mutation = `
       mutation CreateBooking($bookingInput: BookingInput) {
         createBooking(bookingInput: $bookingInput) {
@@ -122,27 +123,23 @@ class BookingApi {
       }
     };
 
-    const request = {
+    const data = {
       query: mutation,
       variables: variables
     };
 
-    const headers = {
-      'x-user-id': consumerId,
-      'x-user-type': 'CONSUMER'
-    };
+    const response = await (this.page.request).post(this.apiUrl, { data })
+    const responseJson = await response.json()
 
-    const response = await axios.post(this.apiUrl, request, { headers });
-
-    const createBookingObj = response.data.data.createBooking;
+    const createBookingObj = responseJson.data.createBooking;
 
     if (createBookingObj === null) {
       throw new Error("The response createBooking object is null. The method of authorisation, or the credentials themselves, may be incorrect.");
     };
 
-    const bookingId = response.data.data.createBooking.id;
+    const bookingId = responseJson.data.createBooking.id;
 
-    const reference = response.data.data.createBooking.reference;
+    const reference = responseJson.data.createBooking.reference;
 
     return { id: bookingId, reference };
 
@@ -167,6 +164,8 @@ class BookingApi {
     });
 
     const priceId = stripePrices.data[0]?.id || '';
+
+    console.log("here it is", stripePrices.data || '');
 
     const session = await stripe.checkout.sessions.create({
       line_items: [
@@ -254,20 +253,21 @@ class BookingApi {
       "declineBookingId": bookingId
     };
 
-    const request = {
+    const data = {
       query: mutation,
       variables: variables
     };
 
-    const headers = {
-      'x-user-id': process.env.X_USER_ID,
-      'x-user-type': 'SUPER_USER'
-    };
+    // const headers = {
+    //   'x-user-id': process.env.X_USER_ID,
+    //   'x-user-type': 'SUPER_USER'
+    // };
 
-    const response = await axios.post(this.apiUrl, request, { headers });
+    const response = await (this.page.request).post(this.apiUrl, { data })
+    const responseJson = await response.json()
 
-    if (response.data.errors) {
-      throw new Error(response.data.errors[0].message)
+    if (responseJson.data.errors) {
+      throw new Error(responseJson.data.errors[0].message)
     };
   };
 
@@ -286,20 +286,21 @@ class BookingApi {
       "confirmBookingId": bookingId
     };
 
-    const request = {
+    const data = {
       query: mutation,
       variables: variables
     };
 
-    const headers = {
-      'x-user-id': process.env.X_USER_ID,
-      'x-user-type': 'SUPER_USER'
-    };
+    // const headers = {
+    //   'x-user-id': process.env.X_USER_ID,
+    //   'x-user-type': 'SUPER_USER'
+    // };
 
-    const response = await axios.post(this.apiUrl, request, { headers });
+    const response = await (this.page.request).post(this.apiUrl, { data })
+    const responseJson = await response.json()
 
-    if (response.data.errors) {
-      throw new Error(response.data.errors[0].message)
+    if (responseJson.data.errors) {
+      throw new Error(responseJson.data.errors[0].message)
     };
   };
 
@@ -316,20 +317,21 @@ class BookingApi {
       "deleteBookingId": bookingId
     };
 
-    const request = {
+    const data = {
       query: mutation,
       variables: variables
     };
 
-    const headers = {
-      'x-user-id': process.env.X_USER_ID,
-      'x-user-type': 'SUPER_USER'
-    };
+    // const headers = {
+    //   'x-user-id': process.env.X_USER_ID,
+    //   'x-user-type': 'SUPER_USER'
+    // };
 
-    const response = await axios.post(this.apiUrl, request, { headers });
+    const response = await (this.page.request).post(this.apiUrl, { data })
+    const responseJson = await response.json()
 
-    if (response.data.errors) {
-      throw new Error(response.data.errors[0].message)
+    if (responseJson.data.errors) {
+      throw new Error(responseJson.data.errors[0].message)
     };
   }
 
@@ -348,21 +350,22 @@ class BookingApi {
       "experienceId": process.env[lounge + "_EXPERIENCE_ID"]
     };
 
-    const request = {
+    const data = {
       query: query,
       variables: variables
     };
 
-    const headers = {
-      'x-user-id': process.env.X_USER_ID,
-      'x-user-type': 'SUPER_USER'
-    };
+    // const headers = {
+    //   'x-user-id': process.env.X_USER_ID,
+    //   'x-user-type': 'SUPER_USER'
+    // };
 
-    const response = await axios.post(this.apiUrl, request, { headers });
+    const response = await (this.page.request).post(this.apiUrl, { data })
+    const responseJson = await response.json()
 
     // No error handling - unauthorised requests will always return 200 with an empty array
 
-    const bookings = response.data.data.getBookings;
+    const bookings = responseJson.data.getBookings;
 
     const statusBookings = bookings.filter((booking) => {
       return statuses.includes(booking.status);
@@ -385,23 +388,24 @@ class BookingApi {
       "getBookingByIdId": bookingId
     };
 
-    const request = {
+    const data = {
       query: query,
       variables: variables
     };
 
-    const headers = {
-      'x-user-id': process.env.X_USER_ID,
-      'x-user-type': 'SUPER_USER'
+    // const headers = {
+    //   'x-user-id': process.env.X_USER_ID,
+    //   'x-user-type': 'SUPER_USER'
+    // };
+
+    const response = await (this.page.request).post(this.apiUrl, { data })
+    const responseJson = await response.json()
+
+    if (responseJson.data.errors) {
+      throw new Error(responseJson.data.errors[0].message)
     };
 
-    const response = await axios.post(this.apiUrl, request, { headers });
-
-    if (response.data.errors) {
-      throw new Error(response.data.errors[0].message)
-    };
-
-    const booking = response.data.data.getBookingByID;
+    const booking = responseJson.data.getBookingByID;
 
     return booking;
   };
