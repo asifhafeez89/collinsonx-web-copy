@@ -137,7 +137,7 @@ export default function SignupUser() {
               disabled
               readOnly
               {...form.getInputProps('email')}
-              value={email}
+              value={payload!.email}
               label="Email address"
             />
             <Checkbox
