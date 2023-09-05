@@ -11,7 +11,7 @@ export default function InputLabel({
   isWhite = false,
   ...props
 }: InputLabelProps) {
-  const inputColor = isWhite ? '#FFFFFF' : '#000000';
+  const inputColor = isWhite ? '#FFFFFF' : '#25262B';
 
   return (
     <>
@@ -28,6 +28,7 @@ export default function InputLabel({
             marginBottom: '0',
           },
           label: {
+            padding: '0 0 0.5rem 0',
             order: -2,
             color: inputColor,
           },

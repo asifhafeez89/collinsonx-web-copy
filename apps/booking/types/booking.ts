@@ -10,6 +10,8 @@ export const bookingTypeMap = {
 
 export type AccountProvider = 'PP' | 'LK' | 'Cergea';
 
+export type MembershipType = 'HSBC';
+
 enum AirportCode {
   BHD = 'BHD',
   BHX = 'BHX',
@@ -45,7 +47,7 @@ export interface BridgePayload {
   lastName?: string;
   accountProvider: AccountProvider;
   lounge: string;
-  membershipType?: string;
+  membershipType?: MembershipType;
   sourceCode: string;
 }
 
