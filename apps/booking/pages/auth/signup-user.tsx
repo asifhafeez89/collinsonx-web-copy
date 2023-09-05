@@ -117,7 +117,7 @@ export default function SignupUser() {
               <Text>
                 <Text span color={colors.red}>
                   *
-                </Text>{' '}
+                </Text>
                 First name(s)
               </Text>
               <InputLabel
