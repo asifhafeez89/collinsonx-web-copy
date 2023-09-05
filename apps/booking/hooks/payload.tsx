@@ -160,7 +160,18 @@ export const PayloadProvider = (props: PropsWithChildren) => {
           withGlobalStyles
           withNormalizeCSS
         >
-          {props.children}
+          {loungeError || (!loadingLounge && !lounge) ? (
+            <Layout>
+              <Center>
+                <Text>
+                  Something went wrong. This service is not available for the
+                  moment
+                </Text>
+              </Center>
+            </Layout>
+          ) : (
+            props.children
+          )}
         </MantineProvider>
       ) : undefined}
     </PayloadContext.Provider>
