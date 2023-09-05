@@ -112,7 +112,7 @@ export default function SignupUser() {
               Update details
             </Title>
             <Error error={error} />
-            <Stack spacing={0}>
+            <Stack spacing={8}>
               <Text><Text span color={colors.red}>*</Text> First name(s)</Text>
               <InputLabel
                 autoFocus
@@ -123,7 +123,7 @@ export default function SignupUser() {
                 data-testid="firstName"
               />
             </Stack>
-            <Stack spacing={0}>
+            <Stack spacing={8}>
               <Text><Text span color={colors.red}>*</Text> Last name</Text>
               <InputLabel
                 type="text"
