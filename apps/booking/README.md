@@ -22,3 +22,14 @@ mkcert -key-file booking-local.test.cergea.com-key.pem -cert-file booking-local.
 
 UI will be accessible in HTTPS in the following link:
 https://booking-local.test.cergea.com:4011
+
+## Mandatory URL parameters
+
+According to latest spec these parameters must be present in the URL:
+
+- `lc` lounge code
+- `in` JWT token
+
+- [Example URL](https://bookin.test.cergea.com:4011/?lc=BHX7&in=eyJhbGciOiJkaXIiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0..tfBDVDCmiSMP2utPtIsMxA.vWUxTCrBq5pN6RXc4UQLeuyzunLE--IJrwSkOCp8sDHRk5EcOWpjddaJOYur6m_s88w6ibEvvg17HhbDUX89Ugz4NXzrN6SfwoTx0KPmpN5C0tFDEaoO6RXBU0-yU_JdVaszv2BDGLQojkgaQfRasXdMUzxhx4wVIvuHewY7WAvAVSRCPJXq6VvNlT4UpcKrDRVm39nvyPU4C2k2NJ-k06Kpdk8__uY9MVLg8luStkjniCGdPAwrWLrWzQj70NwGnmC6vBSUkiiOEmO6hr1-AFlWM1048ruxqN-7t_JhmRPMk82fl9Jpeoc5onpb8v03hzjmRW8kD9SIJSHBJhxrOdUpfOZ25n-t3XPRfnnAr3o.tFcnof9c3PT2Z-wXm3Pfig)
+
+- [How we redirect to the Bridge App (Confluence page)](https://lifestyle-x-wiki.atlassian.net/wiki/spaces/BAAS/pages/97419266/How+will+we+redirect+to+the+Bridge+App)

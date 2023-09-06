@@ -1,7 +1,8 @@
 {
+  "name": "placeholder-app",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev:test": "next dev -p 3012",
     "build": "next build",
     "start": "next start"
   },
@@ -23,6 +24,7 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@types/react": "^18.2.21"
+    "@types/react": "^18.2.21",
+    "eslint-config-collinsonx": "workspace:*"
   }
 }
