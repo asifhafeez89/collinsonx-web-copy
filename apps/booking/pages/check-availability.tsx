@@ -19,7 +19,15 @@ import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifesty
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
 import LoungeError from '@components/LoungeError';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
-export default function ConfirmAvailability() {
+import { Availability } from '@collinsonx/utils';
+import AvailableSlots from '@components/flightInfo/AvailableSlots';
+interface AvailableSlotsProps {
+  availableSlots: Availability;
+}
+
+export default function ConfirmAvailability({
+  availableSlots,
+}: AvailableSlotsProps) {
   const router = useRouter();
 
   const {
@@ -146,6 +154,10 @@ export default function ConfirmAvailability() {
               >
                 CONFIRM
               </Button>
+
+              {availableSlots ? (
+                <AvailableSlots availableSlots={availableSlots} />
+              ) : null}
             </Box>
           )}
         </Flex>
