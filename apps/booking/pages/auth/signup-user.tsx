@@ -82,7 +82,6 @@ export default function SignupUser() {
               if (data?.updateConsumer?.id) {
                 router.push({
                   pathname: '/',
-                  query: { in: token, lc: loungeCode },
                 });
               }
             },

@@ -91,7 +91,7 @@ const GuestInfo = ({
       </Grid>
       <Text size={14}>
         Refer to{' '}
-        <Anchor color="blue" href="https://mantine.dev/" target="_blank">
+        <Anchor color="blue" href="#" target="_blank">
           lounge conditions
         </Anchor>{' '}
         for age restrictions

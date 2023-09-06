@@ -23,6 +23,7 @@ import { useQuery } from '@collinsonx/utils/apollo';
 import { Experience } from '@collinsonx/utils';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
 import Layout from '@components/Layout';
+import { getItem, setItem } from '@lib';
 
 type PayloadState = {
   payload: BridgePayload | undefined;
@@ -122,10 +123,36 @@ export const PayloadProvider = (props: PropsWithChildren) => {
 
   useEffect(() => {
     if (router.isReady) {
-      const token = router.query.in as string;
-      const loungeCode = router.query.lc as string;
+      const queryToken = router.query.in as string;
+      const queryLoungeCode = router.query.lc as string;
+
+      const storageToken = getItem('TOKEN');
+      const storageLoungeCode = getItem('LOUNGE_CODE');
+
+      const hasStoredData = storageToken && storageLoungeCode;
+      const hasQueryParams = queryToken && queryLoungeCode;
+
+      let token: string = '';
+      let loungeCode: string = '';
+
+      if (hasQueryParams) {
+        token = queryToken;
+        loungeCode = queryLoungeCode;
+      } else if (hasStoredData) {
+        token = getItem('TOKEN')!;
+        loungeCode = getItem('LOUNGE_CODE')!;
+      }
+
+      if (!loungeCode || !token) {
+        setError('Token is invalid');
+        return;
+      }
+
+      setItem('LOUNGE_CODE', loungeCode);
+      setItem('TOKEN', token);
       setLoungeCode(loungeCode);
       setToken(token);
+
       decryptJWT(token)
         .then((result) => {
           const payload = result.payload as unknown as BridgePayload;

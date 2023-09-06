@@ -51,7 +51,7 @@ export default function Login(props: unknown) {
       const { userId } = session;
       if (userId) {
         // if (!ref.current) {
-        router.push({ pathname: '/', query: { in: token, lc: loungeCode } });
+        router.push({ pathname: '/' });
         ref.current = true;
         // }
       } else {
@@ -73,8 +73,6 @@ export default function Login(props: unknown) {
           query: {
             email,
             redirectUrl: router.query?.redirectUrl,
-            in: token,
-            lc: loungeCode,
           },
         });
       } catch (err: any) {
