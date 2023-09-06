@@ -200,12 +200,20 @@ export default function CheckEmail() {
                   variant="outline"
                   disabled={count > 0}
                   onClick={handleClickResend}
-                  sx={{
-                    borderColor: colors.buttonBlack,
-                    color: colors.buttonBlack,
-                    borderWidth: 2,
-                    fontSize: 18,
-                    height: 44,
+                  styles={{
+                    root: {
+                      border: 'solid',
+                      backgroundColor: 'transparent',
+                      borderColor: colors.buttonBlack,
+                      borderWidth: 2,
+                      color: colors.buttonBlack,
+                      ':hover': {
+                        backgroundColor: 'lightgray'
+                      }
+                    },
+                    label: {
+                      color: colors.buttonBlack
+                    }
                   }}
                 >
                   RESEND
@@ -214,11 +222,6 @@ export default function CheckEmail() {
                   fullWidth
                   py={8}
                   onClick={handleClickConfirm}
-                  sx={{
-                    borderRadius: 4,
-                    fontSize: 18,
-                    height: 44,
-                  }}
                   data-testid="verify"
                 >
                   VERIFY
