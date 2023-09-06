@@ -74,9 +74,13 @@ const CheckAvailability = () => {
   return (
     <Layout>
       <Stack sx={{ width: '100%' }}>
-        <Breadcramp title="Back to Gatwick" url="https://bbc.co.uk" />
+        <Breadcramp
+          lefttitle={`BACK TO ${lounge?.loungeName?.toUpperCase()}`}
+          lefturl="https://bbc.co.uk"
+          righttile={`FAQs`}
+          righturl="https://bbc.co.uk"
+        />
       </Stack>
-
       {!loading && (
         <Flex
           direction={{ base: 'column', sm: 'row' }}

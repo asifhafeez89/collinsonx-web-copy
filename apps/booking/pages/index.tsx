@@ -37,6 +37,7 @@ import FlightData from '@components/flightInfo/FlightData';
 import AvailableSlots from '@components/flightInfo/AvailableSlots';
 import LoungeError from '@components/LoungeError';
 import dayjs from 'dayjs';
+import { Breadcramp } from '@collinsonx/design-system';
 
 interface DepartureFlightInfo {
   airport: { iata: string };
@@ -63,33 +64,17 @@ const Lounge = () => {
 
   const [flightData, setFlightData] = useState<FlightInfo>();
   const [selectedSlot, setSelectedSlot] = useState<AvailabilitySlot>();
+  const { payload, lounge } = usePayload();
 
   const handleChangeGuests = (type: keyof BookingGuests, value: number) => {
     setGuests((prev) => ({ ...prev, [type]: value }));
   };
-
-  const onFlightInfoSuccess = (flightInfo: FlightInfo) => {
-    setFlightData(flightInfo);
-  };
-
-  const onSetSelectedSlot = (selectedSlot: AvailabilitySlot) => {
-    setSelectedSlot(selectedSlot);
-  };
-
-  const { payload, lounge } = usePayload();
 
   const flightCode = useMemo(
     () => (flightNumber ? validateFlightNumber(flightNumber) : undefined),
 
     [flightNumber]
   );
-
-  const [
-    fetchSlots,
-    { loading: slotsLoading, error: slotsError, data: slotsData },
-  ] = useLazyQuery<{
-    getAvailableSlots: Availability;
-  }>(getAvailableSlots);
 
   const [
     fetchFlightInfo,
@@ -113,78 +98,37 @@ const Lounge = () => {
     pollInterval: 300000,
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
-    onCompleted: (flightInfoData) => {
-      if (flightInfoData) {
-        fetchSlots({
-          variables: {
-            data: {
-              flightInformation: {
-                type: TRAVEL_TYPE,
-                dateTime:
-                  flightInfoData?.getFlightDetails[0].departure?.dateTime
-                    ?.local,
-                airport: flightInfoData?.getFlightDetails[0].departure?.airport,
-                terminal: '-1',
-              },
-              guests: {
-                adultCount: guests.adults,
-                childrenCount: guests.children,
-                //seniorCount: guests.seniors, <-- NO API SUPPORT YET
-                infantCount: guests.infants,
-              },
-              product: {
-                productType: LOUNGE,
-                productID: '1139',
-                supplierCode: '123',
-              },
-            },
-          },
-        });
-      }
-    },
   });
 
   const handleClickCheckAvailability = () => {
     fetchFlightInfo();
   };
 
+  console.log(flightNumber);
+
   return (
     <Layout>
       <Stack spacing={16}>
-        <Group mx={120} position="apart">
-          <Group spacing={4}>
-            <Skeleton visible={!lounge}>
-              <ArrowLeft />
-              <Anchor href="#">
-                BACK TO {lounge?.loungeName?.toUpperCase()}
-              </Anchor>
-            </Skeleton>
-          </Group>
-          <Anchor href="#" target="_blank">
-            FAQs
-          </Anchor>
-        </Group>
+        <Stack sx={{ width: '100%' }}>
+          <Breadcramp
+            lefttitle={`BACK TO ${lounge?.loungeName?.toUpperCase()}`}
+            lefturl="https://bbc.co.uk"
+            righttile={`FAQs`}
+            righturl="https://bbc.co.uk"
+          />
+        </Stack>
         <Flex justify="center" align="center">
           <Stack maw={591} spacing={24}>
             <LoungeInfo lounge={lounge} loading={!lounge} />
-            {!flightInfoData && !slotsData ? (
-              <FlightInfo
-                step={step}
-                date={date}
-                loading={!lounge || flightInfoLoading || slotsLoading}
-                onChangeDate={setDate}
-                flightNumber={flightNumber}
-                onChangeFlightNumber={setFlightNumber}
-              />
-            ) : null}
+            <FlightInfo
+              step={step}
+              date={date}
+              loading={!lounge || flightInfoLoading}
+              onChangeDate={setDate}
+              flightNumber={flightNumber}
+              onChangeFlightNumber={setFlightNumber}
+            />
             <LoungeError error={flightInfoError} />
-            <LoungeError error={slotsError} />
-            {flightInfoData ? (
-              <FlightData flightInfoData={flightInfoData?.getFlightDetails} />
-            ) : null}
-            {slotsData ? (
-              <AvailableSlots availableSlots={slotsData.getAvailableSlots} />
-            ) : null}
             <Box sx={{ borderBottom: '1px solid  #C8C9CA' }} />
             <GuestInfo
               step={step}
@@ -194,7 +138,7 @@ const Lounge = () => {
             />
             <Center w="100%">
               <Button
-                disabled={!lounge || flightInfoLoading || slotsLoading}
+                disabled={!lounge || flightInfoLoading}
                 onClick={handleClickCheckAvailability}
               >
                 CHECK AVAILABILITY
