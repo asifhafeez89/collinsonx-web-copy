@@ -10,7 +10,7 @@ import {
 } from '@collinsonx/design-system/core';
 import QuantityInput from './QuantityInput';
 import { BookingGuests, ViewStep } from 'types/booking';
-import { MAX_GUESTS } from 'constants';
+import { MAX_GUESTS } from '../constants';
 
 export interface GuestInfoProps {
   step: ViewStep;
