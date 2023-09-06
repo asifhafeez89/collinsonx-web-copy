@@ -1,15 +1,14 @@
 import { test as setup } from '../../../baseFixtures';
 import dotenv from 'dotenv';
 dotenv.config({ path: `.env.tests` });
-import { loungeMap } from '../utils/config';
-
+import { loungeMap, supertokensURL } from '../utils/config';
 
 setup('authenticate', async ({ request }) => {
   for (const lounge of loungeMap.values()) {
     const password = process.env[lounge + "_PASSWORD_" + process.env.ENV];
     const username = process.env[lounge + "_USERNAME_" + process.env.ENV];
 
-    const response = await request.post(`https://authz.${process.env.ENV}.cergea.com/supertokens/signin`, {
+    const response = await request.post(supertokensURL, {
       data: {
         "formFields": [
           { "id": "email", "value": username },

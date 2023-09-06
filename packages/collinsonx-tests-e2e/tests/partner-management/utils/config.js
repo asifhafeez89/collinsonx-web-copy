@@ -22,3 +22,4 @@ export const stripePayment = {
 };
 
 export const apiURL = `https://gateway-api.${process.env.ENV}.cergea.com/graphql`;
+export const supertokensURL = `https://authz.${process.env.ENV}.cergea.com/supertokens/signin`;
