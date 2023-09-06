@@ -2,7 +2,7 @@ import { experienceX } from '@collinsonx/design-system/themes';
 
 import { Be_Vietnam_Pro } from 'next/font/google';
 import { MantineThemeOverride } from '@collinsonx/design-system/core';
-import { STORAGE_NAMESPACE } from 'constants';
+import { STORAGE_NAMESPACE } from '../constants';
 
 const beVietnamPro = Be_Vietnam_Pro({
   style: ['normal'],
