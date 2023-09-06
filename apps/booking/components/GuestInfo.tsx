@@ -10,6 +10,7 @@ import {
 } from '@collinsonx/design-system/core';
 import QuantityInput from './QuantityInput';
 import { BookingGuests, ViewStep } from 'types/booking';
+import { MAX_GUESTS } from 'constants';
 
 export interface GuestInfoProps {
   step: ViewStep;
@@ -65,7 +66,6 @@ const GuestInfo = ({
 
         <Grid.Col lg={6}>
           <QuantityInput
-            min={0}
             max={10}
             disabled={loading}
             label="Infants"
@@ -78,8 +78,7 @@ const GuestInfo = ({
 
         <Grid.Col lg={6}>
           <QuantityInput
-            min={0}
-            max={10}
+            max={MAX_GUESTS}
             disabled={loading}
             label="Seniors"
             ageRange="65+"

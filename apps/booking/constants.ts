@@ -7,5 +7,6 @@ const cookiesNames = {
 };
 
 export const STORAGE_NAMESPACE = 'PREBOOKING';
+export const MAX_GUESTS = 10;
 
 export { constants, cookiesNames };
