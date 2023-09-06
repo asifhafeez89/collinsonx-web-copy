@@ -14,6 +14,7 @@ import {
   priorityPass,
 } from '@collinsonx/design-system/themes';
 import Layout from '@components/Layout';
+import LayoutError from '@components/LayoutError';
 
 type PayloadState = {
   payload: BridgePayload | undefined;
@@ -53,13 +54,15 @@ function callThemeFunction(name: AccountProvider | MembershipType) {
  * @param payload
  * @returns
  */
-const validatePayload = (payload: BridgePayload) =>
-  hasRequired(payload, [
+const validatePayload = (payload: BridgePayload) => {
+  console.log(payload);
+  return hasRequired(payload, [
     'membershipNumber',
     'accountProvider',
     'lounge',
     'sourceCode',
   ]);
+};
 
 const secret = jose.base64url.decode(
   process.env.NEXT_PUBLIC_JWT_SECRET as string
@@ -92,6 +95,8 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         .then((result) => {
           const payload = result.payload as unknown as BridgePayload;
 
+          console.log(payload);
+
           if (!validatePayload(payload)) {
             setPayloadError('Sorry, service is not available');
           }
@@ -120,7 +125,11 @@ export const PayloadProvider = (props: PropsWithChildren) => {
           withGlobalStyles
           withNormalizeCSS
         >
-          {payloadError ? <Layout>{payloadError}</Layout> : props.children}
+          {payloadError ? (
+            <LayoutError>{payloadError}</LayoutError>
+          ) : (
+            props.children
+          )}
         </MantineProvider>
       ) : undefined}
     </PayloadContext.Provider>
