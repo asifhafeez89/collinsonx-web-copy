@@ -13,6 +13,7 @@ import {
   loungeKey,
   priorityPass,
 } from '@collinsonx/design-system/themes';
+import Layout from '@components/Layout';
 
 type PayloadState = {
   payload: BridgePayload | undefined;
@@ -80,7 +81,8 @@ export const PayloadProvider = (props: PropsWithChildren) => {
   const router = useRouter();
   const [payload, setPayload] = useState<BridgePayload>();
   const [token, setToken] = useState<string>();
-  const [error, setError] = useState<string>();
+  const [payloadError, setPayloadError] = useState<string>();
+  const [tokenError, setTokenError] = useState<string>();
 
   useEffect(() => {
     if (router.isReady) {
@@ -91,12 +93,12 @@ export const PayloadProvider = (props: PropsWithChildren) => {
           const payload = result.payload as unknown as BridgePayload;
 
           if (!validatePayload(payload)) {
-            setError('Token is invalid');
+            setPayloadError('Sorry, service is not available');
           }
           setPayload(payload);
         })
         .catch((e) => {
-          setError(
+          setTokenError(
             e.hasOwnProperty('message')
               ? (e.message as string)
               : 'Invalid token'
@@ -107,8 +109,8 @@ export const PayloadProvider = (props: PropsWithChildren) => {
 
   return (
     <PayloadContext.Provider value={{ payload, setPayload, token }}>
-      {error && <Box>{error}</Box>}
-      {payload && !error ? (
+      {tokenError && <Box>{tokenError}</Box>}
+      {payload && !tokenError ? (
         <MantineProvider
           theme={callThemeFunction(
             payload?.membershipType === 'HSBC'
@@ -118,7 +120,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
           withGlobalStyles
           withNormalizeCSS
         >
-          {props.children}
+          {payloadError ? <Layout>{payloadError}</Layout> : props.children}
         </MantineProvider>
       ) : undefined}
     </PayloadContext.Provider>
