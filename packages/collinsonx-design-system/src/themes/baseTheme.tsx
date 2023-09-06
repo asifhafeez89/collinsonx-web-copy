@@ -88,7 +88,7 @@ const baseTheme = ({
         styles: ({ colors }) => ({
           root: {
             backgroundColor: buttonBackground,
-            color: '#000',
+            color: colors.headerNavColor,
           },
           label: {
             color: buttonFontColour,
@@ -114,10 +114,31 @@ const baseTheme = ({
             },
           },
           label: {
+            fontWeight: 400,
+            fontSize: '1rem',
             fontFamily,
             color: colors.dark[6],
           },
         }),
+      },
+      NavLink: {
+        styles: ({ colors }) => ({
+          label: {
+            color: colors.brandColor
+          }
+        })
+      },
+      Checkbox: {
+        styles: ({ colors }) => ({
+          input: {
+            borderColor: colors.brandColor,
+            borderWidth: 2,
+            '&:checked': {
+              backgroundColor: colors.brandColor,
+              borderColor: colors.brandColor
+            }
+          },
+        })
       },
     },
   };

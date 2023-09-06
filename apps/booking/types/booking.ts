@@ -50,3 +50,12 @@ export interface BridgePayload {
   membershipType?: MembershipType;
   sourceCode: string;
 }
+
+export type ViewStep = 'EDIT' | 'CONFIRM';
+
+export interface BookingGuests {
+  adults: number;
+  children: number;
+  infants: number;
+  seniors: number;
+}
