@@ -19,9 +19,25 @@ import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifesty
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
 import LoungeError from '@components/LoungeError';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
-
+import { formatDate } from '../utils/DateFormatter';
+import {
+  AIRPORT_CODE_TYPE,
+  OAG_API_VERSION,
+  DATE_FORMAT,
+  TIME_FORMAT,
+  DATE_REDABLE_FORMAT,
+} from '../config/Constants';
 export default function Book() {
   const router = useRouter();
+
+  const {
+    id,
+    flightNumber,
+    departureDate,
+    adultCount,
+    childrentCount,
+    arrivalTime,
+  } = router.query;
 
   const {
     loading,
@@ -43,17 +59,20 @@ export default function Book() {
   const infos = [
     {
       header: 'Day of flight',
-      description: 'Fri 26 May 2023',
+      description: formatDate(
+        new Date(String(departureDate)),
+        DATE_REDABLE_FORMAT
+      ),
       icon: <MapPin width={16} height={16} color="#0C8599" />,
     },
     {
       header: 'Time of flight',
-      description: '7 am',
+      description: formatDate(new Date(String(departureDate)), TIME_FORMAT),
       icon: <Clock width={16} height={16} color="#0C8599" />,
     },
     {
       header: 'Flight number',
-      description: 'BA7',
+      description: flightNumber,
       icon: <Clock width={16} height={16} color="#0C8599" />,
     },
   ];
@@ -103,12 +122,16 @@ export default function Book() {
                     <Flex direction="row" gap={10}>
                       <p style={{ padding: '0', margin: '0' }}>
                         {' '}
-                        <strong>Adults</strong> 1
+                        <strong>Adults</strong> {adultCount}
                       </p>{' '}
-                      <p style={{ padding: '0', margin: '0' }}>
-                        {' '}
-                        <strong>Children</strong> 1
-                      </p>
+                      {Number(childrentCount) > 0 ? (
+                        <>
+                          <p style={{ padding: '0', margin: '0' }}>
+                            {' '}
+                            <strong>Children</strong> {childrentCount}
+                          </p>
+                        </>
+                      ) : null}
                     </Flex>
                   </EditableTitle>
 
@@ -118,7 +141,7 @@ export default function Book() {
                     as="h2"
                   >
                     <Flex direction="row" gap={10}>
-                      <p style={{ padding: '0', margin: '0' }}> 5 am</p>{' '}
+                      <p style={{ padding: '0', margin: '0' }}>{arrivalTime}</p>{' '}
                     </Flex>
                   </EditableTitle>
                 </Stack>
