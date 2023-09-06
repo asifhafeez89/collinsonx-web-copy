@@ -26,7 +26,7 @@ type SetState<T> = Dispatch<SetStateAction<T | undefined>>;
 interface FlightInfoComponentProps {
   date?: string;
   flightNumber?: string;
-  onChangeDate: SetState<string>;
+  onChangeDate: Dispatch<SetStateAction<string>>;
   onChangeFlightNumber: SetState<string>;
   step: ViewStep;
   loading: boolean;

@@ -24,6 +24,7 @@ import { Availability, FlightDetails } from '@collinsonx/utils';
 import { getAvailableSlots, getFlightDetails } from '@collinsonx/utils/queries';
 import {
   AIRPORT_CODE_TYPE,
+  DATE_FORMAT,
   LOUNGE,
   OAG_API_VERSION,
   TRAVEL_TYPE,
@@ -35,6 +36,7 @@ import { validateFlightNumber } from '../utils/flightValidation';
 import FlightData from '@components/flightInfo/FlightData';
 import AvailableSlots from '@components/flightInfo/AvailableSlots';
 import LoungeError from '@components/LoungeError';
+import dayjs from 'dayjs';
 
 interface DepartureFlightInfo {
   airport: { iata: string };
@@ -50,7 +52,7 @@ interface FlightInfo {
 
 const Lounge = () => {
   const [step, setStep] = useState<ViewStep>('EDIT');
-  const [date, setDate] = useState<string>();
+  const [date, setDate] = useState<string>(dayjs().format(DATE_FORMAT));
   const [flightNumber, setFlightNumber] = useState<string>();
   const [guests, setGuests] = useState<BookingGuests>({
     adults: 0,
