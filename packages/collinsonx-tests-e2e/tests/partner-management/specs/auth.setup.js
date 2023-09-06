@@ -16,11 +16,11 @@ setup('authenticate', async ({ request }) => {
         ]
       },
       headers: {
-        "St-Auth-Mode": "cookie",
+        "St-Auth-Mode": "cookie", // required to return 'cookies' in the 'set-cookies' header
         Accept: 'application/json',
         'Content-Type': 'application/json',
         rid: 'emailpassword',
-      } // required to return 'cookies' in the 'set-cookies' header
+      }
     });
 
     const authFile = `playwright/.auth/${lounge.toLowerCase()}User.json`;
