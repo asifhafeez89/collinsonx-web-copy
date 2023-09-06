@@ -131,12 +131,24 @@ function DebugBox({ loungeCode, jwt, object }: DebugBoxProps) {
           <Textarea value={object} readOnly />
         </>
       )}
-
       {jwtPayload.length > 0 && (
         <>
           <div>
             Payload:
             <Textarea value={jwtPayload} readOnly />
+          </div>
+        </>
+      )}
+      {jwt.length > 0 && (
+        <>
+          <div>
+            JWT:
+            <Textarea value={jwt} readOnly />
+          </div>
+
+          <br />
+          <div>
+            <Button onClick={decodeOnClickHandler}>Decode JWT</Button>
           </div>
         </>
       )}
