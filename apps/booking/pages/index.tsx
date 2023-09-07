@@ -84,6 +84,8 @@ const Lounge = () => {
     [flightNumber]
   );
 
+  const flightNumberIsValid = flightCode && flightCode[0];
+
   const [
     fetchSlots,
     { loading: slotsLoading, error: slotsError, data: slotsData },
@@ -194,7 +196,12 @@ const Lounge = () => {
             />
             <Center w="100%">
               <Button
-                disabled={!lounge || flightInfoLoading || slotsLoading}
+                disabled={
+                  !lounge ||
+                  flightInfoLoading ||
+                  slotsLoading ||
+                  !flightNumberIsValid
+                }
                 onClick={handleClickCheckAvailability}
               >
                 CHECK AVAILABILITY
