@@ -23,10 +23,12 @@ import { useQuery } from '@collinsonx/utils/apollo';
 import { Experience } from '@collinsonx/utils';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
 import Layout from '@components/Layout';
+import { getItem, setItem } from '@lib';
+import { LOUNGE_CODE, JWT } from '../constants';
 
 type PayloadState = {
   payload: BridgePayload | undefined;
-  token: string | undefined;
+  jwt: string | undefined;
   loungeCode: string | undefined;
   lounge: Experience | undefined;
   setPayload(payload: BridgePayload): void;
@@ -102,7 +104,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
   const router = useRouter();
   const [payload, setPayload] = useState<BridgePayload>();
   const [loungeCode, setLoungeCode] = useState<string>();
-  const [token, setToken] = useState<string>();
+  const [jwt, setJWT] = useState<string>();
   const [error, setError] = useState<string>();
   const [loungeNotFound, setLoungeNotFound] = useState(false);
 
@@ -122,24 +124,48 @@ export const PayloadProvider = (props: PropsWithChildren) => {
 
   useEffect(() => {
     if (router.isReady) {
-      const token = router.query.in as string;
-      const loungeCode = router.query.lc as string;
+      const queryJWT = router.query.in as string;
+      const queryLoungeCode = router.query.lc as string;
+
+      const storageJWT = getItem(JWT);
+      const storageLoungeCode = getItem(LOUNGE_CODE);
+
+      const hasStoredData = storageJWT && storageLoungeCode;
+      const hasQueryParams = queryJWT && queryLoungeCode;
+
+      let jwt: string = '';
+      let loungeCode: string = '';
+
+      if (hasQueryParams) {
+        jwt = queryJWT;
+        loungeCode = queryLoungeCode;
+      } else if (hasStoredData) {
+        jwt = getItem(JWT)!;
+        loungeCode = getItem(LOUNGE_CODE)!;
+      }
+
+      if (!loungeCode || !jwt) {
+        setError('jwt is invalid');
+        return;
+      }
+
+      setItem(LOUNGE_CODE, loungeCode);
+      setItem(JWT, jwt);
       setLoungeCode(loungeCode);
-      setToken(token);
-      decryptJWT(token)
+      setJWT(jwt);
+
+      decryptJWT(jwt)
         .then((result) => {
           const payload = result.payload as unknown as BridgePayload;
 
           if (!validatePayload(payload)) {
-            setError('Token is invalid');
+            setError('JWT is invalid');
           }
           setPayload(payload);
         })
         .catch((e) => {
           setError(
-            e.hasOwnProperty('message')
-              ? (e.message as string)
-              : 'Invalid token'
+            e.hasOwnProperty('message') ? (e.message as string) : 'Invalid jwt'
           );
         });
     }
@@ -147,7 +173,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
 
   return (
     <PayloadContext.Provider
-      value={{ payload, setPayload, token, lounge, loungeCode }}
+      value={{ payload, setPayload, jwt, lounge, loungeCode }}
     >
       {error && <Box>{error}</Box>}
       {payload && !error ? (

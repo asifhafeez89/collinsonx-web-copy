@@ -1,29 +1,24 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import {
   Stack,
   Text,
   Title,
-  SimpleGrid,
   Anchor,
   NumberInputHandlers,
   Grid,
 } from '@collinsonx/design-system/core';
 import QuantityInput from './QuantityInput';
-import { BookingGuests, ViewStep } from 'types/booking';
 
+import { BookingGuests, ViewStep } from 'types/booking';
+import { MAX_GUESTS } from '../constants';
+
+import { useForm, UseFormReturnType } from '@mantine/form';
 export interface GuestInfoProps {
-  step: ViewStep;
-  guests: BookingGuests;
+  form: UseFormReturnType<any, any>;
   loading: boolean;
-  onChangeGuests: (type: keyof BookingGuests, value: number) => void;
 }
 
-const GuestInfo = ({
-  step,
-  guests,
-  onChangeGuests,
-  loading,
-}: GuestInfoProps) => {
+const GuestInfo = ({ form, loading }: GuestInfoProps) => {
   const handlers = [
     useRef<NumberInputHandlers>(),
     useRef<NumberInputHandlers>(),
@@ -41,12 +36,11 @@ const GuestInfo = ({
           <QuantityInput
             min={0}
             max={10}
-            disabled={loading}
             label="Adults"
             ageRange="12+"
-            value={guests.adults}
-            onChange={(val) => onChangeGuests('adults', Number(val))}
+            disabled={loading}
             handlers={handlers[0]}
+            {...form.getInputProps('adults')}
           />
         </Grid.Col>
 
@@ -54,25 +48,22 @@ const GuestInfo = ({
           <QuantityInput
             min={0}
             max={10}
-            disabled={loading}
             label="Children"
             ageRange="2-11"
-            value={guests.children}
-            onChange={(val) => onChangeGuests('children', Number(val))}
+            disabled={loading}
             handlers={handlers[1]}
+            {...form.getInputProps('children')}
           />
         </Grid.Col>
 
         <Grid.Col lg={6}>
           <QuantityInput
-            min={0}
             max={10}
-            disabled={loading}
             label="Infants"
             ageRange="0-2"
-            value={guests.infants}
-            onChange={(val) => onChangeGuests('infants', Number(val))}
+            disabled={loading}
             handlers={handlers[2]}
+            {...form.getInputProps('infants')}
           />
         </Grid.Col>
 
@@ -83,15 +74,14 @@ const GuestInfo = ({
             disabled={loading}
             label="Seniors"
             ageRange="65+"
-            value={guests.seniors}
-            onChange={(val) => onChangeGuests('seniors', Number(val))}
             handlers={handlers[3]}
+            {...form.getInputProps('seniors')}
           />
         </Grid.Col>
       </Grid>
       <Text size={14}>
         Refer to{' '}
-        <Anchor color="blue" href="https://mantine.dev/" target="_blank">
+        <Anchor color="blue" href="#" target="_blank">
           lounge conditions
         </Anchor>{' '}
         for age restrictions

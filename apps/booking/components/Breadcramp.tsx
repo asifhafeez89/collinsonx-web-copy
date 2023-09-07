@@ -1,6 +1,6 @@
 import { Anchor, Flex, NavLink } from '@mantine/core';
 
-import { ArrowLeft } from '../../assets/icons';
+import { ArrowLeft } from '@collinsonx/design-system/assets/icons';
 
 interface BreadcrampProps {
   lefttitle?: string;

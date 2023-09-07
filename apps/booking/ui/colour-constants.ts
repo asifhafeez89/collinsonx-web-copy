@@ -8,6 +8,6 @@ const colors = {
   dividerGrey: '#C8C9CA',
   background: '#F3F2F3',
   boxBorder: '#cccc',
-}
+};
 
-export default colors
+export default colors;

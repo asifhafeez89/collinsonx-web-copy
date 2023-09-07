@@ -6,7 +6,7 @@ import {
   FlightInfo,
 } from '../components/flightInfo/FlightInfo';
 import { Box, Flex, Stack } from '@collinsonx/design-system/core';
-import { Breadcramp } from '@collinsonx/design-system';
+import Breadcramp from '@components/Breadcramp';
 import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
 import { useRouter } from 'next/router';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
@@ -74,9 +74,13 @@ const CheckAvailability = () => {
   return (
     <Layout>
       <Stack sx={{ width: '100%' }}>
-        <Breadcramp title="Back to Gatwick" url="https://bbc.co.uk" />
+        <Breadcramp
+          lefttitle={`BACK TO ${lounge?.loungeName?.toUpperCase()}`}
+          lefturl="https://bbc.co.uk"
+          righttile={`FAQs`}
+          righturl="https://bbc.co.uk"
+        />
       </Stack>
-
       {!loading && (
         <Flex
           direction={{ base: 'column', sm: 'row' }}
@@ -100,14 +104,11 @@ const CheckAvailability = () => {
           )}{' '}
           <Box sx={{ borderBottom: '1px solid  #C8C9CA' }}>
             <h2>{lounge?.loungeName}</h2>
-            <FlightInfo
+            {/* <FlightInfo
               loading={loading}
-              step="EDIT"
-              date=""
-              onChangeDate={() => {}}
               flightNumber=""
               onChangeFlightNumber={() => {}}
-            />
+            /> */}
           </Box>
         </Flex>
       )}

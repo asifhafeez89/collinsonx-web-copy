@@ -27,5 +27,5 @@ export const bookingPageConfig: Record<PageType | 'qrcodewalkup', BookingType> =
     confirmed: bookingConfig[Confirmed],
     declined: bookingConfig[Declined],
     qrcodewalkup: bookingConfig.QRCodeWalkup,
-};
+  };
 export const BOOKING_PRICE = 7;
