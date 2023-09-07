@@ -1,4 +1,4 @@
-name: run e2e web tests
+name: run e2e web tests - booking
 
 on:
   pull_request:
@@ -42,7 +42,7 @@ jobs:
           chmod +x /usr/bin/mkcert
           cd apps/booking
           mkcert -key-file booking-local.test.cergea.com-key.pem -cert-file booking-local.test.cergea.pem booking-local.test.cergea.com
-          echo "${{ secrets.ENV_TEST_LOCAL_FILE }}" > .env.local
+          echo "${{ secrets.ENV_TESTS_FILE_BOOKING }}" > .env.local
 
       - name: Run Booking webapp tests
         env:
