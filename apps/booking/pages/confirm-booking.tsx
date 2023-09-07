@@ -37,6 +37,7 @@ export default function Book() {
     adultCount,
     childrentCount,
     arrivalTime,
+    infantCount,
   } = router.query;
 
   const {

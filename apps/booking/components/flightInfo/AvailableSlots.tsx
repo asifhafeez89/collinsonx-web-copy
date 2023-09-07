@@ -28,7 +28,7 @@ const AvailableSlots = ({
 
   return (
     <Select
-      label="*Estimated lounge arrival time"
+      label="Estimated lounge arrival time"
       placeholder="Select time"
       data={data}
       onChange={handleChange}

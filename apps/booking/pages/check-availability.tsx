@@ -31,6 +31,8 @@ import {
   DATE_FORMAT,
   TIME_FORMAT,
   DATE_REDABLE_FORMAT,
+  LOUNGE,
+  TRAVEL_TYPE,
 } from '../config/Constants';
 import { formatDate } from '../utils/DateFormatter';
 import usePayload from 'hooks/payload';
@@ -52,9 +54,8 @@ export default function ConfirmAvailability({
   const [createLoading, setCreateLoading] = useState(false);
   const [selectedslot, setSelectedslot] = useState('');
   const { token, loungeCode } = usePayload();
+  const [isDisabled, setIsDisabled] = useState(true);
 
-  //change later
-  //change to Query parameters
   const {
     id,
     flightNumber,
@@ -63,8 +64,8 @@ export default function ConfirmAvailability({
     childrentCount,
     productID,
     supplierCode,
+    infantCount,
   } = router.query;
-  //change later
 
   const flightBreakdown = validateFlightNumber(String(flightNumber));
   const lounge = useMemo(() => {
@@ -86,6 +87,7 @@ export default function ConfirmAvailability({
         in: token,
         id: id,
         lc: loungeCode,
+        infantCount: infantCount,
       },
     });
   };
@@ -114,7 +116,7 @@ export default function ConfirmAvailability({
     variables: {
       data: {
         flightInformation: {
-          type: 'DEPARTURE',
+          type: TRAVEL_TYPE,
           dateTime: `${fligtData?.getFlightDetails[0]?.departure?.dateTime?.local}`,
           airport: `${fligtData?.getFlightDetails[0]?.departure?.airport}`,
           terminal: '-1',
@@ -122,10 +124,10 @@ export default function ConfirmAvailability({
         guests: {
           adultCount: Number(adultCount),
           childrenCount: Number(childrentCount),
-          infantCount: 0,
+          infantCount: Number(infantCount),
         },
         product: {
-          productType: 'Lounge',
+          productType: LOUNGE,
           productID: productID,
           supplierCode: supplierCode,
         },
@@ -138,10 +140,11 @@ export default function ConfirmAvailability({
     onCompleted: (data) => {},
   });
 
-  useEffect(() => {}, [id, flightNumber, departureDate]); //  dependency
+  useEffect(() => {}, [flightNumber, departureDate, adultCount]);
 
   const handleSelectSlot = (value: string) => {
     setSelectedslot(value);
+    setIsDisabled(false);
   };
 
   const infos = [
@@ -258,6 +261,7 @@ export default function ConfirmAvailability({
               )}
 
               <Button
+                disabled={isDisabled}
                 type="submit"
                 data-testid="submit"
                 spacing="20px"
