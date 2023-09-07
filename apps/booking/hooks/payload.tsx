@@ -159,7 +159,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
           const payload = result.payload as unknown as BridgePayload;
 
           if (!validatePayload(payload)) {
-            setError('jwt is invalid');
+            setError('JWT is invalid');
           }
           setPayload(payload);
         })
