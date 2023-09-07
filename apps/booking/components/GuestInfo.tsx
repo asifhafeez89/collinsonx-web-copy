@@ -1,14 +1,16 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import {
   Stack,
   Text,
   Title,
-  SimpleGrid,
   Anchor,
   NumberInputHandlers,
   Grid,
 } from '@collinsonx/design-system/core';
 import QuantityInput from './QuantityInput';
+
+import { BookingGuests, ViewStep } from 'types/booking';
+import { MAX_GUESTS } from '../constants';
 
 import { useForm, UseFormReturnType } from '@mantine/form';
 export interface GuestInfoProps {
@@ -56,7 +58,6 @@ const GuestInfo = ({ form, loading }: GuestInfoProps) => {
 
         <Grid.Col lg={6}>
           <QuantityInput
-            min={0}
             max={10}
             label="Infants"
             ageRange="0-2"
@@ -70,6 +71,8 @@ const GuestInfo = ({ form, loading }: GuestInfoProps) => {
           <QuantityInput
             min={0}
             max={10}
+            max={MAX_GUESTS}
+            disabled={loading}
             label="Seniors"
             ageRange="65+"
             disabled={loading}
@@ -80,7 +83,7 @@ const GuestInfo = ({ form, loading }: GuestInfoProps) => {
       </Grid>
       <Text size={14}>
         Refer to{' '}
-        <Anchor color="blue" href="https://mantine.dev/" target="_blank">
+        <Anchor color="blue" href="#" target="_blank">
           lounge conditions
         </Anchor>{' '}
         for age restrictions

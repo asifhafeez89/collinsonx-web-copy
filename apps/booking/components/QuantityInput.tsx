@@ -16,7 +16,7 @@ interface QuantityInputProps {
   onChange: (val: number | '') => void;
   handlers: React.MutableRefObject<any>;
   max: number;
-  min: number;
+  min?: number;
 }
 
 const QuantityInput: React.FC<QuantityInputProps> = ({
@@ -27,7 +27,7 @@ const QuantityInput: React.FC<QuantityInputProps> = ({
   handlers,
   disabled,
   max,
-  min,
+  min = 0,
 }) => {
   return (
     <Flex align="center" direction="row" wrap="wrap">

@@ -65,6 +65,7 @@ const Lounge = () => {
     },
   });
 
+
   const [
     fetchFlightInfo,
     {
@@ -105,6 +106,7 @@ const Lounge = () => {
               righttile={`FAQs`}
               righturl="https://bbc.co.uk"
             />
+
           </Stack>
           <Flex justify="center" align="center">
             <Stack maw={591} spacing={24}>

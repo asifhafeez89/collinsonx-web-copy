@@ -27,7 +27,7 @@ interface FormValues {
 
 export default function Login(props: unknown) {
   const session = useSessionContext();
-  const { payload, token, lounge, loungeCode } = usePayload();
+  const { payload, jwt, lounge, loungeCode } = usePayload();
 
   const [loading, setLoading] = useState(true);
 
@@ -51,14 +51,14 @@ export default function Login(props: unknown) {
       const { userId } = session;
       if (userId) {
         // if (!ref.current) {
-        router.push({ pathname: '/', query: { in: token, lc: loungeCode } });
+        router.push({ pathname: '/' });
         ref.current = true;
         // }
       } else {
         setLoading(false);
       }
     }
-  }, [session, router, token]);
+  }, [session, router, jwt]);
 
   const handleClickContinue = async ({ email }: FormValues) => {
     if (!validateEmail(email.trim())) {
@@ -73,8 +73,6 @@ export default function Login(props: unknown) {
           query: {
             email,
             redirectUrl: router.query?.redirectUrl,
-            in: token,
-            lc: loungeCode,
           },
         });
       } catch (err: any) {

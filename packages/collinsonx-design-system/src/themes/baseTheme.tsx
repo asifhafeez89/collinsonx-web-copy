@@ -2,28 +2,25 @@ import { ColorSchemeProvider, MantineThemeOverride } from '@mantine/core';
 
 type ThemeOptions = {
   fontFamily?: string;
-  buttonBackground?: string;
-  buttonFontColour?: string;
+  themeOverrides?: Record<string, string | undefined>;
 };
 
 const baseTheme = ({
   fontFamily,
-  buttonBackground,
-  buttonFontColour,
+  themeOverrides,
 }: ThemeOptions): MantineThemeOverride => {
   return {
     colors: {
-      headerNavBg: ['#D3DAE1'],
-      headerNavColor: ['#000'],
-      mainColor: ['#FFF'],
-      brandColor: ['#D3DAE1'],
-      splashColor: ['#858B91'],
-      brandBlue: ['#006FCF'],
+      headerNavBg: [themeOverrides?.headerNavBg || '#D3DAE1'],
+      headerNavColor: [themeOverrides?.headerNavColor || '#000'],
+      mainColor: [themeOverrides?.mainColor || '#FFF'],
+      brandColor: [themeOverrides?.brandColor || '#D3DAE1'],
+      splashColor: [themeOverrides?.splashColor || '#858B91'],
+      brandBlue: [themeOverrides?.brandBlue || '#006FCF'],
     },
     primaryColor: 'mainColor',
     primaryShade: 0,
     defaultRadius: 4,
-    //spacing: { xs: 15, sm: 20, md: 25, lg: 30, xl: 40 },
     fontFamily,
     globalStyles: ({ colors }) => ({
       body: {
@@ -39,7 +36,6 @@ const baseTheme = ({
       },
     }),
     headings: {
-      // properties for all headings
       fontFamily,
       fontWeight: 600,
     },
@@ -85,13 +81,19 @@ const baseTheme = ({
         }),
       },
       Button: {
-        styles: ({ colors }) => ({
+        styles: (theme) => ({
           root: {
-            backgroundColor: buttonBackground,
-            color: colors.headerNavColor,
+            borderRadius: 4,
+            fontSize: 18,
+            height: 44,
+            backgroundColor: theme.colors.brandColor,
+            color: theme.colors.headerNavColor,
+            ':hover': {
+              backgroundColor: theme.fn.darken(theme.colors.brandColor[0], 0.05)
+            }
           },
           label: {
-            color: buttonFontColour,
+            color: '#fff',
           },
         }),
       },
@@ -122,9 +124,9 @@ const baseTheme = ({
         }),
       },
       NavLink: {
-        styles: ({ colors }) => ({
+        styles: () => ({
           label: {
-            color: colors.brandColor
+            color: '#827127'
           }
         })
       },
