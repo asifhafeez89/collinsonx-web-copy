@@ -165,8 +165,6 @@ class BookingApi {
 
     const priceId = stripePrices.data[0]?.id || '';
 
-    console.log("here it is", stripePrices.data || '');
-
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
