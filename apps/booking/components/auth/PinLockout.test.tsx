@@ -2,7 +2,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { fireEvent, render } from '@testing-library/react';
 import { useRouter } from 'next/router';
 
-import AttemptsError from './AttempsError';
+import PinLockout from './PinLockout';
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn(),
@@ -10,9 +10,9 @@ jest.mock('next/router', () => ({
 
 const push = jest.fn();
 
-describe('<AttemptsError />', () => {
+describe('<PinLockout />', () => {
   it('renders', () => {
-    const { getByRole, getByTestId } = render(<AttemptsError />);
+    const { getByRole, getByTestId } = render(<PinLockout />);
 
     expect(getByRole('button')).toHaveTextContent('RE-ENTER EMAIL');
     expect(getByTestId('link-call-support')).toHaveTextContent('Call support');
@@ -33,7 +33,7 @@ describe('<AttemptsError />', () => {
     });
 
     it('redirects to login on button click', () => {
-      const component = render(<AttemptsError />);
+      const component = render(<PinLockout />);
       fireEvent.click(component.getByRole('button'));
 
       expect(push).toHaveBeenCalledTimes(1);
@@ -41,7 +41,7 @@ describe('<AttemptsError />', () => {
     });
 
     it('triggers mailto action on hyperlink click', () => {
-      const component = render(<AttemptsError />);
+      const component = render(<PinLockout />);
 
       fireEvent.click(component.getByTestId('link-call-support'));
 

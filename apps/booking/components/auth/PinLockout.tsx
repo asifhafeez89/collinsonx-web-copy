@@ -10,7 +10,7 @@ import { useViewportSize } from '@collinsonx/design-system/hooks';
 import { useRouter } from 'next/router';
 import colors from 'ui/colour-constants';
 
-const AttemptsError = () => {
+const PinLockout = () => {
   const router = useRouter();
   const { height } = useViewportSize();
 
@@ -68,4 +68,4 @@ const AttemptsError = () => {
   );
 };
 
-export default AttemptsError;
+export default PinLockout;

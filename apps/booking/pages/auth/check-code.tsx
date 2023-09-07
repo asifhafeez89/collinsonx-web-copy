@@ -23,7 +23,7 @@ import { useQuery } from '@collinsonx/utils/apollo';
 import Error from '@components/Error';
 import usePayload from 'hooks/payload';
 import colors from 'ui/colour-constants';
-import AttemptsError from '@components/auth/AttempsError';
+import PinLockout from '@components/auth/PinLockout';
 
 export default function CheckEmail() {
   const { jwt, loungeCode, lounge } = usePayload();
@@ -114,7 +114,7 @@ export default function CheckEmail() {
       ) : (
         <LayoutLogin>
           {pinLockout ? (
-            <AttemptsError />
+            <PinLockout />
           ) : (
             <>
               <Skeleton visible={!lounge}>
