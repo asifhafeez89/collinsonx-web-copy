@@ -25,7 +25,7 @@ import { InputLabel } from '@collinsonx/design-system';
 type SetState<T> = Dispatch<SetStateAction<T | undefined>>;
 
 interface FlightInfoProps {
-  form: UseFormReturnType;
+  form: UseFormReturnType<any, any>;
   loading: boolean;
 }
 

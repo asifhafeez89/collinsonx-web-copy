@@ -12,7 +12,7 @@ import QuantityInput from './QuantityInput';
 
 import { useForm, UseFormReturnType } from '@mantine/form';
 export interface GuestInfoProps {
-  form: UseFormReturnType;
+  form: UseFormReturnType<any, any>;
   loading: boolean;
 }
 
