@@ -42,4 +42,4 @@ Please describe if new environment variables are required!
 - [ ] Tests for the changes have been added (for bug fixes/features)
 - [ ] Docs have been added / updated (for bug fixes / features)
 
-## Other information and screenshots
+## Other information
