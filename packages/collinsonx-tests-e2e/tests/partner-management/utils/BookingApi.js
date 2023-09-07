@@ -256,11 +256,6 @@ class BookingApi {
       variables: variables
     };
 
-    // const headers = {
-    //   'x-user-id': process.env.X_USER_ID,
-    //   'x-user-type': 'SUPER_USER'
-    // };
-
     const response = await (this.page.request).post(this.apiUrl, { data })
     const responseJson = await response.json()
 
@@ -289,11 +284,6 @@ class BookingApi {
       variables: variables
     };
 
-    // const headers = {
-    //   'x-user-id': process.env.X_USER_ID,
-    //   'x-user-type': 'SUPER_USER'
-    // };
-
     const response = await (this.page.request).post(this.apiUrl, { data })
     const responseJson = await response.json()
 
@@ -319,11 +309,6 @@ class BookingApi {
       query: mutation,
       variables: variables
     };
-
-    // const headers = {
-    //   'x-user-id': process.env.X_USER_ID,
-    //   'x-user-type': 'SUPER_USER'
-    // };
 
     const response = await (this.page.request).post(this.apiUrl, { data })
     const responseJson = await response.json()
@@ -352,11 +337,6 @@ class BookingApi {
       query: query,
       variables: variables
     };
-
-    // const headers = {
-    //   'x-user-id': process.env.X_USER_ID,
-    //   'x-user-type': 'SUPER_USER'
-    // };
 
     const response = await (this.page.request).post(this.apiUrl, { data })
     const responseJson = await response.json()
@@ -390,11 +370,6 @@ class BookingApi {
       query: query,
       variables: variables
     };
-
-    // const headers = {
-    //   'x-user-id': process.env.X_USER_ID,
-    //   'x-user-type': 'SUPER_USER'
-    // };
 
     const response = await (this.page.request).post(this.apiUrl, { data })
     const responseJson = await response.json()
