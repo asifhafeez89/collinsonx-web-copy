@@ -23,7 +23,7 @@ import usePayload from 'hooks/payload';
 import colors from 'ui/colour-constants';
 
 export default function SignupUser() {
-  const { token, payload, loungeCode, lounge } = usePayload();
+  const { payload, lounge } = usePayload();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -82,7 +82,6 @@ export default function SignupUser() {
               if (data?.updateConsumer?.id) {
                 router.push({
                   pathname: '/',
-                  query: { in: token, lc: loungeCode },
                 });
               }
             },

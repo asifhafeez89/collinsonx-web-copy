@@ -25,7 +25,7 @@ import usePayload from 'hooks/payload';
 import colors from 'ui/colour-constants';
 
 export default function CheckEmail() {
-  const { token, loungeCode, lounge } = usePayload();
+  const { jwt, loungeCode, lounge } = usePayload();
   const router = useRouter();
   const email = router.query?.email as string;
   const [code, setCode] = useState<string>();
@@ -74,12 +74,11 @@ export default function CheckEmail() {
         if (response.createdNewUser) {
           router.push({
             pathname: '/auth/signup-user',
-            query: { email, in: token, lc: loungeCode },
+            query: { email },
           });
         } else {
           router.push({
             pathname: '/',
-            query: { in: token, lc: loungeCode },
           });
         }
       } else if (
@@ -99,7 +98,6 @@ export default function CheckEmail() {
   const handleClickReenter = () => {
     router.push({
       pathname: '/auth/login',
-      query: { in: token, lc: loungeCode },
     });
   };
 
