@@ -15,7 +15,7 @@ import {
   createPasswordlessCode,
 } from '@collinsonx/utils/supertokens';
 import LayoutLogin from '@components/LayoutLogin';
-import { Breadcramp } from '@collinsonx/design-system';
+import Breadcramp from '@components/Breadcramp';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 import { useEffect, useRef, useState } from 'react';
 import getConsumerByEmailAddress from '@collinsonx/utils/queries/getConsumerByEmailAddress';

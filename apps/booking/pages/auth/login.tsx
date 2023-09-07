@@ -14,7 +14,7 @@ import {
   createPasswordlessCode,
   useSessionContext,
 } from '@collinsonx/utils/supertokens';
-import { Breadcramp } from '@collinsonx/design-system';
+import Breadcramp from '@components/Breadcramp';
 import { InputLabel } from '@collinsonx/design-system';
 import validateEmail from '@collinsonx/utils/lib/validateEmail';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';

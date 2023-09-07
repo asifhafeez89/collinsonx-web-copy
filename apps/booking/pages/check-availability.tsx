@@ -6,7 +6,7 @@ import {
   FlightInfo,
 } from '../components/flightInfo/FlightInfo';
 import { Box, Flex, Stack } from '@collinsonx/design-system/core';
-import { Breadcramp } from '@collinsonx/design-system';
+import Breadcramp from '@components/Breadcramp';
 import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
 import { useRouter } from 'next/router';
 import { getSearchExperiences } from '@collinsonx/utils/queries';

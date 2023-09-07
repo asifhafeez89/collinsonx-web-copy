@@ -23,7 +23,7 @@ import { useLazyQuery } from '@collinsonx/utils/apollo';
 import { validateFlightNumber } from '../utils/flightValidation';
 import LoungeError from '@components/LoungeError';
 import dayjs from 'dayjs';
-import { Breadcramp } from '@collinsonx/design-system';
+import Breadcramp from '@components/Breadcramp';
 import usePayload from 'hooks/payload';
 
 interface DepartureFlightInfo {
