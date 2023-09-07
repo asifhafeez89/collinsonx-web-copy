@@ -25,6 +25,18 @@ export type LoungeSchema = {
 
 export const lounges: Array<LoungeSchema> = [
   {
+    LoungeCode: 'BHX7',
+    LoungeName: 'Clubrooms Birmingham',
+    Partner: {
+      IntegrationId: '',
+      UID: '',
+    },
+    ServiceCentre: '',
+    PPBOOperatorName: '',
+    AirportCode: AirportCode.BHX,
+    AirportName: 'Birmingham',
+  },
+  {
     LoungeCode: 'BHD1',
     Partner: {
       IntegrationId: '001',

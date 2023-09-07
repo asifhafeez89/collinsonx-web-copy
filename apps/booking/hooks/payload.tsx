@@ -1,7 +1,12 @@
-import { Box, MantineProvider } from '@collinsonx/design-system/core';
+import {
+  Box,
+  MantineProvider,
+  Center,
+  Text,
+} from '@collinsonx/design-system/core';
 import { hasRequired } from '@lib';
 import { useRouter } from 'next/router';
-import { PropsWithChildren, useEffect, useState } from 'react';
+import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
 import { createContext, useContext } from 'react';
 
 import { AccountProvider, BridgePayload, MembershipType } from 'types/booking';
@@ -15,10 +20,17 @@ import {
 } from '@collinsonx/design-system/themes';
 import Layout from '@components/Layout';
 import LayoutError from '@components/LayoutError';
+import { useQuery } from '@collinsonx/utils/apollo';
+import { Experience } from '@collinsonx/utils';
+import { getSearchExperiences } from '@collinsonx/utils/queries';
+import { getItem, setItem } from '@lib';
+import { LOUNGE_CODE, JWT } from '../constants';
 
 type PayloadState = {
   payload: BridgePayload | undefined;
-  token: string | undefined;
+  jwt: string | undefined;
+  loungeCode: string | undefined;
+  lounge: Experience | undefined;
   setPayload(payload: BridgePayload): void;
 };
 
@@ -33,21 +45,6 @@ export const usePayload = (): PayloadState => {
 
   return context;
 };
-
-function callThemeFunction(name: AccountProvider | MembershipType) {
-  switch (name) {
-    case 'Cergea':
-      return experienceX();
-    case 'HSBC':
-      return hsbc();
-    case 'PP':
-      return priorityPass();
-    case 'LK':
-      return loungeKey();
-    default:
-      return priorityPass();
-  }
-}
 
 /**
  * Basic field validation for payload
@@ -78,20 +75,78 @@ async function decryptJWT(jwt: string) {
   };
 }
 
+function callThemeFunction(name: AccountProvider | MembershipType) {
+  switch (name) {
+    case 'Cergea':
+      return experienceX();
+    case 'HSBC':
+      return hsbc();
+    case 'PP':
+      return priorityPass();
+    case 'LK':
+      return loungeKey();
+    default:
+      return priorityPass();
+  }
+}
+
 export const PayloadProvider = (props: PropsWithChildren) => {
   const router = useRouter();
 
   const [payload, setPayload] = useState<BridgePayload>();
-  const [token, setToken] = useState<string>();
+  const [loungeCode, setLoungeCode] = useState<string>();
+  const [jwt, setJWT] = useState<string>();
   const [tokenError, setTokenError] = useState<string>();
+  const [loungeNotFound, setLoungeNotFound] = useState(false);
   const [payloadError, setPayloadError] = useState<string>();
+
+  const {
+    loading: loadingLounge,
+    error: loungeError,
+    data: loungeData,
+  } = useQuery<{ searchExperiences: Experience[] }>(getSearchExperiences, {
+    skip: !loungeCode,
+  });
+
+  const lounge = useMemo(() => {
+    return loungeData?.searchExperiences.filter(
+      (item) => item.loungeCode === loungeCode
+    )[0];
+  }, [loungeData, loungeCode]);
 
   useEffect(() => {
     if (router.isReady) {
-      const token = router.query.in as string;
-      setToken(token);
-      console.log(token);
-      decryptJWT(token)
+      const queryJWT = router.query.in as string;
+      const queryLoungeCode = router.query.lc as string;
+
+      const storageJWT = getItem(JWT);
+      const storageLoungeCode = getItem(LOUNGE_CODE);
+
+      const hasStoredData = storageJWT && storageLoungeCode;
+      const hasQueryParams = queryJWT && queryLoungeCode;
+
+      let jwt: string = '';
+      let loungeCode: string = '';
+
+      if (hasQueryParams) {
+        jwt = queryJWT;
+        loungeCode = queryLoungeCode;
+      } else if (hasStoredData) {
+        jwt = getItem(JWT)!;
+        loungeCode = getItem(LOUNGE_CODE)!;
+      }
+
+      if (!loungeCode || !jwt) {
+        setTokenError('Sorry, service is not available');
+        return;
+      }
+
+      setItem(LOUNGE_CODE, loungeCode);
+      setItem(JWT, jwt);
+      setLoungeCode(loungeCode);
+      setJWT(jwt);
+
+      decryptJWT(jwt)
         .then((result) => {
           const payload = result.payload as unknown as BridgePayload;
 
@@ -106,14 +161,16 @@ export const PayloadProvider = (props: PropsWithChildren) => {
           setTokenError(
             e.hasOwnProperty('message')
               ? (e.message as string)
-              : 'Invalid token'
+              : 'Sorry, service is not available'
           );
         });
     }
   }, [router]);
 
   return (
-    <PayloadContext.Provider value={{ payload, setPayload, token }}>
+    <PayloadContext.Provider
+      value={{ payload, setPayload, jwt, lounge, loungeCode }}
+    >
       {tokenError && <Box>{tokenError}</Box>}
       {payload && !tokenError ? (
         <MantineProvider
@@ -125,7 +182,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
           withGlobalStyles
           withNormalizeCSS
         >
-          {payloadError ? (
+          {payloadError || loungeError || (!loadingLounge && !lounge) ? (
             <LayoutError>{payloadError}</LayoutError>
           ) : (
             props.children

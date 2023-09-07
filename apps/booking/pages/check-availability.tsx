@@ -100,7 +100,14 @@ const CheckAvailability = () => {
           )}{' '}
           <Box sx={{ borderBottom: '1px solid  #C8C9CA' }}>
             <h2>{lounge?.loungeName}</h2>
-            <FlightInfo />
+            <FlightInfo
+              loading={loading}
+              step="EDIT"
+              date=""
+              onChangeDate={() => {}}
+              flightNumber=""
+              onChangeFlightNumber={() => {}}
+            />
           </Box>
         </Flex>
       )}

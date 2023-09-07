@@ -6,6 +6,8 @@ import {
   Flex,
   PinInput,
   Title,
+  Skeleton,
+  Anchor,
 } from '@collinsonx/design-system/core';
 import { useRouter } from 'next/router';
 import {
@@ -23,7 +25,7 @@ import usePayload from 'hooks/payload';
 import colors from 'ui/colour-constants';
 
 export default function CheckEmail() {
-  const { token, payload, setPayload } = usePayload();
+  const { jwt, loungeCode, lounge } = usePayload();
   const router = useRouter();
   const email = router.query?.email as string;
   const [code, setCode] = useState<string>();
@@ -69,10 +71,15 @@ export default function CheckEmail() {
       });
 
       if (response.status === 'OK') {
-        if(response.createdNewUser) {
-          router.push({ pathname: '/auth/signup-user', query: { email, in: token }})
+        if (response.createdNewUser) {
+          router.push({
+            pathname: '/auth/signup-user',
+            query: { email },
+          });
         } else {
-          router.push({ pathname: '/check-availability', query: { in: token } });
+          router.push({
+            pathname: '/',
+          });
         }
       } else if (
         response.status === 'INCORRECT_USER_INPUT_CODE_ERROR' ||
@@ -89,11 +96,10 @@ export default function CheckEmail() {
   };
 
   const handleClickReenter = () => {
-    router.push({ pathname: '/', query: { in: token } });
+    router.push({
+      pathname: '/auth/login',
+    });
   };
-
-  // this will be covered by https://lifestyle-x.atlassian.net/browse/BAAS-95
-  const loungeTitle = "Gatwick Airport".toUpperCase();
 
   return (
     <>
@@ -103,119 +109,129 @@ export default function CheckEmail() {
         </Flex>
       ) : (
         <LayoutLogin>
-            <Breadcramp title={loungeTitle} url='#' />
-            <Stack
-              spacing={24}
-              align="center"
-              sx={{
-                height: '100%',
-                width: '440px',
-                margin: '0 auto',
-                '@media (max-width: 40em)': {
-                  width: '100%',
-                  padding: '16px 24px 0 24px',
-                },
-              }}
-            >
-              <Title size="26">Check your email</Title>
-              <Error error={error} />
-              <Text
-                size='18px'
-                align='center'
-                >
-                We have sent a unique code to
-                <Text weight={700} >{email}</Text>
+          <Skeleton visible={!lounge}>
+            <Breadcramp
+              title={lounge?.loungeName || 'Back to lounge'}
+              url="#"
+            />
+          </Skeleton>
+          <Stack
+            spacing={24}
+            align="center"
+            sx={{
+              height: '100%',
+              width: '440px',
+              margin: '0 auto',
+              '@media (max-width: 40em)': {
+                width: '100%',
+                padding: '1rem 1.5rem 0 1.5rem',
+              },
+            }}
+          >
+            <Title size="26">Check your email</Title>
+            <Error error={error} />
+            <Text size="18px" align="center">
+              We have sent a unique code to
+              <Text weight={700}>{email}</Text>
+            </Text>
+            <Box sx={{ textAlign: 'center' }}>
+              <Text align="center" size={16}>
+                Wrong email?
               </Text>
-              <Box>
-                <Text align="center" size={16}>
-                  Wrong email?
-                </Text>
-                <Button
-                  fw={700}
-                  sx={{
-                    fontSize: 16,
-                    height: '20px',
-                    color: colors.blue,
-                    backgroundColor: 'transparent',
-                    textDecoration: 'underline',
-                  }}
-                  onClick={handleClickReenter}
-                  compact
-                >
-                  Re-enter your email address
-                </Button>
-              </Box>
-              <Box
+              <Anchor
+                fw={700}
                 sx={{
-                  backgroundColor: colors.dividerGrey,
-                  height: '1px',
-                  width: '100%',
+                  color: colors.blue,
+                  backgroundColor: 'transparent',
+                  textDecoration: 'underline',
                 }}
+                onClick={handleClickReenter}
+              >
+                Re-enter your email address
+              </Anchor>
+            </Box>
+            <Box
+              sx={{
+                backgroundColor: colors.dividerGrey,
+                height: '1px',
+                width: '100%',
+              }}
+            />
+            <Box>
+              <Text fw={700} size={12}>
+                One time passcode
+              </Text>
+              <PinInput
+                onChange={(code) => setCode(code)}
+                placeholder="-"
+                length={6}
+                size="xl"
+                spacing="8px"
+                sx={{
+                  padding: '0.5rem 0 0.5rem 0',
+                  input: {
+                    borderRadius: 8,
+                    fontSize: 18,
+                    fontWeight: 'bold',
+                  },
+                }}
+                inputMode="numeric"
               />
-              <Box>
-                <Text fw={700} size={12}>
-                  One time passcode
-                </Text>
-                <PinInput
-                  onChange={(code) => setCode(code)}
-                  placeholder='-'
-                  length={6}
-                  size='xl'
-                  spacing='8px'
-                  sx={{
-                    padding: '0.5rem 0 0.5rem 0',
-                    input: {
-                      borderRadius: 8,
-                      fontSize: 18,
-                      fontWeight: 'bold',
-                    }
-                  }}
-                  inputMode='numeric'
-                />
-                {pinError && (
-                  <Text sx={{ color: colors.errorRed }} align='center' size={16} >
-                    Perhaps a code is invalid or has expired.<br />
-                    Please try again
-                  </Text>
-                )}
-                <Flex direction="row" align="center" w="100%" gap={16} mt={8} sx={{ padding: '1.5rem 0 0 0' }}>
-                  <Button
-                    py={8}
-                    fullWidth
-                    variant="outline"
-                    disabled={count > 0}
-                    onClick={handleClickResend}
-                    sx={{
-                      borderColor: colors.buttonBlack,
-                      color: colors.buttonBlack,
-                      borderWidth: 2,
-                      fontSize: 18,
-                      height: 44
-                    }}
-                  >
-                    RESEND
-                  </Button>
-                  <Button
-                    fullWidth
-                    py={8}
-                    onClick={handleClickConfirm}
-                    sx={{
-                      borderRadius: 4,
-                      fontSize: 18,
-                      height: 44
-                    }}
-                    data-testid="verify"
-                  >
-                    VERIFY
-                  </Button>
-                </Flex>
-              </Box>
-              {count > 0 && (
-                <Text size={14} fw={400}>
-                  You can resend the unique code in {count} seconds
+              {pinError && (
+                <Text sx={{ color: colors.errorRed }} align="center" size={16}>
+                  Perhaps a code is invalid or has expired.
+                  <br />
+                  Please try again
                 </Text>
               )}
-            </Stack>
+              <Flex
+                direction="row"
+                align="center"
+                w="100%"
+                gap={16}
+                mt={8}
+                sx={{ padding: '1.5rem 0 0 0' }}
+              >
+                <Button
+                  py={8}
+                  fullWidth
+                  variant="outline"
+                  disabled={count > 0}
+                  onClick={handleClickResend}
+                  styles={{
+                    root: {
+                      border: 'solid',
+                      backgroundColor: 'transparent',
+                      borderColor: colors.buttonBlack,
+                      borderWidth: 2,
+                      color: colors.buttonBlack,
+                      ':hover': {
+                        backgroundColor: 'lightgray'
+                      }
+                    },
+                    label: {
+                      color: colors.buttonBlack
+                    }
+                  }}
+                >
+                  RESEND
+                </Button>
+                <Button
+                  fullWidth
+                  py={8}
+                  onClick={handleClickConfirm}
+                  data-testid="verify"
+                >
+                  VERIFY
+                </Button>
+              </Flex>
+            </Box>
+            {count > 0 && (
+              <Text size={14} fw={400}>
+                You can resend the unique code in {count} seconds
+              </Text>
+            )}
+          </Stack>
         </LayoutLogin>
       )}
     </>

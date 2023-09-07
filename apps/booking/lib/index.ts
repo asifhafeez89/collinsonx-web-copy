@@ -2,6 +2,7 @@ import { experienceX } from '@collinsonx/design-system/themes';
 
 import { Be_Vietnam_Pro } from 'next/font/google';
 import { MantineThemeOverride } from '@collinsonx/design-system/core';
+import { STORAGE_NAMESPACE } from '../constants';
 
 const beVietnamPro = Be_Vietnam_Pro({
   style: ['normal'],
@@ -47,3 +48,12 @@ export const hasRequired = (object: any, requiredKeys: string[]) =>
     requiredKeys.length &&
   object.membershipNumber &&
   (object.accountProvider === 'PP' || object.accountProvider === 'LK');
+
+export const getItem = (key: string): string | null =>
+  sessionStorage.getItem(`${STORAGE_NAMESPACE}_${key}`);
+
+export const setItem = (key: string, value: string) =>
+  sessionStorage.setItem(`${STORAGE_NAMESPACE}_${key}`, value);
+
+export const removeItem = (key: string) =>
+  sessionStorage.removeItem(`${STORAGE_NAMESPACE}_${key}`);

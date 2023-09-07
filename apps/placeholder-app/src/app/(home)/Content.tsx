@@ -106,11 +106,12 @@ function LoungeSelectBox({ setLounge }: LoungeSelectBoxProps) {
 }
 
 interface DebugBoxProps {
+  loungeCode: string;
   jwt: string;
   object: string;
 }
 
-function DebugBox({ jwt, object }: DebugBoxProps) {
+function DebugBox({ loungeCode, jwt, object }: DebugBoxProps) {
   const [jwtPayload, setJWTPayload] = useState('');
 
   const decodeOnClickHandler = async () => {
@@ -123,10 +124,19 @@ function DebugBox({ jwt, object }: DebugBoxProps) {
   return (
     <>
       <p>Secret key: {process.env.NEXT_PUBLIC_JWT_SECRET_KEY || ''}</p>
+      {loungeCode.length > 0 && <p>Lounge code: {loungeCode}</p>}
       {object.length > 0 && (
         <>
           <div>Object:</div>
           <Textarea value={object} readOnly />
+        </>
+      )}
+      {jwtPayload.length > 0 && (
+        <>
+          <div>
+            Payload:
+            <Textarea value={jwtPayload} readOnly />
+          </div>
         </>
       )}
       {jwt.length > 0 && (
@@ -139,14 +149,6 @@ function DebugBox({ jwt, object }: DebugBoxProps) {
           <br />
           <div>
             <Button onClick={decodeOnClickHandler}>Decode JWT</Button>
-          </div>
-        </>
-      )}
-      {jwtPayload.length > 0 && (
-        <>
-          <div>
-            Payload:
-            <Textarea value={jwtPayload} readOnly />
           </div>
         </>
       )}
@@ -219,7 +221,7 @@ const Content = () => {
     const jwtToken = await encryptJWT(response, secretPhase);
     setJWT(jwtToken);
 
-    const url = `${domain}?in=${jwtToken}`;
+    const url = `${domain}?lc=${lounge}&in=${jwtToken}`;
 
     window.open(url);
   };
@@ -340,7 +342,9 @@ const Content = () => {
         onChange={(event) => setDebugModeIsActive(event.currentTarget.checked)}
       />
       <br />
-      {debugModeIsActive && <DebugBox jwt={jwt} object={object} />}
+      {debugModeIsActive && (
+        <DebugBox loungeCode={lounge} jwt={jwt} object={object} />
+      )}
     </>
   );
 };

@@ -1,4 +1,10 @@
-import { Title, Stack, Flex, Text } from '@collinsonx/design-system/core';
+import {
+  Title,
+  Stack,
+  Flex,
+  Text,
+  Skeleton,
+} from '@collinsonx/design-system/core';
 import { Button } from '@collinsonx/design-system/core';
 import { useForm } from '@collinsonx/design-system/form';
 import { useRouter } from 'next/router';
@@ -21,10 +27,9 @@ interface FormValues {
 
 export default function Login(props: unknown) {
   const session = useSessionContext();
-  const { payload } = usePayload();
+  const { payload, jwt, lounge, loungeCode } = usePayload();
 
   const [loading, setLoading] = useState(true);
-  const { token } = usePayload();
 
   const router = useRouter();
   const [loginError, setLoginError] = useState('');
@@ -46,14 +51,14 @@ export default function Login(props: unknown) {
       const { userId } = session;
       if (userId) {
         // if (!ref.current) {
-        router.push({ pathname: '/booking', query: { in: token } });
+        router.push({ pathname: '/' });
         ref.current = true;
         // }
       } else {
         setLoading(false);
       }
     }
-  }, [session, router, token]);
+  }, [session, router, jwt]);
 
   const handleClickContinue = async ({ email }: FormValues) => {
     if (!validateEmail(email.trim())) {
@@ -65,7 +70,10 @@ export default function Login(props: unknown) {
         });
         router.push({
           pathname: '/auth/check-code',
-          query: { email, redirectUrl: router.query?.redirectUrl, in: token },
+          query: {
+            email,
+            redirectUrl: router.query?.redirectUrl,
+          },
         });
       } catch (err: any) {
         console.log(err);
@@ -80,9 +88,6 @@ export default function Login(props: unknown) {
     }
   };
 
-  // this will be covered by https://lifestyle-x.atlassian.net/browse/BAAS-95
-  const loungeTitle = 'Gatwick Airport'.toUpperCase();
-
   return (
     <>
       {loading ? (
@@ -91,7 +96,12 @@ export default function Login(props: unknown) {
         </Flex>
       ) : (
         <LayoutLogin>
-          <Breadcramp title={loungeTitle} url="#" />
+          <Skeleton visible={!lounge}>
+            <Breadcramp
+              title={lounge?.loungeName || 'Back to lounge'}
+              url="#"
+            />
+          </Skeleton>
           <form onSubmit={form.onSubmit(handleClickContinue)}>
             <Stack
               spacing={24}
@@ -101,7 +111,7 @@ export default function Login(props: unknown) {
                 margin: '0 auto',
                 '@media (max-width: 40em)': {
                   width: '100%',
-                  padding: '16px 24px 0 24px',
+                  padding: '1rem 1.5rem 0 1.5rem',
                 },
               }}
             >
