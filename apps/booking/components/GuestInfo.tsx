@@ -71,11 +71,9 @@ const GuestInfo = ({ form, loading }: GuestInfoProps) => {
           <QuantityInput
             min={0}
             max={10}
-            max={MAX_GUESTS}
             disabled={loading}
             label="Seniors"
             ageRange="65+"
-            disabled={loading}
             handlers={handlers[3]}
             {...form.getInputProps('seniors')}
           />
