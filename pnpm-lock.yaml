@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -647,6 +647,9 @@ importers:
       '@axe-core/playwright':
         specifier: ^4.7.3
         version: 4.7.3(playwright-core@1.37.0)
+      '@collinsonx/jwt':
+        specifier: workspace:*
+        version: link:../collinsonx-jwt
       '@playwright/test':
         specifier: ^1.37.0
         version: 1.37.0
@@ -749,13 +752,13 @@ importers:
         version: 8.47.0
       eslint-config-next:
         specifier: canary
-        version: 13.4.16-canary.1(eslint@8.47.0)(typescript@4.9.5)
+        version: 13.4.20-canary.18(eslint@8.47.0)(typescript@4.9.5)
       eslint-config-prettier:
         specifier: ^8.10.0
         version: 8.10.0(eslint@8.47.0)
       eslint-config-turbo:
         specifier: latest
-        version: 1.10.12(eslint@8.47.0)
+        version: 1.10.13(eslint@8.47.0)
     devDependencies:
       typescript:
         specifier: ^4.9.5
@@ -4471,8 +4474,8 @@ packages:
     resolution: {integrity: sha512-FsAT5x0jF2kkhNkKkukhsyYOrRqtSxrEhfliniIq0bwWbuXLgyt3Gv0Ml+b91XwjwArmuP7NxCiGd++GGKdNMQ==}
     dev: false
 
-  /@next/eslint-plugin-next@13.4.16-canary.1:
-    resolution: {integrity: sha512-0vMvGyeyksJXVsC1y+0Ly3AsybY84h7WDdinppLqS0xKyod972i5gbeGhF0vC2TKVoeCNcUKX+UbazrmBf8Ilw==}
+  /@next/eslint-plugin-next@13.4.20-canary.18:
+    resolution: {integrity: sha512-OFaJRthTZcRV35pu3vX7nu6Q39DzzxEThCfiuKxybnG8HWDK58pgbmK4Td4aM9pdg1/9kdBo1UAkuhRhK1K41Q==}
     dependencies:
       glob: 7.1.7
     dev: false
@@ -10384,8 +10387,8 @@ packages:
     optionalDependencies:
       source-map: 0.6.1
 
-  /eslint-config-next@13.4.16-canary.1(eslint@8.47.0)(typescript@4.9.5):
-    resolution: {integrity: sha512-yYdV9rUsFcgdJ4hFARVkjR0SKpcDejo0CG3aMlAYORGv2GLz1IzojWdKfP6LC3lm5a6Bjr4la/q5YElOknXlBA==}
+  /eslint-config-next@13.4.20-canary.18(eslint@8.47.0)(typescript@4.9.5):
+    resolution: {integrity: sha512-F1PhoSOFf69+MarULrQMnuYtDlTk9pScTpxlo/4Nr/9CM8IWBzDsnui512bTUiaSMSBGXjjLKVsL7jGQoQ2LSA==}
     peerDependencies:
       eslint: ^7.23.0 || ^8.0.0
       typescript: '>=3.3.1'
@@ -10393,7 +10396,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@next/eslint-plugin-next': 13.4.16-canary.1
+      '@next/eslint-plugin-next': 13.4.20-canary.18
       '@rushstack/eslint-patch': 1.3.3
       '@typescript-eslint/parser': 5.62.0(eslint@8.47.0)(typescript@4.9.5)
       eslint: 8.47.0
@@ -10418,13 +10421,13 @@ packages:
       eslint: 8.47.0
     dev: false
 
-  /eslint-config-turbo@1.10.12(eslint@8.47.0):
-    resolution: {integrity: sha512-z3jfh+D7UGYlzMWGh+Kqz++hf8LOE96q3o5R8X4HTjmxaBWlLAWG+0Ounr38h+JLR2TJno0hU9zfzoPNkR9BdA==}
+  /eslint-config-turbo@1.10.13(eslint@8.47.0):
+    resolution: {integrity: sha512-Ffa0SxkRCPMtfUX/HDanEqsWoLwZTQTAXO9W4IsOtycb2MzJDrVcLmoFW5sMwCrg7gjqbrC4ZJoD+1SPPzIVqg==}
     peerDependencies:
       eslint: '>6.6.0'
     dependencies:
       eslint: 8.47.0
-      eslint-plugin-turbo: 1.10.12(eslint@8.47.0)
+      eslint-plugin-turbo: 1.10.13(eslint@8.47.0)
     dev: false
 
   /eslint-import-resolver-node@0.3.9:
@@ -10600,8 +10603,8 @@ packages:
       - typescript
     dev: true
 
-  /eslint-plugin-turbo@1.10.12(eslint@8.47.0):
-    resolution: {integrity: sha512-uNbdj+ohZaYo4tFJ6dStRXu2FZigwulR1b3URPXe0Q8YaE7thuekKNP+54CHtZPH9Zey9dmDx5btAQl9mfzGOw==}
+  /eslint-plugin-turbo@1.10.13(eslint@8.47.0):
+    resolution: {integrity: sha512-el4AAmn0zXmvHEyp1h0IQMfse10Vy8g5Vbg4IU3+vD9CSj5sDbX07iFVt8sCKg7og9Q5FAa9mXzlCf7t4vYgzg==}
     peerDependencies:
       eslint: '>6.6.0'
     dependencies:
