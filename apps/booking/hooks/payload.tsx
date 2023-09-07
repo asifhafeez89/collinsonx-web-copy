@@ -54,15 +54,13 @@ function callThemeFunction(name: AccountProvider | MembershipType) {
  * @param payload
  * @returns
  */
-const validatePayload = (payload: BridgePayload) => {
-  console.log(payload);
-  return hasRequired(payload, [
+const validatePayload = (payload: BridgePayload) =>
+  hasRequired(payload, [
     'membershipNumber',
     'accountProvider',
     'lounge',
     'sourceCode',
   ]);
-};
 
 const secret = jose.base64url.decode(
   process.env.NEXT_PUBLIC_JWT_SECRET as string
@@ -82,15 +80,17 @@ async function decryptJWT(jwt: string) {
 
 export const PayloadProvider = (props: PropsWithChildren) => {
   const router = useRouter();
+
   const [payload, setPayload] = useState<BridgePayload>();
   const [token, setToken] = useState<string>();
-  const [payloadError, setPayloadError] = useState<string>();
   const [tokenError, setTokenError] = useState<string>();
+  const [payloadError, setPayloadError] = useState<string>();
 
   useEffect(() => {
     if (router.isReady) {
       const token = router.query.in as string;
       setToken(token);
+      console.log(token);
       decryptJWT(token)
         .then((result) => {
           const payload = result.payload as unknown as BridgePayload;
