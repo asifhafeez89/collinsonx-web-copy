@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -174,11 +174,11 @@ importers:
         specifier: ^0.5.0
         version: 0.5.0(react@18.2.0)
       supertokens-auth-react:
-        specifier: 0.31.1
-        version: 0.31.1(react-dom@18.2.0)(react@18.2.0)(supertokens-web-js@0.5.0)
+        specifier: 0.34.2
+        version: 0.34.2(react-dom@18.2.0)(react@18.2.0)(supertokens-web-js@0.7.3)
       supertokens-web-js:
-        specifier: ^0.5.0
-        version: 0.5.0
+        specifier: ^0.7.3
+        version: 0.7.3
     devDependencies:
       '@testing-library/react':
         specifier: ^11.2.7
@@ -265,11 +265,11 @@ importers:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
       supertokens-auth-react:
-        specifier: 0.31.1
-        version: 0.31.1(react-dom@18.2.0)(react@18.2.0)(supertokens-web-js@0.5.0)
+        specifier: 0.34.2
+        version: 0.34.2(react-dom@18.2.0)(react@18.2.0)(supertokens-web-js@0.7.3)
       supertokens-web-js:
-        specifier: ^0.5.0
-        version: 0.5.0
+        specifier: ^0.7.3
+        version: 0.7.3
     devDependencies:
       '@emotion/jest':
         specifier: ^11.11.0
@@ -690,11 +690,11 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       supertokens-auth-react:
-        specifier: 0.31.1
-        version: 0.31.1(react-dom@18.2.0)(react@18.2.0)(supertokens-web-js@0.5.0)
+        specifier: 0.34.2
+        version: 0.34.2(react-dom@18.2.0)(react@18.2.0)(supertokens-web-js@0.7.3)
       supertokens-web-js:
-        specifier: ^0.5.0
-        version: 0.5.0
+        specifier: ^0.7.3
+        version: 0.7.3
     devDependencies:
       '@babel/core':
         specifier: ^7.22.10
@@ -749,13 +749,13 @@ importers:
         version: 8.47.0
       eslint-config-next:
         specifier: canary
-        version: 13.4.16-canary.1(eslint@8.47.0)(typescript@4.9.5)
+        version: 13.4.20-canary.19(eslint@8.47.0)(typescript@4.9.5)
       eslint-config-prettier:
         specifier: ^8.10.0
         version: 8.10.0(eslint@8.47.0)
       eslint-config-turbo:
         specifier: latest
-        version: 1.10.12(eslint@8.47.0)
+        version: 1.10.13(eslint@8.47.0)
     devDependencies:
       typescript:
         specifier: ^4.9.5
@@ -4471,8 +4471,8 @@ packages:
     resolution: {integrity: sha512-FsAT5x0jF2kkhNkKkukhsyYOrRqtSxrEhfliniIq0bwWbuXLgyt3Gv0Ml+b91XwjwArmuP7NxCiGd++GGKdNMQ==}
     dev: false
 
-  /@next/eslint-plugin-next@13.4.16-canary.1:
-    resolution: {integrity: sha512-0vMvGyeyksJXVsC1y+0Ly3AsybY84h7WDdinppLqS0xKyod972i5gbeGhF0vC2TKVoeCNcUKX+UbazrmBf8Ilw==}
+  /@next/eslint-plugin-next@13.4.20-canary.19:
+    resolution: {integrity: sha512-UXFiEWaAe2RWM43nRg+ELtx9CDN/9D4NU7tcHmWcm8taHzoHPIa+WqrpU6BsMAMPpaES3UWkVV06JGkT+qmkaA==}
     dependencies:
       glob: 7.1.7
     dev: false
@@ -10384,8 +10384,8 @@ packages:
     optionalDependencies:
       source-map: 0.6.1
 
-  /eslint-config-next@13.4.16-canary.1(eslint@8.47.0)(typescript@4.9.5):
-    resolution: {integrity: sha512-yYdV9rUsFcgdJ4hFARVkjR0SKpcDejo0CG3aMlAYORGv2GLz1IzojWdKfP6LC3lm5a6Bjr4la/q5YElOknXlBA==}
+  /eslint-config-next@13.4.20-canary.19(eslint@8.47.0)(typescript@4.9.5):
+    resolution: {integrity: sha512-NV5HMyu55TAA1K7Af8UtuuLktkr37d0+PSJvvLWifHyF+6NoV1jQp9OobeY9K20kiEqiG1J+HqFT7x6Y0M3scQ==}
     peerDependencies:
       eslint: ^7.23.0 || ^8.0.0
       typescript: '>=3.3.1'
@@ -10393,7 +10393,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@next/eslint-plugin-next': 13.4.16-canary.1
+      '@next/eslint-plugin-next': 13.4.20-canary.19
       '@rushstack/eslint-patch': 1.3.3
       '@typescript-eslint/parser': 5.62.0(eslint@8.47.0)(typescript@4.9.5)
       eslint: 8.47.0
@@ -10418,13 +10418,13 @@ packages:
       eslint: 8.47.0
     dev: false
 
-  /eslint-config-turbo@1.10.12(eslint@8.47.0):
-    resolution: {integrity: sha512-z3jfh+D7UGYlzMWGh+Kqz++hf8LOE96q3o5R8X4HTjmxaBWlLAWG+0Ounr38h+JLR2TJno0hU9zfzoPNkR9BdA==}
+  /eslint-config-turbo@1.10.13(eslint@8.47.0):
+    resolution: {integrity: sha512-Ffa0SxkRCPMtfUX/HDanEqsWoLwZTQTAXO9W4IsOtycb2MzJDrVcLmoFW5sMwCrg7gjqbrC4ZJoD+1SPPzIVqg==}
     peerDependencies:
       eslint: '>6.6.0'
     dependencies:
       eslint: 8.47.0
-      eslint-plugin-turbo: 1.10.12(eslint@8.47.0)
+      eslint-plugin-turbo: 1.10.13(eslint@8.47.0)
     dev: false
 
   /eslint-import-resolver-node@0.3.9:
@@ -10600,8 +10600,8 @@ packages:
       - typescript
     dev: true
 
-  /eslint-plugin-turbo@1.10.12(eslint@8.47.0):
-    resolution: {integrity: sha512-uNbdj+ohZaYo4tFJ6dStRXu2FZigwulR1b3URPXe0Q8YaE7thuekKNP+54CHtZPH9Zey9dmDx5btAQl9mfzGOw==}
+  /eslint-plugin-turbo@1.10.13(eslint@8.47.0):
+    resolution: {integrity: sha512-el4AAmn0zXmvHEyp1h0IQMfse10Vy8g5Vbg4IU3+vD9CSj5sDbX07iFVt8sCKg7og9Q5FAa9mXzlCf7t4vYgzg==}
     peerDependencies:
       eslint: '>6.6.0'
     dependencies:
@@ -16415,35 +16415,35 @@ packages:
       ts-interface-checker: 0.1.13
     dev: true
 
-  /supertokens-auth-react@0.31.1(react-dom@18.2.0)(react@18.2.0)(supertokens-web-js@0.5.0):
-    resolution: {integrity: sha512-SPY9IxpkebviHPBdkSBER6Bw7JyQMCy4Pqz4cK1eqKUYQdr5VltCafXCOSGEDp01MRGwkXAwuJ5QcaW2XA0LFw==}
-    engines: {node: '>=16.0.0', npm: ^8}
+  /supertokens-auth-react@0.34.2(react-dom@18.2.0)(react@18.2.0)(supertokens-web-js@0.7.3):
+    resolution: {integrity: sha512-0Gaqb7SWL5+UXd9Ft87db3CK0i0CSzb9Ch3Lf+ZMcMfqeokWLZewhu3yqoZYvX035owjhMc72PYF1fxd6TwIQQ==}
+    engines: {node: '>=16.0.0', npm: '>=8'}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
-      supertokens-web-js: ^0.5.0
+      supertokens-web-js: ^0.7.2
     dependencies:
       intl-tel-input: 17.0.21
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       supertokens-js-override: 0.0.4
-      supertokens-web-js: 0.5.0
+      supertokens-web-js: 0.7.3
     dev: false
 
   /supertokens-js-override@0.0.4:
     resolution: {integrity: sha512-r0JFBjkMIdep3Lbk3JA+MpnpuOtw4RSyrlRAbrzMcxwiYco3GFWl/daimQZ5b1forOiUODpOlXbSOljP/oyurg==}
     dev: false
 
-  /supertokens-web-js@0.5.0:
-    resolution: {integrity: sha512-qlpgWLnHBor98k5wY97vzG7ouVOb/eeWOCKgaid055MUVPQr2gTEDrlKJN9I+Z4Vj6Dmblg1vC/cUbR/cx1TGw==}
+  /supertokens-web-js@0.7.3:
+    resolution: {integrity: sha512-HkpIwQ7KCcD8gn3D9u9hfLV/rAf5sr2M6ICH16R3JV2TOB7XmFgX+jzVn3R7DuSRSXu39dT0nn0Vcdc30EzBbA==}
     dependencies:
       supertokens-js-override: 0.0.4
-      supertokens-website: 16.0.10
+      supertokens-website: 17.0.2
     dev: false
 
-  /supertokens-website@16.0.10:
-    resolution: {integrity: sha512-LjB1FxyzQk3mB5UUMC8vxpWH0ShYJ0nqwucsetO8yX+KoQDsa14BmTrZHUR5jxBb1dOPnD9XlACi8xjvYNR6gw==}
+  /supertokens-website@17.0.2:
+    resolution: {integrity: sha512-ki19f8Bl24iypXOtnCj/ebMA7hi0WxCe1f0fItGXkOV0fVAkRCYVqAKf7wiLQ3Lwhc+us4cgOQwRLIvctLrrUg==}
     dependencies:
       browser-tabs-lock: 1.3.0
       supertokens-js-override: 0.0.4
