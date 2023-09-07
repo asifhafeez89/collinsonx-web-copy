@@ -11,7 +11,14 @@ describe('<Breadcramp />', () => {
 
   it('renders outline variant', () => {
     const tree = renderer
-      .create(<Breadcramp title="London Gatwick" url="https://bbc.co.uk" />)
+      .create(
+        <Breadcramp
+          lefttitle="London Gatwick"
+          lefturl="https://bbc.co.uk"
+          righttile="FAQ"
+          righturl=""
+        />
+      )
       .toJSON();
     expect(tree).toMatchSnapshot();
   });

@@ -10,7 +10,8 @@ import {
 } from '@collinsonx/design-system/core';
 import { useForm } from '@collinsonx/design-system/form';
 import LayoutLogin from '../../components/LayoutLogin';
-import { Breadcramp, InputLabel } from '@collinsonx/design-system';
+import { InputLabel } from '@collinsonx/design-system';
+import Breadcramp from '@components/Breadcramp';
 import { useState } from 'react';
 import updateConsumer from '@collinsonx/utils/mutations/updateConsumer';
 import { useMutation } from '@collinsonx/utils/apollo';
@@ -63,7 +64,10 @@ export default function SignupUser() {
       )}
       <Stack sx={{ width: '100%' }}>
         <Skeleton visible={!lounge}>
-          <Breadcramp title={lounge?.loungeName || 'Back to lounge'} url="#" />
+          <Breadcramp
+            lefttitle={lounge?.loungeName || 'Back to lounge'}
+            lefturl="#"
+          />
         </Skeleton>
       </Stack>
       <form

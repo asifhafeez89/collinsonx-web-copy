@@ -15,7 +15,7 @@ import {
   createPasswordlessCode,
 } from '@collinsonx/utils/supertokens';
 import LayoutLogin from '@components/LayoutLogin';
-import { Breadcramp } from '@collinsonx/design-system';
+import Breadcramp from '@components/Breadcramp';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 import { useEffect, useRef, useState } from 'react';
 import getConsumerByEmailAddress from '@collinsonx/utils/queries/getConsumerByEmailAddress';
@@ -111,8 +111,8 @@ export default function CheckEmail() {
         <LayoutLogin>
           <Skeleton visible={!lounge}>
             <Breadcramp
-              title={lounge?.loungeName || 'Back to lounge'}
-              url="#"
+              lefttitle={lounge?.loungeName || 'Back to lounge'}
+              lefturl="#"
             />
           </Skeleton>
           <Stack
