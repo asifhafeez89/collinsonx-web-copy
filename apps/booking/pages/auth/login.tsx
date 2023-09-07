@@ -100,8 +100,8 @@ export default function Login(props: unknown) {
         <LayoutLogin>
           <Skeleton visible={!lounge}>
             <Breadcramp
-              title={lounge?.loungeName || 'Back to lounge'}
-              url="#"
+              lefttitle={lounge?.loungeName || 'Back to lounge'}
+              lefturl="#"
             />
           </Skeleton>
           <form onSubmit={form.onSubmit(handleClickContinue)}>
