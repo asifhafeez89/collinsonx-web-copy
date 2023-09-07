@@ -206,12 +206,12 @@ export default function CheckEmail() {
                       borderWidth: 2,
                       color: colors.buttonBlack,
                       ':hover': {
-                        backgroundColor: 'lightgray'
-                      }
+                        backgroundColor: 'lightgray',
+                      },
                     },
                     label: {
-                      color: colors.buttonBlack
-                    }
+                      color: colors.buttonBlack,
+                    },
                   }}
                 >
                   RESEND
