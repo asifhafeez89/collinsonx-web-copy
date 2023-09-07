@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.7.3",
+    "@collinsonx/jwt": "workspace:*",
     "@playwright/test": "^1.37.0",
     "axe-result-pretty-print": "^1.0.2",
     "axios": "^1.4.0",
