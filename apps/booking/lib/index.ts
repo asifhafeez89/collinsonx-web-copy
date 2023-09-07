@@ -2,6 +2,7 @@ import { experienceX } from '@collinsonx/design-system/themes';
 
 import { Be_Vietnam_Pro } from 'next/font/google';
 import { MantineThemeOverride } from '@collinsonx/design-system/core';
+import { STORAGE_NAMESPACE } from '../constants';
 
 import { LOUNGE_HOURS_OFFSET } from 'config/lounge';
 import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
@@ -51,3 +52,12 @@ export const getTheme = () => {
 export const hasRequired = (object: any, requiredKeys: string[]) =>
   Object.keys(object).filter((key) => requiredKeys.includes(key)).length ===
   requiredKeys.length;
+
+export const getItem = (key: string): string | null =>
+  sessionStorage.getItem(`${STORAGE_NAMESPACE}_${key}`);
+
+export const setItem = (key: string, value: string) =>
+  sessionStorage.setItem(`${STORAGE_NAMESPACE}_${key}`, value);
+
+export const removeItem = (key: string) =>
+  sessionStorage.removeItem(`${STORAGE_NAMESPACE}_${key}`);

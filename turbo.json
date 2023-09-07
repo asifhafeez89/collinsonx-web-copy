@@ -11,6 +11,10 @@
     "e2e:start": {
       "dependsOn": ["^build"]
     },
+    "placeholder-app#dev:test": {
+      "dependsOn": ["@collinsonx/design-system#build"],
+      "env": ["NEXT_PUBLIC_JWT_SECRET_KEY"]
+    },
     "booking#dev:test": {
       "dependsOn": [
         "@collinsonx/utils#build",

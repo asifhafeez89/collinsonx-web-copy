@@ -15,7 +15,7 @@ import {
   createPasswordlessCode,
 } from '@collinsonx/utils/supertokens';
 import LayoutLogin from '@components/LayoutLogin';
-import { Breadcramp } from '@collinsonx/design-system';
+import Breadcramp from '@components/Breadcramp';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 import { useEffect, useRef, useState } from 'react';
 import getConsumerByEmailAddress from '@collinsonx/utils/queries/getConsumerByEmailAddress';
@@ -25,7 +25,7 @@ import usePayload from 'hooks/payload';
 import colors from 'ui/colour-constants';
 
 export default function CheckEmail() {
-  const { token, loungeCode, lounge } = usePayload();
+  const { jwt, loungeCode, lounge } = usePayload();
   const router = useRouter();
   const email = router.query?.email as string;
   const [code, setCode] = useState<string>();
@@ -74,12 +74,11 @@ export default function CheckEmail() {
         if (response.createdNewUser) {
           router.push({
             pathname: '/auth/signup-user',
-            query: { email, in: token, lc: loungeCode },
+            query: { email },
           });
         } else {
           router.push({
             pathname: '/',
-            query: { in: token, lc: loungeCode },
           });
         }
       } else if (
@@ -99,7 +98,6 @@ export default function CheckEmail() {
   const handleClickReenter = () => {
     router.push({
       pathname: '/auth/login',
-      query: { in: token, lc: loungeCode },
     });
   };
 
@@ -113,8 +111,8 @@ export default function CheckEmail() {
         <LayoutLogin>
           <Skeleton visible={!lounge}>
             <Breadcramp
-              title={lounge?.loungeName || 'Back to lounge'}
-              url="#"
+              lefttitle={lounge?.loungeName || 'Back to lounge'}
+              lefturl="#"
             />
           </Skeleton>
           <Stack
@@ -200,12 +198,20 @@ export default function CheckEmail() {
                   variant="outline"
                   disabled={count > 0}
                   onClick={handleClickResend}
-                  sx={{
-                    borderColor: colors.buttonBlack,
-                    color: colors.buttonBlack,
-                    borderWidth: 2,
-                    fontSize: 18,
-                    height: 44,
+                  styles={{
+                    root: {
+                      border: 'solid',
+                      backgroundColor: 'transparent',
+                      borderColor: colors.buttonBlack,
+                      borderWidth: 2,
+                      color: colors.buttonBlack,
+                      ':hover': {
+                        backgroundColor: 'lightgray'
+                      }
+                    },
+                    label: {
+                      color: colors.buttonBlack
+                    }
                   }}
                 >
                   RESEND
@@ -214,11 +220,6 @@ export default function CheckEmail() {
                   fullWidth
                   py={8}
                   onClick={handleClickConfirm}
-                  sx={{
-                    borderRadius: 4,
-                    fontSize: 18,
-                    height: 44,
-                  }}
                   data-testid="verify"
                 >
                   VERIFY
