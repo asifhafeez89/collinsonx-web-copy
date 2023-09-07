@@ -4,7 +4,6 @@ import { encryptJWT } from '@collinsonx/jwt/dist';
 
 const secret = process.env.NEXT_PUBLIC_JWT_SECRET || '';
 
-
 test.describe('Initial Redirect - current implementation', () => {
   test.describe('Valid JWT and all mandatory fields', () => {
     test('should redirect successfully', async ({ page }) => {
