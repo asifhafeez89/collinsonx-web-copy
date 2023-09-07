@@ -13,9 +13,10 @@ import QuantityInput from './QuantityInput';
 import { useForm, UseFormReturnType } from '@mantine/form';
 export interface GuestInfoProps {
   form: UseFormReturnType;
+  loading: boolean;
 }
 
-const GuestInfo = ({ form }: GuestInfoProps) => {
+const GuestInfo = ({ form, loading }: GuestInfoProps) => {
   const handlers = [
     useRef<NumberInputHandlers>(),
     useRef<NumberInputHandlers>(),
@@ -35,6 +36,7 @@ const GuestInfo = ({ form }: GuestInfoProps) => {
             max={10}
             label="Adults"
             ageRange="12+"
+            disabled={loading}
             handlers={handlers[0]}
             {...form.getInputProps('adults')}
           />
@@ -46,6 +48,7 @@ const GuestInfo = ({ form }: GuestInfoProps) => {
             max={10}
             label="Children"
             ageRange="2-11"
+            disabled={loading}
             handlers={handlers[1]}
             {...form.getInputProps('children')}
           />
@@ -57,6 +60,7 @@ const GuestInfo = ({ form }: GuestInfoProps) => {
             max={10}
             label="Infants"
             ageRange="0-2"
+            disabled={loading}
             handlers={handlers[2]}
             {...form.getInputProps('infants')}
           />
@@ -68,6 +72,7 @@ const GuestInfo = ({ form }: GuestInfoProps) => {
             max={10}
             label="Seniors"
             ageRange="65+"
+            disabled={loading}
             handlers={handlers[3]}
             {...form.getInputProps('seniors')}
           />

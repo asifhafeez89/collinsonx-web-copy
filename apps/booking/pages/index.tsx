@@ -94,8 +94,6 @@ const Lounge = () => {
     console.log(form.errors);
   };
 
-  console.log(form);
-
   return (
     <Layout>
       <form onSubmit={form.onSubmit(handleClickCheckAvailability)}>
@@ -111,10 +109,10 @@ const Lounge = () => {
           <Flex justify="center" align="center">
             <Stack maw={591} spacing={24}>
               <LoungeInfo lounge={lounge} loading={!lounge} />
-              <FlightInfo form={form} />
+              <FlightInfo form={form} loading={!lounge || flightInfoLoading} />
               <LoungeError error={flightInfoError} />
               <Box sx={{ borderBottom: '1px solid  #C8C9CA' }} />
-              <GuestInfo form={form} />
+              <GuestInfo form={form} loading={!lounge} />
               <Center w="100%">
                 <Button disabled={!lounge || flightInfoLoading} type="submit">
                   CHECK AVAILABILITY

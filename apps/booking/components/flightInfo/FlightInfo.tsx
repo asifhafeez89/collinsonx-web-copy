@@ -26,6 +26,7 @@ type SetState<T> = Dispatch<SetStateAction<T | undefined>>;
 
 interface FlightInfoProps {
   form: UseFormReturnType;
+  loading: boolean;
 }
 
 export interface AvailabilitySlot {
@@ -34,7 +35,7 @@ export interface AvailabilitySlot {
   maxDuration: number;
 }
 
-export const FlightInfo = ({ form }: FlightInfoProps) => {
+export const FlightInfo = ({ form, loading }: FlightInfoProps) => {
   const [flightNumberError, setFlightNumberError] = useState(false);
   const [flightNumErrorText, setFlightNumErrorText] = useState(
     'Please enter a flight number'
@@ -58,6 +59,7 @@ export const FlightInfo = ({ form }: FlightInfoProps) => {
             maw={400}
             w={270}
             required={true}
+            disabled={loading}
             withAsterisk
             {...form.getInputProps('departureDate')}
           />
@@ -66,6 +68,7 @@ export const FlightInfo = ({ form }: FlightInfoProps) => {
             placeholder="Flight Number"
             required={true}
             withAsterisk
+            disabled={loading}
             fz={18}
             w={270}
             error={'invalid flight number'}
