@@ -1,9 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import {
   Stack,
   Text,
   Title,
-  SimpleGrid,
   Anchor,
   NumberInputHandlers,
   Grid,

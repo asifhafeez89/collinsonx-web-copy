@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { USER_ID, USER_TYPE, USER_META, SELECTED_LOUNGE } from 'config';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import { getItem, setItem, removeItem } from '@lib';
+import { LOUNGE_CODE, JWT } from '../constants';
 
 interface AuthWrapperProps {
   children: React.ReactNode;
@@ -33,8 +34,8 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
         const tokenParam = urlParams.get('in');
         const loungeParam = urlParams.get('lc');
         if (tokenParam && loungeParam) {
-          setItem('LOUNGE_CODE', loungeParam);
-          setItem('TOKEN', tokenParam);
+          setItem(LOUNGE_CODE, loungeParam);
+          setItem(JWT, tokenParam);
         }
 
         if (!checkIsAllowed(window.location.pathname)) {

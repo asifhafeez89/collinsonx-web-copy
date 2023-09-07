@@ -25,7 +25,7 @@ import usePayload from 'hooks/payload';
 import colors from 'ui/colour-constants';
 
 export default function CheckEmail() {
-  const { token, loungeCode, lounge } = usePayload();
+  const { jwt, loungeCode, lounge } = usePayload();
   const router = useRouter();
   const email = router.query?.email as string;
   const [code, setCode] = useState<string>();

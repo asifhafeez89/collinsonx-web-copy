@@ -27,7 +27,7 @@ interface FormValues {
 
 export default function Login(props: unknown) {
   const session = useSessionContext();
-  const { payload, token, lounge, loungeCode } = usePayload();
+  const { payload, jwt, lounge, loungeCode } = usePayload();
 
   const [loading, setLoading] = useState(true);
 
@@ -58,7 +58,7 @@ export default function Login(props: unknown) {
         setLoading(false);
       }
     }
-  }, [session, router, token]);
+  }, [session, router, jwt]);
 
   const handleClickContinue = async ({ email }: FormValues) => {
     if (!validateEmail(email.trim())) {
@@ -77,7 +77,7 @@ export default function Login(props: unknown) {
         });
       } catch (err: any) {
         console.log(err);
-        if (err.isSuperTokensGeneralError === true) {
+        if (err.isSuperjwtsGeneralError === true) {
           // this may be a custom error message sent from the API by you,
           // or if the input email / phone number is not valid.
           window.alert(err.message);
