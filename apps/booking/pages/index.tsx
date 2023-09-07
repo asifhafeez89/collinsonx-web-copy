@@ -22,7 +22,7 @@ import {
 import { useLazyQuery } from '@collinsonx/utils/apollo';
 import { validateFlightNumber } from '../utils/flightValidation';
 import LoungeError from '@components/LoungeError';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import Breadcramp from '@components/Breadcramp';
 import usePayload from 'hooks/payload';
 import router from 'next/router';
@@ -104,9 +104,9 @@ const Lounge = () => {
       query: {
         ...query,
         flightNumber: flightNumber,
-        departureDate: encodeURIComponent(departureDate),
+        departureDate: new Date(departureDate ?? '').toString(),
         adultCount: adults,
-        childrenCount: children,
+        childrentCount: children,
         infantCount: infants,
       },
     });

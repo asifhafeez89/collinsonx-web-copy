@@ -1,4 +1,9 @@
-import { ApolloError, useMutation, useQuery } from '@collinsonx/utils/apollo';
+import {
+  ApolloError,
+  useLazyQuery,
+  useMutation,
+  useQuery,
+} from '@collinsonx/utils/apollo';
 import Layout from '@components/Layout';
 import {
   AvailabilitySlot,
@@ -41,6 +46,7 @@ import {
 } from '../config/Constants';
 import { formatDate } from '../utils/DateFormatter';
 import usePayload from 'hooks/payload';
+import FlightData from '@components/flightInfo/FlightData';
 interface AvailableSlotsProps {
   availableSlots: Availability;
 }
@@ -68,11 +74,19 @@ export default function ConfirmAvailability({
     childrentCount,
     productID,
     supplierCode,
+    carrierCode,
     infantCount,
   } = router.query;
 
   const flightBreakdown = validateFlightNumber(String(flightNumber));
   const { payload, lounge } = usePayload();
+
+  const flightCode = useMemo(
+    () =>
+      flightNumber ? validateFlightNumber(flightNumber as string) : undefined,
+
+    [flightNumber]
+  );
 
   const handleSubmit = () => {
     router.push({
@@ -80,6 +94,7 @@ export default function ConfirmAvailability({
       query: {
         flightNumber: flightNumber,
         departureDate: departureDate,
+        carrierCode: carrierCode,
         adultCount: adultCount,
         childrentCount: childrentCount,
         arrivalTime: selectedslot,
@@ -91,55 +106,60 @@ export default function ConfirmAvailability({
     });
   };
 
+  const [
+    fetchSlots,
+    { loading: slotsLoading, error: slotsError, data: slotsData },
+  ] = useLazyQuery<{
+    getAvailableSlots: Availability;
+  }>(getAvailableSlots);
+
   const { data: fligtData } = useQuery<{
     getFlightDetails: FlightDetails[];
   }>(getFlightDetails, {
     variables: {
       flightDetails: {
-        carrierCode: flightBreakdown[1] ?? '',
+        carrierCode: flightCode ? flightCode[1] : '',
         codeType: AIRPORT_CODE_TYPE,
         departureDate: formatDate(new Date(String(departureDate)), DATE_FORMAT),
-        flightNumber: flightBreakdown[2] ?? '',
+        flightNumber: flightCode ? flightCode[2] : '',
         version: OAG_API_VERSION,
       },
     },
     pollInterval: 300000,
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
-    onCompleted: (data) => {},
-  });
-
-  const { error, data: slotsData } = useQuery<{
-    getAvailableSlots: Availability;
-  }>(getAvailableSlots, {
-    variables: {
-      data: {
-        flightInformation: {
-          type: TRAVEL_TYPE,
-          dateTime: `${fligtData?.getFlightDetails[0]?.departure?.dateTime?.local}`,
-          airport: `${fligtData?.getFlightDetails[0]?.departure?.airport}`,
-          terminal: '-1',
-        },
-        guests: {
-          adultCount: Number(adultCount),
-          childrenCount: Number(childrentCount),
-          infantCount: Number(infantCount),
-        },
-        product: {
-          productType: LOUNGE,
-          productID: productID,
-          supplierCode: supplierCode,
-        },
-      },
+    onCompleted: (flightInfoData) => {
+      if (flightInfoData) {
+        console.log('Hello');
+        fetchSlots({
+          variables: {
+            data: {
+              flightInformation: {
+                type: TRAVEL_TYPE,
+                dateTime:
+                  flightInfoData?.getFlightDetails[0].departure?.dateTime
+                    ?.local,
+                airport: flightInfoData?.getFlightDetails[0].departure?.airport,
+                terminal: '-1',
+              },
+              guests: {
+                adultCount: 1,
+                childrenCount: 1,
+                infantCount: 1,
+              },
+              product: {
+                productType: LOUNGE,
+                productID: '1139',
+                supplierCode: '123',
+              },
+            },
+          },
+        });
+      }
     },
-    skip: !fligtData?.getFlightDetails[0],
-    pollInterval: 300000,
-    fetchPolicy: 'network-only',
-    notifyOnNetworkStatusChange: true,
-    onCompleted: (data) => {},
   });
 
-  useEffect(() => {}, [flightNumber, departureDate, adultCount]);
+  console.log(slotsData);
 
   const handleSelectSlot = (value: string) => {
     setSelectedslot(value);
