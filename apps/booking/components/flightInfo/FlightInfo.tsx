@@ -16,10 +16,7 @@ import {
 } from '@collinsonx/design-system/core';
 import { DatePickerInput } from '@collinsonx/design-system/date';
 import { IconCalendar } from '@tabler/icons-react';
-import { validateFlightNumber } from '../../utils/flightValidation';
-import { FlightDetails } from '@collinsonx/utils';
-import { ViewStep } from 'types/booking';
-import { DATE_FORMAT } from 'config/Constants';
+
 import { InputLabel } from '@collinsonx/design-system';
 
 type SetState<T> = Dispatch<SetStateAction<T | undefined>>;

@@ -22,9 +22,10 @@ import {
 import { useLazyQuery } from '@collinsonx/utils/apollo';
 import { validateFlightNumber } from '../utils/flightValidation';
 import LoungeError from '@components/LoungeError';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import Breadcramp from '@components/Breadcramp';
 import usePayload from 'hooks/payload';
+import router from 'next/router';
 
 interface DepartureFlightInfo {
   airport: { iata: string };
@@ -65,7 +66,6 @@ const Lounge = () => {
     },
   });
 
-
   const [
     fetchFlightInfo,
     {
@@ -92,7 +92,24 @@ const Lounge = () => {
 
   const handleClickCheckAvailability = () => {
     form.validate();
-    console.log(form.errors);
+    console.log(form.values);
+
+    const { flightNumber, departureDate, adults, children, infants } =
+      form.values;
+
+    const query = router.query;
+
+    router.push({
+      pathname: '/check-availability',
+      query: {
+        ...query,
+        flightNumber: flightNumber,
+        departureDate: new Date(departureDate ?? '').toString(),
+        adultCount: adults,
+        childrentCount: children,
+        infantCount: infants,
+      },
+    });
   };
 
   return (
@@ -106,7 +123,6 @@ const Lounge = () => {
               righttile={`FAQs`}
               righturl="https://bbc.co.uk"
             />
-
           </Stack>
           <Flex justify="center" align="center">
             <Stack maw={591} spacing={24}>

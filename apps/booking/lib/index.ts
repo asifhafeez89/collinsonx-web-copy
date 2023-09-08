@@ -4,6 +4,12 @@ import { Be_Vietnam_Pro } from 'next/font/google';
 import { MantineThemeOverride } from '@collinsonx/design-system/core';
 import { STORAGE_NAMESPACE } from '../constants';
 
+import { LOUNGE_HOURS_OFFSET } from 'config/lounge';
+import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
+
+export const getLoungeArrivalTime = (date: Date): string =>
+  dayjsTz(date).subtract(LOUNGE_HOURS_OFFSET, 'hours').format('HH:mm');
+
 const beVietnamPro = Be_Vietnam_Pro({
   style: ['normal'],
   subsets: ['latin'],
