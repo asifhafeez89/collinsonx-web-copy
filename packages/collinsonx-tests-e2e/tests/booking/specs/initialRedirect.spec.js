@@ -8,19 +8,18 @@ test.describe('Initial Redirect - current implementation', () => {
   test.describe('Valid JWT and all mandatory fields', () => {
     test('should redirect successfully', async ({ page }) => {
       // Arrange
-      // const object = {
-      //   sourceCode: '123',
-      //   membershipNumber: '123',
-      //   email: 'test@test.com',
-      //   firstName: 'Alice',
-      //   lastName: 'Smith',
-      //   lounge: 'BHX7',
-      //   membershipType: 'HSBC',
-      //   accountProvider: 'PP',
-      // };
-      // const expirationTime = '12h';
-      // const jwt = await encryptJWT(object, secret, expirationTime);
-      const jwt = 'eyJhbGciOiJkaXIiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0..EI5knUJN7A_LhdJ1tinypA.QgNzr6OaEBQVy5Fp-2kfz6-YRUN-HjjBS5StI2f0jx4dWCDTQP4jxmxZDuNM992gm45KSZpSi5ltGrOPUk8iQRQnRqf_QOZ6tN9aTHaid24Oz8cMxlB4DgCfC00YJAKRSjnTi5H2vQtWGyzYjKxX2v4tEeU3O1rr8R9Zk9nLIpr-muWLdagDt4GEnzLGwxAFXFI6melANLalgrQDhEr61JLgTGEW096aeFy7n1wOAYDT4-rQfuKh_spysMSTPWmf-Z_slm4vZS6BEJRiXDtJ7m51Vg-hRq7CWfKOPC5bXaJKY06N6RQBM8QhYMjrFvnMW-wEW6fHnhLpt1p_ggiseoY_Pfgguae_vIAJzmSObY0.uG12HSpaC_9GD0th3RoSGA';
+      const object = {
+        sourceCode: '123',
+        membershipNumber: '123',
+        email: 'test@test.com',
+        firstName: 'Alice',
+        lastName: 'Smith',
+        lounge: 'BHX7',
+        membershipType: 'HSBC',
+        accountProvider: 'PP',
+      };
+      const expirationTime = '12h';
+      const jwt = await encryptJWT(object, secret, expirationTime);
 
       const lounge = 'BHX7';
 

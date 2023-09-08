@@ -56,7 +56,7 @@ module.exports = defineConfig({
       name: 'booking',
       testDir: './tests/booking',
       // ENV variable is given by the package.json script
-      use: { ...devices['Desktop Chrome'], baseURL: `https://booking-local.${process.env.ENV}.cergea.com:4011`, ignoreHTTPSErrors: true }
+      use: { ...devices['Desktop Chrome'], baseURL: `http://localhost:3011`, ignoreHTTPSErrors: true }
     },
     // {
     //   name: 'Safari Test',
