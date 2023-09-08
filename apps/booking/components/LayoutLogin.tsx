@@ -1,4 +1,9 @@
-import { Box, Center, Container, ScrollArea } from '@collinsonx/design-system/core';
+import {
+  Box,
+  Center,
+  Container,
+  ScrollArea,
+} from '@collinsonx/design-system/core';
 import { useViewportSize } from '@collinsonx/design-system/hooks';
 import React, { ReactNode } from 'react';
 
@@ -15,7 +20,7 @@ export default function LayoutLogin({ children }: LayoutProps) {
   const { height } = useViewportSize();
 
   return (
-    <ScrollArea type='never'>
+    <ScrollArea type="never">
       <Container
         px={0}
         sx={{
@@ -40,9 +45,7 @@ export default function LayoutLogin({ children }: LayoutProps) {
             )}
           </Center>
         </Box>
-        <Box pt={10}>
-          {children}
-        </Box>
+        <Box pt={10}>{children}</Box>
       </Container>
     </ScrollArea>
   );
