@@ -41,7 +41,7 @@ jobs:
           mv mkcert-v1.4.3-linux-amd64 /usr/bin/mkcert
           chmod +x /usr/bin/mkcert
           cd apps/booking
-          mkcert -key-file booking-local.test.cergea.com-key.pem -cert-file booking-local.test.cergea.pem booking-local.test.cergea.com
+          mkcert -key-file booking-local.test.cergea.com-key.pem -cert-file booking-local.test.cergea.com.pem booking-local.test.cergea.com
           echo "${{ secrets.ENV_TESTS_FILE_BOOKING }}" > .env.local
 
       - name: Run Booking webapp tests
