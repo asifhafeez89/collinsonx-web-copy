@@ -148,6 +148,7 @@ export default function SignupUser() {
               />
             </Stack>
             <InputLabel
+              disabled
               {...form.getInputProps('email')}
               label="Email address"
             />
