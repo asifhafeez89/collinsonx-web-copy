@@ -1,4 +1,4 @@
-import { ColorSchemeProvider, MantineThemeOverride } from '@mantine/core';
+import { MantineThemeOverride } from '@mantine/core';
 import baseTheme from './baseTheme';
 
 type ThemeOptions = {
@@ -11,7 +11,7 @@ const theme = (
   baseTheme({
     themeOverrides: {
       brandColor: '#827127',
-    }
+    },
   });
 
 export default theme;

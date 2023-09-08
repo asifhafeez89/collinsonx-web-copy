@@ -45,7 +45,9 @@ export const getTheme = () => {
  */
 export const hasRequired = (object: any, requiredKeys: string[]) =>
   Object.keys(object).filter((key) => requiredKeys.includes(key)).length ===
-  requiredKeys.length;
+    requiredKeys.length &&
+  object.membershipNumber &&
+  (object.accountProvider === 'PP' || object.accountProvider === 'LK');
 
 export const getItem = (key: string): string | null =>
   sessionStorage.getItem(`${STORAGE_NAMESPACE}_${key}`);

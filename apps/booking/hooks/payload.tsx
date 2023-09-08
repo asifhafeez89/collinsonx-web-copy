@@ -11,7 +11,6 @@ import { createContext, useContext } from 'react';
 
 import { AccountProvider, BridgePayload, MembershipType } from 'types/booking';
 import * as jose from 'jose';
-import { Be_Vietnam_Pro } from 'next/font/google';
 
 import {
   experienceX,
@@ -19,10 +18,11 @@ import {
   loungeKey,
   priorityPass,
 } from '@collinsonx/design-system/themes';
+import Layout from '@components/Layout';
+import LayoutError from '@components/LayoutError';
 import { useQuery } from '@collinsonx/utils/apollo';
 import { Experience } from '@collinsonx/utils';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
-import Layout from '@components/Layout';
 import { getItem, setItem } from '@lib';
 import { LOUNGE_CODE, JWT } from '../constants';
 
@@ -75,38 +75,30 @@ async function decryptJWT(jwt: string) {
   };
 }
 
-const beVietnamPro = Be_Vietnam_Pro({
-  style: ['normal'],
-  subsets: ['latin'],
-  weight: ['400', '600', '700'],
-});
-
-const themeSettingsShared = {
-  fontFamily: beVietnamPro.style.fontFamily,
-};
-
 function callThemeFunction(name: AccountProvider | MembershipType) {
   switch (name) {
     case 'Cergea':
-      return experienceX(themeSettingsShared);
+      return experienceX();
     case 'HSBC':
-      return hsbc(themeSettingsShared);
+      return hsbc();
     case 'PP':
-      return priorityPass(themeSettingsShared);
+      return priorityPass();
     case 'LK':
-      return loungeKey(themeSettingsShared);
+      return loungeKey();
     default:
-      return priorityPass(themeSettingsShared);
+      return priorityPass();
   }
 }
 
 export const PayloadProvider = (props: PropsWithChildren) => {
   const router = useRouter();
+
   const [payload, setPayload] = useState<BridgePayload>();
   const [loungeCode, setLoungeCode] = useState<string>();
   const [jwt, setJWT] = useState<string>();
-  const [error, setError] = useState<string>();
+  const [tokenError, setTokenError] = useState<string>();
   const [loungeNotFound, setLoungeNotFound] = useState(false);
+  const [payloadError, setPayloadError] = useState<string>();
 
   const {
     loading: loadingLounge,
@@ -145,7 +137,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       }
 
       if (!loungeCode || !jwt) {
-        setError('jwt is invalid');
+        setTokenError('Sorry, service is not available');
         return;
       }
 
@@ -159,13 +151,15 @@ export const PayloadProvider = (props: PropsWithChildren) => {
           const payload = result.payload as unknown as BridgePayload;
 
           if (!validatePayload(payload)) {
-            setError('JWT is invalid');
+            setPayloadError('Sorry, service is not available');
           }
           setPayload(payload);
         })
         .catch((e) => {
-          setError(
-            e.hasOwnProperty('message') ? (e.message as string) : 'Invalid jwt'
+          setTokenError(
+            e.hasOwnProperty('message')
+              ? (e.message as string)
+              : 'Sorry, service is not available'
           );
         });
     }
@@ -175,8 +169,8 @@ export const PayloadProvider = (props: PropsWithChildren) => {
     <PayloadContext.Provider
       value={{ payload, setPayload, jwt, lounge, loungeCode }}
     >
-      {error && <Box>{error}</Box>}
-      {payload && !error ? (
+      {tokenError && <Box>{tokenError}</Box>}
+      {payload && !tokenError ? (
         <MantineProvider
           theme={callThemeFunction(
             payload?.membershipType === 'HSBC'
@@ -186,15 +180,8 @@ export const PayloadProvider = (props: PropsWithChildren) => {
           withGlobalStyles
           withNormalizeCSS
         >
-          {loungeError || (!loadingLounge && !lounge) ? (
-            <Layout>
-              <Center>
-                <Text>
-                  Something went wrong. This service is not available for the
-                  moment
-                </Text>
-              </Center>
-            </Layout>
+          {payloadError || loungeError || (!loadingLounge && !lounge) ? (
+            <LayoutError>{payloadError}</LayoutError>
           ) : (
             props.children
           )}

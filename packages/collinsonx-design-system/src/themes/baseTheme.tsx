@@ -1,4 +1,4 @@
-import { ColorSchemeProvider, MantineThemeOverride } from '@mantine/core';
+import { MantineThemeOverride } from '@mantine/core';
 
 type ThemeOptions = {
   fontFamily?: string;
@@ -89,8 +89,11 @@ const baseTheme = ({
             backgroundColor: theme.colors.brandColor,
             color: theme.colors.headerNavColor,
             ':hover': {
-              backgroundColor: theme.fn.darken(theme.colors.brandColor[0], 0.05)
-            }
+              backgroundColor: theme.fn.darken(
+                theme.colors.brandColor[0],
+                0.05
+              ),
+            },
           },
           label: {
             color: '#fff',
@@ -126,9 +129,9 @@ const baseTheme = ({
       NavLink: {
         styles: () => ({
           label: {
-            color: '#827127'
-          }
-        })
+            color: '#827127',
+          },
+        }),
       },
       Checkbox: {
         styles: ({ colors }) => ({
@@ -137,10 +140,10 @@ const baseTheme = ({
             borderWidth: 2,
             '&:checked': {
               backgroundColor: colors.brandColor,
-              borderColor: colors.brandColor
-            }
+              borderColor: colors.brandColor,
+            },
           },
-        })
+        }),
       },
     },
   };
