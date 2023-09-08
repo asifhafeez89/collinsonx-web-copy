@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { Box, Flex, Stack } from '@mantine/core';
 
-type InfoGroup = {
+export type InfoGroup = {
   header?: string;
   description?: string;
   icon?: React.ReactNode;

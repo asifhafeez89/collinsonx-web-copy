@@ -47,6 +47,7 @@ import {
 import { formatDate } from '../utils/DateFormatter';
 import usePayload from 'hooks/payload';
 import FlightData from '@components/flightInfo/FlightData';
+import { InfoGroup } from '@collinsonx/design-system/components/details';
 interface AvailableSlotsProps {
   availableSlots: Availability;
 }
@@ -64,7 +65,7 @@ export default function ConfirmAvailability({
 
   const [createLoading, setCreateLoading] = useState(false);
   const [selectedslot, setSelectedslot] = useState('');
-  const { token, loungeCode } = usePayload();
+  const { loungeCode } = usePayload();
   const [isDisabled, setIsDisabled] = useState(true);
   const {
     id,
@@ -88,20 +89,14 @@ export default function ConfirmAvailability({
     [flightNumber]
   );
 
+  const query = router.query;
+
   const handleSubmit = () => {
     router.push({
       pathname: '/confirm-booking',
       query: {
-        flightNumber: flightNumber,
-        departureDate: departureDate,
-        carrierCode: carrierCode,
-        adultCount: adultCount,
-        childrentCount: childrentCount,
-        arrivalTime: selectedslot,
-        in: token,
-        id: id,
-        lc: loungeCode,
-        infantCount: infantCount,
+        ...query,
+        selectedslot: selectedslot,
       },
     });
   };
@@ -146,6 +141,7 @@ export default function ConfirmAvailability({
                 adultCount: 1,
                 childrenCount: 1,
                 infantCount: 1,
+                seniorCount: 1,
               },
               product: {
                 productType: LOUNGE,
@@ -158,8 +154,6 @@ export default function ConfirmAvailability({
       }
     },
   });
-
-  console.log(slotsData);
 
   const handleSelectSlot = (value: string) => {
     setSelectedslot(value);
@@ -196,99 +190,106 @@ export default function ConfirmAvailability({
 
   return (
     <Layout>
-      <Stack spacing={16}>
-        <Stack sx={{ width: '100%' }}>
-          <Breadcramp
-            lefttitle={`BACK TO ${lounge?.loungeName?.toUpperCase()}`}
-            lefturl="https://bbc.co.uk"
-            righttile={`FAQs`}
-            righturl="https://bbc.co.uk"
-          />
-        </Stack>
-        <Flex justify="center" align="center" direction="column">
-          <LoungeInfo lounge={lounge} loading={!lounge} />
-          {createLoading ? (
-            <Flex
-              direction={{ base: 'column', sm: 'row' }}
-              gap={{ base: 'sm', sm: 'lg' }}
-              justify={{ sm: 'center' }}
-            ></Flex>
-          ) : (
-            <Flex
-              direction={{ base: 'column', sm: 'row' }}
-              gap={{ base: 'sm', sm: 'lg' }}
-              justify={{ sm: 'center' }}
-            >
-              {loading && <BookingFormSkeleton />}
-              {!loading && (
-                <Box>
-                  <LoungeError error={fetchError} />
-                  {lounge && (
-                    <Stack spacing={8}>
-                      <EditableTitle title="Flight details" to="/" as="h2">
-                        <Details infos={infos} direction="row" />
-                      </EditableTitle>
+      {slotsData && (
+        <Stack spacing={16}>
+          <Stack sx={{ width: '100%' }}>
+            <Breadcramp
+              lefttitle={`BACK TO ${lounge?.loungeName?.toUpperCase()}`}
+              lefturl="https://bbc.co.uk"
+              righttile={`FAQs`}
+              righturl="https://bbc.co.uk"
+            />
+          </Stack>
+          <Flex justify="center" align="center" direction="column">
+            <Stack maw={591} spacing={24}>
+              <LoungeInfo lounge={lounge} loading={!lounge} />
+              {createLoading ? (
+                <Flex
+                  direction={{ base: 'column', sm: 'row' }}
+                  gap={{ base: 'sm', sm: 'lg' }}
+                  justify={{ sm: 'center' }}
+                ></Flex>
+              ) : (
+                <Flex
+                  direction={{ base: 'column', sm: 'row' }}
+                  gap={{ base: 'sm', sm: 'lg' }}
+                  justify={{ sm: 'center' }}
+                >
+                  {loading && <BookingFormSkeleton />}
+                  {!loading && (
+                    <Box>
+                      <LoungeError error={fetchError} />
+                      {lounge && (
+                        <Stack spacing={8}>
+                          <EditableTitle title="Flight details" to="/" as="h2">
+                            <Details
+                              infos={infos as InfoGroup[]}
+                              direction="row"
+                            />
+                          </EditableTitle>
 
-                      <EditableTitle title="Who's coming" to="/" as="h2">
-                        <Flex direction="row" gap={10}>
-                          <p style={{ padding: '0', margin: '0' }}>
-                            {' '}
-                            <strong>Adults</strong> {adultCount}
-                          </p>{' '}
-                          {Number(childrentCount) > 0 ? (
-                            <>
+                          <EditableTitle title="Who's coming" to="/" as="h2">
+                            <Flex direction="row" gap={10}>
                               <p style={{ padding: '0', margin: '0' }}>
                                 {' '}
-                                <strong>Children</strong> {childrentCount}
-                              </p>
-                            </>
+                                <strong>Adults</strong> {adultCount}
+                              </p>{' '}
+                              {Number(childrentCount) > 0 ? (
+                                <>
+                                  <p style={{ padding: '0', margin: '0' }}>
+                                    {' '}
+                                    <strong>Children</strong> {childrentCount}
+                                  </p>
+                                </>
+                              ) : null}
+                            </Flex>
+                          </EditableTitle>
+
+                          {slotsData ? (
+                            <AvailableSlots
+                              onSelectSlot={handleSelectSlot}
+                              availableSlots={slotsData?.getAvailableSlots}
+                            />
                           ) : null}
-                        </Flex>
-                      </EditableTitle>
+                          <div>
+                            This is a rough estimate so that lounge can prepare
+                            for your arrival
+                          </div>
+                          <EditableTitle title="Cancelation policy" as="h2">
+                            <p style={{ padding: '0', margin: '0' }}>
+                              Free cancellation for 24 hours. Cancel before
+                              [date of flight] for a partial refund.
+                            </p>
+                            <Link href="cancelation-policy">Learn more</Link>
+                          </EditableTitle>
 
-                      {slotsData ? (
-                        <AvailableSlots
-                          onSelectSlot={handleSelectSlot}
-                          availableSlots={slotsData?.getAvailableSlots}
-                        />
-                      ) : null}
-                      <div>
-                        This is a rough estimate so that lounge can prepare for
-                        your arrival
-                      </div>
-                      <EditableTitle title="Cancelation policy" as="h2">
-                        <p style={{ padding: '0', margin: '0' }}>
-                          Free cancellation for 24 hours. Cancel before [date of
-                          flight] for a partial refund.
-                        </p>
-                        <Link href="cancelation-policy">Learn more</Link>
-                      </EditableTitle>
+                          <div>
+                            <p>
+                              As your flight is at 7:00am, your maximum stay is
+                              3 hours prior.
+                            </p>
+                          </div>
+                        </Stack>
+                      )}
 
-                      <div>
-                        <p>
-                          As your flight is at 7:00am, your maximum stay is 3
-                          hours prior.
-                        </p>
-                      </div>
-                    </Stack>
+                      <Button
+                        disabled={isDisabled}
+                        type="submit"
+                        data-testid="submit"
+                        spacing="20px"
+                        align="center"
+                        handleClick={handleSubmit}
+                      >
+                        CONFIRM
+                      </Button>
+                    </Box>
                   )}
-
-                  <Button
-                    disabled={isDisabled}
-                    type="submit"
-                    data-testid="submit"
-                    spacing="20px"
-                    align="center"
-                    handleClick={handleSubmit}
-                  >
-                    CONFIRM
-                  </Button>
-                </Box>
+                </Flex>
               )}
-            </Flex>
-          )}
-        </Flex>
-      </Stack>
+            </Stack>
+          </Flex>
+        </Stack>
+      )}
     </Layout>
   );
 }
