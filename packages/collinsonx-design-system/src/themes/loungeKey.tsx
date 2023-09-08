@@ -8,9 +8,6 @@ type ThemeOptions = {
 const theme = (
   { fontFamily }: ThemeOptions = { fontFamily: 'BentonSans Book' }
 ): MantineThemeOverride =>
-<<<<<<< HEAD
-  baseTheme({ mainColour: '#00af41', buttonFontColour: 'white' });
-=======
   baseTheme({
     themeOverrides: {
       headerNavBg: '#000',
@@ -19,6 +16,5 @@ const theme = (
       splashColor: '#44444F',
     },
   });
->>>>>>> dev
 
 export default theme;

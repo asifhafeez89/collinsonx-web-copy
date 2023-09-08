@@ -1,42 +1,22 @@
 import { MantineThemeOverride } from '@mantine/core';
-import { useMantineTheme } from '@mantine/core';
 
 type ThemeOptions = {
   fontFamily?: string;
-<<<<<<< HEAD
-  mainColour?: string;
-  buttonFontColour?: string;
-=======
   themeOverrides?: Record<string, string | undefined>;
->>>>>>> dev
 };
 
 const baseTheme = ({
   fontFamily,
-<<<<<<< HEAD
-  mainColour,
-  buttonFontColour,
-=======
   themeOverrides,
->>>>>>> dev
 }: ThemeOptions): MantineThemeOverride => {
-  const theme = useMantineTheme();
   return {
     colors: {
-<<<<<<< HEAD
-      headerNavBg: ['#D3DAE1'],
-      headerNavColor: ['#000'],
-      mainColor: [mainColour],
-      brandColor: ['#D3DAE1'],
-      buttonFontColour: [buttonFontColour],
-=======
       headerNavBg: [themeOverrides?.headerNavBg || '#D3DAE1'],
       headerNavColor: [themeOverrides?.headerNavColor || '#000'],
       mainColor: [themeOverrides?.mainColor || '#FFF'],
       brandColor: [themeOverrides?.brandColor || '#D3DAE1'],
       splashColor: [themeOverrides?.splashColor || '#858B91'],
       brandBlue: [themeOverrides?.brandBlue || '#006FCF'],
->>>>>>> dev
     },
     primaryColor: 'mainColor',
     primaryShade: 0,
@@ -103,22 +83,17 @@ const baseTheme = ({
       Button: {
         styles: (theme) => ({
           root: {
-<<<<<<< HEAD
-            backgroundColor: colors.mainColor,
-            color: colors.headerNavColor,
-            '&:hover': {
-              backgroundColor: theme.fn.darken(colors.mainColor[0], 0.05),
-            },
-=======
             borderRadius: 4,
             fontSize: 18,
             height: 44,
             backgroundColor: theme.colors.brandColor,
             color: theme.colors.headerNavColor,
             ':hover': {
-              backgroundColor: theme.fn.darken(theme.colors.brandColor[0], 0.05)
-            }
->>>>>>> dev
+              backgroundColor: theme.fn.darken(
+                theme.colors.brandColor[0],
+                0.05
+              ),
+            },
           },
           label: {
             color: '#fff',
@@ -154,15 +129,9 @@ const baseTheme = ({
       NavLink: {
         styles: () => ({
           label: {
-<<<<<<< HEAD
-            color: colors.brandColor,
+            color: '#827127',
           },
         }),
-=======
-            color: '#827127'
-          }
-        })
->>>>>>> dev
       },
       Checkbox: {
         styles: ({ colors }) => ({
@@ -171,10 +140,10 @@ const baseTheme = ({
             borderWidth: 2,
             '&:checked': {
               backgroundColor: colors.brandColor,
-              borderColor: colors.brandColor
-            }
+              borderColor: colors.brandColor,
+            },
           },
-        })
+        }),
       },
     },
   };

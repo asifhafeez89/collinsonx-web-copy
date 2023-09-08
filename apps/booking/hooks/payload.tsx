@@ -150,8 +150,6 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         .then((result) => {
           const payload = result.payload as unknown as BridgePayload;
 
-          console.log(payload);
-
           if (!validatePayload(payload)) {
             setPayloadError('Sorry, service is not available');
           }
