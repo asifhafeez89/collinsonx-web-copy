@@ -63,15 +63,9 @@ export default function LayoutError({ children }: LayoutProps) {
           </Text>
 
           <Center>
-            <Button
-              onClick={() =>
-                router.push({
-                  pathname: '/',
-                })
-              }
-            >
-              {`Return to lounges`.toUpperCase()}{' '}
-            </Button>
+            <Anchor href="#">
+              <Button>{`Return to lounges`.toUpperCase()}</Button>{' '}
+            </Anchor>
           </Center>
         </Box>
       </Center>
