@@ -29,8 +29,8 @@ test.describe('Initial Redirect to BAAS page - current implementation', () => {
       await redirectToBaas(page, jwt, lounge);
 
       // Assert
-      const emailTitle = await enterEmailPage.getTitle();
-      await expect(emailTitle).toEqual('Enter your email address');
+      const emailPageTitle = await enterEmailPage.title();
+      await expect(emailPageTitle).toEqual('Enter your email address');
     });
   });
 });

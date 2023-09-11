@@ -3,7 +3,7 @@ class LoginPage {
     this.page = page;
   };
 
-  async getTitle() {
+  async title() {
     return await this.page.innerText('h1');
   };
 };
