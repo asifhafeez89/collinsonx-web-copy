@@ -110,7 +110,7 @@ export default function SignupUser() {
             }}
           >
             <Text size={18} align="center">
-              Your session has expired, please confirm your details
+              You can update your details below
             </Text>
             <Title order={1} size={24} align="center">
               Update details
