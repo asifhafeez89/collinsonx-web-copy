@@ -4,8 +4,7 @@ class LoginPage {
   };
 
   async getTitle() {
-    return await this.page.getByTestId('loginEmailAddress');
-
+    return await this.page.innerText('h1');
   };
 };
 

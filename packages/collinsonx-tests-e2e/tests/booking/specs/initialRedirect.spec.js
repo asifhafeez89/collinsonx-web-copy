@@ -11,7 +11,7 @@ test.describe('Initial Redirect to BAAS page - current implementation', () => {
     test('should redirect successfully', async ({ page }) => {
       // Arrange
       const enterEmailPage = new EnterEmailPage(page);
-      const object = {
+      const payload = {
         sourceCode: '123',
         membershipNumber: '123',
         email: 'test@test.com',
@@ -22,7 +22,7 @@ test.describe('Initial Redirect to BAAS page - current implementation', () => {
         accountProvider: 'PP',
       };
       const expirationTime = '12h';
-      const jwt = await encryptJWT(object, secret, expirationTime);
+      const jwt = await encryptJWT(payload, secret, expirationTime);
       const lounge = 'BHX7';
 
       // Act
@@ -30,7 +30,7 @@ test.describe('Initial Redirect to BAAS page - current implementation', () => {
 
       // Assert
       const emailTitle = await enterEmailPage.getTitle();
-      await expect(emailTitle).toBeVisible();
+      await expect(emailTitle).toEqual('Enter your email address');
     });
   });
 });
