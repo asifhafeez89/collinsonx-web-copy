@@ -5,9 +5,7 @@ const lounges = [
   "CAVE",
   "GATWICK",
   "GATWICK_LOUNGE",
-  "HEATHROW",
   "HEATHROW_LOUNGE",
-  "HEATHROW_TERMINAL_3",
   "MASSIVE_CAVE",
   "MEDIUM_CAVE",
   "TINY_CAVE"
@@ -24,3 +22,4 @@ export const stripePayment = {
 };
 
 export const apiURL = `https://gateway-api.${process.env.ENV}.cergea.com/graphql`;
+export const supertokensURL = `https://authz.${process.env.ENV}.cergea.com/supertokens/signin`;
