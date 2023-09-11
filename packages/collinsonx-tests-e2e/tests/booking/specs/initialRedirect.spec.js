@@ -1,13 +1,16 @@
 
-import { test } from '../../../baseFixtures';
+import { test, expect } from '../../../baseFixtures';
 import { encryptJWT } from '@collinsonx/jwt/dist';
+import { redirectToBaas } from '../utils/redirectToBaas';
+import EnterEmailPage from '../pages/EnterEmailPage';
 
 const secret = process.env.NEXT_PUBLIC_JWT_SECRET || '';
 
-test.describe('Initial Redirect - current implementation', () => {
+test.describe('Initial Redirect to BAAS page - current implementation', () => {
   test.describe('Valid JWT and all mandatory fields', () => {
     test('should redirect successfully', async ({ page }) => {
       // Arrange
+      const enterEmailPage = new EnterEmailPage(page);
       const object = {
         sourceCode: '123',
         membershipNumber: '123',
@@ -20,18 +23,19 @@ test.describe('Initial Redirect - current implementation', () => {
       };
       const expirationTime = '12h';
       const jwt = await encryptJWT(object, secret, expirationTime);
-
       const lounge = 'BHX7';
 
       // Act
-      await page.goto(`/?in=${jwt}&lc=${lounge}`, { waitUntil: 'networkidle' });
+      await redirectToBaas(page, jwt, lounge);
 
       // Assert
-      // Redirection successful and user can see "Enter your email address" page
+      const emailTitle = await enterEmailPage.getTitle();
+      await expect(emailTitle).toBeVisible();
     });
   });
 });
 
+// Below is the real implementation - these tests will be added once we use the correct JWT token
 // test.describe('Initial Redirect', () => {
 //   test.describe('Valid JWT and all mandatory fields', () => {
 //     test('should redirect successfully', async ({ page }) => {
