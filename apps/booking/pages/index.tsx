@@ -1,5 +1,5 @@
 import Layout from '@components/Layout';
-import { useMemo, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import {
   Flex,
   Stack,
@@ -26,6 +26,10 @@ import dayjs, { Dayjs } from 'dayjs';
 import Breadcramp from '@components/Breadcramp';
 import usePayload from 'hooks/payload';
 import router from 'next/router';
+import BookingProvider, {
+  Booking,
+  BookingContext,
+} from 'context/bookingContext';
 
 interface DepartureFlightInfo {
   airport: { iata: string };
@@ -44,6 +48,9 @@ const Lounge = () => {
   const [date, setDate] = useState<string>(dayjs().format(DATE_FORMAT));
   const [flightNumber, setFlightNumber] = useState<string>();
   const { payload, lounge } = usePayload();
+
+  const { setBooking } = useContext(BookingContext);
+
   const flightCode = useMemo(
     () => (flightNumber ? validateFlightNumber(flightNumber) : undefined),
     [flightNumber]
@@ -92,22 +99,14 @@ const Lounge = () => {
 
   const handleClickCheckAvailability = () => {
     form.validate();
-    console.log(form.values);
-
-    const { flightNumber, departureDate, adults, children, infants } =
-      form.values;
 
     const query = router.query;
+    setBooking({ ...form.values });
 
     router.push({
       pathname: '/check-availability',
       query: {
         ...query,
-        flightNumber: flightNumber,
-        departureDate: new Date(departureDate ?? '').toString(),
-        adultCount: adults,
-        childrentCount: children,
-        infantCount: infants,
       },
     });
   };

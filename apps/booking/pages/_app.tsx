@@ -13,6 +13,7 @@ import SessionManager from '@components/SessionManager';
 import { Analytics } from '@vercel/analytics/react';
 import AuthWrapper from '@components/AuthWrapper';
 import { PayloadProvider } from 'hooks/payload';
+import BookingProvider from 'context/bookingContext';
 
 if (typeof window !== 'undefined') {
   // we only want to call this init function on the frontend, so
@@ -49,7 +50,9 @@ export default function MyApp({ Component, pageProps }: Props) {
             <AuthWrapper>
               <SessionManager>
                 <PayloadProvider>
-                  {getLayout(<Component {...pageProps} />)}
+                  <BookingProvider>
+                    {getLayout(<Component {...pageProps} />)}
+                  </BookingProvider>
                   <Analytics />
                 </PayloadProvider>
               </SessionManager>

@@ -11,7 +11,10 @@ import {
 } from '../components/flightInfo/FlightInfo';
 import { Box, Flex, Stack } from '@collinsonx/design-system/core';
 import Breadcramp from '@components/Breadcramp';
-import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
+import {
+  BookingType,
+  Experience,
+} from '@collinsonx/utils/generatedTypes/graphql';
 import { useRouter } from 'next/router';
 import { LoungeInfo } from '@components/LoungeInfo';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
@@ -25,7 +28,7 @@ import createBooking from '@collinsonx/utils/mutations/createBooking';
 import Link from 'next/link';
 
 import { Clock, MapPin } from '@collinsonx/design-system/assets/icons';
-import { useMemo, useState, useEffect, useRef } from 'react';
+import { useMemo, useState, useEffect, useRef, useContext } from 'react';
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
 import LoungeError from '@components/LoungeError';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
@@ -46,8 +49,10 @@ import {
 } from '../config/Constants';
 import { formatDate } from '../utils/DateFormatter';
 import usePayload from 'hooks/payload';
-import FlightData from '@components/flightInfo/FlightData';
 import { InfoGroup } from '@collinsonx/design-system/components/details';
+import { BookingContext } from 'context/bookingContext';
+import dayjs from 'dayjs';
+import { constants } from '../constants';
 interface AvailableSlotsProps {
   availableSlots: Availability;
 }
@@ -63,24 +68,19 @@ export default function ConfirmAvailability({
     data: experienceData,
   } = useQuery<{ searchExperiences: Experience[] }>(getSearchExperiences);
 
+  const { getBooking, setBooking } = useContext(BookingContext);
+
   const [createLoading, setCreateLoading] = useState(false);
-  const [selectedslot, setSelectedslot] = useState('');
-  const { loungeCode } = usePayload();
+  const [selectedslot, setSelectedslot] = useState<string>('');
+  const { payload, loungeCode, lounge } = usePayload();
   const [isDisabled, setIsDisabled] = useState(true);
-  const {
-    id,
-    flightNumber,
-    departureDate,
-    adultCount,
-    childrentCount,
-    productID,
-    supplierCode,
-    carrierCode,
-    infantCount,
-  } = router.query;
+
+  const booking = getBooking();
+
+  const { flightNumber, departureDate, children, adults, infants, seniors } =
+    booking;
 
   const flightBreakdown = validateFlightNumber(String(flightNumber));
-  const { payload, lounge } = usePayload();
 
   const flightCode = useMemo(
     () =>
@@ -89,14 +89,47 @@ export default function ConfirmAvailability({
     [flightNumber]
   );
 
-  const query = router.query;
+  booking.arrival = selectedslot;
+  setBooking(booking);
+
+  const [mutate, { loading: cbLoading, error: cbError }] =
+    useMutation(createBooking);
 
   const handleSubmit = () => {
-    router.push({
-      pathname: '/confirm-booking',
-      query: {
-        ...query,
-        selectedslot: selectedslot,
+    const slotDateFrom = dayjs(departureDate)
+      .set('hour', Number.parseInt(selectedslot.split('-')[0].split(':')[0]))
+      .set('minute', Number.parseInt(selectedslot.split('-')[0].split(':')[1]))
+      .set('second', 0);
+
+    const slotDateEnd = dayjs(departureDate)
+      .set('hour', Number.parseInt(selectedslot.split('-')[1].split(':')[0]))
+      .set('minute', Number.parseInt(selectedslot.split('-')[1].split(':')[1]))
+      .set('second', 0);
+
+    const bookingInput = {
+      experience: { id: lounge?.id },
+      bookedFrom: slotDateFrom,
+      bookedTo: slotDateEnd,
+      type: BookingType.Reservation,
+      guestCount: 1,
+      metadata: {
+        flightNumber,
+        flightTime: dayjs(departureDate).format(constants.TIMEFORMAT),
+      },
+    };
+
+    mutate({
+      variables: { bookingInput },
+      onCompleted(data) {
+        if (data?.createBooking) {
+          booking.bookingId = data.createBooking.id;
+
+          setBooking(booking);
+
+          router.push({
+            pathname: '/confirm-booking',
+          });
+        }
       },
     });
   };
@@ -125,7 +158,6 @@ export default function ConfirmAvailability({
     notifyOnNetworkStatusChange: true,
     onCompleted: (flightInfoData) => {
       if (flightInfoData) {
-        console.log('Hello');
         fetchSlots({
           variables: {
             data: {
@@ -138,10 +170,10 @@ export default function ConfirmAvailability({
                 terminal: '-1',
               },
               guests: {
-                adultCount: 1,
-                childrenCount: 1,
-                infantCount: 1,
-                seniorCount: 1,
+                adultCount: adults,
+                childrenCount: children,
+                infantCount: infants,
+                seniorCount: seniors,
               },
               product: {
                 productType: LOUNGE,
@@ -232,13 +264,13 @@ export default function ConfirmAvailability({
                             <Flex direction="row" gap={10}>
                               <p style={{ padding: '0', margin: '0' }}>
                                 {' '}
-                                <strong>Adults</strong> {adultCount}
+                                <strong>Adults</strong> {adults}
                               </p>{' '}
-                              {Number(childrentCount) > 0 ? (
+                              {Number(children) > 0 ? (
                                 <>
                                   <p style={{ padding: '0', margin: '0' }}>
                                     {' '}
-                                    <strong>Children</strong> {childrentCount}
+                                    <strong>Children</strong> {children}
                                   </p>
                                 </>
                               ) : null}

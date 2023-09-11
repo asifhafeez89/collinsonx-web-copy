@@ -20,7 +20,7 @@ const SessionManager = ({ children }: SessionManagerProps) => {
         localStorage.removeItem(NAMESPACE);
       }
     }
-  }, [session]);
+  }, [NAMESPACE, session]);
 
   return <>{children}</>;
 };

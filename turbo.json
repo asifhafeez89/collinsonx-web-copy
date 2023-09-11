@@ -34,7 +34,8 @@
         "NEXT_PUBLIC_DATADOG_SITE",
         "NEXT_PUBLIC_DATADOG_ENV",
         "NEXT_PUBLIC_DATADOG_APP_ID",
-        "NEXT_PUBLIC_DATADOG_CLIENT_TOKEN"
+        "NEXT_PUBLIC_DATADOG_CLIENT_TOKEN",
+        "NEXT_PUBLIC_URL"
       ]
     },
     "booking#dev:uat": {
@@ -56,7 +57,8 @@
         "NEXT_PUBLIC_DATADOG_SITE",
         "NEXT_PUBLIC_DATADOG_ENV",
         "NEXT_PUBLIC_DATADOG_APP_ID",
-        "NEXT_PUBLIC_DATADOG_CLIENT_TOKEN"
+        "NEXT_PUBLIC_DATADOG_CLIENT_TOKEN",
+        "NEXT_PUBLIC_URL"
       ]
     },
     "partner-management#dev:test": {
@@ -76,7 +78,8 @@
         "NEXT_PUBLIC_DATADOG_SITE",
         "NEXT_PUBLIC_DATADOG_ENV",
         "NEXT_PUBLIC_DATADOG_APP_ID",
-        "NEXT_PUBLIC_DATADOG_CLIENT_TOKEN"
+        "NEXT_PUBLIC_DATADOG_CLIENT_TOKEN",
+        "NEXT_PUBLIC_URL"
       ]
     },
     "partner-management#dev:uat": {
@@ -96,7 +99,8 @@
         "NEXT_PUBLIC_DATADOG_SITE",
         "NEXT_PUBLIC_DATADOG_ENV",
         "NEXT_PUBLIC_DATADOG_APP_ID",
-        "NEXT_PUBLIC_DATADOG_CLIENT_TOKEN"
+        "NEXT_PUBLIC_DATADOG_CLIENT_TOKEN",
+        "NEXT_PUBLIC_URL"
       ]
     },
     "@collinsox/storybook#dev": {

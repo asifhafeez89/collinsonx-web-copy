@@ -2,23 +2,16 @@ import { useLazyQuery, useQuery } from '@collinsonx/utils/apollo';
 import Layout from '@components/Layout';
 import { Box, Flex, Stack } from '@collinsonx/design-system/core';
 import Breadcramp from '@components/Breadcramp';
-import { Consumer, Experience } from '@collinsonx/utils/generatedTypes/graphql';
+import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
 import { useRouter } from 'next/router';
 import { LoungeInfo } from '@components/LoungeInfo';
-import { getSearchExperiences, getConsumer } from '@collinsonx/utils/queries';
+import { getSearchExperiences } from '@collinsonx/utils/queries';
 import { Details, Button } from '@collinsonx/design-system';
 import createBooking from '@collinsonx/utils/mutations/createBooking';
 import Link from 'next/link';
 
 import { Clock, MapPin } from '@collinsonx/design-system/assets/icons';
-import {
-  useMemo,
-  useState,
-  useEffect,
-  useRef,
-  useContext,
-  ConsumerProps,
-} from 'react';
+import { useMemo, useState, useEffect, useRef, useContext } from 'react';
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
 import LoungeError from '@components/LoungeError';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
@@ -39,13 +32,12 @@ import usePayload from 'hooks/payload';
 import { InfoGroup } from '@collinsonx/design-system/components/details';
 import { BookingContext } from 'context/bookingContext';
 import { getCheckoutSessionUrl } from 'services/payment';
-import { debug } from 'console';
 
 interface AvailableSlotsProps {
   availableSlots: Availability;
 }
 
-export default function ConfirmAvailability({
+export default function SuccessBooking({
   availableSlots,
 }: AvailableSlotsProps) {
   const router = useRouter();
@@ -64,10 +56,10 @@ export default function ConfirmAvailability({
     flightNumber,
     departureDate,
     children,
-    bookingId,
     carrierCode,
     adults,
     arrival,
+    bookingId,
     infants,
     seniors,
   } = getBooking();
@@ -82,44 +74,7 @@ export default function ConfirmAvailability({
     [flightNumber]
   );
 
-  const { data: consumer } = useQuery<{
-    getConsumer: Consumer;
-  }>(getConsumer, {
-    variables: {},
-    pollInterval: 300000,
-    fetchPolicy: 'network-only',
-    notifyOnNetworkStatusChange: true,
-    onCompleted: () => {},
-  });
-
-  const handleSubmit = async () => {
-    const experienceID = localStorage.getItem('EXPERIENCE_X_CONSUMER_ID');
-
-    debugger;
-
-    try {
-      const paymentinput = {
-        bookingID: bookingId ?? '',
-        consumerID: consumer?.getConsumer.id ?? '',
-        internalProductId: lounge?.id ?? '',
-        successUrl: `${process.env.NEXT_PUBLIC_URL}/success-booking`,
-        cancelUrl: `${process.env.NEXT_PUBLIC_URL}/cancel-booking`,
-        quantity: 1,
-      };
-
-      const getSessionUrl = await getCheckoutSessionUrl(paymentinput);
-
-      if (getSessionUrl?.data) {
-        if (window) {
-          window.location.href = getSessionUrl?.data?.url;
-        }
-      } else {
-        console.log('error getting payment link');
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const handleSubmit = async () => {};
 
   const { data: fligtData } = useQuery<{
     getFlightDetails: FlightDetails[];
@@ -264,7 +219,7 @@ export default function ConfirmAvailability({
                       align="center"
                       handleClick={handleSubmit}
                     >
-                      GO TO PAYMENT
+                      DOWNLOAD
                     </Button>
                   </Box>
                 )}
@@ -277,4 +232,4 @@ export default function ConfirmAvailability({
   );
 }
 
-ConfirmAvailability.getLayout = (page: JSX.Element) => <>{page}</>;
+SuccessBooking.getLayout = (page: JSX.Element) => <>{page}</>;
