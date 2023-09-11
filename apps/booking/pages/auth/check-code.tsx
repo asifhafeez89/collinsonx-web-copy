@@ -26,7 +26,7 @@ import colors from 'ui/colour-constants';
 import PinLockout from '@components/auth/PinLockout';
 
 export default function CheckEmail() {
-  const { jwt, loungeCode, lounge } = usePayload();
+  const { jwt, loungeCode, lounge, payload } = usePayload();
   const router = useRouter();
   const email = router.query?.email as string;
   const [code, setCode] = useState<string>();
@@ -114,7 +114,7 @@ export default function CheckEmail() {
       ) : (
         <LayoutLogin>
           {pinLockout ? (
-            <PinLockout />
+            <PinLockout payload={payload} />
           ) : (
             <>
               <Skeleton visible={!lounge}>

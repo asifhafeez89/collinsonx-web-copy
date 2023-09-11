@@ -8,9 +8,10 @@ import {
 } from '@collinsonx/design-system/core';
 import { useViewportSize } from '@collinsonx/design-system/hooks';
 import { useRouter } from 'next/router';
+import { BridgePayload } from 'types/booking';
 import colors from 'ui/colour-constants';
 
-const PinLockout = () => {
+const PinLockout = ({ payload }: { payload: BridgePayload | undefined }) => {
   const router = useRouter();
   const { height } = useViewportSize();
 
@@ -21,7 +22,18 @@ const PinLockout = () => {
   };
 
   const handleSupportClick = () => {
-    router.push('mailto:support@collinsongroup.com');
+    let url: string = '';
+
+    if (
+      payload?.membershipType === 'HSBC' ||
+      payload?.accountProvider === 'PP'
+    ) {
+      url = 'https://memberhelp.prioritypass.com/en/support/home';
+    } else if (payload?.accountProvider === 'LK') {
+      url = 'https://www.loungekey.com/en/contact-us';
+    }
+
+    router.replace(url);
   };
 
   return (
