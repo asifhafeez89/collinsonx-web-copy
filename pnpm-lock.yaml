@@ -647,6 +647,9 @@ importers:
       '@axe-core/playwright':
         specifier: ^4.7.3
         version: 4.7.3(playwright-core@1.37.0)
+      '@collinsonx/jwt':
+        specifier: workspace:*
+        version: link:../collinsonx-jwt
       '@playwright/test':
         specifier: ^1.37.0
         version: 1.37.0

@@ -1,4 +1,4 @@
-name: run e2e web tests
+name: run e2e web tests - partner
 
 on:
   pull_request:
