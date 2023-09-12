@@ -184,6 +184,7 @@ export default function CheckEmail() {
                       },
                     }}
                     inputMode="numeric"
+                    data-testid="pinInput"
                   />
                   {pinError && (
                     <Text

@@ -61,7 +61,7 @@ export const LoungeInfo = ({ lounge, loading }: LoungeInfoProps) => {
       </Skeleton>
       <Flex direction="column" w="100%" gap={loading ? 16 : undefined}>
         <Skeleton visible={loading}>
-          <Title order={2} size={32}>
+          <Title data-testid='loungeName' order={2} size={32}>
             {lounge ? lounge.loungeName : '-'}
           </Title>
         </Skeleton>
