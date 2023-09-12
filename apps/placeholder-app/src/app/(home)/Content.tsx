@@ -12,7 +12,11 @@ import {
   Grid,
 } from '@mantine/core';
 
-import { AccountProvider, Client } from '@collinsonx/constants/enums';
+import {
+  AccountProvider,
+  BookingQueryParams,
+  Client,
+} from '@collinsonx/constants/enums';
 
 import { getClients } from '@collinsonx/constants/enums';
 
@@ -26,6 +30,8 @@ import schema, { SchemaType } from './schema';
 
 import urls from './urls';
 import { firstNames, lastNames } from './names';
+
+const { loungeCode: lcParam, jwt: jwtParam } = BookingQueryParams;
 
 interface ClientSelectBoxProps {
   setClient: Dispatch<SetStateAction<string | null>>;
@@ -216,7 +222,7 @@ const Content = () => {
     const jwtToken = await signJWT(response, secretPhase);
     setJWT(jwtToken);
 
-    const url = `${domain}?lc=${lounge}&in=${jwtToken}`;
+    const url = `${domain}?${lcParam}=${lounge}&${jwtParam}=${jwtToken}`;
 
     window.open(url);
   };

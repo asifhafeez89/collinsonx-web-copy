@@ -1,5 +1,5 @@
 import { test, expect } from '../../../baseFixtures';
-import { encryptJWT } from '@collinsonx/jwt/dist';
+import { signJWT } from '@collinsonx/jwt/dist';
 import { redirectToBaas } from '../utils/redirectToBaas';
 import EnterEmailPage from '../pages/EnterEmailPage';
 
@@ -11,7 +11,7 @@ test.describe('Initial Redirect to BAAS page - current implementation', () => {
       // Arrange
       const enterEmailPage = new EnterEmailPage(page);
       const payload = {
-        sourceCode: '123',
+        consumerNumber: '123',
         membershipNumber: '123',
         email: 'test@test.com',
         firstName: 'Alice',
@@ -21,7 +21,7 @@ test.describe('Initial Redirect to BAAS page - current implementation', () => {
         accountProvider: 'PRIORITY_PASS',
       };
       const expirationTime = '12h';
-      const jwt = await encryptJWT(payload, secret, expirationTime);
+      const jwt = await signJWT(payload, secret, expirationTime);
       const lounge = 'BHX7';
 
       // Act

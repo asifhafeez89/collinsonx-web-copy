@@ -3,6 +3,9 @@ import { USER_ID, USER_TYPE, USER_META, SELECTED_LOUNGE } from 'config';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import { getItem, setItem, removeItem } from '@lib';
 import { LOUNGE_CODE, JWT } from '../constants';
+import { BookingQueryParams } from '@collinsonx/constants/enums';
+
+const { loungeCode: lcParam, jwt: jwtParam } = BookingQueryParams;
 
 interface AuthWrapperProps {
   children: React.ReactNode;
@@ -31,8 +34,8 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
         removeItem(USER_META);
 
         const urlParams = new URLSearchParams(window.location.search);
-        const tokenParam = urlParams.get('in');
-        const loungeParam = urlParams.get('lc');
+        const tokenParam = urlParams.get(jwtParam);
+        const loungeParam = urlParams.get(lcParam);
         if (tokenParam && loungeParam) {
           setItem(LOUNGE_CODE, loungeParam);
           setItem(JWT, tokenParam);

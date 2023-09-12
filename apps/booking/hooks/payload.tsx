@@ -24,8 +24,15 @@ import { useQuery } from '@collinsonx/utils/apollo';
 import { Experience } from '@collinsonx/utils';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
 import { getItem, setItem } from '@lib';
+import {
+  AccountProvider,
+  Client,
+  BookingQueryParams,
+} from '@collinsonx/constants/enums';
+
 import { LOUNGE_CODE, JWT, apiAccountProviderMap } from '../constants';
-import { AccountProvider, Client } from '@collinsonx/constants/enums';
+
+const { loungeCode: lcParam, jwt: jwtParam } = BookingQueryParams;
 
 type PayloadState = {
   payload: BridgePayload | undefined;
@@ -106,8 +113,8 @@ export const PayloadProvider = (props: PropsWithChildren) => {
 
   useEffect(() => {
     if (router.isReady) {
-      const queryJWT = router.query.in as string;
-      const queryLoungeCode = router.query.lc as string;
+      const queryJWT = router.query[jwtParam] as string;
+      const queryLoungeCode = router.query[lcParam] as string;
 
       const storageJWT = getItem(JWT);
       const storageLoungeCode = getItem(LOUNGE_CODE);

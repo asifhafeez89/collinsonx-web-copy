@@ -24,10 +24,7 @@ import usePayload from 'hooks/payload';
 import colors from 'ui/colour-constants';
 import PinLockout from '@components/auth/PinLockout';
 import linkAccount from '@collinsonx/utils/mutations/linkAccount';
-import { removeItem } from '@lib';
 import Session from 'supertokens-auth-react/recipe/session';
-import { LOUNGE_CODE } from '../../constants';
-import { JWT } from '../../constants';
 
 export default function CheckEmail() {
   const { jwt, loungeCode, lounge, payload, setLinkedAccountId } = usePayload();
@@ -68,6 +65,7 @@ export default function CheckEmail() {
 
   const handleClickConfirm = async () => {
     setLoading(true);
+
     if (code?.length === 6) {
       let response = await consumePasswordlessCode({
         userInputCode: code,
@@ -89,15 +87,15 @@ export default function CheckEmail() {
           if (response.createdNewUser) {
             router.push({
               pathname: '/auth/signup-user',
-              query: { email, lc: loungeCode, in: jwt },
+              query: { email },
             });
           } else {
             router.push({
               pathname: '/',
-              query: { lc: loungeCode, in: jwt },
             });
           }
         } catch (e) {
+          setLoading(false);
           await Session.signOut();
           return;
         }
@@ -115,8 +113,6 @@ export default function CheckEmail() {
     } else {
       setPinError(true);
     }
-    removeItem(LOUNGE_CODE);
-    removeItem(JWT);
     setLoading(false);
   };
 

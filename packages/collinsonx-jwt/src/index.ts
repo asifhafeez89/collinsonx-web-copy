@@ -8,36 +8,6 @@ const commonHeaders = {
 
 const { issuer, audience } = commonHeaders;
 
-async function encryptJWT(
-  object: JWTPayload,
-  secretPhrase: string,
-  experationTime: string = '12h'
-): Promise<string> {
-  const secret = jose.base64url.decode(secretPhrase);
-
-  const jwt = await new jose.EncryptJWT(object)
-    .setProtectedHeader({ alg: 'dir', enc: 'A128CBC-HS256' })
-    .setIssuedAt()
-    .setIssuer(issuer)
-    .setAudience(audience)
-    .setExpirationTime(experationTime)
-    .encrypt(secret);
-
-  return jwt;
-}
-async function decryptJWT(jwt: string, secretPhrase: string) {
-  const secret = jose.base64url.decode(secretPhrase);
-
-  const { payload, protectedHeader } = await jose.jwtDecrypt(jwt, secret, {
-    ...commonHeaders,
-  });
-
-  return {
-    payload,
-    protectedHeader,
-  };
-}
-
 async function signJWT(
   object: JWTPayload,
   secretPhrase: string,
@@ -68,4 +38,4 @@ async function verifyJWT(jwt: string, secretPhrase: string) {
   return { payload, protectedHeader };
 }
 
-export { encryptJWT, decryptJWT, signJWT, verifyJWT };
+export { signJWT, verifyJWT };
