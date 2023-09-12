@@ -1,3 +1,5 @@
+import { BridgePayload } from 'types/booking';
+
 const constants = {
   TIMEFORMAT: 'HH:mm',
 };
@@ -11,5 +13,13 @@ export const MAX_GUESTS = 10;
 
 export const LOUNGE_CODE = 'LOUNGE_CODE';
 export const JWT = 'JWT';
+
+export const apiAccountProviderMap: Record<
+  BridgePayload['accountProvider'],
+  string
+> = {
+  LOUNGE_KEY: 'lK',
+  PRIORITY_PASS: 'pP',
+};
 
 export { constants, cookiesNames };

@@ -24,7 +24,7 @@ import { useQuery } from '@collinsonx/utils/apollo';
 import { Experience } from '@collinsonx/utils';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
 import { getItem, setItem } from '@lib';
-import { LOUNGE_CODE, JWT } from '../constants';
+import { LOUNGE_CODE, JWT, apiAccountProviderMap } from '../constants';
 import { AccountProvider, Client } from '@collinsonx/constants/enums';
 
 type PayloadState = {
@@ -91,7 +91,11 @@ export const PayloadProvider = (props: PropsWithChildren) => {
     error: loungeError,
     data: loungeData,
   } = useQuery<{ searchExperiences: Experience[] }>(getSearchExperiences, {
-    skip: !loungeCode,
+    skip: !loungeCode || !payload,
+    variables: {
+      attribute: apiAccountProviderMap[payload?.accountProvider!],
+      value: 'true',
+    },
   });
 
   const lounge = useMemo(() => {

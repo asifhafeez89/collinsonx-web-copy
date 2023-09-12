@@ -35,10 +35,10 @@ export const LoungeInfo = ({ lounge, loading }: LoungeInfoProps) => {
 
   const loungePrice = useMemo(
     () =>
-      lounge?.pricing?.currency && lounge.pricing.reservationCost
+      lounge?.pricing?.currency && lounge.pricing.reservationOnlyFee
         ? getCurrencySymbol(lounge.pricing.currency) +
           ' ' +
-          lounge.pricing.reservationCost
+          lounge.pricing.reservationOnlyFee
         : '',
     [lounge]
   );
