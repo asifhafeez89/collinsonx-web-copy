@@ -9,19 +9,14 @@ import {
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-
 describe('<LayoutLogin />', () => {
-    it('should render', () => {
-  
-      const component = render(
-        <LayoutLogin    
-        subHeader =  {<>header</>}
-  hasPadding= {true}
-  children = {<></>}
-        />
-      );
-  
-      expect(component).toMatchSnapshot();
-    });
-}
-)
+  it('should render', () => {
+    const component = render(
+      <LayoutLogin subHeader={<>header</>} hasPadding={true}>
+        <></>
+      </LayoutLogin>
+    );
+
+    expect(component).toMatchSnapshot();
+  });
+});
