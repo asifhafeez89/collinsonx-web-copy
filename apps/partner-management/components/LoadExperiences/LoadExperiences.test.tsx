@@ -9,14 +9,6 @@ import {
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-jest.mock('@collinsonx/utils/lib/index', () => {
-  return jest.fn(() => ({
-    setItem: () => {
-      return [];
-    },
-  }));
-});
-
 jest.mock('@collinsonx/utils/queries', () => {
   return jest.fn(() => ({
     getSearchExperiences: () => {

@@ -1,0 +1,337 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CookieBanner /> should render 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": .emotion-0 {
+  height: 92px;
+  background-color: #f4f4f4;
+  color: #000;
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.25);
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 2147483601;
+}
+
+.emotion-1 {
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 3rem;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+.emotion-3 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  -webkit-tap-highlight-color: transparent;
+  color: inherit;
+  font-size: 1.125rem;
+  line-height: 1.55;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.emotion-3:focus {
+  outline-offset: 0.125rem;
+  outline: 0.125rem solid #339af0;
+}
+
+.emotion-3:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.emotion-6 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  -webkit-tap-highlight-color: transparent;
+  color: inherit;
+  font-size: inherit;
+  line-height: 1.55;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 0;
+  border: 0;
+  color: #1c7ed6;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 1);
+}
+
+.emotion-6:focus {
+  outline-offset: 0.125rem;
+  outline: 0.125rem solid #339af0;
+}
+
+.emotion-6:focus:not(:focus-visible) {
+  outline: none;
+}
+
+@media (hover: hover) {
+  .emotion-6:hover {
+    -webkit-text-decoration: underline;
+    text-decoration: underline;
+  }
+}
+
+@media (hover: none) {
+  .emotion-6:active {
+    -webkit-text-decoration: underline;
+    text-decoration: underline;
+  }
+}
+
+.emotion-9 {
+  -webkit-tap-highlight-color: transparent;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  font-size: 1rem;
+  background-color: transparent;
+  text-align: left;
+  color: #000;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  height: 2.25rem;
+  padding-left: 1.125rem;
+  padding-right: 1.125rem;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-block;
+  width: auto;
+  border-radius: 0.25rem;
+  font-weight: 600;
+  position: relative;
+  line-height: 1;
+  font-size: 0.875rem;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  border: 0.0625rem solid transparent;
+  background-color: #228be6;
+  color: #fff;
+  background: rgba(109, 75, 246, 1);
+  font-size: 18px;
+  height: 48px;
+  padding-right: 2rem;
+  padding-left: 2rem;
+  font-weight: 700;
+}
+
+.emotion-9:focus {
+  outline-offset: 0.125rem;
+  outline: 0.125rem solid #339af0;
+}
+
+.emotion-9:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.emotion-9:focus {
+  outline-offset: 0.125rem;
+  outline: 0.125rem solid #339af0;
+}
+
+.emotion-9:focus:not(:focus-visible) {
+  outline: none;
+}
+
+@media (hover: hover) {
+  .emotion-9:hover {
+    background-color: #1c7ed6;
+  }
+}
+
+@media (hover: none) {
+  .emotion-9:active {
+    background-color: #1c7ed6;
+  }
+}
+
+.emotion-9:active {
+  -webkit-transform: translateY(0.0625rem);
+  -moz-transform: translateY(0.0625rem);
+  -ms-transform: translateY(0.0625rem);
+  transform: translateY(0.0625rem);
+}
+
+.emotion-9:disabled,
+.emotion-9[data-disabled] {
+  border-color: transparent;
+  background-color: #e9ecef;
+  color: #adb5bd;
+  cursor: not-allowed;
+  background-image: none;
+  pointer-events: none;
+}
+
+.emotion-9:disabled:active,
+.emotion-9[data-disabled]:active {
+  -webkit-transform: none;
+  -moz-transform: none;
+  -ms-transform: none;
+  transform: none;
+}
+
+.emotion-9[data-loading] {
+  pointer-events: none;
+}
+
+.emotion-9[data-loading]::before {
+  content: "";
+  position: absolute;
+  top: -0.0625rem;
+  right: -0.0625rem;
+  left: -0.0625rem;
+  bottom: -0.0625rem;
+  background-color: rgba(255, 255, 255, .5);
+  border-radius: 0.25rem;
+  cursor: not-allowed;
+}
+
+.emotion-10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  height: 100%;
+  overflow: visible;
+}
+
+.emotion-12 {
+  white-space: nowrap;
+  height: 100%;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+<body>
+    <div />
+    <div>
+      <div
+        dir="ltr"
+      >
+        <div
+          class="emotion-0"
+        >
+          <div
+            class="emotion-1"
+          >
+            <div
+              class="emotion-2 emotion-3"
+            >
+              This website uses cookies to ensure you get the best experience.
+               
+              <a
+                class="emotion-2 emotion-5 emotion-6"
+                href="https://www.prioritypass.com/privacy-notice"
+              >
+                Learn more
+              </a>
+            </div>
+            <button
+              class="emotion-7 emotion-8 emotion-9"
+              data-button="true"
+              type="button"
+            >
+              <div
+                class="emotion-10 emotion-11"
+              >
+                <span
+                  class="emotion-12 emotion-13"
+                >
+                  Accept and close
+                </span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div />,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

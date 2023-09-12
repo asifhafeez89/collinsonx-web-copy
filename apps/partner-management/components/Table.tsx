@@ -1,7 +1,7 @@
 import {
   TriangleDown,
   TriangleUp,
-} from '@collinsonx/design-system/components/table';
+} from '@collinsonx/design-system/components/table/index';
 import { Box, Table as MantineTable } from '@collinsonx/design-system/core';
 import styled from '@collinsonx/design-system/styled';
 import { Table as ReactTable, flexRender } from '@tanstack/react-table';
