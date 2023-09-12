@@ -95,14 +95,12 @@ export default function ConfirmAvailability({
   const handleSubmit = async () => {
     const experienceID = localStorage.getItem('EXPERIENCE_X_CONSUMER_ID');
 
-    debugger;
-
     try {
       const paymentinput = {
         bookingID: bookingId ?? '',
         consumerID: consumer?.getConsumer.id ?? '',
         internalProductId: lounge?.id ?? '',
-        successUrl: `${process.env.NEXT_PUBLIC_URL}/success-booking`,
+        successUrl: `${process.env.NEXT_PUBLIC_URL}/confirm-payment`,
         cancelUrl: `${process.env.NEXT_PUBLIC_URL}/cancel-booking`,
         quantity: 1,
       };

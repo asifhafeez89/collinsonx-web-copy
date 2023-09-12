@@ -20,10 +20,10 @@ interface BookingContextProps {
 
 const defaultContext = {
   setBooking: (booking: Booking) => {
-    localStorage.setItem('bookingdetail', JSON.stringify(booking));
+    sessionStorage.setItem('bookingdetail', JSON.stringify(booking));
   },
   getBooking: () => {
-    return JSON.parse(localStorage.getItem('bookingdetail') ?? '');
+    return JSON.parse(sessionStorage.getItem('bookingdetail') ?? '');
   },
 };
 
