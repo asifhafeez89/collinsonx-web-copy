@@ -12,17 +12,13 @@ import {
   Grid,
 } from '@mantine/core';
 
-// @ts-ignore
-import { AccountProvider, Client } from '@collinsonx/constants/dist/enums';
+import { AccountProvider, Client } from '@collinsonx/constants/enums';
 
-// @ts-ignore
-import { getClients } from '@collinsonx/constants/dist/enums';
+import { getClients } from '@collinsonx/constants/enums';
 
-// @ts-ignore
-import { getAccountProviders } from '@collinsonx/constants/dist/enums';
+import { getAccountProviders } from '@collinsonx/constants/enums';
 
-// @ts-ignore
-import { encryptJWT, decryptJWT } from '@collinsonx/jwt/dist';
+import { signJWT, verifyJWT } from '@collinsonx/jwt';
 
 import { LoungeSchema, lounges } from '@/data/Lounge';
 
@@ -32,7 +28,7 @@ import urls from './urls';
 import { firstNames, lastNames } from './names';
 
 interface ClientSelectBoxProps {
-  setClient: Dispatch<SetStateAction<Client>>;
+  setClient: Dispatch<SetStateAction<string | null>>;
 }
 
 function ClientSelectBox({ setClient }: ClientSelectBoxProps) {
@@ -53,7 +49,7 @@ function ClientSelectBox({ setClient }: ClientSelectBoxProps) {
 }
 
 interface AccountProviderSelectBoxProps {
-  setAccountProvider: Dispatch<SetStateAction<AccountProvider>>;
+  setAccountProvider: Dispatch<SetStateAction<string | null>>;
 }
 
 function AccountProviderSelectBox({
@@ -116,7 +112,7 @@ function DebugBox({ loungeCode, jwt, object }: DebugBoxProps) {
 
   const decodeOnClickHandler = async () => {
     const secretPhase = process.env.NEXT_PUBLIC_JWT_SECRET_KEY || '';
-    const response = await decryptJWT(jwt, secretPhase);
+    const response = await verifyJWT(jwt, secretPhase);
 
     setJWTPayload(JSON.stringify(response.payload));
   };
@@ -160,7 +156,7 @@ const Content = () => {
   const form = useForm({
     validate: joiResolver(schema),
     initialValues: {
-      sourceCode: '',
+      consumerNumber: '',
       membershipNumber: '',
       email: '',
       customFirstName: '',
@@ -175,18 +171,18 @@ const Content = () => {
   const [firstName, setFirstName] = useState<string | null>('');
   const [lastName, setLastName] = useState<string | null>('');
 
-  const [accountProvider, setAccountProvider] = useState<AccountProvider>(null);
+  const [accountProvider, setAccountProvider] = useState<string | null>(null);
   const [accountProviderAllowNull, setAccountProviderAllowNull] =
     useState<boolean>(false);
 
-  const [client, setClient] = useState<Client>(null);
+  const [client, setClient] = useState<string | null>(null);
   const [clientAllowNull, setClientAllowNull] = useState<boolean>(false);
 
   const [object, setObject] = useState('');
   const [jwt, setJWT] = useState('');
 
   const createNewJWT = async (values: SchemaType) => {
-    let membershipType = client;
+    let membershipType: string | null = client;
     if (clientAllowNull) {
       membershipType = '';
     }
@@ -205,12 +201,11 @@ const Content = () => {
       : lastName;
 
     const response = {
-      sourceCode: values.sourceCode,
+      consumerNumber: values.consumerNumber,
       membershipNumber: values.membershipNumber,
       email: values.email,
       firstName: firstNameValue,
       lastName: lastNameValue,
-      lounge,
       membershipType,
       accountProvider: accountProviderValue,
     };
@@ -218,7 +213,7 @@ const Content = () => {
     setObject(JSON.stringify(response));
 
     const secretPhase = process.env.NEXT_PUBLIC_JWT_SECRET_KEY || '';
-    const jwtToken = await encryptJWT(response, secretPhase);
+    const jwtToken = await signJWT(response, secretPhase);
     setJWT(jwtToken);
 
     const url = `${domain}?lc=${lounge}&in=${jwtToken}`;
@@ -243,8 +238,8 @@ const Content = () => {
         <Grid>
           <Grid.Col span={6}>
             <TextInput
-              {...form.getInputProps('sourceCode')}
-              placeholder="Please add source code details"
+              {...form.getInputProps('consumerNumber')}
+              placeholder="Please add consumer number details"
             />
           </Grid.Col>
         </Grid>
@@ -254,6 +249,15 @@ const Content = () => {
             <TextInput
               {...form.getInputProps('membershipNumber')}
               placeholder="Please add membership number details"
+            />
+          </Grid.Col>
+        </Grid>
+
+        <Grid>
+          <Grid.Col span={6}>
+            <TextInput
+              {...form.getInputProps('email')}
+              placeholder="Please add your email"
             />
           </Grid.Col>
         </Grid>
@@ -290,14 +294,6 @@ const Content = () => {
           </Grid.Col>
         </Grid>
 
-        <Grid>
-          <Grid.Col span={6}>
-            <TextInput
-              {...form.getInputProps('email')}
-              placeholder="Plase add your email"
-            />
-          </Grid.Col>
-        </Grid>
         <Grid>
           <Grid.Col span={6}>
             <AccountProviderSelectBox setAccountProvider={setAccountProvider} />

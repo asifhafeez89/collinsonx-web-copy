@@ -18,15 +18,19 @@ import LayoutLogin from '@components/LayoutLogin';
 import Breadcramp from '@components/Breadcramp';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 import { useEffect, useRef, useState } from 'react';
-import getConsumerByEmailAddress from '@collinsonx/utils/queries/getConsumerByEmailAddress';
-import { useQuery } from '@collinsonx/utils/apollo';
+import { useMutation } from '@collinsonx/utils/apollo';
 import Error from '@components/Error';
 import usePayload from 'hooks/payload';
 import colors from 'ui/colour-constants';
 import PinLockout from '@components/auth/PinLockout';
+import linkAccount from '@collinsonx/utils/mutations/linkAccount';
+import { removeItem } from '@lib';
+import Session from 'supertokens-auth-react/recipe/session';
+import { LOUNGE_CODE } from '../../constants';
+import { JWT } from '../../constants';
 
 export default function CheckEmail() {
-  const { jwt, loungeCode, lounge, payload } = usePayload();
+  const { jwt, loungeCode, lounge, payload, setLinkedAccountId } = usePayload();
   const router = useRouter();
   const email = router.query?.email as string;
   const [code, setCode] = useState<string>();
@@ -34,18 +38,14 @@ export default function CheckEmail() {
   const [pinError, setPinError] = useState(false);
   const [pinLockout, setPinLockout] = useState(false);
   const [count, setCount] = useState(20);
+  const [loading, setLoading] = useState(false);
+
+  const [
+    dolinkAccount,
+    { loading: loadingLinkAccount, error: errorLinkAccount },
+  ] = useMutation(linkAccount);
 
   let interval = useRef<NodeJS.Timeout>();
-
-  const {
-    loading: loadingGetConsumer,
-    error,
-    data,
-  } = useQuery(getConsumerByEmailAddress, {
-    variables: {
-      emailAddress: email,
-    },
-  });
 
   useEffect(() => {
     interval.current = setInterval(() => {
@@ -67,21 +67,39 @@ export default function CheckEmail() {
   };
 
   const handleClickConfirm = async () => {
+    setLoading(true);
     if (code?.length === 6) {
       let response = await consumePasswordlessCode({
         userInputCode: code,
       });
 
       if (response.status === 'OK') {
-        if (response.createdNewUser) {
-          router.push({
-            pathname: '/auth/signup-user',
-            query: { email },
+        try {
+          let linkAccountResponse = await dolinkAccount({
+            variables: {
+              linkedAccountInput: {
+                token: jwt,
+                analytics: { email },
+              },
+            },
           });
-        } else {
-          router.push({
-            pathname: '/',
-          });
+
+          setLinkedAccountId(linkAccountResponse.data.linkAccount.id);
+
+          if (response.createdNewUser) {
+            router.push({
+              pathname: '/auth/signup-user',
+              query: { email, lc: loungeCode, in: jwt },
+            });
+          } else {
+            router.push({
+              pathname: '/',
+              query: { lc: loungeCode, in: jwt },
+            });
+          }
+        } catch (e) {
+          await Session.signOut();
+          return;
         }
       } else if (
         response.status === 'INCORRECT_USER_INPUT_CODE_ERROR' ||
@@ -97,6 +115,9 @@ export default function CheckEmail() {
     } else {
       setPinError(true);
     }
+    removeItem(LOUNGE_CODE);
+    removeItem(JWT);
+    setLoading(false);
   };
 
   const handleClickReenter = () => {
@@ -107,7 +128,7 @@ export default function CheckEmail() {
 
   return (
     <>
-      {loadingGetConsumer ? (
+      {loadingLinkAccount || loading ? (
         <Flex justify="center" align="center" h="100%">
           <LoaderLifestyleX />
         </Flex>
@@ -137,7 +158,7 @@ export default function CheckEmail() {
                 }}
               >
                 <Title size="26">Check your email</Title>
-                <Error error={error} />
+                <Error error={errorLinkAccount} />
                 <Text size="18px" align="center">
                   We have sent a unique code to
                   <Text weight={700}>{email}</Text>

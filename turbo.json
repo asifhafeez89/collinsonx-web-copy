@@ -12,13 +12,19 @@
       "dependsOn": ["^build"]
     },
     "placeholder-app#dev:test": {
-      "dependsOn": ["@collinsonx/design-system#build"],
+      "dependsOn": [
+        "@collinsonx/design-system#build",
+        "@collinsonx/jwt#build",
+        "@collinsonx/constants#build"
+      ],
       "env": ["NEXT_PUBLIC_JWT_SECRET_KEY"]
     },
     "booking#dev:test": {
       "dependsOn": [
         "@collinsonx/utils#build",
-        "@collinsonx/design-system#build"
+        "@collinsonx/design-system#build",
+        "@collinsonx/jwt#build",
+        "@collinsonx/constants#build"
       ],
       "env": [
         "NEXT_PUBLIC_JWT_SECRET",
@@ -41,7 +47,9 @@
     "booking#dev:uat": {
       "dependsOn": [
         "@collinsonx/utils#build",
-        "@collinsonx/design-system#build"
+        "@collinsonx/design-system#build",
+        "@collinsonx/jwt#build",
+        "@collinsonx/constants#build"
       ],
       "env": [
         "NEXT_PUBLIC_JWT_SECRET",

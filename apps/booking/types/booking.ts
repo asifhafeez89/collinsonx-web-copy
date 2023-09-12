@@ -1,3 +1,5 @@
+import { AccountProvider, Client } from '@collinsonx/constants/enums';
+
 export enum BookingType {
   Reservation = 'RESERVATION',
   WalkUp = 'WALK_UP',
@@ -7,10 +9,6 @@ export const bookingTypeMap = {
   [BookingType.Reservation]: 'Reservation',
   [BookingType.WalkUp]: 'Walk-up',
 };
-
-export type AccountProvider = 'PP' | 'LK' | 'Cergea';
-
-export type MembershipType = 'HSBC';
 
 enum AirportCode {
   BHD = 'BHD',
@@ -42,13 +40,12 @@ export type LoungeSchema = {
  */
 export interface BridgePayload {
   membershipNumber: string;
+  consumerNumber: string;
   email?: string;
   firstName?: string;
   lastName?: string;
   accountProvider: AccountProvider;
-  lounge: string;
-  membershipType?: MembershipType;
-  sourceCode: string;
+  membershipType?: Client;
 }
 
 export type ViewStep = 'EDIT' | 'CONFIRM';

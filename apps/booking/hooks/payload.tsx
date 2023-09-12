@@ -9,8 +9,9 @@ import { useRouter } from 'next/router';
 import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
 import { createContext, useContext } from 'react';
 
-import { AccountProvider, BridgePayload, MembershipType } from 'types/booking';
-import * as jose from 'jose';
+import { BridgePayload } from 'types/booking';
+
+import { verifyJWT } from '@collinsonx/jwt';
 
 import {
   experienceX,
@@ -18,23 +19,28 @@ import {
   loungeKey,
   priorityPass,
 } from '@collinsonx/design-system/themes';
-import Layout from '@components/Layout';
 import LayoutError from '@components/LayoutError';
 import { useQuery } from '@collinsonx/utils/apollo';
 import { Experience } from '@collinsonx/utils';
 import { getSearchExperiences } from '@collinsonx/utils/queries';
 import { getItem, setItem } from '@lib';
 import { LOUNGE_CODE, JWT } from '../constants';
+import { AccountProvider, Client } from '@collinsonx/constants/enums';
 
 type PayloadState = {
   payload: BridgePayload | undefined;
   jwt: string | undefined;
+  linkedAccountId: string | undefined;
   loungeCode: string | undefined;
   lounge: Experience | undefined;
   setPayload(payload: BridgePayload): void;
+  setLinkedAccountId(linkedAccountId: string): void;
 };
 
 const PayloadContext = createContext<PayloadState | null>(null);
+
+const { LK, PP } = AccountProvider;
+const { HSBC } = Client;
 
 export const usePayload = (): PayloadState => {
   const context = useContext(PayloadContext);
@@ -52,38 +58,17 @@ export const usePayload = (): PayloadState => {
  * @returns
  */
 const validatePayload = (payload: BridgePayload) =>
-  hasRequired(payload, [
-    'membershipNumber',
-    'accountProvider',
-    'lounge',
-    'sourceCode',
-  ]);
+  hasRequired(payload, ['membershipNumber', 'accountProvider']);
 
-const secret = jose.base64url.decode(
-  process.env.NEXT_PUBLIC_JWT_SECRET as string
-);
+const secret = process.env.NEXT_PUBLIC_JWT_SECRET as string;
 
-async function decryptJWT(jwt: string) {
-  const { payload, protectedHeader } = await jose.jwtDecrypt(jwt, secret, {
-    issuer: 'urn:collinson:issuer',
-    audience: 'urn:collinson:audience',
-  });
-
-  return {
-    payload,
-    protectedHeader,
-  };
-}
-
-function callThemeFunction(name: AccountProvider | MembershipType) {
+function callThemeFunction(name: AccountProvider | Client) {
   switch (name) {
-    case 'Cergea':
-      return experienceX();
-    case 'HSBC':
+    case HSBC:
       return hsbc();
-    case 'PP':
+    case PP:
       return priorityPass();
-    case 'LK':
+    case LK:
       return loungeKey();
     default:
       return priorityPass();
@@ -99,6 +84,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
   const [tokenError, setTokenError] = useState<string>();
   const [loungeNotFound, setLoungeNotFound] = useState(false);
   const [payloadError, setPayloadError] = useState<string>();
+  const [linkedAccountId, setLinkedAccountId] = useState<string>();
 
   const {
     loading: loadingLounge,
@@ -146,7 +132,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       setLoungeCode(loungeCode);
       setJWT(jwt);
 
-      decryptJWT(jwt)
+      verifyJWT(jwt, secret)
         .then((result) => {
           const payload = result.payload as unknown as BridgePayload;
 
@@ -167,15 +153,23 @@ export const PayloadProvider = (props: PropsWithChildren) => {
 
   return (
     <PayloadContext.Provider
-      value={{ payload, setPayload, jwt, lounge, loungeCode }}
+      value={{
+        payload,
+        setPayload,
+        jwt,
+        lounge,
+        loungeCode,
+        linkedAccountId,
+        setLinkedAccountId,
+      }}
     >
       {tokenError && <Box>{tokenError}</Box>}
       {payload && !tokenError ? (
         <MantineProvider
           theme={callThemeFunction(
-            payload?.membershipType === 'HSBC'
-              ? 'HSBC'
-              : payload?.accountProvider || 'PP'
+            payload?.membershipType === HSBC
+              ? HSBC
+              : payload?.accountProvider || PP
           )}
           withGlobalStyles
           withNormalizeCSS

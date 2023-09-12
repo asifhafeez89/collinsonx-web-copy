@@ -21,6 +21,8 @@
     "@collinsonx/design-system": "workspace:*",
     "@collinsonx/pages": "workspace:*",
     "@collinsonx/utils": "workspace:*",
+    "@collinsonx/jwt": "workspace:*",
+    "@collinsonx/constants": "workspace:*",
     "@emotion/react": "^11.11.1",
     "@emotion/server": "^11.11.0",
     "@emotion/styled": "^11.11.0",

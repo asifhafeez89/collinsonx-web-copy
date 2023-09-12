@@ -1,7 +1,7 @@
 enum Client {
   HSBC = 'HSBC',
-  Collinson = 'Collinson',
-  Mastercard = 'Mastercard',
+  Collinson = 'COLLINSON',
+  Mastercard = 'MASTERCARD',
 }
 
 export function getClients(): Array<Client> {

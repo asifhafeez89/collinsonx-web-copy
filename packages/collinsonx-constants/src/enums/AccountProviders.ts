@@ -1,11 +1,10 @@
 enum AccountProvider {
-  PP = 'PP',
-  LK = 'LK',
-  Cergea = 'Cergea',
+  PP = 'PRIORITY_PASS',
+  LK = 'LOUNGE_KEY',
 }
 
 export function getAccountProviders(): Array<AccountProvider> {
-  return [AccountProvider.PP, AccountProvider.LK, AccountProvider.Cergea];
+  return [AccountProvider.PP, AccountProvider.LK];
 }
 
 export default AccountProvider;

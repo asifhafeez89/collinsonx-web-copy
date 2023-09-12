@@ -1,18 +1,18 @@
+import { AccountProvider, Client } from '@collinsonx/constants/enums';
 import {
-  LogoCergea,
   LogoHSBC,
   LogoLK,
   LogoPP,
 } from '@collinsonx/design-system/assets/logo';
 import { ReactNode } from 'react';
-import { AccountProvider } from 'types/booking';
+
+const { LK, PP } = AccountProvider;
+const { HSBC } = Client;
 
 const logos: Record<AccountProvider | string, ReactNode> = {
-  Cergea: <LogoCergea width={200} height={50} />,
-  LK: <LogoLK width={200} height={100} />,
-  PP: <LogoPP width={200} height={100} />,
-  HSBC: <LogoHSBC width={200} height={100} />,
-  Barclays: <></>,
+  [LK]: <LogoLK width={200} height={100} />,
+  [PP]: <LogoPP width={200} height={100} />,
+  [HSBC]: <LogoHSBC width={200} height={100} />,
 };
 
 interface AppLogoProps {
@@ -26,7 +26,7 @@ const AppLogo = ({ accountProvider, membershipType }: AppLogoProps) => {
   } else if (accountProvider) {
     return logos[accountProvider];
   } else {
-    return logos['PP'];
+    return logos[PP];
   }
 };
 

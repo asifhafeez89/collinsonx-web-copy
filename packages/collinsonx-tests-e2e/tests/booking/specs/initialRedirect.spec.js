@@ -1,4 +1,3 @@
-
 import { test, expect } from '../../../baseFixtures';
 import { encryptJWT } from '@collinsonx/jwt/dist';
 import { redirectToBaas } from '../utils/redirectToBaas';
@@ -19,7 +18,7 @@ test.describe('Initial Redirect to BAAS page - current implementation', () => {
         lastName: 'Smith',
         lounge: 'BHX7',
         membershipType: 'HSBC',
-        accountProvider: 'PP',
+        accountProvider: 'PRIORITY_PASS',
       };
       const expirationTime = '12h';
       const jwt = await encryptJWT(payload, secret, expirationTime);
