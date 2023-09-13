@@ -125,7 +125,15 @@ const Lounge = () => {
           </Stack>
           <Flex justify="center" align="center">
             <Stack maw={591} spacing={24}>
-              <LoungeInfo lounge={lounge} loading={!lounge} />
+              <LoungeInfo
+                guests={{
+                  adults: form.getInputProps('adults').value,
+                  children: form.getInputProps('children').value,
+                  infants: form.getInputProps('infants').value,
+                }}
+                lounge={lounge}
+                loading={!lounge}
+              />
               <FlightInfo form={form} loading={!lounge || flightInfoLoading} />
               <LoungeError error={flightInfoError} />
               <Box sx={{ borderBottom: '1px solid  #C8C9CA' }} />

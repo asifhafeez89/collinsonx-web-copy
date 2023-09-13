@@ -10,6 +10,11 @@ import {
 import { Experience } from '@collinsonx/utils';
 
 interface LoungeInfoProps {
+  guests: {
+    adults: number;
+    children: number;
+    infants: number;
+  };
   lounge?: Experience;
   loading: boolean;
 }
@@ -21,7 +26,19 @@ const currencyMap: Record<string, string> = {
 const getCurrencySymbol = (currency: string) =>
   currencyMap[currency] || currency;
 
-export const LoungeInfo = ({ lounge, loading }: LoungeInfoProps) => {
+const getSumToPay = (
+  guests: {
+    adults: number;
+    children: number;
+    infants: number;
+  },
+  reservationOnlyFee: number
+) => {
+  const sum = reservationOnlyFee * (guests.adults + guests.children);
+  return sum.toFixed(2);
+};
+
+export const LoungeInfo = ({ guests, lounge, loading }: LoungeInfoProps) => {
   const loungeLocation = useMemo(
     () =>
       lounge && lounge.location
@@ -38,9 +55,9 @@ export const LoungeInfo = ({ lounge, loading }: LoungeInfoProps) => {
       lounge?.pricing?.currency && lounge.pricing.reservationOnlyFee
         ? getCurrencySymbol(lounge.pricing.currency) +
           ' ' +
-          lounge.pricing.reservationOnlyFee
+          getSumToPay(guests, lounge.pricing.reservationOnlyFee)
         : '',
-    [lounge]
+    [lounge, guests]
   );
 
   if (!loading && !lounge) {
@@ -61,7 +78,7 @@ export const LoungeInfo = ({ lounge, loading }: LoungeInfoProps) => {
       </Skeleton>
       <Flex direction="column" w="100%" gap={loading ? 16 : undefined}>
         <Skeleton visible={loading}>
-          <Title data-testid='loungeName' order={2} size={32}>
+          <Title data-testid="loungeName" order={2} size={32}>
             {lounge ? lounge.loungeName : '-'}
           </Title>
         </Skeleton>
