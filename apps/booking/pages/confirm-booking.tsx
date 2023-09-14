@@ -101,7 +101,7 @@ export default function ConfirmAvailability({
         consumerID: consumer?.getConsumer.id ?? '',
         internalProductId: lounge?.id ?? '',
         successUrl: `${process.env.NEXT_PUBLIC_URL}/confirm-payment`,
-        cancelUrl: `${process.env.NEXT_PUBLIC_URL}/cancel-booking`,
+        cancelUrl: `${process.env.NEXT_PUBLIC_URL}/booking-not-successful`,
         quantity: 1,
       };
 
