@@ -63,6 +63,19 @@ export default function CheckEmail() {
     setCount(20);
   };
 
+  const handleLinkAccount = async () => {
+    let linkAccountResponse = await dolinkAccount({
+      variables: {
+        linkedAccountInput: {
+          token: jwt,
+          analytics: { email },
+        },
+      },
+    });
+
+    setLinkedAccountId(linkAccountResponse.data.linkAccount.id);
+  };
+
   const handleClickConfirm = async () => {
     setLoading(true);
 
@@ -73,23 +86,14 @@ export default function CheckEmail() {
 
       if (response.status === 'OK') {
         try {
-          let linkAccountResponse = await dolinkAccount({
-            variables: {
-              linkedAccountInput: {
-                token: jwt,
-                analytics: { email },
-              },
-            },
-          });
-
-          setLinkedAccountId(linkAccountResponse.data.linkAccount.id);
-
           if (response.createdNewUser) {
             router.push({
               pathname: '/auth/signup-user',
               query: { email },
             });
           } else {
+            await handleLinkAccount();
+
             router.push({
               pathname: '/',
             });

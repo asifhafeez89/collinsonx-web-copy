@@ -14,6 +14,7 @@ import { InputLabel } from '@collinsonx/design-system';
 import Breadcramp from '@components/Breadcramp';
 import { useState } from 'react';
 import updateConsumer from '@collinsonx/utils/mutations/updateConsumer';
+import linkAccount from '@collinsonx/utils/mutations/linkAccount';
 import { useMutation } from '@collinsonx/utils/apollo';
 import { ConsumerInput } from '@collinsonx/utils';
 import { useRouter } from 'next/router';
@@ -24,7 +25,7 @@ import usePayload from 'hooks/payload';
 import colors from 'ui/colour-constants';
 
 export default function SignupUser() {
-  const { payload, lounge } = usePayload();
+  const { payload, lounge, jwt, setLinkedAccountId } = usePayload();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -48,6 +49,21 @@ export default function SignupUser() {
 
   const [updateConsumerCall, { loading: loadingUpdateConsumer, error, data }] =
     useMutation(updateConsumer);
+
+  const [dolinkAccount] = useMutation(linkAccount);
+
+  const handleLinkAccount = async (values: any) => {
+    let linkAccountResponse = await dolinkAccount({
+      variables: {
+        linkedAccountInput: {
+          token: jwt,
+          analytics: { email: values.email },
+        },
+      },
+    });
+
+    setLinkedAccountId(linkAccountResponse.data.linkAccount.id);
+  };
 
   return loading || loadingUpdateConsumer ? (
     <Flex justify="center" align="center" h="100%">
@@ -83,6 +99,7 @@ export default function SignupUser() {
           updateConsumerCall({
             variables: { consumerInput },
             onCompleted: (data) => {
+              handleLinkAccount(values);
               if (data?.updateConsumer?.id) {
                 router.push({
                   pathname: '/',
