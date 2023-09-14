@@ -234,7 +234,11 @@ export default function ConfirmAvailability({
           </Stack>
           <Flex justify="center" align="center" direction="column">
             <Stack maw={591} spacing={24}>
-              <LoungeInfo guests={{ adults, children, infants }} lounge={lounge} loading={!lounge} />
+              <LoungeInfo
+                guests={{ adults, children, infants }}
+                lounge={lounge}
+                loading={!lounge}
+              />
               {createLoading ? (
                 <Flex
                   direction={{ base: 'column', sm: 'row' }}

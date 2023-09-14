@@ -112,6 +112,7 @@ const baseTheme = ({
             color: colors.dark[6],
             '::placeholder': {
               color: colors.gray[6],
+              textTransform: 'capitalize',
             },
             ':focus': {
               color: colors.dark[6],

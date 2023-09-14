@@ -53,6 +53,7 @@ export const FlightInfo = ({ form, loading }: FlightInfoProps) => {
             icon={<IconCalendar size="1.5rem" stroke={1.5} />}
             label="Departure Date"
             placeholder="Pick a date"
+            minDate={new Date()}
             maw={400}
             w={270}
             required={true}
@@ -70,6 +71,7 @@ export const FlightInfo = ({ form, loading }: FlightInfoProps) => {
             w={270}
             error={'invalid flight number'}
             {...form.getInputProps('flightNumber')}
+            isCapitalLetters={true}
           />
         </Flex>
       </Stack>

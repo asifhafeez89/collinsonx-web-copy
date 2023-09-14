@@ -65,6 +65,10 @@ const Lounge = () => {
       infants: 0,
       seniors: 0,
     },
+    transformValues: (values) => ({
+      ...values,
+      flightNumber: values.flightNumber.toUpperCase(),
+    }),
     validate: {
       flightNumber: (value: string) =>
         /^([A-Z]{3}|[A-Z\d]{2})(?:\s?)(\d{1,4})$/.test(value.toUpperCase())
@@ -72,6 +76,8 @@ const Lounge = () => {
           : 'Invalid flight number',
     },
   });
+
+  type FormValues = typeof form.values;
 
   const [
     fetchFlightInfo,
@@ -97,11 +103,11 @@ const Lounge = () => {
     notifyOnNetworkStatusChange: true,
   });
 
-  const handleClickCheckAvailability = () => {
+  const handleClickCheckAvailability = (values: FormValues) => {
     form.validate();
 
     const query = router.query;
-    setBooking({ ...form.values });
+    setBooking(values);
 
     router.push({
       pathname: '/check-availability',
