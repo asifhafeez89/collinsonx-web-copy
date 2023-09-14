@@ -10,7 +10,7 @@ import {
 import { Experience } from '@collinsonx/utils';
 
 interface LoungeInfoProps {
-  guests: {
+  guests?: {
     adults: number;
     children: number;
     infants: number;
@@ -50,15 +50,15 @@ export const LoungeInfo = ({ guests, lounge, loading }: LoungeInfoProps) => {
     [lounge]
   );
 
-  const loungePrice = useMemo(
-    () =>
-      lounge?.pricing?.currency && lounge.pricing.reservationOnlyFee
+  const loungePrice = useMemo(() => {
+    if (guests) {
+      return lounge?.pricing?.currency && lounge.pricing.reservationOnlyFee
         ? getCurrencySymbol(lounge.pricing.currency) +
-          ' ' +
-          getSumToPay(guests, lounge.pricing.reservationOnlyFee)
-        : '',
-    [lounge, guests]
-  );
+            ' ' +
+            getSumToPay(guests, lounge.pricing.reservationOnlyFee)
+        : '';
+    }
+  }, [lounge, guests]);
 
   if (!loading && !lounge) {
     return null;
@@ -86,9 +86,11 @@ export const LoungeInfo = ({ guests, lounge, loading }: LoungeInfoProps) => {
           <Text size={18}>{loungeLocation}</Text>
         </Skeleton>
         <Skeleton visible={loading}>
-          <Text size={28} fw={700}>
-            {loungePrice}
-          </Text>
+          {loungePrice ? (
+            <Text size={28} fw={700}>
+              {loungePrice}
+            </Text>
+          ) : null}
         </Skeleton>
       </Flex>
     </Flex>
