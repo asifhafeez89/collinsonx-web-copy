@@ -14,7 +14,7 @@ import { Analytics } from '@vercel/analytics/react';
 import AuthWrapper from '@components/AuthWrapper';
 import { PayloadProvider } from 'hooks/payload';
 import BookingProvider from 'context/bookingContext';
-
+import Maintenance from 'pages/maintenance';
 if (typeof window !== 'undefined') {
   // we only want to call this init function on the frontend, so
   // we check typeof window !== 'undefined'
@@ -33,8 +33,9 @@ type Props = AppProps & {
 export default function MyApp({ Component, pageProps }: Props) {
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page);
+  const isMaintenanceMode =
+    (process.env.NEXT_PUBLIC_MAINTENANCE_MODE as string) === 'ON';
   const apolloClient = useApollo(pageProps);
-
   return (
     <>
       <Head>
@@ -51,7 +52,13 @@ export default function MyApp({ Component, pageProps }: Props) {
               <SessionManager>
                 <PayloadProvider>
                   <BookingProvider>
-                    {getLayout(<Component {...pageProps} />)}
+                    {getLayout(
+                      isMaintenanceMode ? (
+                        <Maintenance />
+                      ) : (
+                        <Component {...pageProps} />
+                      )
+                    )}
                   </BookingProvider>
                   <Analytics />
                 </PayloadProvider>
