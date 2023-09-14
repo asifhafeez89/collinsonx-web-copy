@@ -12,6 +12,9 @@ const getSearchExperiences = gql`
         country
         terminal
       }
+      partnerIdProd
+      partnerIdTest
+      partnerIntegrationId
       pricing {
         pricingType
         currency

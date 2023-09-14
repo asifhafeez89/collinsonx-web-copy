@@ -6,29 +6,25 @@ import {
 } from '@collinsonx/utils/apollo';
 import Layout from '@components/Layout';
 import {
-  AvailabilitySlot,
-  FlightInfo,
-} from '../components/flightInfo/FlightInfo';
-import { Box, Flex, Stack } from '@collinsonx/design-system/core';
+  Box,
+  Flex,
+  Stack,
+  Button,
+  Center,
+} from '@collinsonx/design-system/core';
 import Breadcramp from '@components/Breadcramp';
 import {
   BookingType,
-  Experience,
+  ProductType,
 } from '@collinsonx/utils/generatedTypes/graphql';
 import { useRouter } from 'next/router';
 import { LoungeInfo } from '@components/LoungeInfo';
-import { getSearchExperiences } from '@collinsonx/utils/queries';
-import {
-  PageTitle,
-  LoungeImageTitle,
-  Details,
-  Button,
-} from '@collinsonx/design-system';
+import { Details } from '@collinsonx/design-system';
 import createBooking from '@collinsonx/utils/mutations/createBooking';
 import Link from 'next/link';
 
 import { Clock, MapPin } from '@collinsonx/design-system/assets/icons';
-import { useMemo, useState, useEffect, useRef, useContext } from 'react';
+import { useMemo, useState, useContext, useEffect } from 'react';
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
 import LoungeError from '@components/LoungeError';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
@@ -53,27 +49,27 @@ import { InfoGroup } from '@collinsonx/design-system/components/details';
 import { BookingContext } from 'context/bookingContext';
 import dayjs from 'dayjs';
 import { constants } from '../constants';
-interface AvailableSlotsProps {
-  availableSlots: Availability;
-}
 
-export default function ConfirmAvailability({
-  availableSlots,
-}: AvailableSlotsProps) {
+export default function ConfirmAvailability() {
   const router = useRouter();
-
-  const {
-    loading,
-    error: fetchError,
-    data: experienceData,
-  } = useQuery<{ searchExperiences: Experience[] }>(getSearchExperiences);
 
   const { getBooking, setBooking } = useContext(BookingContext);
 
-  const [createLoading, setCreateLoading] = useState(false);
   const [selectedslot, setSelectedslot] = useState<string>('');
   const { payload, loungeCode, lounge } = usePayload();
   const [isDisabled, setIsDisabled] = useState(true);
+  const [env, setEnv] = useState<string>();
+
+  useEffect(() => {
+    if (
+      window.location.href.includes('uat') ||
+      window.location.href.includes('test')
+    ) {
+      setEnv('test');
+    } else {
+      setEnv('prod');
+    }
+  }, []);
 
   const booking = getBooking();
 
@@ -141,7 +137,11 @@ export default function ConfirmAvailability({
     getAvailableSlots: Availability;
   }>(getAvailableSlots);
 
-  const { data: fligtData } = useQuery<{
+  const {
+    data: fligtData,
+    loading: flightDataLoading,
+    error: flightDataError,
+  } = useQuery<{
     getFlightDetails: FlightDetails[];
   }>(getFlightDetails, {
     variables: {
@@ -156,6 +156,7 @@ export default function ConfirmAvailability({
     pollInterval: 300000,
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
+    skip: !lounge || !env,
     onCompleted: (flightInfoData) => {
       if (flightInfoData) {
         fetchSlots({
@@ -176,9 +177,12 @@ export default function ConfirmAvailability({
                 seniorCount: seniors,
               },
               product: {
-                productType: LOUNGE,
-                productID: '1139',
-                supplierCode: '123',
+                productType: ProductType.Lounge,
+                productID:
+                  env === 'prod'
+                    ? lounge?.partnerIdProd
+                    : lounge?.partnerIdTest,
+                supplierCode: lounge?.partnerIntegrationId,
               },
             },
           },
@@ -222,110 +226,98 @@ export default function ConfirmAvailability({
 
   return (
     <Layout>
-      {slotsData && (
-        <Stack spacing={16}>
-          <Stack sx={{ width: '100%' }}>
-            <Breadcramp
-              lefttitle={`BACK TO ${lounge?.loungeName?.toUpperCase()}`}
-              lefturl="https://bbc.co.uk"
-              righttile={`FAQs`}
-              righturl="https://bbc.co.uk"
+      <Stack spacing={16}>
+        <Stack sx={{ width: '100%' }}>
+          <Breadcramp
+            lefttitle={`BACK TO ${lounge?.loungeName?.toUpperCase()}`}
+            lefturl="https://bbc.co.uk"
+            righttile={`FAQs`}
+            righturl="https://bbc.co.uk"
+          />
+        </Stack>
+        <Flex justify="center" align="center" direction="column">
+          <Stack maw={591} spacing={24}>
+            <LoungeInfo
+              guests={{ adults, children, infants }}
+              lounge={lounge}
+              loading={!lounge}
             />
-          </Stack>
-          <Flex justify="center" align="center" direction="column">
-            <Stack maw={591} spacing={24}>
-              <LoungeInfo
-                guests={{ adults, children, infants }}
-                lounge={lounge}
-                loading={!lounge}
-              />
-              {createLoading ? (
-                <Flex
-                  direction={{ base: 'column', sm: 'row' }}
-                  gap={{ base: 'sm', sm: 'lg' }}
-                  justify={{ sm: 'center' }}
-                ></Flex>
-              ) : (
-                <Flex
-                  direction={{ base: 'column', sm: 'row' }}
-                  gap={{ base: 'sm', sm: 'lg' }}
-                  justify={{ sm: 'center' }}
-                >
-                  {loading && <BookingFormSkeleton />}
-                  {!loading && (
-                    <Box>
-                      <LoungeError error={fetchError} />
-                      {lounge && (
-                        <Stack spacing={8}>
-                          <EditableTitle title="Flight details" to="/" as="h2">
-                            <Details
-                              infos={infos as InfoGroup[]}
-                              direction="row"
-                            />
-                          </EditableTitle>
+            <Flex
+              direction={{ base: 'column', sm: 'row' }}
+              gap={{ base: 'sm', sm: 'lg' }}
+              justify={{ sm: 'center' }}
+            >
+              {!lounge && <BookingFormSkeleton />}
+              {lounge && (
+                <Box>
+                  <LoungeError error={flightDataError} />
+                  <LoungeError error={slotsError} />
+                  <LoungeError error={cbError} />
+                  {lounge && (
+                    <Stack spacing={8}>
+                      <EditableTitle title="Flight details" to="/" as="h2">
+                        <Details infos={infos as InfoGroup[]} direction="row" />
+                      </EditableTitle>
 
-                          <EditableTitle title="Who's coming" to="/" as="h2">
-                            <Flex direction="row" gap={10}>
+                      <EditableTitle title="Who's coming" to="/" as="h2">
+                        <Flex direction="row" gap={10}>
+                          <p style={{ padding: '0', margin: '0' }}>
+                            {' '}
+                            <strong>Adults</strong> {adults}
+                          </p>{' '}
+                          {Number(children) > 0 ? (
+                            <>
                               <p style={{ padding: '0', margin: '0' }}>
                                 {' '}
-                                <strong>Adults</strong> {adults}
-                              </p>{' '}
-                              {Number(children) > 0 ? (
-                                <>
-                                  <p style={{ padding: '0', margin: '0' }}>
-                                    {' '}
-                                    <strong>Children</strong> {children}
-                                  </p>
-                                </>
-                              ) : null}
-                            </Flex>
-                          </EditableTitle>
-
-                          {slotsData ? (
-                            <AvailableSlots
-                              onSelectSlot={handleSelectSlot}
-                              availableSlots={slotsData?.getAvailableSlots}
-                            />
+                                <strong>Children</strong> {children}
+                              </p>
+                            </>
                           ) : null}
-                          <div>
-                            This is a rough estimate so that lounge can prepare
-                            for your arrival
-                          </div>
-                          <EditableTitle title="Cancelation policy" as="h2">
-                            <p style={{ padding: '0', margin: '0' }}>
-                              Free cancellation for 24 hours. Cancel before
-                              [date of flight] for a partial refund.
-                            </p>
-                            <Link href="cancelation-policy">Learn more</Link>
-                          </EditableTitle>
+                        </Flex>
+                      </EditableTitle>
 
-                          <div>
-                            <p>
-                              As your flight is at 7:00am, your maximum stay is
-                              3 hours prior.
-                            </p>
-                          </div>
-                        </Stack>
-                      )}
+                      {slotsData ? (
+                        <AvailableSlots
+                          onSelectSlot={handleSelectSlot}
+                          availableSlots={slotsData?.getAvailableSlots}
+                        />
+                      ) : null}
+                      <div>
+                        This is a rough estimate so that lounge can prepare for
+                        your arrival
+                      </div>
+                      <EditableTitle title="Cancelation policy" as="h2">
+                        <p style={{ padding: '0', margin: '0' }}>
+                          Free cancellation for 24 hours. Cancel before [date of
+                          flight] for a partial refund.
+                        </p>
+                        <Link href="cancelation-policy">Learn more</Link>
+                      </EditableTitle>
 
-                      <Button
-                        disabled={isDisabled}
-                        type="submit"
-                        data-testid="submit"
-                        spacing="20px"
-                        align="center"
-                        handleClick={handleSubmit}
-                      >
-                        CONFIRM
-                      </Button>
-                    </Box>
+                      <div>
+                        <p>
+                          As your flight is at 7:00am, your maximum stay is 3
+                          hours prior.
+                        </p>
+                      </div>
+                    </Stack>
                   )}
-                </Flex>
+                  <Center>
+                    <Button
+                      disabled={slotsLoading || cbLoading}
+                      type="submit"
+                      data-testid="submit"
+                      onClick={handleSubmit}
+                    >
+                      CONFIRM
+                    </Button>
+                  </Center>
+                </Box>
               )}
-            </Stack>
-          </Flex>
-        </Stack>
-      )}
+            </Flex>
+          </Stack>
+        </Flex>
+      </Stack>
     </Layout>
   );
 }
