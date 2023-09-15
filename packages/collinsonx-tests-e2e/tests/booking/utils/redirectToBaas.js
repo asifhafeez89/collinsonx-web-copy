@@ -11,7 +11,8 @@
  * await redirectToBaas(page, 'your-jwt-here', 'your-lounge-here');
  */
 export async function redirectToBaas(page, jwt, lounge) {
-  await page.goto(`/?accountLinkToken=${jwt}&loungeCode=${lounge}`, {
+  const url = `/?linkAccountToken=${jwt}&loungeCode=${lounge}`;
+  await page.goto(url, {
     waitUntil: 'networkidle',
   });
 }

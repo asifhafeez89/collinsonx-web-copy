@@ -1,7 +1,8 @@
 import { test, expect } from '../../../baseFixtures';
-import { signJWT } from '@collinsonx/jwt/dist';
+import { signJWT } from '@collinsonx/jwt';
 import { redirectToBaas } from '../utils/redirectToBaas';
 import EnterEmailPage from '../pages/EnterEmailPage';
+import { v4 as uuidv4 } from 'uuid';
 
 const secret = process.env.NEXT_PUBLIC_JWT_SECRET || '';
 
@@ -11,12 +12,11 @@ test.describe('Initial Redirect to BAAS page - current implementation', () => {
       // Arrange
       const enterEmailPage = new EnterEmailPage(page);
       const payload = {
-        consumerNumber: '123',
-        membershipNumber: '123',
+        membershipNumber: uuidv4(),
+        consumerNumber: uuidv4(),
         email: 'test@test.com',
         firstName: 'Alice',
         lastName: 'Smith',
-        lounge: 'BHX7',
         membershipType: 'HSBC',
         accountProvider: 'PRIORITY_PASS',
       };

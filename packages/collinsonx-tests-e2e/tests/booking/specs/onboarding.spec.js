@@ -1,4 +1,4 @@
-import { encryptJWT } from '@collinsonx/jwt/dist';
+import { signJWT } from '@collinsonx/jwt';
 import { v4 as uuidv4 } from 'uuid';
 import { redirectToBaas } from '../utils/redirectToBaas';
 import { getPinFromEmail } from '../utils/emailUtils';
@@ -22,21 +22,19 @@ test.describe('Onboarding flow - end to end happy path', () => {
       const preBookPage = new PreBookPage(page);
 
       const payload = {
-        sourceCode: '123',
-        membershipNumber: '123',
+        membershipNumber: uuidv4(),
+        consumerNumber: uuidv4(),
         email: 'test@test.com',
         firstName: 'Alice',
         lastName: 'Smith',
-        lounge: 'BHX7',
         membershipType: 'HSBC',
-        accountProvider: 'PP',
+        accountProvider: 'PRIORITY_PASS',
       };
       const expirationTime = '12h';
-      const jwt = await encryptJWT(payload, secret, expirationTime);
+      const jwt = await signJWT(payload, secret, expirationTime);
       const lounge = 'BHX7';
       const id = uuidv4() + process.env.ENV.toLowerCase();
       const email = `${id}@${mailinatorAddress}`;
-
       // Act
       await redirectToBaas(page, jwt, lounge);
       await enterEmailPage.enterEmail(email);
