@@ -14,11 +14,38 @@ import { Analytics } from '@vercel/analytics/react';
 import AuthWrapper from '@components/AuthWrapper';
 import { PayloadProvider } from 'hooks/payload';
 import BookingProvider from 'context/bookingContext';
+import { datadogRum } from '@datadog/browser-rum';
+
+import getConfig from 'next/config';
+
 import Maintenance from 'pages/maintenance';
 if (typeof window !== 'undefined') {
   // we only want to call this init function on the frontend, so
   // we check typeof window !== 'undefined'
   SuperTokensReact.init(frontendConfig() as SuperTokensConfig);
+}
+
+const { publicRuntimeConfig } = getConfig();
+const version = publicRuntimeConfig?.version;
+
+// Set in Vercel this variable for any environments that need monitoring. Prod and probably UAT
+const datadogenv: string | undefined = process.env.NEXT_PUBLIC_DATADOG_ENV;
+if ((datadogenv?.length ?? 0) > 0) {
+  datadogRum.init({
+    applicationId: process.env.NEXT_PUBLIC_DATADOG_APP_ID ?? '',
+    clientToken: process.env.NEXT_PUBLIC_DATADOG_CLIENT_TOKEN ?? '',
+    site: process.env.NEXT_PUBLIC_DATADOG_SITE ?? '',
+    service: process.env.NEXT_PUBLIC_DATADOG_SERVICE ?? '',
+    env: process.env.NEXT_PUBLIC_DATADOG_ENV ?? '',
+    version: version ?? 'n/a',
+    sessionSampleRate: 100,
+    sessionReplaySampleRate: 100,
+    trackUserInteractions: true,
+    trackResources: true,
+    trackLongTasks: true,
+    defaultPrivacyLevel: 'mask-user-input',
+  });
+  datadogRum.startSessionReplayRecording();
 }
 
 type Page<P = {}> = NextPage<P> & {
