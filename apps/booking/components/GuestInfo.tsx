@@ -8,9 +8,7 @@ import {
   Grid,
 } from '@collinsonx/design-system/core';
 import QuantityInput from './QuantityInput';
-
-import { BookingGuests, ViewStep } from 'types/booking';
-import { MAX_GUESTS } from '../constants';
+import colors from 'ui/colour-constants';
 
 import { useForm, UseFormReturnType } from '@mantine/form';
 export interface GuestInfoProps {
@@ -27,7 +25,14 @@ const GuestInfo = ({ form, loading }: GuestInfoProps) => {
   ];
 
   return (
-    <Stack>
+    <Stack
+      sx={{
+        '@media (max-width: 40em)': {
+          backgroundColor: colors.white,
+          padding: '1.2rem',
+        },
+      }}
+    >
       <Title order={3} size={18}>
         Who&apos;s coming?
       </Title>
@@ -81,7 +86,7 @@ const GuestInfo = ({ form, loading }: GuestInfoProps) => {
       </Grid>
       <Text size={14}>
         Refer to{' '}
-        <Anchor color="blue" href="#" target="_blank">
+        <Anchor color={colors.blue} href="#" target="_blank">
           lounge conditions
         </Anchor>{' '}
         for age restrictions

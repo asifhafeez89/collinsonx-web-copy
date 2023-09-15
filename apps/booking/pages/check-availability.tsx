@@ -49,6 +49,7 @@ import { InfoGroup } from '@collinsonx/design-system/components/details';
 import { BookingContext } from 'context/bookingContext';
 import dayjs from 'dayjs';
 import { constants } from '../constants';
+import colors from 'ui/colour-constants';
 
 export default function ConfirmAvailability() {
   const router = useRouter();
@@ -260,7 +261,7 @@ export default function ConfirmAvailability() {
                       </EditableTitle>
 
                       <EditableTitle title="Who's coming" to="/" as="h2">
-                        <Flex direction="row" gap={10}>
+                        <Flex gap={10}>
                           <p style={{ padding: '0', margin: '0' }}>
                             {' '}
                             <strong>Adults</strong> {adults}
@@ -274,32 +275,31 @@ export default function ConfirmAvailability() {
                             </>
                           ) : null}
                         </Flex>
+                        {slotsData ? (
+                          <AvailableSlots
+                            onSelectSlot={handleSelectSlot}
+                            availableSlots={slotsData?.getAvailableSlots}
+                          />
+                        ) : null}
+                        <div>
+                          This is a rough estimate so that lounge can prepare
+                          for your arrival
+                        </div>
                       </EditableTitle>
 
-                      {slotsData ? (
-                        <AvailableSlots
-                          onSelectSlot={handleSelectSlot}
-                          availableSlots={slotsData?.getAvailableSlots}
-                        />
-                      ) : null}
-                      <div>
-                        This is a rough estimate so that lounge can prepare for
-                        your arrival
-                      </div>
                       <EditableTitle title="Cancelation policy" as="h2">
                         <p style={{ padding: '0', margin: '0' }}>
                           Free cancellation for 24 hours. Cancel before [date of
                           flight] for a partial refund.
                         </p>
                         <Link href="cancelation-policy">Learn more</Link>
+                        <div>
+                          <p>
+                            As your flight is at 7:00am, your maximum stay is 3
+                            hours prior.
+                          </p>
+                        </div>
                       </EditableTitle>
-
-                      <div>
-                        <p>
-                          As your flight is at 7:00am, your maximum stay is 3
-                          hours prior.
-                        </p>
-                      </div>
                     </Stack>
                   )}
                   <Center>
@@ -308,6 +308,11 @@ export default function ConfirmAvailability() {
                       type="submit"
                       data-testid="submit"
                       onClick={handleSubmit}
+                      sx={{
+                        '@media (max-width: 40em)': {
+                          marginTop: '10px',
+                        },
+                      }}
                     >
                       CONFIRM
                     </Button>

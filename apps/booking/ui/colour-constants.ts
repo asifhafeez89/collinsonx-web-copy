@@ -7,7 +7,8 @@ const colors = {
   buttonBlack: '#2C2C2C',
   dividerGrey: '#C8C9CA',
   background: '#F3F2F3',
-  boxBorder: '#cccc',
+  boxBorder: '#CCCCCC',
+  borderColor: '#C8C9CA',
 };
 
 export default colors;

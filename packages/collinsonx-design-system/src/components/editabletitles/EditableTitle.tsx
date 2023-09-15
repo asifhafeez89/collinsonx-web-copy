@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Heading from '../heading/Heading';
-import { Flex } from '@mantine/core';
+import { Box, Flex, Stack } from '@mantine/core';
 import { Pencil } from '../../assets/icons';
 import Link from 'next/link';
 
@@ -18,7 +18,14 @@ export default function EditableTitle({
   to,
 }: EditableTitlesProps) {
   return (
-    <>
+    <Stack
+      sx={{
+        '@media (max-width: 40em)': {
+          background: '#fff',
+          padding: '20px',
+        },
+      }}
+    >
       <Flex direction="row" justify="space-between" align="center">
         <Heading as={as} padding={0} margin={0}>
           {title}
@@ -31,6 +38,6 @@ export default function EditableTitle({
         )}
       </Flex>
       {children}
-    </>
+    </Stack>
   );
 }

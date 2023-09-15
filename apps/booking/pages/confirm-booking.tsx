@@ -230,32 +230,35 @@ export default function ConfirmAvailability({
                           to="/check-availability"
                           as="h2"
                         >
-                          <Flex direction="row" gap={10}>
+                          <Flex
+                            direction={{ base: 'column', sm: 'row' }}
+                            gap={10}
+                          >
                             <p style={{ padding: '0', margin: '0' }}>
                               {' '}
                               {arrival?.split('-')[0]}
                             </p>{' '}
                           </Flex>
+                          <div>
+                            This is a rough estimate so that lounge can prepare
+                            for your arrival
+                          </div>
                         </EditableTitle>
 
-                        <div>
-                          This is a rough estimate so that lounge can prepare
-                          for your arrival
-                        </div>
                         <EditableTitle title="Cancelation policy" as="h2">
                           <p style={{ padding: '0', margin: '0' }}>
                             Free cancellation for 24 hours. Cancel before [date
                             of flight] for a partial refund.
                           </p>
                           <Link href="cancelation-policy">Learn more</Link>
-                        </EditableTitle>
 
-                        <div>
-                          <p>
-                            As your flight is at 7:00am, your maximum stay is 3
-                            hours prior.
-                          </p>
-                        </div>
+                          <div>
+                            <p>
+                              As your flight is at 7:00am, your maximum stay is
+                              3 hours prior.
+                            </p>
+                          </div>
+                        </EditableTitle>
                       </Stack>
                     )}
 

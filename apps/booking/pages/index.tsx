@@ -30,6 +30,7 @@ import BookingProvider, {
   Booking,
   BookingContext,
 } from 'context/bookingContext';
+import colors from 'ui/colour-constants';
 
 interface DepartureFlightInfo {
   airport: { iata: string };
@@ -142,7 +143,14 @@ const Lounge = () => {
               />
               <FlightInfo form={form} loading={!lounge || flightInfoLoading} />
               <LoungeError error={flightInfoError} />
-              <Box sx={{ borderBottom: '1px solid  #C8C9CA' }} />
+              <Box
+                sx={{
+                  height: '0px',
+                  '@media (min-width: 40em)': {
+                    borderBottom: `1px solid  ${colors.borderColor}`,
+                  },
+                }}
+              />
               <GuestInfo form={form} loading={!lounge} />
               <Center w="100%">
                 <Button disabled={!lounge || flightInfoLoading} type="submit">

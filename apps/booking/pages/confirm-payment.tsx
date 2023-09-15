@@ -114,44 +114,63 @@ export default function ConfirmPayment() {
               {loading && <BookingFormSkeleton />}
               {!loading && (
                 <Box>
-                  <LoungeError error={fetchError} />
-                  <Title
-                    style={{
-                      fontSize: '1.5rem',
-                      lineHeight: '2.25rem',
-                      fontWeight: '700',
+                  <Stack
+                    sx={{
+                      '@media (max-width: 40em)': {
+                        background: '#fff',
+                        padding: '20px',
+                      },
                     }}
+                    spacing={8}
                   >
-                    Your Booking has been confirmed
-                  </Title>
-                  <Text
-                    style={{
-                      fontSize: '1.125rem',
-                      lineHeight: '1.75rem',
-                      fontWeight: '700',
-                      marginTop: '0.75rem',
-                      marginBottom: '0.75rem',
-                    }}
-                  >
-                    Booking reference {bookingId}
-                  </Text>
+                    <LoungeError error={fetchError} />
+                    <Title
+                      style={{
+                        fontSize: '1.5rem',
+                        lineHeight: '2.25rem',
+                        fontWeight: '700',
+                      }}
+                    >
+                      Your Booking has been confirmed
+                    </Title>
+                    <Text
+                      style={{
+                        fontSize: '1.125rem',
+                        lineHeight: '1.75rem',
+                        fontWeight: '700',
+                        marginTop: '0.75rem',
+                        marginBottom: '0.75rem',
+                      }}
+                    >
+                      Booking reference {bookingId}
+                    </Text>
 
-                  <Text
-                    style={{
-                      fontSize: '1.125rem',
-                      lineHeight: '1.75rem',
-                      marginTop: '0.75rem',
-                      marginBottom: '0.75rem',
-                    }}
-                  >
-                    A confirmation email has been sent to{' '}
-                    <span style={{ fontWeight: 700 }}>
-                      {userData?.getConsumerByID?.emailAddress}
-                    </span>
-                  </Text>
+                    <Text
+                      style={{
+                        fontSize: '1.125rem',
+                        lineHeight: '1.75rem',
+                        marginTop: '0.75rem',
+                        marginBottom: '0.75rem',
+                      }}
+                    >
+                      A confirmation email has been sent to{' '}
+                      <span style={{ fontWeight: 700 }}>
+                        {userData?.getConsumerByID?.emailAddress}
+                      </span>
+                    </Text>
+                  </Stack>
 
                   {lounge && (
-                    <Stack spacing={8}>
+                    <Stack
+                      sx={{
+                        '@media (max-width: 40em)': {
+                          background: '#fff',
+                          padding: '20px',
+                          marginTop: '10px',
+                        },
+                      }}
+                      spacing={8}
+                    >
                       <Heading as="h2" padding={0} margin={0}>
                         Flight details
                       </Heading>

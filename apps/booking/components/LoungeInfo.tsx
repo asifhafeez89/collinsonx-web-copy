@@ -6,6 +6,7 @@ import {
   Text,
   Stack,
   Skeleton,
+  Center,
 } from '@collinsonx/design-system/core';
 import { Experience } from '@collinsonx/utils';
 
@@ -65,18 +66,39 @@ export const LoungeInfo = ({ guests, lounge, loading }: LoungeInfoProps) => {
   }
 
   return (
-    <Flex p={24} gap={16} direction="row" bg="#FFF">
-      <Skeleton visible={loading} w={200} h={128}>
-        {lounge?.images && lounge.images[0] ? (
-          <Image
-            width={176}
-            height={128}
-            src={lounge?.images[0].url}
-            alt="lounge image"
-          />
-        ) : undefined}
-      </Skeleton>
-      <Flex direction="column" w="100%" gap={loading ? 16 : undefined}>
+    <Flex p={24} gap={16} direction={{ base: 'column', xl: 'row' }} bg="#FFF">
+      <div>
+        <Skeleton
+          visible={loading}
+          sx={{
+            width: '100%',
+          }}
+        >
+          {lounge?.images && lounge.images[0] ? (
+            <Image
+              sx={() => ({
+                width: '176px',
+                '@media (max-width: 40em)': {
+                  width: '100%',
+                  height: '100%',
+                },
+              })}
+              src={lounge?.images[0].url}
+              alt="lounge image"
+            />
+          ) : undefined}
+        </Skeleton>
+      </div>
+      <Flex
+        direction="column"
+        w="100%"
+        gap={loading ? 16 : undefined}
+        sx={{
+          '@media (max-width: 40em)': {
+            textAlign: 'center',
+          },
+        }}
+      >
         <Skeleton visible={loading}>
           <Title data-testid="loungeName" order={2} size={32}>
             {lounge ? lounge.loungeName : '-'}

@@ -25,7 +25,10 @@ export default function LoungeDetails({
 }: LoungeDetailsProps) {
   return (
     <div>
-      <Flex direction={direction} align="center" gap={48}>
+      <Flex
+        direction={{ base: 'column', lg: 'row' }}
+        gap={{ base: '0', lg: '48' }}
+      >
         {infos.map((info, i) => (
           <div key={i}>
             <Box fw={600}>{info.header}</Box>
