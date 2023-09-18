@@ -125,7 +125,6 @@ function DebugBox({ loungeCode, jwt, object }: DebugBoxProps) {
 
   return (
     <>
-      <p>Secret key: {process.env.NEXT_PUBLIC_JWT_SECRET_KEY || ''}</p>
       {loungeCode.length > 0 && <p>Lounge code: {loungeCode}</p>}
       {object.length > 0 && (
         <>
@@ -162,7 +161,7 @@ const Content = () => {
   const form = useForm({
     validate: joiResolver(schema),
     initialValues: {
-      consumerNumber: '',
+      externalId: '',
       membershipNumber: '',
       email: '',
       customFirstName: '',
@@ -207,7 +206,7 @@ const Content = () => {
       : lastName;
 
     const response = {
-      consumerNumber: values.consumerNumber,
+      externalId: values.externalId,
       membershipNumber: values.membershipNumber,
       email: values.email,
       firstName: firstNameValue,
@@ -229,7 +228,7 @@ const Content = () => {
 
   return (
     <>
-      <h1>Placeholder App</h1>
+      <h1>BaaS Testing App</h1>
       <form onSubmit={form.onSubmit((values) => createNewJWT(values))}>
         <Grid>
           <Grid.Col span={6}>
@@ -244,8 +243,8 @@ const Content = () => {
         <Grid>
           <Grid.Col span={6}>
             <TextInput
-              {...form.getInputProps('consumerNumber')}
-              placeholder="Please add consumer number details"
+              {...form.getInputProps('externalId')}
+              placeholder="Please add legacy consumer number details"
             />
           </Grid.Col>
         </Grid>

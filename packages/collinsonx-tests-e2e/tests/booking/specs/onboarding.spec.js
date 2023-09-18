@@ -27,7 +27,7 @@ test.describe('Onboarding flow - end to end happy path', () => {
         email: 'test@test.com',
         firstName: 'Alice',
         lastName: 'Smith',
-        membershipType: 'HSBC',
+        membershipType: 'MASTERCARD_HSBC',
         accountProvider: 'PRIORITY_PASS',
       };
       const expirationTime = '12h';
@@ -41,7 +41,7 @@ test.describe('Onboarding flow - end to end happy path', () => {
       await enterEmailPage.clickContinue();
       const pin = await getPinFromEmail(email);
 
-      await enterPinPage.enterPin(pin)
+      await enterPinPage.enterPin(pin);
       await enterPinPage.clickVerify();
 
       await registrationPage.clickConfirm();

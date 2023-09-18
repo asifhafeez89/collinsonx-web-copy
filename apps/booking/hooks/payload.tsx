@@ -47,7 +47,7 @@ type PayloadState = {
 const PayloadContext = createContext<PayloadState | null>(null);
 
 const { LK, PP } = AccountProvider;
-const { HSBC } = Client;
+const { Mastercard_HSBC } = Client;
 
 export const usePayload = (): PayloadState => {
   const context = useContext(PayloadContext);
@@ -71,7 +71,7 @@ const secret = process.env.NEXT_PUBLIC_JWT_SECRET as string;
 
 function callThemeFunction(name: AccountProvider | Client) {
   switch (name) {
-    case HSBC:
+    case Mastercard_HSBC:
       return hsbc();
     case PP:
       return priorityPass();
@@ -178,8 +178,8 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       {payload && !tokenError ? (
         <MantineProvider
           theme={callThemeFunction(
-            payload?.membershipType === HSBC
-              ? HSBC
+            payload?.membershipType === Mastercard_HSBC
+              ? Mastercard_HSBC
               : payload?.accountProvider || PP
           )}
           withGlobalStyles

@@ -13,7 +13,7 @@ import { BridgePayload } from 'types/booking';
 import colors from 'ui/colour-constants';
 
 const { LK, PP } = AccountProvider;
-const { HSBC } = Client;
+const { Mastercard_HSBC } = Client;
 
 const PinLockout = ({ payload }: { payload: BridgePayload | undefined }) => {
   const router = useRouter();
@@ -28,7 +28,10 @@ const PinLockout = ({ payload }: { payload: BridgePayload | undefined }) => {
   const handleSupportClick = () => {
     let url: string = '';
 
-    if (payload?.membershipType === HSBC || payload?.accountProvider === PP) {
+    if (
+      payload?.membershipType === Mastercard_HSBC ||
+      payload?.accountProvider === PP
+    ) {
       url = 'https://memberhelp.prioritypass.com/en/support/home';
     } else if (payload?.accountProvider === LK) {
       url = 'https://www.loungekey.com/en/contact-us';

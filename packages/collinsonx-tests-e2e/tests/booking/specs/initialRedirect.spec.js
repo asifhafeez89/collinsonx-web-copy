@@ -17,7 +17,7 @@ test.describe('Initial Redirect to BAAS page - current implementation', () => {
         email: 'test@test.com',
         firstName: 'Alice',
         lastName: 'Smith',
-        membershipType: 'HSBC',
+        membershipType: 'MASTERCARD_HSBC',
         accountProvider: 'PRIORITY_PASS',
       };
       const expirationTime = '12h';

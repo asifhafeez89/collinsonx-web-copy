@@ -40,7 +40,7 @@ export type LoungeSchema = {
  */
 export interface BridgePayload {
   membershipNumber: string;
-  consumerNumber: string;
+  externalId: string;
   email?: string;
   firstName?: string;
   lastName?: string;

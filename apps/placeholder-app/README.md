@@ -1,4 +1,4 @@
-# Placeholder app
+# BaaS Testing App
 
 ## Getting Started
 
