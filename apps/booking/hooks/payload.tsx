@@ -100,14 +100,16 @@ export const PayloadProvider = (props: PropsWithChildren) => {
   } = useQuery<{ searchExperiences: Experience[] }>(getSearchExperiences, {
     skip: !loungeCode || !payload,
     variables: {
-      attribute: apiAccountProviderMap[payload?.accountProvider!],
-      value: 'true',
+      searchFilter: {
+        attribute: apiAccountProviderMap[payload?.accountProvider!],
+        value: 'true',
+      },
     },
   });
 
   const lounge = useMemo(() => {
     return loungeData?.searchExperiences.filter(
-      (item) => item.loungeCode === loungeCode
+      (item) => item && item.loungeCode === loungeCode
     )[0];
   }, [loungeData, loungeCode]);
 
