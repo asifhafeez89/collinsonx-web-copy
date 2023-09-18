@@ -10,6 +10,7 @@ import {
   TextInput,
   Switch,
   Grid,
+  Text,
 } from '@mantine/core';
 
 import {
@@ -79,9 +80,25 @@ function AccountProviderSelectBox({
 
 interface LoungeSelectBoxProps {
   setLounge: Dispatch<SetStateAction<string>>;
+  setFlightDetails: (flightarray: string[]) => void;
+  setAirportName: (airportName: string) => void;
 }
 
-function LoungeSelectBox({ setLounge }: LoungeSelectBoxProps) {
+function LoungeSelectBox({
+  setLounge,
+  setFlightDetails,
+  setAirportName,
+}: LoungeSelectBoxProps) {
+  const selectChange = (LoungeCode: string) => {
+    setLounge(LoungeCode);
+    lounges.map((lounge: LoungeSchema, i: number) => {
+      if (lounge.LoungeCode === LoungeCode) {
+        setFlightDetails(lounge.FlightNumbers);
+        setAirportName(lounge.AirportName);
+      }
+    });
+  };
+
   const data = lounges.map((lounge: LoungeSchema, i: number) => {
     const value = lounge.LoungeCode;
 
@@ -102,7 +119,7 @@ function LoungeSelectBox({ setLounge }: LoungeSelectBoxProps) {
       placeholder="Please select a lounge"
       data={data}
       // @ts-ignore
-      onChange={setLounge}
+      onChange={selectChange}
     />
   );
 }
@@ -158,17 +175,6 @@ function DebugBox({ loungeCode, jwt, object }: DebugBoxProps) {
 }
 
 const Content = () => {
-  const form = useForm({
-    validate: joiResolver(schema),
-    initialValues: {
-      externalId: '',
-      membershipNumber: '',
-      email: '',
-      customFirstName: '',
-      customLastName: '',
-    },
-  });
-
   const [lounge, setLounge] = useState<string>('');
   const [domain, setDomain] = useState<string | null>('');
   const [debugModeIsActive, setDebugModeIsActive] = useState(false);
@@ -185,16 +191,19 @@ const Content = () => {
 
   const [object, setObject] = useState('');
   const [jwt, setJWT] = useState('');
+  const [flight, setFlight] = useState<string[]>([]);
+  const [airportName, setAirportName] = useState<string>('');
 
   const createNewJWT = async (values: SchemaType) => {
     let membershipType: string | null = client;
+
     if (clientAllowNull) {
       membershipType = '';
     }
 
     let accountProviderValue = accountProvider;
     if (accountProviderAllowNull) {
-      membershipType = '';
+      accountProviderValue = '';
     }
 
     const firstNameValue = values.customFirstName.length
@@ -224,6 +233,25 @@ const Content = () => {
     const url = `${domain}?${lcParam}=${lounge}&${jwtParam}=${jwtToken}`;
 
     window.open(url);
+  };
+
+  const form = useForm({
+    validate: joiResolver(schema),
+    initialValues: {
+      externalId: Math.floor(Math.random() * 10000).toString(),
+      membershipNumber: Math.floor(Math.random() * 10000).toString(),
+      email: '',
+      customFirstName: '',
+      customLastName: '',
+    },
+  });
+
+  const setFlightArray = (flightArray: string[]) => {
+    setFlight(flightArray);
+  };
+
+  const setAirport = (airportName: string) => {
+    setAirportName(airportName);
   };
 
   return (
@@ -329,7 +357,22 @@ const Content = () => {
         </Grid>
         <Grid>
           <Grid.Col span={6}>
-            <LoungeSelectBox setLounge={setLounge} />
+            <LoungeSelectBox
+              setLounge={setLounge}
+              setFlightDetails={setFlightArray}
+              setAirportName={setAirport}
+            />
+          </Grid.Col>
+        </Grid>
+
+        <Grid>
+          <Grid.Col span={6}>
+            {flight.length > 0 ? (
+              <Text>
+                {' '}
+                {lounge} ({airportName}): {flight.join(',')}
+              </Text>
+            ) : null}
           </Grid.Col>
         </Grid>
 
