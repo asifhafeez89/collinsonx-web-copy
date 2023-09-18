@@ -40,6 +40,7 @@ import { InfoGroup } from '@collinsonx/design-system/components/details';
 import { BookingContext } from 'context/bookingContext';
 import { getCheckoutSessionUrl } from 'services/payment';
 import { debug } from 'console';
+import { FAQLink } from 'utils/FAQLinks';
 
 interface AvailableSlotsProps {
   availableSlots: Availability;
@@ -171,9 +172,9 @@ export default function ConfirmAvailability({
         <Stack sx={{ width: '100%' }}>
           <Breadcramp
             lefttitle={`BACK TO ${lounge?.loungeName?.toUpperCase()}`}
-            lefturl="https://bbc.co.uk"
+            lefturl="/"
             righttile={`FAQs`}
-            righturl="https://bbc.co.uk"
+            righturl={FAQLink(payload?.accountProvider)}
           />
         </Stack>
         <Flex justify="center" align="center" direction="column">

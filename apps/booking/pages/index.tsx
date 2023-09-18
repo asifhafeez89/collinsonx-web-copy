@@ -30,6 +30,7 @@ import BookingProvider, {
   Booking,
   BookingContext,
 } from 'context/bookingContext';
+import { FAQLink } from 'utils/FAQLinks';
 import colors from 'ui/colour-constants';
 
 interface DepartureFlightInfo {
@@ -122,14 +123,12 @@ const Lounge = () => {
     <Layout>
       <form onSubmit={form.onSubmit(handleClickCheckAvailability)}>
         <Stack spacing={16}>
-          <Stack sx={{ width: '100%' }}>
-            <Breadcramp
-              lefttitle={`BACK TO ${lounge?.loungeName?.toUpperCase()}`}
-              lefturl="https://bbc.co.uk"
-              righttile={`FAQs`}
-              righturl="https://bbc.co.uk"
-            />
-          </Stack>
+          <Breadcramp
+            lefttitle={`BACK TO ${lounge?.loungeName?.toUpperCase()}`}
+            lefturl="/"
+            righttile={`FAQs`}
+            righturl={FAQLink(payload?.accountProvider)}
+          />
           <Flex justify="center" align="center">
             <Stack maw={591} spacing={24}>
               <LoungeInfo

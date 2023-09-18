@@ -128,7 +128,7 @@ export default function SuccessBooking({
         <Stack sx={{ width: '100%' }}>
           <Breadcramp
             lefttitle={`BACK TO ${lounge?.loungeName?.toUpperCase()}`}
-            lefturl="https://bbc.co.uk"
+            lefturl="/"
             righttile={`FAQs`}
             righturl="https://bbc.co.uk"
           />

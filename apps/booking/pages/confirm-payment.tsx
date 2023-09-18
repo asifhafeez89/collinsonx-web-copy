@@ -34,6 +34,7 @@ import { BookingContext } from 'context/bookingContext';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 
 import { useContext, useEffect } from 'react';
+import { FAQLink } from 'utils/FAQLinks';
 
 export default function ConfirmPayment() {
   const router = useRouter();
@@ -93,9 +94,9 @@ export default function ConfirmPayment() {
       <Stack spacing={16}>
         <Breadcramp
           lefttitle={`BACK TO ${lounge?.loungeName?.toUpperCase()}`}
-          lefturl="https://bbc.co.uk"
+          lefturl="/"
           righttile={`FAQs`}
-          righturl="https://bbc.co.uk"
+          righturl={FAQLink(payload?.accountProvider)}
         />
 
         <Flex justify="center" align="center" direction="column">

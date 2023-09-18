@@ -50,6 +50,7 @@ import { BookingContext } from 'context/bookingContext';
 import dayjs from 'dayjs';
 import { constants } from '../constants';
 import colors from 'ui/colour-constants';
+import { FAQLink } from 'utils/FAQLinks';
 
 export default function ConfirmAvailability() {
   const router = useRouter();
@@ -231,9 +232,9 @@ export default function ConfirmAvailability() {
         <Stack sx={{ width: '100%' }}>
           <Breadcramp
             lefttitle={`BACK TO ${lounge?.loungeName?.toUpperCase()}`}
-            lefturl="https://bbc.co.uk"
+            lefturl="/"
             righttile={`FAQs`}
-            righturl="https://bbc.co.uk"
+            righturl={FAQLink(payload?.accountProvider)}
           />
         </Stack>
         <Flex justify="center" align="center" direction="column">

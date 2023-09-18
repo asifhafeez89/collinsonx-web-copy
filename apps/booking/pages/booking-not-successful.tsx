@@ -12,11 +12,12 @@ import usePayload from 'hooks/payload';
 
 import colors from 'ui/colour-constants';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
+import { FAQLink } from 'utils/FAQLinks';
 
 export default function BookingNotSuccessful() {
   const router = useRouter();
 
-  const { lounge } = usePayload();
+  const { payload, lounge } = usePayload();
   console.log(router.query);
   return (
     <Layout>
@@ -25,7 +26,7 @@ export default function BookingNotSuccessful() {
           lefttitle={`BACK TO ${lounge?.loungeName?.toUpperCase()}`}
           lefturl="/"
           righttile={`FAQs`}
-          righturl="/"
+          righturl={FAQLink(payload?.accountProvider)}
         />
 
         <Flex justify="center" align="center" direction="column">
