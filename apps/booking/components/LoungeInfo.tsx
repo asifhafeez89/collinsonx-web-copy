@@ -78,7 +78,7 @@ export const LoungeInfo = ({ guests, lounge, loading }: LoungeInfoProps) => {
             <Image
               sx={() => ({
                 width: '176px',
-                '@media (max-width: 40em)': {
+                '@media (max-width: 768px)': {
                   width: '100%',
                   height: '100%',
                 },
@@ -94,7 +94,7 @@ export const LoungeInfo = ({ guests, lounge, loading }: LoungeInfoProps) => {
         w="100%"
         gap={loading ? 16 : undefined}
         sx={{
-          '@media (max-width: 40em)': {
+          '@media (max-width: 768px)': {
             textAlign: 'center',
           },
         }}

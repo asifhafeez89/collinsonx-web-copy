@@ -28,6 +28,7 @@ const baseTheme = ({
         height: '100%',
         color: colors.black,
         fontWeight: 400,
+        backgroundColor: '#F3F2F3',
       },
       html: {
         height: '100%',

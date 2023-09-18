@@ -23,6 +23,7 @@ const theme = (
     body: {
       height: '100%',
       color: colors.dark[6],
+      backgroundColor: '#F3F2F3',
     },
     html: {
       height: '100%',
@@ -111,9 +112,9 @@ const theme = (
     NavLink: {
       styles: ({ colors }) => ({
         label: {
-          color: colors.brandColor
-        }
-      })
+          color: colors.brandColor,
+        },
+      }),
     },
   },
 });

@@ -32,6 +32,7 @@ import usePayload from 'hooks/payload';
 import { InfoGroup } from '@collinsonx/design-system/components/details';
 import { BookingContext } from 'context/bookingContext';
 import { getCheckoutSessionUrl } from 'services/payment';
+import colors from 'ui/colour-constants';
 
 interface AvailableSlotsProps {
   availableSlots: Availability;
@@ -124,7 +125,7 @@ export default function SuccessBooking({
 
   return (
     <Layout>
-      <Stack spacing={16}>
+      <Stack spacing={16} sx={{ backgroundColor: colors.background }}>
         <Stack sx={{ width: '100%' }}>
           <Breadcramp
             lefttitle={`BACK TO ${lounge?.loungeName?.toUpperCase()}`}
@@ -133,8 +134,30 @@ export default function SuccessBooking({
             righturl="https://bbc.co.uk"
           />
         </Stack>
-        <Flex justify="center" align="center" direction="column">
-          <Stack maw={591} spacing={24}>
+        <Flex
+          sx={{
+            justifyContent: 'center',
+
+            '@media (max-width: 768px)': {
+              width: '100%',
+              justifyContent: 'initial',
+
+              backgroundColor: colors.background,
+            },
+          }}
+          direction="column"
+        >
+          <Stack
+            spacing={24}
+            sx={{
+              width: '591px',
+
+              '@media (max-width: 768px)': {
+                width: '100%',
+                margin: '0',
+              },
+            }}
+          >
             <LoungeInfo
               guests={{ adults, children, infants }}
               lounge={lounge}
@@ -148,9 +171,16 @@ export default function SuccessBooking({
               ></Flex>
             ) : (
               <Flex
-                direction={{ base: 'column', sm: 'row' }}
                 gap={{ base: 'sm', sm: 'lg' }}
                 justify={{ sm: 'center' }}
+                sx={{
+                  width: '100%',
+                  flexDirection: 'row',
+
+                  '@media (max-width: 768px)': {
+                    flexDirection: 'column',
+                  },
+                }}
               >
                 {loading && <BookingFormSkeleton />}
                 {!loading && (
@@ -193,38 +223,27 @@ export default function SuccessBooking({
                               {arrival?.split('-')[0]}
                             </p>{' '}
                           </Flex>
+                          <div>
+                            This is a rough estimate so that lounge can prepare
+                            for your arrival
+                          </div>
                         </EditableTitle>
 
-                        <div>
-                          This is a rough estimate so that lounge can prepare
-                          for your arrival
-                        </div>
                         <EditableTitle title="Cancelation policy" as="h2">
                           <p style={{ padding: '0', margin: '0' }}>
                             Free cancellation for 24 hours. Cancel before [date
                             of flight] for a partial refund.
                           </p>
                           <Link href="cancelation-policy">Learn more</Link>
+                          <div>
+                            <p>
+                              As your flight is at 7:00am, your maximum stay is
+                              3 hours prior.
+                            </p>
+                          </div>
                         </EditableTitle>
-
-                        <div>
-                          <p>
-                            As your flight is at 7:00am, your maximum stay is 3
-                            hours prior.
-                          </p>
-                        </div>
                       </Stack>
                     )}
-
-                    <Button
-                      type="submit"
-                      data-testid="submit"
-                      spacing="20px"
-                      align="center"
-                      handleClick={handleSubmit}
-                    >
-                      DOWNLOAD
-                    </Button>
                   </Box>
                 )}
               </Flex>

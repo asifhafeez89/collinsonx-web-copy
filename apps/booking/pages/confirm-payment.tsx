@@ -91,7 +91,7 @@ export default function ConfirmPayment() {
 
   return (
     <Layout>
-      <Stack spacing={16}>
+      <Stack spacing={16} sx={{ backgroundColor: colors.background }}>
         <Breadcramp
           lefttitle={`BACK TO ${lounge?.loungeName?.toUpperCase()}`}
           lefturl="/"
@@ -99,8 +99,32 @@ export default function ConfirmPayment() {
           righturl={FAQLink(payload?.accountProvider)}
         />
 
-        <Flex justify="center" align="center" direction="column">
-          <Stack maw={591} spacing={24}>
+        <Flex
+          justify="center"
+          align="center"
+          direction="column"
+          sx={{
+            justifyContent: 'center',
+
+            '@media (max-width: 768px)': {
+              width: '100%',
+              justifyContent: 'initial',
+
+              backgroundColor: colors.background,
+            },
+          }}
+        >
+          <Stack
+            spacing={24}
+            sx={{
+              width: '591px',
+
+              '@media (max-width: 768px)': {
+                width: '100%',
+                margin: '0',
+              },
+            }}
+          >
             <LoungeInfo
               guests={{ adults, children, infants }}
               lounge={lounge}
@@ -108,99 +132,138 @@ export default function ConfirmPayment() {
             />
 
             <Flex
-              direction={{ base: 'column', sm: 'row' }}
               gap={{ base: 'sm', sm: 'lg' }}
-              justify={{ sm: 'center' }}
+              sx={{
+                width: '100%',
+                flexDirection: 'row',
+
+                '@media (max-width: 768px)': {
+                  flexDirection: 'column',
+                },
+              }}
             >
               {loading && <BookingFormSkeleton />}
               {!loading && (
                 <Box>
-                  <Stack
-                    sx={{
-                      '@media (max-width: 40em)': {
-                        background: '#fff',
-                        padding: '20px',
-                      },
-                    }}
-                    spacing={8}
-                  >
+                  <Stack>
                     <LoungeError error={fetchError} />
-                    <Title
-                      style={{
-                        fontSize: '1.5rem',
-                        lineHeight: '2.25rem',
-                        fontWeight: '700',
-                      }}
-                    >
-                      Your Booking has been confirmed
-                    </Title>
-                    <Text
-                      style={{
-                        fontSize: '1.125rem',
-                        lineHeight: '1.75rem',
-                        fontWeight: '700',
-                        marginTop: '0.75rem',
-                        marginBottom: '0.75rem',
-                      }}
-                    >
-                      Booking reference {bookingId}
-                    </Text>
 
-                    <Text
-                      style={{
-                        fontSize: '1.125rem',
-                        lineHeight: '1.75rem',
-                        marginTop: '0.75rem',
-                        marginBottom: '0.75rem',
+                    <Box
+                      sx={{
+                        '@media (max-width: 768px)': {
+                          background: colors.white,
+                          padding: '20px',
+                        },
                       }}
                     >
-                      A confirmation email has been sent to{' '}
-                      <span style={{ fontWeight: 700 }}>
-                        {userData?.getConsumerByID?.emailAddress}
-                      </span>
-                    </Text>
+                      <Title
+                        style={{
+                          fontSize: '1.5rem',
+                          lineHeight: '2.25rem',
+                          fontWeight: '700',
+                        }}
+                      >
+                        Your Booking has been confirmed
+                      </Title>
+                      <Text
+                        style={{
+                          fontSize: '1.125rem',
+                          lineHeight: '1.75rem',
+                          fontWeight: '700',
+                          marginTop: '0.75rem',
+                          marginBottom: '0.75rem',
+                        }}
+                      >
+                        Booking reference {bookingId}
+                      </Text>
+
+                      <Text
+                        style={{
+                          fontSize: '1.125rem',
+                          lineHeight: '1.75rem',
+                          marginTop: '0.75rem',
+                          marginBottom: '0.75rem',
+                        }}
+                      >
+                        A confirmation email has been sent to{' '}
+                        <span style={{ fontWeight: 700 }}>
+                          {userData?.getConsumerByID?.emailAddress}
+                        </span>
+                      </Text>
+                    </Box>
+
                   </Stack>
 
                   {lounge && (
                     <Stack
                       sx={{
-                        '@media (max-width: 40em)': {
-                          background: '#fff',
-                          padding: '20px',
+
+                        '@media (max-width: 768px)': {
+
                           marginTop: '10px',
                         },
                       }}
                       spacing={8}
                     >
-                      <Heading as="h2" padding={0} margin={0}>
-                        Flight details
-                      </Heading>
-                      <Details infos={infos as InfoGroup[]} direction="row" />
 
-                      <Heading as="h2" padding={0} margin={0}>
-                        Who's coming
-                      </Heading>
-                      <Flex direction="row" gap={10}>
-                        <p style={{ padding: '0', margin: '0' }}>
-                          {' '}
-                          <strong>Adults</strong> {adults}
-                        </p>{' '}
-                        {Number(children) > 0 ? (
-                          <>
-                            <p style={{ padding: '0', margin: '0' }}>
-                              {' '}
-                              <strong>Children</strong> {children}
-                            </p>
-                          </>
-                        ) : null}
-                      </Flex>
+                      <Box
+                        sx={{
+                          '@media (max-width: 768px)': {
+                            background: colors.white,
+                            padding: '20px',
+                          },
+                        }}
+                      >
+                        <Heading as="h2" padding={0} margin={0}>
+                          Flight details
+                        </Heading>
+                        <Details infos={infos as InfoGroup[]} direction="row" />
+                      </Box>
+                      <Box
+                        sx={{
+                          '@media (max-width: 768px)': {
+                            background: colors.white,
+                            padding: '20px',
+                          },
+                        }}
+                      >
+                        <Heading as="h2" padding={0} margin={0}>
+                          Who's coming
+                        </Heading>
+                        <Flex direction="row" gap={10}>
+                          <p style={{ padding: '0', margin: '0' }}>
+                            {' '}
+                            <strong>Adults</strong> {adults}
+                          </p>{' '}
+                          {Number(children) > 0 ? (
+                            <>
+                              <p style={{ padding: '0', margin: '0' }}>
+                                {' '}
+                                <strong>Children</strong> {children}
+                              </p>
+                            </>
+                          ) : null}
+                        </Flex>
+                      </Box>
+                      <Box
+                        sx={{
+                          '@media (max-width: 768px)': {
+                            background: colors.white,
+                            padding: '20px',
+                          },
+                        }}
+                      >
+                        <Heading as="h2" padding={0} margin={0}>
+                          Estimated time of arrival
+                        </Heading>
+                        <Flex direction="row" gap={10}>
+                          <p style={{ padding: '0', margin: '0' }}>
+                            {' '}
+                            {arrival}
+                          </p>{' '}
+                        </Flex>
+                      </Box>
 
-                      <Heading as="h2" padding={0} margin={0}>
-                        Estimated time of arrival
-                      </Heading>
-                      <Flex direction="row" gap={10}>
-                        <p style={{ padding: '0', margin: '0' }}> {arrival}</p>{' '}
-                      </Flex>
                     </Stack>
                   )}
                   <Center>

@@ -40,6 +40,7 @@ import { InfoGroup } from '@collinsonx/design-system/components/details';
 import { BookingContext } from 'context/bookingContext';
 import { getCheckoutSessionUrl } from 'services/payment';
 import { debug } from 'console';
+import colors from 'ui/colour-constants';
 import { FAQLink } from 'utils/FAQLinks';
 
 interface AvailableSlotsProps {
@@ -168,8 +169,8 @@ export default function ConfirmAvailability({
 
   return (
     <Layout>
-      <Stack spacing={16}>
-        <Stack sx={{ width: '100%' }}>
+      <Stack spacing={16} sx={{ backgroundColor: colors.background }}>
+        <Stack>
           <Breadcramp
             lefttitle={`BACK TO ${lounge?.loungeName?.toUpperCase()}`}
             lefturl="/"
@@ -177,8 +178,32 @@ export default function ConfirmAvailability({
             righturl={FAQLink(payload?.accountProvider)}
           />
         </Stack>
-        <Flex justify="center" align="center" direction="column">
-          <Stack maw={591} spacing={24}>
+        <Flex
+          justify="center"
+          align="center"
+          direction="column"
+          sx={{
+            justifyContent: 'center',
+
+            '@media (max-width: 768px)': {
+              width: '100%',
+              justifyContent: 'initial',
+
+              backgroundColor: colors.background,
+            },
+          }}
+        >
+          <Stack
+            spacing={24}
+            sx={{
+              width: '591px',
+
+              '@media (max-width: 768px)': {
+                width: '100%',
+                margin: '0',
+              },
+            }}
+          >
             <LoungeInfo
               guests={{ adults, children, infants }}
               lounge={lounge}
@@ -192,9 +217,15 @@ export default function ConfirmAvailability({
               ></Flex>
             ) : (
               <Flex
-                direction={{ base: 'column', sm: 'row' }}
                 gap={{ base: 'sm', sm: 'lg' }}
-                justify={{ sm: 'center' }}
+                sx={{
+                  width: '100%',
+                  flexDirection: 'row',
+
+                  '@media (max-width: 768px)': {
+                    flexDirection: 'column',
+                  },
+                }}
               >
                 {loading && <BookingFormSkeleton />}
                 {!loading && (

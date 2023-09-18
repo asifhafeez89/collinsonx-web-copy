@@ -228,7 +228,17 @@ export default function ConfirmAvailability() {
 
   return (
     <Layout>
-      <Stack spacing={16}>
+      <Stack
+        spacing={16}
+        sx={{
+          background: colors.background,
+
+          '@media (max-width: 768px)': {
+            width: '100%',
+            backgroundColor: colors.background,
+          },
+        }}
+      >
         <Stack sx={{ width: '100%' }}>
           <Breadcramp
             lefttitle={`BACK TO ${lounge?.loungeName?.toUpperCase()}`}
@@ -237,8 +247,27 @@ export default function ConfirmAvailability() {
             righturl={FAQLink(payload?.accountProvider)}
           />
         </Stack>
-        <Flex justify="center" align="center" direction="column">
-          <Stack maw={591} spacing={24}>
+        <Flex
+          direction="column"
+          sx={{
+            width: '100%',
+
+            '@media (max-width: 768px)': {
+              width: '100%',
+            },
+          }}
+        >
+          <Stack
+            spacing={24}
+            sx={{
+              width: '591px',
+              margin: '0 auto',
+              '@media (max-width: 768px)': {
+                width: '100%',
+                margin: '0',
+              },
+            }}
+          >
             <LoungeInfo
               guests={{ adults, children, infants }}
               lounge={lounge}
@@ -247,11 +276,25 @@ export default function ConfirmAvailability() {
             <Flex
               direction={{ base: 'column', sm: 'row' }}
               gap={{ base: 'sm', sm: 'lg' }}
-              justify={{ sm: 'center' }}
+              sx={{
+                justifyContent: 'center',
+
+                '@media (max-width: 768px)': {
+                  justifyContent: 'initial',
+                  backgroundColor: colors.background,
+                  width: '100%',
+                },
+              }}
             >
               {!lounge && <BookingFormSkeleton />}
               {lounge && (
-                <Box>
+                <Box
+                  sx={{
+                    '@media (max-width: 768px)': {
+                      width: '100%',
+                    },
+                  }}
+                >
                   <LoungeError error={flightDataError} />
                   <LoungeError error={slotsError} />
                   <LoungeError error={cbError} />
@@ -303,26 +346,27 @@ export default function ConfirmAvailability() {
                       </EditableTitle>
                     </Stack>
                   )}
-                  <Center>
-                    <Button
-                      disabled={slotsLoading || cbLoading}
-                      type="submit"
-                      data-testid="submit"
-                      onClick={handleSubmit}
-                      sx={{
-                        '@media (max-width: 40em)': {
-                          marginTop: '10px',
-                        },
-                      }}
-                    >
-                      CONFIRM
-                    </Button>
-                  </Center>
+
                 </Box>
               )}
             </Flex>
           </Stack>
         </Flex>
+        <Center>
+          <Button
+            disabled={slotsLoading || cbLoading}
+            type="submit"
+            data-testid="submit"
+            onClick={handleSubmit}
+            sx={{
+              '@media (max-width: 768px)': {
+                marginTop: '10px',
+              },
+            }}
+          >
+            CONFIRM
+          </Button>
+        </Center>
       </Stack>
     </Layout>
   );

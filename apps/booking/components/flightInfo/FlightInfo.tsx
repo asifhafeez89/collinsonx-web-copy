@@ -39,7 +39,7 @@ export const FlightInfo = ({ form, loading }: FlightInfoProps) => {
   return (
     <Box
       sx={{
-        '@media (max-width: 40em)': {
+        '@media (max-width: 768px)': {
           backgroundColor: colors.white,
           padding: '1.2rem 1.2rem',
         },
@@ -50,7 +50,16 @@ export const FlightInfo = ({ form, loading }: FlightInfoProps) => {
         <Title order={3} size={18}>
           Flight Details
         </Title>
-        <Flex direction={{ base: 'column', xl: 'row' }} justify="space-between">
+        <Flex
+          sx={{
+            flexDirection: 'row',
+
+            '@media (max-width: 768px)': {
+              flexDirection: 'column',
+            },
+          }}
+          justify="space-between"
+        >
           <DatePickerInput
             icon={<IconCalendar size="1.5rem" stroke={1.5} />}
             label="Departure Date"
@@ -61,6 +70,7 @@ export const FlightInfo = ({ form, loading }: FlightInfoProps) => {
             required={true}
             disabled={loading}
             withAsterisk
+            sx={{}}
             {...form.getInputProps('departureDate')}
           />
           <InputLabel

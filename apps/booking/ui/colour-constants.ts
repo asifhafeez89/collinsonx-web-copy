@@ -8,7 +8,8 @@ const colors = {
   dividerGrey: '#C8C9CA',
   background: '#F3F2F3',
   boxBorder: '#CCCCCC',
-  borderColor: '#C8C9CA',
+  borderColor: '#B4B3BA',
+
 };
 
 export default colors;

@@ -42,7 +42,7 @@ export default function Error404() {
             overflow: 'hidden',
             backgroundColor: colors.white,
             margin: '0 auto',
-            '@media (max-width: 40em)': {
+            '@media (max-width: 768px)': {
               width: '90%',
             },
           }}

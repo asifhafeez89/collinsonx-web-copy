@@ -151,7 +151,7 @@ export default function CheckEmail() {
                   height: '100%',
                   width: '440px',
                   margin: '0 auto',
-                  '@media (max-width: 40em)': {
+                  '@media (max-width: 768px)': {
                     width: '100%',
                     padding: '1rem 1.5rem 0 1.5rem',
                   },

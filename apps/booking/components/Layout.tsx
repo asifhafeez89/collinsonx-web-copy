@@ -15,20 +15,25 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <Container
       px={0}
-      style={{
+      sx={{
         maxWidth: '100%',
         backgroundColor: colors.background,
         height: '100%',
+
+        '@media (max-width: 768px)': {
+          margin: '0',
+          padding: '0',
+        },
         overflow: 'scroll',
       }}
     >
       <Box
         sx={{
-          borderBottom: '1px solid #cccc',
           width: '100%',
+          backgroundColor: colors.white,
         }}
       >
-        <Center pb={8} pt={8} sx={{ backgroundColor: colors.white }}>
+        <Center pb={8} pt={8}>
           {payload && (
             <AppLogo
               accountProvider={payload.accountProvider}

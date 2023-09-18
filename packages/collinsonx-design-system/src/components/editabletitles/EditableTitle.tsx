@@ -18,11 +18,14 @@ export default function EditableTitle({
   to,
 }: EditableTitlesProps) {
   return (
-    <Stack
+
+    <Box
       sx={{
-        '@media (max-width: 40em)': {
-          background: '#fff',
+        '@media (max-width: 768px)': {
+          backgroundColor: '#fff',
           padding: '20px',
+          width: '100%',
+
         },
       }}
     >
@@ -38,6 +41,7 @@ export default function EditableTitle({
         )}
       </Flex>
       {children}
-    </Stack>
+    </Box>
+
   );
 }

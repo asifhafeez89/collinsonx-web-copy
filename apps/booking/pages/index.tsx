@@ -26,12 +26,10 @@ import dayjs, { Dayjs } from 'dayjs';
 import Breadcramp from '@components/Breadcramp';
 import usePayload from 'hooks/payload';
 import router from 'next/router';
-import BookingProvider, {
-  Booking,
-  BookingContext,
-} from 'context/bookingContext';
-import { FAQLink } from 'utils/FAQLinks';
+
+import { BookingContext } from 'context/bookingContext';
 import colors from 'ui/colour-constants';
+import { FAQLink } from 'utils/FAQLinks';
 
 interface DepartureFlightInfo {
   airport: { iata: string };
@@ -123,14 +121,38 @@ const Lounge = () => {
     <Layout>
       <form onSubmit={form.onSubmit(handleClickCheckAvailability)}>
         <Stack spacing={16}>
-          <Breadcramp
-            lefttitle={`BACK TO ${lounge?.loungeName?.toUpperCase()}`}
-            lefturl="/"
-            righttile={`FAQs`}
-            righturl={FAQLink(payload?.accountProvider)}
-          />
-          <Flex justify="center" align="center">
-            <Stack maw={591} spacing={24}>
+          <Stack sx={{ width: '100%' }}>
+            <Breadcramp
+              lefttitle={`BACK TO ${lounge?.loungeName?.toUpperCase()}`}
+              lefturl="/"
+              righttile={`FAQs`}
+              righturl={FAQLink(payload?.accountProvider)}
+            />
+          </Stack>
+          <Flex
+            align="center"
+            sx={{
+              justifyContent: 'center',
+
+              '@media (max-width: 768px)': {
+                backgroundColor: colors.background,
+                width: '100%',
+                margin: '0',
+                padding: '0',
+                justifyContent: 'initial',
+              },
+            }}
+          >
+            <Stack
+              spacing={24}
+              sx={{
+                maxWidth: '591px',
+
+                '@media (max-width: 768px)': {
+                  maxWidth: '100%',
+                },
+              }}
+            >
               <LoungeInfo
                 guests={{
                   adults: form.getInputProps('adults').value,
@@ -142,14 +164,7 @@ const Lounge = () => {
               />
               <FlightInfo form={form} loading={!lounge || flightInfoLoading} />
               <LoungeError error={flightInfoError} />
-              <Box
-                sx={{
-                  height: '0px',
-                  '@media (min-width: 40em)': {
-                    borderBottom: `1px solid  ${colors.borderColor}`,
-                  },
-                }}
-              />
+
               <GuestInfo form={form} loading={!lounge} />
               <Center w="100%">
                 <Button disabled={!lounge || flightInfoLoading} type="submit">

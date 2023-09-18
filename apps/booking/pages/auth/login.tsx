@@ -109,7 +109,7 @@ export default function Login(props: unknown) {
                 height: '100%',
                 width: '440px',
                 margin: '0 auto',
-                '@media (max-width: 40em)': {
+                '@media (max-width: 768px)': {
                   width: '100%',
                   padding: '1rem 1.5rem 0 1.5rem',
                 },
@@ -120,7 +120,7 @@ export default function Login(props: unknown) {
                 size={20}
                 sx={{
                   textAlign: 'center',
-                  '@media (max-width: 40em)': {
+                  '@media (max-width: 768px)': {
                     textAlign: 'left',
                   },
                 }}
