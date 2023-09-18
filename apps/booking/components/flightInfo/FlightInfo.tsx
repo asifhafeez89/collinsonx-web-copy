@@ -69,9 +69,7 @@ export const FlightInfo = ({ form, loading }: FlightInfoProps) => {
             required={true}
             withAsterisk
             disabled={loading}
-            fz={18}
             w={270}
-            pt={10}
             error={'invalid flight number'}
             {...form.getInputProps('flightNumber')}
             isCapitalLetters={true}

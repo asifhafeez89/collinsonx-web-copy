@@ -1,4 +1,5 @@
 import { MantineThemeOverride } from '@mantine/core';
+import { rem } from '@mantine/core';
 
 type ThemeOptions = {
   fontFamily?: string;
@@ -104,7 +105,7 @@ const baseTheme = ({
         styles: ({ colors }) => ({
           input: {
             padding: '11px 16px',
-            fontSize: '18px',
+            fontSize: rem(18),
             height: '50px',
             backgroundColor: colors.white,
             borderRadius: 4,
@@ -121,7 +122,7 @@ const baseTheme = ({
           },
           label: {
             fontWeight: 400,
-            fontSize: '1rem',
+            fontSize: rem(18),
             fontFamily,
             color: colors.dark[6],
           },
@@ -143,6 +144,17 @@ const baseTheme = ({
               backgroundColor: colors.brandColor,
               borderColor: colors.brandColor,
             },
+          },
+        }),
+      },
+      DatePickerInput: {
+        styles: ({ colors }) => ({
+          label: {
+            fontWeight: 400,
+            padding: '0 0 .5rem 0',
+          },
+          input: {
+            borderRadius: rem(4),
           },
         }),
       },

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { Box, Flex, Stack } from '@mantine/core';
+import { rem } from '@mantine/core';
 
 export type InfoGroup = {
   header?: string;
@@ -27,7 +28,7 @@ export default function LoungeDetails({
     <div>
       <Flex
         direction={{ base: 'column', lg: 'row' }}
-        gap={{ base: '0', lg: '48' }}
+        gap={{ base: '0', lg: rem(48) }}
       >
         {infos.map((info, i) => (
           <div key={i}>
