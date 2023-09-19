@@ -76,8 +76,7 @@ export default function ConfirmAvailability() {
 
   const booking = getBooking();
 
-  const { flightNumber, departureDate, children, adults, infants, seniors } =
-    booking;
+  const { flightNumber, departureDate, children, adults, infants } = booking;
 
   const flightBreakdown = validateFlightNumber(String(flightNumber));
 
@@ -355,7 +354,6 @@ export default function ConfirmAvailability() {
                       </EditableTitle>
                     </Stack>
                   )}
-
                 </Box>
               )}
             </Flex>

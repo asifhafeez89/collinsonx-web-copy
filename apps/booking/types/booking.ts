@@ -54,5 +54,4 @@ export interface BookingGuests {
   adults: number;
   children: number;
   infants: number;
-  seniors: number;
 }

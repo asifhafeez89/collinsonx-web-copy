@@ -32,3 +32,4 @@ export { default as ArrowLeft } from './arrowleft.svg';
 export { default as FourSquares } from './foursquares.svg';
 export { default as Pencil } from './pencil.svg';
 export { default as MaintenanceIcon } from './maintenance-icon.svg';
+export { default as AlertIcon } from './alert.svg';

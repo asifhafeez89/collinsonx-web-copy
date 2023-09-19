@@ -13,6 +13,8 @@ import colors from 'ui/colour-constants';
 
 import { useForm, UseFormReturnType } from '@mantine/form';
 import { Labrada } from 'next/font/google';
+
+import { MAX_GUESTS } from '../constants';
 export interface GuestInfoProps {
   form: UseFormReturnType<any, any>;
   loading: boolean;
@@ -53,8 +55,8 @@ const GuestInfo = ({ form, loading }: GuestInfoProps) => {
         <Grid>
           <Grid.Col lg={6}>
             <QuantityInput
-              min={0}
-              max={10}
+              min={1}
+              max={MAX_GUESTS}
               label="Adults"
               ageRange="12+"
               disabled={loading}
@@ -66,7 +68,7 @@ const GuestInfo = ({ form, loading }: GuestInfoProps) => {
           <Grid.Col lg={6}>
             <QuantityInput
               min={0}
-              max={10}
+              max={MAX_GUESTS}
               label="Children"
               ageRange="2-11"
               disabled={loading}
@@ -77,7 +79,7 @@ const GuestInfo = ({ form, loading }: GuestInfoProps) => {
 
           <Grid.Col lg={6}>
             <QuantityInput
-              max={10}
+              max={MAX_GUESTS}
               label="Infants"
               ageRange="0-2"
               disabled={loading}

@@ -62,7 +62,6 @@ export default function SuccessBooking({
     arrival,
     bookingId,
     infants,
-    seniors,
   } = getBooking();
 
   const flightBreakdown = validateFlightNumber(String(flightNumber));

@@ -9,7 +9,6 @@ export interface Booking {
   children: number;
   arrivalTime?: string;
   infants: number;
-  seniors: number;
   arrival?: string;
 }
 

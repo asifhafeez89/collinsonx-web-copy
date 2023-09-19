@@ -6,6 +6,7 @@ import {
   Box,
   Button,
   Center,
+  Text,
 } from '@collinsonx/design-system/core';
 import { useForm } from '@mantine/form';
 import { LoungeInfo } from '@components/LoungeInfo';
@@ -30,7 +31,8 @@ import router from 'next/router';
 import { BookingContext } from 'context/bookingContext';
 import colors from 'ui/colour-constants';
 import { FAQLink } from 'utils/FAQLinks';
-
+import { AlertIcon } from '@collinsonx/design-system/assets/icons';
+import { MAX_GUESTS } from '../constants';
 interface DepartureFlightInfo {
   airport: { iata: string };
   date: { local: string; utc: string };
@@ -47,6 +49,7 @@ const Lounge = () => {
   const [step, setStep] = useState<ViewStep>('EDIT');
   const [date, setDate] = useState<string>(dayjs().format(DATE_FORMAT));
   const [flightNumber, setFlightNumber] = useState<string>();
+  const [guestError, setGuestError] = useState<Boolean>(false);
   const { payload, lounge } = usePayload();
 
   const { setBooking } = useContext(BookingContext);
@@ -63,7 +66,6 @@ const Lounge = () => {
       adults: 0,
       children: 0,
       infants: 0,
-      seniors: 0,
     },
     transformValues: (values) => ({
       ...values,
@@ -105,6 +107,12 @@ const Lounge = () => {
 
   const handleClickCheckAvailability = (values: FormValues) => {
     form.validate();
+    if (values.children + values.adults + values.infants > MAX_GUESTS) {
+      setGuestError(true);
+      return false;
+    } else {
+      setGuestError(false);
+    }
 
     const query = router.query;
     setBooking(values);
@@ -164,6 +172,55 @@ const Lounge = () => {
               />
               <FlightInfo form={form} loading={!lounge || flightInfoLoading} />
               <LoungeError error={flightInfoError} />
+
+              {guestError ? (
+                <Box
+                  sx={{
+                    '@media (max-width: 768px)': {
+                      backgroundColor: colors.white,
+                      padding: '1.2rem',
+                    },
+                  }}
+                >
+                  <Box
+                    p={16}
+                    style={{
+                      backgroundColor: 'rgba(212, 42, 84, 0.1)',
+                      border: '2px solid #D42A54',
+                      borderRadius: 8,
+                    }}
+                  >
+                    <Flex
+                      direction="row"
+                      justify="flex-start"
+                      gap="4px"
+                      style={{ height: '100%' }}
+                    >
+                      <Box
+                        sx={{
+                          '@media (max-width: 768px)': {
+                            paddingTop: '0.2rem',
+                          },
+                        }}
+                      >
+                        <AlertIcon style={{ width: 24, height: 24 }} />
+                      </Box>
+
+                      <Text
+                        size={16}
+                        align="left"
+                        fw={400}
+                        style={{ wordWrap: 'break-word' }}
+                      >
+                        The maximum capacity of the lounge is a total of{' '}
+                        {MAX_GUESTS} guests.
+                      </Text>
+                    </Flex>
+                  </Box>
+                </Box>
+              ) : (
+                ''
+              )}
 
               <GuestInfo form={form} loading={!lounge} />
               <Center w="100%">

@@ -71,7 +71,6 @@ export default function ConfirmAvailability({
     adults,
     arrival,
     infants,
-    seniors,
   } = getBooking();
 
   const flightBreakdown = validateFlightNumber(String(flightNumber));
