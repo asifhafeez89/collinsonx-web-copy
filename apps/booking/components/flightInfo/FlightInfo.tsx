@@ -72,6 +72,13 @@ export const FlightInfo = ({ form, loading }: FlightInfoProps) => {
             withAsterisk
             sx={{}}
             {...form.getInputProps('departureDate')}
+            styles={{
+              day: {
+                '&[data-weekend]': {
+                  color: colors.blue,
+                },
+              },
+            }}
           />
           <InputLabel
             label="Flight Number"
