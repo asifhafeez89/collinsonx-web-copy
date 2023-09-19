@@ -46,14 +46,20 @@ export type AvailabilityInput = {
 /** A record for the sale of a service, this could be either a reservation, walkup or other state. */
 export type Booking = {
   __typename?: 'Booking';
+  actingAccount?: Maybe<Scalars['String']>;
   bookedFrom: Scalars['String'];
   bookedTo: Scalars['String'];
   consumer?: Maybe<Consumer>;
   createdAt: Scalars['Date'];
   experience?: Maybe<Experience>;
+  guestAdultCount: Scalars['Int'];
+  guestChildrenCount: Scalars['Int'];
+  /** @deprecated guestCount is deprecated. Use guests fields instead. */
   guestCount: Scalars['Int'];
+  guestInfantCount: Scalars['Int'];
   id: Scalars['ID'];
   invoice?: Maybe<Scalars['String']>;
+  lastArrival: Scalars['String'];
   metadata?: Maybe<Scalars['JSONObject']>;
   orderID?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Float']>;
@@ -77,12 +83,20 @@ export type BookingBookedToArgs = {
   timezoneType?: InputMaybe<TimezoneType>;
 };
 
+
+/** A record for the sale of a service, this could be either a reservation, walkup or other state. */
+export type BookingLastArrivalArgs = {
+  timezoneType?: InputMaybe<TimezoneType>;
+};
+
 export type BookingInput = {
+  actingAccount?: InputMaybe<Scalars['String']>;
   bookedFrom: Scalars['Date'];
   bookedTo: Scalars['Date'];
   experience: ExperienceKey;
   guestCount: Scalars['Int'];
   invoice?: InputMaybe<Scalars['String']>;
+  lastArrival?: InputMaybe<Scalars['Date']>;
   metadata?: InputMaybe<Scalars['JSONObject']>;
   stripePaymentID?: InputMaybe<Scalars['String']>;
   type: BookingType;
@@ -107,18 +121,9 @@ export enum BookingStatus {
 /** The category of booking that has been made. */
 export enum BookingType {
   Reservation = 'RESERVATION',
+  ReservationFeeOnly = 'RESERVATION_FEE_ONLY',
   WalkUp = 'WALK_UP'
 }
-
-export type Brand = {
-  __typename?: 'Brand';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-export type BrandInput = {
-  name: Scalars['String'];
-};
 
 export enum CodeType {
   Faa = 'FAA',
@@ -330,7 +335,6 @@ export type Guests = {
   adultCount: Scalars['Int'];
   childrenCount: Scalars['Int'];
   infantCount: Scalars['Int'];
-  seniorCount: Scalars['Int'];
 };
 
 export enum IsoCountryCode {
@@ -643,7 +647,7 @@ export type Location = {
   geoJSON?: Maybe<GeoJson>;
   isoCountryCode: IsoCountryCode;
   landside?: Maybe<Scalars['Boolean']>;
-  terminalCode?: Maybe<Scalars['String']>;
+  terminalName?: Maybe<Scalars['String']>;
 };
 
 export type LocationInput = {
@@ -653,7 +657,7 @@ export type LocationInput = {
   geoJSON?: InputMaybe<GeoJsonInput>;
   isoCountryCode: IsoCountryCode;
   landside?: InputMaybe<Scalars['Boolean']>;
-  terminalCode?: InputMaybe<Scalars['String']>;
+  terminalName?: InputMaybe<Scalars['String']>;
 };
 
 export type Mutation = {
@@ -664,16 +668,16 @@ export type Mutation = {
   checkinBooking?: Maybe<Booking>;
   confirmBooking?: Maybe<Booking>;
   createBooking?: Maybe<Booking>;
-  createBrand?: Maybe<Brand>;
   createEntitlement?: Maybe<Entitlement>;
   createInvitation?: Maybe<Invitation>;
   createOutlet?: Maybe<Outlet>;
+  createPartnerBrand?: Maybe<PartnerBrand>;
   createProduct?: Maybe<Product>;
   declineBooking?: Maybe<Booking>;
   deleteBooking?: Maybe<Booking>;
-  deleteBrand?: Maybe<Brand>;
   deleteEntitlement?: Maybe<Scalars['Boolean']>;
   deleteOutlet?: Maybe<Outlet>;
+  deletePartnerBrand?: Maybe<PartnerBrand>;
   deleteProduct?: Maybe<Product>;
   findAndCompleteBookings: Array<Booking>;
   /** This is used to generate a consumer, but if they are already created we will return their details */
@@ -691,12 +695,12 @@ export type Mutation = {
   payForBooking?: Maybe<Booking>;
   redeemEntitlement?: Maybe<Entitlement>;
   unlinkExperience?: Maybe<Partner>;
-  updateBrand?: Maybe<Brand>;
   /** Change or update the consumer record with additional information */
   updateConsumer?: Maybe<Consumer>;
   updateEntitlement?: Maybe<Entitlement>;
   updateOutlet?: Maybe<Outlet>;
   updatePartner?: Maybe<Partner>;
+  updatePartnerBrand?: Maybe<PartnerBrand>;
   updateProduct?: Maybe<Product>;
 };
 
@@ -731,11 +735,6 @@ export type MutationCreateBookingArgs = {
 };
 
 
-export type MutationCreateBrandArgs = {
-  brandInput?: InputMaybe<BrandInput>;
-};
-
-
 export type MutationCreateEntitlementArgs = {
   entitlementInput: EntitlementInput;
 };
@@ -748,6 +747,11 @@ export type MutationCreateInvitationArgs = {
 
 export type MutationCreateOutletArgs = {
   outletInput?: InputMaybe<OutletInput>;
+};
+
+
+export type MutationCreatePartnerBrandArgs = {
+  brandInput?: InputMaybe<PartnerBrandInput>;
 };
 
 
@@ -766,17 +770,17 @@ export type MutationDeleteBookingArgs = {
 };
 
 
-export type MutationDeleteBrandArgs = {
-  id: Scalars['ID'];
-};
-
-
 export type MutationDeleteEntitlementArgs = {
   id: Scalars['ID'];
 };
 
 
 export type MutationDeleteOutletArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeletePartnerBrandArgs = {
   id: Scalars['ID'];
 };
 
@@ -835,12 +839,6 @@ export type MutationUnlinkExperienceArgs = {
 };
 
 
-export type MutationUpdateBrandArgs = {
-  brandInput?: InputMaybe<BrandInput>;
-  id: Scalars['ID'];
-};
-
-
 export type MutationUpdateConsumerArgs = {
   consumerInput?: InputMaybe<ConsumerInput>;
 };
@@ -863,6 +861,12 @@ export type MutationUpdatePartnerArgs = {
 };
 
 
+export type MutationUpdatePartnerBrandArgs = {
+  brandInput?: InputMaybe<PartnerBrandInput>;
+  id: Scalars['ID'];
+};
+
+
 export type MutationUpdateProductArgs = {
   id: Scalars['ID'];
   productInput?: InputMaybe<ProductInput>;
@@ -870,11 +874,13 @@ export type MutationUpdateProductArgs = {
 
 export type OpeningHours = {
   __typename?: 'OpeningHours';
+  exceptions?: Maybe<Scalars['String']>;
   schedules: Array<DaySchedule>;
   variations?: Maybe<Array<Maybe<Variation>>>;
 };
 
 export type OpeningHoursInput = {
+  exceptions?: InputMaybe<Scalars['String']>;
   schedules: Array<DayScheduleInput>;
   variations?: InputMaybe<Array<InputMaybe<VariationInput>>>;
 };
@@ -897,10 +903,14 @@ export type Outlet = {
   name: Scalars['String'];
   openingHours: OpeningHours;
   reservationEmail?: Maybe<Scalars['String']>;
+  segment?: Maybe<OutletSegment>;
+  status: OutletStatus;
 };
 
 export enum OutletContentType {
-  Airport = 'AIRPORT'
+  Airport = 'AIRPORT',
+  FerryStation = 'FERRY_STATION',
+  RailwayStation = 'RAILWAY_STATION'
 }
 
 export type OutletInput = {
@@ -912,6 +922,8 @@ export type OutletInput = {
   name: Scalars['String'];
   openingHours: OpeningHoursInput;
   reservationEmail?: InputMaybe<Scalars['String']>;
+  segment?: InputMaybe<OutletSegment>;
+  status: OutletStatus;
 };
 
 export type OutletKey = {
@@ -923,10 +935,14 @@ export enum OutletProductAccessType {
   WalkUp = 'WALK_UP'
 }
 
-export enum OutletProductCategory {
-  Carpark = 'CARPARK',
-  LoungeAccess = 'LOUNGE_ACCESS',
-  SleepPod = 'SLEEP_POD'
+export enum OutletSegment {
+  Black = 'BLACK',
+  Gold = 'GOLD'
+}
+
+export enum OutletStatus {
+  Active = 'ACTIVE',
+  Disabled = 'DISABLED'
 }
 
 export type Partner = {
@@ -939,6 +955,16 @@ export type Partner = {
   id: Scalars['ID'];
   lastName?: Maybe<Scalars['String']>;
   updatedAt: Scalars['Date'];
+};
+
+export type PartnerBrand = {
+  __typename?: 'PartnerBrand';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+};
+
+export type PartnerBrandInput = {
+  name: Scalars['String'];
 };
 
 export type PartnerInput = {
@@ -989,15 +1015,16 @@ export type PricingInput = {
 export type Product = {
   __typename?: 'Product';
   accessType: OutletProductAccessType;
-  category: OutletProductCategory;
   categoryAttributes: Scalars['JSONObject'];
   contentType: ProductContentType;
   id: Scalars['ID'];
   name: Scalars['String'];
   outlet?: Maybe<Outlet>;
-  ppStripeID: Scalars['String'];
+  ppStripeID?: Maybe<Scalars['String']>;
   pricing: Pricing;
-  state: ProductState;
+  segment?: Maybe<ProductSegment>;
+  stage: ProductStage;
+  status: ProductStatus;
 };
 
 export enum ProductContentType {
@@ -1010,14 +1037,15 @@ export enum ProductContentType {
 
 export type ProductInput = {
   accessType: OutletProductAccessType;
-  category: OutletProductCategory;
   categoryAttributes: Scalars['JSONObject'];
   contentType: ProductContentType;
   name: Scalars['String'];
   outlet: OutletKey;
   ppStripeID: Scalars['String'];
   pricing: PricingInput;
-  state: ProductState;
+  segment?: InputMaybe<ProductSegment>;
+  stage: ProductStage;
+  status: ProductStatus;
 };
 
 export type ProductKey = {
@@ -1029,11 +1057,21 @@ export enum ProductPricingType {
   Variable = 'VARIABLE'
 }
 
-export enum ProductState {
+export enum ProductSegment {
+  Black = 'BLACK',
+  Gold = 'GOLD'
+}
+
+export enum ProductStage {
+  Closed = 'CLOSED',
+  Declined = 'DECLINED',
+  Draft = 'DRAFT',
+  Live = 'LIVE'
+}
+
+export enum ProductStatus {
   Active = 'ACTIVE',
-  Archived = 'ARCHIVED',
-  Deleted = 'DELETED',
-  Draft = 'DRAFT'
+  Disabled = 'DISABLED'
 }
 
 export enum ProductType {
@@ -1045,7 +1083,6 @@ export type Query = {
   getAvailableSlots: Availability;
   getBookingByID?: Maybe<Booking>;
   getBookings: Array<Booking>;
-  getBrandByID?: Maybe<Brand>;
   getConsumer?: Maybe<Consumer>;
   getConsumerByEmailAddress?: Maybe<Consumer>;
   getConsumerByID?: Maybe<Consumer>;
@@ -1057,6 +1094,7 @@ export type Query = {
   getInvitations: Array<Invitation>;
   getOutletByID?: Maybe<Outlet>;
   getPartner?: Maybe<Partner>;
+  getPartnerBrandByID?: Maybe<PartnerBrand>;
   getPartnerByEmailAddress?: Maybe<Partner>;
   getPartnerByID?: Maybe<Partner>;
   getProductByID?: Maybe<Product>;
@@ -1078,11 +1116,6 @@ export type QueryGetBookingByIdArgs = {
 export type QueryGetBookingsArgs = {
   experienceID: Scalars['ID'];
   status?: InputMaybe<BookingStatus>;
-};
-
-
-export type QueryGetBrandByIdArgs = {
-  id: Scalars['ID'];
 };
 
 
@@ -1127,6 +1160,11 @@ export type QueryGetInvitationsArgs = {
 
 
 export type QueryGetOutletByIdArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryGetPartnerBrandByIdArgs = {
   id: Scalars['ID'];
 };
 

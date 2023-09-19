@@ -40,10 +40,11 @@ import {
   DATE_FORMAT,
   TIME_FORMAT,
   DATE_REDABLE_FORMAT,
+  DATE_TIME_FORMAT,
   LOUNGE,
   TRAVEL_TYPE,
 } from '../config/Constants';
-import { formatDate } from '../utils/DateFormatter';
+import { formatDate, formatDateUTC } from '../utils/DateFormatter';
 import usePayload from 'hooks/payload';
 import { InfoGroup } from '@collinsonx/design-system/components/details';
 import { BookingContext } from 'context/bookingContext';
@@ -58,7 +59,7 @@ export default function ConfirmAvailability() {
   const { getBooking, setBooking } = useContext(BookingContext);
 
   const [selectedslot, setSelectedslot] = useState<string>('');
-  const { payload, loungeCode, lounge } = usePayload();
+  const { payload, loungeCode, lounge, linkedAccountId } = usePayload();
   const [isDisabled, setIsDisabled] = useState(true);
   const [env, setEnv] = useState<string>();
 
@@ -93,23 +94,32 @@ export default function ConfirmAvailability() {
   const [mutate, { loading: cbLoading, error: cbError }] =
     useMutation(createBooking);
 
-  const handleSubmit = () => {
-    const slotDateFrom = dayjs(departureDate)
-      .set('hour', Number.parseInt(selectedslot.split('-')[0].split(':')[0]))
-      .set('minute', Number.parseInt(selectedslot.split('-')[0].split(':')[1]))
-      .set('second', 0);
+  const findSelectedSlot = (slots: Slots[] | undefined, value: string) => {
+    const slot = slots?.find((slot) => {
+      const startDate = formatDateUTC(slot.startDate, TIME_FORMAT);
+      const endDate = formatDateUTC(slot.endDate, TIME_FORMAT);
+      const slotLabel = ` ${startDate}-${endDate}`;
+      return slotLabel === value;
+    });
+    return slot;
+  };
 
-    const slotDateEnd = dayjs(departureDate)
-      .set('hour', Number.parseInt(selectedslot.split('-')[1].split(':')[0]))
-      .set('minute', Number.parseInt(selectedslot.split('-')[1].split(':')[1]))
-      .set('second', 0);
+  const handleSubmit = () => {
+    const availableSlots = slotsData?.getAvailableSlots.slots;
+    const slot = findSelectedSlot(availableSlots, selectedslot);
+    const departureTime = fligtData?.getFlightDetails[0]?.departure?.dateTime?.utc;
+    const formattedDepartureTime = formatDateUTC(new Date(String(departureTime)), DATE_TIME_FORMAT);
 
     const bookingInput = {
+      ...(linkedAccountId && { actingAccount: linkedAccountId }),
       experience: { id: lounge?.id },
-      bookedFrom: slotDateFrom,
-      bookedTo: slotDateEnd,
-      type: BookingType.Reservation,
-      guestCount: 1,
+      bookedFrom: slot?.startDate,
+      lastArrival: slot?.endDate,
+      bookedTo: formattedDepartureTime,
+      type: BookingType.ReservationFeeOnly,
+      guestAdultCount: adults,
+      guestChildrenCount: children,
+      guestInfantCount: infants,
       metadata: {
         flightNumber,
         flightTime: dayjs(departureDate).format(constants.TIMEFORMAT),
@@ -176,7 +186,6 @@ export default function ConfirmAvailability() {
                 adultCount: adults,
                 childrenCount: children,
                 infantCount: infants,
-                seniorCount: seniors,
               },
               product: {
                 productType: ProductType.Lounge,

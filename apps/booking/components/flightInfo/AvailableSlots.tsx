@@ -29,16 +29,12 @@ const AvailableSlots = ({
     [availableSlots]
   );
 
-  const handleChange = (arrivalTime: string) => {
-    onSelectSlot(arrivalTime);
-  };
-
   return (
     <Select
       label="Estimated lounge arrival time"
       placeholder="Select time"
       data={data}
-      onChange={handleChange}
+      onChange={onSelectSlot}
     />
   );
 };
