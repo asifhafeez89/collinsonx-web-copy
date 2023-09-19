@@ -20,11 +20,13 @@ test.describe('Onboarding flow - end to end happy path', () => {
       const enterPinPage = new EnterPinPage(page);
       const registrationPage = new RegistrationPage(page);
       const preBookPage = new PreBookPage(page);
+      const id = uuidv4() + process.env.ENV.toLowerCase();
+      const email = `${id}@${mailinatorAddress}`;
 
       const payload = {
         membershipNumber: uuidv4(),
-        consumerNumber: uuidv4(),
-        email: 'test@test.com',
+        externalId: uuidv4(),
+        email,
         firstName: 'Alice',
         lastName: 'Smith',
         membershipType: 'MASTERCARD_HSBC',
@@ -32,12 +34,12 @@ test.describe('Onboarding flow - end to end happy path', () => {
       };
       const expirationTime = '12h';
       const jwt = await signJWT(payload, secret, expirationTime);
-      const lounge = 'BHX7';
-      const id = uuidv4() + process.env.ENV.toLowerCase();
-      const email = `${id}@${mailinatorAddress}`;
+      const lounge = 'MAN6';
+
       // Act
       await redirectToBaas(page, jwt, lounge);
       await enterEmailPage.enterEmail(email);
+
       await enterEmailPage.clickContinue();
       const pin = await getPinFromEmail(email);
 
@@ -49,7 +51,7 @@ test.describe('Onboarding flow - end to end happy path', () => {
       // Assert
       const loungeTitle = await preBookPage.loungeTitle();
       await expect(loungeTitle).toEqual(
-        'Clubrooms Birmingham - Additional Fee Applies'
+        'Aspire Lounge'
       );
     });
   });

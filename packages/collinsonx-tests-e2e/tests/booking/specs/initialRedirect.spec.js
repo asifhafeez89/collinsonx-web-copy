@@ -3,6 +3,7 @@ import { signJWT } from '@collinsonx/jwt';
 import { redirectToBaas } from '../utils/redirectToBaas';
 import EnterEmailPage from '../pages/EnterEmailPage';
 import { v4 as uuidv4 } from 'uuid';
+import { mailinatorAddress } from '../config';
 
 const secret = process.env.NEXT_PUBLIC_JWT_SECRET || '';
 
@@ -11,10 +12,12 @@ test.describe('Initial Redirect to BAAS page - current implementation', () => {
     test('should redirect successfully', async ({ page }) => {
       // Arrange
       const enterEmailPage = new EnterEmailPage(page);
+      const id = uuidv4() + process.env.ENV.toLowerCase();
+      const email = `${id}@${mailinatorAddress}`;
       const payload = {
         membershipNumber: uuidv4(),
-        consumerNumber: uuidv4(),
-        email: 'test@test.com',
+        externalId: uuidv4(),
+        email,
         firstName: 'Alice',
         lastName: 'Smith',
         membershipType: 'MASTERCARD_HSBC',
@@ -22,7 +25,7 @@ test.describe('Initial Redirect to BAAS page - current implementation', () => {
       };
       const expirationTime = '12h';
       const jwt = await signJWT(payload, secret, expirationTime);
-      const lounge = 'BHX7';
+      const lounge = 'MAN6';
 
       // Act
       await redirectToBaas(page, jwt, lounge);
