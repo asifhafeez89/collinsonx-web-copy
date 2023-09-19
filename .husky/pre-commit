@@ -1,0 +1,28 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Workaround for Windows as 'Paths' will be converted and become malformed.
+if [[ "$(uname)" == *"MINGW"* ]]; then
+    echo "Windows Platform detected"
+    export MSYS_NO_PATHCONV=1
+fi
+
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+echo "\n\n${RED}❕Warning! Running Precommit from Repository level, if you have 
+global hooks defined, please check if you need them.${NC}\n"
+
+# Check if Docker is installed
+if ! command -v docker
+then
+    echo "Docker not found. Please install Docker before continuing."
+    exit 1
+fi
+
+# Run gitleaks
+echo "\n🔍 Running gitleaks with protect mode in Docker container..."
+docker run --rm -v "$(pwd)":/code -w /code zricethezav/gitleaks protect --verbose --staged --report-path gitleaks-report.json
+
+# Run Prettier
+echo "\n🧹 Running Prettier"
+npx lint-staged

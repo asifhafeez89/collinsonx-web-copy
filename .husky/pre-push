@@ -1,0 +1,30 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Overrides all the other localisation settings
+LC_ALL=C
+
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+TICKET=$(git rev-parse --abbrev-ref HEAD | grep -Eo '(\w+[-])?[0-9]+' | tr "[:lower:]" "[:upper:]")
+
+REGEX="^((build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test|fix)\/[A-Z]+-[0-9]+.+)$"
+
+MESSAGE="Incorrect branch name detected, branch names must adhere to this convention: 'type/ticket-number-description', e.g. 'docs/PX-123-update-booking-readme'"
+
+if [ -z "$TICKET" ]
+then
+      TICKET_INFO="No ticket detected!"
+else
+      TICKET_INFO="$TICKET"
+fi
+
+echo "\n💭 Checking branch naming convention for: $BRANCH for ticket: $TICKET_INFO"
+
+if [[ ! $BRANCH =~ $REGEX ]]
+then
+    echo "\n🚫 $MESSAGE\n"
+    exit 1
+fi
+
+exit 0
