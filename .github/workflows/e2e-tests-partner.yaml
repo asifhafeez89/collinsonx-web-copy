@@ -2,10 +2,12 @@ name: run e2e web tests - partner
 
 on:
   pull_request:
-    branches: ['dev']
+    branches: ["dev"]
     paths:
-      - 'apps/partner-management/**'
-      - 'packages/collinsonx-tests-e2e/**'
+      - "apps/partner-management/**"
+      - "packages/collinsonx-tests-e2e/tests/partner-management"
+      - "packages/collinsonx-tests-e2e/playwright.config.js"
+      - "packages/collinsonx-tests-e2e/package.json"
 
 jobs:
   test:
