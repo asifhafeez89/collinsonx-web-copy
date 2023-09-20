@@ -3,45 +3,40 @@ import {
   Stack,
   Text,
   Flex,
-  Group,
   Notification,
   Checkbox,
   Title,
+  Skeleton,
 } from '@collinsonx/design-system/core';
 import { useForm } from '@collinsonx/design-system/form';
 import LayoutLogin from '../../components/LayoutLogin';
-import { Calendar } from '@collinsonx/design-system/assets/icons';
-import {
-  Breadcramp,
-  DatePicker,
-  InputLabel,
-  PageTitle,
-} from '@collinsonx/design-system';
+import { InputLabel } from '@collinsonx/design-system';
+import Breadcramp from '@components/Breadcramp';
 import { useState } from 'react';
 import updateConsumer from '@collinsonx/utils/mutations/updateConsumer';
+import linkAccount from '@collinsonx/utils/mutations/linkAccount';
 import { useMutation } from '@collinsonx/utils/apollo';
 import { ConsumerInput } from '@collinsonx/utils';
 import { useRouter } from 'next/router';
 import validateEmail from '@collinsonx/utils/lib/validateEmail';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 import Error from '@components/Error';
+import usePayload from 'hooks/payload';
+import colors from 'ui/colour-constants';
 
 export default function SignupUser() {
+  const { payload, lounge, jwt, setLinkedAccountId } = usePayload();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const DATE_FORMAT = 'DD/MM/YYYY';
-
-  const { email } = router.query;
 
   const form = useForm({
     initialValues: {
-      email: email as string,
-      firstname: undefined,
-      lastname: undefined,
+      email: (payload ? payload.email : '') as string,
+      firstname: (payload ? payload.firstName : '') as string,
+      lastname: (payload ? payload.lastName : '') as string,
       marketingConsent: false,
       dateOfBirth: new Date('1990-01-01'),
     },
-
     validate: {
       email: (value: string) =>
         validateEmail(value) ? null : 'Please enter a valid email address.',
@@ -54,6 +49,21 @@ export default function SignupUser() {
 
   const [updateConsumerCall, { loading: loadingUpdateConsumer, error, data }] =
     useMutation(updateConsumer);
+
+  const [dolinkAccount] = useMutation(linkAccount);
+
+  const handleLinkAccount = async (values: any) => {
+    let linkAccountResponse = await dolinkAccount({
+      variables: {
+        linkedAccountInput: {
+          token: jwt,
+          analytics: { email: values.email },
+        },
+      },
+    });
+
+    setLinkedAccountId(linkAccountResponse.data.linkAccount.id);
+  };
 
   return loading || loadingUpdateConsumer ? (
     <Flex justify="center" align="center" h="100%">
@@ -69,7 +79,12 @@ export default function SignupUser() {
         </Notification>
       )}
       <Stack sx={{ width: '100%' }}>
-        <Breadcramp title="Back to Gatwick" url="https://bbc.co.uk" />
+        <Skeleton visible={!lounge}>
+          <Breadcramp
+            lefttitle={lounge?.loungeName || 'Back to lounge'}
+            lefturl="#"
+          />
+        </Skeleton>
       </Stack>
       <form
         onSubmit={form.onSubmit((values: any) => {
@@ -84,8 +99,11 @@ export default function SignupUser() {
           updateConsumerCall({
             variables: { consumerInput },
             onCompleted: (data) => {
+              handleLinkAccount(values);
               if (data?.updateConsumer?.id) {
-                router.push('/lounge');
+                router.push({
+                  pathname: '/',
+                });
               }
             },
             onError: () => {
@@ -101,72 +119,66 @@ export default function SignupUser() {
               height: '100%',
               width: '440px',
               margin: '0 auto',
-              '@media (max-width: 40em)': {
+              '@media (max-width: 768px)': {
+                padding: '1rem 1.5rem 0 1.5rem',
                 width: '100%',
+                marginBottom: '150px',
               },
             }}
           >
-            <Title order={1} size={20} align="center">
-              Register
+            <Text size={18} align="center">
+              You can update your details below
+            </Text>
+            <Title order={1} size={24} align="center">
+              Update details
             </Title>
             <Error error={error} />
+            <Stack spacing={8}>
+              <Text>
+                <Text span color={colors.red}>
+                  *
+                </Text>
+                First name(s)
+              </Text>
+              <InputLabel
+                autoFocus
+                type="text"
+                withAsterisk
+                {...form.getInputProps('firstname')}
+                placeholder="First name"
+                data-testid="firstName"
+              />
+            </Stack>
+            <Stack spacing={8}>
+              <Text>
+                <Text span color={colors.red}>
+                  *
+                </Text>{' '}
+                Last name
+              </Text>
+              <InputLabel
+                type="text"
+                withAsterisk
+                {...form.getInputProps('lastname')}
+                placeholder="Last name"
+                data-testid="lastName"
+              />
+            </Stack>
             <InputLabel
-              autoFocus
-              type="text"
-              withAsterisk
-              {...form.getInputProps('firstname')}
-              placeholder="First name"
-              label="First name(s)"
-              isWhite={false}
-              data-testid="firstName"
-            />
-
-            <InputLabel
-              autoFocus
-              type="text"
-              withAsterisk
-              {...form.getInputProps('lastname')}
-              placeholder="Last name"
-              label="Last name"
-              isWhite={false}
-              data-testid="lastName"
-            />
-            <InputLabel
-              readOnly
-              autoFocus
-              type="email"
-              withAsterisk
+              disabled
               {...form.getInputProps('email')}
-              value={email}
-              placeholder="Your email address"
-              label="Your email address"
-              isWhite={false}
+              label="Email address"
             />
-            <Text>
-              We will send you a unique code via email to complete the login.
-            </Text>
-            <Group>
-              <Flex mih={50} align="flex-start" direction="row" wrap="wrap">
-                <Checkbox
-                  label="I agree to receive personalised marketing emails."
-                  {...form.getInputProps('marketingConsent', {
-                    type: 'checkbox',
-                  })}
-                  styles={{
-                    label: {
-                      order: -2,
-                      color: '#000000',
-                    },
-                  }}
-                  data-testid="marketingCheckbox"
-                />
-              </Flex>
-            </Group>
-            <Group>
-              <Button fullWidth type="submit" data-testid="loginAfterSignUp">
-                Login
-              </Button>
-            </Group>
+            <Checkbox
+              label="I agree to receive personalised marketing emails."
+              {...form.getInputProps('marketingConsent', {
+                type: 'checkbox',
+              })}
+              data-testid="marketingCheckbox"
+            />
+            <Button fullWidth type="submit" data-testid="loginAfterSignUp">
+              Login
+            </Button>
           </Stack>
         </Stack>
       </form>

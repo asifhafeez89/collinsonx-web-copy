@@ -1,5 +1,7 @@
 const { defineConfig, devices } = require('@playwright/test');
-
+import dotenv from 'dotenv';
+dotenv.config({ path: `.env.tests` });
+require('dotenv').config();
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
@@ -36,7 +38,7 @@ module.exports = defineConfig({
       name: 'partner-chromium-test',
       testDir: './tests/partner-management',
       // ENV variable is given by the package.json script
-      use: { ...devices['Desktop Chrome'], storageState: 'playwright/.auth/user.json', baseURL: `https://partner.${process.env.ENV}.cergea.com`, ignoreHTTPSErrors: true },
+      use: { ...devices['Desktop Chrome'], storageState: 'playwright/.auth/user.json', baseURL: `https://partner-local.${process.env.ENV}.cergea.com:4010`, ignoreHTTPSErrors: true },
       dependencies: ['setup'],
       // Skip running the acessibility tests
       testIgnore: 'accessibility.spec.js'
@@ -45,10 +47,16 @@ module.exports = defineConfig({
       name: 'accessibility-tests',
       testDir: './tests/partner-management',
       // ENV variable is given by the package.json script
-      use: { ...devices['Desktop Chrome'], storageState: 'playwright/.auth/user.json', baseURL: `https://partner.${process.env.ENV}.cergea.com`, ignoreHTTPSErrors: true },
+      use: { ...devices['Desktop Chrome'], storageState: 'playwright/.auth/user.json', baseURL: `https://partner-local.${process.env.ENV}.cergea.com:4010`, ignoreHTTPSErrors: true },
       dependencies: ['setup'],
       // Only run the accessibility tests
       testMatch: 'accessibility.spec.js'
+    },
+    {
+      name: 'booking',
+      testDir: './tests/booking',
+      // ENV variable is given by the package.json script
+      use: { ...devices['Desktop Chrome'], baseURL: `https://booking-local.${process.env.ENV}.cergea.com:4011`, ignoreHTTPSErrors: true }
     },
     // {
     //   name: 'Safari Test',

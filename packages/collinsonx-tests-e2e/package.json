@@ -6,8 +6,10 @@
     "e2e:dev": "playwright test --headed",
     "e2e:start": "playwright test",
     "e2e:report": "playwright show-report",
+    "e2e:ci-booking": "cross-env ENV=TEST playwright test --project=booking",
     "e2e:ci-partner": "cross-env ENV=TEST playwright test --project=partner-chromium-test",
     "e2e:ci-partner-accessibility": "cross-env ENV=TEST playwright test --project=accessibility-tests",
+    "e2e:test-booking": "cross-env ENV=TEST playwright test --project=booking --headed",
     "e2e:test-partner": "cross-env ENV=TEST playwright test --project=partner-chromium-test --headed",
     "e2e:test-partner-accessibility": "cross-env ENV=TEST playwright test --project=accessibility-tests --headed",
     "e2e:uat-partner": "cross-env ENV=UAT playwright test --project=partner-chromium-test --headed",
@@ -20,6 +22,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.7.3",
+    "@collinsonx/jwt": "workspace:*",
     "@playwright/test": "^1.37.0",
     "axe-result-pretty-print": "^1.0.2",
     "axios": "^1.4.0",

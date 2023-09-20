@@ -1,4 +1,10 @@
-import { Title, Stack, Flex, Box } from '@collinsonx/design-system/core';
+import {
+  Title,
+  Stack,
+  Flex,
+  Text,
+  Skeleton,
+} from '@collinsonx/design-system/core';
 import { Button } from '@collinsonx/design-system/core';
 import { useForm } from '@collinsonx/design-system/form';
 import { useRouter } from 'next/router';
@@ -8,17 +14,20 @@ import {
   createPasswordlessCode,
   useSessionContext,
 } from '@collinsonx/utils/supertokens';
-import { Breadcramp } from '@collinsonx/design-system';
+import Breadcramp from '@components/Breadcramp';
 import { InputLabel } from '@collinsonx/design-system';
 import validateEmail from '@collinsonx/utils/lib/validateEmail';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
+import usePayload from 'hooks/payload';
+import colors from 'ui/colour-constants';
 
 interface FormValues {
   email: string;
 }
 
-export default function Home(props: unknown) {
+export default function Login(props: unknown) {
   const session = useSessionContext();
+  const { payload, jwt, lounge, loungeCode } = usePayload();
 
   const [loading, setLoading] = useState(true);
 
@@ -29,11 +38,11 @@ export default function Home(props: unknown) {
 
   const form = useForm({
     initialValues: {
-      email: '',
+      email: (payload ? payload.email : '') as string,
     },
     validate: {
       email: (value: string) =>
-        validateEmail(value) ? null : 'Please enter a valid email address.',
+        validateEmail(value) ? undefined : 'Wrong email format, try again',
     },
   });
 
@@ -42,14 +51,14 @@ export default function Home(props: unknown) {
       const { userId } = session;
       if (userId) {
         // if (!ref.current) {
-        router.push('/booking');
+        router.push({ pathname: '/' });
         ref.current = true;
         // }
       } else {
         setLoading(false);
       }
     }
-  }, [session, router]);
+  }, [session, router, jwt]);
 
   const handleClickContinue = async ({ email }: FormValues) => {
     if (!validateEmail(email.trim())) {
@@ -61,7 +70,10 @@ export default function Home(props: unknown) {
         });
         router.push({
           pathname: '/auth/check-code',
-          query: { email, redirectUrl: router.query?.redirectUrl },
+          query: {
+            email,
+            redirectUrl: router.query?.redirectUrl,
+          },
         });
       } catch (err: any) {
         console.log(err);
@@ -84,60 +96,62 @@ export default function Home(props: unknown) {
         </Flex>
       ) : (
         <LayoutLogin>
-          <Stack sx={{ width: '100%' }}>
-            <Breadcramp title="Back to Gatwick" url="https://bbc.co.uk" />
-          </Stack>
+          <Skeleton visible={!lounge}>
+            <Breadcramp
+              lefttitle={lounge?.loungeName || 'Back to lounge'}
+              lefturl="#"
+            />
+          </Skeleton>
           <form onSubmit={form.onSubmit(handleClickContinue)}>
-            <Stack spacing={50}>
-              <Stack
-                spacing={24}
+            <Stack
+              spacing={24}
+              sx={{
+                height: '100%',
+                width: '440px',
+                margin: '0 auto',
+                '@media (max-width: 768px)': {
+                  width: '100%',
+                  padding: '1rem 1.5rem 0 1.5rem',
+                },
+              }}
+            >
+              <Title
+                order={1}
+                size={20}
                 sx={{
-                  height: '100%',
-                  width: '440px',
-                  margin: '0 auto',
-                  '@media (max-width: 40em)': {
-                    width: '100%',
+                  textAlign: 'center',
+                  '@media (max-width: 768px)': {
+                    textAlign: 'left',
                   },
                 }}
               >
-                <Title order={1} size={20} align="center">
-                  Confirm your email
-                </Title>
+                Enter your email address
+              </Title>
+              <Text>
+                Enter email address where you will receive your booking
+                information
+              </Text>
+              <Stack spacing={10}>
+                <Text>
+                  <Text span color={colors.red}>
+                    *
+                  </Text>
+                  Email address
+                </Text>
                 <InputLabel
                   type="text"
                   autoFocus
-                  placeholder="Confirm your email address"
-                  label="Your email address"
-                  isWhite={false}
-                  styles={{
-                    root: {
-                      display: 'flex',
-                      flexDirection: 'column',
-                    },
-                    description: {
-                      order: 1,
-                      marginTop: '4px',
-                      marginBottom: '0',
-                    },
-                    label: {
-                      order: -2,
-                    },
-                    input: {
-                      order: -1,
-                    },
-                    error: {
-                      order: 2,
-                    },
-                  }}
-                  withAsterisk
+                  placeholder="stark@gmail.com"
                   {...form.getInputProps('email')}
                   data-testid="loginEmailAddress"
                 />
-
-                <Button type="submit" data-testid="login">
-                  Login
-                </Button>
+                <Text align="left">
+                  We will send you a unique code via email to proceed
+                </Text>
               </Stack>
+              <Button type="submit" data-testid="login">
+                Continue
+              </Button>
             </Stack>
           </form>
         </LayoutLogin>

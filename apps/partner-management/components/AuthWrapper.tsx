@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { PARTNER_ID, USER_TYPE, USER_META, SELECTED_LOUNGE } from 'config';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
-import { removeItem, setItem } from '@collinsonx/utils/lib';
+import { removeItem, setItem } from '@collinsonx/utils/lib/index';
 
 interface AuthWrapperProps {
   children: React.ReactNode;

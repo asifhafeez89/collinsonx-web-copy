@@ -1,0 +1,97 @@
+name: run e2e web tests - booking
+
+on:
+  pull_request:
+    branches: ["dev"]
+    paths:
+      - "apps/booking/**"
+      - "packages/collinsonx-tests-e2e/tests/booking"
+      - "packages/collinsonx-tests-e2e/playwright.config.js"
+      - "packages/collinsonx-tests-e2e/package.json"
+
+jobs:
+  test:
+    runs-on: e2e-test-runner
+    container:
+      image: mcr.microsoft.com/playwright:v1.37.0-focal
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: |
+          pnpm i
+
+      - name: Define host mappings (required by cors)
+        run: |
+          apt-get update -y
+          apt-get install sudo -y
+          sudo echo "127.0.0.1 booking-local.test.cergea.com" | sudo tee -a /etc/hosts
+
+      - name: Booking webapp SSL cert creation (required by cors)
+        run: |
+          apt-get install wget libnss3-tools lsof -y
+          wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.3/mkcert-v1.4.3-linux-amd64
+          mv mkcert-v1.4.3-linux-amd64 /usr/bin/mkcert
+          chmod +x /usr/bin/mkcert
+          cd apps/booking
+          mkcert -key-file booking-local.test.cergea.com-key.pem -cert-file booking-local.test.cergea.com.pem booking-local.test.cergea.com
+          echo "${{ secrets.ENV_TESTS_FILE_BOOKING }}" > .env.local
+
+      - name: Run Booking webapp tests
+        env:
+          STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}
+        run: |
+          export INSTRUMENT_CODE=1
+          pnpm run build --filter booking
+          pnpm add --global pm2
+          cd apps/booking
+          pm2 --name dev-server --interpreter bash start pnpm -- dev:test
+
+
+          attempt_counter=0
+          max_attempts=5
+
+          until $(curl --output /dev/null --silent --head --fail http://localhost:3011); do
+            if [ ${attempt_counter} -eq ${max_attempts} ];then
+              echo "Max attempts reached"
+              exit 1
+            fi
+
+            printf '.'
+            attempt_counter=$(($attempt_counter+1))
+            sleep 5
+          done
+
+          cd -
+          echo "${{ secrets.ENV_TESTS_FILE_BOOKING }}" > packages/collinsonx-tests-e2e/.env.tests
+          pnpm --filter "@collinsonx/tests-e2e" e2e:ci-booking
+
+      - name: Archive npm failure logs
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: npm-logs
+          path: ~/.npm/_logs
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-report
+          path: packages/collinsonx-tests-e2e/playwright-report
+
+      - name: Upload coverage results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-coverage
+          path: packages/collinsonx-tests-e2e/.nyc_output

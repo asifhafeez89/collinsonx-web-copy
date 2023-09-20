@@ -17,7 +17,7 @@ describe('<LoungeDetails />', () => {
     ];
 
     const tree = renderer
-      .create(<Details title={'Hello'} infos={infos} />)
+      .create(<Details title={'Hello'} direction="row" infos={infos} />)
       .toJSON();
     expect(tree).toMatchSnapshot();
   });

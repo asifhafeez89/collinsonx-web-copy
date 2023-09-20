@@ -1,12 +1,15 @@
-import {
-  experienceX,
-  amexBlack,
-  amexPlatinum,
-  dinersClub,
-} from '@collinsonx/design-system/themes';
+import { experienceX } from '@collinsonx/design-system/themes';
 
 import { Be_Vietnam_Pro } from 'next/font/google';
 import { MantineThemeOverride } from '@collinsonx/design-system/core';
+import { STORAGE_NAMESPACE } from '../constants';
+
+import { LOUNGE_HOURS_OFFSET } from 'config/lounge';
+import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
+import { AccountProvider } from '@collinsonx/constants/enums';
+
+export const getLoungeArrivalTime = (date: Date): string =>
+  dayjsTz(date).subtract(LOUNGE_HOURS_OFFSET, 'hours').format('HH:mm');
 
 const beVietnamPro = Be_Vietnam_Pro({
   style: ['normal'],
@@ -16,9 +19,6 @@ const beVietnamPro = Be_Vietnam_Pro({
 
 const themes = {
   experienceX,
-  amexBlack,
-  amexPlatinum,
-  dinersClub,
 };
 
 const themeKey = process.env.NEXT_PUBLIC_SESSION_THEME;
@@ -43,3 +43,26 @@ export const getTheme = () => {
     return theme;
   }
 };
+
+const { LK, PP } = AccountProvider;
+
+/**
+ * Basic field validations for object
+ * @param object
+ * @param requiredKeys
+ * @returns
+ */
+export const hasRequired = (object: any, requiredKeys: string[]) =>
+  Object.keys(object).filter((key) => requiredKeys.includes(key)).length ===
+    requiredKeys.length &&
+  object.membershipNumber &&
+  (object.accountProvider === PP || object.accountProvider === LK);
+
+export const getItem = (key: string): string | null =>
+  sessionStorage.getItem(`${STORAGE_NAMESPACE}_${key}`);
+
+export const setItem = (key: string, value: string) =>
+  sessionStorage.setItem(`${STORAGE_NAMESPACE}_${key}`, value);
+
+export const removeItem = (key: string) =>
+  sessionStorage.removeItem(`${STORAGE_NAMESPACE}_${key}`);

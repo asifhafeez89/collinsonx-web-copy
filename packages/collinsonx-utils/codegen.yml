@@ -1,5 +1,7 @@
 ---
-schema: https://gateway-api.uat.cergea.com/graphql
+schema:
+  - 'https://gateway-api.test.cergea.com/graphql':
+      headers: { x-api-key: process.env.API_SECRET_KEY }
 documents:
   - src/**/*.ts
 generates:

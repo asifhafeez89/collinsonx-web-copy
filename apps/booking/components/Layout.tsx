@@ -1,76 +1,48 @@
-import {
-  Box,
-  Center,
-  Container,
-  Divider,
-  MantineProvider,
-} from '@collinsonx/design-system/core';
-import { Header, experienceX } from '@collinsonx/design-system';
-import { Be_Vietnam_Pro } from 'next/font/google';
-import { Cart, Chat, Home } from '@collinsonx/design-system/assets/icons';
-import useAuth from '@collinsonx/utils/hooks/useAuth';
-
-import { getThemeKey } from '@lib';
-
-import { LogoCergea, LogoHSBC } from '@collinsonx/design-system/assets/logo';
+import { Box, Center, Container } from '@collinsonx/design-system/core';
 
 import { ReactNode } from 'react';
-import { useRouter } from 'next/router';
+import usePayload from 'hooks/payload';
+import AppLogo from './AppLogo';
+import colors from 'ui/colour-constants';
 
 interface LayoutProps {
   children: ReactNode;
 }
 
-const beVietnamPro = Be_Vietnam_Pro({
-  style: ['normal'],
-  subsets: ['latin'],
-  weight: ['400', '600', '700'],
-});
-
 export default function Layout({ children }: LayoutProps) {
-  const [isLoggedIn, userId, logout] = useAuth({});
-
-  const logos = {
-    experienceX: LogoCergea,
-    hsbc: LogoHSBC,
-  };
-
-  const handleLogout = async () => {
-    localStorage.removeItem('EXPERIENCE_X_CONSUMER_ID');
-    if (typeof logout === 'function') {
-      await logout();
-      // https://github.com/vercel/next.js/issues/40481
-      window.location.href = '/';
-    }
-  };
-  const themeKey = getThemeKey();
-  const router = useRouter();
-  const { partner } = router.query;
-
-  const Logo = logos[partner as keyof typeof logos] ?? LogoCergea;
+  const { payload, setPayload } = usePayload();
 
   return (
     <Container
-      pt={10}
       px={0}
       sx={{
         maxWidth: '100%',
+        backgroundColor: colors.background,
         height: '100%',
-        overflow: 'hidden',
-        backgroundColor: '#F3F2F3',
+
+        '@media (max-width: 768px)': {
+          margin: '0',
+          padding: '0',
+        },
+        overflow: 'scroll',
       }}
     >
       <Box
         sx={{
-          borderBottom: '1px solid #cccc',
           width: '100%',
+          backgroundColor: colors.white,
         }}
       >
-        <Center pb={8} pt={8} mt={-10} sx={{ backgroundColor: '#ffffff' }}>
-          <Logo />
+        <Center pb={8} pt={8}>
+          {payload && (
+            <AppLogo
+              accountProvider={payload.accountProvider}
+              membershipType={payload.membershipType}
+            />
+          )}
         </Center>
       </Box>
-      {children}
+      <Box>{children}</Box>
     </Container>
   );
 }

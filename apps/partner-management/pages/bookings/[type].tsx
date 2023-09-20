@@ -67,6 +67,7 @@ const titleMap = {
 export const bookingTypeMap = {
   [BookingType.Reservation]: 'Reservation',
   [BookingType.WalkUp]: 'Walk-up',
+  [BookingType.ReservationFeeOnly]: 'Reservation fee only',
 };
 
 const widthColMap = {
@@ -254,8 +255,12 @@ export default function Bookings({ type }: BookingsProps) {
       types = [typeMap[type as keyof typeof typeMap]];
     }
 
+    const filteredBookings = (filteredData?.getBookings ?? []).filter(
+      (booking) => booking.type !== BookingType.ReservationFeeOnly
+    );
+
     return getBookingsByType(
-      filteredData?.getBookings ?? [],
+      filteredBookings,
       types
     ) as Booking[];
   }, [filteredData, type]);
@@ -402,7 +407,7 @@ export default function Bookings({ type }: BookingsProps) {
       columnHelper.accessor('type', {
         header: 'Type',
         id: 'type',
-        cell: (props) => bookingTypeMap[props.getValue() as BookingType] || '-',
+        cell: (props) => bookingTypeMap[props.getValue() as BookingType] || '-'
       }),
       columnHelper.accessor('arrivalDate', {
         header: 'Arrival date',

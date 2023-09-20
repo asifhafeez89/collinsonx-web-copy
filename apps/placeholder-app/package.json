@@ -1,0 +1,30 @@
+{
+  "name": "placeholder-app",
+  "private": true,
+  "scripts": {
+    "dev:test": "next dev -p 3012",
+    "build": "next build",
+    "start": "next start"
+  },
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ],
+  "dependencies": {
+    "@collinsonx/config": "workspace:*",
+    "@collinsonx/constants": "workspace:*",
+    "@collinsonx/design-system": "workspace:*",
+    "@collinsonx/jwt": "workspace:*",
+    "@mantine/core": "^6.0.19",
+    "@mantine/form": "^6.0.19",
+    "@mantine/hooks": "^6.0.19",
+    "joi": "^17.10.0",
+    "next": "13.4.19",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.21",
+    "eslint-config-collinsonx": "workspace:*"
+  }
+}
