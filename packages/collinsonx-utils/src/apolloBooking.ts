@@ -32,7 +32,7 @@ const httpLink = new HttpLink({
   uri: graphqlUrl,
   credentials: 'include',
   headers: {
-    'x-api-key': process.env.API_SECRET_KEY!,
+    'x-api-key': process.env.NEXT_PUBLIC_API_SECRET_KEY!,
   },
 });
 
