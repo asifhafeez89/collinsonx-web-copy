@@ -8,6 +8,10 @@ const urls = [
     label: 'Test: https://booking.test.cergea.com',
   },
   {
+    value: 'https://booking.uat.cergea.com',
+    label: 'UAT: https://booking.uat.cergea.com',
+  },
+  {
     value: 'https://booking.cergea.com',
     label: 'Prod: https://booking.cergea.com',
   },
