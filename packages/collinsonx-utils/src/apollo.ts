@@ -31,9 +31,6 @@ const defaultOptions: DefaultOptions = {
 const httpLink = new HttpLink({
   uri: graphqlUrl,
   credentials: 'include',
-  headers: {
-    'x-api-key': process.env.NEXT_PUBLIC_API_SECRET_KEY!,
-  },
 });
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {

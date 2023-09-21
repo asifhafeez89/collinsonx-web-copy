@@ -10,6 +10,7 @@ import {
   TextInput,
   Switch,
   Grid,
+  Notification,
   Text,
 } from '@mantine/core';
 
@@ -30,6 +31,7 @@ import { LoungeSchema, lounges } from '@/data/Lounge';
 import schema, { SchemaType } from './schema';
 
 import urls from './urls';
+import secrets from './secrets';
 import { firstNames, lastNames } from './names';
 
 const { loungeCode: lcParam, jwt: jwtParam } = BookingQueryParams;
@@ -125,19 +127,21 @@ function LoungeSelectBox({
 }
 
 interface DebugBoxProps {
+  domain: string | null;
   loungeCode: string;
   jwt: string;
   object: string;
 }
 
-function DebugBox({ loungeCode, jwt, object }: DebugBoxProps) {
+function DebugBox({ domain, loungeCode, jwt, object }: DebugBoxProps) {
   const [jwtPayload, setJWTPayload] = useState('');
 
   const decodeOnClickHandler = async () => {
-    const secretPhase = process.env.NEXT_PUBLIC_JWT_SECRET_KEY || '';
-    const response = await verifyJWT(jwt, secretPhase);
-
-    setJWTPayload(JSON.stringify(response.payload));
+    const secret = secrets[domain as keyof typeof secrets];
+    if (secret) {
+      const response = await verifyJWT(jwt, secret);
+      setJWTPayload(JSON.stringify(response.payload));
+    }
   };
 
   return (
@@ -193,8 +197,10 @@ const Content = () => {
   const [jwt, setJWT] = useState('');
   const [flight, setFlight] = useState<string[]>([]);
   const [airportName, setAirportName] = useState<string>('');
+  const [error, setError] = useState('');
 
   const createNewJWT = async (values: SchemaType) => {
+    setError('');
     let membershipType: string | null = client;
 
     if (clientAllowNull) {
@@ -226,8 +232,13 @@ const Content = () => {
 
     setObject(JSON.stringify(response));
 
-    const secretPhase = process.env.NEXT_PUBLIC_JWT_SECRET_KEY || '';
-    const jwtToken = await signJWT(response, secretPhase);
+    const secret = secrets[domain as keyof typeof secrets];
+    if (!secret) {
+      setError('Could not retrieve secret for selected domain');
+      return;
+    }
+
+    const jwtToken = await signJWT(response, secret);
     setJWT(jwtToken);
 
     const url = `${domain}?${lcParam}=${lounge}&${jwtParam}=${jwtToken}`;
@@ -257,6 +268,11 @@ const Content = () => {
   return (
     <>
       <h1>BaaS Testing App</h1>
+      {error && (
+        <Notification my={8} color="red" title="Error">
+          {error}
+        </Notification>
+      )}
       <form onSubmit={form.onSubmit((values) => createNewJWT(values))}>
         <Grid>
           <Grid.Col span={6}>
@@ -387,7 +403,12 @@ const Content = () => {
       />
       <br />
       {debugModeIsActive && (
-        <DebugBox loungeCode={lounge} jwt={jwt} object={object} />
+        <DebugBox
+          domain={domain}
+          loungeCode={lounge}
+          jwt={jwt}
+          object={object}
+        />
       )}
     </>
   );
