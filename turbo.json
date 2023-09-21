@@ -17,7 +17,11 @@
         "@collinsonx/jwt#build",
         "@collinsonx/constants#build"
       ],
-      "env": ["NEXT_PUBLIC_JWT_SECRET_KEY"]
+      "env": [
+        "NEXT_PUBLIC_JWT_SECRET_KEY_TEST",
+        "NEXT_PUBLIC_JWT_SECRET_KEY_UAT",
+        "NEXT_PUBLIC_JWT_SECRET_KEY_PROD"
+      ]
     },
     "booking#dev:test": {
       "dependsOn": [
