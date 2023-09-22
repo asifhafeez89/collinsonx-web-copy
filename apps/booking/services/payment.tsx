@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const STRIPE_URL = 'https://booking-api.test.cergea.com/create-checkout/stripe';
+const STRIPE_URL = process.env.NEXT_PUBLIC_STRIPE_URL;
 
 export interface ReqBody {
   bookingID: string;
