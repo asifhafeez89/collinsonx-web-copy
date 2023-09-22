@@ -11,7 +11,6 @@ import {
 import { useForm } from '@collinsonx/design-system/form';
 import LayoutLogin from '../../components/LayoutLogin';
 import { InputLabel } from '@collinsonx/design-system';
-import Breadcramp from '@components/Breadcramp';
 import { useState } from 'react';
 import updateConsumer from '@collinsonx/utils/mutations/updateConsumer';
 import linkAccount from '@collinsonx/utils/mutations/linkAccount';
@@ -23,6 +22,7 @@ import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifesty
 import Error from '@components/Error';
 import usePayload from 'hooks/payload';
 import colors from 'ui/colour-constants';
+import BackToLounge from '@components/BackToLounge';
 
 export default function SignupUser() {
   const { payload, lounge, jwt, setLinkedAccountId } = usePayload();
@@ -80,10 +80,7 @@ export default function SignupUser() {
       )}
       <Stack sx={{ width: '100%' }}>
         <Skeleton visible={!lounge}>
-          <Breadcramp
-            lefttitle={lounge?.loungeName || 'Back to lounge'}
-            lefturl="#"
-          />
+          <BackToLounge />
         </Skeleton>
       </Stack>
       <form

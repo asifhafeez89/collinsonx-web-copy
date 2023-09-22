@@ -16,14 +16,23 @@ import usePayload from 'hooks/payload';
 import { FAQ_PP, FAQ_LK } from '../config/Constants';
 import { AccountProvider } from '@collinsonx/constants/enums';
 import { verifyAccountProvider } from '../utils/VerifyAccountProvider';
+import { useCallback } from 'react';
+import { MOBILE_ACTION_BACK } from '../constants';
+import { sendMobileEvent } from '@lib';
 export default function Error404() {
   const router = useRouter();
-  const { payload } = usePayload();
-  const handleSubmit = () => {
-    router.push({
-      pathname: '/#',
-    });
-  };
+  const { payload, referrerUrl } = usePayload();
+
+  const handleClickBack = useCallback(() => {
+    if (window) {
+      if (referrerUrl) {
+        window.location.href = referrerUrl;
+      } else {
+        const windowObj: any = window;
+        sendMobileEvent(windowObj, MOBILE_ACTION_BACK);
+      }
+    }
+  }, [referrerUrl]);
 
   const handleSupportClick = () => {
     router.replace(
@@ -57,8 +66,8 @@ export default function Error404() {
                 temporarily unavailable
               </Text>
               <Center>
-                <Button handleClick={handleSubmit}>
-                  {`Return to lounges`.toUpperCase()}
+                <Button handleClick={handleClickBack}>
+                  {`Return to lounge`.toUpperCase()}
                 </Button>{' '}
               </Center>
               <Center>

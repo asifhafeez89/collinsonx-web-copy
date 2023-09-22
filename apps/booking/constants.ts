@@ -13,6 +13,9 @@ export const MAX_GUESTS = 5;
 
 export const LOUNGE_CODE = 'LOUNGE_CODE';
 export const JWT = 'JWT';
+export const REFERRER = 'REFERRER';
+
+export const MOBILE_ACTION_BACK = 1;
 
 export const apiAccountProviderMap: Record<
   BridgePayload['accountProvider'],

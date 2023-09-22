@@ -33,6 +33,7 @@ import colors from 'ui/colour-constants';
 import { FAQLink } from 'utils/FAQLinks';
 import { AlertIcon } from '@collinsonx/design-system/assets/icons';
 import { MAX_GUESTS } from '../constants';
+import BackToLounge from '@components/BackToLounge';
 interface DepartureFlightInfo {
   airport: { iata: string };
   date: { local: string; utc: string };
@@ -130,12 +131,7 @@ const Lounge = () => {
       <form onSubmit={form.onSubmit(handleClickCheckAvailability)}>
         <Stack spacing={16}>
           <Stack sx={{ width: '100%' }}>
-            <Breadcramp
-              lefttitle={`BACK TO ${lounge?.loungeName?.toUpperCase()}`}
-              lefturl="/"
-              righttile={`FAQs`}
-              righturl={FAQLink(payload?.accountProvider)}
-            />
+            <BackToLounge />
           </Stack>
           <Flex
             align="center"

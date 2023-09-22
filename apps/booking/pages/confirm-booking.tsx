@@ -42,6 +42,7 @@ import { getCheckoutSessionUrl } from 'services/payment';
 import { debug } from 'console';
 import colors from 'ui/colour-constants';
 import { FAQLink } from 'utils/FAQLinks';
+import BackToLounge from '@components/BackToLounge';
 
 interface AvailableSlotsProps {
   availableSlots: Availability;
@@ -170,12 +171,7 @@ export default function ConfirmAvailability({
     <Layout>
       <Stack spacing={16} sx={{ backgroundColor: colors.background }}>
         <Stack>
-          <Breadcramp
-            lefttitle={`BACK TO ${lounge?.loungeName?.toUpperCase()}`}
-            lefturl="/"
-            righttile={`FAQs`}
-            righturl={FAQLink(payload?.accountProvider)}
-          />
+          <BackToLounge />
         </Stack>
         <Flex
           justify="center"

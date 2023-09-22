@@ -14,12 +14,12 @@ import {
   createPasswordlessCode,
   useSessionContext,
 } from '@collinsonx/utils/supertokens';
-import Breadcramp from '@components/Breadcramp';
 import { InputLabel } from '@collinsonx/design-system';
 import validateEmail from '@collinsonx/utils/lib/validateEmail';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 import usePayload from 'hooks/payload';
 import colors from 'ui/colour-constants';
+import BackToLounge from '@components/BackToLounge';
 
 interface FormValues {
   email: string;
@@ -97,10 +97,7 @@ export default function Login(props: unknown) {
       ) : (
         <LayoutLogin>
           <Skeleton visible={!lounge}>
-            <Breadcramp
-              lefttitle={lounge?.loungeName || 'Back to lounge'}
-              lefturl="#"
-            />
+            <BackToLounge />
           </Skeleton>
           <form onSubmit={form.onSubmit(handleClickContinue)}>
             <Stack

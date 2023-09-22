@@ -1,9 +1,4 @@
-import {
-  ApolloError,
-  useLazyQuery,
-  useMutation,
-  useQuery,
-} from '@collinsonx/utils/apollo';
+import { useLazyQuery, useMutation, useQuery } from '@collinsonx/utils/apollo';
 import Layout from '@components/Layout';
 import {
   Box,
@@ -12,7 +7,6 @@ import {
   Button,
   Center,
 } from '@collinsonx/design-system/core';
-import Breadcramp from '@components/Breadcramp';
 import {
   BookingType,
   ProductType,
@@ -51,7 +45,7 @@ import { BookingContext } from 'context/bookingContext';
 import dayjs from 'dayjs';
 import { constants } from '../constants';
 import colors from 'ui/colour-constants';
-import { FAQLink } from 'utils/FAQLinks';
+import BackToLounge from '@components/BackToLounge';
 
 export default function ConfirmAvailability() {
   const router = useRouter();
@@ -59,8 +53,7 @@ export default function ConfirmAvailability() {
   const { getBooking, setBooking } = useContext(BookingContext);
 
   const [selectedslot, setSelectedslot] = useState<string>('');
-  const { payload, loungeCode, lounge, linkedAccountId } = usePayload();
-  const [isDisabled, setIsDisabled] = useState(true);
+  const { lounge, linkedAccountId } = usePayload();
   const [env, setEnv] = useState<string>();
 
   useEffect(() => {
@@ -106,8 +99,12 @@ export default function ConfirmAvailability() {
   const handleSubmit = () => {
     const availableSlots = slotsData?.getAvailableSlots.slots;
     const slot = findSelectedSlot(availableSlots, selectedslot);
-    const departureTime = fligtData?.getFlightDetails[0]?.departure?.dateTime?.utc;
-    const formattedDepartureTime = formatDateUTC(new Date(String(departureTime)), DATE_TIME_FORMAT);
+    const departureTime =
+      fligtData?.getFlightDetails[0]?.departure?.dateTime?.utc;
+    const formattedDepartureTime = formatDateUTC(
+      new Date(String(departureTime)),
+      DATE_TIME_FORMAT
+    );
 
     const bookingInput = {
       ...(linkedAccountId && { actingAccount: linkedAccountId }),
@@ -203,7 +200,6 @@ export default function ConfirmAvailability() {
 
   const handleSelectSlot = (value: string) => {
     setSelectedslot(value);
-    setIsDisabled(false);
   };
 
   const infos = [
@@ -248,12 +244,7 @@ export default function ConfirmAvailability() {
         }}
       >
         <Stack sx={{ width: '100%' }}>
-          <Breadcramp
-            lefttitle={`BACK TO ${lounge?.loungeName?.toUpperCase()}`}
-            lefturl="/"
-            righttile={`FAQs`}
-            righturl={FAQLink(payload?.accountProvider)}
-          />
+          <BackToLounge />
         </Stack>
         <Flex
           direction="column"

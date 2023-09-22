@@ -33,12 +33,24 @@ import Heading from '@collinsonx/design-system/components/heading/Heading';
 import { BookingContext } from 'context/bookingContext';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 
-import { useContext, useEffect } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 import { FAQLink } from 'utils/FAQLinks';
+import BackToLounge from '@components/BackToLounge';
+import { MOBILE_ACTION_BACK } from '../constants';
+import { sendMobileEvent } from '@lib';
 
 export default function ConfirmPayment() {
   const router = useRouter();
   const session: any = useSessionContext();
+
+  const { lounge, referrerUrl } = usePayload();
+
+  const handleClickBack = useCallback(() => {
+    if (window && !referrerUrl) {
+      const windowObj: any = window;
+      sendMobileEvent(windowObj, MOBILE_ACTION_BACK);
+    }
+  }, [referrerUrl]);
 
   const {
     loading,
@@ -67,8 +79,6 @@ export default function ConfirmPayment() {
     infants,
   } = getBooking();
 
-  const { payload, lounge } = usePayload();
-
   const handleSubmit = () => {};
 
   const infos = [
@@ -92,12 +102,7 @@ export default function ConfirmPayment() {
   return (
     <Layout>
       <Stack spacing={16} sx={{ backgroundColor: colors.background }}>
-        <Breadcramp
-          lefttitle={`BACK TO ${lounge?.loungeName?.toUpperCase()}`}
-          lefturl="/"
-          righttile={`FAQs`}
-          righturl={FAQLink(payload?.accountProvider)}
-        />
+        <BackToLounge />
 
         <Flex
           justify="center"
@@ -191,21 +196,17 @@ export default function ConfirmPayment() {
                         </span>
                       </Text>
                     </Box>
-
                   </Stack>
 
                   {lounge && (
                     <Stack
                       sx={{
-
                         '@media (max-width: 768px)': {
-
                           marginTop: '10px',
                         },
                       }}
                       spacing={8}
                     >
-
                       <Box
                         sx={{
                           '@media (max-width: 768px)': {
@@ -263,12 +264,12 @@ export default function ConfirmPayment() {
                           </p>{' '}
                         </Flex>
                       </Box>
-
                     </Stack>
                   )}
                   <Center>
                     <Anchor
-                      href={'#'}
+                      href={referrerUrl ? referrerUrl : '#'}
+                      onClick={handleClickBack}
                       style={{
                         textDecoration: 'underline',
                         color: colors.blue,
