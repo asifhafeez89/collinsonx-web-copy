@@ -7,19 +7,33 @@ import {
   Button,
 } from '@collinsonx/design-system/core';
 
-import { ReactNode } from 'react';
+import { ReactNode, useCallback } from 'react';
 import usePayload from 'hooks/payload';
 import AppLogo from './AppLogo';
 import colors from 'ui/colour-constants';
 import { useRouter } from 'next/router';
+import { MOBILE_ACTION_BACK } from '../constants';
+import { sendMobileEvent } from '@lib';
 
 interface LayoutProps {
   children: ReactNode;
 }
 
 export default function LayoutError({ children }: LayoutProps) {
-  const { payload, setPayload } = usePayload();
   const router = useRouter();
+
+  const { payload, referrerUrl } = usePayload();
+
+  const handleClickBack = useCallback(() => {
+    if (window) {
+      if (referrerUrl) {
+        window.location.href = referrerUrl;
+      } else {
+        const windowObj: any = window;
+        sendMobileEvent(windowObj, MOBILE_ACTION_BACK);
+      }
+    }
+  }, [referrerUrl]);
 
   return (
     <Container
@@ -64,7 +78,9 @@ export default function LayoutError({ children }: LayoutProps) {
 
           <Center>
             <Anchor href="#">
-              <Button>{`Return to lounges`.toUpperCase()}</Button>{' '}
+              <Button onClick={handleClickBack}>
+                {`Return to lounge`.toUpperCase()}
+              </Button>
             </Anchor>
           </Center>
         </Box>

@@ -34,7 +34,11 @@ import urls from './urls';
 import secrets from './secrets';
 import { firstNames, lastNames } from './names';
 
-const { loungeCode: lcParam, jwt: jwtParam } = BookingQueryParams;
+const {
+  loungeCode: lcParam,
+  jwt: jwtParam,
+  referrer: referrerParam,
+} = BookingQueryParams;
 
 interface ClientSelectBoxProps {
   setClient: Dispatch<SetStateAction<string | null>>;
@@ -180,6 +184,8 @@ function DebugBox({ domain, loungeCode, jwt, object }: DebugBoxProps) {
 
 const Content = () => {
   const [lounge, setLounge] = useState<string>('');
+  const [referrer, setReferrer] = useState<string>('');
+
   const [domain, setDomain] = useState<string | null>('');
   const [debugModeIsActive, setDebugModeIsActive] = useState(false);
 
@@ -241,7 +247,7 @@ const Content = () => {
     const jwtToken = await signJWT(response, secret);
     setJWT(jwtToken);
 
-    const url = `${domain}?${lcParam}=${lounge}&${jwtParam}=${jwtToken}`;
+    const url = `${domain}?${lcParam}=${lounge}&${jwtParam}=${jwtToken}&${referrerParam}=${referrer}`;
 
     window.open(url);
   };
@@ -377,6 +383,16 @@ const Content = () => {
               setLounge={setLounge}
               setFlightDetails={setFlightArray}
               setAirportName={setAirport}
+            />
+          </Grid.Col>
+        </Grid>
+
+        <Grid>
+          <Grid.Col span={6}>
+            <TextInput
+              value={referrer}
+              onChange={(event) => setReferrer(event.currentTarget.value)}
+              placeholder="Please add your referrer URL"
             />
           </Grid.Col>
         </Grid>

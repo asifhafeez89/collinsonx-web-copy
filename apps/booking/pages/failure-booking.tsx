@@ -33,6 +33,8 @@ import { InfoGroup } from '@collinsonx/design-system/components/details';
 import { BookingContext } from 'context/bookingContext';
 import { getCheckoutSessionUrl } from 'services/payment';
 import colors from 'ui/colour-constants';
+import BackToLounge from '@components/BackToLounge';
+import { FAQLink } from 'utils/FAQLinks';
 
 interface AvailableSlotsProps {
   availableSlots: Availability;
@@ -126,12 +128,7 @@ export default function SuccessBooking({
     <Layout>
       <Stack spacing={16} sx={{ backgroundColor: colors.background }}>
         <Stack sx={{ width: '100%' }}>
-          <Breadcramp
-            lefttitle={`BACK TO ${lounge?.loungeName?.toUpperCase()}`}
-            lefturl="/"
-            righttile={`FAQs`}
-            righturl="https://bbc.co.uk"
-          />
+          <BackToLounge />
         </Stack>
         <Flex
           sx={{

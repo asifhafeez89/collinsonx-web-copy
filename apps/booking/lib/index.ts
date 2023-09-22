@@ -66,3 +66,18 @@ export const setItem = (key: string, value: string) =>
 
 export const removeItem = (key: string) =>
   sessionStorage.removeItem(`${STORAGE_NAMESPACE}_${key}`);
+
+export const sendMobileEvent = (windowObj: any = {}, value: any) => {
+  if (windowObj.Android && windowObj.Android.onWebViewEvent) {
+    windowObj.Android.onWebViewEvent(value);
+  } else if (
+    windowObj.webkit &&
+    windowObj.webkit.messageHandlers &&
+    windowObj.webkit.messageHandlers.buttonPressed &&
+    windowObj.webkit.messageHandlers.buttonPressed.postMessage
+  ) {
+    windowObj.webkit.messageHandlers.buttonPressed.postMessage(value);
+  } else {
+    console.log('ERROR: Unable to detect mobile environment');
+  }
+};

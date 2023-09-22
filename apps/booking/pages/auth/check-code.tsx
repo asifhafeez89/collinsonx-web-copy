@@ -15,7 +15,6 @@ import {
   createPasswordlessCode,
 } from '@collinsonx/utils/supertokens';
 import LayoutLogin from '@components/LayoutLogin';
-import Breadcramp from '@components/Breadcramp';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 import { useEffect, useRef, useState } from 'react';
 import { useMutation } from '@collinsonx/utils/apollo';
@@ -25,9 +24,10 @@ import colors from 'ui/colour-constants';
 import PinLockout from '@components/auth/PinLockout';
 import linkAccount from '@collinsonx/utils/mutations/linkAccount';
 import Session from 'supertokens-auth-react/recipe/session';
+import BackToLounge from '@components/BackToLounge';
 
 export default function CheckEmail() {
-  const { jwt, loungeCode, lounge, payload, setLinkedAccountId } = usePayload();
+  const { jwt, lounge, payload, setLinkedAccountId } = usePayload();
   const router = useRouter();
   const email = router.query?.email as string;
   const [code, setCode] = useState<string>();
@@ -139,10 +139,7 @@ export default function CheckEmail() {
           ) : (
             <>
               <Skeleton visible={!lounge}>
-                <Breadcramp
-                  lefttitle={lounge?.loungeName || 'Back to lounge'}
-                  lefturl="#"
-                />
+                <BackToLounge />
               </Skeleton>
               <Stack
                 spacing={24}

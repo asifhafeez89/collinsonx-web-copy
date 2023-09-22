@@ -1,7 +1,6 @@
 import Layout from '@components/Layout';
 
 import { Flex, Stack, Text } from '@collinsonx/design-system/core';
-import Breadcramp from '@components/Breadcramp';
 
 import { useRouter } from 'next/router';
 import { LoungeInfo } from '@components/LoungeInfo';
@@ -12,22 +11,17 @@ import usePayload from 'hooks/payload';
 
 import colors from 'ui/colour-constants';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
-import { FAQLink } from 'utils/FAQLinks';
+import BackToLounge from '@components/BackToLounge';
 
 export default function BookingNotSuccessful() {
   const router = useRouter();
 
-  const { payload, lounge } = usePayload();
-  console.log(router.query);
+  const { lounge } = usePayload();
+
   return (
     <Layout>
       <Stack spacing={16}>
-        <Breadcramp
-          lefttitle={`BACK TO ${lounge?.loungeName?.toUpperCase()}`}
-          lefturl="/"
-          righttile={`FAQs`}
-          righturl={FAQLink(payload?.accountProvider)}
-        />
+        <BackToLounge />
 
         <Flex justify="center" align="center" direction="column">
           <Stack maw={591} spacing={24}>
