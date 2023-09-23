@@ -82,7 +82,6 @@ export default function ConfirmAvailability() {
   );
 
   booking.arrival = selectedslot;
-
   setBooking(booking);
 
   const [mutate, { loading: cbLoading, error: cbError }] =
@@ -174,8 +173,6 @@ export default function ConfirmAvailability() {
 
         const loungecode = lounge?.loungeCode;
         const loungeTerminal = lounge?.location?.terminal;
-
-        console.log(lounge);
 
         if (loungecode?.substring(0, 2) !== airport) {
           setAirportMismatch(true);

@@ -32,7 +32,6 @@ import { FAQLink } from 'utils/FAQLinks';
 import { AlertIcon } from '@collinsonx/design-system/assets/icons';
 import { MAX_GUESTS } from '../constants';
 import BackToLounge from '@components/BackToLounge';
-
 interface DepartureFlightInfo {
   airport: { iata: string };
   date: { local: string; utc: string };
@@ -131,7 +130,6 @@ const Lounge = () => {
           <Stack sx={{ width: '100%' }}>
             <BackToLounge />
           </Stack>
-
           <Flex
             align="center"
             sx={{
