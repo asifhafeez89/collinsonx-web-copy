@@ -17,9 +17,11 @@ const baseTheme = ({
       mainColor: [themeOverrides?.mainColor || '#FFF'],
       brandColor: [themeOverrides?.brandColor || '#D3DAE1'],
       splashColor: [themeOverrides?.splashColor || '#858B91'],
+
       brandCollinsons: [themeOverrides?.brandCollinsons || '#827127'],
     },
     primaryColor: 'brandCollinsons',
+
     primaryShade: 0,
     defaultRadius: 4,
     fontFamily,

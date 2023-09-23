@@ -78,6 +78,7 @@ export default function ConfirmPayment() {
   }>(getConsumerByID, { variables: { getConsumerById: session.userId } });
 
   const { getBooking, setBooking } = useContext(BookingContext);
+
   const [open, setOpen] = useState(true);
   const [alert, setAlert] = useState<boolean | null>(null);
 
@@ -101,6 +102,7 @@ export default function ConfirmPayment() {
     fetchBookingDetails();
   };
 
+
   const {
     flightNumber,
     departureDate,
@@ -111,6 +113,7 @@ export default function ConfirmPayment() {
     arrival,
     infants,
   } = getBooking();
+
 
   const loungeLocation = useMemo(
     () =>
@@ -155,6 +158,7 @@ export default function ConfirmPayment() {
     },
   });
 
+
   const infos = [
     {
       header: 'Day of flight',
@@ -177,6 +181,7 @@ export default function ConfirmPayment() {
     <Layout>
       <Stack spacing={16} sx={{ backgroundColor: colors.background }}>
         <BackToLounge />
+
         <LoaderLightBox
           open={open}
           title=""
@@ -201,6 +206,7 @@ export default function ConfirmPayment() {
             </p>
           </div>
         </LoaderLightBox>
+
         <Flex
           justify="center"
           align="center"
@@ -246,7 +252,9 @@ export default function ConfirmPayment() {
             >
               {loading && <BookingFormSkeleton />}
 
+
               {!loading && alert === false && (
+
                 <Box>
                   <Stack>
                     <LoungeError error={fetchError} />
@@ -441,6 +449,7 @@ export default function ConfirmPayment() {
                   </Stack>
                 </Box>
               )}
+
             </Flex>
           </Stack>
         </Flex>

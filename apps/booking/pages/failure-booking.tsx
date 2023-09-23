@@ -1,3 +1,4 @@
+
 import { useQuery } from '@collinsonx/utils/apollo';
 import Layout from '@components/Layout';
 
@@ -52,6 +53,7 @@ export default function BookingFailure() {
   const router = useRouter();
   const session: any = useSessionContext();
 
+
   const {
     loading,
     error: fetchError,
@@ -73,10 +75,12 @@ export default function BookingFailure() {
     fetchBookingDetails();
   };
 
+
   const {
     flightNumber,
     departureDate,
     children,
+
     bookingId,
     carrierCode,
     adults,
@@ -107,6 +111,7 @@ export default function BookingFailure() {
   }>(getBookingByID, {
     variables: {
       getBookingById: bookingId,
+
     },
     pollInterval: 300000,
     fetchPolicy: 'network-only',
@@ -127,6 +132,7 @@ export default function BookingFailure() {
         setOpen(true);
       }
     },
+
   });
 
   const infos = [
@@ -140,10 +146,13 @@ export default function BookingFailure() {
     {
       header: 'Time of flight',
       description: formatDate(new Date(`${departureDate}`), TIME_FORMAT),
+
     },
     {
       header: 'Flight number',
       description: flightNumber,
+
+
     },
   ];
 
@@ -154,9 +163,11 @@ export default function BookingFailure() {
           <BackToLounge />
         </Stack>
         <Flex
+
           justify="center"
           align="center"
           direction="column"
+
           sx={{
             justifyContent: 'center',
 
@@ -167,6 +178,7 @@ export default function BookingFailure() {
               backgroundColor: colors.background,
             },
           }}
+
         >
           <Stack
             spacing={24}
@@ -184,7 +196,6 @@ export default function BookingFailure() {
               lounge={lounge}
               loading={!lounge}
             />
-
             <Flex
               gap={{ base: 'sm', sm: 'lg' }}
               sx={{
@@ -265,6 +276,7 @@ export default function BookingFailure() {
                 </Box>
               )}
             </Flex>
+
           </Stack>
         </Flex>
       </Stack>
@@ -273,3 +285,4 @@ export default function BookingFailure() {
 }
 
 BookingFailure.getLayout = (page: JSX.Element) => <>{page}</>;
+

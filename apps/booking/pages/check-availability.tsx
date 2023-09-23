@@ -55,6 +55,7 @@ export default function ConfirmAvailability() {
 
   const [selectedslot, setSelectedslot] = useState<string>('');
   const { lounge, linkedAccountId } = usePayload();
+
   const [airportMismatch, setAirportMismatch] = useState(false);
   const [terminalMismatch, setTerminalMismath] = useState(false);
   const [env, setEnv] = useState<string>();
@@ -83,6 +84,7 @@ export default function ConfirmAvailability() {
 
   booking.arrival = selectedslot;
   setBooking(booking);
+
 
   const [mutate, { loading: cbLoading, error: cbError }] =
     useMutation(createBooking);
@@ -182,6 +184,7 @@ export default function ConfirmAvailability() {
         ) {
           setTerminalMismath(true);
         }
+
 
         fetchSlots({
           variables: {
@@ -301,6 +304,7 @@ export default function ConfirmAvailability() {
         sx={{
           background: colors.background,
 
+
           '@media (max-width: 768px)': {
             width: '100%',
             backgroundColor: colors.background,
@@ -358,6 +362,7 @@ export default function ConfirmAvailability() {
                     },
                   }}
                 >
+
                   {lounge && (
                     <Stack spacing={8}>
                       <EditableTitle title="Flight details" to="/" as="h2">

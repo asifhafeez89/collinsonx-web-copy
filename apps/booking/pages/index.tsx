@@ -12,9 +12,11 @@ import { useForm } from '@mantine/form';
 import { LoungeInfo } from '@components/LoungeInfo';
 import { FlightInfo } from '../components/flightInfo/FlightInfo';
 import GuestInfo from '@components/GuestInfo';
+
 import { ViewStep } from 'types/booking';
 import { FlightDetails } from '@collinsonx/utils';
 import { getFlightDetails } from '@collinsonx/utils/queries';
+
 import {
   AIRPORT_CODE_TYPE,
   DATE_FORMAT,
@@ -22,7 +24,9 @@ import {
 } from 'config/Constants';
 import { useLazyQuery } from '@collinsonx/utils/apollo';
 import { validateFlightNumber } from '../utils/flightValidation';
+
 import dayjs from 'dayjs';
+
 import usePayload from 'hooks/payload';
 import router from 'next/router';
 
@@ -45,6 +49,7 @@ interface FlightInfo {
 }
 
 const Lounge = () => {
+
   const [date, setDate] = useState<string>(dayjs().format(DATE_FORMAT));
   const [flightNumber, setFlightNumber] = useState<string>();
   const [guestError, setGuestError] = useState<Boolean>(false);
@@ -164,6 +169,7 @@ const Lounge = () => {
                 loading={!lounge}
               />
               <FlightInfo form={form} loading={!lounge || flightInfoLoading} />
+
 
               {guestError ? (
                 <Box
