@@ -54,10 +54,10 @@ export default function ConfirmAvailability() {
   const { getBooking, setBooking } = useContext(BookingContext);
 
   const [selectedslot, setSelectedslot] = useState<string>('');
-  const { lounge, linkedAccountId } = usePayload();
-
+  const { referrerUrl, lounge, linkedAccountId } = usePayload();
   const [airportMismatch, setAirportMismatch] = useState(false);
   const [terminalMismatch, setTerminalMismath] = useState(false);
+  const [flightInfoAirport, setFlightInfoAirport] = useState('');
   const [env, setEnv] = useState<string>();
 
   useEffect(() => {
@@ -176,6 +176,8 @@ export default function ConfirmAvailability() {
         const loungecode = lounge?.loungeCode;
         const loungeTerminal = lounge?.location?.terminal;
 
+        setFlightInfoAirport(airport ?? '');
+
         if (loungecode?.substring(0, 2) !== airport) {
           setAirportMismatch(true);
         } else if (
@@ -249,56 +251,66 @@ export default function ConfirmAvailability() {
     },
   ];
 
+  const showAlert = airportMismatch || terminalMismatch;
+
   return (
     <Layout>
-      {airportMismatch ||
-        (terminalMismatch && (
-          <BookingLightbox
-            open={true}
-            ctaCancel="Go back"
-            ctaForward="Cancel booking"
-            ctaForwardCall={() => console.log('hello')}
-            onClose={() => {}}
-          >
+      {showAlert && (
+        <BookingLightbox
+          open={true}
+          ctaCancel="Go back"
+          ctaForward="Cancel booking"
+          ctaForwardCall={() =>
+            router.push({
+              pathname: '/',
+            })
+          }
+          onClose={() => {
+            if (window) {
+              window.location.href = referrerUrl ?? '/';
+            }
+          }}
+        >
+          <div>
+            {airportMismatch && <h1>Airport Mismatch</h1>}
+            {terminalMismatch && <h1>Terminal Mismatch</h1>}
             <div>
-              {airportMismatch && <h1>Airport Mismatch</h1>}
-              {terminalMismatch && <h1>Terminal Mismatch</h1>}
-              <div>
-                {airportMismatch && (
-                  <p>
-                    Please note, that the lounge you are booking is not in the
-                    airport your flight is scheduled.{' '}
-                  </p>
-                )}
-
-                {terminalMismatch && (
-                  <p>
-                    Please note, that the lounge you are booking is not in the
-                    terminal your flight is scheduled.{' '}
-                  </p>
-                )}
-
+              {airportMismatch && (
                 <p>
-                  {' '}
-                  Lounge airport is{' '}
-                  <strong>{lounge?.location?.airportName}</strong>.{' '}
+                  Please note, that the lounge you are booking is not in the
+                  airport your flight is scheduled.{' '}
                 </p>
+              )}
 
+              {terminalMismatch && (
                 <p>
-                  {' '}
-                  Lounge terminal is{' '}
-                  <strong>{lounge?.location?.terminal}</strong>.{' '}
+                  Please note, that the lounge you are booking is not in the
+                  terminal your flight is scheduled.{' '}
                 </p>
+              )}
 
-                <p>
-                  {' '}
-                  Flight departure airport is Heathrow. Do you still want to
-                  book this lounge even it is not in the airport of departure?
-                </p>
-              </div>
+              <p>
+                {' '}
+                Lounge airport is{' '}
+                <strong>{lounge?.location?.airportName}</strong>.{' '}
+              </p>
+
+              <p>
+                {' '}
+                Lounge terminal is <strong>{lounge?.location?.terminal}</strong>
+                .{' '}
+              </p>
+
+              <p>
+                {' '}
+                Flight departure airport is {flightInfoAirport}. Do you still
+                want to book this lounge even it is not in the airport of
+                departure?
+              </p>
             </div>
-          </BookingLightbox>
-        ))}
+          </div>
+        </BookingLightbox>
+      )}
       <Stack
         spacing={16}
         sx={{
