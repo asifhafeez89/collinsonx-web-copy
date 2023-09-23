@@ -74,6 +74,8 @@ export default function ConfirmAvailability({
     infants,
   } = getBooking();
 
+  const totalQuantity: number = Number(adults + children);
+
   const flightBreakdown = validateFlightNumber(String(flightNumber));
   const { payload, lounge } = usePayload();
 
@@ -104,7 +106,7 @@ export default function ConfirmAvailability({
         internalProductId: lounge?.id ?? '',
         successUrl: `${process.env.NEXT_PUBLIC_URL}/confirm-payment`,
         cancelUrl: `${process.env.NEXT_PUBLIC_URL}/booking-not-successful`,
-        quantity: 1,
+        quantity: totalQuantity,
       };
 
       const getSessionUrl = await getCheckoutSessionUrl(paymentinput);
