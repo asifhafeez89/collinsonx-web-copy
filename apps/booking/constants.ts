@@ -26,3 +26,5 @@ export const apiAccountProviderMap: Record<
 };
 
 export { constants, cookiesNames };
+
+export const POLLING_TIME = 3000;

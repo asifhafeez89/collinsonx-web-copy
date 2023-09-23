@@ -46,6 +46,7 @@ import dayjs from 'dayjs';
 import { constants } from '../constants';
 import colors from 'ui/colour-constants';
 import BackToLounge from '@components/BackToLounge';
+import BookingLightbox from '@collinsonx/design-system/components/bookinglightbox';
 
 export default function ConfirmAvailability() {
   const router = useRouter();
@@ -54,6 +55,8 @@ export default function ConfirmAvailability() {
 
   const [selectedslot, setSelectedslot] = useState<string>('');
   const { lounge, linkedAccountId } = usePayload();
+  const [airportMismatch, setAirportMismatch] = useState(false);
+  const [terminalMismatch, setTerminalMismath] = useState(false);
   const [env, setEnv] = useState<string>();
 
   useEffect(() => {
@@ -71,8 +74,6 @@ export default function ConfirmAvailability() {
 
   const { flightNumber, departureDate, children, adults, infants } = booking;
 
-  const flightBreakdown = validateFlightNumber(String(flightNumber));
-
   const flightCode = useMemo(
     () =>
       flightNumber ? validateFlightNumber(flightNumber as string) : undefined,
@@ -81,6 +82,7 @@ export default function ConfirmAvailability() {
   );
 
   booking.arrival = selectedslot;
+
   setBooking(booking);
 
   const [mutate, { loading: cbLoading, error: cbError }] =
@@ -167,6 +169,23 @@ export default function ConfirmAvailability() {
     skip: !lounge || !env,
     onCompleted: (flightInfoData) => {
       if (flightInfoData) {
+        const airport = flightInfoData.getFlightDetails[0].departure?.airport;
+        const terminal = flightInfoData.getFlightDetails[0].departure?.terminal;
+
+        const loungecode = lounge?.loungeCode;
+        const loungeTerminal = lounge?.location?.terminal;
+
+        console.log(lounge);
+
+        if (loungecode?.substring(0, 2) !== airport) {
+          setAirportMismatch(true);
+        } else if (
+          loungecode?.substring(0, 2) !== airport &&
+          loungeTerminal !== terminal
+        ) {
+          setTerminalMismath(true);
+        }
+
         fetchSlots({
           variables: {
             data: {
@@ -232,6 +251,54 @@ export default function ConfirmAvailability() {
 
   return (
     <Layout>
+      {airportMismatch ||
+        (terminalMismatch && (
+          <BookingLightbox
+            open={true}
+            ctaCancel="Go back"
+            ctaForward="Cancel booking"
+            ctaForwardCall={() => console.log('hello')}
+            onClose={() => {}}
+          >
+            <div>
+              {airportMismatch && <h1>Airport Mismatch</h1>}
+              {terminalMismatch && <h1>Terminal Mismatch</h1>}
+              <div>
+                {airportMismatch && (
+                  <p>
+                    Please note, that the lounge you are booking is not in the
+                    airport your flight is scheduled.{' '}
+                  </p>
+                )}
+
+                {terminalMismatch && (
+                  <p>
+                    Please note, that the lounge you are booking is not in the
+                    terminal your flight is scheduled.{' '}
+                  </p>
+                )}
+
+                <p>
+                  {' '}
+                  Lounge airport is{' '}
+                  <strong>{lounge?.location?.airportName}</strong>.{' '}
+                </p>
+
+                <p>
+                  {' '}
+                  Lounge terminal is{' '}
+                  <strong>{lounge?.location?.terminal}</strong>.{' '}
+                </p>
+
+                <p>
+                  {' '}
+                  Flight departure airport is Heathrow. Do you still want to
+                  book this lounge even it is not in the airport of departure?
+                </p>
+              </div>
+            </div>
+          </BookingLightbox>
+        ))}
       <Stack
         spacing={16}
         sx={{
@@ -294,9 +361,6 @@ export default function ConfirmAvailability() {
                     },
                   }}
                 >
-                  <LoungeError error={flightDataError} />
-                  <LoungeError error={slotsError} />
-                  <LoungeError error={cbError} />
                   {lounge && (
                     <Stack spacing={8}>
                       <EditableTitle title="Flight details" to="/" as="h2">

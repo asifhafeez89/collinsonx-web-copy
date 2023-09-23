@@ -9,7 +9,7 @@ const colors = {
   background: '#F3F2F3',
   boxBorder: '#CCCCCC',
   borderColor: '#B4B3BA',
-
+  theme: '#827127',
 };
 
 export default colors;

@@ -11,9 +11,15 @@ import {
   Title,
 } from '@collinsonx/design-system/core';
 import Breadcramp from '@components/Breadcramp';
-import { Experience, Consumer } from '@collinsonx/utils/generatedTypes/graphql';
+import {
+  Experience,
+  Consumer,
+  Booking,
+  BookingStatus,
+} from '@collinsonx/utils/generatedTypes/graphql';
 import { useRouter } from 'next/router';
 import { LoungeInfo } from '@components/LoungeInfo';
+import LoaderLightBox from '@collinsonx/design-system/components/loaderlightbox';
 import {
   getSearchExperiences,
   getConsumerByID,
@@ -35,8 +41,13 @@ import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 
 import { useCallback, useContext, useEffect } from 'react';
 import { FAQLink } from 'utils/FAQLinks';
+import { useState } from 'react';
+import { useMemo } from 'react';
+import { useLazyQuery } from '@collinsonx/utils/apollo';
+import { getBookingByID } from '@collinsonx/utils/queries';
+import { AlertIcon } from '@collinsonx/design-system/assets/icons';
 import BackToLounge from '@components/BackToLounge';
-import { MOBILE_ACTION_BACK } from '../constants';
+import { MOBILE_ACTION_BACK, POLLING_TIME } from '../constants';
 import { sendMobileEvent } from '@lib';
 
 export default function ConfirmPayment() {
@@ -67,6 +78,28 @@ export default function ConfirmPayment() {
   }>(getConsumerByID, { variables: { getConsumerById: session.userId } });
 
   const { getBooking, setBooking } = useContext(BookingContext);
+  const [open, setOpen] = useState(true);
+  const [alert, setAlert] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    // Check if the booking state is incompleted and]
+
+    const interval = setInterval(() => {
+      fetchBookingDetails();
+
+      // Check what is the status
+      //if the lightbox is still open then throw alert
+      if (open) {
+        setAlert(true);
+      }
+    }, POLLING_TIME);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleRedoQuery = () => {
+    fetchBookingDetails();
+  };
 
   const {
     flightNumber,
@@ -79,7 +112,48 @@ export default function ConfirmPayment() {
     infants,
   } = getBooking();
 
+  const loungeLocation = useMemo(
+    () =>
+      lounge && lounge.location
+        ? lounge.location.airportName
+          ? lounge.location.airportName +
+            `${lounge.location.terminal ? ', ' + lounge.location.terminal : ''}`
+          : ''
+        : '-',
+    [lounge]
+  );
+
   const handleSubmit = () => {};
+
+  const [
+    fetchBookingDetails,
+    { loading: loadingBooking, error: errorBooking, data: dataBooking },
+  ] = useLazyQuery<{
+    getBookingByID: Booking;
+  }>(getBookingByID, {
+    variables: {
+      getBookingById: bookingId,
+    },
+    pollInterval: 300000,
+    fetchPolicy: 'network-only',
+    notifyOnNetworkStatusChange: true,
+    onCompleted: (data) => {
+      if (
+        data.getBookingByID.status === BookingStatus.Declined ||
+        data.getBookingByID.status === BookingStatus.Confirmed
+      ) {
+        setOpen(false);
+
+        if (data.getBookingByID.status === BookingStatus.Declined) {
+          router.push({
+            pathname: '/failure-booking',
+          });
+        }
+      } else {
+        setOpen(true);
+      }
+    },
+  });
 
   const infos = [
     {
@@ -103,7 +177,30 @@ export default function ConfirmPayment() {
     <Layout>
       <Stack spacing={16} sx={{ backgroundColor: colors.background }}>
         <BackToLounge />
-
+        <LoaderLightBox
+          open={open}
+          title=""
+          onHandleClick={handleRedoQuery}
+          ctaAction="TRY AGAIN"
+          onClose={() => {}}
+        >
+          <div>
+            <h2>Payment is being processed</h2>
+            <p>
+              Your payment for the{' '}
+              <strong>
+                {lounge?.loungeName} &nbsp;
+                {loungeLocation}
+              </strong>{' '}
+              is being processed. This might take a few minutes/seconds to
+              complete.
+              <br />
+              <br />
+              Please do not elave the screen rather close your browser until the
+              action finishes.
+            </p>
+          </div>
+        </LoaderLightBox>
         <Flex
           justify="center"
           align="center"
@@ -148,7 +245,8 @@ export default function ConfirmPayment() {
               }}
             >
               {loading && <BookingFormSkeleton />}
-              {!loading && (
+
+              {!loading && alert === false && (
                 <Box>
                   <Stack>
                     <LoungeError error={fetchError} />
@@ -292,6 +390,55 @@ export default function ConfirmPayment() {
                   >
                     DOWNLOAD COPY
                   </Button>
+                </Box>
+              )}
+
+              {!loading && alert === true && (
+                <Box>
+                  <Stack>
+                    <LoungeError error={fetchError} />
+
+                    <Box
+                      sx={{
+                        '@media (max-width: 768px)': {
+                          background: colors.white,
+                          padding: '20px',
+                        },
+                      }}
+                    >
+                      <Title
+                        style={{
+                          fontSize: '1.5rem',
+                          lineHeight: '2.25rem',
+                          fontWeight: '700',
+                        }}
+                      >
+                        <AlertIcon
+                          style={{ width: '1.3rem', height: '1.3rem' }}
+                        />{' '}
+                        Booking Confirmation delay
+                      </Title>
+
+                      <Text>
+                        We are not able to confirm your booking yet, we will
+                        send you an email once your booking is confirmed
+                      </Text>
+
+                      <Button
+                        type="submit"
+                        data-testid="submit"
+                        spacing="1.25rem"
+                        align="center"
+                        handleClick={() => {
+                          if (window) {
+                            window.location.href = referrerUrl ?? '/';
+                          }
+                        }}
+                      >
+                        GO TO LOUNGES
+                      </Button>
+                    </Box>
+                  </Stack>
                 </Box>
               )}
             </Flex>

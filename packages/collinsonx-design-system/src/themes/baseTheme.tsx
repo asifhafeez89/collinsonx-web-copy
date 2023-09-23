@@ -17,9 +17,9 @@ const baseTheme = ({
       mainColor: [themeOverrides?.mainColor || '#FFF'],
       brandColor: [themeOverrides?.brandColor || '#D3DAE1'],
       splashColor: [themeOverrides?.splashColor || '#858B91'],
-      brandBlue: [themeOverrides?.brandBlue || '#006FCF'],
+      brandCollinsons: [themeOverrides?.brandCollinsons || '#827127'],
     },
-    primaryColor: 'mainColor',
+    primaryColor: 'brandCollinsons',
     primaryShade: 0,
     defaultRadius: 4,
     fontFamily,
@@ -88,17 +88,6 @@ const baseTheme = ({
             borderRadius: 4,
             fontSize: 18,
             height: 44,
-            backgroundColor: theme.colors.brandColor,
-            color: theme.colors.headerNavColor,
-            ':hover': {
-              backgroundColor: theme.fn.darken(
-                theme.colors.brandColor[0],
-                0.05
-              ),
-            },
-          },
-          label: {
-            color: '#fff',
           },
         }),
       },

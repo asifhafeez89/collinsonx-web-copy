@@ -1,49 +1,56 @@
-import { useLazyQuery, useQuery } from '@collinsonx/utils/apollo';
+import { useQuery } from '@collinsonx/utils/apollo';
 import Layout from '@components/Layout';
-import { Box, Flex, Stack } from '@collinsonx/design-system/core';
+
+import {
+  Anchor,
+  Box,
+  Center,
+  Flex,
+  Stack,
+  Text,
+  Title,
+} from '@collinsonx/design-system/core';
 import Breadcramp from '@components/Breadcramp';
-import { Experience } from '@collinsonx/utils/generatedTypes/graphql';
+import {
+  Experience,
+  Consumer,
+  Booking,
+  BookingStatus,
+} from '@collinsonx/utils/generatedTypes/graphql';
 import { useRouter } from 'next/router';
 import { LoungeInfo } from '@components/LoungeInfo';
-import { getSearchExperiences } from '@collinsonx/utils/queries';
+import LoaderLightBox from '@collinsonx/design-system/components/loaderlightbox';
+import {
+  getSearchExperiences,
+  getConsumerByID,
+} from '@collinsonx/utils/queries';
 import { Details, Button } from '@collinsonx/design-system';
-import createBooking from '@collinsonx/utils/mutations/createBooking';
-import Link from 'next/link';
 
-import { Clock, MapPin } from '@collinsonx/design-system/assets/icons';
-import { useMemo, useState, useEffect, useRef, useContext } from 'react';
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
 import LoungeError from '@components/LoungeError';
-import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
-import { Availability } from '@collinsonx/utils';
-import getAvailableSlots from '@collinsonx/utils/queries/getAvailableSlots';
-import { validateFlightNumber } from '../utils/flightValidation';
-import { FlightDetails, Slots } from '@collinsonx/utils';
-import getFlightDetails from '@collinsonx/utils/queries/getFlightDetails';
-import {
-  AIRPORT_CODE_TYPE,
-  OAG_API_VERSION,
-  DATE_FORMAT,
-  TIME_FORMAT,
-  DATE_REDABLE_FORMAT,
-} from '../config/Constants';
+
+import { TIME_FORMAT, DATE_REDABLE_FORMAT } from '../config/Constants';
 import { formatDate } from '../utils/DateFormatter';
 import usePayload from 'hooks/payload';
+
 import { InfoGroup } from '@collinsonx/design-system/components/details';
-import { BookingContext } from 'context/bookingContext';
-import { getCheckoutSessionUrl } from 'services/payment';
 import colors from 'ui/colour-constants';
+import Heading from '@collinsonx/design-system/components/heading/Heading';
+import { BookingContext } from 'context/bookingContext';
+import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import BackToLounge from '@components/BackToLounge';
 import { FAQLink } from 'utils/FAQLinks';
 
-interface AvailableSlotsProps {
-  availableSlots: Availability;
-}
+import { useContext, useEffect } from 'react';
+import { useState } from 'react';
+import { useMemo } from 'react';
+import { useLazyQuery } from '@collinsonx/utils/apollo';
+import { getBookingByID } from '@collinsonx/utils/queries';
+import { AlertIcon } from '@collinsonx/design-system/assets/icons';
 
-export default function SuccessBooking({
-  availableSlots,
-}: AvailableSlotsProps) {
+export default function BookingFailure() {
   const router = useRouter();
+  const session: any = useSessionContext();
 
   const {
     loading,
@@ -51,76 +58,92 @@ export default function SuccessBooking({
     data: experienceData,
   } = useQuery<{ searchExperiences: Experience[] }>(getSearchExperiences);
 
-  const { getBooking, setBooking } = useContext(BookingContext);
+  const {
+    loading: userLoading,
+    error: userError,
+    data: userData,
+  } = useQuery<{
+    getConsumerByID: Consumer;
+  }>(getConsumerByID, { variables: { getConsumerById: session.userId } });
 
-  const [createLoading, setCreateLoading] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(true);
+  const { getBooking, setBooking } = useContext(BookingContext);
+  const [open, setOpen] = useState(true);
+
+  const handleRedoQuery = () => {
+    fetchBookingDetails();
+  };
+
   const {
     flightNumber,
     departureDate,
     children,
+    bookingId,
     carrierCode,
     adults,
     arrival,
-    bookingId,
     infants,
   } = getBooking();
 
-  const flightBreakdown = validateFlightNumber(String(flightNumber));
-  const { payload, lounge } = usePayload();
+  const { referrerUrl, payload, lounge } = usePayload();
 
-  const flightCode = useMemo(
+  const loungeLocation = useMemo(
     () =>
-      flightNumber ? validateFlightNumber(flightNumber as string) : undefined,
-
-    [flightNumber]
+      lounge && lounge.location
+        ? lounge.location.airportName
+          ? lounge.location.airportName +
+            `${lounge.location.terminal ? ', ' + lounge.location.terminal : ''}`
+          : ''
+        : '-',
+    [lounge]
   );
 
-  const handleSubmit = async () => {};
+  const handleSubmit = () => {};
 
-  const { data: fligtData } = useQuery<{
-    getFlightDetails: FlightDetails[];
-  }>(getFlightDetails, {
+  const [
+    fetchBookingDetails,
+    { loading: loadingBooking, error: errorBooking, data: dataBooking },
+  ] = useLazyQuery<{
+    getBookingByID: Booking;
+  }>(getBookingByID, {
     variables: {
-      flightDetails: {
-        carrierCode: flightCode ? flightCode[1] : '',
-        codeType: AIRPORT_CODE_TYPE,
-        departureDate: formatDate(new Date(String(departureDate)), DATE_FORMAT),
-        flightNumber: flightCode ? flightCode[2] : '',
-        version: OAG_API_VERSION,
-      },
+      getBookingById: bookingId,
     },
     pollInterval: 300000,
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
-    onCompleted: () => {},
+    onCompleted: (data) => {
+      if (
+        data.getBookingByID.status === BookingStatus.Declined ||
+        data.getBookingByID.status === BookingStatus.Confirmed
+      ) {
+        setOpen(false);
+
+        if (data.getBookingByID.status === BookingStatus.Declined) {
+          router.push({
+            pathname: '/failure-booking',
+          });
+        }
+      } else {
+        setOpen(true);
+      }
+    },
   });
 
   const infos = [
     {
       header: 'Day of flight',
       description: formatDate(
-        new Date(
-          `${fligtData?.getFlightDetails[0]?.departure?.dateTime?.local}`
-        ),
+        new Date(`${departureDate}`),
         DATE_REDABLE_FORMAT
       ),
-      icon: <MapPin width={16} height={16} color="#0C8599" />,
     },
     {
       header: 'Time of flight',
-      description: formatDate(
-        new Date(
-          `${fligtData?.getFlightDetails[0]?.departure?.dateTime?.local}`
-        ),
-        TIME_FORMAT
-      ),
-      icon: <Clock width={16} height={16} color="#0C8599" />,
+      description: formatDate(new Date(`${departureDate}`), TIME_FORMAT),
     },
     {
       header: 'Flight number',
       description: flightNumber,
-      icon: <Clock width={16} height={16} color="#0C8599" />,
     },
   ];
 
@@ -131,6 +154,9 @@ export default function SuccessBooking({
           <BackToLounge />
         </Stack>
         <Flex
+          justify="center"
+          align="center"
+          direction="column"
           sx={{
             justifyContent: 'center',
 
@@ -141,7 +167,6 @@ export default function SuccessBooking({
               backgroundColor: colors.background,
             },
           }}
-          direction="column"
         >
           <Stack
             spacing={24}
@@ -159,91 +184,87 @@ export default function SuccessBooking({
               lounge={lounge}
               loading={!lounge}
             />
-            {createLoading ? (
-              <Flex
-                direction={{ base: 'column', sm: 'row' }}
-                gap={{ base: 'sm', sm: 'lg' }}
-                justify={{ sm: 'center' }}
-              ></Flex>
-            ) : (
-              <Flex
-                gap={{ base: 'sm', sm: 'lg' }}
-                justify={{ sm: 'center' }}
-                sx={{
-                  width: '100%',
-                  flexDirection: 'row',
 
-                  '@media (max-width: 768px)': {
-                    flexDirection: 'column',
-                  },
-                }}
-              >
-                {loading && <BookingFormSkeleton />}
-                {!loading && (
-                  <Box>
-                    <LoungeError error={fetchError} />
-                    {lounge && (
-                      <Stack spacing={8}>
-                        <EditableTitle title="Flight details" to="/" as="h2">
-                          <Details
-                            infos={infos as InfoGroup[]}
-                            direction="row"
-                          />
-                        </EditableTitle>
+            <Flex
+              gap={{ base: 'sm', sm: 'lg' }}
+              sx={{
+                width: '100%',
+                flexDirection: 'row',
 
-                        <EditableTitle title="Who's coming" to="/" as="h2">
-                          <Flex direction="row" gap={10}>
-                            <p style={{ padding: '0', margin: '0' }}>
-                              {' '}
-                              <strong>Adults</strong> {adults}
-                            </p>{' '}
-                            {Number(children) > 0 ? (
-                              <>
-                                <p style={{ padding: '0', margin: '0' }}>
-                                  {' '}
-                                  <strong>Children</strong> {children}
-                                </p>
-                              </>
-                            ) : null}
-                          </Flex>
-                        </EditableTitle>
+                '@media (max-width: 768px)': {
+                  flexDirection: 'column',
+                },
+              }}
+            >
+              {loading && <BookingFormSkeleton />}
+              {!loading && (
+                <Box>
+                  <Stack>
+                    <Box
+                      sx={{
+                        '@media (max-width: 768px)': {
+                          background: colors.white,
+                          padding: '20px',
+                        },
+                      }}
+                    >
+                      <Title
+                        style={{
+                          fontSize: '1.5rem',
+                          lineHeight: '2.25rem',
+                          fontWeight: '700',
+                        }}
+                      >
+                        <AlertIcon
+                          style={{ width: '1.3rem', height: '1.3rem' }}
+                        />{' '}
+                        Your Booking hasn't been confirmed
+                      </Title>
+                      <Text>
+                        Apologies for the delay in processing. Unfortunately, we
+                        couldn't confirm you booking.
+                      </Text>
+                      <Box sx={{ marginTop: '1.5rem' }}>
+                        <Text>Please consider booking another time slot.</Text>
+                      </Box>
+                    </Box>
+                  </Stack>
+                  <Flex
+                    justify="center"
+                    direction={{ base: 'column', sm: 'row' }}
+                  >
+                    <Button
+                      type="submit"
+                      data-testid="submit"
+                      spacing="1.25rem"
+                      align="center"
+                      variant="outline"
+                      handleClick={() => {
+                        if (window) {
+                          window.location.href = referrerUrl ?? '/';
+                        }
+                      }}
+                    >
+                      GO TO LOUNGES
+                    </Button>
 
-                        <EditableTitle
-                          title="Estimated time of arrival"
-                          to="/check-availability"
-                          as="h2"
-                        >
-                          <Flex direction="row" gap={10}>
-                            <p style={{ padding: '0', margin: '0' }}>
-                              {' '}
-                              {arrival?.split('-')[0]}
-                            </p>{' '}
-                          </Flex>
-                          <div>
-                            This is a rough estimate so that lounge can prepare
-                            for your arrival
-                          </div>
-                        </EditableTitle>
-
-                        <EditableTitle title="Cancelation policy" as="h2">
-                          <p style={{ padding: '0', margin: '0' }}>
-                            Free cancellation for 24 hours. Cancel before [date
-                            of flight] for a partial refund.
-                          </p>
-                          <Link href="cancelation-policy">Learn more</Link>
-                          <div>
-                            <p>
-                              As your flight is at 7:00am, your maximum stay is
-                              3 hours prior.
-                            </p>
-                          </div>
-                        </EditableTitle>
-                      </Stack>
-                    )}
-                  </Box>
-                )}
-              </Flex>
-            )}
+                    <Button
+                      type="submit"
+                      data-testid="submit"
+                      spacing="1.25rem"
+                      align="center"
+                      handleClick={() =>
+                        router.push({
+                          pathname: '/',
+                        })
+                      }
+                    >
+                      FIND ANOTHER SLOT
+                    </Button>
+                  </Flex>
+                </Box>
+              )}
+            </Flex>
           </Stack>
         </Flex>
       </Stack>
@@ -251,4 +272,4 @@ export default function SuccessBooking({
   );
 }
 
-SuccessBooking.getLayout = (page: JSX.Element) => <>{page}</>;
+BookingFailure.getLayout = (page: JSX.Element) => <>{page}</>;

@@ -1,4 +1,4 @@
-import { LoaderLifestyleX as Loader } from '../../assets/graphics';
+import { Loader as Loader } from '../../assets/graphics';
 import styled from '@emotion/styled';
 
 const Container = styled.div(`

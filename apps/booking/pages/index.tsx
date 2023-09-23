@@ -12,9 +12,9 @@ import { useForm } from '@mantine/form';
 import { LoungeInfo } from '@components/LoungeInfo';
 import { FlightInfo } from '../components/flightInfo/FlightInfo';
 import GuestInfo from '@components/GuestInfo';
-import { BookingGuests, ViewStep } from 'types/booking';
-import { Availability, FlightDetails } from '@collinsonx/utils';
-import { getAvailableSlots, getFlightDetails } from '@collinsonx/utils/queries';
+import { ViewStep } from 'types/booking';
+import { FlightDetails } from '@collinsonx/utils';
+import { getFlightDetails } from '@collinsonx/utils/queries';
 import {
   AIRPORT_CODE_TYPE,
   DATE_FORMAT,
@@ -22,9 +22,7 @@ import {
 } from 'config/Constants';
 import { useLazyQuery } from '@collinsonx/utils/apollo';
 import { validateFlightNumber } from '../utils/flightValidation';
-import LoungeError from '@components/LoungeError';
-import dayjs, { Dayjs } from 'dayjs';
-import Breadcramp from '@components/Breadcramp';
+import dayjs from 'dayjs';
 import usePayload from 'hooks/payload';
 import router from 'next/router';
 
@@ -34,6 +32,7 @@ import { FAQLink } from 'utils/FAQLinks';
 import { AlertIcon } from '@collinsonx/design-system/assets/icons';
 import { MAX_GUESTS } from '../constants';
 import BackToLounge from '@components/BackToLounge';
+
 interface DepartureFlightInfo {
   airport: { iata: string };
   date: { local: string; utc: string };
@@ -47,7 +46,6 @@ interface FlightInfo {
 }
 
 const Lounge = () => {
-  const [step, setStep] = useState<ViewStep>('EDIT');
   const [date, setDate] = useState<string>(dayjs().format(DATE_FORMAT));
   const [flightNumber, setFlightNumber] = useState<string>();
   const [guestError, setGuestError] = useState<Boolean>(false);
@@ -133,6 +131,7 @@ const Lounge = () => {
           <Stack sx={{ width: '100%' }}>
             <BackToLounge />
           </Stack>
+
           <Flex
             align="center"
             sx={{
@@ -167,7 +166,6 @@ const Lounge = () => {
                 loading={!lounge}
               />
               <FlightInfo form={form} loading={!lounge || flightInfoLoading} />
-              <LoungeError error={flightInfoError} />
 
               {guestError ? (
                 <Box

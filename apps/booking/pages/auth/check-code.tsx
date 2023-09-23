@@ -155,7 +155,7 @@ export default function CheckEmail() {
                 }}
               >
                 <Title size="26">Check your email</Title>
-                <Error error={errorLinkAccount} />
+                {/* <Error error={errorLinkAccount} /> */}
                 <Text size="18px" align="center">
                   We have sent a unique code to
                   <Text weight={700}>{email}</Text>

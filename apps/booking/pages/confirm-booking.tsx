@@ -227,7 +227,6 @@ export default function ConfirmAvailability({
                 {loading && <BookingFormSkeleton />}
                 {!loading && (
                   <Box>
-                    <LoungeError error={fetchError} />
                     {lounge && (
                       <Stack spacing={8}>
                         <EditableTitle title="Flight details" to="/" as="h2">
