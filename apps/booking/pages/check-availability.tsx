@@ -85,7 +85,6 @@ export default function ConfirmAvailability() {
   booking.arrival = selectedslot;
   setBooking(booking);
 
-
   const [mutate, { loading: cbLoading, error: cbError }] =
     useMutation(createBooking);
 
@@ -173,20 +172,26 @@ export default function ConfirmAvailability() {
         const airport = flightInfoData.getFlightDetails[0].departure?.airport;
         const terminal = flightInfoData.getFlightDetails[0].departure?.terminal;
 
-        const loungecode = lounge?.loungeCode;
-        const loungeTerminal = lounge?.location?.terminal;
+        const airportCode = lounge?.location?.airportCode;
+
+        // TODO - Once the data is checked and terminals are ok
+        /// const loungeTerminal = lounge?.location?.terminal?.split(' ')[1];
 
         setFlightInfoAirport(airport ?? '');
 
-        if (loungecode?.substring(0, 2) !== airport) {
+        const sameAirport =
+          airportCode?.toLocaleLowerCase() === airport?.toLocaleLowerCase();
+
+        // const sameTerminal =
+        //   loungeTerminal?.toLocaleLowerCase() === terminal?.toLocaleLowerCase();
+
+        if (!sameAirport) {
           setAirportMismatch(true);
-        } else if (
-          loungecode?.substring(0, 2) !== airport &&
-          loungeTerminal !== terminal
-        ) {
-          setTerminalMismath(true);
         }
 
+        // else if (sameAirport && !sameTerminal) {
+        //   setTerminalMismath(true);
+        // }
 
         fetchSlots({
           variables: {
@@ -316,7 +321,6 @@ export default function ConfirmAvailability() {
         sx={{
           background: colors.background,
 
-
           '@media (max-width: 768px)': {
             width: '100%',
             backgroundColor: colors.background,
@@ -374,7 +378,6 @@ export default function ConfirmAvailability() {
                     },
                   }}
                 >
-
                   {lounge && (
                     <Stack spacing={8}>
                       <EditableTitle title="Flight details" to="/" as="h2">

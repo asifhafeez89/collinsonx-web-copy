@@ -9,7 +9,7 @@ fi
 
 RED='\033[0;31m'
 NC='\033[0m' # No Color
-echo "\n\n${RED}❕Warning! Running Precommit from Repository level, if you have 
+echo "\n\n${RED}❕Warning! Running Precommit from Repository level, if you have
 global hooks defined, please check if you need them.${NC}\n"
 
 # Check if Docker is installed

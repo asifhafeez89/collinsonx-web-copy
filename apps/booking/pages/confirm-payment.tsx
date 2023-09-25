@@ -53,6 +53,7 @@ import { sendMobileEvent } from '@lib';
 export default function ConfirmPayment() {
   const router = useRouter();
   const session: any = useSessionContext();
+  const [timer, setTimer] = useState(0);
 
   const { lounge, referrerUrl } = usePayload();
 
@@ -87,12 +88,6 @@ export default function ConfirmPayment() {
 
     const interval = setInterval(() => {
       fetchBookingDetails();
-
-      // Check what is the status
-      //if the lightbox is still open then throw alert
-      if (open) {
-        setAlert(true);
-      }
     }, POLLING_TIME);
 
     return () => clearInterval(interval);
@@ -101,7 +96,6 @@ export default function ConfirmPayment() {
   const handleRedoQuery = () => {
     fetchBookingDetails();
   };
-
 
   const {
     flightNumber,
@@ -113,7 +107,6 @@ export default function ConfirmPayment() {
     arrival,
     infants,
   } = getBooking();
-
 
   const loungeLocation = useMemo(
     () =>
@@ -141,11 +134,20 @@ export default function ConfirmPayment() {
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
     onCompleted: (data) => {
+      setTimer(timer + 1);
+
+      if (
+        timer > 3000 &&
+        data.getBookingByID.status === BookingStatus.Pending
+      ) {
+        setAlert(true);
+      }
       if (
         data.getBookingByID.status === BookingStatus.Declined ||
         data.getBookingByID.status === BookingStatus.Confirmed
       ) {
         setOpen(false);
+        setAlert(false);
 
         if (data.getBookingByID.status === BookingStatus.Declined) {
           router.push({
@@ -157,7 +159,6 @@ export default function ConfirmPayment() {
       }
     },
   });
-
 
   const infos = [
     {
@@ -252,9 +253,7 @@ export default function ConfirmPayment() {
             >
               {loading && <BookingFormSkeleton />}
 
-
               {!loading && alert === false && (
-
                 <Box>
                   <Stack>
                     <LoungeError error={fetchError} />
@@ -449,7 +448,6 @@ export default function ConfirmPayment() {
                   </Stack>
                 </Box>
               )}
-
             </Flex>
           </Stack>
         </Flex>

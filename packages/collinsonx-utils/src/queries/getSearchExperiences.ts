@@ -8,6 +8,7 @@ const getSearchExperiences = gql`
       loungeCode
       location {
         airportName
+        airportCode
         city
         country
         terminal
