@@ -99,6 +99,9 @@ export default function ConfirmAvailability({
   const handleSubmit = async () => {
     const experienceID = localStorage.getItem('EXPERIENCE_X_CONSUMER_ID');
 
+    console.log(lounge);
+    console.log(consumer?.getConsumer.id);
+
     try {
       const paymentinput = {
         bookingID: bookingId ?? '',
@@ -108,6 +111,8 @@ export default function ConfirmAvailability({
         cancelUrl: `${process.env.NEXT_PUBLIC_URL}/booking-not-successful`,
         quantity: totalQuantity,
       };
+
+      console.log(paymentinput);
 
       const getSessionUrl = await getCheckoutSessionUrl(paymentinput);
 
