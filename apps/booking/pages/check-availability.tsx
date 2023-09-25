@@ -189,10 +189,6 @@ export default function ConfirmAvailability() {
           setAirportMismatch(true);
         }
 
-        // else if (sameAirport && !sameTerminal) {
-        //   setTerminalMismath(true);
-        // }
-
         fetchSlots({
           variables: {
             data: {
