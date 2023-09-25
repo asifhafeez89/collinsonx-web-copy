@@ -73,10 +73,10 @@ export const sendMobileEvent = (windowObj: any = {}, value: any) => {
   } else if (
     windowObj.webkit &&
     windowObj.webkit.messageHandlers &&
-    windowObj.webkit.messageHandlers.buttonPressed &&
-    windowObj.webkit.messageHandlers.buttonPressed.postMessage
+    windowObj.webkit.messageHandlers.onWebViewEvent &&
+    windowObj.webkit.messageHandlers.onWebViewEvent.postMessage
   ) {
-    windowObj.webkit.messageHandlers.buttonPressed.postMessage(value);
+    windowObj.webkit.messageHandlers.onWebViewEvent.postMessage(value);
   } else {
     console.log('ERROR: Unable to detect mobile environment');
   }
