@@ -7,11 +7,20 @@ const getBookingByID = gql`
       bookedTo
       metadata
       reference
+      price
+      price_currency
+      guestAdultCount
+      guestChildrenCount
+      status
+      id
       consumer {
+        emailAddress
         fullName
         id
       }
       experience {
+        loungeName
+        openingHours
         id
         images {
           altText
@@ -21,11 +30,16 @@ const getBookingByID = gql`
           url
           width
         }
-        loungeName
-        openingHours
+        location {
+          airportName
+          terminal
+        }
+        pricing {
+          currency
+          reservationOnlyFee
+          reservationCost
+        }
       }
-      status
-      id
     }
   }
 `;
