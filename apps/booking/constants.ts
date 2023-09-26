@@ -28,3 +28,7 @@ export const apiAccountProviderMap: Record<
 export { constants, cookiesNames };
 
 export const POLLING_TIME = 3000;
+
+export enum BookingError {
+  ERR_MEMBERSHIP_ALREADY_CONNECTED = 'ERR_MEMBERSHIP_ALREADY_CONNECTED',
+}

@@ -294,7 +294,7 @@ const Content = () => {
           <Grid.Col span={6}>
             <TextInput
               {...form.getInputProps('externalId')}
-              placeholder="Please add legacy consumer number details"
+              placeholder="Please add legacy external ID details"
             />
           </Grid.Col>
         </Grid>

@@ -52,18 +52,22 @@ export default function SignupUser() {
 
   const [dolinkAccount] = useMutation(linkAccount);
 
-  const handleLinkAccount = async (values: any) => {
-    let linkAccountResponse = await dolinkAccount({
+  const handleLinkAccount = (values: any, consumerId: string) =>
+    dolinkAccount({
       variables: {
         linkedAccountInput: {
           token: jwt,
           analytics: { email: values.email },
         },
       },
+    }).then((response) => {
+      if (response.data && response.data.linkAccount && consumerId) {
+        setLinkedAccountId(response.data.linkAccount.id);
+        router.push({
+          pathname: '/',
+        });
+      }
     });
-
-    setLinkedAccountId(linkAccountResponse.data.linkAccount.id);
-  };
 
   return loading || loadingUpdateConsumer ? (
     <Flex justify="center" align="center" h="100%">
@@ -96,12 +100,7 @@ export default function SignupUser() {
           updateConsumerCall({
             variables: { consumerInput },
             onCompleted: (data) => {
-              handleLinkAccount(values);
-              if (data?.updateConsumer?.id) {
-                router.push({
-                  pathname: '/',
-                });
-              }
+              handleLinkAccount(values, data?.updateConsumer?.id);
             },
             onError: () => {
               setLoading(false);

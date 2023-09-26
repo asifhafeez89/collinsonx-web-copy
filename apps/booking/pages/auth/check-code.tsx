@@ -25,6 +25,9 @@ import PinLockout from '@components/auth/PinLockout';
 import linkAccount from '@collinsonx/utils/mutations/linkAccount';
 import Session from 'supertokens-auth-react/recipe/session';
 import BackToLounge from '@components/BackToLounge';
+import LoungeError from '@components/LoungeError';
+import getError from 'utils/getError';
+import { BookingError } from '../../constants';
 
 export default function CheckEmail() {
   const { jwt, lounge, payload, setLinkedAccountId } = usePayload();
@@ -63,18 +66,32 @@ export default function CheckEmail() {
     setCount(20);
   };
 
-  const handleLinkAccount = async () => {
-    let linkAccountResponse = await dolinkAccount({
+  const handleLinkAccount = () =>
+    dolinkAccount({
       variables: {
         linkedAccountInput: {
           token: jwt,
           analytics: { email },
         },
       },
+    }).then((response) => {
+      const alreadyConnectedError = getError(
+        response,
+        BookingError.ERR_MEMBERSHIP_ALREADY_CONNECTED
+      );
+      if (alreadyConnectedError) {
+        Session.signOut().then(() => {
+          router.push({
+            pathname: '/auth/login',
+          });
+        });
+      } else if (response.data && response.data.linkAccount) {
+        setLinkedAccountId(response.data.linkAccount.id);
+        router.push({
+          pathname: '/',
+        });
+      }
     });
-
-    setLinkedAccountId(linkAccountResponse.data.linkAccount.id);
-  };
 
   const handleClickConfirm = async () => {
     setLoading(true);
@@ -85,39 +102,31 @@ export default function CheckEmail() {
       });
 
       if (response.status === 'OK') {
-        try {
-          if (response.createdNewUser) {
-            router.push({
-              pathname: '/auth/signup-user',
-              query: { email },
-            });
-          } else {
-            await handleLinkAccount();
-
-            router.push({
-              pathname: '/',
-            });
-          }
-        } catch (e) {
-          setLoading(false);
-          await Session.signOut();
-          return;
+        if (response.createdNewUser) {
+          router.push({
+            pathname: '/auth/signup-user',
+            query: { email },
+          });
+        } else {
+          await handleLinkAccount();
         }
       } else if (
         response.status === 'INCORRECT_USER_INPUT_CODE_ERROR' ||
         response.status === 'EXPIRED_USER_INPUT_CODE_ERROR'
       ) {
         setPinError(true);
+        setLoading(false);
       } else if (response.status === 'RESTART_FLOW_ERROR') {
         setPinLockout(true);
+        setLoading(false);
       } else {
         // this can happen if the user tried an incorrect OTP too many times.
         window.alert('Login failed. Please try again');
       }
     } else {
       setPinError(true);
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const handleClickReenter = () => {
@@ -155,6 +164,7 @@ export default function CheckEmail() {
                 }}
               >
                 <Title size="26">Check your email</Title>
+                <Error error={errorLinkAccount} />
                 <Text size="18px" align="center">
                   We have sent a unique code to
                   <Text weight={700}>{email}</Text>
