@@ -14,15 +14,17 @@ import { BridgePayload } from 'types/booking';
 import { verifyJWT } from '@collinsonx/jwt';
 
 import {
-  experienceX,
   hsbc,
   loungeKey,
   priorityPass,
 } from '@collinsonx/design-system/themes';
 import LayoutError from '@components/LayoutError';
-import { useQuery } from '@collinsonx/utils/apollo';
-import { Experience } from '@collinsonx/utils';
-import { getSearchExperiences } from '@collinsonx/utils/queries';
+import { useLazyQuery, useQuery } from '@collinsonx/utils/apollo';
+import { Experience, LinkedAccount } from '@collinsonx/utils';
+import {
+  getConsumerByID,
+  getSearchExperiences,
+} from '@collinsonx/utils/queries';
 import { getItem, setItem } from '@lib';
 import {
   AccountProvider,
@@ -30,6 +32,11 @@ import {
   BookingQueryParams,
 } from '@collinsonx/constants/enums';
 
+import {
+  useSessionContext,
+  signOut,
+} from 'supertokens-auth-react/recipe/session';
+import LoungeError from '@components/LoungeError';
 import {
   LOUNGE_CODE,
   JWT,
@@ -94,15 +101,20 @@ function callThemeFunction(name: AccountProvider | Client) {
 
 export const PayloadProvider = (props: PropsWithChildren) => {
   const router = useRouter();
+  const session = useSessionContext();
 
   const [payload, setPayload] = useState<BridgePayload>();
   const [loungeCode, setLoungeCode] = useState<string>();
   const [jwt, setJWT] = useState<string>();
   const [tokenError, setTokenError] = useState<string>();
-  const [loungeNotFound, setLoungeNotFound] = useState(false);
   const [payloadError, setPayloadError] = useState<string>();
   const [linkedAccountId, setLinkedAccountId] = useState<string>();
   const [referrerUrl, setReferrerUrl] = useState<string>();
+
+  const [
+    fetchConsumer,
+    { loading: fetchConsumerLoading, error: fetchConsumerError },
+  ] = useLazyQuery(getConsumerByID);
 
   const {
     loading: loadingLounge,
@@ -181,6 +193,47 @@ export const PayloadProvider = (props: PropsWithChildren) => {
     }
   }, [router]);
 
+  useEffect(() => {
+    if (
+      router.isReady &&
+      !session.loading &&
+      session.doesSessionExist &&
+      !router.pathname.includes('/auth') &&
+      payload
+    ) {
+      const { userId } = session;
+      if (userId) {
+        fetchConsumer({
+          variables: {
+            getConsumerById: userId,
+          },
+        })
+          .then(({ data }) => {
+            const { linkedAccounts, emailAddress } = data.getConsumerByID;
+            if (emailAddress !== payload.email) {
+              signOut();
+            } else {
+              if (linkedAccounts) {
+                const matchedAccount = linkedAccounts.find(
+                  (item: LinkedAccount) =>
+                    item.externalID === payload.externalId &&
+                    item.membershipID === payload.membershipNumber &&
+                    (item.provider as unknown as AccountProvider) ===
+                      payload.accountProvider
+                );
+                if (!matchedAccount) {
+                  signOut();
+                }
+              }
+            }
+          })
+          .catch((err) => {
+            setPayloadError(err.message ?? err);
+          });
+      }
+    }
+  }, [session, payload, router]);
+
   return (
     <PayloadContext.Provider
       value={{
@@ -205,10 +258,15 @@ export const PayloadProvider = (props: PropsWithChildren) => {
           withGlobalStyles
           withNormalizeCSS
         >
-          {payloadError || loungeError || (!loadingLounge && !lounge) ? (
-            <LayoutError>{payloadError}</LayoutError>
-          ) : (
-            props.children
+          <LoungeError error={fetchConsumerError} />
+          {fetchConsumerLoading ? null : (
+            <>
+              {payloadError || loungeError || (!loadingLounge && !lounge) ? (
+                <LayoutError>{payloadError}</LayoutError>
+              ) : (
+                props.children
+              )}
+            </>
           )}
         </MantineProvider>
       ) : undefined}
