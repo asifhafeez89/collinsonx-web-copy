@@ -4,6 +4,7 @@ import {
   Flex,
   Text,
   Skeleton,
+  Anchor,
 } from '@collinsonx/design-system/core';
 import { Button } from '@collinsonx/design-system/core';
 import { useForm } from '@collinsonx/design-system/form';
@@ -20,14 +21,18 @@ import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifesty
 import usePayload from 'hooks/payload';
 import colors from 'ui/colour-constants';
 import BackToLounge from '@components/BackToLounge';
+import Notification from '@components/Notification';
+import { BookingError } from '../../constants';
 
 interface FormValues {
   email: string;
 }
 
-export default function Login(props: unknown) {
+const { ERR_MEMBERSHIP_ALREADY_CONNECTED } = BookingError;
+
+export default function Login() {
   const session = useSessionContext();
-  const { payload, jwt, lounge, loungeCode } = usePayload();
+  const { payload, jwt, lounge, layoutError, setLayoutError } = usePayload();
 
   const [loading, setLoading] = useState(true);
 
@@ -61,6 +66,7 @@ export default function Login(props: unknown) {
   }, [session, router, jwt]);
 
   const handleClickContinue = async ({ email }: FormValues) => {
+    setLayoutError('');
     if (!validateEmail(email.trim())) {
       setLoginError('Invalid email');
     } else {
@@ -124,6 +130,20 @@ export default function Login(props: unknown) {
               >
                 Enter your email address
               </Title>
+              {layoutError === ERR_MEMBERSHIP_ALREADY_CONNECTED && (
+                <Notification>
+                  Please enter the correct email address or{' '}
+                  <Anchor
+                    href="#"
+                    color={colors.blue}
+                    fw={600}
+                    sx={{ textDecoration: 'underline' }}
+                  >
+                    call support
+                  </Anchor>{' '}
+                  as this account is already linked to a different email address
+                </Notification>
+              )}
               <Text>
                 Enter email address where you will receive your booking
                 information

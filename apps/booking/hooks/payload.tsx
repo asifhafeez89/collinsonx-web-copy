@@ -57,6 +57,8 @@ type PayloadState = {
   loungeCode: string | undefined;
   lounge: Experience | undefined;
   referrerUrl: string | undefined;
+  layoutError: string | undefined;
+  setLayoutError: (err: string) => void;
   setPayload(payload: BridgePayload): void;
   setLinkedAccountId(linkedAccountId: string): void;
 };
@@ -110,6 +112,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
   const [payloadError, setPayloadError] = useState<string>();
   const [linkedAccountId, setLinkedAccountId] = useState<string>();
   const [referrerUrl, setReferrerUrl] = useState<string>();
+  const [layoutError, setLayoutError] = useState<string>();
 
   const [
     fetchConsumer,
@@ -245,6 +248,8 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         referrerUrl,
         linkedAccountId,
         setLinkedAccountId,
+        layoutError,
+        setLayoutError,
       }}
     >
       {tokenError && <Box>{tokenError}</Box>}

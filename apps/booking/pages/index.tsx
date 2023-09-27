@@ -6,14 +6,12 @@ import {
   Box,
   Button,
   Center,
-  Text,
 } from '@collinsonx/design-system/core';
 import { useForm } from '@mantine/form';
 import { LoungeInfo } from '@components/LoungeInfo';
 import { FlightInfo } from '../components/flightInfo/FlightInfo';
 import GuestInfo from '@components/GuestInfo';
 
-import { ViewStep } from 'types/booking';
 import { FlightDetails } from '@collinsonx/utils';
 import { getFlightDetails } from '@collinsonx/utils/queries';
 
@@ -32,8 +30,7 @@ import router from 'next/router';
 
 import { BookingContext } from 'context/bookingContext';
 import colors from 'ui/colour-constants';
-import { FAQLink } from 'utils/FAQLinks';
-import { AlertIcon } from '@collinsonx/design-system/assets/icons';
+import Notification from '@components/Notification';
 import { MAX_GUESTS } from '../constants';
 import BackToLounge from '@components/BackToLounge';
 interface DepartureFlightInfo {
@@ -49,7 +46,6 @@ interface FlightInfo {
 }
 
 const Lounge = () => {
-
   const [date, setDate] = useState<string>(dayjs().format(DATE_FORMAT));
   const [flightNumber, setFlightNumber] = useState<string>();
   const [guestError, setGuestError] = useState<Boolean>(false);
@@ -170,7 +166,6 @@ const Lounge = () => {
               />
               <FlightInfo form={form} loading={!lounge || flightInfoLoading} />
 
-
               {guestError ? (
                 <Box
                   sx={{
@@ -180,41 +175,10 @@ const Lounge = () => {
                     },
                   }}
                 >
-                  <Box
-                    p={16}
-                    style={{
-                      backgroundColor: 'rgba(212, 42, 84, 0.1)',
-                      border: '2px solid #D42A54',
-                      borderRadius: 8,
-                    }}
-                  >
-                    <Flex
-                      direction="row"
-                      justify="flex-start"
-                      gap="4px"
-                      style={{ height: '100%' }}
-                    >
-                      <Box
-                        sx={{
-                          '@media (max-width: 768px)': {
-                            paddingTop: '0.2rem',
-                          },
-                        }}
-                      >
-                        <AlertIcon style={{ width: 24, height: 24 }} />
-                      </Box>
-
-                      <Text
-                        size={16}
-                        align="left"
-                        fw={400}
-                        style={{ wordWrap: 'break-word' }}
-                      >
-                        The maximum capacity of the lounge is a total of{' '}
-                        {MAX_GUESTS} guests.
-                      </Text>
-                    </Flex>
-                  </Box>
+                  <Notification>
+                    The maximum capacity of the lounge is a total of{' '}
+                    {MAX_GUESTS} guests.
+                  </Notification>
                 </Box>
               ) : (
                 ''
