@@ -14,6 +14,7 @@ export const MAX_GUESTS = 5;
 export const LOUNGE_CODE = 'LOUNGE_CODE';
 export const JWT = 'JWT';
 export const REFERRER = 'REFERRER';
+export const PLATFORM = 'PLATFORM';
 
 export const MOBILE_ACTION_BACK = 1;
 

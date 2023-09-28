@@ -23,15 +23,21 @@ import Error from '@components/Error';
 import usePayload from 'hooks/payload';
 import colors from 'ui/colour-constants';
 import BackToLounge from '@components/BackToLounge';
+import getError from 'utils/getError';
+import Session from 'supertokens-auth-react/recipe/session';
+import { BookingError } from '../../constants';
+
+const { ERR_MEMBERSHIP_ALREADY_CONNECTED } = BookingError;
 
 export default function SignupUser() {
-  const { payload, lounge, jwt, setLinkedAccountId } = usePayload();
+  const { payload, lounge, jwt, setLinkedAccountId, setLayoutError } =
+    usePayload();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   const form = useForm({
     initialValues: {
-      email: (payload ? payload.email : '') as string,
+      email: (payload ? router.query.email : '') as string,
       firstname: (payload ? payload.firstName : '') as string,
       lastname: (payload ? payload.lastName : '') as string,
       marketingConsent: false,
@@ -61,7 +67,18 @@ export default function SignupUser() {
         },
       },
     }).then((response) => {
-      if (response.data && response.data.linkAccount && consumerId) {
+      const alreadyConnectedError = getError(
+        response,
+        ERR_MEMBERSHIP_ALREADY_CONNECTED
+      );
+      if (alreadyConnectedError) {
+        Session.signOut().then(() => {
+          setLayoutError(ERR_MEMBERSHIP_ALREADY_CONNECTED);
+          router.push({
+            pathname: '/auth/login',
+          });
+        });
+      } else if (response.data && response.data.linkAccount && consumerId) {
         setLinkedAccountId(response.data.linkAccount.id);
         router.push({
           pathname: '/',

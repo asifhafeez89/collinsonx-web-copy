@@ -25,12 +25,14 @@ import PinLockout from '@components/auth/PinLockout';
 import linkAccount from '@collinsonx/utils/mutations/linkAccount';
 import Session from 'supertokens-auth-react/recipe/session';
 import BackToLounge from '@components/BackToLounge';
-import LoungeError from '@components/LoungeError';
 import getError from 'utils/getError';
 import { BookingError } from '../../constants';
 
+const { ERR_MEMBERSHIP_ALREADY_CONNECTED } = BookingError;
+
 export default function CheckEmail() {
-  const { jwt, lounge, payload, setLinkedAccountId } = usePayload();
+  const { jwt, lounge, payload, setLinkedAccountId, setLayoutError } =
+    usePayload();
   const router = useRouter();
   const email = router.query?.email as string;
   const [code, setCode] = useState<string>();
@@ -77,10 +79,11 @@ export default function CheckEmail() {
     }).then((response) => {
       const alreadyConnectedError = getError(
         response,
-        BookingError.ERR_MEMBERSHIP_ALREADY_CONNECTED
+        ERR_MEMBERSHIP_ALREADY_CONNECTED
       );
       if (alreadyConnectedError) {
         Session.signOut().then(() => {
+          setLayoutError(ERR_MEMBERSHIP_ALREADY_CONNECTED);
           router.push({
             pathname: '/auth/login',
           });
@@ -219,7 +222,7 @@ export default function CheckEmail() {
                       align="center"
                       size={16}
                     >
-                      Perhaps a code is invalid or has expired.
+                      Perhaps the code is invalid or has expired.
                       <br />
                       Please try again
                     </Text>
