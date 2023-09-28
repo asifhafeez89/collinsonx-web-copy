@@ -259,13 +259,12 @@ export default function ConfirmAvailability() {
       {showAlert && (
         <BookingLightbox
           open={true}
-          ctaCancel="Go back"
-          ctaForward="Cancel booking"
-          ctaForwardCall={() =>
-            router.push({
-              pathname: '/',
-            })
-          }
+          ctaCancel="RETURN TO LOUNGE"
+          ctaForward="CONTINUE BOOKING"
+          ctaForwardCall={() => {
+            setAirportMismatch(false);
+            setTerminalMismath(false);
+          }}
           onClose={() => {
             if (window) {
               window.location.href = referrerUrl ?? '/';
