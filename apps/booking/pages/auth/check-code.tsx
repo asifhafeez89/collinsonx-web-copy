@@ -222,7 +222,7 @@ export default function CheckEmail() {
                       align="center"
                       size={16}
                     >
-                      Perhaps a code is invalid or has expired.
+                      Perhaps the code is invalid or has expired.
                       <br />
                       Please try again
                     </Text>

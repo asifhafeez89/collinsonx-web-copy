@@ -42,12 +42,14 @@ import {
   JWT,
   apiAccountProviderMap,
   REFERRER,
+  PLATFORM,
 } from '../constants';
 
 const {
   loungeCode: lcParam,
   jwt: jwtParam,
   referrer: referrerParam,
+  platform: platformParam,
 } = BookingQueryParams;
 
 type PayloadState = {
@@ -58,6 +60,7 @@ type PayloadState = {
   lounge: Experience | undefined;
   referrerUrl: string | undefined;
   layoutError: string | undefined;
+  platform: string | undefined;
   setLayoutError: (err: string) => void;
   setPayload(payload: BridgePayload): void;
   setLinkedAccountId(linkedAccountId: string): void;
@@ -112,6 +115,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
   const [payloadError, setPayloadError] = useState<string>();
   const [linkedAccountId, setLinkedAccountId] = useState<string>();
   const [referrerUrl, setReferrerUrl] = useState<string>();
+  const [platform, setPlatform] = useState<string>();
   const [layoutError, setLayoutError] = useState<string>();
 
   const [
@@ -144,6 +148,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       const queryJWT = router.query[jwtParam] as string;
       const queryLoungeCode = router.query[lcParam] as string;
       const queryReferrer = router.query[referrerParam] as string;
+      const queryPlatform = router.query[platformParam] as string;
 
       const storageJWT = getItem(JWT);
       const storageLoungeCode = getItem(LOUNGE_CODE);
@@ -154,15 +159,18 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       let jwt: string = '';
       let loungeCode: string = '';
       let referrer: string = '';
+      let platform: string = 'web';
 
       if (hasQueryParams) {
         jwt = queryJWT;
         loungeCode = queryLoungeCode;
         referrer = queryReferrer || '';
+        platform = queryPlatform || 'web';
       } else if (hasStoredData) {
         jwt = getItem(JWT)!;
         loungeCode = getItem(LOUNGE_CODE)!;
         referrer = getItem(REFERRER) || '';
+        platform = getItem(PLATFORM) || 'web';
       }
 
       if (!loungeCode || !jwt) {
@@ -173,9 +181,11 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       setItem(LOUNGE_CODE, loungeCode);
       setItem(JWT, jwt);
       setItem(REFERRER, referrer);
+      setItem(PLATFORM, platform);
       setLoungeCode(loungeCode);
       setJWT(jwt);
       setReferrerUrl(referrer);
+      setPlatform(platform);
 
       verifyJWT(jwt, secret)
         .then((result) => {
@@ -246,6 +256,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         lounge,
         loungeCode,
         referrerUrl,
+        platform,
         linkedAccountId,
         setLinkedAccountId,
         layoutError,

@@ -9,9 +9,8 @@ const colors = {
   background: '#F3F2F3',
   boxBorder: '#CCCCCC',
   borderColor: '#B4B3BA',
-
   theme: '#827127',
-
+  iconTeal: '#0C8599',
 };
 
 export default colors;
