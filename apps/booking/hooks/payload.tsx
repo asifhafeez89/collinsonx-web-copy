@@ -222,21 +222,17 @@ export const PayloadProvider = (props: PropsWithChildren) => {
           },
         })
           .then(({ data }) => {
-            const { linkedAccounts, emailAddress } = data.getConsumerByID;
-            if (emailAddress !== payload.email) {
-              signOut();
-            } else {
-              if (linkedAccounts) {
-                const matchedAccount = linkedAccounts.find(
-                  (item: LinkedAccount) =>
-                    item.externalID === payload.externalId &&
-                    item.membershipID === payload.membershipNumber &&
-                    (item.provider as unknown as AccountProvider) ===
-                      payload.accountProvider
-                );
-                if (!matchedAccount) {
-                  signOut();
-                }
+            const { linkedAccounts } = data.getConsumerByID;
+            if (linkedAccounts) {
+              const matchedAccount = linkedAccounts.find(
+                (item: LinkedAccount) =>
+                  item.externalID === payload.externalId &&
+                  item.membershipID === payload.membershipNumber &&
+                  (item.provider as unknown as AccountProvider) ===
+                    payload.accountProvider
+              );
+              if (!matchedAccount) {
+                signOut();
               }
             }
           })

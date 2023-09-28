@@ -37,7 +37,7 @@ export default function SignupUser() {
 
   const form = useForm({
     initialValues: {
-      email: (payload ? payload.email : '') as string,
+      email: (payload ? router.query.email : '') as string,
       firstname: (payload ? payload.firstName : '') as string,
       lastname: (payload ? payload.lastName : '') as string,
       marketingConsent: false,
