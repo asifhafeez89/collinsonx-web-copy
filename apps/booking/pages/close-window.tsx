@@ -2,7 +2,9 @@ import { useEffect } from 'react';
 
 export default function CloseWindow() {
   useEffect(() => {
-    window.close();
+    window.addEventListener('message', (event) =>
+      event.source?.postMessage('close me')
+    );
   }, []);
 }
 

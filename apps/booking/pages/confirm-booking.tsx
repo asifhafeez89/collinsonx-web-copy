@@ -98,7 +98,33 @@ export default function ConfirmAvailability({
       if (isReferrerDevice) {
         window.location.href = getSessionUrl?.data?.url;
       } else {
-        window.open(getSessionUrl?.data?.url);
+        /*
+          this block opens the stripe url and upon a successful payment sends an event
+          to the stripe successUrl telling it to close itself, bypassing a security
+          policy preventing windows being closed by a source which didn't open them
+          "Scripts may close only the windows that were opened by them."
+
+          This is because of the iframe.
+        */
+        let completed: boolean;
+        const stripeWindow = window.open();
+
+        if (!stripeWindow) throw new Error('No payment window generated');
+
+        stripeWindow.location.href = getSessionUrl.data.url;
+
+        const closerPoller: NodeJS.Timer = setInterval(() => {
+          if (completed) return clearInterval(closerPoller);
+
+          stripeWindow.postMessage('Wakey wakey');
+        }, 1000);
+
+        const closeListener: any = window.addEventListener('message', () => {
+          completed = true;
+          stripeWindow.close();
+          window.removeEventListener('message', closeListener);
+        });
+
         router.push({
           pathname: '/confirm-payment',
         });
