@@ -1,9 +1,4 @@
-import {
-  Box,
-  MantineProvider,
-  Center,
-  Text,
-} from '@collinsonx/design-system/core';
+import { Box, MantineProvider } from '@collinsonx/design-system/core';
 import { hasRequired } from '@lib';
 import { useRouter } from 'next/router';
 import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
@@ -11,7 +6,7 @@ import { createContext, useContext } from 'react';
 
 import { BridgePayload } from 'types/booking';
 
-import { verifyJWT } from '@collinsonx/jwt';
+import { decodeJWT } from '@collinsonx/jwt';
 
 import {
   hsbc,
@@ -88,8 +83,6 @@ export const usePayload = (): PayloadState => {
  */
 const validatePayload = (payload: BridgePayload) =>
   hasRequired(payload, ['membershipNumber', 'accountProvider']);
-
-const secret = process.env.NEXT_PUBLIC_JWT_SECRET as string;
 
 function callThemeFunction(name: AccountProvider | Client) {
   switch (name) {
@@ -187,22 +180,11 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       setReferrerUrl(referrer);
       setPlatform(platform);
 
-      verifyJWT(jwt, secret)
-        .then((result) => {
-          const payload = result.payload as unknown as BridgePayload;
-
-          if (!validatePayload(payload)) {
-            setPayloadError('Sorry, service is not available');
-          }
-          setPayload(payload);
-        })
-        .catch((e) => {
-          setTokenError(
-            e.hasOwnProperty('message')
-              ? (e.message as string)
-              : 'Sorry, service is not available'
-          );
-        });
+      const payload = decodeJWT(jwt) as unknown as BridgePayload;
+      if (!validatePayload(payload)) {
+        setPayloadError('Sorry, service is not available');
+      }
+      setPayload(payload);
     }
   }, [router]);
 

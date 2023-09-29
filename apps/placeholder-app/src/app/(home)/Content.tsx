@@ -24,7 +24,7 @@ import { getClients } from '@collinsonx/constants/enums';
 
 import { getAccountProviders } from '@collinsonx/constants/enums';
 
-import { signJWT, verifyJWT } from '@collinsonx/jwt';
+import { signJWT, decodeJWT } from '@collinsonx/jwt';
 
 import { LoungeSchema, lounges } from '@/data/Lounge';
 
@@ -143,7 +143,7 @@ function DebugBox({ domain, loungeCode, jwt, object }: DebugBoxProps) {
   const decodeOnClickHandler = async () => {
     const secret = secrets[domain as keyof typeof secrets];
     if (secret) {
-      const response = await verifyJWT(jwt, secret);
+      const response = decodeJWT(jwt);
       setJWTPayload(JSON.stringify(response.payload));
     }
   };
