@@ -72,6 +72,7 @@ export default function SignupUser() {
         ERR_MEMBERSHIP_ALREADY_CONNECTED
       );
       if (alreadyConnectedError) {
+        console.log('[SIGN OUT]: membership already connected');
         Session.signOut().then(() => {
           setLayoutError(ERR_MEMBERSHIP_ALREADY_CONNECTED);
           router.push({

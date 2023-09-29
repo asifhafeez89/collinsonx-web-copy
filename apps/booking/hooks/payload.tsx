@@ -156,6 +156,8 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       let platform: string = 'web';
 
       if (hasQueryParams) {
+        console.log(`Param found: ${jwtParam}:${queryJWT}`);
+        console.log(`Param found: ${lcParam}:${queryLoungeCode}`);
         jwt = queryJWT;
         loungeCode = queryLoungeCode;
         referrer = queryReferrer || '';
@@ -165,9 +167,13 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         loungeCode = getItem(LOUNGE_CODE)!;
         referrer = getItem(REFERRER) || '';
         platform = getItem(PLATFORM) || 'web';
+        console.log(`Retrieved ${jwtParam} and ${lcParam} from storage`);
       }
 
       if (!loungeCode || !jwt) {
+        console.log(
+          `Unable to retrieve ${jwtParam} or ${lcParam} from both query and storage`
+        );
         setTokenError('Sorry, service is not available');
         return;
       }
@@ -183,6 +189,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
 
       const payload = decodeJWT(jwt) as unknown as BridgePayload;
       if (!validatePayload(payload)) {
+        console.log('JWT did not pass validatePayload() checks');
         setPayloadError('Sorry, service is not available');
       }
       setPayload(payload);
@@ -215,6 +222,9 @@ export const PayloadProvider = (props: PropsWithChildren) => {
                     payload.accountProvider
               );
               if (!matchedAccount) {
+                console.log(
+                  `[SIGN OUT]: data.getConsumerByID.linkedAccounts does not contain an item matching fields in payload: ${payload}`
+                );
                 signOut();
               }
             }
