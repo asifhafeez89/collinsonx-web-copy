@@ -90,9 +90,18 @@ export default function CheckEmail() {
         });
       } else if (response.data && response.data.linkAccount) {
         setLinkedAccountId(response.data.linkAccount.id);
-        router.push({
-          pathname: '/',
-        });
+        if (router.query.id) {
+          router.push({
+            pathname: '/cancel-booking',
+            query: {
+              id: router.query.id as string,
+            },
+          });
+        } else {
+          router.push({
+            pathname: '/',
+          });
+        }
       }
     });
 
@@ -108,7 +117,10 @@ export default function CheckEmail() {
         if (response.createdNewUser) {
           router.push({
             pathname: '/auth/signup-user',
-            query: { email },
+            query: {
+              email,
+              id: router.query.id || '',
+            },
           });
         } else {
           await handleLinkAccount();

@@ -7,7 +7,6 @@ import { useRouter } from 'next/router';
 import { getBookingByID } from '@collinsonx/utils/queries';
 import { Details, Button } from '@collinsonx/design-system';
 import colors from 'ui/colour-constants';
-import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 
 import { cancelBooking } from '@collinsonx/utils/mutations';
 
@@ -21,15 +20,14 @@ import { FAQLink } from 'utils/FAQLinks';
 import { LoungeInfoPreBooked } from '@components/LoungeInfoPreBooked';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
 import Lightbox from '@collinsonx/design-system/components/lightbox';
-import { Modal } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure } from '@collinsonx/design-system/hooks';
 
 export default function CancelBooking() {
   const router = useRouter();
 
   const { id: emailBookingId } = router.query;
 
-  const [createLoading, setCreateLoading] = useState(false);
+  const [createLoading] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
 
   const { data: bookingDetails } = useQuery<{
@@ -41,21 +39,6 @@ export default function CancelBooking() {
     notifyOnNetworkStatusChange: true,
     onCompleted: () => {},
   });
-
-  if (bookingDetails) {
-    const {
-      id: bookingId,
-      bookedFrom,
-      bookedTo,
-      consumer,
-      experience,
-      guestAdultCount,
-      guestChildrenCount,
-      metadata,
-      price,
-      status,
-    } = bookingDetails.getBookingByID;
-  }
 
   const [mutate, { loading: cbLoading, error: cbError }] =
     useMutation(cancelBooking);
@@ -72,7 +55,7 @@ export default function CancelBooking() {
     });
   };
 
-  const priceToDisplay = bookingDetails?.getBookingByID.price
+  const priceToDisplay = bookingDetails?.getBookingByID?.price
     ? Number(
         bookingDetails.getBookingByID.price
           .toString()
@@ -87,7 +70,7 @@ export default function CancelBooking() {
     {
       header: 'Day of flight',
       description: formatDate(
-        new Date(`${bookingDetails?.getBookingByID.bookedFrom}`),
+        new Date(`${bookingDetails?.getBookingByID?.bookedFrom}`),
         DATE_REDABLE_FORMAT
       ),
       icon: <MapPin width={16} height={16} color="#0C8599" />,
@@ -95,14 +78,14 @@ export default function CancelBooking() {
     {
       header: 'Time of flight',
       description: formatDate(
-        new Date(`${bookingDetails?.getBookingByID.bookedFrom}`),
+        new Date(`${bookingDetails?.getBookingByID?.bookedFrom}`),
         TIME_FORMAT
       ),
       icon: <Clock width={16} height={16} color="#0C8599" />,
     },
     {
       header: 'Flight number',
-      description: bookingDetails?.getBookingByID.metadata.flightNumber,
+      description: bookingDetails?.getBookingByID?.metadata?.flightNumber,
       icon: <Clock width={16} height={16} color="#0C8599" />,
     },
   ];
@@ -113,13 +96,37 @@ export default function CancelBooking() {
         <Stack spacing={16} sx={{ width: '100%' }}>
           <Breadcramp
             lefttitle={`BACK TO ${
-              bookingDetails.getBookingByID.experience?.loungeName?.toUpperCase() ||
+              bookingDetails.getBookingByID?.experience?.loungeName?.toUpperCase() ||
               'Lounges'
             }`}
             lefturl="/"
             righttile={`FAQs`}
             righturl={FAQLink('PRIORITY_PASS')}
           />
+
+          <Lightbox
+            open={opened}
+            title=""
+            ctaForwardCall={handleCancellation}
+            ctaForward="CANCEL BOOKING"
+            ctaCancel={'RETURN'}
+            onClose={close}
+            cancelModal={true}
+          >
+            <Flex align="center" justify="center" wrap="wrap">
+              <Heading
+                as="h2"
+                margin={0}
+                padding={0}
+                style={{ textAlign: 'center' }}
+              >
+                Booking Cancellation
+              </Heading>
+              <Text size={20} m={'10px 0 10px 0'} sx={{ textAlign: 'center' }}>
+                You are about to cancel the booking, are you sure?{' '}
+              </Text>
+            </Flex>
+          </Lightbox>
 
           <Flex
             justify="center"
@@ -147,132 +154,114 @@ export default function CancelBooking() {
                 },
               }}
             >
-              {bookingDetails && bookingDetails.getBookingByID.experience && (
+              {bookingDetails && bookingDetails?.getBookingByID?.experience && (
                 <LoungeInfoPreBooked
                   price={priceToDisplay}
-                  lounge={bookingDetails.getBookingByID.experience}
-                  loading={!bookingDetails.getBookingByID.experience}
+                  lounge={bookingDetails?.getBookingByID?.experience}
+                  loading={!bookingDetails?.getBookingByID?.experience}
                 />
               )}
+              {createLoading ? (
+                <Flex
+                  direction={{ base: 'column', sm: 'row' }}
+                  gap={{ base: 'sm', sm: 'lg' }}
+                  justify={{ sm: 'center' }}
+                ></Flex>
+              ) : (
+                <Flex
+                  gap={{ base: 'sm', sm: 'lg' }}
+                  sx={{
+                    width: '100%',
+                    flexDirection: 'row',
 
-              <Lightbox
-                open={opened}
-                title=""
-                ctaForwardCall={handleCancellation}
-                ctaForward="CANCEL BOOKING"
-                ctaCancel={'RETURN'}
-                onClose={close}
-                cancelModal={true}
-              >
-                <Flex align="center" justify="center" wrap="wrap">
-                  <Heading
-                    as="h2"
-                    margin={0}
-                    padding={0}
-                    style={{ textAlign: 'center' }}
-                  >
-                    Booking Cancellation
-                  </Heading>
-                  <Text
-                    size={20}
-                    m={'10px 0 10px 0'}
-                    sx={{ textAlign: 'center' }}
-                  >
-                    You are about to cancel the booking, are you sure?{' '}
-                  </Text>
-                </Flex>
-              </Lightbox>
-
-              <Flex
-                gap={{ base: 'sm', sm: 'lg' }}
-                sx={{
-                  width: '100%',
-                  flexDirection: 'row',
-
-                  '@media (max-width: 768px)': {
-                    flexDirection: 'column',
-                  },
-                }}
-              >
-                {
-                  <Box sx={{ width: '100%' }}>
-                    {bookingDetails.getBookingByID.experience && (
-                      <Stack spacing={8} sx={{ padding: '20px' }}>
-                        <Heading as="h2" margin={0} padding={0}>
-                          Flight details
-                        </Heading>
-                        <Details infos={infos as InfoGroup[]} direction="row" />
-                        <Heading as="h2" margin={0} padding={0}>
-                          Who's coming
-                        </Heading>
-                        <Flex direction="row" gap={10}>
-                          <p style={{ padding: '0', margin: '0' }}>
-                            {' '}
-                            <strong>Adults</strong>{' '}
-                            {bookingDetails.getBookingByID.guestAdultCount}
-                          </p>{' '}
-                          {Number(
-                            bookingDetails.getBookingByID.guestChildrenCount
-                          ) > 0 && (
-                            <>
-                              <p style={{ padding: '0', margin: '0' }}>
-                                {' '}
-                                <strong>Children</strong>{' '}
-                                {
-                                  bookingDetails.getBookingByID
-                                    .guestChildrenCount
-                                }
-                              </p>
-                            </>
-                          )}
-                        </Flex>
-
-                        <Heading as="h2" margin={0} padding={0}>
-                          Estimated time of arrival
-                        </Heading>
-                        <Flex
-                          direction={{ base: 'column', sm: 'row' }}
-                          gap={10}
-                        >
-                          <p style={{ padding: '0', margin: '0' }}>
-                            {' '}
-                            {formatDate(
-                              new Date(
-                                `${bookingDetails.getBookingByID.bookedFrom}`
-                              ),
-                              TIME_FORMAT
+                    '@media (max-width: 768px)': {
+                      flexDirection: 'column',
+                    },
+                  }}
+                >
+                  {
+                    <Box sx={{ width: '100%' }}>
+                      {bookingDetails?.getBookingByID?.experience && (
+                        <Stack spacing={8} sx={{ padding: '20px' }}>
+                          <Heading as="h2" margin={0} padding={0}>
+                            Flight details
+                          </Heading>
+                          <Details
+                            infos={infos as InfoGroup[]}
+                            direction="row"
+                          />
+                          <Heading as="h2" margin={0} padding={0}>
+                            Who's coming
+                          </Heading>
+                          <Flex direction="row" gap={10}>
+                            <p style={{ padding: '0', margin: '0' }}>
+                              {' '}
+                              <strong>Adults</strong>{' '}
+                              {bookingDetails?.getBookingByID?.guestAdultCount}
+                            </p>{' '}
+                            {Number(
+                              bookingDetails?.getBookingByID?.guestChildrenCount
+                            ) > 0 && (
+                              <>
+                                <p style={{ padding: '0', margin: '0' }}>
+                                  {' '}
+                                  <strong>Children</strong>{' '}
+                                  {
+                                    bookingDetails?.getBookingByID
+                                      ?.guestChildrenCount
+                                  }
+                                </p>
+                              </>
                             )}
-                          </p>{' '}
-                        </Flex>
-                      </Stack>
-                    )}
+                          </Flex>
 
-                    <Button
-                      py={8}
-                      variant="outline"
-                      handleClick={open}
-                      align="center"
-                      styles={{
-                        root: {
-                          border: 'solid',
-                          backgroundColor: 'transparent',
-                          borderColor: colors.red,
-                          borderWidth: 2,
-                          color: colors.red,
-                          ':hover': {
-                            backgroundColor: 'lightgray',
+                          <Heading as="h2" margin={0} padding={0}>
+                            Estimated time of arrival
+                          </Heading>
+                          <Flex
+                            direction={{ base: 'column', sm: 'row' }}
+                            gap={10}
+                          >
+                            <p style={{ padding: '0', margin: '0' }}>
+                              {' '}
+                              {formatDate(
+                                new Date(
+                                  `${bookingDetails?.getBookingByID?.bookedFrom}`
+                                ),
+                                TIME_FORMAT
+                              )}
+                            </p>{' '}
+                          </Flex>
+                        </Stack>
+                      )}
+
+                      <Button
+                        py={8}
+                        variant="outline"
+                        handleClick={handleCancellation}
+                        align="center"
+                        styles={{
+                          root: {
+                            border: 'solid',
+                            backgroundColor: 'transparent',
+                            borderColor: colors.red,
+                            borderWidth: 2,
+                            color: colors.red,
+                            ':hover': {
+                              backgroundColor: 'lightgray',
+                            },
                           },
-                        },
-                        label: {
-                          color: colors.red,
-                        },
-                      }}
-                    >
-                      CANCEL BOOKING
-                    </Button>
-                  </Box>
-                }
-              </Flex>
+                          label: {
+                            color: colors.red,
+                          },
+                        }}
+                      >
+                        CANCEL BOOKING
+                      </Button>
+                    </Box>
+                  }
+                </Flex>
+              )}
             </Stack>
           </Flex>
         </Stack>

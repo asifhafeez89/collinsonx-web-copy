@@ -80,9 +80,16 @@ export default function SignupUser() {
         });
       } else if (response.data && response.data.linkAccount && consumerId) {
         setLinkedAccountId(response.data.linkAccount.id);
-        router.push({
-          pathname: '/',
-        });
+        if (router.query.id) {
+          router.push({
+            pathname: '/cancel-booking',
+            query: { id: router.query.id },
+          });
+        } else {
+          router.push({
+            pathname: '/',
+          });
+        }
       }
     });
 

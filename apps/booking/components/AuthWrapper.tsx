@@ -36,13 +36,20 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
         const urlParams = new URLSearchParams(window.location.search);
         const tokenParam = urlParams.get(jwtParam);
         const loungeParam = urlParams.get(lcParam);
+
         if (tokenParam && loungeParam) {
           setItem(LOUNGE_CODE, loungeParam);
           setItem(JWT, tokenParam);
         }
 
         if (!checkIsAllowed(window.location.pathname)) {
-          window.location.href = `/auth/login`;
+          const urlParams = new URLSearchParams(window.location.search);
+          const idParam = urlParams.get('id');
+          if (idParam) {
+            window.location.href = `/auth/login?id=${idParam}`;
+          } else {
+            window.location.href = `/auth/login`;
+          }
         }
       }
     }
