@@ -1,13 +1,12 @@
 import { useMutation, useQuery } from '@collinsonx/utils/apollo';
 import Layout from '@components/Layout';
-import { Box, Flex, Stack } from '@collinsonx/design-system/core';
+import { Box, Flex, Stack, Text } from '@collinsonx/design-system/core';
 import Breadcramp from '@components/Breadcramp';
 import { Booking } from '@collinsonx/utils/generatedTypes/graphql';
 import { useRouter } from 'next/router';
 import { getBookingByID } from '@collinsonx/utils/queries';
 import { Details, Button } from '@collinsonx/design-system';
 import colors from 'ui/colour-constants';
-import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 
 import { cancelBooking } from '@collinsonx/utils/mutations';
 
@@ -20,13 +19,16 @@ import { InfoGroup } from '@collinsonx/design-system/components/details';
 import { FAQLink } from 'utils/FAQLinks';
 import { LoungeInfoPreBooked } from '@components/LoungeInfoPreBooked';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
+import Lightbox from '@collinsonx/design-system/components/lightbox';
+import { useDisclosure } from '@collinsonx/design-system/hooks';
 
 export default function CancelBooking() {
   const router = useRouter();
 
   const { id: emailBookingId } = router.query;
 
-  const [createLoading, setCreateLoading] = useState(false);
+  const [createLoading] = useState(false);
+  const [opened, { open, close }] = useDisclosure(false);
 
   const { data: bookingDetails } = useQuery<{
     getBookingByID: Booking;
@@ -37,21 +39,6 @@ export default function CancelBooking() {
     notifyOnNetworkStatusChange: true,
     onCompleted: () => {},
   });
-
-  if (bookingDetails) {
-    const {
-      id: bookingId,
-      bookedFrom,
-      bookedTo,
-      consumer,
-      experience,
-      guestAdultCount,
-      guestChildrenCount,
-      metadata,
-      price,
-      status,
-    } = bookingDetails.getBookingByID;
-  }
 
   const [mutate, { loading: cbLoading, error: cbError }] =
     useMutation(cancelBooking);
@@ -68,7 +55,7 @@ export default function CancelBooking() {
     });
   };
 
-  const priceToDisplay = bookingDetails?.getBookingByID.price
+  const priceToDisplay = bookingDetails?.getBookingByID?.price
     ? Number(
         bookingDetails.getBookingByID.price
           .toString()
@@ -83,7 +70,7 @@ export default function CancelBooking() {
     {
       header: 'Day of flight',
       description: formatDate(
-        new Date(`${bookingDetails?.getBookingByID.bookedFrom}`),
+        new Date(`${bookingDetails?.getBookingByID?.bookedFrom}`),
         DATE_REDABLE_FORMAT
       ),
       icon: <MapPin width={16} height={16} color="#0C8599" />,
@@ -91,14 +78,14 @@ export default function CancelBooking() {
     {
       header: 'Time of flight',
       description: formatDate(
-        new Date(`${bookingDetails?.getBookingByID.bookedFrom}`),
+        new Date(`${bookingDetails?.getBookingByID?.bookedFrom}`),
         TIME_FORMAT
       ),
       icon: <Clock width={16} height={16} color="#0C8599" />,
     },
     {
       header: 'Flight number',
-      description: bookingDetails?.getBookingByID.metadata.flightNumber,
+      description: bookingDetails?.getBookingByID?.metadata?.flightNumber,
       icon: <Clock width={16} height={16} color="#0C8599" />,
     },
   ];
@@ -109,13 +96,37 @@ export default function CancelBooking() {
         <Stack spacing={16} sx={{ width: '100%' }}>
           <Breadcramp
             lefttitle={`BACK TO ${
-              bookingDetails.getBookingByID.experience?.loungeName?.toUpperCase() ||
+              bookingDetails.getBookingByID?.experience?.loungeName?.toUpperCase() ||
               'Lounges'
             }`}
             lefturl="/"
             righttile={`FAQs`}
             righturl={FAQLink('PRIORITY_PASS')}
           />
+
+          <Lightbox
+            open={opened}
+            title=""
+            ctaForwardCall={handleCancellation}
+            ctaForward="CANCEL BOOKING"
+            ctaCancel={'RETURN'}
+            onClose={close}
+            cancelModal={true}
+          >
+            <Flex align="center" justify="center" wrap="wrap">
+              <Heading
+                as="h2"
+                margin={0}
+                padding={0}
+                style={{ textAlign: 'center' }}
+              >
+                Booking Cancellation
+              </Heading>
+              <Text size={20} m={'10px 0 10px 0'} sx={{ textAlign: 'center' }}>
+                You are about to cancel the booking, are you sure?{' '}
+              </Text>
+            </Flex>
+          </Lightbox>
 
           <Flex
             justify="center"
@@ -143,11 +154,11 @@ export default function CancelBooking() {
                 },
               }}
             >
-              {bookingDetails && bookingDetails.getBookingByID.experience && (
+              {bookingDetails && bookingDetails?.getBookingByID?.experience && (
                 <LoungeInfoPreBooked
                   price={priceToDisplay}
-                  lounge={bookingDetails.getBookingByID.experience}
-                  loading={!bookingDetails.getBookingByID.experience}
+                  lounge={bookingDetails?.getBookingByID?.experience}
+                  loading={!bookingDetails?.getBookingByID?.experience}
                 />
               )}
               {createLoading ? (
@@ -170,7 +181,7 @@ export default function CancelBooking() {
                 >
                   {
                     <Box sx={{ width: '100%' }}>
-                      {bookingDetails.getBookingByID.experience && (
+                      {bookingDetails?.getBookingByID?.experience && (
                         <Stack spacing={8} sx={{ padding: '20px' }}>
                           <Heading as="h2" margin={0} padding={0}>
                             Flight details
@@ -186,18 +197,18 @@ export default function CancelBooking() {
                             <p style={{ padding: '0', margin: '0' }}>
                               {' '}
                               <strong>Adults</strong>{' '}
-                              {bookingDetails.getBookingByID.guestAdultCount}
+                              {bookingDetails?.getBookingByID?.guestAdultCount}
                             </p>{' '}
                             {Number(
-                              bookingDetails.getBookingByID.guestChildrenCount
+                              bookingDetails?.getBookingByID?.guestChildrenCount
                             ) > 0 && (
                               <>
                                 <p style={{ padding: '0', margin: '0' }}>
                                   {' '}
                                   <strong>Children</strong>{' '}
                                   {
-                                    bookingDetails.getBookingByID
-                                      .guestChildrenCount
+                                    bookingDetails?.getBookingByID
+                                      ?.guestChildrenCount
                                   }
                                 </p>
                               </>
@@ -215,7 +226,7 @@ export default function CancelBooking() {
                               {' '}
                               {formatDate(
                                 new Date(
-                                  `${bookingDetails.getBookingByID.bookedFrom}`
+                                  `${bookingDetails?.getBookingByID?.bookedFrom}`
                                 ),
                                 TIME_FORMAT
                               )}

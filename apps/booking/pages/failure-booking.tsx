@@ -1,160 +1,35 @@
-
-import { useQuery } from '@collinsonx/utils/apollo';
 import Layout from '@components/Layout';
 
-import {
-  Anchor,
-  Box,
-  Center,
-  Flex,
-  Stack,
-  Text,
-  Title,
-} from '@collinsonx/design-system/core';
-import Breadcramp from '@components/Breadcramp';
-import {
-  Experience,
-  Consumer,
-  Booking,
-  BookingStatus,
-} from '@collinsonx/utils/generatedTypes/graphql';
+import { Box, Flex, Stack, Text, Title } from '@collinsonx/design-system/core';
+
 import { useRouter } from 'next/router';
 import { LoungeInfo } from '@components/LoungeInfo';
-import LoaderLightBox from '@collinsonx/design-system/components/loaderlightbox';
-import {
-  getSearchExperiences,
-  getConsumerByID,
-} from '@collinsonx/utils/queries';
-import { Details, Button } from '@collinsonx/design-system';
+import { Button } from '@collinsonx/design-system';
 
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
-import LoungeError from '@components/LoungeError';
 
-import { TIME_FORMAT, DATE_REDABLE_FORMAT } from '../config/Constants';
-import { formatDate } from '../utils/DateFormatter';
 import usePayload from 'hooks/payload';
 
-import { InfoGroup } from '@collinsonx/design-system/components/details';
 import colors from 'ui/colour-constants';
-import Heading from '@collinsonx/design-system/components/heading/Heading';
 import { BookingContext } from 'context/bookingContext';
-import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import BackToLounge from '@components/BackToLounge';
-import { FAQLink } from 'utils/FAQLinks';
 
-import { useContext, useEffect } from 'react';
-import { useState } from 'react';
-import { useMemo } from 'react';
-import { useLazyQuery } from '@collinsonx/utils/apollo';
-import { getBookingByID } from '@collinsonx/utils/queries';
+import { useContext } from 'react';
 import { AlertIcon } from '@collinsonx/design-system/assets/icons';
 
 export default function BookingFailure() {
   const router = useRouter();
-  const session: any = useSessionContext();
 
-
-  const {
-    loading,
-    error: fetchError,
-    data: experienceData,
-  } = useQuery<{ searchExperiences: Experience[] }>(getSearchExperiences);
+  const { getBooking } = useContext(BookingContext);
 
   const {
-    loading: userLoading,
-    error: userError,
-    data: userData,
-  } = useQuery<{
-    getConsumerByID: Consumer;
-  }>(getConsumerByID, { variables: { getConsumerById: session.userId } });
-
-  const { getBooking, setBooking } = useContext(BookingContext);
-  const [open, setOpen] = useState(true);
-
-  const handleRedoQuery = () => {
-    fetchBookingDetails();
-  };
-
-
-  const {
-    flightNumber,
-    departureDate,
     children,
 
-    bookingId,
-    carrierCode,
     adults,
-    arrival,
     infants,
   } = getBooking();
 
-  const { referrerUrl, payload, lounge } = usePayload();
-
-  const loungeLocation = useMemo(
-    () =>
-      lounge && lounge.location
-        ? lounge.location.airportName
-          ? lounge.location.airportName +
-            `${lounge.location.terminal ? ', ' + lounge.location.terminal : ''}`
-          : ''
-        : '-',
-    [lounge]
-  );
-
-  const handleSubmit = () => {};
-
-  const [
-    fetchBookingDetails,
-    { loading: loadingBooking, error: errorBooking, data: dataBooking },
-  ] = useLazyQuery<{
-    getBookingByID: Booking;
-  }>(getBookingByID, {
-    variables: {
-      getBookingById: bookingId,
-
-    },
-    pollInterval: 300000,
-    fetchPolicy: 'network-only',
-    notifyOnNetworkStatusChange: true,
-    onCompleted: (data) => {
-      if (
-        data.getBookingByID.status === BookingStatus.Declined ||
-        data.getBookingByID.status === BookingStatus.Confirmed
-      ) {
-        setOpen(false);
-
-        if (data.getBookingByID.status === BookingStatus.Declined) {
-          router.push({
-            pathname: '/failure-booking',
-          });
-        }
-      } else {
-        setOpen(true);
-      }
-    },
-
-  });
-
-  const infos = [
-    {
-      header: 'Day of flight',
-      description: formatDate(
-        new Date(`${departureDate}`),
-        DATE_REDABLE_FORMAT
-      ),
-    },
-    {
-      header: 'Time of flight',
-      description: formatDate(new Date(`${departureDate}`), TIME_FORMAT),
-
-    },
-    {
-      header: 'Flight number',
-      description: flightNumber,
-
-
-    },
-  ];
+  const { referrerUrl, lounge } = usePayload();
 
   return (
     <Layout>
@@ -163,11 +38,9 @@ export default function BookingFailure() {
           <BackToLounge />
         </Stack>
         <Flex
-
           justify="center"
           align="center"
           direction="column"
-
           sx={{
             justifyContent: 'center',
 
@@ -178,7 +51,6 @@ export default function BookingFailure() {
               backgroundColor: colors.background,
             },
           }}
-
         >
           <Stack
             spacing={24}
@@ -207,8 +79,8 @@ export default function BookingFailure() {
                 },
               }}
             >
-              {loading && <BookingFormSkeleton />}
-              {!loading && (
+              {!lounge && <BookingFormSkeleton />}
+              {lounge && (
                 <Box>
                   <Stack>
                     <Box
@@ -276,7 +148,6 @@ export default function BookingFailure() {
                 </Box>
               )}
             </Flex>
-
           </Stack>
         </Flex>
       </Stack>
@@ -285,4 +156,3 @@ export default function BookingFailure() {
 }
 
 BookingFailure.getLayout = (page: JSX.Element) => <>{page}</>;
-

@@ -18,12 +18,12 @@ async function signJWT(
   return jwt;
 }
 
-async function verifyJWT(jwt: string, secretPhrase: string) {
-  const secret = new TextEncoder().encode(secretPhrase);
-
-  const { payload, protectedHeader } = await jose.jwtVerify(jwt, secret);
-
-  return { payload, protectedHeader };
+function produceJWT(payload: any) {
+  return new jose.UnsecuredJWT(payload).encode();
 }
 
-export { signJWT, verifyJWT };
+function decodeJWT(jwt: string) {
+  return jose.decodeJwt(jwt);
+}
+
+export { signJWT, produceJWT, decodeJWT };

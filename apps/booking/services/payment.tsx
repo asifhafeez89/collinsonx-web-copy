@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-const STRIPE_URL = process.env.NEXT_PUBLIC_STRIPE_URL;
-
 export interface ReqBody {
   bookingID: string;
   consumerID: string;
@@ -20,7 +18,7 @@ export const getCheckoutSessionUrl = async ({
   quantity,
 }: ReqBody) => {
   return axios.post(
-    `${STRIPE_URL}`,
+    `${process.env.NEXT_PUBLIC_STRIPE_URL}`,
     {
       bookingID,
       consumerID,

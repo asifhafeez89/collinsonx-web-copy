@@ -1,13 +1,11 @@
 import { useQuery } from '@collinsonx/utils/apollo';
 import Layout from '@components/Layout';
 import { Box, Flex, Stack } from '@collinsonx/design-system/core';
-import { Consumer, Experience } from '@collinsonx/utils/generatedTypes/graphql';
-import { useRouter } from 'next/router';
+import { Consumer } from '@collinsonx/utils/generatedTypes/graphql';
 import { LoungeInfo } from '@components/LoungeInfo';
-import { getSearchExperiences, getConsumer } from '@collinsonx/utils/queries';
+import { getConsumer } from '@collinsonx/utils/queries';
 import { Details, Button } from '@collinsonx/design-system';
 import Link from 'next/link';
-import { Clock, MapPin } from '@collinsonx/design-system/assets/icons';
 import { useMemo, useContext } from 'react';
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
@@ -29,6 +27,7 @@ import { BookingContext } from 'context/bookingContext';
 import { getCheckoutSessionUrl } from 'services/payment';
 import colors from 'ui/colour-constants';
 import BackToLounge from '@components/BackToLounge';
+import { useRouter } from 'next/router';
 
 interface AvailableSlotsProps {
   availableSlots: Availability;
@@ -39,10 +38,6 @@ export default function ConfirmAvailability({
 }: AvailableSlotsProps) {
   const router = useRouter();
   const { lounge, platform } = usePayload();
-
-  const { loading } = useQuery<{ searchExperiences: Experience[] }>(
-    getSearchExperiences
-  );
 
   const { getBooking } = useContext(BookingContext);
 
@@ -65,7 +60,7 @@ export default function ConfirmAvailability({
     [flightNumber]
   );
 
-  const { data: consumer } = useQuery<{
+  const { data: consumer, loading: loadingConsumer } = useQuery<{
     getConsumer: Consumer;
   }>(getConsumer, {
     variables: {},
@@ -98,7 +93,33 @@ export default function ConfirmAvailability({
       if (isReferrerDevice) {
         window.location.href = getSessionUrl?.data?.url;
       } else {
-        window.open(getSessionUrl?.data?.url);
+        /*
+          this block opens the stripe url and upon a successful payment sends an event
+          to the stripe successUrl telling it to close itself, bypassing a security
+          policy preventing windows being closed by a source which didn't open them
+          "Scripts may close only the windows that were opened by them."
+
+          This is because of the iframe.
+        */
+        let completed: boolean;
+        const stripeWindow = window.open();
+
+        if (!stripeWindow) throw new Error('No payment window generated');
+
+        stripeWindow.location.href = getSessionUrl.data.url;
+
+        const closerPoller: NodeJS.Timer = setInterval(() => {
+          if (completed) return clearInterval(closerPoller);
+
+          stripeWindow.postMessage('Wakey wakey');
+        }, 1000);
+
+        const closeListener: any = window.addEventListener('message', () => {
+          completed = true;
+          stripeWindow.close();
+          window.removeEventListener('message', closeListener);
+        });
+
         router.push({
           pathname: '/confirm-payment',
         });
@@ -196,8 +217,8 @@ export default function ConfirmAvailability({
                 },
               }}
             >
-              {loading && <BookingFormSkeleton />}
-              {!loading && (
+              {loadingConsumer && <BookingFormSkeleton />}
+              {!loadingConsumer && (
                 <Box>
                   {lounge && (
                     <Stack spacing={8}>

@@ -10,9 +10,7 @@ import {
   Text,
   Title,
 } from '@collinsonx/design-system/core';
-import Breadcramp from '@components/Breadcramp';
 import {
-  Experience,
   Consumer,
   Booking,
   BookingStatus,
@@ -20,14 +18,10 @@ import {
 import { useRouter } from 'next/router';
 import { LoungeInfo } from '@components/LoungeInfo';
 import LoaderLightBox from '@collinsonx/design-system/components/loaderlightbox';
-import {
-  getSearchExperiences,
-  getConsumerByID,
-} from '@collinsonx/utils/queries';
+import { getConsumerByID } from '@collinsonx/utils/queries';
 import { Details, Button } from '@collinsonx/design-system';
 
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
-import LoungeError from '@components/LoungeError';
 
 import { TIME_FORMAT, DATE_REDABLE_FORMAT } from '../config/Constants';
 import { formatDate } from '../utils/DateFormatter';
@@ -39,8 +33,7 @@ import Heading from '@collinsonx/design-system/components/heading/Heading';
 import { BookingContext } from 'context/bookingContext';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 
-import { useCallback, useContext, useEffect } from 'react';
-import { FAQLink } from 'utils/FAQLinks';
+import { useCallback, useContext, useEffect, useRef } from 'react';
 import { useState } from 'react';
 import { useMemo } from 'react';
 import { useLazyQuery } from '@collinsonx/utils/apollo';
@@ -55,6 +48,8 @@ export default function ConfirmPayment() {
   const session: any = useSessionContext();
   const [timer, setTimer] = useState(0);
 
+  let interval = useRef<NodeJS.Timeout>();
+
   const { lounge, referrerUrl } = usePayload();
 
   const handleClickBack = useCallback(() => {
@@ -63,12 +58,6 @@ export default function ConfirmPayment() {
       sendMobileEvent(windowObj, MOBILE_ACTION_BACK);
     }
   }, [referrerUrl]);
-
-  const {
-    loading,
-    error: fetchError,
-    data: experienceData,
-  } = useQuery<{ searchExperiences: Experience[] }>(getSearchExperiences);
 
   const {
     loading: userLoading,
@@ -86,11 +75,12 @@ export default function ConfirmPayment() {
   useEffect(() => {
     // Check if the booking state is incompleted and]
 
-    const interval = setInterval(() => {
+    fetchBookingDetails();
+    interval.current = setInterval(() => {
       fetchBookingDetails();
     }, POLLING_TIME);
 
-    return () => clearInterval(interval);
+    return () => clearInterval(interval.current);
   }, []);
 
   const handleRedoQuery = () => {
@@ -130,17 +120,15 @@ export default function ConfirmPayment() {
     variables: {
       getBookingById: bookingId,
     },
-    pollInterval: 300000,
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
     onCompleted: (data) => {
       setTimer(timer + 1);
 
-      if (
-        timer > 3000 &&
-        data.getBookingByID.status === BookingStatus.Pending
-      ) {
+      // 30s passed booking is still pending
+      if (timer > 10 && data.getBookingByID.status === BookingStatus.Pending) {
         setAlert(true);
+        clearInterval(interval.current);
       }
       if (
         data.getBookingByID.status === BookingStatus.Declined ||
@@ -148,6 +136,7 @@ export default function ConfirmPayment() {
       ) {
         setOpen(false);
         setAlert(false);
+        clearInterval(interval.current);
 
         if (data.getBookingByID.status === BookingStatus.Declined) {
           router.push({
@@ -202,7 +191,7 @@ export default function ConfirmPayment() {
               complete.
               <br />
               <br />
-              Please do not elave the screen rather close your browser until the
+              Please do not leave the screen rather close your browser until the
               action finishes.
             </p>
           </div>
@@ -251,13 +240,11 @@ export default function ConfirmPayment() {
                 },
               }}
             >
-              {loading && <BookingFormSkeleton />}
+              {(!lounge || loadingBooking) && <BookingFormSkeleton />}
 
-              {!loading && alert === false && (
+              {lounge && alert === false && (
                 <Box>
                   <Stack>
-                    <LoungeError error={fetchError} />
-
                     <Box
                       sx={{
                         '@media (max-width: 768px)': {
@@ -303,7 +290,7 @@ export default function ConfirmPayment() {
                     </Box>
                   </Stack>
 
-                  {lounge && (
+                  {!!lounge && (
                     <Stack
                       sx={{
                         '@media (max-width: 768px)': {
@@ -400,11 +387,9 @@ export default function ConfirmPayment() {
                 </Box>
               )}
 
-              {!loading && alert === true && (
+              {!!lounge && alert === true && (
                 <Box>
                   <Stack>
-                    <LoungeError error={fetchError} />
-
                     <Box
                       sx={{
                         '@media (max-width: 768px)': {
@@ -455,5 +440,3 @@ export default function ConfirmPayment() {
     </Layout>
   );
 }
-
-ConfirmPayment.getLayout = (page: JSX.Element) => <>{page}</>;

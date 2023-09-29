@@ -125,6 +125,8 @@ export type BookingInput = {
 
 /** The lifecycle statuses of a booking */
 export enum BookingStatus {
+  Booked = 'BOOKED',
+  CancelationFailed = 'CANCELATION_FAILED',
   Cancelled = 'CANCELLED',
   /** The booking has now been redeemed after being confirmed */
   CheckedIn = 'CHECKED_IN',

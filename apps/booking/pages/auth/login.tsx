@@ -79,6 +79,7 @@ export default function Login() {
           query: {
             email,
             redirectUrl: router.query?.redirectUrl,
+            id: router.query.id || '',
           },
         });
       } catch (err: any) {
