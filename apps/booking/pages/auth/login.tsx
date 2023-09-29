@@ -23,6 +23,9 @@ import colors from 'ui/colour-constants';
 import BackToLounge from '@components/BackToLounge';
 import Notification from '@components/Notification';
 import { BookingError } from '../../constants';
+import { BookingQueryParams } from '@collinsonx/constants/enums';
+
+const { bookingId } = BookingQueryParams;
 
 interface FormValues {
   email: string;
@@ -79,7 +82,7 @@ export default function Login() {
           query: {
             email,
             redirectUrl: router.query?.redirectUrl,
-            id: router.query.id || '',
+            [bookingId]: router.query[bookingId] || '',
           },
         });
       } catch (err: any) {

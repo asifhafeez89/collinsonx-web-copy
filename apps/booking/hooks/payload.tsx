@@ -45,7 +45,6 @@ const {
   jwt: jwtParam,
   referrer: referrerParam,
   platform: platformParam,
-  id,
 } = BookingQueryParams;
 
 type PayloadState = {

@@ -27,8 +27,11 @@ import Session from 'supertokens-auth-react/recipe/session';
 import BackToLounge from '@components/BackToLounge';
 import getError from 'utils/getError';
 import { BookingError } from '../../constants';
+import { BookingQueryParams } from '@collinsonx/constants/enums';
 
 const { ERR_MEMBERSHIP_ALREADY_CONNECTED } = BookingError;
+
+const { bookingId } = BookingQueryParams;
 
 export default function CheckEmail() {
   const { jwt, lounge, payload, setLinkedAccountId, setLayoutError } =
@@ -95,7 +98,7 @@ export default function CheckEmail() {
           router.push({
             pathname: '/cancel-booking',
             query: {
-              id: router.query.id as string,
+              [bookingId]: router.query[bookingId] as string,
             },
           });
         } else {
@@ -129,7 +132,7 @@ export default function CheckEmail() {
             pathname: '/auth/signup-user',
             query: {
               email,
-              id: router.query.id || '',
+              [bookingId]: router.query[bookingId] || '',
             },
           });
         } else {
