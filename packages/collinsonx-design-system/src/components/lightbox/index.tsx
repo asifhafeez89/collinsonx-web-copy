@@ -1,6 +1,7 @@
-import { Modal, Button, Group, Grid } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { Modal, Group, Grid } from '@mantine/core';
+import Button from '../button';
 import { ReactNode } from 'react';
+import colors from '../../colour-constants';
 
 interface LightboxProps {
   children: JSX.Element;
@@ -8,6 +9,7 @@ interface LightboxProps {
   open: boolean;
   ctaCancel: String;
   ctaForward: String;
+  cancelModal?: boolean;
   ctaForwardCall: () => void;
   onClose: () => void;
 }
@@ -20,6 +22,7 @@ function Lightbox({
   ctaForward,
   ctaForwardCall,
   onClose,
+  cancelModal,
 }: LightboxProps) {
   return (
     <>
@@ -28,19 +31,74 @@ function Lightbox({
         onClose={onClose}
         title={title}
         withCloseButton={false}
+        centered
       >
         <div>
           {children}
           <Grid justify="flex-end">
-            <Grid.Col span={3}>
-              <Button onClick={onClose} color="dark" variant="subtle">
-                {ctaCancel}
-              </Button>
+            <Grid.Col sm={12} md={6}>
+              {cancelModal ? (
+                <Button
+                  py={8}
+                  variant="outline"
+                  handleClick={onClose}
+                  align="center"
+                  styles={{
+                    root: {
+                      border: 'solid',
+                      width: '100%',
+                      backgroundColor: 'transparent',
+                      borderColor: colors.buttonBlack,
+                      borderWidth: 2,
+                      color: colors.buttonBlack,
+                      ':hover': {
+                        backgroundColor: 'lightgray',
+                      },
+                    },
+                    label: {
+                      color: colors.buttonBlack,
+                    },
+                  }}
+                >
+                  {ctaCancel}
+                </Button>
+              ) : (
+                <Button handleClick={onClose} variant="white">
+                  {ctaCancel}
+                </Button>
+              )}
             </Grid.Col>
-            <Grid.Col span={6}>
-              <Button onClick={ctaForwardCall} variant="white">
-                {ctaForward}
-              </Button>
+            <Grid.Col sm={12} md={6}>
+              {cancelModal ? (
+                <Button
+                  py={8}
+                  variant="outline"
+                  handleClick={ctaForwardCall}
+                  align="center"
+                  styles={{
+                    root: {
+                      border: 'solid',
+                      backgroundColor: 'transparent',
+                      borderColor: colors.red,
+                      borderWidth: 2,
+                      width: '100%',
+                      color: colors.red,
+                      ':hover': {
+                        backgroundColor: 'lightgray',
+                      },
+                    },
+                    label: {
+                      color: colors.red,
+                    },
+                  }}
+                >
+                  {ctaForward}
+                </Button>
+              ) : (
+                <Button handleClick={ctaForwardCall} variant="white">
+                  {ctaForward}
+                </Button>
+              )}
             </Grid.Col>
           </Grid>
         </div>
