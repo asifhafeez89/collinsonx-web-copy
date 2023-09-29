@@ -111,6 +111,10 @@ const baseTheme = ({
               color: colors.dark[6],
               borderColor: colors.dark[6],
             },
+            '&[data-invalid]': {
+              borderColor: 'red',
+              color: 'red',
+            },
           },
           label: {
             fontWeight: 400,
