@@ -27,8 +27,11 @@ import Session from 'supertokens-auth-react/recipe/session';
 import BackToLounge from '@components/BackToLounge';
 import getError from 'utils/getError';
 import { BookingError } from '../../constants';
+import { BookingQueryParams } from '@collinsonx/constants/enums';
 
 const { ERR_MEMBERSHIP_ALREADY_CONNECTED } = BookingError;
+
+const { bookingId } = BookingQueryParams;
 
 export default function CheckEmail() {
   const { jwt, lounge, payload, setLinkedAccountId, setLayoutError } =
@@ -82,6 +85,7 @@ export default function CheckEmail() {
         ERR_MEMBERSHIP_ALREADY_CONNECTED
       );
       if (alreadyConnectedError) {
+        console.log('[SIGN OUT]: membership already connected');
         Session.signOut().then(() => {
           setLayoutError(ERR_MEMBERSHIP_ALREADY_CONNECTED);
           router.push({
@@ -94,7 +98,7 @@ export default function CheckEmail() {
           router.push({
             pathname: '/cancel-booking',
             query: {
-              id: router.query.id as string,
+              [bookingId]: router.query[bookingId] as string,
             },
           });
         } else {
@@ -109,36 +113,61 @@ export default function CheckEmail() {
     setLoading(true);
 
     if (code?.length === 6) {
+      console.log(
+        `[check-code] calling supertokens consumerPasswordlessCode...`
+      );
       let response = await consumePasswordlessCode({
         userInputCode: code,
       });
 
       if (response.status === 'OK') {
+        console.log(
+          `[check-code] consumerPasswordlessCode: response.status === 'OK'`
+        );
         if (response.createdNewUser) {
+          console.log(
+            `[check-code] consumerPasswordlessCode: response.createdNewUser === true'`
+          );
           router.push({
             pathname: '/auth/signup-user',
             query: {
               email,
-              id: router.query.id || '',
+              [bookingId]: router.query[bookingId] || '',
             },
           });
         } else {
+          console.log(
+            `[check-code] consumerPasswordlessCode: response.createdNewUser === false'`
+          );
           await handleLinkAccount();
         }
       } else if (
         response.status === 'INCORRECT_USER_INPUT_CODE_ERROR' ||
         response.status === 'EXPIRED_USER_INPUT_CODE_ERROR'
       ) {
+        console.log(
+          `[check-code] response.status error case `,
+          response.status
+        );
         setPinError(true);
         setLoading(false);
       } else if (response.status === 'RESTART_FLOW_ERROR') {
+        console.log(
+          `[check-code] response.status error case `,
+          response.status
+        );
         setPinLockout(true);
         setLoading(false);
       } else {
+        console.log(
+          `[check-code] response.status error case `,
+          response.status
+        );
         // this can happen if the user tried an incorrect OTP too many times.
         window.alert('Login failed. Please try again');
       }
     } else {
+      console.log(`[check-code] code.length < 6 `);
       setPinError(true);
       setLoading(false);
     }

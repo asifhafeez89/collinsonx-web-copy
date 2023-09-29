@@ -21,11 +21,14 @@ import { LoungeInfoPreBooked } from '@components/LoungeInfoPreBooked';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
 import Lightbox from '@collinsonx/design-system/components/lightbox';
 import { useDisclosure } from '@collinsonx/design-system/hooks';
+import { BookingQueryParams } from '@collinsonx/constants/enums';
+
+const { bookingId } = BookingQueryParams;
 
 export default function CancelBooking() {
   const router = useRouter();
 
-  const { id: emailBookingId } = router.query;
+  const { [bookingId]: emailBookingId } = router.query;
 
   const [createLoading] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);

@@ -3,7 +3,7 @@ enum BookingQueryParams {
   jwt = 'linkAccountToken',
   referrer = 'referrer',
   platform = 'platform',
-  id = 'id',
+  bookingId = 'bookingId',
 }
 
 export default BookingQueryParams;
