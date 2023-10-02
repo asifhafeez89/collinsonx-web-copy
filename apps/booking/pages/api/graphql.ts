@@ -16,6 +16,7 @@ export const config = {
 
 const handler = (req: NextApiRequest, res: ServerResponse) => {
   return new Promise((resolve, reject) => {
+    req.url = '';
     proxy.web(
       req,
       res,
