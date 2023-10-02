@@ -212,6 +212,15 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         })
           .then(({ data }) => {
             const { linkedAccounts } = data.getConsumerByID;
+            console.log(`[PAYLOAD] ${JSON.stringify(payload || null)}`);
+            console.log(
+              `[GET CONSUMER] ${JSON.stringify(data.getConsumerByID || null)}`
+            );
+            console.log(
+              `[GET CONSUMER LINKED ACCOUNTS] ${
+                JSON.stringify(data.getConsumerByID?.linkedAccounts) || null
+              }`
+            );
             if (linkedAccounts) {
               const matchedAccount = linkedAccounts.find(
                 (item: LinkedAccount) =>
@@ -222,7 +231,9 @@ export const PayloadProvider = (props: PropsWithChildren) => {
               );
               if (!matchedAccount) {
                 console.log(
-                  `[SIGN OUT]: data.getConsumerByID.linkedAccounts does not contain an item matching fields in payload: ${payload}`
+                  `[SIGN OUT]: data.getConsumerByID.linkedAccounts does not contain an item matching fields in payload: ${JSON.stringify(
+                    payload || null
+                  )}`
                 );
                 signOut();
               }
