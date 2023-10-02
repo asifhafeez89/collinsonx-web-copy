@@ -249,12 +249,13 @@ export const PayloadProvider = (props: PropsWithChildren) => {
   }, [session, payload, router]);
 
   useEffect(() => {
-    if (!loadingLounge && !lounge)
+    if (!loadingLounge && !lounge && payload) {
       setPayloadErrorTitle("Sorry we can't find the lounge you requested");
-    setPayloadErrorMessage(
-      "There might be an error in the system. We can't find the lounge you requested. Please try again or browse other options"
-    );
-  }, [lounge, loadingLounge]);
+      setPayloadErrorMessage(
+        "There might be an error in the system. We can't find the lounge you requested. Please try again or browse other options"
+      );
+    }
+  }, [lounge, loadingLounge, payload]);
 
   return (
     <PayloadContext.Provider
