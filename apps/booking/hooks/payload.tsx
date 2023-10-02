@@ -224,8 +224,9 @@ export const PayloadProvider = (props: PropsWithChildren) => {
             if (linkedAccounts) {
               const matchedAccount = linkedAccounts.find(
                 (item: LinkedAccount) =>
-                  item.externalID === payload.externalId &&
-                  item.membershipID === payload.membershipNumber &&
+                  String(item.externalID) === String(payload.externalId) &&
+                  String(item.membershipID) ===
+                    String(payload.membershipNumber) &&
                   (item.provider as unknown as AccountProvider) ===
                     payload.accountProvider
               );
