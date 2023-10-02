@@ -38,6 +38,13 @@ export default function SignupUser() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
+  console.log(
+    '[SIGN-UP]: ',
+    JSON.stringify(payload || null),
+    JSON.stringify(lounge || null),
+    router.query
+  );
+
   const form = useForm({
     initialValues: {
       email: (payload ? router.query.email : '') as string,
@@ -83,13 +90,18 @@ export default function SignupUser() {
           });
         });
       } else if (response.data && response.data.linkAccount && consumerId) {
+        console.log('[SIGN UP]: linkAcount ID retrieved successfully');
         setLinkedAccountId(response.data.linkAccount.id);
-        if (router.query.id) {
+        if (router.query[bookingId]) {
+          console.log(
+            '[SIGN UP]: bookingId found - redirecting to cancel-booking page'
+          );
           router.push({
             pathname: '/cancel-booking',
             query: { [bookingId]: router.query[bookingId] },
           });
         } else {
+          console.log('[SIGN UP]: redirecting to index page');
           router.push({
             pathname: '/',
           });
