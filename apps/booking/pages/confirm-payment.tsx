@@ -271,7 +271,8 @@ export default function ConfirmPayment() {
                           marginBottom: '0.75rem',
                         }}
                       >
-                        Booking reference {bookingId}
+                        Booking reference{' '}
+                        {dataBooking?.getBookingByID.reference}
                       </Text>
 
                       <Text
