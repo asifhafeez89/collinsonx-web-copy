@@ -31,7 +31,7 @@ import router from 'next/router';
 import { BookingContext } from 'context/bookingContext';
 import colors from 'ui/colour-constants';
 import Notification from '@components/Notification';
-import { MAX_GUESTS } from '../constants';
+import { MAX_GUESTS, ValidationErrorResponses } from '../constants';
 import BackToLounge from '@components/BackToLounge';
 interface DepartureFlightInfo {
   airport: { iata: string };
@@ -62,7 +62,7 @@ const Lounge = () => {
     initialValues: {
       flightNumber: '',
       departureDate: null,
-      adults: 0,
+      adults: 1,
       children: 0,
       infants: 0,
     },
@@ -71,10 +71,12 @@ const Lounge = () => {
       flightNumber: values.flightNumber.toUpperCase(),
     }),
     validate: {
+      departureDate: (value) =>
+        value !== null ? null : ValidationErrorResponses.INVALID_DATE.message,
       flightNumber: (value: string) =>
         /^([A-Z]{3}|[A-Z\d]{2})(?:\s?)(\d{1,4})$/.test(value.toUpperCase())
           ? null
-          : 'Invalid flight number',
+          : ValidationErrorResponses.INVALID_FLIGHT.message,
     },
   });
 

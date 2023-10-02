@@ -33,3 +33,14 @@ export const POLLING_TIME = 3000;
 export enum BookingError {
   ERR_MEMBERSHIP_ALREADY_CONNECTED = 'ERR_MEMBERSHIP_ALREADY_CONNECTED',
 }
+
+export const ValidationErrorResponses = {
+  INVALID_DATE: {
+    code: 'ERR_INVALID_DATE',
+    message: 'Invalid Date',
+  },
+  INVALID_FLIGHT: {
+    code: 'ERR_INVALID_FLIGHT',
+    message: 'Invalid Flight',
+  },
+} as const;

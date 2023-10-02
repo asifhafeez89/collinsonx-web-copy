@@ -67,7 +67,6 @@ export const FlightInfo = ({ form, loading }: FlightInfoProps) => {
             minDate={new Date()}
             maw={400}
             w={270}
-            required={true}
             disabled={loading}
             withAsterisk
             sx={{}}
@@ -83,7 +82,6 @@ export const FlightInfo = ({ form, loading }: FlightInfoProps) => {
           <InputLabel
             label="Flight Number"
             placeholder="Flight Number"
-            required={true}
             withAsterisk
             disabled={loading}
             w={270}
