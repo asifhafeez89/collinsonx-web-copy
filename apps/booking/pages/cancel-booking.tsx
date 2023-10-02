@@ -241,7 +241,7 @@ export default function CancelBooking() {
                       <Button
                         py={8}
                         variant="outline"
-                        handleClick={handleCancellation}
+                        handleClick={open}
                         align="center"
                         styles={{
                           root: {
