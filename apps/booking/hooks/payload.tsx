@@ -105,7 +105,8 @@ export const PayloadProvider = (props: PropsWithChildren) => {
   const [loungeCode, setLoungeCode] = useState<string>();
   const [jwt, setJWT] = useState<string>();
   const [tokenError, setTokenError] = useState<string>();
-  const [payloadError, setPayloadError] = useState<string>();
+  const [payloadErrorTitle, setPayloadErrorTitle] = useState<string>();
+  const [payloadErrorMessage, setPayloadErrorMessage] = useState<string>();
   const [linkedAccountId, setLinkedAccountId] = useState<string>();
   const [referrerUrl, setReferrerUrl] = useState<string>();
   const [platform, setPlatform] = useState<string>();
@@ -189,7 +190,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       const payload = decodeJWT(jwt) as unknown as BridgePayload;
       if (!validatePayload(payload)) {
         console.log('JWT did not pass validatePayload() checks');
-        setPayloadError('Sorry, service is not available');
+        setPayloadErrorTitle('Sorry, service is not available');
       }
       setPayload(payload);
     }
@@ -241,11 +242,19 @@ export const PayloadProvider = (props: PropsWithChildren) => {
             }
           })
           .catch((err) => {
-            setPayloadError(err.message ?? err);
+            setPayloadErrorTitle(err.message ?? err);
           });
       }
     }
   }, [session, payload, router]);
+
+  useEffect(() => {
+    if (!loadingLounge && !lounge)
+      setPayloadErrorTitle("Sorry we can't find the lounge you requested");
+    setPayloadErrorMessage(
+      "There might be an error in the system. We can't find the lounge you requested. Please try again or browse other options"
+    );
+  }, [lounge, loadingLounge]);
 
   return (
     <PayloadContext.Provider
@@ -277,8 +286,13 @@ export const PayloadProvider = (props: PropsWithChildren) => {
           <LoungeError error={fetchConsumerError} />
           {fetchConsumerLoading ? null : (
             <>
-              {payloadError || loungeError || (!loadingLounge && !lounge) ? (
-                <LayoutError>{payloadError}</LayoutError>
+              {payloadErrorTitle ||
+              loungeError ||
+              (!loadingLounge && !lounge) ? (
+                <LayoutError
+                  payloadErrorTitle={payloadErrorTitle}
+                  payloadErrorMessage={payloadErrorMessage}
+                />
               ) : (
                 props.children
               )}
