@@ -60,7 +60,7 @@ export default function CancelBooking() {
     {
       header: 'Time of flight',
       description: formatDate(
-        new Date(`${bookingDetails?.getBookingByID.bookedFrom}`),
+        new Date(`${bookingDetails?.getBookingByID.bookedTo}`),
         TIME_FORMAT
       ),
       icon: <Clock width={16} height={16} color="#0C8599" />,
@@ -159,8 +159,8 @@ export default function CancelBooking() {
                             48 hours of booking arrival time, including new
                             bookings made within that time range.
                           </Text>
-                          <Heading as="h5" margin={0} padding={0}>
-                            Booking Refence: <strong>{emailBookingId}</strong>
+                          <Heading as="h4" margin={0} padding={0}>
+                            Booking Reference: <strong>{emailBookingId}</strong>
                           </Heading>
                           <Text>
                             {bookingDetails.getBookingByID.status ===

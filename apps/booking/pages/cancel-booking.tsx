@@ -94,7 +94,7 @@ export default function CancelBooking() {
     {
       header: 'Time of flight',
       description: formatDate(
-        new Date(`${bookingDetails?.getBookingByID?.bookedFrom}`),
+        new Date(`${bookingDetails?.getBookingByID?.bookedTo}`),
         TIME_FORMAT
       ),
       icon: <Clock width={16} height={16} color="#0C8599" />,
@@ -208,6 +208,10 @@ export default function CancelBooking() {
                     <Box sx={{ width: '100%' }}>
                       {bookingDetails?.getBookingByID?.experience && (
                         <Stack spacing={8} sx={{ padding: '20px' }}>
+                          <Heading as="h2" margin={0} padding={0}>
+                            Booking Refence:{' '}
+                            {bookingDetails?.getBookingByID?.reference}
+                          </Heading>
                           <Heading as="h2" margin={0} padding={0}>
                             Flight details
                           </Heading>
