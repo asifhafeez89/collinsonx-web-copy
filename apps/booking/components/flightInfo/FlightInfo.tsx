@@ -62,8 +62,8 @@ export const FlightInfo = ({ form, loading }: FlightInfoProps) => {
         >
           <DatePickerInput
             icon={<IconCalendar size="1.5rem" stroke={1.5} />}
-            label="Departure Date"
-            placeholder="Pick a date"
+            label="Date of flight"
+            placeholder="Flight date"
             minDate={new Date()}
             maw={400}
             w={270}
@@ -79,15 +79,14 @@ export const FlightInfo = ({ form, loading }: FlightInfoProps) => {
               },
             }}
           />
-          <InputLabel
-            label="Flight Number"
-            placeholder="Flight Number"
+          <TextInput
+            label="Flight number"
+            placeholder="E.g. EZY123"
             withAsterisk
             disabled={loading}
             w={270}
             error={'invalid flight number'}
             {...form.getInputProps('flightNumber')}
-            isCapitalLetters={true}
           />
         </Flex>
       </Stack>
