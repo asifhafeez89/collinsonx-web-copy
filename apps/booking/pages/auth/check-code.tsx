@@ -18,7 +18,7 @@ import LayoutLogin from '@components/LayoutLogin';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 import { useEffect, useRef, useState } from 'react';
 import { useMutation } from '@collinsonx/utils/apollo';
-import Error from '@components/Error';
+import { default as ErrorComponent } from '@components/Error';
 import usePayload from 'hooks/payload';
 import colors from 'ui/colour-constants';
 import PinLockout from '@components/auth/PinLockout';
@@ -28,9 +28,10 @@ import BackToLounge from '@components/BackToLounge';
 import getError from 'utils/getError';
 import { BookingError } from '../../constants';
 import { BookingQueryParams } from '@collinsonx/constants/enums';
+import { PinLockoutError } from '@collinsonx/constants/constants';
 
 const { ERR_MEMBERSHIP_ALREADY_CONNECTED } = BookingError;
-
+const { tooManyAttempts, expiredJwt } = PinLockoutError;
 const { bookingId } = BookingQueryParams;
 
 export default function CheckEmail() {
@@ -42,8 +43,10 @@ export default function CheckEmail() {
 
   const [pinError, setPinError] = useState(false);
   const [pinLockout, setPinLockout] = useState(false);
+  const [pinAttemptCount, setPinAttemptCount] = useState(0);
   const [count, setCount] = useState(20);
-  const [loading, setLoading] = useState(false);
+  const [checkingCode, setCheckingCode] = useState(false);
+  const [pinLockoutError, setPinLockoutError] = useState('');
 
   const [
     dolinkAccount,
@@ -80,10 +83,13 @@ export default function CheckEmail() {
         },
       },
     }).then((response) => {
+      if (!response.data) throw new Error('no user data');
+
       const alreadyConnectedError = getError(
         response,
         ERR_MEMBERSHIP_ALREADY_CONNECTED
       );
+
       if (alreadyConnectedError) {
         console.log('[SIGN OUT]: membership already connected');
         Session.signOut().then(() => {
@@ -92,84 +98,78 @@ export default function CheckEmail() {
             pathname: '/auth/login',
           });
         });
-      } else if (response.data && response.data.linkAccount) {
-        setLinkedAccountId(response.data.linkAccount.id);
-        if (router.query.id) {
-          router.push({
-            pathname: '/cancel-booking',
-            query: {
-              [bookingId]: router.query[bookingId] as string,
-            },
-          });
-        } else {
-          router.push({
-            pathname: '/',
-          });
-        }
+      }
+
+      setLinkedAccountId(response.data.linkAccount.id);
+
+      if (router.query.id) {
+        router.push({
+          pathname: '/cancel-booking',
+          query: {
+            [bookingId]: router.query[bookingId] as string,
+          },
+        });
+      } else {
+        router.push({
+          pathname: '/',
+        });
       }
     });
 
   const handleClickConfirm = async () => {
-    setLoading(true);
+    setCheckingCode(true);
 
-    if (code?.length === 6) {
-      console.log(
-        `[check-code] calling supertokens consumerPasswordlessCode...`
-      );
-      let response = await consumePasswordlessCode({
-        userInputCode: code,
-      });
-
-      if (response.status === 'OK') {
-        console.log(
-          `[check-code] consumerPasswordlessCode: response.status === 'OK'`
-        );
-        if (response.createdNewUser) {
-          console.log(
-            `[check-code] consumerPasswordlessCode: response.createdNewUser === true'`
-          );
-          router.push({
-            pathname: '/auth/signup-user',
-            query: {
-              email,
-              [bookingId]: router.query[bookingId] || '',
-            },
-          });
-        } else {
-          console.log(
-            `[check-code] consumerPasswordlessCode: response.createdNewUser === false'`
-          );
-          await handleLinkAccount();
-        }
-      } else if (
-        response.status === 'INCORRECT_USER_INPUT_CODE_ERROR' ||
-        response.status === 'EXPIRED_USER_INPUT_CODE_ERROR'
-      ) {
-        console.log(
-          `[check-code] response.status error case `,
-          response.status
-        );
-        setPinError(true);
-        setLoading(false);
-      } else if (response.status === 'RESTART_FLOW_ERROR') {
-        console.log(
-          `[check-code] response.status error case `,
-          response.status
-        );
-        setPinLockout(true);
-        setLoading(false);
-      } else {
-        console.log(
-          `[check-code] response.status error case `,
-          response.status
-        );
-        // this can happen if the user tried an incorrect OTP too many times.
-        window.alert('Login failed. Please try again');
-      }
-    } else {
-      console.log(`[check-code] code.length < 6 `);
+    if (!code || code.length !== 6) {
       setPinError(true);
-      setLoading(false);
+      setCheckingCode(false);
+      return;
+    }
+
+    let response = await consumePasswordlessCode({
+      userInputCode: code,
+    });
+    console.log('[check-code] calling supertokens consumerPasswordlessCode...');
+
+    if (
+      response.status === 'INCORRECT_USER_INPUT_CODE_ERROR' ||
+      response.status === 'EXPIRED_USER_INPUT_CODE_ERROR'
+    ) {
+      console.log('[check-code] response.status error case ', response.status);
+      setPinError(true);
+      setCheckingCode(false);
+      setPinAttemptCount(response.failedCodeInputAttemptCount);
+      return;
+    }
+
+    if (response.status === 'RESTART_FLOW_ERROR') {
+      console.log('[check-code] response.status error case ', response.status);
+      setPinLockoutError(pinAttemptCount === 4 ? tooManyAttempts : expiredJwt);
+      setPinLockout(true);
+      setCheckingCode(false);
+      return;
+    }
+
+    if (response.status !== 'OK') {
+      console.log('[check-code] response.status error case ', response.status);
+      return window.alert('Login failed. Please try again');
+    }
+
+    if (response.createdNewUser) {
+      console.log(
+        '[check-code] consumerPasswordlessCode: response.createdNewUser === true'
+      );
+      router.push({
+        pathname: '/auth/signup-user',
+        query: {
+          email,
+          [bookingId]: router.query[bookingId] || '',
+        },
+      });
+    } else {
+      console.log(
+        '[check-code] consumerPasswordlessCode: response.createdNewUser === false'
+      );
+      await handleLinkAccount();
     }
   };
 
@@ -181,14 +181,14 @@ export default function CheckEmail() {
 
   return (
     <>
-      {loadingLinkAccount || loading ? (
+      {loadingLinkAccount ? (
         <Flex justify="center" align="center" h="100%">
           <LoaderLifestyleX />
         </Flex>
       ) : (
         <LayoutLogin>
           {pinLockout ? (
-            <PinLockout payload={payload} />
+            <PinLockout payload={payload} errorMessage={pinLockoutError} />
           ) : (
             <>
               <Skeleton visible={!lounge}>
@@ -208,7 +208,7 @@ export default function CheckEmail() {
                 }}
               >
                 <Title size="26">Check your email</Title>
-                <Error error={errorLinkAccount} />
+                <ErrorComponent error={errorLinkAccount} />
                 <Text size="18px" align="center">
                   We have sent a unique code to
                   <Text weight={700}>{email}</Text>
@@ -257,7 +257,7 @@ export default function CheckEmail() {
                     inputMode="numeric"
                     data-testid="pinInput"
                   />
-                  {pinError && (
+                  {pinError && !checkingCode && (
                     <Text
                       sx={{ color: colors.errorRed }}
                       align="center"
@@ -305,6 +305,7 @@ export default function CheckEmail() {
                       py={8}
                       onClick={handleClickConfirm}
                       data-testid="verify"
+                      disabled={checkingCode}
                     >
                       VERIFY
                     </Button>
