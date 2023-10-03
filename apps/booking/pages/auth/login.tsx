@@ -100,7 +100,7 @@ export default function Login() {
 
   return (
     <>
-      {loading ? (
+      {loading || !lounge ? (
         <Flex justify="center" align="center" h="100%">
           <LoaderLifestyleX />
         </Flex>

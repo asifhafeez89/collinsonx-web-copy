@@ -12,10 +12,15 @@ import AppLogo from './AppLogo';
 import colors from 'ui/colour-constants';
 import { MOBILE_ACTION_BACK } from '../constants';
 import { sendMobileEvent } from '@lib';
+import { AccountProvider, Client } from '@collinsonx/constants/enums';
 
 interface LayoutProps {
   payloadErrorTitle?: string;
   payloadErrorMessage?: string;
+  payloadTheme: {
+    accountProvider: AccountProvider;
+    membershipType: Client;
+  };
 }
 
 const defaultErrTitle = '';
@@ -23,8 +28,8 @@ const defaultErrMessage =
   'There might be an error in the system. Please try again or browse other options';
 
 export default function LayoutError(props: LayoutProps) {
-  let { payloadErrorMessage, payloadErrorTitle } = props;
-  const { payload, referrerUrl } = usePayload();
+  let { payloadErrorMessage, payloadErrorTitle, payloadTheme } = props;
+  const { referrerUrl } = usePayload();
 
   if (!payloadErrorMessage) payloadErrorMessage = defaultErrMessage;
   if (!payloadErrorTitle) payloadErrorTitle = defaultErrTitle;
@@ -57,12 +62,10 @@ export default function LayoutError(props: LayoutProps) {
         }}
       >
         <Center pb={8} pt={8} sx={{ backgroundColor: colors.white }}>
-          {payload && (
-            <AppLogo
-              accountProvider={payload.accountProvider}
-              membershipType={payload.membershipType}
-            />
-          )}
+          <AppLogo
+            accountProvider={payloadTheme.accountProvider}
+            membershipType={payloadTheme.membershipType}
+          />
         </Center>
       </Box>
       <Center

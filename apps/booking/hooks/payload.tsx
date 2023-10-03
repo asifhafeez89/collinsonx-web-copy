@@ -64,7 +64,7 @@ type PayloadState = {
 const PayloadContext = createContext<PayloadState | null>(null);
 
 const { LK, PP } = AccountProvider;
-const { Mastercard_HSBC } = Client;
+const { Mastercard_HSBC, None } = Client;
 
 export const usePayload = (): PayloadState => {
   const context = useContext(PayloadContext);
@@ -249,13 +249,37 @@ export const PayloadProvider = (props: PropsWithChildren) => {
   }, [session, payload, router]);
 
   useEffect(() => {
-    if (!loadingLounge && !lounge && payload) {
+    if (tokenError !== undefined) {
+      setPayloadErrorTitle('Sorry, service is not available');
+    } else if (!loadingLounge && !lounge) {
       setPayloadErrorTitle("Sorry we can't find the lounge you requested");
       setPayloadErrorMessage(
         "There might be an error in the system. We can't find the lounge you requested. Please try again or browse other options"
       );
     }
-  }, [lounge, loadingLounge, payload]);
+  }, [lounge, loadingLounge, tokenError]);
+
+  const providerTheme = () => {
+    if (!payload) return PP;
+
+    return payload.membershipType === Mastercard_HSBC
+      ? Mastercard_HSBC
+      : payload.accountProvider || PP;
+  };
+
+  const layoutErrorTheme = () => {
+    if (!payload) {
+      return {
+        accountProvider: PP,
+        membershipType: None,
+      };
+    }
+
+    return {
+      accountProvider: payload.accountProvider,
+      membershipType: payload.membershipType || None,
+    };
+  };
 
   return (
     <PayloadContext.Provider
@@ -273,24 +297,19 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         setLayoutError,
       }}
     >
-      {tokenError && <Box>{tokenError}</Box>}
-      {payload && !tokenError ? (
-        <MantineProvider
-          theme={callThemeFunction(
-            payload?.membershipType === Mastercard_HSBC
-              ? Mastercard_HSBC
-              : payload?.accountProvider || PP
-          )}
-          withGlobalStyles
-          withNormalizeCSS
-        >
-          <LoungeError error={fetchConsumerError} />
-          {fetchConsumerLoading ? null : (
+      <MantineProvider
+        theme={callThemeFunction(providerTheme())}
+        withGlobalStyles
+        withNormalizeCSS
+      >
+        <LoungeError error={fetchConsumerError} />
+        {!session.loading &&
+          (fetchConsumerLoading ? null : (
             <>
-              {payloadErrorTitle ||
-              loungeError ||
-              (!loadingLounge && !lounge) ? (
+              {payloadErrorTitle &&
+              (loungeError || tokenError || (!loadingLounge && !lounge)) ? (
                 <LayoutError
+                  payloadTheme={layoutErrorTheme()}
                   payloadErrorTitle={payloadErrorTitle}
                   payloadErrorMessage={payloadErrorMessage}
                 />
@@ -298,9 +317,8 @@ export const PayloadProvider = (props: PropsWithChildren) => {
                 props.children
               )}
             </>
-          )}
-        </MantineProvider>
-      ) : undefined}
+          ))}
+      </MantineProvider>
     </PayloadContext.Provider>
   );
 };
