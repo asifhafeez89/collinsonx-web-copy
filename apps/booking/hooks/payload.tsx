@@ -64,7 +64,7 @@ type PayloadState = {
 const PayloadContext = createContext<PayloadState | null>(null);
 
 const { LK, PP } = AccountProvider;
-const { Mastercard_HSBC } = Client;
+const { Mastercard_HSBC, None } = Client;
 
 export const usePayload = (): PayloadState => {
   const context = useContext(PayloadContext);
@@ -105,7 +105,8 @@ export const PayloadProvider = (props: PropsWithChildren) => {
   const [loungeCode, setLoungeCode] = useState<string>();
   const [jwt, setJWT] = useState<string>();
   const [tokenError, setTokenError] = useState<string>();
-  const [payloadError, setPayloadError] = useState<string>();
+  const [payloadErrorTitle, setPayloadErrorTitle] = useState<string>();
+  const [payloadErrorMessage, setPayloadErrorMessage] = useState<string>();
   const [linkedAccountId, setLinkedAccountId] = useState<string>();
   const [referrerUrl, setReferrerUrl] = useState<string>();
   const [platform, setPlatform] = useState<string>();
@@ -189,7 +190,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       const payload = decodeJWT(jwt) as unknown as BridgePayload;
       if (!validatePayload(payload)) {
         console.log('JWT did not pass validatePayload() checks');
-        setPayloadError('Sorry, service is not available');
+        setPayloadErrorTitle('Sorry, service is not available');
       }
       setPayload(payload);
     }
@@ -241,11 +242,44 @@ export const PayloadProvider = (props: PropsWithChildren) => {
             }
           })
           .catch((err) => {
-            setPayloadError(err.message ?? err);
+            setPayloadErrorTitle(err.message ?? err);
           });
       }
     }
   }, [session, payload, router]);
+
+  useEffect(() => {
+    if (tokenError !== undefined) {
+      setPayloadErrorTitle('Sorry, service is not available');
+    } else if (!loadingLounge && !lounge) {
+      setPayloadErrorTitle("Sorry we can't find the lounge you requested");
+      setPayloadErrorMessage(
+        "There might be an error in the system. We can't find the lounge you requested. Please try again or browse other options"
+      );
+    }
+  }, [lounge, loadingLounge, tokenError]);
+
+  const providerTheme = () => {
+    if (!payload) return PP;
+
+    return payload.membershipType === Mastercard_HSBC
+      ? Mastercard_HSBC
+      : payload.accountProvider || PP;
+  };
+
+  const layoutErrorTheme = () => {
+    if (!payload) {
+      return {
+        accountProvider: PP,
+        membershipType: None,
+      };
+    }
+
+    return {
+      accountProvider: payload.accountProvider,
+      membershipType: payload.membershipType || None,
+    };
+  };
 
   return (
     <PayloadContext.Provider
@@ -263,29 +297,28 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         setLayoutError,
       }}
     >
-      {tokenError && <Box>{tokenError}</Box>}
-      {payload && !tokenError ? (
-        <MantineProvider
-          theme={callThemeFunction(
-            payload?.membershipType === Mastercard_HSBC
-              ? Mastercard_HSBC
-              : payload?.accountProvider || PP
-          )}
-          withGlobalStyles
-          withNormalizeCSS
-        >
-          <LoungeError error={fetchConsumerError} />
-          {fetchConsumerLoading ? null : (
+      <MantineProvider
+        theme={callThemeFunction(providerTheme())}
+        withGlobalStyles
+        withNormalizeCSS
+      >
+        <LoungeError error={fetchConsumerError} />
+        {!session.loading &&
+          (fetchConsumerLoading ? null : (
             <>
-              {payloadError || loungeError || (!loadingLounge && !lounge) ? (
-                <LayoutError>{payloadError}</LayoutError>
+              {payloadErrorTitle &&
+              (loungeError || tokenError || (!loadingLounge && !lounge)) ? (
+                <LayoutError
+                  payloadTheme={layoutErrorTheme()}
+                  payloadErrorTitle={payloadErrorTitle}
+                  payloadErrorMessage={payloadErrorMessage}
+                />
               ) : (
                 props.children
               )}
             </>
-          )}
-        </MantineProvider>
-      ) : undefined}
+          ))}
+      </MantineProvider>
     </PayloadContext.Provider>
   );
 };

@@ -70,7 +70,8 @@ export default function ConfirmAvailability({
     onCompleted: () => {},
   });
 
-  const isReferrerDevice: boolean = platform === ('android' || 'ios');
+  const isReferrerDevice: boolean =
+    platform === 'android' || platform === 'ios';
   const successUrl = isReferrerDevice ? 'confirm-payment' : 'close-window';
 
   const handleSubmit = async () => {

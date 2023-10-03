@@ -112,8 +112,11 @@ const baseTheme = ({
               borderColor: colors.dark[6],
             },
             '&[data-invalid]': {
-              borderColor: 'red',
-              color: 'red',
+              borderColor: colors.red[6],
+              color: colors.dark[6],
+              '::placeholder': {
+                color: colors.red[4],
+              },
             },
           },
           label: {
@@ -151,6 +154,13 @@ const baseTheme = ({
           },
           input: {
             borderRadius: rem(4),
+            '&[data-invalid]': {
+              borderColor: colors.red[6],
+              color: colors.red[4],
+              '::placeholder': {
+                color: colors.red[4],
+              },
+            },
           },
         }),
       },

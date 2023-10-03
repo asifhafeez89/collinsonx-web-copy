@@ -3,6 +3,7 @@ import Layout from '@components/Layout';
 import { Box, Flex, Stack, Text } from '@collinsonx/design-system/core';
 import Breadcramp from '@components/Breadcramp';
 import { Booking } from '@collinsonx/utils/generatedTypes/graphql';
+import cancellationDateValidation from '@collinsonx/utils/lib/validateDateCancellation';
 import { useRouter } from 'next/router';
 import { getBookingByID } from '@collinsonx/utils/queries';
 import { Details, Button } from '@collinsonx/design-system';
@@ -22,6 +23,7 @@ import Heading from '@collinsonx/design-system/components/heading/Heading';
 import Lightbox from '@collinsonx/design-system/components/lightbox';
 import { useDisclosure } from '@collinsonx/design-system/hooks';
 import { BookingQueryParams } from '@collinsonx/constants/enums';
+import Notification from '@components/Notification';
 
 const { bookingId } = BookingQueryParams;
 
@@ -32,6 +34,7 @@ export default function CancelBooking() {
 
   const [createLoading] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
+  const [dateError, setDateError] = useState<Boolean>(false);
 
   const { data: bookingDetails } = useQuery<{
     getBookingByID: Booking;
@@ -47,15 +50,25 @@ export default function CancelBooking() {
     useMutation(cancelBooking);
 
   const handleCancellation = () => {
-    mutate({
-      variables: { cancelBookingId: emailBookingId },
-      onCompleted(data) {
-        router.push({
-          pathname: '/cancelled-booking-confirmation',
-          query: { id: emailBookingId },
-        });
-      },
-    });
+    if (
+      bookingDetails &&
+      cancellationDateValidation(
+        new Date(bookingDetails.getBookingByID.bookedFrom)
+      ).isValid
+    ) {
+      mutate({
+        variables: { cancelBookingId: emailBookingId },
+        onCompleted(data) {
+          router.push({
+            pathname: '/cancelled-booking-confirmation',
+            query: { id: emailBookingId },
+          });
+        },
+      });
+    } else {
+      setDateError(true);
+      close();
+    }
   };
 
   const priceToDisplay = bookingDetails?.getBookingByID?.price
@@ -81,7 +94,7 @@ export default function CancelBooking() {
     {
       header: 'Time of flight',
       description: formatDate(
-        new Date(`${bookingDetails?.getBookingByID?.bookedFrom}`),
+        new Date(`${bookingDetails?.getBookingByID?.bookedTo}`),
         TIME_FORMAT
       ),
       icon: <Clock width={16} height={16} color="#0C8599" />,
@@ -164,6 +177,15 @@ export default function CancelBooking() {
                   loading={!bookingDetails?.getBookingByID?.experience}
                 />
               )}
+              {dateError && bookingDetails && (
+                <Notification>
+                  {
+                    cancellationDateValidation(
+                      new Date(bookingDetails.getBookingByID.bookedFrom)
+                    ).error
+                  }
+                </Notification>
+              )}
               {createLoading ? (
                 <Flex
                   direction={{ base: 'column', sm: 'row' }}
@@ -186,6 +208,10 @@ export default function CancelBooking() {
                     <Box sx={{ width: '100%' }}>
                       {bookingDetails?.getBookingByID?.experience && (
                         <Stack spacing={8} sx={{ padding: '20px' }}>
+                          <Heading as="h2" margin={0} padding={0}>
+                            Booking Refence:{' '}
+                            {bookingDetails?.getBookingByID?.reference}
+                          </Heading>
                           <Heading as="h2" margin={0} padding={0}>
                             Flight details
                           </Heading>
@@ -241,7 +267,7 @@ export default function CancelBooking() {
                       <Button
                         py={8}
                         variant="outline"
-                        handleClick={handleCancellation}
+                        handleClick={open}
                         align="center"
                         styles={{
                           root: {

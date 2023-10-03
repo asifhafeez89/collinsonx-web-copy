@@ -6,23 +6,33 @@ import {
   Text,
   Button,
 } from '@collinsonx/design-system/core';
-
-import { ReactNode, useCallback } from 'react';
+import { useCallback } from 'react';
 import usePayload from 'hooks/payload';
 import AppLogo from './AppLogo';
 import colors from 'ui/colour-constants';
-import { useRouter } from 'next/router';
 import { MOBILE_ACTION_BACK } from '../constants';
 import { sendMobileEvent } from '@lib';
+import { AccountProvider, Client } from '@collinsonx/constants/enums';
 
 interface LayoutProps {
-  children: ReactNode;
+  payloadErrorTitle?: string;
+  payloadErrorMessage?: string;
+  payloadTheme: {
+    accountProvider: AccountProvider;
+    membershipType: Client;
+  };
 }
 
-export default function LayoutError({ children }: LayoutProps) {
-  const router = useRouter();
+const defaultErrTitle = '';
+const defaultErrMessage =
+  'There might be an error in the system. Please try again or browse other options';
 
-  const { payload, referrerUrl } = usePayload();
+export default function LayoutError(props: LayoutProps) {
+  let { payloadErrorMessage, payloadErrorTitle, payloadTheme } = props;
+  const { referrerUrl } = usePayload();
+
+  if (!payloadErrorMessage) payloadErrorMessage = defaultErrMessage;
+  if (!payloadErrorTitle) payloadErrorTitle = defaultErrTitle;
 
   const handleClickBack = useCallback(() => {
     if (window) {
@@ -52,12 +62,10 @@ export default function LayoutError({ children }: LayoutProps) {
         }}
       >
         <Center pb={8} pt={8} sx={{ backgroundColor: colors.white }}>
-          {payload && (
-            <AppLogo
-              accountProvider={payload.accountProvider}
-              membershipType={payload.membershipType}
-            />
-          )}
+          <AppLogo
+            accountProvider={payloadTheme.accountProvider}
+            membershipType={payloadTheme.membershipType}
+          />
         </Center>
       </Box>
       <Center
@@ -67,15 +75,24 @@ export default function LayoutError({ children }: LayoutProps) {
           alignItems: 'center',
         }}
       >
-        <Box p={20} style={{ backgroundColor: colors.white }}>
+        <Box
+          p={20}
+          style={{
+            backgroundColor: colors.white,
+            maxWidth: '440px',
+          }}
+          sx={{
+            '@media (max-width: 768px)': {
+              width: '90%',
+            },
+          }}
+        >
           <Text align="center" size={20} fw={700}>
-            {children}
+            {payloadErrorTitle}
           </Text>
           <Text align="center" mb={18}>
-            That might be an error in the system. Please try again or browse
-            other options
+            {payloadErrorMessage}
           </Text>
-
           <Center>
             <Anchor href="#">
               <Button onClick={handleClickBack}>

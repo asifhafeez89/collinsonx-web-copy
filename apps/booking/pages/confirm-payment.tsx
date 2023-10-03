@@ -127,6 +127,8 @@ export default function ConfirmPayment() {
 
       // 30s passed booking is still pending
       if (timer > 10 && data.getBookingByID.status === BookingStatus.Pending) {
+        clearInterval(interval.current);
+        setOpen(false);
         setAlert(true);
         clearInterval(interval.current);
       }
@@ -143,8 +145,6 @@ export default function ConfirmPayment() {
             pathname: '/failure-booking',
           });
         }
-      } else {
-        setOpen(true);
       }
     },
   });
