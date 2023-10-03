@@ -17,12 +17,14 @@ import { InfoGroup } from '@collinsonx/design-system/components/details';
 import { FAQLink } from 'utils/FAQLinks';
 import { LoungeInfoPreBooked } from '@components/LoungeInfoPreBooked';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
+import { BookingStatus } from '@collinsonx/utils/generatedTypes/graphql';
+
 import colors from 'ui/colour-constants';
 
 export default function CancelBooking() {
   const router = useRouter();
 
-  const { id: emailBookingId } = router.query;
+  const { bookingId: emailBookingId } = router.query;
 
   const [createLoading, setCreateLoading] = useState(false);
 
@@ -139,17 +141,32 @@ export default function CancelBooking() {
                     <Box sx={{ width: '100%' }}>
                       {bookingDetails.getBookingByID.experience && (
                         <Stack spacing={8} sx={{ padding: '20px' }}>
-                          <Heading as="h2" margin={0} padding={0}>
-                            {bookingDetails.getBookingByID.status !==
-                            'CANCELLED'
-                              ? 'Your booking could not be cancelled, please contact our team'
-                              : ' Your Booking has been cancelled'}
+                          <Heading as="h1" margin={0} padding={0}>
+                            {bookingDetails.getBookingByID.status ===
+                            BookingStatus.Cancelled
+                              ? ' Your Booking has been cancelled'
+                              : bookingDetails.getBookingByID.status ===
+                                BookingStatus.CancelationFailed
+                              ? 'Your booking cancellation has failed, please contact our team'
+                              : 'Your booking could not be cancelled, please contact our team'}
                           </Heading>
+                          <Heading as="h2" margin={0} padding={0}>
+                            Cancellation Policy
+                          </Heading>
+                          <Text mb={32}>
+                            Cancel up to 48 hours before your booking to receive
+                            a full refund. Bookings cannot be cancelled within
+                            48 hours of booking arrival time, including new
+                            bookings made within that time range.
+                          </Text>
                           <Heading as="h5" margin={0} padding={0}>
                             Booking Refence: <strong>{emailBookingId}</strong>
                           </Heading>
                           <Text>
-                            A confimation email has been send to{' '}
+                            {bookingDetails.getBookingByID.status ===
+                            BookingStatus.Cancelled
+                              ? 'A confimation email has been sent to '
+                              : 'An email has been sent to '}
                             <strong>
                               {
                                 bookingDetails.getBookingByID.consumer

@@ -15,12 +15,20 @@ function Notification({ children }: NotificationProps) {
         border: '2px solid #D42A54',
         borderRadius: 8,
       }}
+      sx={{
+        '@media (max-width: 768px)': {
+          marginLeft: '1rem',
+          marginRight: '1rem',
+        },
+      }}
     >
       <Flex
         direction="row"
         justify="flex-start"
         gap="4px"
-        style={{ height: '100%' }}
+        style={{
+          height: '100%',
+        }}
       >
         <Box
           sx={{
