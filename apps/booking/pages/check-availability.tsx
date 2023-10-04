@@ -49,6 +49,7 @@ import BackToLounge from '@components/BackToLounge';
 import BookingLightbox from '@collinsonx/design-system/components/bookinglightbox';
 
 import { InfoPanel } from 'utils/PanelInfo';
+import Notification from '@components/Notification';
 
 export default function ConfirmAvailability() {
   const router = useRouter();
@@ -109,6 +110,12 @@ export default function ConfirmAvailability() {
       new Date(String(departureTime)),
       DATE_TIME_FORMAT
     );
+
+    if (!linkedAccountId) {
+      console.log(
+        `[createBooking error] linkedAccountId == ${linkedAccountId}`
+      );
+    }
 
     const bookingInput = {
       ...(linkedAccountId && { actingAccount: linkedAccountId }),
@@ -328,66 +335,69 @@ export default function ConfirmAvailability() {
                     },
                   }}
                 >
-                  {lounge && (
-                    <Stack spacing={8}>
-                      <EditableTitle title="Flight details" to="/" as="h2">
-                        {flightData?.getFlightDetails[0].departure?.dateTime
-                          ?.local && (
-                          <Details
-                            infos={
-                              InfoPanel(
-                                flightData?.getFlightDetails[0]?.departure
-                                  ?.dateTime?.local,
-                                flightNumber
-                              ) as InfoGroup[]
-                            }
-                            direction="row"
-                          />
-                        )}
-                      </EditableTitle>
+                  <Stack spacing={8}>
+                    <EditableTitle title="Flight details" to="/" as="h2">
+                      {!linkedAccountId && (
+                        <Notification>
+                          Linked account ID could not be found
+                        </Notification>
+                      )}
+                      {flightData?.getFlightDetails[0].departure?.dateTime
+                        ?.local && (
+                        <Details
+                          infos={
+                            InfoPanel(
+                              flightData?.getFlightDetails[0]?.departure
+                                ?.dateTime?.local,
+                              flightNumber
+                            ) as InfoGroup[]
+                          }
+                          direction="row"
+                        />
+                      )}
+                    </EditableTitle>
 
-                      <EditableTitle title="Who's coming" to="/" as="h2">
-                        <Flex gap={10}>
-                          <p style={{ padding: '0', margin: '0' }}>
-                            {' '}
-                            <strong>Adults</strong> {adults}
-                          </p>{' '}
-                          {Number(children) > 0 ? (
-                            <>
-                              <p style={{ padding: '0', margin: '0' }}>
-                                {' '}
-                                <strong>Children</strong> {children}
-                              </p>
-                            </>
-                          ) : null}
-                        </Flex>
-                        {slotsData ? (
-                          <AvailableSlots
-                            onSelectSlot={handleSelectSlot}
-                            availableSlots={slotsData?.getAvailableSlots}
-                          />
-                        ) : null}
-                        <div>
-                          This is a rough estimate so that lounge can prepare
-                          for your arrival
-                        </div>
-                      </EditableTitle>
-
-                      <EditableTitle title="Cancelation policy" as="h2">
+                    <EditableTitle title="Who's coming" to="/" as="h2">
+                      <Flex gap={10}>
                         <p style={{ padding: '0', margin: '0' }}>
-                          Free cancellation for 24 hours. Cancel before [date of
-                          flight] for a partial refund.
+                          {' '}
+                          <strong>Adults</strong> {adults}
+                        </p>{' '}
+                        {Number(children) > 0 ? (
+                          <>
+                            <p style={{ padding: '0', margin: '0' }}>
+                              {' '}
+                              <strong>Children</strong> {children}
+                            </p>
+                          </>
+                        ) : null}
+                      </Flex>
+                      {slotsData ? (
+                        <AvailableSlots
+                          onSelectSlot={handleSelectSlot}
+                          availableSlots={slotsData?.getAvailableSlots}
+                        />
+                      ) : null}
+                      <div>
+                        This is a rough estimate so that lounge can prepare for
+                        your arrival
+                      </div>
+                    </EditableTitle>
+
+                    <EditableTitle title="Cancelation policy" as="h2">
+                      <p style={{ padding: '0', margin: '0' }}>
+                        Free cancellation for 24 hours. Cancel before [date of
+                        flight] for a partial refund.
+                      </p>
+                      <Link href="cancelation-policy">Learn more</Link>
+                      <div>
+                        <p>
+                          As your flight is at 7:00am, your maximum stay is 3
+                          hours prior.
                         </p>
-                        <Link href="cancelation-policy">Learn more</Link>
-                        <div>
-                          <p>
-                            As your flight is at 7:00am, your maximum stay is 3
-                            hours prior.
-                          </p>
-                        </div>
-                      </EditableTitle>
-                    </Stack>
-                  )}
+                      </div>
+                    </EditableTitle>
+                  </Stack>
                 </Box>
               )}
             </Flex>
@@ -395,7 +405,7 @@ export default function ConfirmAvailability() {
         </Flex>
         <Center>
           <Button
-            disabled={slotsLoading || cbLoading}
+            disabled={slotsLoading || cbLoading || !linkedAccountId}
             type="submit"
             data-testid="submit"
             onClick={handleSubmit}
