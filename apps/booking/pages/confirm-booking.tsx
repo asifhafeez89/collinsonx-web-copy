@@ -29,6 +29,8 @@ import colors from 'ui/colour-constants';
 import BackToLounge from '@components/BackToLounge';
 import { useRouter } from 'next/router';
 
+import { InfoPanel } from 'utils/PanelInfo';
+
 interface AvailableSlotsProps {
   availableSlots: Availability;
 }
@@ -130,7 +132,7 @@ export default function ConfirmAvailability({
     }
   };
 
-  const { data: fligtData } = useQuery<{
+  const { data: flightData } = useQuery<{
     getFlightDetails: FlightDetails[];
   }>(getFlightDetails, {
     variables: {
@@ -147,31 +149,6 @@ export default function ConfirmAvailability({
     notifyOnNetworkStatusChange: true,
     onCompleted: () => {},
   });
-
-  const infos = [
-    {
-      header: 'Day of flight',
-      description: formatDate(
-        new Date(
-          `${fligtData?.getFlightDetails[0]?.departure?.dateTime?.local}`
-        ),
-        DATE_REDABLE_FORMAT
-      ),
-    },
-    {
-      header: 'Time of flight',
-      description: formatDate(
-        new Date(
-          `${fligtData?.getFlightDetails[0]?.departure?.dateTime?.local}`
-        ),
-        TIME_FORMAT
-      ),
-    },
-    {
-      header: 'Flight number',
-      description: flightNumber,
-    },
-  ];
 
   return (
     <Layout>
@@ -224,7 +201,19 @@ export default function ConfirmAvailability({
                   {lounge && (
                     <Stack spacing={8}>
                       <EditableTitle title="Flight details" to="/" as="h2">
-                        <Details infos={infos as InfoGroup[]} direction="row" />
+                        {flightData?.getFlightDetails[0].departure?.dateTime
+                          ?.local && (
+                          <Details
+                            infos={
+                              InfoPanel(
+                                flightData?.getFlightDetails[0]?.departure
+                                  ?.dateTime?.local,
+                                flightNumber
+                              ) as InfoGroup[]
+                            }
+                            direction="row"
+                          />
+                        )}
                       </EditableTitle>
                       <EditableTitle title="Who's coming" to="/" as="h2">
                         <Flex direction="row" gap={10}>

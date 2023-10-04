@@ -48,6 +48,8 @@ import colors from 'ui/colour-constants';
 import BackToLounge from '@components/BackToLounge';
 import BookingLightbox from '@collinsonx/design-system/components/bookinglightbox';
 
+import { InfoPanel } from 'utils/PanelInfo';
+
 export default function ConfirmAvailability() {
   const router = useRouter();
 
@@ -102,7 +104,7 @@ export default function ConfirmAvailability() {
     const availableSlots = slotsData?.getAvailableSlots.slots;
     const slot = findSelectedSlot(availableSlots, selectedslot);
     const departureTime =
-      fligtData?.getFlightDetails[0]?.departure?.dateTime?.utc;
+      flightData?.getFlightDetails[0]?.departure?.dateTime?.utc;
     const formattedDepartureTime = formatDateUTC(
       new Date(String(departureTime)),
       DATE_TIME_FORMAT
@@ -148,7 +150,7 @@ export default function ConfirmAvailability() {
   }>(getAvailableSlots);
 
   const {
-    data: fligtData,
+    data: flightData,
     loading: flightDataLoading,
     error: flightDataError,
   } = useQuery<{
@@ -223,34 +225,6 @@ export default function ConfirmAvailability() {
   const handleSelectSlot = (value: string) => {
     setSelectedslot(value);
   };
-
-  const infos = [
-    {
-      header: 'Day of flight',
-      description: formatDate(
-        new Date(
-          `${fligtData?.getFlightDetails[0]?.departure?.dateTime?.local}`
-        ),
-        DATE_REDABLE_FORMAT
-      ),
-      icon: <MapPin width={16} height={16} color="#0C8599" />,
-    },
-    {
-      header: 'Time of flight',
-      description: formatDate(
-        new Date(
-          `${fligtData?.getFlightDetails[0]?.departure?.dateTime?.local}`
-        ),
-        TIME_FORMAT
-      ),
-      icon: <Clock width={16} height={16} color="#0C8599" />,
-    },
-    {
-      header: 'Flight number',
-      description: flightNumber,
-      icon: <Clock width={16} height={16} color="#0C8599" />,
-    },
-  ];
 
   const showAlert = airportMismatch || terminalMismatch;
 
@@ -376,7 +350,19 @@ export default function ConfirmAvailability() {
                   {lounge && (
                     <Stack spacing={8}>
                       <EditableTitle title="Flight details" to="/" as="h2">
-                        <Details infos={infos as InfoGroup[]} direction="row" />
+                        {flightData?.getFlightDetails[0].departure?.dateTime
+                          ?.local && (
+                          <Details
+                            infos={
+                              InfoPanel(
+                                flightData?.getFlightDetails[0]?.departure
+                                  ?.dateTime?.local,
+                                flightNumber
+                              ) as InfoGroup[]
+                            }
+                            direction="row"
+                          />
+                        )}
                       </EditableTitle>
 
                       <EditableTitle title="Who's coming" to="/" as="h2">

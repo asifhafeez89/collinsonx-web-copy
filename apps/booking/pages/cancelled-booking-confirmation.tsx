@@ -18,8 +18,10 @@ import { FAQLink } from 'utils/FAQLinks';
 import { LoungeInfoPreBooked } from '@components/LoungeInfoPreBooked';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
 import { BookingStatus } from '@collinsonx/utils/generatedTypes/graphql';
+import priceToDisplay from 'utils/PriceToDisplay';
 
 import colors from 'ui/colour-constants';
+import { InfoPanel } from 'utils/PanelInfo';
 
 export default function CancelBooking() {
   const router = useRouter();
@@ -36,41 +38,6 @@ export default function CancelBooking() {
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
   });
-
-  const priceToDisplay = bookingDetails?.getBookingByID.price
-    ? Number(
-        bookingDetails.getBookingByID.price
-          .toString()
-          .substring(
-            0,
-            bookingDetails.getBookingByID.price.toString().length - 2
-          )
-      ).toFixed(2)
-    : '0';
-
-  const infos = [
-    {
-      header: 'Day of flight',
-      description: formatDate(
-        new Date(`${bookingDetails?.getBookingByID.bookedFrom}`),
-        DATE_REDABLE_FORMAT
-      ),
-      icon: <MapPin width={16} height={16} color="#0C8599" />,
-    },
-    {
-      header: 'Time of flight',
-      description: formatDate(
-        new Date(`${bookingDetails?.getBookingByID.bookedTo}`),
-        TIME_FORMAT
-      ),
-      icon: <Clock width={16} height={16} color="#0C8599" />,
-    },
-    {
-      header: 'Flight number',
-      description: bookingDetails?.getBookingByID.metadata.flightNumber,
-      icon: <Clock width={16} height={16} color="#0C8599" />,
-    },
-  ];
 
   return (
     <Layout>
@@ -112,13 +79,16 @@ export default function CancelBooking() {
                 },
               }}
             >
-              {bookingDetails && bookingDetails.getBookingByID.experience && (
-                <LoungeInfoPreBooked
-                  price={priceToDisplay}
-                  lounge={bookingDetails.getBookingByID.experience}
-                  loading={!bookingDetails.getBookingByID.experience}
-                />
-              )}
+              {bookingDetails?.getBookingByID?.price &&
+                bookingDetails.getBookingByID.experience && (
+                  <LoungeInfoPreBooked
+                    price={priceToDisplay(
+                      bookingDetails?.getBookingByID?.price
+                    )}
+                    lounge={bookingDetails.getBookingByID.experience}
+                    loading={!bookingDetails.getBookingByID.experience}
+                  />
+                )}
               {createLoading ? (
                 <Flex
                   direction={{ base: 'column', sm: 'row' }}
@@ -179,7 +149,13 @@ export default function CancelBooking() {
                             Flight details
                           </Heading>
                           <Details
-                            infos={infos as InfoGroup[]}
+                            infos={
+                              InfoPanel(
+                                bookingDetails?.getBookingByID?.bookedFrom,
+                                bookingDetails?.getBookingByID?.metadata
+                                  ?.flightNumber
+                              ) as InfoGroup[]
+                            }
                             direction="row"
                           />
 
