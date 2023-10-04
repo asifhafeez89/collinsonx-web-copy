@@ -313,6 +313,9 @@ export default function ConfirmAvailability() {
               lounge={lounge}
               loading={!lounge}
             />
+            {!linkedAccountId && (
+              <Notification>Linked account ID could not be found</Notification>
+            )}
             <Flex
               direction={{ base: 'column', sm: 'row' }}
               gap={{ base: 'sm', sm: 'lg' }}
@@ -337,12 +340,7 @@ export default function ConfirmAvailability() {
                 >
                   <Stack spacing={8}>
                     <EditableTitle title="Flight details" to="/" as="h2">
-                      {!linkedAccountId && (
-                        <Notification>
-                          Linked account ID could not be found
-                        </Notification>
-                      )}
-                      {flightData?.getFlightDetails[0].departure?.dateTime
+                      {flightData?.getFlightDetails[0]?.departure?.dateTime
                         ?.local && (
                         <Details
                           infos={
