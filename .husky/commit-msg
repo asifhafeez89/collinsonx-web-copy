@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+#Run Conventional Commits
+echo "🖋 Running Conventional Commits"
+npx commitlint --edit ${1}

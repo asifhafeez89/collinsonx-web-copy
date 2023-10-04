@@ -25,6 +25,7 @@ const theme = (
       height: '100%',
       color: colors.black,
       fontWeight: 400,
+      backgroundColor: '#F3F2F3',
     },
     html: {
       height: '100%',
@@ -100,6 +101,13 @@ const theme = (
         label: {
           fontFamily,
           fontWeight: 600,
+        },
+      }),
+    },
+    NavLink: {
+      styles: ({ colors }) => ({
+        label: {
+          color: colors.brandColor,
         },
       }),
     },

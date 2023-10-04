@@ -1,0 +1,73 @@
+import { Modal, Button, Group, Flex, Box } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { ReactNode } from 'react';
+
+interface BookingLightboxProps {
+  children: JSX.Element;
+  open: boolean;
+  ctaCancel: String;
+  ctaForward: String;
+  ctaForwardCall: () => void;
+  onClose: () => void;
+}
+
+function BookingLightbox({
+  children,
+  open,
+  ctaCancel,
+  ctaForward,
+  ctaForwardCall,
+  onClose,
+}: BookingLightboxProps) {
+  return (
+    <>
+      <Modal
+        opened={open}
+        onClose={onClose}
+        withCloseButton={false}
+        padding={0}
+      >
+        <Box
+          sx={{ textAlign: 'center', padding: ' 0 2rem', lineHeight: '2rem' }}
+        >
+          {' '}
+          {children}
+        </Box>
+
+        <Flex
+          justify="center"
+          sx={{ backgroundColor: '#C8C9CA', padding: '20px' }}
+          gap={3}
+          direction={{ base: 'column', lg: 'row' }}
+        >
+          <Button
+            onClick={onClose}
+            color="dark"
+            variant="outline"
+            styles={{
+              root: {
+                border: 'solid',
+                backgroundColor: 'transparent',
+                borderColor: '#000',
+                fontSize: '12px',
+                borderWidth: 2,
+                color: '#fff',
+              },
+              label: {
+                color: '#000',
+              },
+            }}
+          >
+            {ctaCancel}
+          </Button>
+
+          <Button onClick={ctaForwardCall} sx={{ fontSize: '12px' }}>
+            {ctaForward}
+          </Button>
+        </Flex>
+      </Modal>
+    </>
+  );
+}
+
+export default BookingLightbox;

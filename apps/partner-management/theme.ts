@@ -1,6 +1,6 @@
-import { experienceX } from '@collinsonx/design-system/themes';
+import { parnerTheme } from '@collinsonx/design-system/themes';
 
-const theme = experienceX({ fontFamily: 'Be Vietnam Pro' });
+const theme = parnerTheme({ fontFamily: 'Be Vietnam Pro' });
 
 theme.components = {
   ...theme.components,

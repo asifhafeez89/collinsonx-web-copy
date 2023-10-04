@@ -1,11 +1,13 @@
 import {
   Button,
-  Title,
   Stack,
   Text,
   Box,
   Flex,
-  Notification,
+  PinInput,
+  Title,
+  Skeleton,
+  Anchor,
 } from '@collinsonx/design-system/core';
 import { useRouter } from 'next/router';
 import {
@@ -13,35 +15,45 @@ import {
   createPasswordlessCode,
 } from '@collinsonx/utils/supertokens';
 import LayoutLogin from '@components/LayoutLogin';
-import { AuthInput, Breadcramp } from '@collinsonx/design-system';
-import { LoginCode } from '@collinsonx/design-system/assets/graphics';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 import { useEffect, useRef, useState } from 'react';
-import getConsumerByEmailAddress from '@collinsonx/utils/queries/getConsumerByEmailAddress';
-import { useQuery } from '@collinsonx/utils/apollo';
-import Error from '@components/Error';
+import { useMutation } from '@collinsonx/utils/apollo';
+import { default as ErrorComponent } from '@components/Error';
+import usePayload from 'hooks/payload';
+import colors from 'ui/colour-constants';
+import PinLockout from '@components/auth/PinLockout';
+import linkAccount from '@collinsonx/utils/mutations/linkAccount';
+import Session from 'supertokens-auth-react/recipe/session';
+import BackToLounge from '@components/BackToLounge';
+import getError from 'utils/getError';
+import { BookingError } from '../../constants';
+import { BookingQueryParams } from '@collinsonx/constants/enums';
+import { PinLockoutError } from '@collinsonx/constants/constants';
+
+const { ERR_MEMBERSHIP_ALREADY_CONNECTED } = BookingError;
+const { tooManyAttempts, expiredJwt } = PinLockoutError;
+const { bookingId } = BookingQueryParams;
 
 export default function CheckEmail() {
+  const { jwt, lounge, payload, setLinkedAccountId, setLayoutError } =
+    usePayload();
   const router = useRouter();
   const email = router.query?.email as string;
-  const redirectUrl = router.query?.redirectUrl as string;
-
   const [code, setCode] = useState<string>();
 
-  const [loading, setLoading] = useState(false);
+  const [pinError, setPinError] = useState(false);
+  const [pinLockout, setPinLockout] = useState(false);
+  const [pinAttemptCount, setPinAttemptCount] = useState(0);
   const [count, setCount] = useState(20);
+  const [checkingCode, setCheckingCode] = useState(false);
+  const [pinLockoutError, setPinLockoutError] = useState('');
+
+  const [
+    dolinkAccount,
+    { loading: loadingLinkAccount, error: errorLinkAccount },
+  ] = useMutation(linkAccount);
 
   let interval = useRef<NodeJS.Timeout>();
-
-  const {
-    loading: loadingGetConsumer,
-    error,
-    data,
-  } = useQuery(getConsumerByEmailAddress, {
-    variables: {
-      emailAddress: email,
-    },
-  });
 
   useEffect(() => {
     interval.current = setInterval(() => {
@@ -62,138 +74,250 @@ export default function CheckEmail() {
     setCount(20);
   };
 
-  const handleClickConfirm = async () => {
-    setLoading(true);
-    if (code?.length === 6) {
-      let response = await consumePasswordlessCode({
-        userInputCode: code,
-      });
-      if (response.status === 'OK') {
-        // if (redirectUrl) {
-        //   router.push(redirectUrl);
-        // } else {
-        router.push('/check-availability');
-        // }
+  const handleLinkAccount = () =>
+    dolinkAccount({
+      variables: {
+        linkedAccountInput: {
+          token: jwt,
+          analytics: { email },
+        },
+      },
+    }).then((response) => {
+      if (!response.data) throw new Error('no user data');
 
-        // TODO add userId in apollo context
-      } else if (response.status === 'INCORRECT_USER_INPUT_CODE_ERROR') {
-        setLoading(false);
-        // the user entered an invalid OTP
-        window.alert(
-          'Wrong OTP! Please try again. Number of attempts left: ' +
-            (response.maximumCodeInputAttempts -
-              response.failedCodeInputAttemptCount)
-        );
-      } else if (response.status === 'EXPIRED_USER_INPUT_CODE_ERROR') {
-        setLoading(false);
-        // it can come here if the entered OTP was correct, but has expired because
-        // it was generated too long ago.
-        window.alert(
-          'Old OTP entered. Please regenerate a new one and try again'
-        );
-      } else {
-        setLoading(false);
-        // this can happen if the user tried an incorrect OTP too many times.
-        window.alert('Login failed. Please try again');
+      const alreadyConnectedError = getError(
+        response,
+        ERR_MEMBERSHIP_ALREADY_CONNECTED
+      );
+      if (alreadyConnectedError) {
+        console.log('[SIGN OUT]: membership already connected');
+        Session.signOut().then(() => {
+          setLayoutError(ERR_MEMBERSHIP_ALREADY_CONNECTED);
+          router.push({
+            pathname: '/auth/login',
+          });
+        });
       }
+
+      setLinkedAccountId(response.data.linkAccount.id);
+
+      if (router.query.id) {
+        router.push({
+          pathname: '/cancel-booking',
+          query: {
+            [bookingId]: router.query[bookingId] as string,
+          },
+        });
+      } else {
+        router.push({
+          pathname: '/',
+        });
+      }
+    });
+
+  const handleClickConfirm = async () => {
+    setCheckingCode(true);
+
+    if (!code || code.length !== 6) {
+      setPinError(true);
+      setCheckingCode(false);
+      return;
+    }
+
+    let response = await consumePasswordlessCode({
+      userInputCode: code,
+    });
+    console.log('[check-code] calling supertokens consumerPasswordlessCode...');
+
+    if (
+      response.status === 'INCORRECT_USER_INPUT_CODE_ERROR' ||
+      response.status === 'EXPIRED_USER_INPUT_CODE_ERROR'
+    ) {
+      console.log('[check-code] response.status error case ', response.status);
+      setPinError(true);
+      setCheckingCode(false);
+      setPinAttemptCount(response.failedCodeInputAttemptCount);
+      return;
+    }
+
+    if (response.status === 'RESTART_FLOW_ERROR') {
+      console.log('[check-code] response.status error case ', response.status);
+      setPinLockoutError(pinAttemptCount === 4 ? tooManyAttempts : expiredJwt);
+      setPinLockout(true);
+      setCheckingCode(false);
+      return;
+    }
+
+    if (response.status !== 'OK') {
+      console.log('[check-code] response.status error case ', response.status);
+      return window.alert('Login failed. Please try again');
+    }
+
+    if (response.createdNewUser) {
+      console.log(
+        '[check-code] consumerPasswordlessCode: response.createdNewUser === true'
+      );
+      router.push({
+        pathname: '/auth/signup-user',
+        query: {
+          email,
+          [bookingId]: router.query[bookingId] || '',
+        },
+      });
+    } else {
+      console.log(
+        '[check-code] consumerPasswordlessCode: response.createdNewUser === false'
+      );
+      await handleLinkAccount();
     }
   };
 
   const handleClickReenter = () => {
-    router.push('/');
+    router.push({
+      pathname: '/auth/login',
+    });
   };
 
   return (
     <>
-      {loading || loadingGetConsumer ? (
+      {loadingLinkAccount ? (
         <Flex justify="center" align="center" h="100%">
           <LoaderLifestyleX />
         </Flex>
       ) : (
         <LayoutLogin>
-          <Stack px={8} align="center" sx={{ position: 'relative', zIndex: 2 }}>
-            <Stack sx={{ width: '100%' }}>
-              <Breadcramp title="Back to Gatwick" url="https://bbc.co.uk" />
-            </Stack>
-            <Stack
-              spacing={24}
-              align="center"
-              sx={{
-                height: '100%',
-                width: '440px',
-                margin: '0 auto',
-                '@media (max-width: 40em)': {
-                  width: '100%',
-                },
-              }}
-            >
-              <Title order={1} size={20}>
-                Check your emails
-              </Title>
-              <Error error={error} />
-              <Text align="center">
-                We have sent a confirmation code to {email}.
-              </Text>
-              <Box>
-                <Text align="center" size={14}>
-                  Wrong email?
-                </Text>
-                <Button
-                  variant="subtle"
-                  fw={400}
-                  sx={{
-                    fontSize: '14px',
-                    height: '20px',
-                    color: '#20C997',
-                    textDecoration: 'underline',
-                  }}
-                  onClick={handleClickReenter}
-                  compact
-                >
-                  Re-enter your address
-                </Button>
-              </Box>
-              <Box
-                my={16}
+          {pinLockout ? (
+            <PinLockout payload={payload} errorMessage={pinLockoutError} />
+          ) : (
+            <>
+              <Skeleton visible={!lounge}>
+                <BackToLounge />
+              </Skeleton>
+              <Stack
+                spacing={24}
+                align="center"
                 sx={{
-                  backgroundColor: '#C8C9CA',
-                  height: '1px',
-                  width: '100%',
+                  height: '100%',
+                  width: '440px',
+                  margin: '0 auto',
+                  '@media (max-width: 768px)': {
+                    width: '100%',
+                    padding: '1rem 1.5rem 0 1.5rem',
+                  },
                 }}
-              />
-              <Box mx={-0.5}>
-                <AuthInput handleCodeChange={(code) => setCode(code)} />
-              </Box>
-              <Flex direction="row" align="center" w="100%" gap={16} mt={8}>
-                <Button
-                  py={8}
-                  fullWidth
-                  variant="outline"
-                  disabled={count > 0}
-                  onClick={handleClickResend}
-                  sx={{ borderColor: '#2C2C2C', color: '#2C2C2C' }}
-                >
-                  Resend
-                </Button>
-                <Button
-                  fullWidth
-                  py={8}
-                  onClick={handleClickConfirm}
-                  sx={{
-                    borderRadius: 4,
-                  }}
-                  data-testid="verify"
-                >
-                  Verify
-                </Button>
-              </Flex>
-              {count > 0 && (
-                <Text size={14} fw={400}>
-                  You can resend the unique code in {count} seconds
+              >
+                <Title size="26">Check your email</Title>
+                <ErrorComponent error={errorLinkAccount} />
+                <Text size="18px" align="center">
+                  We have sent a unique code to
+                  <Text weight={700}>{email}</Text>
                 </Text>
-              )}
-            </Stack>
-          </Stack>
+                <Box sx={{ textAlign: 'center' }}>
+                  <Text align="center" size={16}>
+                    Wrong email?
+                  </Text>
+                  <Anchor
+                    fw={700}
+                    sx={{
+                      color: colors.blue,
+                      backgroundColor: 'transparent',
+                      textDecoration: 'underline',
+                    }}
+                    onClick={handleClickReenter}
+                  >
+                    Re-enter your email address
+                  </Anchor>
+                </Box>
+                <Box
+                  sx={{
+                    backgroundColor: colors.dividerGrey,
+                    height: '1px',
+                    width: '100%',
+                  }}
+                />
+                <Box>
+                  <Text fw={700} size={12}>
+                    One time passcode
+                  </Text>
+                  <PinInput
+                    onChange={(code) => setCode(code)}
+                    placeholder="-"
+                    length={6}
+                    size="xl"
+                    spacing="8px"
+                    sx={{
+                      padding: '0.5rem 0 0.5rem 0',
+                      input: {
+                        borderRadius: 8,
+                        fontSize: 18,
+                        fontWeight: 'bold',
+                      },
+                    }}
+                    inputMode="numeric"
+                    data-testid="pinInput"
+                  />
+                  {pinError && !checkingCode && (
+                    <Text
+                      sx={{ color: colors.errorRed }}
+                      align="center"
+                      size={16}
+                    >
+                      Perhaps the code is invalid or has expired.
+                      <br />
+                      Please try again
+                    </Text>
+                  )}
+                  <Flex
+                    direction="row"
+                    align="center"
+                    w="100%"
+                    gap={16}
+                    mt={8}
+                    sx={{ padding: '1.5rem 0 0 0' }}
+                  >
+                    <Button
+                      py={8}
+                      fullWidth
+                      variant="outline"
+                      disabled={count > 0}
+                      onClick={handleClickResend}
+                      styles={{
+                        root: {
+                          border: 'solid',
+                          backgroundColor: 'transparent',
+                          borderColor: colors.buttonBlack,
+                          borderWidth: 2,
+                          color: colors.buttonBlack,
+                          ':hover': {
+                            backgroundColor: 'lightgray',
+                          },
+                        },
+                        label: {
+                          color: colors.buttonBlack,
+                        },
+                      }}
+                    >
+                      RESEND
+                    </Button>
+                    <Button
+                      fullWidth
+                      py={8}
+                      onClick={handleClickConfirm}
+                      data-testid="verify"
+                      disabled={checkingCode}
+                    >
+                      VERIFY
+                    </Button>
+                  </Flex>
+                </Box>
+                {count > 0 && (
+                  <Text size={14} fw={400} pb={10}>
+                    You can resend the unique code in {count} seconds
+                  </Text>
+                )}
+              </Stack>
+            </>
+          )}
         </LayoutLogin>
       )}
     </>

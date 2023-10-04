@@ -1,5 +1,7 @@
+import validator from 'validator';
+
 function validateEmail(input: string) {
-  return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(input);
+  return validator.isEmail(input);
 }
 
 export default validateEmail;

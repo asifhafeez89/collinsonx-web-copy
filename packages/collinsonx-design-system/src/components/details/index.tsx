@@ -1,37 +1,42 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { Box, Flex, Stack } from '@mantine/core';
+import { rem } from '@mantine/core';
 
-type InfoGroup = {
+export type InfoGroup = {
   header?: string;
   description?: string;
   icon?: React.ReactNode;
+  direction?: 'row| column';
 };
 
 interface LoungeDetailsProps {
   title?: string;
   infos: InfoGroup[];
+  direction: 'row';
 }
-
-const ContentWrapper = styled.div`
-  background: #fff;
-`;
 
 /**
  * Primary UI component for user interaction
  */
-export default function LoungeDetails({ title, infos }: LoungeDetailsProps) {
+export default function LoungeDetails({
+  title,
+  infos,
+  direction,
+}: LoungeDetailsProps) {
   return (
-    <ContentWrapper>
-      <Stack spacing={8}>
+    <div>
+      <Flex
+        direction={{ base: 'column', lg: 'row' }}
+        gap={{ base: '0', lg: rem(48) }}
+      >
         {infos.map((info, i) => (
-          <Flex direction="row" align="center" key={i} gap={8}>
-            <Flex align="center">{info.icon}</Flex>
+          <div key={i}>
             <Box fw={600}>{info.header}</Box>
             <Box>{info.description}</Box>
-          </Flex>
+          </div>
         ))}
-      </Stack>
-    </ContentWrapper>
+      </Flex>
+    </div>
   );
 }

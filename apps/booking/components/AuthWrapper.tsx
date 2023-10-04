@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { USER_ID, USER_TYPE, USER_META, SELECTED_LOUNGE } from 'config';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
-import { removeItem, setItem } from '@collinsonx/utils/lib';
+import { getItem, setItem, removeItem } from '@lib';
+import { LOUNGE_CODE, JWT } from '../constants';
+import { BookingQueryParams } from '@collinsonx/constants/enums';
+
+const { loungeCode: lcParam, jwt: jwtParam } = BookingQueryParams;
 
 interface AuthWrapperProps {
   children: React.ReactNode;
@@ -15,6 +19,7 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
 
   const session: any = useSessionContext();
   useEffect(() => {
+    console.log('Session ', JSON.stringify(session || null));
     const { accessTokenPayload = {} } = session as any;
     if (accessTokenPayload.experiences) {
       setItem(
@@ -29,10 +34,23 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
       if (typeof window !== undefined) {
         removeItem(USER_META);
 
+        const urlParams = new URLSearchParams(window.location.search);
+        const tokenParam = urlParams.get(jwtParam);
+        const loungeParam = urlParams.get(lcParam);
+
+        if (tokenParam && loungeParam) {
+          setItem(LOUNGE_CODE, loungeParam);
+          setItem(JWT, tokenParam);
+        }
+
         if (!checkIsAllowed(window.location.pathname)) {
-          window.location.href = `/auth/login/?redirectUrl=${
-            window.location.pathname + window.location.search
-          }`;
+          const urlParams = new URLSearchParams(window.location.search);
+          const idParam = urlParams.get('id');
+          if (idParam) {
+            window.location.href = `/auth/login?id=${idParam}`;
+          } else {
+            window.location.href = `/auth/login`;
+          }
         }
       }
     }

@@ -16,7 +16,6 @@ export default function InputTextArea({ ...props }: TextareaProps) {
           },
           description: {
             order: 1,
-            marginTop: '4px',
             marginBottom: '0',
           },
           label: {

@@ -19,6 +19,9 @@ module.exports = {
     // '\\.(css|less)$': '<rootDir>/tests/jest/__mocks__/styleMock.js',
     '@lib': '<rootDir>/lib/index.ts',
     '@components/(.*)$': '<rootDir>/components/$1',
+    '@collinsonx/constants/(.*)': fromRoot(
+      '../collinsonx-constants/src/$1/index.ts'
+    ),
     '@collinsonx/design-system/assets/logo$': '<rootDir>/__mocks__/logo',
     '@collinsonx/design-system/components/loaderLifestyleX$':
       '<rootDir>/__mocks__/loader',

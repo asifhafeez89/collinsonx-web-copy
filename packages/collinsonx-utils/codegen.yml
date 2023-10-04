@@ -1,5 +1,6 @@
 ---
-schema: https://gateway-api.uat.cergea.com/graphql
+schema:
+  - 'https://gateway-api.uat.cergea.com/graphql'
 documents:
   - src/**/*.ts
 generates:

@@ -4,6 +4,8 @@ import { Flex, Image } from '@mantine/core';
 interface LoungeImageTitleProps {
   title: string;
   image: string;
+  location: string;
+  price: string;
 }
 
 const ContentWrapper = styled.div`
@@ -16,6 +18,8 @@ const ContentWrapper = styled.div`
 export default function LoungeImageTitle({
   title,
   image,
+  location,
+  price,
 }: LoungeImageTitleProps) {
   return (
     <ContentWrapper>
@@ -33,7 +37,19 @@ export default function LoungeImageTitle({
             alignItems: 'center',
           }}
         >
-          <strong>{title}</strong>
+          <Flex direction="column">
+            <h2
+              style={{
+                fontSize: '12px',
+                padding: '0',
+                margin: '0',
+              }}
+            >
+              {title}
+            </h2>
+            <strong>{location}</strong>
+            <strong>{price}</strong>
+          </Flex>
         </Flex>
       </Flex>
     </ContentWrapper>

@@ -7,7 +7,7 @@ describe('<Heading />', () => {
     const tree = renderer
       .create(
         <>
-          <Heading as="h2" className="foo">
+          <Heading as="h2" className="foo" padding={0} margin={0}>
             Heading Title
           </Heading>
         </>

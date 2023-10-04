@@ -1,9 +1,9 @@
-const FLIGHT_VALIDATION = /([0-9]{0,1}[a-zA-Z]{1,3})([0-9]*)/gi;
+const FLIGHTNUMBER_VALIDATION = /([0-9]{0,1}[a-zA-Z]{1,3})([0-9]*)/gi;
 
 export function validateFlightNumber(
-  flight: string
+  flightNo: string
 ): [boolean, string | undefined, string | undefined] {
-  const match = [...flight.matchAll(FLIGHT_VALIDATION)];
+  const match = [...flightNo.matchAll(FLIGHTNUMBER_VALIDATION)];
 
   if (!match) {
     return [false, undefined, undefined];

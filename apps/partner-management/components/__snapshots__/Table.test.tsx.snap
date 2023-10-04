@@ -1,0 +1,302 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<type /> should render 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": .emotion-1 {
+  color: #333333;
+  border: 1px solid #e9e9e9;
+  border-top: 0;
+}
+
+.emotion-1 tr {
+  height: 78px;
+}
+
+.emotion-1 thead tr {
+  height: 50px;
+  background: #FFF3BF;
+}
+
+.emotion-1 tbody tr:nth-of-type(even) {
+  background: #f9f9f9;
+}
+
+.emotion-1 tbody tr:hover {
+  background: #ededed;
+}
+
+.emotion-1 thead th+th,
+.emotion-1 thead tr th:last-child {
+  border-left: 1px solid #dad1bb;
+}
+
+.emotion-1 tbody tr td {
+  border-top: 0;
+}
+
+.emotion-2 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  width: 100%;
+  border-collapse: collapse;
+  caption-side: top;
+  color: #000;
+  line-height: 1.55;
+}
+
+.emotion-2>caption {
+  margin-top: 0;
+  margin-bottom: 0.625rem;
+  font-size: 0.875rem;
+  color: #868e96;
+}
+
+.emotion-2>thead>tr>th,
+.emotion-2>tfoot>tr>th,
+.emotion-2>tbody>tr>th {
+  text-align: left;
+  font-weight: bold;
+  color: #495057;
+  font-size: 0.875rem;
+  padding: 0.4375rem 0.625rem;
+}
+
+.emotion-2>thead>tr>th {
+  border-bottom: 0.0625rem solid #dee2e6;
+}
+
+.emotion-2>tfoot>tr>th,
+.emotion-2>tbody>tr>th {
+  border-top: 0.0625rem solid #dee2e6;
+}
+
+.emotion-2>tbody>tr>td {
+  padding: 0.4375rem 0.625rem;
+  border-top: 0.0625rem solid #dee2e6;
+  font-size: 0.875rem;
+}
+
+.emotion-2>tbody>tr:first-of-type>td,
+.emotion-2>tbody>tr:first-of-type>th {
+  border-top: none;
+}
+
+.emotion-2>thead>tr>th,
+.emotion-2>tbody>tr>td {
+  border-right: none;
+}
+
+.emotion-2>thead>tr>th:last-of-type,
+.emotion-2>tbody>tr>td:last-of-type {
+  border-right: none;
+  border-left: none;
+}
+
+.emotion-2>tbody>tr>th {
+  border-right: none;
+}
+
+.emotion-2[data-striped]>tbody>tr:nth-of-type(odd) {
+  background-color: #f8f9fa;
+}
+
+@media (hover: hover) {
+  .emotion-2[data-hover]>tbody>tr:hover {
+    background-color: #f1f3f5;
+  }
+}
+
+@media (hover: none) {
+  .emotion-2[data-hover]>tbody>tr:active {
+    background-color: #f1f3f5;
+  }
+}
+
+<body>
+    <div>
+      <table
+        class="emotion-0 emotion-1 emotion-2"
+      >
+        <thead />
+        <tbody>
+          <tr>
+            <td />
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>,
+  "container": .emotion-1 {
+  color: #333333;
+  border: 1px solid #e9e9e9;
+  border-top: 0;
+}
+
+.emotion-1 tr {
+  height: 78px;
+}
+
+.emotion-1 thead tr {
+  height: 50px;
+  background: #FFF3BF;
+}
+
+.emotion-1 tbody tr:nth-of-type(even) {
+  background: #f9f9f9;
+}
+
+.emotion-1 tbody tr:hover {
+  background: #ededed;
+}
+
+.emotion-1 thead th+th,
+.emotion-1 thead tr th:last-child {
+  border-left: 1px solid #dad1bb;
+}
+
+.emotion-1 tbody tr td {
+  border-top: 0;
+}
+
+.emotion-2 {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  width: 100%;
+  border-collapse: collapse;
+  caption-side: top;
+  color: #000;
+  line-height: 1.55;
+}
+
+.emotion-2>caption {
+  margin-top: 0;
+  margin-bottom: 0.625rem;
+  font-size: 0.875rem;
+  color: #868e96;
+}
+
+.emotion-2>thead>tr>th,
+.emotion-2>tfoot>tr>th,
+.emotion-2>tbody>tr>th {
+  text-align: left;
+  font-weight: bold;
+  color: #495057;
+  font-size: 0.875rem;
+  padding: 0.4375rem 0.625rem;
+}
+
+.emotion-2>thead>tr>th {
+  border-bottom: 0.0625rem solid #dee2e6;
+}
+
+.emotion-2>tfoot>tr>th,
+.emotion-2>tbody>tr>th {
+  border-top: 0.0625rem solid #dee2e6;
+}
+
+.emotion-2>tbody>tr>td {
+  padding: 0.4375rem 0.625rem;
+  border-top: 0.0625rem solid #dee2e6;
+  font-size: 0.875rem;
+}
+
+.emotion-2>tbody>tr:first-of-type>td,
+.emotion-2>tbody>tr:first-of-type>th {
+  border-top: none;
+}
+
+.emotion-2>thead>tr>th,
+.emotion-2>tbody>tr>td {
+  border-right: none;
+}
+
+.emotion-2>thead>tr>th:last-of-type,
+.emotion-2>tbody>tr>td:last-of-type {
+  border-right: none;
+  border-left: none;
+}
+
+.emotion-2>tbody>tr>th {
+  border-right: none;
+}
+
+.emotion-2[data-striped]>tbody>tr:nth-of-type(odd) {
+  background-color: #f8f9fa;
+}
+
+@media (hover: hover) {
+  .emotion-2[data-hover]>tbody>tr:hover {
+    background-color: #f1f3f5;
+  }
+}
+
+@media (hover: none) {
+  .emotion-2[data-hover]>tbody>tr:active {
+    background-color: #f1f3f5;
+  }
+}
+
+<div>
+    <table
+      class="emotion-0 emotion-1 emotion-2"
+    >
+      <thead />
+      <tbody>
+        <tr>
+          <td />
+        </tr>
+      </tbody>
+    </table>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
