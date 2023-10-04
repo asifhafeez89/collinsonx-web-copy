@@ -246,41 +246,22 @@ export default function ConfirmAvailability() {
           }}
         >
           <div>
-            {airportMismatch && <h1>Airport Mismatch</h1>}
-            {terminalMismatch && <h1>Terminal Mismatch</h1>}
+            {airportMismatch && <h1>Airports don&apos;t match</h1>}
+            {terminalMismatch && <h1>Terminals don&apos;t match</h1>}
             <div>
               {airportMismatch && (
                 <p>
-                  Please note, that the lounge you are booking is not in the
-                  airport your flight is scheduled.{' '}
+                  The lounge you are booking is not in the same airport your
+                  flight is scheduled to depart from.
                 </p>
               )}
-
               {terminalMismatch && (
                 <p>
-                  Please note, that the lounge you are booking is not in the
-                  terminal your flight is scheduled.{' '}
+                  The lounge you are booking is not in the same terminal your
+                  flight is scheduled to depart from.{' '}
                 </p>
               )}
-
-              <p>
-                {' '}
-                Lounge airport is{' '}
-                <strong>{lounge?.location?.airportName}</strong>.{' '}
-              </p>
-
-              <p>
-                {' '}
-                Lounge terminal is <strong>{lounge?.location?.terminal}</strong>
-                .{' '}
-              </p>
-
-              <p>
-                {' '}
-                Flight departure airport is {flightInfoAirport}. Do you still
-                want to book this lounge even it is not in the airport of
-                departure?
-              </p>
+              <p>Do you still want to go ahead with this booking?</p>
             </div>
           </div>
         </BookingLightbox>
