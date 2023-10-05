@@ -62,18 +62,32 @@ export default function ConfirmPayment() {
     }
   }, [referrerUrl]);
 
-  const {
-    loading: userLoading,
-    error: userError,
-    data: userData,
-  } = useQuery<{
+  const [userData, setUserData] = useState<Consumer | null>(null);
+
+  const { loading: userLoading, error: userError } = useQuery<{
     getConsumerByID: Consumer;
-  }>(getConsumerByID, { variables: { getConsumerById: session.userId } });
+  }>(getConsumerByID, {
+    variables: { getConsumerById: session.userId },
+    fetchPolicy: 'network-only',
+    onCompleted: (data) => {
+      setUserData(data?.getConsumerByID || null);
+    },
+  });
 
   const { getBooking, setBooking } = useContext(BookingContext);
 
   const [open, setOpen] = useState(true);
   const [alert, setAlert] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    if (session.userId) {
+      userLoading && console.log('Fetching user data...');
+
+      if (userError) {
+        console.error('Error fetching user data:', userError);
+      }
+    }
+  }, [session.userId, userLoading, userError]);
 
   useEffect(() => {
     // Check if the booking state is incompleted and]
@@ -269,7 +283,7 @@ export default function ConfirmPayment() {
                       >
                         A confirmation email has been sent to{' '}
                         <span style={{ fontWeight: 700 }}>
-                          {userData?.getConsumerByID?.emailAddress}
+                          {userData?.emailAddress}
                         </span>
                       </Text>
                     </Box>

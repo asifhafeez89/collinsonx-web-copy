@@ -168,6 +168,8 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         referrer = getItem(REFERRER) || '';
         platform = getItem(PLATFORM) || 'web';
         console.log(`Retrieved ${jwtParam} and ${lcParam} from storage`);
+        console.log('referrer:', referrer);
+        console.log('platform:', platform);
       }
 
       if (!loungeCode || !jwt) {
