@@ -19,6 +19,7 @@ export const frontendConfig = () => {
     appInfo,
     recipeList: [
       Session.init({
+        isInIframe: true,
         sessionTokenFrontendDomain,
         preAPIHook: userContextHandler,
       } as InputType),
