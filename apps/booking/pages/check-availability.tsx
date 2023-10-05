@@ -48,6 +48,8 @@ import colors from 'ui/colour-constants';
 import BackToLounge from '@components/BackToLounge';
 import BookingLightbox from '@collinsonx/design-system/components/bookinglightbox';
 
+import { InfoPanel } from 'utils/PanelInfo';
+
 export default function ConfirmAvailability() {
   const router = useRouter();
 
@@ -102,7 +104,7 @@ export default function ConfirmAvailability() {
     const availableSlots = slotsData?.getAvailableSlots.slots;
     const slot = findSelectedSlot(availableSlots, selectedslot);
     const departureTime =
-      fligtData?.getFlightDetails[0]?.departure?.dateTime?.utc;
+      flightData?.getFlightDetails[0]?.departure?.dateTime?.utc;
     const formattedDepartureTime = formatDateUTC(
       new Date(String(departureTime)),
       DATE_TIME_FORMAT
@@ -148,7 +150,7 @@ export default function ConfirmAvailability() {
   }>(getAvailableSlots);
 
   const {
-    data: fligtData,
+    data: flightData,
     loading: flightDataLoading,
     error: flightDataError,
   } = useQuery<{
@@ -224,34 +226,6 @@ export default function ConfirmAvailability() {
     setSelectedslot(value);
   };
 
-  const infos = [
-    {
-      header: 'Day of flight',
-      description: formatDate(
-        new Date(
-          `${fligtData?.getFlightDetails[0]?.departure?.dateTime?.local}`
-        ),
-        DATE_REDABLE_FORMAT
-      ),
-      icon: <MapPin width={16} height={16} color="#0C8599" />,
-    },
-    {
-      header: 'Time of flight',
-      description: formatDate(
-        new Date(
-          `${fligtData?.getFlightDetails[0]?.departure?.dateTime?.local}`
-        ),
-        TIME_FORMAT
-      ),
-      icon: <Clock width={16} height={16} color="#0C8599" />,
-    },
-    {
-      header: 'Flight number',
-      description: flightNumber,
-      icon: <Clock width={16} height={16} color="#0C8599" />,
-    },
-  ];
-
   const showAlert = airportMismatch || terminalMismatch;
 
   return (
@@ -272,41 +246,22 @@ export default function ConfirmAvailability() {
           }}
         >
           <div>
-            {airportMismatch && <h1>Airport Mismatch</h1>}
-            {terminalMismatch && <h1>Terminal Mismatch</h1>}
+            {airportMismatch && <h1>Airports don&apos;t match</h1>}
+            {terminalMismatch && <h1>Terminals don&apos;t match</h1>}
             <div>
               {airportMismatch && (
                 <p>
-                  Please note, that the lounge you are booking is not in the
-                  airport your flight is scheduled.{' '}
+                  The lounge you are booking is not in the same airport your
+                  flight is scheduled to depart from.
                 </p>
               )}
-
               {terminalMismatch && (
                 <p>
-                  Please note, that the lounge you are booking is not in the
-                  terminal your flight is scheduled.{' '}
+                  The lounge you are booking is not in the same terminal your
+                  flight is scheduled to depart from.{' '}
                 </p>
               )}
-
-              <p>
-                {' '}
-                Lounge airport is{' '}
-                <strong>{lounge?.location?.airportName}</strong>.{' '}
-              </p>
-
-              <p>
-                {' '}
-                Lounge terminal is <strong>{lounge?.location?.terminal}</strong>
-                .{' '}
-              </p>
-
-              <p>
-                {' '}
-                Flight departure airport is {flightInfoAirport}. Do you still
-                want to book this lounge even it is not in the airport of
-                departure?
-              </p>
+              <p>Do you still want to go ahead with this booking?</p>
             </div>
           </div>
         </BookingLightbox>
@@ -376,7 +331,19 @@ export default function ConfirmAvailability() {
                   {lounge && (
                     <Stack spacing={8}>
                       <EditableTitle title="Flight details" to="/" as="h2">
-                        <Details infos={infos as InfoGroup[]} direction="row" />
+                        {flightData?.getFlightDetails[0].departure?.dateTime
+                          ?.local && (
+                          <Details
+                            infos={
+                              InfoPanel(
+                                flightData?.getFlightDetails[0]?.departure
+                                  ?.dateTime?.local,
+                                flightNumber
+                              ) as InfoGroup[]
+                            }
+                            direction="row"
+                          />
+                        )}
                       </EditableTitle>
 
                       <EditableTitle title="Who's coming" to="/" as="h2">

@@ -76,6 +76,7 @@ export default function Login() {
       try {
         await createPasswordlessCode({
           email,
+          userContext: { accountProvider: payload?.accountProvider },
         });
         router.push({
           pathname: '/auth/check-code',

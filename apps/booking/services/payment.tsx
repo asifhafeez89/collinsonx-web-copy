@@ -4,8 +4,7 @@ export interface ReqBody {
   bookingID: string;
   consumerID: string;
   internalProductId: string;
-  successUrl: string;
-  cancelUrl: string;
+  returnUrl: string;
   quantity: number;
 }
 
@@ -13,8 +12,7 @@ export const getCheckoutSessionUrl = async ({
   bookingID,
   consumerID,
   internalProductId,
-  successUrl,
-  cancelUrl,
+  returnUrl,
   quantity,
 }: ReqBody) => {
   return axios.post(
@@ -24,12 +22,12 @@ export const getCheckoutSessionUrl = async ({
       consumerID,
       internalProductId,
       quantity,
-      successUrl,
-      cancelUrl,
+      returnUrl,
     },
     {
       headers: {
         'Content-Type': 'application/json',
+        embedded_checkout_beta: 'v2',
       },
     }
   );

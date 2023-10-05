@@ -42,6 +42,7 @@ import { AlertIcon } from '@collinsonx/design-system/assets/icons';
 import BackToLounge from '@components/BackToLounge';
 import { MOBILE_ACTION_BACK, POLLING_TIME } from '../constants';
 import { sendMobileEvent } from '@lib';
+import { InfoPanel } from 'utils/PanelInfo';
 
 export default function ConfirmPayment() {
   const router = useRouter();
@@ -130,7 +131,6 @@ export default function ConfirmPayment() {
         clearInterval(interval.current);
         setOpen(false);
         setAlert(true);
-        clearInterval(interval.current);
       }
       if (
         data.getBookingByID.status === BookingStatus.Declined ||
@@ -148,24 +148,6 @@ export default function ConfirmPayment() {
       }
     },
   });
-
-  const infos = [
-    {
-      header: 'Day of flight',
-      description: formatDate(
-        new Date(`${departureDate}`),
-        DATE_REDABLE_FORMAT
-      ),
-    },
-    {
-      header: 'Time of flight',
-      description: formatDate(new Date(`${departureDate}`), TIME_FORMAT),
-    },
-    {
-      header: 'Flight number',
-      description: flightNumber,
-    },
-  ];
 
   return (
     <Layout>
@@ -311,7 +293,17 @@ export default function ConfirmPayment() {
                         <Heading as="h2" padding={0} margin={0}>
                           Flight details
                         </Heading>
-                        <Details infos={infos as InfoGroup[]} direction="row" />
+                        {departureDate && (
+                          <Details
+                            infos={
+                              InfoPanel(
+                                departureDate,
+                                flightNumber
+                              ) as InfoGroup[]
+                            }
+                            direction="row"
+                          />
+                        )}
                       </Box>
                       <Box
                         sx={{
