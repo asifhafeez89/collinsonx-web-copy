@@ -48,6 +48,7 @@ import colors from 'ui/colour-constants';
 import BackToLounge from '@components/BackToLounge';
 import BookingLightbox from '@collinsonx/design-system/components/bookinglightbox';
 import Price from '@components/Price';
+import Notification from '@components/Notification';
 
 import { InfoPanel } from 'utils/PanelInfo';
 
@@ -110,6 +111,12 @@ export default function ConfirmAvailability() {
       new Date(String(departureTime)),
       DATE_TIME_FORMAT
     );
+
+    if (!linkedAccountId) {
+      console.log(
+        `[createBooking error] linkedAccountId == ${linkedAccountId}`
+      );
+    }
 
     const bookingInput = {
       ...(linkedAccountId && { actingAccount: linkedAccountId }),
@@ -319,6 +326,9 @@ export default function ConfirmAvailability() {
               lounge={lounge}
               loading={!lounge}
             />
+            {!linkedAccountId && (
+              <Notification>Linked account ID could not be found</Notification>
+            )}
             <Flex
               direction={{ base: 'column', sm: 'row' }}
               gap={{ base: 'sm', sm: 'lg' }}
