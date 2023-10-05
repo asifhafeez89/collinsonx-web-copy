@@ -1,5 +1,5 @@
 import Layout from '@components/Layout';
-import { useContext, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import {
   Flex,
   Stack,
@@ -35,6 +35,8 @@ import { MAX_GUESTS, ValidationErrorResponses } from '../constants';
 import BackToLounge from '@components/BackToLounge';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import Price from '@components/Price';
+import { formatDate } from 'utils/DateFormatter';
+import BookingLightbox from '@collinsonx/design-system/components/bookinglightbox';
 interface DepartureFlightInfo {
   airport: { iata: string };
   date: { local: string; utc: string };
@@ -52,13 +54,9 @@ const Lounge = () => {
   const [flightNumber, setFlightNumber] = useState<string>();
   const [guestError, setGuestError] = useState<Boolean>(false);
   const { payload, lounge, referrerUrl } = usePayload();
+  const [wrongFlightDate, setWrongFlightDate] = useState(false);
 
   const { setBooking } = useContext(BookingContext);
-
-  const flightCode = useMemo(
-    () => (flightNumber ? validateFlightNumber(flightNumber) : undefined),
-    [flightNumber]
-  );
 
   const form = useForm({
     initialValues: {
@@ -75,14 +73,36 @@ const Lounge = () => {
     validate: {
       departureDate: (value) =>
         value !== null ? null : ValidationErrorResponses.INVALID_DATE.message,
-      flightNumber: (value: string) =>
-        /^([A-Z]{3}|[A-Z\d]{2})(?:\s?)(\d{1,4})$/.test(value.toUpperCase())
-          ? null
-          : ValidationErrorResponses.INVALID_FLIGHT.message,
+      flightNumber: (value: string) => {
+        let error = null;
+
+        const validFlight = /^([A-Z]{3}|[A-Z\d]{2})(?:\s?)(\d{1,4})$/.test(
+          value.toUpperCase()
+        );
+
+        if (!validFlight) {
+          error = ValidationErrorResponses.INVALID_FLIGHT.message;
+        }
+
+        if (validFlight && wrongFlightDate) {
+          error = ValidationErrorResponses.INVALID_DATEFlIGHT.message;
+        }
+
+        return error;
+      },
     },
   });
 
+  useEffect(() => {
+    if (form.values.departureDate && form.values.flightNumber) {
+      fetchFlightInfo();
+    }
+  }, [form.values.departureDate, form.values.flightNumber]);
+
   type FormValues = typeof form.values;
+
+  const carrieCode = validateFlightNumber(form.values.flightNumber)[1];
+  const flightNo = validateFlightNumber(form.values.flightNumber)[2];
 
   const [
     fetchFlightInfo,
@@ -96,16 +116,29 @@ const Lounge = () => {
   }>(getFlightDetails, {
     variables: {
       flightDetails: {
-        carrierCode: flightCode ? flightCode[1] : '',
+        carrierCode: carrieCode,
         codeType: AIRPORT_CODE_TYPE,
-        departureDate: date,
-        flightNumber: flightCode ? flightCode[2] : '',
+        departureDate: formatDate(
+          new Date(String(form.values.departureDate)),
+          DATE_FORMAT
+        ),
+        flightNumber: flightNo,
         version: OAG_API_VERSION,
       },
     },
     pollInterval: 300000,
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
+    onCompleted: (flightInfoData) => {
+      if (flightInfoData.getFlightDetails.length === 0) {
+        setWrongFlightDate(true);
+      } else {
+        setWrongFlightDate(false);
+      }
+    },
+    onError: (error) => {
+      console.log(error);
+    },
   });
 
   const handleClickCheckAvailability = (values: FormValues) => {
@@ -168,7 +201,7 @@ const Lounge = () => {
                 lounge={lounge}
                 loading={!lounge}
               />
-              <FlightInfo form={form} loading={!lounge || flightInfoLoading} />
+              <FlightInfo form={form} loading={!lounge} />
 
               {guestError ? (
                 <Box

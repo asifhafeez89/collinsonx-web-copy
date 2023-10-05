@@ -1,7 +1,8 @@
 import { BridgePayload } from 'types/booking';
 
 const constants = {
-  TIMEFORMAT: 'HH:mm',
+  TIME_FORMAT: 'HH:mm',
+  TIME_FORMAT_DISPLAY: 'h:mma',
 };
 
 const cookiesNames = {
@@ -38,6 +39,10 @@ export const ValidationErrorResponses = {
   INVALID_DATE: {
     code: 'ERR_INVALID_DATE',
     message: 'Invalid Date',
+  },
+  INVALID_DATEFlIGHT: {
+    code: 'ERR_INVALID_DATEFlIGHT',
+    message: 'Flight not found',
   },
   INVALID_FLIGHT: {
     code: 'ERR_INVALID_FLIGHT',

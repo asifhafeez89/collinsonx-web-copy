@@ -16,14 +16,16 @@ import { LoungeInfo } from '@components/LoungeInfo';
 import { Details } from '@collinsonx/design-system';
 import createBooking from '@collinsonx/utils/mutations/createBooking';
 import Link from 'next/link';
-
-import { Clock, MapPin } from '@collinsonx/design-system/assets/icons';
 import { useMemo, useState, useContext, useEffect } from 'react';
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
 import LoungeError from '@components/LoungeError';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import { Availability } from '@collinsonx/utils';
-import AvailableSlots from '@components/flightInfo/AvailableSlots';
+import {
+  AvailableSlots,
+  hasLoungeCapacity,
+  availableSlotsNotEnoughCapacityParser,
+} from '@components/flightInfo/availability';
 import getAvailableSlots from '@collinsonx/utils/queries/getAvailableSlots';
 import { validateFlightNumber } from '../utils/flightValidation';
 import { FlightDetails, Slots } from '@collinsonx/utils';
@@ -48,8 +50,19 @@ import colors from 'ui/colour-constants';
 import BackToLounge from '@components/BackToLounge';
 import BookingLightbox from '@collinsonx/design-system/components/bookinglightbox';
 import Price from '@components/Price';
+import Notification from '@components/Notification';
 
 import { InfoPanel } from 'utils/PanelInfo';
+
+function AvailableSlotsErrorHandling(slotsError: any) {
+  const ENOUGH_CAPACITY_ERROR_IS_VALID = hasLoungeCapacity(slotsError);
+
+  if (ENOUGH_CAPACITY_ERROR_IS_VALID) {
+    return availableSlotsNotEnoughCapacityParser(slotsError);
+  }
+
+  return null;
+}
 
 export default function ConfirmAvailability() {
   const router = useRouter();
@@ -104,12 +117,19 @@ export default function ConfirmAvailability() {
   const handleSubmit = () => {
     const availableSlots = slotsData?.getAvailableSlots.slots;
     const slot = findSelectedSlot(availableSlots, selectedslot);
+
     const departureTime =
       flightData?.getFlightDetails[0]?.departure?.dateTime?.utc;
     const formattedDepartureTime = formatDateUTC(
       new Date(String(departureTime)),
       DATE_TIME_FORMAT
     );
+
+    if (!linkedAccountId) {
+      console.log(
+        `[createBooking error] linkedAccountId == ${linkedAccountId}`
+      );
+    }
 
     const bookingInput = {
       ...(linkedAccountId && { actingAccount: linkedAccountId }),
@@ -123,7 +143,7 @@ export default function ConfirmAvailability() {
       guestInfantCount: infants,
       metadata: {
         flightNumber,
-        flightTime: dayjs(departureDate).format(constants.TIMEFORMAT),
+        flightTime,
       },
     };
 
@@ -224,6 +244,16 @@ export default function ConfirmAvailability() {
       }
     },
   });
+  const departureTime =
+    flightData?.getFlightDetails[0]?.departure?.dateTime?.utc;
+
+  const dayjsDepartureTime = dayjs(departureTime, {
+    format: 'YYYY-MM-DD HH:mm',
+  });
+  const flightTime = dayjsDepartureTime.format(constants.TIME_FORMAT);
+  const flightTimeToDisplay = dayjsDepartureTime.format(
+    constants.TIME_FORMAT_DISPLAY
+  );
 
   const handleSelectSlot = (value: string) => {
     setSelectedslot(value);
@@ -309,6 +339,9 @@ export default function ConfirmAvailability() {
               lounge={lounge}
               loading={!lounge}
             />
+            {!linkedAccountId && (
+              <Notification>Linked account ID could not be found</Notification>
+            )}
             <Flex
               direction={{ base: 'column', sm: 'row' }}
               gap={{ base: 'sm', sm: 'lg' }}
@@ -403,6 +436,10 @@ export default function ConfirmAvailability() {
                             availableSlots={slotsData?.getAvailableSlots}
                           />
                         ) : null}
+
+                        <AvailableSlotsErrorHandling
+                          slotsError={slotsError}
+                        ></AvailableSlotsErrorHandling>
                         <div>
                           This is a rough estimate so that lounge can prepare
                           for your arrival
@@ -413,11 +450,10 @@ export default function ConfirmAvailability() {
                           Free cancellation for 24 hours. Cancel before [date of
                           flight] for a partial refund.
                         </p>
-                        <Link href="cancelation-policy">Learn more</Link>
                         <div>
                           <p>
-                            As your flight is at 7:00am, your maximum stay is 3
-                            hours prior.
+                            As your flight is at {flightTimeToDisplay}, your
+                            maximum stay is 3 hours prior.
                           </p>
                         </div>
                       </EditableTitle>

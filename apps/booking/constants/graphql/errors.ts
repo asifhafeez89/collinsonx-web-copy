@@ -49,3 +49,6 @@ export const GraphQLErrorResponses = {
     },
   },
 } as const;
+
+export const AVAILABLE_SLOTS_ERRORS =
+  GraphQLErrorResponses.BOOKING.AVAILABLE_SLOTS;
