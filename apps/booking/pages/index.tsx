@@ -33,6 +33,8 @@ import colors from 'ui/colour-constants';
 import Notification from '@components/Notification';
 import { MAX_GUESTS, ValidationErrorResponses } from '../constants';
 import BackToLounge from '@components/BackToLounge';
+import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
+import Price from '@components/Price';
 interface DepartureFlightInfo {
   airport: { iata: string };
   date: { local: string; utc: string };
@@ -49,7 +51,7 @@ const Lounge = () => {
   const [date, setDate] = useState<string>(dayjs().format(DATE_FORMAT));
   const [flightNumber, setFlightNumber] = useState<string>();
   const [guestError, setGuestError] = useState<Boolean>(false);
-  const { payload, lounge } = usePayload();
+  const { payload, lounge, referrerUrl } = usePayload();
 
   const { setBooking } = useContext(BookingContext);
 
@@ -108,7 +110,7 @@ const Lounge = () => {
 
   const handleClickCheckAvailability = (values: FormValues) => {
     form.validate();
-    if (values.children + values.adults + values.infants > MAX_GUESTS) {
+    if (values.children + values.adults > MAX_GUESTS) {
       setGuestError(true);
       return false;
     } else {
@@ -186,7 +188,21 @@ const Lounge = () => {
                 ''
               )}
 
-              <GuestInfo form={form} loading={!lounge} />
+              <GuestInfo
+                form={form}
+                loading={!lounge}
+                referreUrl={referrerUrl ?? '#'}
+              />
+              <EditableTitle title="Total price" as="h3">
+                <Price
+                  lounge={lounge}
+                  guests={{
+                    adults: form.getInputProps('adults').value,
+                    children: form.getInputProps('children').value,
+                    infants: form.getInputProps('infants').value,
+                  }}
+                ></Price>
+              </EditableTitle>
               <Center w="100%">
                 <Button disabled={!lounge || flightInfoLoading} type="submit">
                   CHECK AVAILABILITY

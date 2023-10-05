@@ -23,9 +23,11 @@ import Heading from '@collinsonx/design-system/components/heading/Heading';
 import Lightbox from '@collinsonx/design-system/components/lightbox';
 import { useDisclosure } from '@collinsonx/design-system/hooks';
 import { BookingQueryParams } from '@collinsonx/constants/enums';
+import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
+import Price from '@components/Price';
 import Notification from '@components/Notification';
 import { InfoPanel } from 'utils/PanelInfo';
-import priceToDisplay from 'utils/PriceToDisplay';
+import { LoungeInfo } from '@components/LoungeInfo';
 
 const { bookingId } = BookingQueryParams;
 
@@ -137,16 +139,15 @@ export default function CancelBooking() {
                 },
               }}
             >
-              {bookingDetails?.getBookingByID?.price &&
-                bookingDetails?.getBookingByID?.experience && (
-                  <LoungeInfoPreBooked
-                    price={priceToDisplay(
-                      bookingDetails?.getBookingByID?.price
-                    )}
-                    lounge={bookingDetails?.getBookingByID?.experience}
-                    loading={!bookingDetails?.getBookingByID?.experience}
-                  />
-                )}
+              <LoungeInfo
+                guests={{
+                  adults: bookingDetails?.getBookingByID?.guestAdultCount,
+                  infants: bookingDetails?.getBookingByID?.guestInfantCount,
+                  children: bookingDetails?.getBookingByID?.guestChildrenCount,
+                }}
+                lounge={bookingDetails?.getBookingByID?.experience ?? undefined}
+                loading={!bookingDetails?.getBookingByID?.experience}
+              />
               {dateError && bookingDetails && (
                 <Notification>
                   {
@@ -188,36 +189,82 @@ export default function CancelBooking() {
                           <Details
                             infos={
                               InfoPanel(
-                                bookingDetails?.getBookingByID?.bookedFrom,
+                                bookingDetails?.getBookingByID?.bookedTo,
                                 bookingDetails?.getBookingByID?.metadata
                                   ?.flightNumber
                               ) as InfoGroup[]
                             }
                             direction="row"
                           />
-                          <Heading as="h2" margin={0} padding={0}>
-                            Who's coming
-                          </Heading>
-                          <Flex direction="row" gap={10}>
-                            <p style={{ padding: '0', margin: '0' }}>
-                              {' '}
-                              <strong>Adults</strong>{' '}
-                              {bookingDetails?.getBookingByID?.guestAdultCount}
-                            </p>{' '}
-                            {Number(
-                              bookingDetails?.getBookingByID?.guestChildrenCount
-                            ) > 0 && (
-                              <>
-                                <p style={{ padding: '0', margin: '0' }}>
-                                  {' '}
-                                  <strong>Children</strong>{' '}
-                                  {
+
+                          <Flex
+                            direction={{ base: 'column', lg: 'row' }}
+                            justify={'space-between'}
+                            sx={{
+                              width: '87%',
+
+                              '@media (max-width: 768px)': {
+                                width: '100%',
+                              },
+                            }}
+                          >
+                            <EditableTitle title="Who's coming" as="h2">
+                              <Flex direction="row" gap={10}>
+                                <Flex sx={{ width: '60%' }} gap={10}>
+                                  <p style={{ padding: '0', margin: '0' }}>
+                                    {' '}
+                                    <strong>Adults</strong>{' '}
+                                    {
+                                      bookingDetails?.getBookingByID
+                                        ?.guestAdultCount
+                                    }
+                                  </p>{' '}
+                                  {Number(
                                     bookingDetails?.getBookingByID
-                                      ?.guestChildrenCount
+                                      ?.guestInfantCount
+                                  ) > 0 ? (
+                                    <>
+                                      <p style={{ padding: '0', margin: '0' }}>
+                                        {' '}
+                                        <strong>Children</strong>{' '}
+                                        {
+                                          bookingDetails?.getBookingByID
+                                            ?.guestChildrenCount
+                                        }
+                                      </p>
+                                    </>
+                                  ) : null}
+                                </Flex>
+                              </Flex>
+                            </EditableTitle>
+                            <Box
+                              sx={{
+                                width: 'initial',
+
+                                '@media (max-width: 768px)': {
+                                  marginTop: '0.5rem',
+                                },
+                              }}
+                            >
+                              <EditableTitle title="Total price" as="h2">
+                                <Price
+                                  lounge={
+                                    bookingDetails?.getBookingByID?.experience
                                   }
-                                </p>
-                              </>
-                            )}
+                                  guests={{
+                                    adults:
+                                      bookingDetails?.getBookingByID
+                                        ?.guestAdultCount,
+                                    infants:
+                                      bookingDetails?.getBookingByID
+                                        ?.guestInfantCount,
+                                    children:
+                                      bookingDetails?.getBookingByID
+                                        ?.guestChildrenCount,
+                                  }}
+                                ></Price>
+                              </EditableTitle>
+                            </Box>
                           </Flex>
 
                           <Heading as="h2" margin={0} padding={0}>

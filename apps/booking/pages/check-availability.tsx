@@ -47,6 +47,7 @@ import { constants } from '../constants';
 import colors from 'ui/colour-constants';
 import BackToLounge from '@components/BackToLounge';
 import BookingLightbox from '@collinsonx/design-system/components/bookinglightbox';
+import Price from '@components/Price';
 
 import { InfoPanel } from 'utils/PanelInfo';
 
@@ -171,8 +172,9 @@ export default function ConfirmAvailability() {
     skip: !lounge || !env,
     onCompleted: (flightInfoData) => {
       if (flightInfoData) {
-        const airport = flightInfoData.getFlightDetails[0].departure?.airport;
-        const terminal = flightInfoData.getFlightDetails[0].departure?.terminal;
+        const airport = flightInfoData.getFlightDetails[0]?.departure?.airport;
+        const terminal =
+          flightInfoData.getFlightDetails[0]?.departure?.terminal;
 
         const airportCode = lounge?.location?.airportCode;
 
@@ -197,9 +199,10 @@ export default function ConfirmAvailability() {
               flightInformation: {
                 type: TRAVEL_TYPE,
                 dateTime:
-                  flightInfoData?.getFlightDetails[0].departure?.dateTime
+                  flightInfoData?.getFlightDetails[0]?.departure?.dateTime
                     ?.local,
-                airport: flightInfoData?.getFlightDetails[0].departure?.airport,
+                airport:
+                  flightInfoData?.getFlightDetails[0]?.departure?.airport,
                 terminal: '-1',
               },
               guests: {
@@ -331,7 +334,7 @@ export default function ConfirmAvailability() {
                   {lounge && (
                     <Stack spacing={8}>
                       <EditableTitle title="Flight details" to="/" as="h2">
-                        {flightData?.getFlightDetails[0].departure?.dateTime
+                        {flightData?.getFlightDetails[0]?.departure?.dateTime
                           ?.local && (
                           <Details
                             infos={
@@ -346,21 +349,54 @@ export default function ConfirmAvailability() {
                         )}
                       </EditableTitle>
 
-                      <EditableTitle title="Who's coming" to="/" as="h2">
-                        <Flex gap={10}>
-                          <p style={{ padding: '0', margin: '0' }}>
-                            {' '}
-                            <strong>Adults</strong> {adults}
-                          </p>{' '}
-                          {Number(children) > 0 ? (
-                            <>
+                      <Flex
+                        direction={{ base: 'column', lg: 'row' }}
+                        justify={'space-between'}
+                        sx={{
+                          width: '87%',
+
+                          '@media (max-width: 768px)': {
+                            width: '100%',
+                          },
+                        }}
+                      >
+                        <EditableTitle title="Who's coming" as="h2">
+                          <Flex direction="row" gap={10}>
+                            <Flex sx={{ width: '60%' }} gap={10}>
                               <p style={{ padding: '0', margin: '0' }}>
                                 {' '}
-                                <strong>Children</strong> {children}
-                              </p>
-                            </>
-                          ) : null}
-                        </Flex>
+                                <strong>Adults</strong> {adults}
+                              </p>{' '}
+                              {Number(children) > 0 ? (
+                                <>
+                                  <p style={{ padding: '0', margin: '0' }}>
+                                    {' '}
+                                    <strong>Children</strong> {children}
+                                  </p>
+                                </>
+                              ) : null}
+                            </Flex>
+                          </Flex>
+                        </EditableTitle>
+                        <Box
+                          sx={{
+                            width: 'initial',
+
+                            '@media (max-width: 768px)': {
+                              marginTop: '0.5rem',
+                            },
+                          }}
+                        >
+                          <EditableTitle title="Total price" as="h2">
+                            <Price
+                              lounge={lounge}
+                              guests={{ adults, infants, children }}
+                            ></Price>
+                          </EditableTitle>
+                        </Box>
+                      </Flex>
+
+                      <EditableTitle title="" as="h2">
                         {slotsData ? (
                           <AvailableSlots
                             onSelectSlot={handleSelectSlot}
@@ -372,7 +408,6 @@ export default function ConfirmAvailability() {
                           for your arrival
                         </div>
                       </EditableTitle>
-
                       <EditableTitle title="Cancelation policy" as="h2">
                         <p style={{ padding: '0', margin: '0' }}>
                           Free cancellation for 24 hours. Cancel before [date of

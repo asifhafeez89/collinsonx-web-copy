@@ -15,12 +15,14 @@ import { useForm, UseFormReturnType } from '@mantine/form';
 import { Labrada } from 'next/font/google';
 
 import { MAX_GUESTS } from '../constants';
+
 export interface GuestInfoProps {
   form: UseFormReturnType<any, any>;
   loading: boolean;
+  referreUrl: string;
 }
 
-const GuestInfo = ({ form, loading }: GuestInfoProps) => {
+const GuestInfo = ({ form, loading, referreUrl }: GuestInfoProps) => {
   const handlers = [
     useRef<NumberInputHandlers>(),
     useRef<NumberInputHandlers>(),
@@ -90,7 +92,11 @@ const GuestInfo = ({ form, loading }: GuestInfoProps) => {
         </Grid>
         <Text size={14}>
           Refer to{' '}
-          <Anchor color={colors.blue} href="#" target="_blank">
+          <Anchor
+            color={colors.blue}
+            href={referreUrl ? referreUrl : '#'}
+            target="_blank"
+          >
             lounge conditions
           </Anchor>{' '}
           for age restrictions
