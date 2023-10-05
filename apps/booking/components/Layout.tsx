@@ -42,7 +42,7 @@ export default function Layout({ children }: LayoutProps) {
           )}
         </Center>
       </Box>
-      <Box>{children}</Box>
+      <Box sx={{ paddingBottom: '1.3rem' }}>{children}</Box>
     </Container>
   );
 }

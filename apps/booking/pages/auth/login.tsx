@@ -76,6 +76,7 @@ export default function Login() {
       try {
         await createPasswordlessCode({
           email,
+          userContext: { accountProvider: payload?.accountProvider },
         });
         router.push({
           pathname: '/auth/check-code',
@@ -162,7 +163,7 @@ export default function Login() {
                 <InputLabel
                   type="text"
                   autoFocus
-                  placeholder="stark@gmail.com"
+                  placeholder="youremail@gmail.com"
                   {...form.getInputProps('email')}
                   data-testid="loginEmailAddress"
                 />

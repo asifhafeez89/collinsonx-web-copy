@@ -1,7 +1,8 @@
 import { BridgePayload } from 'types/booking';
 
 const constants = {
-  TIMEFORMAT: 'HH:mm',
+  TIME_FORMAT: 'HH:mm',
+  TIME_FORMAT_DISPLAY: 'h:mma',
 };
 
 const cookiesNames = {

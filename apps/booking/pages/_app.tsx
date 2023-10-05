@@ -15,10 +15,11 @@ import AuthWrapper from '@components/AuthWrapper';
 import { PayloadProvider } from 'hooks/payload';
 import BookingProvider from 'context/bookingContext';
 import { datadogRum } from '@datadog/browser-rum';
-
 import getConfig from 'next/config';
-
 import Maintenance from 'pages/maintenance';
+
+import '../styles.css';
+
 if (typeof window !== 'undefined') {
   // we only want to call this init function on the frontend, so
   // we check typeof window !== 'undefined'

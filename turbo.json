@@ -47,7 +47,8 @@
         "NEXT_PUBLIC_DATADOG_APP_ID",
         "NEXT_PUBLIC_DATADOG_CLIENT_TOKEN",
         "NEXT_PUBLIC_URL",
-        "NEXT_PUBLIC_MAINTENANCE_MODE"
+        "NEXT_PUBLIC_MAINTENANCE_MODE",
+        "NEXT_PUBLIC_STRIPE_PUBLISHABLE_TOKEN"
       ]
     },
     "booking#dev:uat": {
@@ -73,7 +74,8 @@
         "NEXT_PUBLIC_DATADOG_ENV",
         "NEXT_PUBLIC_DATADOG_APP_ID",
         "NEXT_PUBLIC_DATADOG_CLIENT_TOKEN",
-        "NEXT_PUBLIC_URL"
+        "NEXT_PUBLIC_URL",
+        "NEXT_PUBLIC_STRIPE_PUBLISHABLE_TOKEN"
       ]
     },
     "partner-management#dev:test": {
