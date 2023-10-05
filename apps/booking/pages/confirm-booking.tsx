@@ -6,7 +6,7 @@ import { LoungeInfo } from '@components/LoungeInfo';
 import { getConsumer } from '@collinsonx/utils/queries';
 import { Details, Button } from '@collinsonx/design-system';
 import Link from 'next/link';
-import { useMemo, useContext } from 'react';
+import { useMemo, useContext, useState } from 'react';
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import { Availability } from '@collinsonx/utils';
@@ -27,7 +27,7 @@ import { BookingContext } from 'context/bookingContext';
 import { getCheckoutSessionUrl } from 'services/payment';
 import colors from 'ui/colour-constants';
 import BackToLounge from '@components/BackToLounge';
-import { useRouter } from 'next/router';
+import StripeCheckout from '@components/stripe';
 
 import { InfoPanel } from 'utils/PanelInfo';
 
@@ -38,8 +38,8 @@ interface AvailableSlotsProps {
 export default function ConfirmAvailability({
   availableSlots,
 }: AvailableSlotsProps) {
-  const router = useRouter();
-  const { lounge, platform } = usePayload();
+  const [clientSecret, setClientSecret] = useState<''>();
+  const { lounge } = usePayload();
 
   const { getBooking } = useContext(BookingContext);
 
@@ -72,18 +72,13 @@ export default function ConfirmAvailability({
     onCompleted: () => {},
   });
 
-  const isReferrerDevice: boolean =
-    platform === 'android' || platform === 'ios';
-  const successUrl = isReferrerDevice ? 'confirm-payment' : 'close-window';
-
   const handleSubmit = async () => {
     try {
       const paymentinput = {
         bookingID: bookingId ?? '',
         consumerID: consumer?.getConsumer.id ?? '',
         internalProductId: lounge?.id ?? '',
-        successUrl: `${process.env.NEXT_PUBLIC_URL}/${successUrl}`,
-        cancelUrl: `${process.env.NEXT_PUBLIC_URL}/booking-not-successful`,
+        returnUrl: `${process.env.NEXT_PUBLIC_URL}/confirm-payment`,
         quantity: totalQuantity,
       };
 
@@ -93,40 +88,7 @@ export default function ConfirmAvailability({
       if (!getSessionUrl.data) console.log('error getting payment link');
       if (!window) console.log('No window object');
 
-      if (isReferrerDevice) {
-        window.location.href = getSessionUrl?.data?.url;
-      } else {
-        /*
-          this block opens the stripe url and upon a successful payment sends an event
-          to the stripe successUrl telling it to close itself, bypassing a security
-          policy preventing windows being closed by a source which didn't open them
-          "Scripts may close only the windows that were opened by them."
-
-          This is because of the iframe.
-        */
-        let completed: boolean;
-        const stripeWindow = window.open();
-
-        if (!stripeWindow) throw new Error('No payment window generated');
-
-        stripeWindow.location.href = getSessionUrl.data.url;
-
-        const closerPoller: NodeJS.Timer = setInterval(() => {
-          if (completed) return clearInterval(closerPoller);
-
-          stripeWindow.postMessage('Wakey wakey');
-        }, 1000);
-
-        const closeListener: any = window.addEventListener('message', () => {
-          completed = true;
-          stripeWindow.close();
-          window.removeEventListener('message', closeListener);
-        });
-
-        router.push({
-          pathname: '/confirm-payment',
-        });
-      }
+      setClientSecret(getSessionUrl?.data?.clientSecret);
     } catch (error) {
       console.log(error);
     }
@@ -189,16 +151,18 @@ export default function ConfirmAvailability({
               sx={{
                 width: '100%',
                 flexDirection: 'row',
-
                 '@media (max-width: 768px)': {
                   flexDirection: 'column',
                 },
               }}
             >
               {loadingConsumer && <BookingFormSkeleton />}
-              {!loadingConsumer && (
-                <Box>
-                  {lounge && (
+              {clientSecret ? (
+                <StripeCheckout clientSecret={clientSecret} />
+              ) : (
+                !loadingConsumer &&
+                lounge && (
+                  <Box>
                     <Stack spacing={8}>
                       <EditableTitle title="Flight details" to="/" as="h2">
                         {flightData?.getFlightDetails[0].departure?.dateTime
@@ -264,17 +228,17 @@ export default function ConfirmAvailability({
                         </div>
                       </EditableTitle>
                     </Stack>
-                  )}
-                  <Button
-                    type="submit"
-                    data-testid="submit"
-                    spacing="20px"
-                    align="center"
-                    handleClick={handleSubmit}
-                  >
-                    GO TO PAYMENT
-                  </Button>
-                </Box>
+                    <Button
+                      type="submit"
+                      data-testid="submit"
+                      spacing="20px"
+                      align="center"
+                      handleClick={handleSubmit}
+                    >
+                      GO TO PAYMENT
+                    </Button>
+                  </Box>
+                )
               )}
             </Flex>
           </Stack>
