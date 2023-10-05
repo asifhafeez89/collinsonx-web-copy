@@ -123,7 +123,7 @@ export default function ConfirmAvailability() {
       guestInfantCount: infants,
       metadata: {
         flightNumber,
-        flightTime: dayjs(departureDate).format(constants.TIMEFORMAT),
+        flightTime,
       },
     };
 
@@ -224,6 +224,16 @@ export default function ConfirmAvailability() {
       }
     },
   });
+  const departureTime =
+    flightData?.getFlightDetails[0]?.departure?.dateTime?.utc;
+
+  const dayjsDepartureTime = dayjs(departureTime, {
+    format: 'YYYY-MM-DD HH:mm',
+  });
+  const flightTime = dayjsDepartureTime.format(constants.TIME_FORMAT);
+  const flightTimeToDisplay = dayjsDepartureTime.format(
+    constants.TIME_FORMAT_DISPLAY
+  );
 
   const handleSelectSlot = (value: string) => {
     setSelectedslot(value);
@@ -413,11 +423,10 @@ export default function ConfirmAvailability() {
                           Free cancellation for 24 hours. Cancel before [date of
                           flight] for a partial refund.
                         </p>
-                        <Link href="cancelation-policy">Learn more</Link>
                         <div>
                           <p>
-                            As your flight is at 7:00am, your maximum stay is 3
-                            hours prior.
+                            As your flight is at {flightTimeToDisplay}, your
+                            maximum stay is 3 hours prior.
                           </p>
                         </div>
                       </EditableTitle>

@@ -163,7 +163,7 @@ export default function Login() {
                 <InputLabel
                   type="text"
                   autoFocus
-                  placeholder="stark@gmail.com"
+                  placeholder="youremail@gmail.com"
                   {...form.getInputProps('email')}
                   data-testid="loginEmailAddress"
                 />
