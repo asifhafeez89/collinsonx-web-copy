@@ -23,7 +23,11 @@ import BookingFormSkeleton from '@components/BookingFormSkeleton';
 import LoungeError from '@components/LoungeError';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import { Availability } from '@collinsonx/utils';
-import AvailableSlots from '@components/flightInfo/AvailableSlots';
+import {
+  AvailableSlots,
+  hasLoungeCapacity,
+  availableSlotsNotEnoughCapacityParser,
+} from '@components/flightInfo/availability';
 import getAvailableSlots from '@collinsonx/utils/queries/getAvailableSlots';
 import { validateFlightNumber } from '../utils/flightValidation';
 import { FlightDetails, Slots } from '@collinsonx/utils';
@@ -51,6 +55,16 @@ import Price from '@components/Price';
 import Notification from '@components/Notification';
 
 import { InfoPanel } from 'utils/PanelInfo';
+
+function AvailableSlotsErrorHandling(slotsError: any) {
+  const ENOUGH_CAPACITY_ERROR_IS_VALID = hasLoungeCapacity(slotsError);
+
+  if (ENOUGH_CAPACITY_ERROR_IS_VALID) {
+    return availableSlotsNotEnoughCapacityParser(slotsError);
+  }
+
+  return null;
+}
 
 export default function ConfirmAvailability() {
   const router = useRouter();
@@ -423,6 +437,10 @@ export default function ConfirmAvailability() {
                             availableSlots={slotsData?.getAvailableSlots}
                           />
                         ) : null}
+
+                        <AvailableSlotsErrorHandling
+                          slotsError={slotsError}
+                        ></AvailableSlotsErrorHandling>
                         <div>
                           This is a rough estimate so that lounge can prepare
                           for your arrival

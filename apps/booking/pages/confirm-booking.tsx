@@ -31,7 +31,7 @@ import { useRouter } from 'next/router';
 import Price from '@components/Price';
 
 import StripeCheckout from '@components/stripe';
-        
+
 import { InfoPanel } from 'utils/PanelInfo';
 
 interface AvailableSlotsProps {
