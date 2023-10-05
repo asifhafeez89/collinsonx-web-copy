@@ -48,8 +48,11 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
         if (tokenParam && loungeParam) {
           setItem(LOUNGE_CODE, loungeParam);
           setItem(JWT, tokenParam);
-          setItem(REFERRER, referrerParam ?? '');
           setItem(PLATFORM, platformParam ?? '');
+        }
+
+        if (referrerParam) {
+           setItem(REFERRER, referrerParam ?? '');
         }
 
         if (!checkIsAllowed(window.location.pathname)) {

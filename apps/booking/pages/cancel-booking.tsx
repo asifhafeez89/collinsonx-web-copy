@@ -27,6 +27,7 @@ import EditableTitle from '@collinsonx/design-system/components/editabletitles/E
 import Price from '@components/Price';
 import Notification from '@components/Notification';
 import { InfoPanel } from 'utils/PanelInfo';
+import { LoungeInfo } from '@components/LoungeInfo';
 
 const { bookingId } = BookingQueryParams;
 
@@ -138,6 +139,15 @@ export default function CancelBooking() {
                 },
               }}
             >
+              <LoungeInfo
+                guests={{
+                  adults: bookingDetails?.getBookingByID?.guestAdultCount,
+                  infants: bookingDetails?.getBookingByID?.guestInfantCount,
+                  children: bookingDetails?.getBookingByID?.guestChildrenCount,
+                }}
+                lounge={bookingDetails?.getBookingByID?.experience ?? undefined}
+                loading={!bookingDetails?.getBookingByID?.experience}
+              />
               {dateError && bookingDetails && (
                 <Notification>
                   {
@@ -179,7 +189,7 @@ export default function CancelBooking() {
                           <Details
                             infos={
                               InfoPanel(
-                                bookingDetails?.getBookingByID?.bookedFrom,
+                                bookingDetails?.getBookingByID?.bookedTo,
                                 bookingDetails?.getBookingByID?.metadata
                                   ?.flightNumber
                               ) as InfoGroup[]
