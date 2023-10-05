@@ -27,8 +27,11 @@ import { BookingContext } from 'context/bookingContext';
 import { getCheckoutSessionUrl } from 'services/payment';
 import colors from 'ui/colour-constants';
 import BackToLounge from '@components/BackToLounge';
-import StripeCheckout from '@components/stripe';
+import { useRouter } from 'next/router';
+import Price from '@components/Price';
 
+import StripeCheckout from '@components/stripe';
+        
 import { InfoPanel } from 'utils/PanelInfo';
 
 interface AvailableSlotsProps {
@@ -179,41 +182,54 @@ export default function ConfirmAvailability({
                           />
                         )}
                       </EditableTitle>
-                      <EditableTitle title="Who's coming" to="/" as="h2">
-                        <Flex direction="row" gap={10}>
-                          <p style={{ padding: '0', margin: '0' }}>
-                            {' '}
-                            <strong>Adults</strong> {adults}
-                          </p>{' '}
-                          {Number(children) > 0 ? (
-                            <>
+
+                      <Flex
+                        direction={{ base: 'column', lg: 'row' }}
+                        justify={'space-between'}
+                        sx={{
+                          width: '87%',
+
+                          '@media (max-width: 768px)': {
+                            width: '100%',
+                          },
+                        }}
+                      >
+                        <EditableTitle title="Who's coming" as="h2">
+                          <Flex direction="row" gap={10}>
+                            <Flex sx={{ width: '60%' }} gap={10}>
                               <p style={{ padding: '0', margin: '0' }}>
                                 {' '}
-                                <strong>Children</strong> {children}
-                              </p>
-                            </>
-                          ) : null}
-                        </Flex>
-                      </EditableTitle>
-                      <EditableTitle
-                        title="Estimated time of arrival"
-                        to="/check-availability"
-                        as="h2"
-                      >
-                        <Flex
-                          direction={{ base: 'column', sm: 'row' }}
-                          gap={10}
+                                <strong>Adults</strong> {adults}
+                              </p>{' '}
+                              {Number(children) > 0 ? (
+                                <>
+                                  <p style={{ padding: '0', margin: '0' }}>
+                                    {' '}
+                                    <strong>Children</strong> {children}
+                                  </p>
+                                </>
+                              ) : null}
+                            </Flex>
+                          </Flex>
+                        </EditableTitle>
+                        <Box
+                          sx={{
+                            width: 'initial',
+
+                            '@media (max-width: 768px)': {
+                              marginTop: '0.5rem',
+                            },
+                          }}
                         >
-                          <p style={{ padding: '0', margin: '0' }}>
-                            {' '}
-                            {arrival?.split('-')[0]}
-                          </p>{' '}
-                        </Flex>
-                        <div>
-                          This is a rough estimate so that lounge can prepare
-                          for your arrival
-                        </div>
-                      </EditableTitle>
+                          <EditableTitle title="Total price" as="h2">
+                            <Price
+                              lounge={lounge}
+                              guests={{ adults, infants, children }}
+                            ></Price>
+                          </EditableTitle>
+                        </Box>
+                      </Flex>
+
                       <EditableTitle title="Cancelation policy" as="h2">
                         <p style={{ padding: '0', margin: '0' }}>
                           Free cancellation for 24 hours. Cancel before [date of

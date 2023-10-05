@@ -79,7 +79,7 @@ export const FlightInfo = ({ form, loading }: FlightInfoProps) => {
               },
             }}
           />
-          <TextInput
+          <InputLabel
             label="Flight number"
             placeholder="E.g. EZY123"
             withAsterisk
@@ -87,6 +87,7 @@ export const FlightInfo = ({ form, loading }: FlightInfoProps) => {
             w={270}
             error={'invalid flight number'}
             {...form.getInputProps('flightNumber')}
+            isCapitalLetters={true}
           />
         </Flex>
       </Stack>

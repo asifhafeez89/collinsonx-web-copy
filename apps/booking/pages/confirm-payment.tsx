@@ -42,6 +42,8 @@ import { AlertIcon } from '@collinsonx/design-system/assets/icons';
 import BackToLounge from '@components/BackToLounge';
 import { MOBILE_ACTION_BACK, POLLING_TIME } from '../constants';
 import { sendMobileEvent } from '@lib';
+import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
+import Price from '@components/Price';
 import { InfoPanel } from 'utils/PanelInfo';
 
 export default function ConfirmPayment() {
@@ -305,32 +307,54 @@ export default function ConfirmPayment() {
                           />
                         )}
                       </Box>
-                      <Box
+
+                      <Flex
+                        direction={{ base: 'column', lg: 'row' }}
+                        justify={'space-between'}
                         sx={{
+                          width: '87%',
+
                           '@media (max-width: 768px)': {
-                            background: colors.white,
-                            padding: '20px',
+                            width: '100%',
                           },
                         }}
                       >
-                        <Heading as="h2" padding={0} margin={0}>
-                          Who's coming
-                        </Heading>
-                        <Flex direction="row" gap={10}>
-                          <p style={{ padding: '0', margin: '0' }}>
-                            {' '}
-                            <strong>Adults</strong> {adults}
-                          </p>{' '}
-                          {Number(children) > 0 ? (
-                            <>
+                        <EditableTitle title="Who's coming" as="h2">
+                          <Flex direction="row" gap={10}>
+                            <Flex gap={10}>
                               <p style={{ padding: '0', margin: '0' }}>
                                 {' '}
-                                <strong>Children</strong> {children}
-                              </p>
-                            </>
-                          ) : null}
-                        </Flex>
-                      </Box>
+                                <strong>Adults</strong> {adults}
+                              </p>{' '}
+                              {Number(children) > 0 ? (
+                                <>
+                                  <p style={{ padding: '0', margin: '0' }}>
+                                    {' '}
+                                    <strong>Children</strong> {children}
+                                  </p>
+                                </>
+                              ) : null}
+                            </Flex>
+                          </Flex>
+                        </EditableTitle>
+                        <Box
+                          sx={{
+                            width: 'initial',
+
+                            '@media (max-width: 768px)': {
+                              marginTop: '0.5rem',
+                            },
+                          }}
+                        >
+                          <EditableTitle title="Total price" as="h2">
+                            <Price
+                              lounge={lounge}
+                              guests={{ adults, infants, children }}
+                            ></Price>
+                          </EditableTitle>
+                        </Box>
+                      </Flex>
+
                       <Box
                         sx={{
                           '@media (max-width: 768px)': {
