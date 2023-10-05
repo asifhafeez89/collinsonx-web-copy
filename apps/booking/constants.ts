@@ -40,6 +40,10 @@ export const ValidationErrorResponses = {
     code: 'ERR_INVALID_DATE',
     message: 'Invalid Date',
   },
+  INVALID_DATEFlIGHT: {
+    code: 'ERR_INVALID_DATEFlIGHT',
+    message: 'Flight not found',
+  },
   INVALID_FLIGHT: {
     code: 'ERR_INVALID_FLIGHT',
     message: 'Invalid Flight',

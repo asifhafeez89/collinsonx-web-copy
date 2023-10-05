@@ -16,8 +16,6 @@ import { LoungeInfo } from '@components/LoungeInfo';
 import { Details } from '@collinsonx/design-system';
 import createBooking from '@collinsonx/utils/mutations/createBooking';
 import Link from 'next/link';
-
-import { Clock, MapPin } from '@collinsonx/design-system/assets/icons';
 import { useMemo, useState, useContext, useEffect } from 'react';
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
 import LoungeError from '@components/LoungeError';
@@ -119,6 +117,7 @@ export default function ConfirmAvailability() {
   const handleSubmit = () => {
     const availableSlots = slotsData?.getAvailableSlots.slots;
     const slot = findSelectedSlot(availableSlots, selectedslot);
+
     const departureTime =
       flightData?.getFlightDetails[0]?.departure?.dateTime?.utc;
     const formattedDepartureTime = formatDateUTC(

@@ -17,7 +17,6 @@ export default function EditableTitle({
   children,
   to = null,
 }: EditableTitlesProps) {
-  console.log(to);
   return (
     <Box
       sx={{
