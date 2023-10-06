@@ -437,14 +437,14 @@ export default function ConfirmPayment() {
                   </Center>
 
                   <GenerateBookingConfirmedPdf
-                    reference={dataBooking?.getBookingByID.reference}
-                    emailAddress={userData?.emailAddress}
-                    departureDate={departureDate}
                     adults={adults}
-                    children={children}
                     arrival={arrival}
+                    children={children}
+                    departureTime={departureTime}
+                    emailAddress={userData?.emailAddress}
                     flightNumber={flightNumber}
                     lounge={lounge}
+                    reference={dataBooking?.getBookingByID.reference}
                   />
                 </Box>
               )}

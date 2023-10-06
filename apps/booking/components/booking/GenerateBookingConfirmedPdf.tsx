@@ -14,14 +14,14 @@ import { Booking } from 'context/bookingContext';
 import { Experience } from '@collinsonx/utils';
 
 interface BookingConfirmedPdfProps {
-  reference: string | undefined;
-  emailAddress: string | undefined;
-  arrival: string | undefined;
-  departureDate: Booking['departureDate'];
   adults: Booking['adults'];
+  arrival: string | undefined;
   children: Booking['children'];
+  departureTime: string | Date | undefined | null;
+  emailAddress: string | undefined;
   flightNumber: string;
   lounge: Experience;
+  reference: string | undefined;
 }
 
 const GeneratedPDF = (props: BookingConfirmedPdfProps) => (
@@ -53,12 +53,12 @@ const GeneratedPDF = (props: BookingConfirmedPdfProps) => (
 
         <Text style={[styles.h3, styles.padding]}>Day of flight</Text>
         <Text style={[styles.p, styles.padding]}>
-          {formatDate(new Date(`${props.departureDate}`), DATE_REDABLE_FORMAT)}
+          {formatDate(new Date(`${props.departureTime}`), DATE_REDABLE_FORMAT)}
         </Text>
 
         <Text style={[styles.h3, styles.padding]}>Time of flight</Text>
         <Text style={[styles.p, styles.padding]}>
-          {formatDate(new Date(`${props.departureDate}`), TIME_FORMAT)}
+          {formatDate(new Date(`${props.departureTime}`), TIME_FORMAT)}
         </Text>
 
         <Text style={[styles.h3, styles.padding]}>Flight number</Text>
