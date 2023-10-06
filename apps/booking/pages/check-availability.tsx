@@ -451,8 +451,10 @@ export default function ConfirmAvailability() {
                       </EditableTitle>
                       <EditableTitle title="Cancelation policy" as="h2">
                         <p style={{ padding: '0', margin: '0' }}>
-                          Free cancellation for 24 hours. Cancel before{' '}
-                          {departureDateToRender} for a partial refund.
+                          Cancel up to 48 hours before your booking to receive a
+                          full refund. Bookings cannot be cancelled within 48
+                          hours of booking arrival time, including new bookings
+                          made within that time range.
                         </p>
                         <div>
                           <p>

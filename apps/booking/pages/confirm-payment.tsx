@@ -474,8 +474,9 @@ export default function ConfirmPayment() {
                       </Title>
 
                       <Text>
-                        We are not able to confirm your booking yet, we will
-                        send you an email once your booking is confirmed
+                        We're sorry we're not able to confirm your booking right
+                        now. We will send an email as soon as your booking is
+                        confirmed.
                       </Text>
 
                       <Button
