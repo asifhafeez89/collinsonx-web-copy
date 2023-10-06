@@ -1,24 +1,17 @@
 import { useMutation, useQuery } from '@collinsonx/utils/apollo';
 import Layout from '@components/Layout';
 import { Box, Flex, Stack, Text } from '@collinsonx/design-system/core';
-import Breadcramp from '@components/Breadcramp';
 import { Booking } from '@collinsonx/utils/generatedTypes/graphql';
 import cancellationDateValidation from '@collinsonx/utils/lib/validateDateCancellation';
 import { useRouter } from 'next/router';
 import { getBookingByID } from '@collinsonx/utils/queries';
 import { Details, Button } from '@collinsonx/design-system';
 import colors from 'ui/colour-constants';
-
 import { cancelBooking } from '@collinsonx/utils/mutations';
-
-import { Clock, MapPin } from '@collinsonx/design-system/assets/icons';
 import { useState } from 'react';
-
-import { TIME_FORMAT, DATE_REDABLE_FORMAT } from '../config/Constants';
+import { TIME_FORMAT } from '../config/Constants';
 import { formatDate } from '../utils/DateFormatter';
 import { InfoGroup } from '@collinsonx/design-system/components/details';
-import { FAQLink } from 'utils/FAQLinks';
-import { LoungeInfoPreBooked } from '@components/LoungeInfoPreBooked';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
 import Lightbox from '@collinsonx/design-system/components/lightbox';
 import { useDisclosure } from '@collinsonx/design-system/hooks';
