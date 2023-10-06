@@ -16,6 +16,7 @@ function BackToLounge() {
   return (
     <Flex justify="space-between">
       <Anchor
+        target="_top"
         href={referrerUrl ? referrerUrl : '#'}
         sx={{ width: 'fit-content', textDecoration: 'none' }}
         onClick={handleClickBack}
