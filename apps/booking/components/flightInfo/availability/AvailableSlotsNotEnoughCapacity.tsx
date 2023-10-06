@@ -61,6 +61,8 @@ function fetchErrorObject(slotsError: any) {
 }
 
 export function hasLoungeCapacity(slotsError: any): boolean {
+  if (typeof slotsError === undefined) return false;
+
   const error = fetchErrorObject(slotsError);
 
   const errorPropertiesAreInvalid =

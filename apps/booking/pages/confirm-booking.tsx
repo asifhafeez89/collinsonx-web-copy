@@ -17,9 +17,8 @@ import {
   AIRPORT_CODE_TYPE,
   OAG_API_VERSION,
   DATE_FORMAT,
-  TIME_FORMAT,
-  DATE_REDABLE_FORMAT,
 } from '../config/Constants';
+import { constants } from '../constants';
 import { formatDate } from '../utils/DateFormatter';
 import usePayload from 'hooks/payload';
 import { InfoGroup } from '@collinsonx/design-system/components/details';
@@ -29,6 +28,7 @@ import colors from 'ui/colour-constants';
 import BackToLounge from '@components/BackToLounge';
 import { useRouter } from 'next/router';
 import Price from '@components/Price';
+import dayjs from 'dayjs';
 
 import StripeCheckout from '@components/stripe';
 
@@ -115,6 +115,22 @@ export default function ConfirmAvailability({
     onCompleted: () => {},
   });
 
+  const departureTime =
+    flightData?.getFlightDetails[0]?.departure?.dateTime?.local;
+
+  const departureDateToDisplay = formatDate(
+    new Date(`${departureDate}`),
+    DATE_FORMAT
+  );
+
+  const dayjsDepartureTime = dayjs(departureTime, {
+    format: 'YYYY-MM-DD HH:mm',
+  });
+
+  const flightTimeToDisplay = dayjsDepartureTime.format(
+    constants.TIME_FORMAT_DISPLAY
+  );
+
   return (
     <Layout>
       <Stack spacing={16} sx={{ backgroundColor: colors.background }}>
@@ -168,13 +184,11 @@ export default function ConfirmAvailability({
                   <Box>
                     <Stack spacing={8}>
                       <EditableTitle title="Flight details" to="/" as="h2">
-                        {flightData?.getFlightDetails[0].departure?.dateTime
-                          ?.local && (
+                        {departureTime && (
                           <Details
                             infos={
                               InfoPanel(
-                                flightData?.getFlightDetails[0]?.departure
-                                  ?.dateTime?.local,
+                                departureTime,
                                 flightNumber
                               ) as InfoGroup[]
                             }
@@ -232,14 +246,14 @@ export default function ConfirmAvailability({
 
                       <EditableTitle title="Cancelation policy" as="h2">
                         <p style={{ padding: '0', margin: '0' }}>
-                          Free cancellation for 24 hours. Cancel before [date of
-                          flight] for a partial refund.
+                          Free cancellation for 24 hours. Cancel before{' '}
+                          {departureDateToDisplay} for a partial refund.
                         </p>
                         <Link href="cancelation-policy">Learn more</Link>
                         <div>
                           <p>
-                            As your flight is at 7:00am, your maximum stay is 3
-                            hours prior.
+                            As your flight is at {flightTimeToDisplay}, your
+                            maximum stay is 3 hours prior.
                           </p>
                         </div>
                       </EditableTitle>

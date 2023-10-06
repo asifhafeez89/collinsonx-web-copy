@@ -245,7 +245,12 @@ export default function ConfirmAvailability() {
     },
   });
   const departureTime =
-    flightData?.getFlightDetails[0]?.departure?.dateTime?.utc;
+    flightData?.getFlightDetails[0]?.departure?.dateTime?.local;
+
+  const departureDateToRender = formatDate(
+    new Date(`${departureDate}`),
+    DATE_FORMAT
+  );
 
   const dayjsDepartureTime = dayjs(departureTime, {
     format: 'YYYY-MM-DD HH:mm',
@@ -367,13 +372,11 @@ export default function ConfirmAvailability() {
                   {lounge && (
                     <Stack spacing={8}>
                       <EditableTitle title="Flight details" to="/" as="h2">
-                        {flightData?.getFlightDetails[0]?.departure?.dateTime
-                          ?.local && (
+                        {departureTime && (
                           <Details
                             infos={
                               InfoPanel(
-                                flightData?.getFlightDetails[0]?.departure
-                                  ?.dateTime?.local,
+                                departureTime,
                                 flightNumber
                               ) as InfoGroup[]
                             }
@@ -447,8 +450,8 @@ export default function ConfirmAvailability() {
                       </EditableTitle>
                       <EditableTitle title="Cancelation policy" as="h2">
                         <p style={{ padding: '0', margin: '0' }}>
-                          Free cancellation for 24 hours. Cancel before [date of
-                          flight] for a partial refund.
+                          Free cancellation for 24 hours. Cancel before{' '}
+                          {departureDateToRender} for a partial refund.
                         </p>
                         <div>
                           <p>

@@ -23,7 +23,14 @@ import { Details, Button } from '@collinsonx/design-system';
 
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
 
-import { TIME_FORMAT, DATE_REDABLE_FORMAT } from '../config/Constants';
+import {
+  AIRPORT_CODE_TYPE,
+  OAG_API_VERSION,
+  DATE_FORMAT,
+} from '../config/Constants';
+import { FlightDetails } from '@collinsonx/utils';
+import { validateFlightNumber } from '../utils/flightValidation';
+import getFlightDetails from '@collinsonx/utils/queries/getFlightDetails';
 import { formatDate } from '../utils/DateFormatter';
 import usePayload from 'hooks/payload';
 
@@ -125,6 +132,33 @@ export default function ConfirmPayment() {
         : '-',
     [lounge]
   );
+
+  const flightCode = useMemo(
+    () =>
+      flightNumber ? validateFlightNumber(flightNumber as string) : undefined,
+    [flightNumber]
+  );
+
+  const { data: flightData } = useQuery<{
+    getFlightDetails: FlightDetails[];
+  }>(getFlightDetails, {
+    variables: {
+      flightDetails: {
+        carrierCode: flightCode ? flightCode[1] : '',
+        codeType: AIRPORT_CODE_TYPE,
+        departureDate: formatDate(new Date(String(departureDate)), DATE_FORMAT),
+        flightNumber: flightCode ? flightCode[2] : '',
+        version: OAG_API_VERSION,
+      },
+    },
+    pollInterval: 300000,
+    fetchPolicy: 'network-only',
+    notifyOnNetworkStatusChange: true,
+    onCompleted: () => {},
+  });
+
+  const departureTime =
+    flightData?.getFlightDetails[0]?.departure?.dateTime?.local;
 
   const handleSubmit = () => {};
 
@@ -309,11 +343,11 @@ export default function ConfirmPayment() {
                         <Heading as="h2" padding={0} margin={0}>
                           Flight details
                         </Heading>
-                        {departureDate && (
+                        {departureTime && (
                           <Details
                             infos={
                               InfoPanel(
-                                departureDate,
+                                departureTime,
                                 flightNumber
                               ) as InfoGroup[]
                             }
