@@ -1,7 +1,13 @@
 import { Box, MantineProvider, Flex } from '@collinsonx/design-system/core';
 import { hasRequired } from '@lib';
 import { useRouter } from 'next/router';
-import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
+import {
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { createContext, useContext } from 'react';
 
 import { BridgePayload } from 'types/booking';
@@ -203,6 +209,19 @@ export const PayloadProvider = (props: PropsWithChildren) => {
     }
   }, [router]);
 
+  const findLinkedAccount = useCallback(
+    (linkedAccounts: LinkedAccount[] = []) => {
+      return linkedAccounts.find(
+        (item: LinkedAccount) =>
+          String(item.membershipID) === String(payload?.membershipNumber) &&
+          String(item.externalID) === String(payload?.externalId) &&
+          (item.provider as unknown as AccountProvider) ===
+            payload?.accountProvider
+      );
+    },
+    [payload]
+  );
+
   useEffect(() => {
     if (
       router.isReady &&
@@ -221,14 +240,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
           .then(({ data }) => {
             const { linkedAccounts } = data.getConsumerByID;
             if (linkedAccounts) {
-              const matchedAccount = linkedAccounts.find(
-                (item: LinkedAccount) =>
-                  String(item.externalID) === String(payload.externalId) &&
-                  String(item.membershipID) ===
-                    String(payload.membershipNumber) &&
-                  (item.provider as unknown as AccountProvider) ===
-                    payload.accountProvider
-              );
+              const matchedAccount = findLinkedAccount(linkedAccounts);
               if (!matchedAccount) {
                 console.log(
                   `[SIGN OUT]: data.getConsumerByID.linkedAccounts does not contain an item matching fields in payload: ${JSON.stringify(
@@ -264,7 +276,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       !linkedAccountId &&
       !router.pathname.includes('/auth')
     ) {
-      if (!fetchConsumerData && !fetchConsumerLoading) {
+      if (!fetchConsumerData) {
         const { userId } = session;
         if (userId) {
           fetchConsumer({
@@ -273,17 +285,22 @@ export const PayloadProvider = (props: PropsWithChildren) => {
             },
           }).then(({ data }) => {
             if (data?.getConsumerByID?.linkedAccounts) {
-              setLinkedAccountId(data.getConsumerByID.linkedAccounts.at(-1).id);
+              const linkedAccount = findLinkedAccount(
+                data.getConsumerByID.linkedAccounts
+              );
+              setLinkedAccountId(linkedAccount?.id);
             }
           });
         }
       } else if (fetchConsumerData?.getConsumerByID?.linkedAccounts) {
-        setLinkedAccountId(
-          fetchConsumerData.getConsumerByID.linkedAccounts.at(-1).id
+        const linkedAccount = findLinkedAccount(
+          fetchConsumerData.getConsumerByID.linkedAccounts
         );
+        setLinkedAccountId(linkedAccount?.id);
       }
     }
   }, [
+    payload,
     linkedAccountId,
     router,
     session,
