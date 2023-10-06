@@ -119,8 +119,9 @@ export default function ConfirmAvailability() {
     const slot = findSelectedSlot(availableSlots, selectedslot);
 
     const departureTime =
-      flightData?.getFlightDetails[0]?.departure?.dateTime?.utc;
-    const formattedDepartureTime = formatDateUTC(
+      flightData?.getFlightDetails[0]?.departure?.dateTime?.local;
+
+    const formattedDepartureTime = formatDate(
       new Date(String(departureTime)),
       DATE_TIME_FORMAT
     );
