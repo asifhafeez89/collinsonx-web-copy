@@ -28,6 +28,7 @@ import Price from '@components/Price';
 import Notification from '@components/Notification';
 import { InfoPanel } from 'utils/PanelInfo';
 import { LoungeInfo } from '@components/LoungeInfo';
+import BackToLounge from '@components/BackToLounge';
 
 const { bookingId } = BookingQueryParams;
 
@@ -79,15 +80,7 @@ export default function CancelBooking() {
     <Layout>
       {bookingDetails ? (
         <Stack spacing={16} sx={{ width: '100%' }}>
-          <Breadcramp
-            lefttitle={`BACK TO ${
-              bookingDetails.getBookingByID?.experience?.loungeName?.toUpperCase() ||
-              'Lounges'
-            }`}
-            lefturl="/"
-            righttile={`FAQs`}
-            righturl={FAQLink('PRIORITY_PASS')}
-          />
+          <BackToLounge />
 
           <Lightbox
             open={opened}

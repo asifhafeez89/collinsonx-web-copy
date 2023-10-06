@@ -22,6 +22,7 @@ import priceToDisplay from 'utils/PriceToDisplay';
 
 import colors from 'ui/colour-constants';
 import { InfoPanel } from 'utils/PanelInfo';
+import BackToLounge from '@components/BackToLounge';
 
 export default function CancelBooking() {
   const router = useRouter();
@@ -43,15 +44,7 @@ export default function CancelBooking() {
     <Layout>
       {bookingDetails ? (
         <Stack spacing={16} sx={{ width: '100%' }}>
-          <Breadcramp
-            lefttitle={`BACK TO ${
-              bookingDetails.getBookingByID.experience?.loungeName?.toUpperCase() ||
-              'Lounges'
-            }`}
-            lefturl="/"
-            righttile={`FAQs`}
-            righturl={FAQLink('PRIORITY_PASS')}
-          />
+          <BackToLounge />
 
           <Flex
             justify="center"
