@@ -24,7 +24,6 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
 
   const session: any = useSessionContext();
   useEffect(() => {
-    console.log('Session ', JSON.stringify(session || null));
     const { accessTokenPayload = {} } = session as any;
     if (accessTokenPayload.experiences) {
       setItem(

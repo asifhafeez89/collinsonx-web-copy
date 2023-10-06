@@ -1,4 +1,4 @@
-import { Box, MantineProvider } from '@collinsonx/design-system/core';
+import { Box, MantineProvider, Flex } from '@collinsonx/design-system/core';
 import { hasRequired } from '@lib';
 import { useRouter } from 'next/router';
 import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
@@ -32,6 +32,7 @@ import {
   signOut,
 } from 'supertokens-auth-react/recipe/session';
 import LoungeError from '@components/LoungeError';
+import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 import {
   LOUNGE_CODE,
   JWT,
@@ -114,7 +115,11 @@ export const PayloadProvider = (props: PropsWithChildren) => {
 
   const [
     fetchConsumer,
-    { loading: fetchConsumerLoading, error: fetchConsumerError },
+    {
+      loading: fetchConsumerLoading,
+      error: fetchConsumerError,
+      data: fetchConsumerData,
+    },
   ] = useLazyQuery(getConsumerByID);
 
   const {
@@ -215,15 +220,6 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         })
           .then(({ data }) => {
             const { linkedAccounts } = data.getConsumerByID;
-            console.log(`[PAYLOAD] ${JSON.stringify(payload || null)}`);
-            console.log(
-              `[GET CONSUMER] ${JSON.stringify(data.getConsumerByID || null)}`
-            );
-            console.log(
-              `[GET CONSUMER LINKED ACCOUNTS] ${
-                JSON.stringify(data.getConsumerByID?.linkedAccounts) || null
-              }`
-            );
             if (linkedAccounts) {
               const matchedAccount = linkedAccounts.find(
                 (item: LinkedAccount) =>
@@ -248,7 +244,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
           });
       }
     }
-  }, [session, payload, router]);
+  }, [session, payload, router, fetchConsumer]);
 
   useEffect(() => {
     if (tokenError !== undefined) {
@@ -260,6 +256,42 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       );
     }
   }, [lounge, loadingLounge, tokenError]);
+
+  console.log('linkedAccountId ', linkedAccountId);
+
+  useEffect(() => {
+    if (
+      router.isReady &&
+      !linkedAccountId &&
+      !router.pathname.includes('/auth')
+    ) {
+      if (!fetchConsumerData && !fetchConsumerLoading) {
+        const { userId } = session;
+        if (userId) {
+          fetchConsumer({
+            variables: {
+              getConsumerById: userId,
+            },
+          }).then(({ data }) => {
+            if (data?.getConsumerByID?.linkedAccounts) {
+              setLinkedAccountId(data.getConsumerByID.linkedAccounts.at(-1).id);
+            }
+          });
+        }
+      } else if (fetchConsumerData?.getConsumerByID?.linkedAccounts) {
+        setLinkedAccountId(
+          fetchConsumerData.getConsumerByID.linkedAccounts.at(-1).id
+        );
+      }
+    }
+  }, [
+    linkedAccountId,
+    router,
+    session,
+    fetchConsumer,
+    fetchConsumerData,
+    fetchConsumerLoading,
+  ]);
 
   const providerTheme = () => {
     if (!payload) return PP;
@@ -306,7 +338,11 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       >
         <LoungeError error={fetchConsumerError} />
         {!session.loading &&
-          (fetchConsumerLoading ? null : (
+          (fetchConsumerLoading ? (
+            <Flex justify="center" align="center" h="100%">
+              <LoaderLifestyleX />
+            </Flex>
+          ) : (
             <>
               {payloadErrorTitle &&
               (loungeError || tokenError || (!loadingLounge && !lounge)) ? (
