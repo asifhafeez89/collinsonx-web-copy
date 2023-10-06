@@ -13,9 +13,6 @@ import { useDisclosure } from '@collinsonx/design-system/hooks';
 
 import BackToLounge from '@components/BackToLounge';
 
-import { AVAILABLE_SLOTS_ERRORS } from '../../../constants/graphql/errors';
-import AvailableSlots from './AvailableSlots';
-
 function setAdultsPrefix(adults: number): string {
   if (adults === 1) return `${adults} adult`;
 
@@ -56,14 +53,26 @@ function setInfantPrefix(
 
 function fetchErrorObject(slotsError: any) {
   console.error('slotsError', slotsError);
+  if (!slotsError) {
+    return null;
+  }
 
-  return slotsError?.errors?.at(0).extensions;
+  if ('errors' in slotsError) {
+    if (typeof slotsError.errors === 'object') {
+      const data = slotsError.errors[0];
+      if ('extensions' in data) {
+        return data.extensions;
+      }
+    }
+  }
+
+  return null;
 }
 
 export function hasLoungeCapacity(slotsError: any): boolean {
-  if (typeof slotsError === undefined) return false;
-
   const error = fetchErrorObject(slotsError);
+
+  if (!error) return false;
 
   const errorPropertiesAreInvalid =
     ('code' in error && 'metadata' in error) === false;
