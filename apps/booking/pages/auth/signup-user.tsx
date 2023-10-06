@@ -38,13 +38,6 @@ export default function SignupUser() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  console.log(
-    '[SIGN-UP]: ',
-    JSON.stringify(payload || null),
-    JSON.stringify(lounge || null),
-    router.query
-  );
-
   const form = useForm({
     initialValues: {
       email: (payload ? router.query.email : '') as string,

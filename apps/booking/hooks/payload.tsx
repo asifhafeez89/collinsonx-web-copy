@@ -1,7 +1,13 @@
-import { Box, MantineProvider } from '@collinsonx/design-system/core';
+import { Box, MantineProvider, Flex } from '@collinsonx/design-system/core';
 import { hasRequired } from '@lib';
 import { useRouter } from 'next/router';
-import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
+import {
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { createContext, useContext } from 'react';
 
 import { BridgePayload } from 'types/booking';
@@ -32,6 +38,7 @@ import {
   signOut,
 } from 'supertokens-auth-react/recipe/session';
 import LoungeError from '@components/LoungeError';
+import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 import {
   LOUNGE_CODE,
   JWT,
@@ -114,7 +121,11 @@ export const PayloadProvider = (props: PropsWithChildren) => {
 
   const [
     fetchConsumer,
-    { loading: fetchConsumerLoading, error: fetchConsumerError },
+    {
+      loading: fetchConsumerLoading,
+      error: fetchConsumerError,
+      data: fetchConsumerData,
+    },
   ] = useLazyQuery(getConsumerByID);
 
   const {
@@ -198,6 +209,19 @@ export const PayloadProvider = (props: PropsWithChildren) => {
     }
   }, [router]);
 
+  const findLinkedAccount = useCallback(
+    (linkedAccounts: LinkedAccount[] = []) => {
+      return linkedAccounts.find(
+        (item: LinkedAccount) =>
+          String(item.membershipID) === String(payload?.membershipNumber) &&
+          String(item.externalID) === String(payload?.externalId) &&
+          (item.provider as unknown as AccountProvider) ===
+            payload?.accountProvider
+      );
+    },
+    [payload]
+  );
+
   useEffect(() => {
     if (
       router.isReady &&
@@ -215,24 +239,8 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         })
           .then(({ data }) => {
             const { linkedAccounts } = data.getConsumerByID;
-            console.log(`[PAYLOAD] ${JSON.stringify(payload || null)}`);
-            console.log(
-              `[GET CONSUMER] ${JSON.stringify(data.getConsumerByID || null)}`
-            );
-            console.log(
-              `[GET CONSUMER LINKED ACCOUNTS] ${
-                JSON.stringify(data.getConsumerByID?.linkedAccounts) || null
-              }`
-            );
             if (linkedAccounts) {
-              const matchedAccount = linkedAccounts.find(
-                (item: LinkedAccount) =>
-                  String(item.externalID) === String(payload.externalId) &&
-                  String(item.membershipID) ===
-                    String(payload.membershipNumber) &&
-                  (item.provider as unknown as AccountProvider) ===
-                    payload.accountProvider
-              );
+              const matchedAccount = findLinkedAccount(linkedAccounts);
               if (!matchedAccount) {
                 console.log(
                   `[SIGN OUT]: data.getConsumerByID.linkedAccounts does not contain an item matching fields in payload: ${JSON.stringify(
@@ -248,7 +256,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
           });
       }
     }
-  }, [session, payload, router]);
+  }, [session, payload, router, fetchConsumer]);
 
   useEffect(() => {
     if (tokenError !== undefined) {
@@ -260,6 +268,46 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       );
     }
   }, [lounge, loadingLounge, tokenError]);
+
+  useEffect(() => {
+    if (
+      router.isReady &&
+      !session.loading &&
+      !linkedAccountId &&
+      !router.pathname.includes('/auth')
+    ) {
+      if (!fetchConsumerData) {
+        const { userId } = session;
+        if (userId) {
+          fetchConsumer({
+            variables: {
+              getConsumerById: userId,
+            },
+          }).then(({ data }) => {
+            if (data?.getConsumerByID?.linkedAccounts) {
+              const linkedAccount = findLinkedAccount(
+                data.getConsumerByID.linkedAccounts
+              );
+              setLinkedAccountId(linkedAccount?.id);
+            }
+          });
+        }
+      } else if (fetchConsumerData?.getConsumerByID?.linkedAccounts) {
+        const linkedAccount = findLinkedAccount(
+          fetchConsumerData.getConsumerByID.linkedAccounts
+        );
+        setLinkedAccountId(linkedAccount?.id);
+      }
+    }
+  }, [
+    payload,
+    linkedAccountId,
+    router,
+    session,
+    fetchConsumer,
+    fetchConsumerData,
+    fetchConsumerLoading,
+  ]);
 
   const providerTheme = () => {
     if (!payload) return PP;
@@ -306,7 +354,11 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       >
         <LoungeError error={fetchConsumerError} />
         {!session.loading &&
-          (fetchConsumerLoading ? null : (
+          (fetchConsumerLoading ? (
+            <Flex justify="center" align="center" h="100%">
+              <LoaderLifestyleX />
+            </Flex>
+          ) : (
             <>
               {payloadErrorTitle &&
               (loungeError || tokenError || (!loadingLounge && !lounge)) ? (
