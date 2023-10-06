@@ -20,6 +20,7 @@ interface BookingConfirmedPdfProps {
   departureTime: string | Date | undefined | null;
   emailAddress: string | undefined;
   flightNumber: string;
+  infants: Booking['infants'];
   lounge: Experience;
   reference: string | undefined;
 }
@@ -69,7 +70,8 @@ const GeneratedPDF = (props: BookingConfirmedPdfProps) => (
         </Text>
         <Text style={[styles.p, styles.padding]}>
           Adults {props.adults}{' '}
-          {props.children > 0 && `Children ${props.children}`}
+          {props.children > 0 && `Children ${props.children}`}{' '}
+          {props.infants > 0 && `Infants ${props.infants}`}
         </Text>
 
         <Text style={[styles.h2, styles.marginTop, styles.padding]}>

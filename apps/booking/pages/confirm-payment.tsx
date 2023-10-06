@@ -370,14 +370,22 @@ export default function ConfirmPayment() {
                                 {' '}
                                 <strong>Adults</strong> {adults}
                               </p>{' '}
-                              {Number(children) > 0 ? (
+                              {Number(children) > 0 && (
                                 <>
                                   <p style={{ padding: '0', margin: '0' }}>
                                     {' '}
                                     <strong>Children</strong> {children}
                                   </p>
                                 </>
-                              ) : null}
+                              )}
+                              {Number(infants) > 0 && (
+                                <>
+                                  <p style={{ padding: '0', margin: '0' }}>
+                                    {' '}
+                                    <strong>Infants </strong> {infants}
+                                  </p>
+                                </>
+                              )}
                             </Flex>
                           </Flex>
                         </EditableTitle>
@@ -443,6 +451,7 @@ export default function ConfirmPayment() {
                     departureTime={departureTime}
                     emailAddress={userData?.emailAddress}
                     flightNumber={flightNumber}
+                    infants={infants}
                     lounge={lounge}
                     reference={dataBooking?.getBookingByID.reference}
                   />
