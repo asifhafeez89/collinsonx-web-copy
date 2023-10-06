@@ -237,7 +237,7 @@ const Lounge = () => {
                 ></Price>
               </EditableTitle>
               <Center w="100%">
-                <Button disabled={!lounge || flightInfoLoading} type="submit">
+                <Button disabled={!lounge} type="submit">
                   CHECK AVAILABILITY
                 </Button>
               </Center>
