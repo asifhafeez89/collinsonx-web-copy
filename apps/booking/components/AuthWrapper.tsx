@@ -52,12 +52,12 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
         }
 
         if (referrerParam) {
-           setItem(REFERRER, referrerParam ?? '');
+          setItem(REFERRER, referrerParam ?? '');
         }
 
         if (!checkIsAllowed(window.location.pathname)) {
           const urlParams = new URLSearchParams(window.location.search);
-          const idParam = urlParams.get('id');
+          const idParam = urlParams.get('bookingId');
           if (idParam) {
             window.location.href = `/auth/login?id=${idParam}`;
           } else {
