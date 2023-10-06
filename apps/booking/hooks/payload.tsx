@@ -260,6 +260,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
   useEffect(() => {
     if (
       router.isReady &&
+      !session.loading &&
       !linkedAccountId &&
       !router.pathname.includes('/auth')
     ) {
