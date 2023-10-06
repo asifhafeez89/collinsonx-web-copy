@@ -32,6 +32,7 @@
     "@mantine/form": "^6.0.19",
     "@mantine/hooks": "^5.10.5",
     "@mantine/next": "^5.10.5",
+    "@react-pdf/renderer": "^3.1.12",
     "@stripe/react-stripe-js": "^2.3.1",
     "@stripe/stripe-js": "^2.1.7",
     "@svgr/webpack": "^6.5.1",
