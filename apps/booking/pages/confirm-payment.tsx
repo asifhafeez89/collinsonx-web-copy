@@ -370,14 +370,22 @@ export default function ConfirmPayment() {
                                 {' '}
                                 <strong>Adults</strong> {adults}
                               </p>{' '}
-                              {Number(children) > 0 ? (
+                              {Number(children) > 0 && (
                                 <>
                                   <p style={{ padding: '0', margin: '0' }}>
                                     {' '}
                                     <strong>Children</strong> {children}
                                   </p>
                                 </>
-                              ) : null}
+                              )}
+                              {Number(infants) > 0 && (
+                                <>
+                                  <p style={{ padding: '0', margin: '0' }}>
+                                    {' '}
+                                    <strong>Infants </strong> {infants}
+                                  </p>
+                                </>
+                              )}
                             </Flex>
                           </Flex>
                         </EditableTitle>
@@ -437,14 +445,15 @@ export default function ConfirmPayment() {
                   </Center>
 
                   <GenerateBookingConfirmedPdf
-                    reference={dataBooking?.getBookingByID.reference}
-                    emailAddress={userData?.emailAddress}
-                    departureDate={departureDate}
                     adults={adults}
-                    children={children}
                     arrival={arrival}
+                    children={children}
+                    departureTime={departureTime}
+                    emailAddress={userData?.emailAddress}
                     flightNumber={flightNumber}
+                    infants={infants}
                     lounge={lounge}
+                    reference={dataBooking?.getBookingByID.reference}
                   />
                 </Box>
               )}
@@ -474,8 +483,9 @@ export default function ConfirmPayment() {
                       </Title>
 
                       <Text>
-                        We are not able to confirm your booking yet, we will
-                        send you an email once your booking is confirmed
+                        We're sorry we're not able to confirm your booking right
+                        now. We will send an email as soon as your booking is
+                        confirmed.
                       </Text>
 
                       <Button

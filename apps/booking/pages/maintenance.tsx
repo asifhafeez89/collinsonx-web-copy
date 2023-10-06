@@ -47,12 +47,13 @@ const Maintenance = () => {
               <Flex gap="xs" direction="row" align="center" justify="center">
                 <MaintenanceIcon />
                 <Text align="center" size={20} fw={700}>
-                  Maintenance is on the way{' '}
+                  Maintenance underway{' '}
                 </Text>
               </Flex>
               <Text align="center">
-                We are sorry, but the booking service isn't available at the
-                moment because a system update is being performed
+                We're sorry, the booking service is temporarily unavailable as a
+                system update is being performed. Please check back later or
+                Contact support.
               </Text>
               <Flex gap="xs" direction="row" align="center" justify="center">
                 <Text>Please return later or</Text>

@@ -102,7 +102,7 @@ export default function CheckEmail() {
 
       setLinkedAccountId(response.data.linkAccount.id);
 
-      if (router.query.id) {
+      if (router.query.bookingId) {
         router.push({
           pathname: '/cancel-booking',
           query: {

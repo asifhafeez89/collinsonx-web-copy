@@ -62,8 +62,8 @@ export default function Error404() {
                 404 - Page not found{' '}
               </Text>{' '}
               <Text align="center">
-                The page you are looking for might have been removed or
-                temporarily unavailable
+                The page you are looking for might have been removed or is
+                temporarily unavailable.
               </Text>
               <Center>
                 <Button handleClick={handleClickBack}>

@@ -1,24 +1,17 @@
 import { useMutation, useQuery } from '@collinsonx/utils/apollo';
 import Layout from '@components/Layout';
 import { Box, Flex, Stack, Text } from '@collinsonx/design-system/core';
-import Breadcramp from '@components/Breadcramp';
 import { Booking } from '@collinsonx/utils/generatedTypes/graphql';
 import cancellationDateValidation from '@collinsonx/utils/lib/validateDateCancellation';
 import { useRouter } from 'next/router';
 import { getBookingByID } from '@collinsonx/utils/queries';
 import { Details, Button } from '@collinsonx/design-system';
 import colors from 'ui/colour-constants';
-
 import { cancelBooking } from '@collinsonx/utils/mutations';
-
-import { Clock, MapPin } from '@collinsonx/design-system/assets/icons';
 import { useState } from 'react';
-
-import { TIME_FORMAT, DATE_REDABLE_FORMAT } from '../config/Constants';
+import { TIME_FORMAT } from '../config/Constants';
 import { formatDate } from '../utils/DateFormatter';
 import { InfoGroup } from '@collinsonx/design-system/components/details';
-import { FAQLink } from 'utils/FAQLinks';
-import { LoungeInfoPreBooked } from '@components/LoungeInfoPreBooked';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
 import Lightbox from '@collinsonx/design-system/components/lightbox';
 import { useDisclosure } from '@collinsonx/design-system/hooks';
@@ -28,8 +21,34 @@ import Price from '@components/Price';
 import Notification from '@components/Notification';
 import { InfoPanel } from 'utils/PanelInfo';
 import { LoungeInfo } from '@components/LoungeInfo';
+import BackToLounge from '@components/BackToLounge';
+
+import { BookingError } from '../constants';
+
+const {
+  ERR_BOOKING_NOT_FOUND,
+  ERR_BOOKING_ALREADY_CANCELLED,
+  ERR_BOOKING_NOT_OWNED,
+  ERR_CANCELLATION_FAILED,
+  ERR_CANCELATION_NOT_ALLOWED,
+  ERR_SOMETHING_WENT_WRONG,
+  ERR_CANCELLATION_FAILED_WITH_SUCCESS,
+} = BookingError;
 
 const { bookingId } = BookingQueryParams;
+
+const cancellationMessages: Record<string, string> = {
+  [ERR_BOOKING_NOT_FOUND]: 'The booking cannot be found',
+  [ERR_BOOKING_ALREADY_CANCELLED]: 'The booking has been already cancelled',
+  [ERR_BOOKING_NOT_OWNED]:
+    'Sorry, something went wrong with your booking, please try again later or contact support',
+  [ERR_CANCELLATION_FAILED]:
+    'Sorry, something went wrong with your booking, please try again later or contact support',
+  [ERR_CANCELATION_NOT_ALLOWED]:
+    "We're sorry, this booking cannot be cancelled within 48 hours of booking arrival time.",
+  [ERR_SOMETHING_WENT_WRONG]:
+    'Sorry, something went wrong with your booking, please try again later or contact support',
+};
 
 export default function CancelBooking() {
   const router = useRouter();
@@ -39,6 +58,7 @@ export default function CancelBooking() {
   const [createLoading] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
   const [dateError, setDateError] = useState<Boolean>(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const { data: bookingDetails } = useQuery<{
     getBookingByID: Booking;
@@ -54,6 +74,8 @@ export default function CancelBooking() {
     useMutation(cancelBooking);
 
   const handleCancellation = () => {
+    close();
+    setErrorMessage('');
     if (
       bookingDetails &&
       cancellationDateValidation(
@@ -62,12 +84,25 @@ export default function CancelBooking() {
     ) {
       mutate({
         variables: { cancelBookingId: emailBookingId },
-        onCompleted(data) {
+      }).then((response) => {
+        if (response && response.errors) {
+          const item = response.errors[0];
+          const code = item?.extensions?.code;
+          const message = cancellationMessages[code as string];
+          if (message) {
+            setErrorMessage(message);
+          } else if (code === ERR_CANCELLATION_FAILED_WITH_SUCCESS) {
+            router.push({
+              pathname: '/cancelled-booking-confirmation',
+              query: { id: emailBookingId },
+            });
+          }
+        } else {
           router.push({
             pathname: '/cancelled-booking-confirmation',
             query: { id: emailBookingId },
           });
-        },
+        }
       });
     } else {
       setDateError(true);
@@ -79,15 +114,7 @@ export default function CancelBooking() {
     <Layout>
       {bookingDetails ? (
         <Stack spacing={16} sx={{ width: '100%' }}>
-          <Breadcramp
-            lefttitle={`BACK TO ${
-              bookingDetails.getBookingByID?.experience?.loungeName?.toUpperCase() ||
-              'Lounges'
-            }`}
-            lefturl="/"
-            righttile={`FAQs`}
-            righturl={FAQLink('PRIORITY_PASS')}
-          />
+          <BackToLounge />
 
           <Lightbox
             open={opened}
@@ -177,6 +204,9 @@ export default function CancelBooking() {
                 >
                   {
                     <Box sx={{ width: '100%' }}>
+                      {errorMessage && (
+                        <Notification>{errorMessage}</Notification>
+                      )}
                       {bookingDetails?.getBookingByID?.experience && (
                         <Stack spacing={8} sx={{ padding: '20px' }}>
                           <Heading as="h2" margin={0} padding={0}>

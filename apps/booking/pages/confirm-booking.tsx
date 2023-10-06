@@ -215,14 +215,22 @@ export default function ConfirmAvailability({
                                 {' '}
                                 <strong>Adults</strong> {adults}
                               </p>{' '}
-                              {Number(children) > 0 ? (
+                              {Number(children) > 0 && (
                                 <>
                                   <p style={{ padding: '0', margin: '0' }}>
                                     {' '}
                                     <strong>Children</strong> {children}
                                   </p>
                                 </>
-                              ) : null}
+                              )}
+                              {Number(infants) > 0 && (
+                                <>
+                                  <p style={{ padding: '0', margin: '0' }}>
+                                    {' '}
+                                    <strong>Infants </strong> {infants}
+                                  </p>
+                                </>
+                              )}
                             </Flex>
                           </Flex>
                         </EditableTitle>
@@ -246,10 +254,11 @@ export default function ConfirmAvailability({
 
                       <EditableTitle title="Cancelation policy" as="h2">
                         <p style={{ padding: '0', margin: '0' }}>
-                          Free cancellation for 24 hours. Cancel before{' '}
-                          {departureDateToDisplay} for a partial refund.
+                          Cancel up to 48 hours before your booking to receive a
+                          full refund. Bookings cannot be cancelled within 48
+                          hours of booking arrival time, including new bookings
+                          made within that time range.
                         </p>
-                        <Link href="cancelation-policy">Learn more</Link>
                         <div>
                           <p>
                             As your flight is at {flightTimeToDisplay}, your

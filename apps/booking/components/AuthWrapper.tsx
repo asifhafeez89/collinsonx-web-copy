@@ -58,7 +58,7 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
           const urlParams = new URLSearchParams(window.location.search);
           const idParam = urlParams.get('bookingId');
           if (idParam) {
-            window.location.href = `/auth/login?id=${idParam}`;
+            window.location.href = `/auth/login?bookingId=${idParam}`;
           } else {
             window.location.href = `/auth/login`;
           }
