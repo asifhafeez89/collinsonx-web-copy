@@ -213,10 +213,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
     (linkedAccounts: LinkedAccount[] = []) => {
       return linkedAccounts.find(
         (item: LinkedAccount) =>
-          String(item.membershipID) === String(payload?.membershipNumber) &&
-          String(item.externalID) === String(payload?.externalId) &&
-          (item.provider as unknown as AccountProvider) ===
-            payload?.accountProvider
+          String(item.membershipID) === String(payload?.membershipNumber)
       );
     },
     [payload]
