@@ -257,8 +257,6 @@ export const PayloadProvider = (props: PropsWithChildren) => {
     }
   }, [lounge, loadingLounge, tokenError]);
 
-  console.log('linkedAccountId ', linkedAccountId);
-
   useEffect(() => {
     if (
       router.isReady &&
