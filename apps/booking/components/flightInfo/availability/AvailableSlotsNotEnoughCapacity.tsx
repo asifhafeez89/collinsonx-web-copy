@@ -14,8 +14,7 @@ import { useDisclosure } from '@collinsonx/design-system/hooks';
 import BackToLounge from '@components/BackToLounge';
 
 import { AVAILABLE_SLOTS_ERRORS } from '../../../constants/graphql/errors';
-
-import colors from '../../../ui/colour-constants';
+import AvailableSlots from './AvailableSlots';
 
 function setAdultsPrefix(adults: number): string {
   if (adults === 1) return `${adults} adult`;
@@ -55,13 +54,21 @@ function setInfantPrefix(
   return `${guestsPrefix}${infant} infants`;
 }
 
+function fetchErrorObject(slotsError: any) {
+  console.error('slotsError', slotsError);
+
+  return slotsError?.errors?.at(0).extensions;
+}
+
 export function hasLoungeCapacity(slotsError: any): boolean {
+  const error = fetchErrorObject(slotsError);
+
   const errorPropertiesAreInvalid =
-    ('code' in slotsError && 'metadata' in slotsError) === false;
+    ('code' in error && 'metadata' in error) === false;
 
   if (errorPropertiesAreInvalid) return false;
 
-  const metadata = slotsError.metadata;
+  const metadata = error.metadata;
   const metadataPropertiesAreInvalid =
     ('adultCount' in metadata &&
       'childrenCount' in metadata &&
@@ -76,13 +83,12 @@ export function hasLoungeCapacity(slotsError: any): boolean {
 
   if (maxPropertiesAreInvalid) return false;
 
-  return (
-    slotsError.code === AVAILABLE_SLOTS_ERRORS.SNAPLOGIC.ENOUGH_CAPACITY.code
-  );
+  return true;
 }
 
 export function availableSlotsNotEnoughCapacityParser(slotsError: any) {
-  const { adultCount, childrenCount, infantCount } = slotsError.metadata;
+  const error = fetchErrorObject(slotsError);
+  const { adultCount, childrenCount, infantCount } = error.metadata;
 
   const adults = adultCount.max;
   const child = childrenCount.max;
