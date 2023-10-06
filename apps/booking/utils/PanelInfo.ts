@@ -1,5 +1,5 @@
 import { TIME_FORMAT, DATE_REDABLE_FORMAT } from '../config/Constants';
-import { formatDate, formatDateUTC } from '../utils/DateFormatter';
+import { formatDate } from '../utils/DateFormatter';
 
 export const InfoPanel = (
   departureDate: string | Date,
@@ -11,7 +11,7 @@ export const InfoPanel = (
   },
   {
     header: 'Time of flight',
-    description: formatDateUTC(new Date(`${departureDate}`), TIME_FORMAT),
+    description: formatDate(new Date(`${departureDate}`), TIME_FORMAT),
   },
   {
     header: 'Flight number',
