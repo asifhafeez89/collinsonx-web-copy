@@ -76,16 +76,13 @@ const Lounge = () => {
       flightNumber: (value: string) => {
         let error = null;
 
-        const validFlight = /^([A-Z]{3}|[A-Z\d]{2})(?:\s?)(\d{1,4})$/.test(
-          value.toUpperCase()
-        );
+        const validFlight =
+          /^([a-zA-Z]{2,3}|([0-9]{1}[a-zA-Z]{1})|([a-zA-Z]{1}[0-9]{1}))([0-9]{1,4})$/.test(
+            value.toUpperCase()
+          );
 
         if (!validFlight) {
           error = ValidationErrorResponses.INVALID_FLIGHT.message;
-        }
-
-        if (validFlight && wrongFlightDate) {
-          error = ValidationErrorResponses.INVALID_DATEFlIGHT.message;
         }
 
         return error;
@@ -93,16 +90,7 @@ const Lounge = () => {
     },
   });
 
-  useEffect(() => {
-    if (form.values.departureDate && form.values.flightNumber) {
-      fetchFlightInfo();
-    }
-  }, [form.values.departureDate, form.values.flightNumber]);
-
   type FormValues = typeof form.values;
-
-  const carrieCode = validateFlightNumber(form.values.flightNumber)[1];
-  const flightNo = validateFlightNumber(form.values.flightNumber)[2];
 
   const [
     fetchFlightInfo,
@@ -114,51 +102,64 @@ const Lounge = () => {
   ] = useLazyQuery<{
     getFlightDetails: FlightDetails[];
   }>(getFlightDetails, {
-    variables: {
-      flightDetails: {
-        carrierCode: carrieCode,
-        codeType: AIRPORT_CODE_TYPE,
-        departureDate: formatDate(
-          new Date(String(form.values.departureDate)),
-          DATE_FORMAT
-        ),
-        flightNumber: flightNo,
-        version: OAG_API_VERSION,
-      },
-    },
     pollInterval: 300000,
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
     onCompleted: (flightInfoData) => {
       if (flightInfoData.getFlightDetails.length === 0) {
-        setWrongFlightDate(true);
+        form.setFieldError(
+          'flightNumber',
+          ValidationErrorResponses.INVALID_DATEFlIGHT.message
+        );
       } else {
-        setWrongFlightDate(false);
+        if (form.isValid()) {
+          const upperCaseFlight = form.values.flightNumber.toUpperCase();
+          form.values.flightNumber = upperCaseFlight;
+          setBooking(form.values);
+          const query = router.query;
+          router.push({
+            pathname: '/check-availability',
+            query: {
+              ...query,
+            },
+          });
+        }
       }
     },
-    onError: (error) => {
-      console.log(error);
-    },
+    onError: (error) => {},
   });
 
-  const handleClickCheckAvailability = (values: FormValues) => {
-    form.validate();
+  const handleClickCheckAvailability = async (values: FormValues) => {
     if (values.children + values.adults > MAX_GUESTS) {
       setGuestError(true);
       return false;
     } else {
       setGuestError(false);
     }
+    const upperCaseFlight = form.values.flightNumber.toUpperCase();
+    const carrieCode = validateFlightNumber(upperCaseFlight)[1];
+    const flightNo = validateFlightNumber(upperCaseFlight)[2];
 
-    const query = router.query;
+    if (form.isValid()) {
+      fetchFlightInfo({
+        variables: {
+          flightDetails: {
+            carrierCode: carrieCode,
+            codeType: AIRPORT_CODE_TYPE,
+            departureDate: formatDate(
+              new Date(String(form.values.departureDate)),
+              DATE_FORMAT
+            ),
+            flightNumber: flightNo,
+            version: OAG_API_VERSION,
+          },
+        },
+      });
+    }
+
+    values.flightNumber = upperCaseFlight;
+
     setBooking(values);
-
-    router.push({
-      pathname: '/check-availability',
-      query: {
-        ...query,
-      },
-    });
   };
 
   return (
