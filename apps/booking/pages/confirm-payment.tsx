@@ -1,6 +1,5 @@
 import { useQuery } from '@collinsonx/utils/apollo';
 import Layout from '@components/Layout';
-
 import {
   Anchor,
   Box,
@@ -20,9 +19,7 @@ import { LoungeInfo } from '@components/LoungeInfo';
 import LoaderLightBox from '@collinsonx/design-system/components/loaderlightbox';
 import { getConsumerByID } from '@collinsonx/utils/queries';
 import { Details, Button } from '@collinsonx/design-system';
-
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
-
 import {
   AIRPORT_CODE_TYPE,
   OAG_API_VERSION,
@@ -33,13 +30,11 @@ import { validateFlightNumber } from '../utils/flightValidation';
 import getFlightDetails from '@collinsonx/utils/queries/getFlightDetails';
 import { formatDate } from '../utils/DateFormatter';
 import usePayload from 'hooks/payload';
-
 import { InfoGroup } from '@collinsonx/design-system/components/details';
 import colors from 'ui/colour-constants';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
 import { BookingContext } from 'context/bookingContext';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
-
 import { useCallback, useContext, useEffect, useRef } from 'react';
 import { useState } from 'react';
 import { useMemo } from 'react';
@@ -52,6 +47,7 @@ import { sendMobileEvent } from '@lib';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import Price from '@components/Price';
 import { InfoPanel } from 'utils/PanelInfo';
+import { GenerateBookingConfirmedPdf } from '@components/booking/GenerateBookingConfirmedPdf';
 
 export default function ConfirmPayment() {
   const router = useRouter();
@@ -440,15 +436,16 @@ export default function ConfirmPayment() {
                     </Anchor>
                   </Center>
 
-                  <Button
-                    type="submit"
-                    data-testid="submit"
-                    spacing="1.25rem"
-                    align="center"
-                    handleClick={handleSubmit}
-                  >
-                    DOWNLOAD COPY
-                  </Button>
+                  <GenerateBookingConfirmedPdf
+                    reference={dataBooking?.getBookingByID.reference}
+                    emailAddress={userData?.emailAddress}
+                    departureDate={departureDate}
+                    adults={adults}
+                    children={children}
+                    arrival={arrival}
+                    flightNumber={flightNumber}
+                    lounge={lounge}
+                  />
                 </Box>
               )}
 
