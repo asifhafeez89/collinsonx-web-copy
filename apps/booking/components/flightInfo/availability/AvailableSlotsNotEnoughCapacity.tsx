@@ -13,43 +13,7 @@ import { useDisclosure } from '@collinsonx/design-system/hooks';
 
 import BackToLounge from '@components/BackToLounge';
 
-function setAdultsPrefix(adults: number): string {
-  if (adults === 1) return `${adults} adult`;
-
-  return `${adults} adults`;
-}
-
-function setChildPrefix(child: number, adults: number): string {
-  let guestsPrefix = '';
-  if (adults > 0) {
-    guestsPrefix = ' and ';
-  }
-
-  if (child === 0) return '';
-
-  const sufix = child === 1 ? 'child' : 'children';
-
-  return `${guestsPrefix}${child} ${sufix}`;
-}
-
-function setInfantPrefix(
-  infant: number,
-  adults: number,
-  child: number
-): string {
-  let guestsPrefix = '';
-  if (adults > 0 || child > 0) {
-    guestsPrefix = ' and ';
-  }
-
-  if (infant === 0) return '';
-
-  if (infant === 1) {
-    return `${guestsPrefix}${infant} infant`;
-  }
-
-  return `${guestsPrefix}${infant} infants`;
-}
+import { setAdultsPrefix, setChildPrefix, setInfantPrefix } from 'utils/guests';
 
 function fetchErrorObject(slotsError: any) {
   console.error('slotsError', slotsError);
