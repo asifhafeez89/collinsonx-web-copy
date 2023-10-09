@@ -34,6 +34,7 @@ import {
 import { PinLockoutError } from '@collinsonx/constants/constants';
 import { getConsumerByID } from '@collinsonx/utils/queries';
 import { LinkedAccount } from '@collinsonx/utils/generatedTypes/graphql';
+import { accountIsEqual } from '../../lib/index';
 
 const { ERR_MEMBERSHIP_ALREADY_CONNECTED } = BookingError;
 const { tooManyAttempts, expiredJwt } = PinLockoutError;
@@ -83,13 +84,7 @@ export default function CheckEmail() {
 
   const findLinkedAccount = useCallback(
     (linkedAccounts: LinkedAccount[] = []) => {
-      return linkedAccounts.find(
-        (item: LinkedAccount) =>
-          String(item.membershipID) === String(payload?.membershipNumber) &&
-          String(item.externalID) === String(payload?.externalId) &&
-          (item.provider as unknown as AccountProvider) ===
-            payload?.accountProvider
-      );
+      return linkedAccounts.find(accountIsEqual(payload));
     },
     [payload]
   );

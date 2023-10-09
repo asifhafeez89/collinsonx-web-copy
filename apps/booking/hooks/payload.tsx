@@ -39,6 +39,7 @@ import {
 } from 'supertokens-auth-react/recipe/session';
 import LoungeError from '@components/LoungeError';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
+import { accountIsEqual } from '../lib/index';
 import {
   LOUNGE_CODE,
   JWT,
@@ -213,13 +214,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
 
   const findLinkedAccount = useCallback(
     (linkedAccounts: LinkedAccount[] = []) => {
-      return linkedAccounts.find(
-        (item: LinkedAccount) =>
-          String(item.membershipID) === String(payload?.membershipNumber) &&
-          String(item.externalID) === String(payload?.externalId) &&
-          (item.provider as unknown as AccountProvider) ===
-            payload?.accountProvider
-      );
+      return linkedAccounts.find(accountIsEqual(payload));
     },
     [payload]
   );

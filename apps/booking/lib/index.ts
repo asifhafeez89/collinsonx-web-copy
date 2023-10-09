@@ -7,6 +7,8 @@ import { STORAGE_NAMESPACE } from '../constants';
 import { LOUNGE_HOURS_OFFSET } from 'config/lounge';
 import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
 import { AccountProvider } from '@collinsonx/constants/enums';
+import { LinkedAccount } from '@collinsonx/utils/generatedTypes/graphql';
+import { BridgePayload } from 'types/booking';
 
 export const getLoungeArrivalTime = (date: Date): string =>
   dayjsTz(date).subtract(LOUNGE_HOURS_OFFSET, 'hours').format('HH:mm');
@@ -81,3 +83,9 @@ export const sendMobileEvent = (windowObj: any = {}, value: any) => {
     console.log('ERROR: Unable to detect mobile environment');
   }
 };
+
+export const accountIsEqual =
+  (payload: BridgePayload | undefined) => (item: LinkedAccount) =>
+    String(item.membershipID) === String(payload?.membershipNumber) &&
+    String(item.externalID) === String(payload?.externalId) &&
+    (item.provider as unknown as AccountProvider) === payload?.accountProvider;
