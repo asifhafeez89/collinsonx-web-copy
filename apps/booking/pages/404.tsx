@@ -6,33 +6,17 @@ import {
   Box,
   Stack,
 } from '@collinsonx/design-system/core';
-import { Button } from '@collinsonx/design-system';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 import LayoutLogin from '@components/LayoutLogin';
 import colors from 'ui/colour-constants';
 import { useViewportSize } from '@collinsonx/design-system/hooks';
 import usePayload from 'hooks/payload';
-import { FAQ_PP, FAQ_LK } from '../config/Constants';
 import { AccountProvider } from '@collinsonx/constants/enums';
 import { verifyAccountProvider } from '../utils/VerifyAccountProvider';
-import { useCallback } from 'react';
-import { MOBILE_ACTION_BACK } from '../constants';
-import { sendMobileEvent } from '@lib';
+import BackButton from '@components/BackButton';
 export default function Error404() {
   const router = useRouter();
-  const { payload, referrerUrl } = usePayload();
-
-  const handleClickBack = useCallback(() => {
-    if (window) {
-      if (referrerUrl) {
-        window.location.href = referrerUrl;
-      } else {
-        const windowObj: any = window;
-        sendMobileEvent(windowObj, MOBILE_ACTION_BACK);
-      }
-    }
-  }, [referrerUrl]);
+  const { payload } = usePayload();
 
   const handleSupportClick = () => {
     router.replace(
@@ -66,9 +50,7 @@ export default function Error404() {
                 temporarily unavailable.
               </Text>
               <Center>
-                <Button handleClick={handleClickBack}>
-                  {`Return to lounge`.toUpperCase()}
-                </Button>{' '}
+                <BackButton>{`Return to lounge`.toUpperCase()}</BackButton>
               </Center>
               <Center>
                 <Anchor

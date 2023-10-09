@@ -35,7 +35,13 @@ import colors from 'ui/colour-constants';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
 import { BookingContext } from 'context/bookingContext';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
-import { useCallback, useContext, useEffect, useRef } from 'react';
+import {
+  MouseEventHandler,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+} from 'react';
 import { useState } from 'react';
 import { useMemo } from 'react';
 import { useLazyQuery } from '@collinsonx/utils/apollo';
@@ -49,6 +55,7 @@ import Price from '@components/Price';
 import { InfoPanel } from 'utils/PanelInfo';
 import { GenerateBookingConfirmedPdf } from '@components/booking/GenerateBookingConfirmedPdf';
 import { GuestCount } from '@components/guests/GuestCount';
+import BackButton from '@components/BackButton';
 
 export default function ConfirmPayment() {
   const router = useRouter();
@@ -59,12 +66,16 @@ export default function ConfirmPayment() {
 
   const { lounge, referrerUrl } = usePayload();
 
-  const handleClickBack = useCallback(() => {
-    if (window && !referrerUrl) {
-      const windowObj: any = window;
-      sendMobileEvent(windowObj, MOBILE_ACTION_BACK);
-    }
-  }, [referrerUrl]);
+  const handleClickBack: MouseEventHandler<HTMLAnchorElement> = useCallback(
+    (e) => {
+      if (window && !referrerUrl) {
+        e.preventDefault();
+        const windowObj: any = window;
+        sendMobileEvent(windowObj, MOBILE_ACTION_BACK);
+      }
+    },
+    [referrerUrl]
+  );
 
   const [userData, setUserData] = useState<Consumer | null>(null);
 
@@ -411,6 +422,7 @@ export default function ConfirmPayment() {
                   )}
                   <Center>
                     <Anchor
+                      target="_top"
                       href={referrerUrl ? referrerUrl : '#'}
                       onClick={handleClickBack}
                       style={{
@@ -469,20 +481,9 @@ export default function ConfirmPayment() {
                         now. We will send an email as soon as your booking is
                         confirmed.
                       </Text>
-
-                      <Button
-                        type="submit"
-                        data-testid="submit"
-                        spacing="1.25rem"
-                        align="center"
-                        handleClick={() => {
-                          if (window) {
-                            window.location.href = referrerUrl ?? '/';
-                          }
-                        }}
-                      >
-                        GO TO LOUNGES
-                      </Button>
+                      <Box sx={{ padding: '1.25rem', textAlign: 'center' }}>
+                        <BackButton>GO TO LOUNGES</BackButton>
+                      </Box>
                     </Box>
                   </Stack>
                 </Box>

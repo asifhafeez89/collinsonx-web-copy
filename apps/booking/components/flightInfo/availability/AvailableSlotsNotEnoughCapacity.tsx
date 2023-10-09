@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
 
 import {
   Box,
@@ -11,7 +11,7 @@ import {
 } from '@collinsonx/design-system/core';
 import { useDisclosure } from '@collinsonx/design-system/hooks';
 
-import BackToLounge from '@components/BackToLounge';
+import BackButton from '@components/BackButton';
 
 import { setAdultsPrefix, setChildPrefix, setInfantPrefix } from 'utils/guests';
 
@@ -118,7 +118,7 @@ const AvailableSlotsNotEnoughCapacity: FC<Props> = ({
           <Divider my="sm" m={0} />
           <Stack bg={'#F7F7F7'} p="lg">
             <Button onClick={close}>Change guests</Button>
-            <BackToLounge />
+            <BackButton>{`Return to lounge`.toUpperCase()}</BackButton>
           </Stack>
         </Stack>
       </Center>

@@ -4,15 +4,11 @@ import {
   Center,
   Container,
   Text,
-  Button,
 } from '@collinsonx/design-system/core';
-import { useCallback } from 'react';
-import usePayload from 'hooks/payload';
 import AppLogo from './AppLogo';
 import colors from 'ui/colour-constants';
-import { MOBILE_ACTION_BACK } from '../constants';
-import { sendMobileEvent } from '@lib';
 import { AccountProvider, Client } from '@collinsonx/constants/enums';
+import BackButton from './BackButton';
 
 interface LayoutProps {
   payloadErrorTitle?: string;
@@ -29,21 +25,9 @@ const defaultErrMessage =
 
 export default function LayoutError(props: LayoutProps) {
   let { payloadErrorMessage, payloadErrorTitle, payloadTheme } = props;
-  const { referrerUrl } = usePayload();
 
   if (!payloadErrorMessage) payloadErrorMessage = defaultErrMessage;
   if (!payloadErrorTitle) payloadErrorTitle = defaultErrTitle;
-
-  const handleClickBack = useCallback(() => {
-    if (window) {
-      if (referrerUrl) {
-        window.location.href = referrerUrl;
-      } else {
-        const windowObj: any = window;
-        sendMobileEvent(windowObj, MOBILE_ACTION_BACK);
-      }
-    }
-  }, [referrerUrl]);
 
   return (
     <Container
@@ -95,9 +79,7 @@ export default function LayoutError(props: LayoutProps) {
           </Text>
           <Center>
             <Anchor href="#">
-              <Button onClick={handleClickBack}>
-                {`Return to lounge`.toUpperCase()}
-              </Button>
+              <BackButton>{`Return to lounge`.toUpperCase()}</BackButton>
             </Anchor>
           </Center>
         </Box>

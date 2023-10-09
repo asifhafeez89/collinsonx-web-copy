@@ -15,7 +15,7 @@ import { useRouter } from 'next/router';
 import { LoungeInfo } from '@components/LoungeInfo';
 import { Details } from '@collinsonx/design-system';
 import createBooking from '@collinsonx/utils/mutations/createBooking';
-import { useMemo, useState, useContext, useEffect } from 'react';
+import { useMemo, useState, useContext, useEffect, useCallback } from 'react';
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import { Availability } from '@collinsonx/utils';
@@ -41,7 +41,7 @@ import usePayload from 'hooks/payload';
 import { InfoGroup } from '@collinsonx/design-system/components/details';
 import { BookingContext } from 'context/bookingContext';
 import dayjs from 'dayjs';
-import { constants } from '../constants';
+import { MOBILE_ACTION_BACK, constants } from '../constants';
 import colors from 'ui/colour-constants';
 import BackToLounge from '@components/BackToLounge';
 import BookingLightbox from '@collinsonx/design-system/components/bookinglightbox';
@@ -49,6 +49,7 @@ import Price from '@components/Price';
 import Notification from '@components/Notification';
 import { InfoPanel } from 'utils/PanelInfo';
 import { GuestCount } from '@components/guests/GuestCount';
+import { sendMobileEvent } from '../lib/index';
 
 function AvailableSlotsErrorHandling(slotsError: any) {
   const ENOUGH_CAPACITY_ERROR_IS_VALID = hasLoungeCapacity(slotsError);
@@ -263,6 +264,17 @@ export default function ConfirmAvailability() {
 
   const showAlert = airportMismatch || terminalMismatch;
 
+  const handleClickBack = useCallback(() => {
+    if (top) {
+      if (referrerUrl) {
+        top.location.href = referrerUrl;
+      } else {
+        const windowObj: any = window;
+        sendMobileEvent(windowObj, MOBILE_ACTION_BACK);
+      }
+    }
+  }, [referrerUrl]);
+
   return (
     <Layout>
       {showAlert && (
@@ -274,11 +286,7 @@ export default function ConfirmAvailability() {
             setAirportMismatch(false);
             setTerminalMismath(false);
           }}
-          onClose={() => {
-            if (window) {
-              window.location.href = referrerUrl ?? '/';
-            }
-          }}
+          onClose={handleClickBack}
         >
           <div>
             {airportMismatch && <h1>Airports don&apos;t match</h1>}
