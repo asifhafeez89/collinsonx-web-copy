@@ -205,15 +205,13 @@ export default function CheckEmail() {
         },
       }).then(({ data }) => {
         const { linkedAccounts } = data.getConsumerByID;
-        if (linkedAccounts) {
-          const matchedAccount = findLinkedAccount(linkedAccounts);
-          if (!matchedAccount) {
-            handleLinkAccount().then(() => {
-              redirect();
-            });
-          } else {
+        const matchedAccount = findLinkedAccount(linkedAccounts || []);
+        if (!matchedAccount) {
+          handleLinkAccount().then(() => {
             redirect();
-          }
+          });
+        } else {
+          redirect();
         }
       });
     }
