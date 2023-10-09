@@ -7,6 +7,7 @@ import {
   Stack,
   Skeleton,
   Center,
+  Box,
 } from '@collinsonx/design-system/core';
 import { Experience } from '@collinsonx/utils';
 import { getCurrencySymbol } from 'utils/currencysymbol';
@@ -103,17 +104,26 @@ export const LoungeInfo = ({ guests, lounge, loading }: LoungeInfoProps) => {
         </Skeleton>
         <Skeleton visible={loading}>
           {lounge?.pricing?.reservationOnlyFee ? (
-            <Flex gap={2}>
-              <Text fw={700} size={28}>
-                {getCurrencySymbol(lounge?.pricing?.currency ?? '')}
-                {parseFloat(
-                  lounge.pricing.reservationOnlyFee.toString()
-                ).toFixed(2)}{' '}
-              </Text>{' '}
-              <Text size={20} style={{ lineHeight: '50px' }}>
-                per person
-              </Text>
-            </Flex>
+            <Box
+              sx={{
+                '@media (max-width: 768px)': {
+                  margin: '0 auto',
+                  width: '50%',
+                },
+              }}
+            >
+              <Flex gap={2}>
+                <Text fw={700} size={28}>
+                  {getCurrencySymbol(lounge?.pricing?.currency ?? '')}
+                  {parseFloat(
+                    lounge.pricing.reservationOnlyFee.toString()
+                  ).toFixed(2)}{' '}
+                </Text>{' '}
+                <Text size={20} style={{ lineHeight: '50px' }}>
+                  per person
+                </Text>
+              </Flex>
+            </Box>
           ) : null}
         </Skeleton>
       </Flex>
