@@ -373,7 +373,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
                   payloadErrorMessage={payloadErrorMessage}
                 />
               ) : (
-                props.children
+                payload && props.children
               )}
             </>
           ))}
