@@ -117,7 +117,10 @@ export default function CancelBooking() {
                             bookings made within that time range.
                           </Text>
                           <Heading as="h4" margin={0} padding={0}>
-                            Booking Reference: <strong>{emailBookingId}</strong>
+                            Booking Reference:{' '}
+                            <strong>
+                              {bookingDetails.getBookingByID.reference}
+                            </strong>
                           </Heading>
                           <Text>
                             {bookingDetails.getBookingByID.status ===
@@ -138,7 +141,7 @@ export default function CancelBooking() {
                           <Details
                             infos={
                               InfoPanel(
-                                bookingDetails?.getBookingByID?.bookedFrom,
+                                bookingDetails?.getBookingByID?.bookedTo,
                                 bookingDetails?.getBookingByID?.metadata
                                   ?.flightNumber
                               ) as InfoGroup[]
@@ -173,7 +176,14 @@ export default function CancelBooking() {
                               {' '}
                               {formatDate(
                                 new Date(
-                                  `${bookingDetails.getBookingByID.bookedFrom}`
+                                  `${bookingDetails?.getBookingByID.bookedFrom}`
+                                ),
+                                TIME_FORMAT
+                              )}{' '}
+                              -{' '}
+                              {formatDate(
+                                new Date(
+                                  `${bookingDetails?.getBookingByID.lastArrival}`
                                 ),
                                 TIME_FORMAT
                               )}

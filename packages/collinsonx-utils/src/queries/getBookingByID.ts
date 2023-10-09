@@ -5,6 +5,7 @@ const getBookingByID = gql`
     getBookingByID(id: $getBookingById) {
       bookedFrom
       bookedTo
+      lastArrival
       metadata
       reference
       price
