@@ -48,6 +48,7 @@ import EditableTitle from '@collinsonx/design-system/components/editabletitles/E
 import Price from '@components/Price';
 import { InfoPanel } from 'utils/PanelInfo';
 import { GenerateBookingConfirmedPdf } from '@components/booking/GenerateBookingConfirmedPdf';
+import { GuestCount } from '@components/guests/GuestCount';
 
 export default function ConfirmPayment() {
   const router = useRouter();
@@ -364,30 +365,11 @@ export default function ConfirmPayment() {
                         }}
                       >
                         <EditableTitle title="Who's coming" as="h2">
-                          <Flex direction="row" gap={10}>
-                            <Flex gap={10}>
-                              <p style={{ padding: '0', margin: '0' }}>
-                                {' '}
-                                <strong>Adults</strong> {adults}
-                              </p>{' '}
-                              {Number(children) > 0 && (
-                                <>
-                                  <p style={{ padding: '0', margin: '0' }}>
-                                    {' '}
-                                    <strong>Children</strong> {children}
-                                  </p>
-                                </>
-                              )}
-                              {Number(infants) > 0 && (
-                                <>
-                                  <p style={{ padding: '0', margin: '0' }}>
-                                    {' '}
-                                    <strong>Infants </strong> {infants}
-                                  </p>
-                                </>
-                              )}
-                            </Flex>
-                          </Flex>
+                          <GuestCount
+                            adults={adults}
+                            children={children}
+                            infants={infants}
+                          />
                         </EditableTitle>
                         <Box
                           sx={{

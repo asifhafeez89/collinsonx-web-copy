@@ -13,10 +13,10 @@ import { LoungeInfoPreBooked } from '@components/LoungeInfoPreBooked';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
 import { BookingStatus } from '@collinsonx/utils/generatedTypes/graphql';
 import priceToDisplay from 'utils/PriceToDisplay';
-
 import colors from 'ui/colour-constants';
 import { InfoPanel } from 'utils/PanelInfo';
 import BackToLounge from '@components/BackToLounge';
+import { GuestCount } from '@components/guests/GuestCount';
 
 export default function CancelBooking() {
   const router = useRouter();
@@ -149,27 +149,18 @@ export default function CancelBooking() {
                           <Heading as="h2" margin={0} padding={0}>
                             Who's coming
                           </Heading>
-                          <Flex direction="row" gap={10}>
-                            <p style={{ padding: '0', margin: '0' }}>
-                              {' '}
-                              <strong>Adults</strong>{' '}
-                              {bookingDetails.getBookingByID.guestAdultCount}
-                            </p>{' '}
-                            {Number(
+
+                          <GuestCount
+                            adults={
+                              bookingDetails.getBookingByID.guestAdultCount
+                            }
+                            children={
                               bookingDetails.getBookingByID.guestChildrenCount
-                            ) > 0 && (
-                              <>
-                                <p style={{ padding: '0', margin: '0' }}>
-                                  {' '}
-                                  <strong>Children</strong>{' '}
-                                  {
-                                    bookingDetails.getBookingByID
-                                      .guestChildrenCount
-                                  }
-                                </p>
-                              </>
-                            )}
-                          </Flex>
+                            }
+                            infants={
+                              bookingDetails.getBookingByID.guestInfantCount
+                            }
+                          />
 
                           <Heading as="h2" margin={0} padding={0}>
                             Estimated time of arrival

@@ -15,10 +15,8 @@ import { useRouter } from 'next/router';
 import { LoungeInfo } from '@components/LoungeInfo';
 import { Details } from '@collinsonx/design-system';
 import createBooking from '@collinsonx/utils/mutations/createBooking';
-import Link from 'next/link';
 import { useMemo, useState, useContext, useEffect } from 'react';
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
-import LoungeError from '@components/LoungeError';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import { Availability } from '@collinsonx/utils';
 import {
@@ -35,9 +33,7 @@ import {
   OAG_API_VERSION,
   DATE_FORMAT,
   TIME_FORMAT,
-  DATE_REDABLE_FORMAT,
   DATE_TIME_FORMAT,
-  LOUNGE,
   TRAVEL_TYPE,
 } from '../config/Constants';
 import { formatDate, formatDateUTC } from '../utils/DateFormatter';
@@ -51,8 +47,8 @@ import BackToLounge from '@components/BackToLounge';
 import BookingLightbox from '@collinsonx/design-system/components/bookinglightbox';
 import Price from '@components/Price';
 import Notification from '@components/Notification';
-
 import { InfoPanel } from 'utils/PanelInfo';
+import { GuestCount } from '@components/guests/GuestCount';
 
 function AvailableSlotsErrorHandling(slotsError: any) {
   const ENOUGH_CAPACITY_ERROR_IS_VALID = hasLoungeCapacity(slotsError);
@@ -398,30 +394,11 @@ export default function ConfirmAvailability() {
                         }}
                       >
                         <EditableTitle title="Who's coming" as="h2">
-                          <Flex direction="row" gap={10}>
-                            <Flex sx={{ width: '60%' }} gap={10}>
-                              <p style={{ padding: '0', margin: '0' }}>
-                                {' '}
-                                <strong>Adults</strong> {adults}
-                              </p>{' '}
-                              {Number(children) > 0 && (
-                                <>
-                                  <p style={{ padding: '0', margin: '0' }}>
-                                    {' '}
-                                    <strong>Children</strong> {children}
-                                  </p>
-                                </>
-                              )}
-                              {Number(infants) > 0 && (
-                                <>
-                                  <p style={{ padding: '0', margin: '0' }}>
-                                    {' '}
-                                    <strong>Infants </strong> {infants}
-                                  </p>
-                                </>
-                              )}
-                            </Flex>
-                          </Flex>
+                          <GuestCount
+                            adults={adults}
+                            children={children}
+                            infants={infants}
+                          />
                         </EditableTitle>
                         <Box
                           sx={{
