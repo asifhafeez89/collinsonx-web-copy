@@ -20,7 +20,14 @@ import { useRouter } from 'next/router';
 import { LoungeInfo } from '@components/LoungeInfo';
 import { Details } from '@collinsonx/design-system';
 import createBooking from '@collinsonx/utils/mutations/createBooking';
-import { useMemo, useState, useContext, useEffect, useCallback } from 'react';
+import {
+  useMemo,
+  useState,
+  useContext,
+  useEffect,
+  useCallback,
+  FC,
+} from 'react';
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import { Availability } from '@collinsonx/utils';
@@ -56,18 +63,21 @@ import { InfoPanel } from 'utils/PanelInfo';
 import { GuestCount } from '@components/guests/GuestCount';
 import { sendMobileEvent } from '../lib/index';
 
-function AvailableSlotsErrorHandling(slotsError: unknown) {
-  const ENOUGH_CAPACITY_ERROR_IS_VALID = hasLoungeCapacity(
-    slotsError,
-    'slotsError'
-  );
+interface AvailableSlotsErrorHandlingProps {
+  error: ApolloError | unknown;
+}
+
+const AvailableSlotsErrorHandling: FC<AvailableSlotsErrorHandlingProps> = ({
+  error,
+}) => {
+  const ENOUGH_CAPACITY_ERROR_IS_VALID = hasLoungeCapacity(error);
 
   if (ENOUGH_CAPACITY_ERROR_IS_VALID) {
-    return availableSlotsNotEnoughCapacityParser(slotsError, 'slotsError');
+    return availableSlotsNotEnoughCapacityParser(error);
   }
 
   return null;
-}
+};
 
 export default function ConfirmAvailability() {
   const router = useRouter();
@@ -437,7 +447,7 @@ export default function ConfirmAvailability() {
                         ) : null}
 
                         <AvailableSlotsErrorHandling
-                          slotsError={slotsError}
+                          error={slotsError}
                         ></AvailableSlotsErrorHandling>
                         <div>
                           This is a rough estimate so that lounge can prepare

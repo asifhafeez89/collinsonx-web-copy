@@ -15,9 +15,22 @@ import BackButton from '@components/BackButton';
 
 import fetchGrahpQLErrorObject from 'utils/fetchGrahpQLErrorObject';
 import { setAdultsPrefix, setChildPrefix, setInfantPrefix } from 'utils/guests';
+import { ApolloError } from '@collinsonx/utils/apollo';
 
-export function hasLoungeCapacity(slotsError: unknown, key: string): boolean {
-  const error = fetchGrahpQLErrorObject(slotsError, key);
+type Metadata = {
+  adultCount: {
+    max: number;
+  };
+  childrenCount: {
+    max: number;
+  };
+  infantCount: {
+    max: number;
+  };
+};
+
+export function hasLoungeCapacity(response: unknown | ApolloError): boolean {
+  const error = fetchGrahpQLErrorObject(response);
 
   if (!error) return false;
 
@@ -26,7 +39,8 @@ export function hasLoungeCapacity(slotsError: unknown, key: string): boolean {
 
   if (errorPropertiesAreInvalid) return false;
 
-  const metadata = error.metadata;
+  const metadata = error.metadata as Metadata;
+
   const metadataPropertiesAreInvalid =
     ('adultCount' in metadata &&
       'childrenCount' in metadata &&
@@ -44,12 +58,10 @@ export function hasLoungeCapacity(slotsError: unknown, key: string): boolean {
   return true;
 }
 
-export function availableSlotsNotEnoughCapacityParser(
-  slotsError: unknown,
-  key: string
-) {
-  const error = fetchGrahpQLErrorObject(slotsError, key);
-  const { adultCount, childrenCount, infantCount } = error.metadata;
+export function availableSlotsNotEnoughCapacityParser(slotsError: unknown) {
+  const error = fetchGrahpQLErrorObject(slotsError);
+  const { adultCount, childrenCount, infantCount } =
+    error?.metadata as Metadata;
 
   const adults = adultCount.max;
   const child = childrenCount.max;
