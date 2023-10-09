@@ -16,8 +16,8 @@ import {
 } from '@collinsonx/utils/supertokens';
 import LayoutLogin from '@components/LayoutLogin';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
-import { useEffect, useRef, useState } from 'react';
-import { useMutation } from '@collinsonx/utils/apollo';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useLazyQuery, useMutation } from '@collinsonx/utils/apollo';
 import { default as ErrorComponent } from '@components/Error';
 import usePayload from 'hooks/payload';
 import colors from 'ui/colour-constants';
@@ -27,8 +27,14 @@ import Session from 'supertokens-auth-react/recipe/session';
 import BackToLounge from '@components/BackToLounge';
 import getError from 'utils/getError';
 import { BookingError } from '../../constants';
-import { BookingQueryParams } from '@collinsonx/constants/enums';
+import {
+  AccountProvider,
+  BookingQueryParams,
+} from '@collinsonx/constants/enums';
 import { PinLockoutError } from '@collinsonx/constants/constants';
+import { getConsumerByID } from '@collinsonx/utils/queries';
+import { LinkedAccount } from '@collinsonx/utils/generatedTypes/graphql';
+import { accountIsEqual } from '../../lib/index';
 
 const { ERR_MEMBERSHIP_ALREADY_CONNECTED } = BookingError;
 const { tooManyAttempts, expiredJwt } = PinLockoutError;
@@ -55,6 +61,15 @@ export default function CheckEmail() {
 
   let interval = useRef<NodeJS.Timeout>();
 
+  const [
+    fetchConsumer,
+    {
+      loading: fetchConsumerLoading,
+      error: fetchConsumerError,
+      data: fetchConsumerData,
+    },
+  ] = useLazyQuery(getConsumerByID);
+
   useEffect(() => {
     interval.current = setInterval(() => {
       setCount((count) => {
@@ -67,12 +82,34 @@ export default function CheckEmail() {
     return () => clearInterval(interval.current);
   }, []);
 
+  const findLinkedAccount = useCallback(
+    (linkedAccounts: LinkedAccount[] = []) => {
+      return linkedAccounts.find(accountIsEqual(payload));
+    },
+    [payload]
+  );
+
   const handleClickResend = () => {
     try {
       createPasswordlessCode({ email });
     } catch (e) {}
     setCount(20);
   };
+
+  const redirect = useCallback(() => {
+    if (router.query.bookingId) {
+      router.push({
+        pathname: '/cancel-booking',
+        query: {
+          [bookingId]: router.query[bookingId] as string,
+        },
+      });
+    } else {
+      router.push({
+        pathname: '/',
+      });
+    }
+  }, [router]);
 
   const handleLinkAccount = () =>
     dolinkAccount({
@@ -102,18 +139,7 @@ export default function CheckEmail() {
 
       setLinkedAccountId(response.data.linkAccount.id);
 
-      if (router.query.bookingId) {
-        router.push({
-          pathname: '/cancel-booking',
-          query: {
-            [bookingId]: router.query[bookingId] as string,
-          },
-        });
-      } else {
-        router.push({
-          pathname: '/',
-        });
-      }
+      redirect();
     });
 
   const handleClickConfirm = async () => {
@@ -169,7 +195,20 @@ export default function CheckEmail() {
       console.log(
         '[check-code] consumerPasswordlessCode: response.createdNewUser === false'
       );
-      await handleLinkAccount();
+      const userId = response.user.id;
+      fetchConsumer({
+        variables: {
+          getConsumerById: userId,
+        },
+      }).then(({ data }) => {
+        const { linkedAccounts } = data.getConsumerByID;
+        const matchedAccount = findLinkedAccount(linkedAccounts || []);
+        if (!matchedAccount) {
+          handleLinkAccount();
+        } else {
+          redirect();
+        }
+      });
     }
   };
 
