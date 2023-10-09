@@ -111,7 +111,7 @@ export const LoungeInfo = ({ guests, lounge, loading }: LoungeInfoProps) => {
                 ).toFixed(2)}{' '}
               </Text>{' '}
               <Text size={20} style={{ lineHeight: '50px' }}>
-                per guest
+                per person
               </Text>
             </Flex>
           ) : null}

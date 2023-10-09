@@ -101,14 +101,19 @@ export default function BookingFailure() {
                         <AlertIcon
                           style={{ width: '1.3rem', height: '1.3rem' }}
                         />{' '}
-                        Your Booking hasn't been confirmed
+                        Your booking has been cancelled.
                       </Title>
                       <Text>
-                        Apologies for the delay in processing. Unfortunately, we
-                        couldn't confirm you booking.
+                        We're sorry but during the payment process the capacity
+                        for the lounge changed and we are no longer able to
+                        confirm your booking. You will be refunded any payment
+                        made.
                       </Text>
                       <Box sx={{ marginTop: '1.5rem' }}>
-                        <Text>Please consider booking another time slot.</Text>
+                        <Text>
+                          Please consider booking another time slot, or check to
+                          see if another lounge is available.
+                        </Text>
                       </Box>
                     </Box>
                   </Stack>
@@ -128,7 +133,7 @@ export default function BookingFailure() {
                         }
                       }}
                     >
-                      GO TO LOUNGES
+                      SEE OTHER LOUNGES
                     </Button>
 
                     <Button
@@ -142,7 +147,7 @@ export default function BookingFailure() {
                         })
                       }
                     >
-                      FIND ANOTHER SLOT
+                      SELECT ANOTHER TIME
                     </Button>
                   </Flex>
                 </Box>

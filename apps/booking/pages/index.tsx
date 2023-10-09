@@ -214,8 +214,8 @@ const Lounge = () => {
                   }}
                 >
                   <Notification>
-                    The maximum capacity of the lounge is a total of{' '}
-                    {MAX_GUESTS} guests.
+                    You can book for a maximum of {MAX_GUESTS} guests. Please
+                    try again.
                   </Notification>
                 </Box>
               ) : (

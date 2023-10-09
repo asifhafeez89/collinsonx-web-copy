@@ -133,7 +133,7 @@ export default function Login() {
                   },
                 }}
               >
-                Enter your email address
+                Enter your email
               </Title>
               {layoutError === ERR_MEMBERSHIP_ALREADY_CONNECTED && (
                 <Notification>
@@ -150,8 +150,8 @@ export default function Login() {
                 </Notification>
               )}
               <Text>
-                Enter email address where you will receive your booking
-                information
+                Please provide an email address we will use to communicate with
+                you including all booking information.
               </Text>
               <Stack spacing={10}>
                 <Text>
@@ -168,7 +168,7 @@ export default function Login() {
                   data-testid="loginEmailAddress"
                 />
                 <Text align="left">
-                  We will send you a unique code via email to proceed
+                  We will send you a one time passcode via email to proceed.
                 </Text>
               </Stack>
               <Button type="submit" data-testid="login">
