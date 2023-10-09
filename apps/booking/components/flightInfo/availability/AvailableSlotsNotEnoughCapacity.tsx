@@ -13,28 +13,24 @@ import { useDisclosure } from '@collinsonx/design-system/hooks';
 
 import BackButton from '@components/BackButton';
 
+import fetchGrahpQLErrorObject from 'utils/fetchGrahpQLErrorObject';
 import { setAdultsPrefix, setChildPrefix, setInfantPrefix } from 'utils/guests';
+import { ApolloError } from '@collinsonx/utils/apollo';
 
-function fetchErrorObject(slotsError: any) {
-  console.error('slotsError', slotsError);
-  if (!slotsError) {
-    return null;
-  }
+type Metadata = {
+  adultCount: {
+    max: number;
+  };
+  childrenCount: {
+    max: number;
+  };
+  infantCount: {
+    max: number;
+  };
+};
 
-  if ('errors' in slotsError) {
-    if (typeof slotsError.errors === 'object') {
-      const data = slotsError.errors[0];
-      if ('extensions' in data) {
-        return data.extensions;
-      }
-    }
-  }
-
-  return null;
-}
-
-export function hasLoungeCapacity(slotsError: any): boolean {
-  const error = fetchErrorObject(slotsError);
+export function hasLoungeCapacity(response: unknown | ApolloError): boolean {
+  const error = fetchGrahpQLErrorObject(response);
 
   if (!error) return false;
 
@@ -43,7 +39,8 @@ export function hasLoungeCapacity(slotsError: any): boolean {
 
   if (errorPropertiesAreInvalid) return false;
 
-  const metadata = error.metadata;
+  const metadata = error.metadata as Metadata;
+
   const metadataPropertiesAreInvalid =
     ('adultCount' in metadata &&
       'childrenCount' in metadata &&
@@ -61,9 +58,10 @@ export function hasLoungeCapacity(slotsError: any): boolean {
   return true;
 }
 
-export function availableSlotsNotEnoughCapacityParser(slotsError: any) {
-  const error = fetchErrorObject(slotsError);
-  const { adultCount, childrenCount, infantCount } = error.metadata;
+export function availableSlotsNotEnoughCapacityParser(slotsError: unknown) {
+  const error = fetchGrahpQLErrorObject(slotsError);
+  const { adultCount, childrenCount, infantCount } =
+    error?.metadata as Metadata;
 
   const adults = adultCount.max;
   const child = childrenCount.max;

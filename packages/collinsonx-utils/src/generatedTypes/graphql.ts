@@ -38,9 +38,8 @@ export type Arrival = {
 
 export type Availability = {
   __typename?: 'Availability';
-  messageID?: Maybe<Scalars['String']>;
+  message?: Maybe<Scalars['String']>;
   slots: Array<Slots>;
-  temporaryReservationID?: Maybe<Scalars['String']>;
 };
 
 export type AvailabilityInput = {
@@ -1448,6 +1447,7 @@ export type GetBookingByIdQuery = {
   __typename?: 'Query';
   getBookingByID?: {
     __typename?: 'Booking';
+    actingAccount?: string | null;
     bookedFrom: string;
     bookedTo: string;
     lastArrival: string;
@@ -1457,6 +1457,7 @@ export type GetBookingByIdQuery = {
     price_currency?: string | null;
     guestAdultCount: number;
     guestChildrenCount: number;
+    guestInfantCount: number;
     status: BookingStatus;
     id: string;
     consumer?: {
@@ -2608,6 +2609,10 @@ export const GetBookingByIdDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'actingAccount' },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'bookedFrom' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'bookedTo' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'lastArrival' } },
@@ -2625,6 +2630,10 @@ export const GetBookingByIdDocument = {
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'guestChildrenCount' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'guestInfantCount' },
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'status' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },

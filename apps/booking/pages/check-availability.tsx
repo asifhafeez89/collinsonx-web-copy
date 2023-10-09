@@ -1,4 +1,9 @@
-import { useLazyQuery, useMutation, useQuery } from '@collinsonx/utils/apollo';
+import {
+  ApolloError,
+  useLazyQuery,
+  useMutation,
+  useQuery,
+} from '@collinsonx/utils/apollo';
 import Layout from '@components/Layout';
 import {
   Box,
@@ -15,7 +20,14 @@ import { useRouter } from 'next/router';
 import { LoungeInfo } from '@components/LoungeInfo';
 import { Details } from '@collinsonx/design-system';
 import createBooking from '@collinsonx/utils/mutations/createBooking';
-import { useMemo, useState, useContext, useEffect, useCallback } from 'react';
+import {
+  useMemo,
+  useState,
+  useContext,
+  useEffect,
+  useCallback,
+  FC,
+} from 'react';
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import { Availability } from '@collinsonx/utils';
@@ -51,15 +63,21 @@ import { InfoPanel } from 'utils/PanelInfo';
 import { GuestCount } from '@components/guests/GuestCount';
 import { sendMobileEvent } from '../lib/index';
 
-function AvailableSlotsErrorHandling(slotsError: any) {
-  const ENOUGH_CAPACITY_ERROR_IS_VALID = hasLoungeCapacity(slotsError);
+interface AvailableSlotsErrorHandlingProps {
+  error: ApolloError | unknown;
+}
+
+const AvailableSlotsErrorHandling: FC<AvailableSlotsErrorHandlingProps> = ({
+  error,
+}) => {
+  const ENOUGH_CAPACITY_ERROR_IS_VALID = hasLoungeCapacity(error);
 
   if (ENOUGH_CAPACITY_ERROR_IS_VALID) {
-    return availableSlotsNotEnoughCapacityParser(slotsError);
+    return availableSlotsNotEnoughCapacityParser(error);
   }
 
   return null;
-}
+};
 
 export default function ConfirmAvailability() {
   const router = useRouter();
@@ -103,8 +121,8 @@ export default function ConfirmAvailability() {
 
   const findSelectedSlot = (slots: Slots[] | undefined, value: string) => {
     const slot = slots?.find((slot) => {
-      const startDate = formatDateUTC(slot.startDate, TIME_FORMAT);
-      const endDate = formatDateUTC(slot.endDate, TIME_FORMAT);
+      const startDate = formatDate(slot.startDate, TIME_FORMAT);
+      const endDate = formatDate(slot.endDate, TIME_FORMAT);
       const slotLabel = ` ${startDate}-${endDate}`;
       return slotLabel === value;
     });
@@ -118,7 +136,7 @@ export default function ConfirmAvailability() {
     const departureTime =
       flightData?.getFlightDetails[0]?.departure?.dateTime?.local;
 
-    const formattedDepartureTime = formatDate(
+    const formattedDepartureTime = formatDateUTC(
       new Date(String(departureTime)),
       DATE_TIME_FORMAT
     );
@@ -217,8 +235,7 @@ export default function ConfirmAvailability() {
               flightInformation: {
                 type: TRAVEL_TYPE,
                 dateTime:
-                  flightInfoData?.getFlightDetails[0]?.departure?.dateTime
-                    ?.local,
+                  flightInfoData?.getFlightDetails[0]?.departure?.dateTime?.utc,
                 airport:
                   flightInfoData?.getFlightDetails[0]?.departure?.airport,
                 terminal: '-1',
@@ -244,11 +261,6 @@ export default function ConfirmAvailability() {
   });
   const departureTime =
     flightData?.getFlightDetails[0]?.departure?.dateTime?.local;
-
-  const departureDateToRender = formatDate(
-    new Date(`${departureDate}`),
-    DATE_FORMAT
-  );
 
   const dayjsDepartureTime = dayjs(departureTime, {
     format: 'YYYY-MM-DD HH:mm',
@@ -401,7 +413,7 @@ export default function ConfirmAvailability() {
                           },
                         }}
                       >
-                        <EditableTitle title="Who's coming" as="h2">
+                        <EditableTitle title="Who's coming?" as="h2">
                           <GuestCount
                             adults={adults}
                             children={children}
@@ -435,7 +447,7 @@ export default function ConfirmAvailability() {
                         ) : null}
 
                         <AvailableSlotsErrorHandling
-                          slotsError={slotsError}
+                          error={slotsError}
                         ></AvailableSlotsErrorHandling>
                         <div>
                           This is a rough estimate so that lounge can prepare

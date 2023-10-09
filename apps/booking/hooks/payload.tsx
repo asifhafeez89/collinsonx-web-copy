@@ -39,6 +39,7 @@ import {
 } from 'supertokens-auth-react/recipe/session';
 import LoungeError from '@components/LoungeError';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
+import { accountIsEqual } from '../lib/index';
 import {
   LOUNGE_CODE,
   JWT,
@@ -89,7 +90,7 @@ export const usePayload = (): PayloadState => {
  * @returns
  */
 const validatePayload = (payload: BridgePayload) =>
-  hasRequired(payload, ['membershipNumber', 'accountProvider']);
+  hasRequired(payload, ['accountProvider', 'externalId']);
 
 function callThemeFunction(name: AccountProvider | Client) {
   switch (name) {
@@ -112,6 +113,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
   const [loungeCode, setLoungeCode] = useState<string>();
   const [jwt, setJWT] = useState<string>();
   const [tokenError, setTokenError] = useState<string>();
+  const [payloadError, setPayloadError] = useState<boolean>(false);
   const [payloadErrorTitle, setPayloadErrorTitle] = useState<string>();
   const [payloadErrorMessage, setPayloadErrorMessage] = useState<string>();
   const [linkedAccountId, setLinkedAccountId] = useState<string>();
@@ -204,6 +206,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       if (!validatePayload(payload)) {
         console.log('JWT did not pass validatePayload() checks');
         setPayloadErrorTitle('Sorry, service is not available');
+        setPayloadError(true);
       }
       setPayload(payload);
     }
@@ -211,13 +214,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
 
   const findLinkedAccount = useCallback(
     (linkedAccounts: LinkedAccount[] = []) => {
-      return linkedAccounts.find(
-        (item: LinkedAccount) =>
-          String(item.membershipID) === String(payload?.membershipNumber) &&
-          String(item.externalID) === String(payload?.externalId) &&
-          (item.provider as unknown as AccountProvider) ===
-            payload?.accountProvider
-      );
+      return linkedAccounts.find(accountIsEqual(payload));
     },
     [payload]
   );
@@ -259,7 +256,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
   }, [session, payload, router, fetchConsumer]);
 
   useEffect(() => {
-    if (tokenError !== undefined) {
+    if (payloadError || tokenError !== undefined) {
       setPayloadErrorTitle('Sorry, service is not available');
     } else if (!loadingLounge && !lounge) {
       setPayloadErrorTitle("Sorry we can't find the lounge you requested");
@@ -361,14 +358,17 @@ export const PayloadProvider = (props: PropsWithChildren) => {
           ) : (
             <>
               {payloadErrorTitle &&
-              (loungeError || tokenError || (!loadingLounge && !lounge)) ? (
+              (loungeError ||
+                tokenError ||
+                (!loadingLounge && !lounge) ||
+                payloadError) ? (
                 <LayoutError
                   payloadTheme={layoutErrorTheme()}
                   payloadErrorTitle={payloadErrorTitle}
                   payloadErrorMessage={payloadErrorMessage}
                 />
               ) : (
-                props.children
+                payload && props.children
               )}
             </>
           ))}

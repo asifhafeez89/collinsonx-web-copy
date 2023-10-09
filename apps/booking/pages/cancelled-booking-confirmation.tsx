@@ -107,20 +107,10 @@ export default function CancelBooking() {
                               ? 'Your booking cancellation has failed, please contact our team'
                               : 'Your booking could not be cancelled, please contact our team'}
                           </Heading>
+
                           <Heading as="h2" margin={0} padding={0}>
-                            Cancellation Policy
-                          </Heading>
-                          <Text mb={32}>
-                            Cancel up to 48 hours before your booking to receive
-                            a full refund. Bookings cannot be cancelled within
-                            48 hours of booking arrival time, including new
-                            bookings made within that time range.
-                          </Text>
-                          <Heading as="h4" margin={0} padding={0}>
-                            Booking Reference:{' '}
-                            <strong>
-                              {bookingDetails.getBookingByID.reference}
-                            </strong>
+                            Booking Refence:{' '}
+                            {bookingDetails?.getBookingByID?.reference}
                           </Heading>
                           <Text>
                             {bookingDetails.getBookingByID.status ===
@@ -149,8 +139,8 @@ export default function CancelBooking() {
                             direction="row"
                           />
 
-                          <Heading as="h2" margin={0} padding={0}>
-                            Who's coming
+                          <Heading as="h3" margin={0} padding={0}>
+                            Who's coming?
                           </Heading>
 
                           <GuestCount
@@ -165,7 +155,7 @@ export default function CancelBooking() {
                             }
                           />
 
-                          <Heading as="h2" margin={0} padding={0}>
+                          <Heading as="h3" margin={0} padding={0}>
                             Estimated time of arrival
                           </Heading>
                           <Flex

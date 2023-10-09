@@ -172,7 +172,7 @@ export default function Login() {
                 </Text>
               </Stack>
               <Button type="submit" data-testid="login">
-                Continue
+                CONTINUE
               </Button>
             </Stack>
           </form>
