@@ -13,28 +13,11 @@ import { useDisclosure } from '@collinsonx/design-system/hooks';
 
 import BackButton from '@components/BackButton';
 
+import fetchGrahpQLErrorObject from 'utils/fetchGrahpQLErrorObject';
 import { setAdultsPrefix, setChildPrefix, setInfantPrefix } from 'utils/guests';
 
-function fetchErrorObject(slotsError: any) {
-  console.error('slotsError', slotsError);
-  if (!slotsError) {
-    return null;
-  }
-
-  if ('errors' in slotsError) {
-    if (typeof slotsError.errors === 'object') {
-      const data = slotsError.errors[0];
-      if ('extensions' in data) {
-        return data.extensions;
-      }
-    }
-  }
-
-  return null;
-}
-
-export function hasLoungeCapacity(slotsError: any): boolean {
-  const error = fetchErrorObject(slotsError);
+export function hasLoungeCapacity(slotsError: unknown, key: string): boolean {
+  const error = fetchGrahpQLErrorObject(slotsError, key);
 
   if (!error) return false;
 
@@ -61,8 +44,11 @@ export function hasLoungeCapacity(slotsError: any): boolean {
   return true;
 }
 
-export function availableSlotsNotEnoughCapacityParser(slotsError: any) {
-  const error = fetchErrorObject(slotsError);
+export function availableSlotsNotEnoughCapacityParser(
+  slotsError: unknown,
+  key: string
+) {
+  const error = fetchGrahpQLErrorObject(slotsError, key);
   const { adultCount, childrenCount, infantCount } = error.metadata;
 
   const adults = adultCount.max;

@@ -1,4 +1,9 @@
-import { useLazyQuery, useMutation, useQuery } from '@collinsonx/utils/apollo';
+import {
+  ApolloError,
+  useLazyQuery,
+  useMutation,
+  useQuery,
+} from '@collinsonx/utils/apollo';
 import Layout from '@components/Layout';
 import {
   Box,
@@ -51,11 +56,14 @@ import { InfoPanel } from 'utils/PanelInfo';
 import { GuestCount } from '@components/guests/GuestCount';
 import { sendMobileEvent } from '../lib/index';
 
-function AvailableSlotsErrorHandling(slotsError: any) {
-  const ENOUGH_CAPACITY_ERROR_IS_VALID = hasLoungeCapacity(slotsError);
+function AvailableSlotsErrorHandling(slotsError: unknown) {
+  const ENOUGH_CAPACITY_ERROR_IS_VALID = hasLoungeCapacity(
+    slotsError,
+    'slotsError'
+  );
 
   if (ENOUGH_CAPACITY_ERROR_IS_VALID) {
-    return availableSlotsNotEnoughCapacityParser(slotsError);
+    return availableSlotsNotEnoughCapacityParser(slotsError, 'slotsError');
   }
 
   return null;

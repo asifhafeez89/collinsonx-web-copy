@@ -38,9 +38,8 @@ export type Arrival = {
 
 export type Availability = {
   __typename?: 'Availability';
-  messageID?: Maybe<Scalars['String']>;
+  message?: Maybe<Scalars['String']>;
   slots: Array<Slots>;
-  temporaryReservationID?: Maybe<Scalars['String']>;
 };
 
 export type AvailabilityInput = {
