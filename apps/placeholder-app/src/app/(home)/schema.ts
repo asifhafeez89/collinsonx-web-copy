@@ -1,8 +1,8 @@
 import Joi from 'joi';
 
 const schema = Joi.object({
-  externalId: Joi.string().optional().allow('').max(15),
-  membershipNumber: Joi.string().optional().allow(''),
+  externalId: Joi.number().optional().allow(''),
+  membershipNumber: Joi.number().optional().allow(''),
   email: Joi.string()
     .optional()
     .email({ tlds: { allow: false } })
@@ -13,8 +13,8 @@ const schema = Joi.object({
 });
 
 export type SchemaType = {
-  externalId: string;
-  membershipNumber: string;
+  externalId: number;
+  membershipNumber: number;
   email: string;
   customFirstName: string;
   customLastName: string;
