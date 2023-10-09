@@ -5,11 +5,9 @@ import { Consumer } from '@collinsonx/utils/generatedTypes/graphql';
 import { LoungeInfo } from '@components/LoungeInfo';
 import { getConsumer } from '@collinsonx/utils/queries';
 import { Details, Button } from '@collinsonx/design-system';
-import Link from 'next/link';
 import { useMemo, useContext, useState } from 'react';
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
-import { Availability } from '@collinsonx/utils';
 import { validateFlightNumber } from '../utils/flightValidation';
 import { FlightDetails } from '@collinsonx/utils';
 import getFlightDetails from '@collinsonx/utils/queries/getFlightDetails';
@@ -26,35 +24,20 @@ import { BookingContext } from 'context/bookingContext';
 import { getCheckoutSessionUrl } from 'services/payment';
 import colors from 'ui/colour-constants';
 import BackToLounge from '@components/BackToLounge';
-import { useRouter } from 'next/router';
 import Price from '@components/Price';
 import dayjs from 'dayjs';
-
 import StripeCheckout from '@components/stripe';
-
 import { InfoPanel } from 'utils/PanelInfo';
+import { GuestCount } from '@components/guests/GuestCount';
 
-interface AvailableSlotsProps {
-  availableSlots: Availability;
-}
-
-export default function ConfirmAvailability({
-  availableSlots,
-}: AvailableSlotsProps) {
+export default function ConfirmBooking() {
   const [clientSecret, setClientSecret] = useState<''>();
   const { lounge } = usePayload();
 
   const { getBooking } = useContext(BookingContext);
 
-  const {
-    flightNumber,
-    departureDate,
-    children,
-    bookingId,
-    adults,
-    arrival,
-    infants,
-  } = getBooking();
+  const { flightNumber, departureDate, children, bookingId, adults, infants } =
+    getBooking();
 
   const totalQuantity: number = Number(adults + children);
 
@@ -117,11 +100,6 @@ export default function ConfirmAvailability({
 
   const departureTime =
     flightData?.getFlightDetails[0]?.departure?.dateTime?.local;
-
-  const departureDateToDisplay = formatDate(
-    new Date(`${departureDate}`),
-    DATE_FORMAT
-  );
 
   const dayjsDepartureTime = dayjs(departureTime, {
     format: 'YYYY-MM-DD HH:mm',
@@ -209,30 +187,11 @@ export default function ConfirmAvailability({
                         }}
                       >
                         <EditableTitle title="Who's coming" as="h2">
-                          <Flex direction="row" gap={10}>
-                            <Flex sx={{ width: '60%' }} gap={10}>
-                              <p style={{ padding: '0', margin: '0' }}>
-                                {' '}
-                                <strong>Adults</strong> {adults}
-                              </p>{' '}
-                              {Number(children) > 0 && (
-                                <>
-                                  <p style={{ padding: '0', margin: '0' }}>
-                                    {' '}
-                                    <strong>Children</strong> {children}
-                                  </p>
-                                </>
-                              )}
-                              {Number(infants) > 0 && (
-                                <>
-                                  <p style={{ padding: '0', margin: '0' }}>
-                                    {' '}
-                                    <strong>Infants </strong> {infants}
-                                  </p>
-                                </>
-                              )}
-                            </Flex>
-                          </Flex>
+                          <GuestCount
+                            adults={adults}
+                            children={children}
+                            infants={infants}
+                          />
                         </EditableTitle>
                         <Box
                           sx={{
@@ -287,4 +246,4 @@ export default function ConfirmAvailability({
   );
 }
 
-ConfirmAvailability.getLayout = (page: JSX.Element) => <>{page}</>;
+ConfirmBooking.getLayout = (page: JSX.Element) => <>{page}</>;

@@ -100,7 +100,7 @@ export default function CancelBooking() {
         } else {
           router.push({
             pathname: '/cancelled-booking-confirmation',
-            query: { id: emailBookingId },
+            query: { bookingId: emailBookingId },
           });
         }
       });
