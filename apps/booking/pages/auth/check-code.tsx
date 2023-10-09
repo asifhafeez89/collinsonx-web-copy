@@ -302,9 +302,9 @@ export default function CheckEmail() {
                       align="center"
                       size={16}
                     >
-                      Perhaps the code is invalid or has expired.
+                      Passcode may be incorrect or expired.
                       <br />
-                      Please try again
+                      Please try again.
                     </Text>
                   )}
                   <Flex

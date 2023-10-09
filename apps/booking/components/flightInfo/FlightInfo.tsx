@@ -48,7 +48,7 @@ export const FlightInfo = ({ form, loading }: FlightInfoProps) => {
       <LoadingOverlay visible={flightInfoLoading} overlayBlur={2} />
       <Stack spacing={16}>
         <Title order={3} size={18}>
-          Flight Details
+          My flight details
         </Title>
         <Flex
           sx={{
@@ -62,7 +62,7 @@ export const FlightInfo = ({ form, loading }: FlightInfoProps) => {
         >
           <DatePickerInput
             icon={<IconCalendar size="1.5rem" stroke={1.5} />}
-            label="Date of flight"
+            label="Date"
             placeholder="Flight date"
             minDate={new Date()}
             maw={400}

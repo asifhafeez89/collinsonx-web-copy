@@ -222,17 +222,16 @@ export default function ConfirmPayment() {
           <div>
             <h2>Payment is being processed</h2>
             <p>
-              Your payment for the{' '}
+              Your payment for{' '}
               <strong>
                 {lounge?.loungeName} &nbsp;
                 {loungeLocation}
               </strong>{' '}
-              is being processed. This might take a few minutes/seconds to
+              is being processed.
+              <br />
+              <br />
+              Please don't refresh the page, it may take a few minutes to
               complete.
-              <br />
-              <br />
-              Please do not leave the screen rather close your browser until the
-              action finishes.
             </p>
           </div>
         </LoaderLightBox>
@@ -300,7 +299,7 @@ export default function ConfirmPayment() {
                           fontWeight: '700',
                         }}
                       >
-                        Your Booking has been confirmed
+                        Good news! Your booking has been confirmed
                       </Title>
                       <Text
                         style={{
@@ -409,7 +408,7 @@ export default function ConfirmPayment() {
                         }}
                       >
                         <Heading as="h2" padding={0} margin={0}>
-                          Estimated time of arrival
+                          Estimated lounge arrival time
                         </Heading>
                         <Flex direction="row" gap={10}>
                           <p style={{ padding: '0', margin: '0' }}>
