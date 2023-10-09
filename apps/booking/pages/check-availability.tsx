@@ -56,7 +56,12 @@ import { InfoPanel } from 'utils/PanelInfo';
 import { GuestCount } from '@components/guests/GuestCount';
 import { sendMobileEvent } from '../lib/index';
 
-function AvailableSlotsErrorHandling(slotsError: unknown) {
+interface AvailableSlotsErrorHandlingProps {
+  slotsError: unknown;
+}
+function AvailableSlotsErrorHandling({
+  slotsError,
+}: AvailableSlotsErrorHandlingProps) {
   const ENOUGH_CAPACITY_ERROR_IS_VALID = hasLoungeCapacity(
     slotsError,
     'slotsError'
