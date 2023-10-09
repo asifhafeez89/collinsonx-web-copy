@@ -16,8 +16,8 @@ const AvailableSlots = ({
     () =>
       availableSlots.slots
         .map((slot) => {
-          const startDate = formatDateUTC(slot.startDate, TIME_FORMAT);
-          const endDate = formatDateUTC(slot.endDate, TIME_FORMAT);
+          const startDate = formatDate(slot.startDate, TIME_FORMAT);
+          const endDate = formatDate(slot.endDate, TIME_FORMAT);
           const label = ` ${startDate}-${endDate}`;
           const value = label;
           return {

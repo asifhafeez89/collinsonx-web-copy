@@ -26,9 +26,14 @@ function BookingLightbox({
         onClose={onClose}
         withCloseButton={false}
         padding={0}
+        sx={{ width: '590px' }}
       >
         <Box
-          sx={{ textAlign: 'center', padding: ' 0 2rem', lineHeight: '2rem' }}
+          sx={{
+            textAlign: 'center',
+            padding: ' 0 2rem',
+            lineHeight: '2rem',
+          }}
         >
           {' '}
           {children}
@@ -36,7 +41,11 @@ function BookingLightbox({
 
         <Flex
           justify="center"
-          sx={{ backgroundColor: '#C8C9CA', padding: '20px' }}
+          sx={{
+            backgroundColor: '#F7F7F7',
+            padding: '20px',
+            borderTop: '1px solid #C8C9CA',
+          }}
           gap={3}
           direction={{ base: 'column', lg: 'row' }}
         >

@@ -1,14 +1,11 @@
-// @ts-ignore
-function fetchGrahpQLErrorObject(response, key: string) {
+import { ApolloError } from '@collinsonx/utils/apollo';
+
+function fetchGrahpQLErrorObject(response: unknown | ApolloError) {
   if (!response && typeof response !== 'object') {
     return null;
   }
 
-  if (!response[key]) {
-    return null;
-  }
-
-  const error = response[key];
+  const error = response as ApolloError;
 
   if (error && 'graphQLErrors' in error) {
     const graphQLErrors = error.graphQLErrors;

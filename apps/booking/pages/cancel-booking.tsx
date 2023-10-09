@@ -24,6 +24,7 @@ import { LoungeInfo } from '@components/LoungeInfo';
 import BackToLounge from '@components/BackToLounge';
 
 import { BookingError } from '../constants';
+import BookingLightbox from '@collinsonx/design-system/components/bookinglightbox';
 
 const {
   ERR_BOOKING_NOT_FOUND,
@@ -116,16 +117,19 @@ export default function CancelBooking() {
         <Stack spacing={16} sx={{ width: '100%' }}>
           <BackToLounge />
 
-          <Lightbox
+          <BookingLightbox
             open={opened}
-            title=""
             ctaForwardCall={handleCancellation}
             ctaForward="CANCEL BOOKING"
-            ctaCancel={'RETURN'}
+            ctaCancel={'CLOSE'}
             onClose={close}
-            cancelModal={true}
           >
-            <Flex align="center" justify="center" wrap="wrap">
+            <Flex
+              align="center"
+              justify="center"
+              wrap="wrap"
+              sx={{ padding: '20px 0' }}
+            >
               <Heading
                 as="h2"
                 margin={0}
@@ -138,7 +142,7 @@ export default function CancelBooking() {
                 You are about to cancel the booking, are you sure?{' '}
               </Text>
             </Flex>
-          </Lightbox>
+          </BookingLightbox>
 
           <Flex
             justify="center"
@@ -238,12 +242,12 @@ export default function CancelBooking() {
                               },
                             }}
                           >
-                            <EditableTitle title="Who's coming" as="h2">
+                            <EditableTitle title="Who's coming?" as="h3">
                               <Flex direction="row" gap={10}>
                                 <Flex sx={{ width: '60%' }} gap={10}>
                                   <p style={{ padding: '0', margin: '0' }}>
                                     {' '}
-                                    <strong>Adults</strong>{' '}
+                                    Adults{' '}
                                     {
                                       bookingDetails?.getBookingByID
                                         ?.guestAdultCount
@@ -276,7 +280,7 @@ export default function CancelBooking() {
                                 },
                               }}
                             >
-                              <EditableTitle title="Total price" as="h2">
+                              <EditableTitle title="Total price" as="h3">
                                 <Price
                                   lounge={
                                     bookingDetails?.getBookingByID?.experience
@@ -297,7 +301,7 @@ export default function CancelBooking() {
                             </Box>
                           </Flex>
 
-                          <Heading as="h2" margin={0} padding={0}>
+                          <Heading as="h3" margin={0} padding={0}>
                             Estimated time of arrival
                           </Heading>
                           <Flex
@@ -311,6 +315,13 @@ export default function CancelBooking() {
                                   `${bookingDetails?.getBookingByID?.bookedFrom}`
                                 ),
                                 TIME_FORMAT
+                              )}{' '}
+                              -{' '}
+                              {formatDate(
+                                new Date(
+                                  `${bookingDetails?.getBookingByID.lastArrival}`
+                                ),
+                                TIME_FORMAT
                               )}
                             </p>{' '}
                           </Flex>
@@ -319,24 +330,9 @@ export default function CancelBooking() {
 
                       <Button
                         py={8}
-                        variant="outline"
                         handleClick={open}
                         align="center"
-                        styles={{
-                          root: {
-                            border: 'solid',
-                            backgroundColor: 'transparent',
-                            borderColor: colors.red,
-                            borderWidth: 2,
-                            color: colors.red,
-                            ':hover': {
-                              backgroundColor: 'lightgray',
-                            },
-                          },
-                          label: {
-                            color: colors.red,
-                          },
-                        }}
+                        type="submit"
                       >
                         CANCEL BOOKING
                       </Button>

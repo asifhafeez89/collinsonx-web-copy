@@ -186,7 +186,7 @@ export default function ConfirmBooking() {
                           },
                         }}
                       >
-                        <EditableTitle title="Who's coming" as="h2">
+                        <EditableTitle title="Who's coming?" as="h2">
                           <GuestCount
                             adults={adults}
                             children={children}

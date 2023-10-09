@@ -375,7 +375,7 @@ export default function ConfirmPayment() {
                           },
                         }}
                       >
-                        <EditableTitle title="Who's coming" as="h2">
+                        <EditableTitle title="Who's coming?" as="h2">
                           <GuestCount
                             adults={adults}
                             children={children}
