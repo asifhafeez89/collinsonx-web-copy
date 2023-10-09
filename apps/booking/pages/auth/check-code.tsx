@@ -96,6 +96,21 @@ export default function CheckEmail() {
     setCount(20);
   };
 
+  const redirect = useCallback(() => {
+    if (router.query.bookingId) {
+      router.push({
+        pathname: '/cancel-booking',
+        query: {
+          [bookingId]: router.query[bookingId] as string,
+        },
+      });
+    } else {
+      router.push({
+        pathname: '/',
+      });
+    }
+  }, [router]);
+
   const handleLinkAccount = () =>
     dolinkAccount({
       variables: {
@@ -123,22 +138,9 @@ export default function CheckEmail() {
       }
 
       setLinkedAccountId(response.data.linkAccount.id);
-    });
 
-  const redirect = useCallback(() => {
-    if (router.query.bookingId) {
-      router.push({
-        pathname: '/cancel-booking',
-        query: {
-          [bookingId]: router.query[bookingId] as string,
-        },
-      });
-    } else {
-      router.push({
-        pathname: '/',
-      });
-    }
-  }, [router]);
+      redirect();
+    });
 
   const handleClickConfirm = async () => {
     setCheckingCode(true);
@@ -202,9 +204,7 @@ export default function CheckEmail() {
         const { linkedAccounts } = data.getConsumerByID;
         const matchedAccount = findLinkedAccount(linkedAccounts || []);
         if (!matchedAccount) {
-          handleLinkAccount().then(() => {
-            redirect();
-          });
+          handleLinkAccount();
         } else {
           redirect();
         }
