@@ -279,17 +279,7 @@ const Content = () => {
           {error}
         </Notification>
       )}
-      <form
-        onSubmit={form.onSubmit((values) => {
-          const { externalId, membershipNumber } = values;
-          const result = {
-            ...values,
-            externalId: Number(externalId),
-            membershipNumber: Number(membershipNumber),
-          };
-          createNewJWT(result);
-        })}
-      >
+      <form onSubmit={form.onSubmit((values) => createNewJWT(values))}>
         <Grid>
           <Grid.Col span={6}>
             <Select
@@ -303,7 +293,6 @@ const Content = () => {
         <Grid>
           <Grid.Col span={6}>
             <TextInput
-              type="number"
               {...form.getInputProps('externalId')}
               placeholder="Please add legacy external ID details"
             />
@@ -313,7 +302,6 @@ const Content = () => {
         <Grid>
           <Grid.Col span={6}>
             <TextInput
-              type="number"
               {...form.getInputProps('membershipNumber')}
               placeholder="Please add membership number details"
             />
