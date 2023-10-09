@@ -45,14 +45,14 @@ export enum BookingError {
 export const ValidationErrorResponses = {
   INVALID_DATE: {
     code: 'ERR_INVALID_DATE',
-    message: 'Invalid Date',
+    message: 'Must provide date of flight.',
   },
   INVALID_DATEFlIGHT: {
     code: 'ERR_INVALID_DATEFlIGHT',
-    message: 'Flight not found',
+    message: 'Flight details not recognised. Please check and try again.',
   },
   INVALID_FLIGHT: {
     code: 'ERR_INVALID_FLIGHT',
-    message: 'Invalid Flight',
+    message: 'Flight details not recognised. Please check and try again.',
   },
 } as const;

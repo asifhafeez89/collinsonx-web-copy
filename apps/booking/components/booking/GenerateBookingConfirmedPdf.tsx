@@ -29,44 +29,34 @@ const GeneratedPDF = (props: BookingConfirmedPdfProps) => (
   <Document>
     <Page size="A4">
       <View style={styles.view}>
-        <Text style={[styles.h1]}>[Priority Pass] Booking Confirmation</Text>
+        <Text style={[styles.h1]}>Booking Confirmation</Text>
 
         <Text style={[styles.marginTop, styles.padding]}>
-          Your Booking has been confirmed at:
+          Good news! Your booking for{' '}
+          {formatDate(new Date(`${props.departureTime}`), DATE_REDABLE_FORMAT)}
+          at {props.lounge.loungeName}, {props.lounge.location?.terminal},{' '}
+          {props.lounge.location?.airportName}
+          has been confirmed.
+        </Text>
+        <Text style={[styles.marginTop, styles.padding]}>
+          Your booking details
+        </Text>
+        <Text style={[styles.p, styles.marginTop, styles.padding]}>
+          Booking reference: {props.reference}
         </Text>
         <Text style={[styles.p, styles.padding]}>
-          {props.lounge.loungeName}, {props.lounge.location?.airportName},{' '}
-          {props.lounge.location?.terminal}{' '}
-        </Text>
-
-        <Text style={[styles.p, styles.marginTop, styles.padding]}>
-          Booking reference {props.reference}
-        </Text>
-
-        <Text style={[styles.p, styles.marginTop, styles.padding]}>
-          A confirmation email has been sent to
-        </Text>
-        <Text style={[styles.h3, styles.padding]}>{props.emailAddress}</Text>
-
-        <Text style={[styles.h2, styles.marginTop, styles.padding]}>
-          Flight details
-        </Text>
-
-        <Text style={[styles.h3, styles.padding]}>Day of flight</Text>
-        <Text style={[styles.p, styles.padding]}>
+          Date:{' '}
           {formatDate(new Date(`${props.departureTime}`), DATE_REDABLE_FORMAT)}
         </Text>
-
-        <Text style={[styles.h3, styles.padding]}>Time of flight</Text>
         <Text style={[styles.p, styles.padding]}>
-          {formatDate(new Date(`${props.departureTime}`), TIME_FORMAT)}
+          Flight number: {props.flightNumber}
+        </Text>
+        <Text style={[styles.p, styles.padding]}>
+          Estimated lounge arrival time: {props.arrival}
         </Text>
 
-        <Text style={[styles.h3, styles.padding]}>Flight number</Text>
-        <Text style={[styles.p, styles.padding]}>{props.flightNumber}</Text>
-
         <Text style={[styles.h2, styles.marginTop, styles.padding]}>
-          Who's coming
+          Who's coming?
         </Text>
         <Text style={[styles.p, styles.padding]}>
           Adults {props.adults}{' '}
@@ -74,10 +64,23 @@ const GeneratedPDF = (props: BookingConfirmedPdfProps) => (
           {props.infants > 0 && `Infants ${props.infants}`}
         </Text>
 
-        <Text style={[styles.h2, styles.marginTop, styles.padding]}>
-          Estimated time of arrival
+        <Text style={[styles.p, styles.marginTop, styles.padding]}>
+          Please remember to bring your booking reference, boarding pass and
+          photo ID for check in at the lounge.
         </Text>
-        <Text style={[styles.p, styles.padding]}>{props.arrival}</Text>
+
+        <Text style={[styles.p, styles.padding]}>
+          We look forward to seeing you there!
+        </Text>
+
+        <Text style={[styles.h2, styles.marginTop, styles.padding]}>
+          Need to cancel?
+        </Text>
+
+        <Text style={[styles.p, styles.padding]}>
+          You can cancel your booking up to 48 hours before your booking arrival
+          time to receive a refund.
+        </Text>
       </View>
     </Page>
   </Document>
@@ -132,11 +135,11 @@ export const GenerateBookingConfirmedPdf = (
       style={{
         borderRadius: 4,
         fontSize: 18,
-        height: '44px',
+        height: 'auto',
         backgroundColor: colors.theme,
         padding: '0 18px',
         display: 'flex',
-        width: 194,
+        width: 'auto',
         textDecoration: 'none',
         alignItems: 'center',
       }}
@@ -155,9 +158,10 @@ export const GenerateBookingConfirmedPdf = (
               alignItems: 'center',
               justifyContent: 'center',
               color: colors.white,
+              padding: '0.5rem 0',
             }}
           >
-            DOWNLOAD COPY
+            DOWNLOAD BOOKING CONFIRMATION
           </span>
         )
       }

@@ -224,6 +224,12 @@ export default function ConfirmBooking() {
                             maximum stay is 3 hours prior.
                           </p>
                         </div>
+                        <div>
+                          <p>
+                            Please confirm details are correct before making
+                            payment.
+                          </p>
+                        </div>
                       </EditableTitle>
                     </Stack>
                     <Button

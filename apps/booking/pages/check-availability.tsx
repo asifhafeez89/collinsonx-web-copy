@@ -450,8 +450,8 @@ export default function ConfirmAvailability() {
                           error={slotsError}
                         ></AvailableSlotsErrorHandling>
                         <div>
-                          This is a rough estimate so that lounge can prepare
-                          for your arrival
+                          This is just a rough estimate so the lounge can
+                          prepare for your arrival.
                         </div>
                       </EditableTitle>
                       <EditableTitle title="Cancelation policy" as="h2">
