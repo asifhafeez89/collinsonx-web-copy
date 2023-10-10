@@ -123,7 +123,6 @@ export const LoungeInfo = ({ guests, lounge, loading }: LoungeInfoProps) => {
                   },
                 }}
               >
-
                 <Text fw={700} size={28}>
                   {getCurrencySymbol(lounge?.pricing?.currency ?? '')}
                   {parseFloat(
@@ -131,8 +130,6 @@ export const LoungeInfo = ({ guests, lounge, loading }: LoungeInfoProps) => {
                   ).toFixed(2)}{' '}
                 </Text>{' '}
                 <Text size={20} style={{ lineHeight: '50px' }}>
-
-
                   per person
                 </Text>
               </Flex>
