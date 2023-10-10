@@ -1,4 +1,6 @@
-import { FC, useCallback } from 'react';
+import { FC } from 'react';
+
+import { useRouter } from 'next/router';
 
 import {
   Box,
@@ -87,7 +89,12 @@ const AvailableSlotsNotEnoughCapacity: FC<Props> = ({
   child = 0,
   infants = 0,
 }) => {
+  const router = useRouter();
   const [opened, { close }] = useDisclosure(true);
+
+  const handleChangeGuestsOnClickHandler = () => {
+    router.back();
+  };
 
   return (
     <Modal opened={opened} onClose={close} p="0">
@@ -115,8 +122,25 @@ const AvailableSlotsNotEnoughCapacity: FC<Props> = ({
           </Stack>
           <Divider my="sm" m={0} />
           <Stack bg={'#F7F7F7'} p="lg">
-            <Button onClick={close}>Change guests</Button>
-            <BackButton>{`Return to lounge`.toUpperCase()}</BackButton>
+            <Button onClick={handleChangeGuestsOnClickHandler}>
+              {'Change guests'.toUpperCase()}
+            </Button>
+            <BackButton
+              styles={{
+                root: {
+                  border: 'solid',
+                  backgroundColor: 'white',
+                  borderColor: '#000',
+                  borderWidth: 2,
+                  color: '#fff',
+                },
+                label: {
+                  color: '#000',
+                },
+              }}
+            >
+              {'Return to lounges'.toUpperCase()}
+            </BackButton>
           </Stack>
         </Stack>
       </Center>
