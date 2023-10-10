@@ -91,7 +91,12 @@ export default function CheckEmail() {
 
   const handleClickResend = () => {
     try {
-      createPasswordlessCode({ email });
+      createPasswordlessCode({
+        email,
+        userContext: {
+          accountProvider: payload?.accountProvider,
+        },
+      });
     } catch (e) {}
     setCount(20);
   };
