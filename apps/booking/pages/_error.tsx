@@ -1,21 +1,22 @@
 import { Flex, Stack, Text } from '@collinsonx/design-system/core';
+import { log } from '@lib';
 
 type NextPageContext = any;
 
 async function reportError(contextData: NextPageContext) {
   if (contextData.err) {
-    console.log('reporting error to error service:');
-    console.log(`  message: ${contextData.err.message}`);
-    console.log(`  stack: ${contextData.err.stack}`);
-    console.log('done reporting error.');
+    log('reporting error to error service:');
+    log(`  message: ${contextData.err.message}`);
+    log(`  stack: ${contextData.err.stack}`);
+    log('done reporting error.');
   } else {
     /*
-    console.log(
+    log(
       'An error occurred, but there was no error information in the NextPageContext:'
     );
-    console.log(`  path: ${contextData.asPath}`);
-    console.log(`  page: ${contextData.pathname}`);
-    console.log(`  status: ${contextData.res?.statusCode}`);
+    log(`  path: ${contextData.asPath}`);
+    log(`  page: ${contextData.pathname}`);
+    log(`  status: ${contextData.res?.statusCode}`);
     */
   }
 }

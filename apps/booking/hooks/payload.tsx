@@ -1,5 +1,5 @@
 import { Box, MantineProvider, Flex } from '@collinsonx/design-system/core';
-import { hasRequired } from '@lib';
+import { log, hasRequired } from '@lib';
 import { useRouter } from 'next/router';
 import {
   PropsWithChildren,
@@ -169,8 +169,8 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       let platform: string = 'web';
 
       if (hasQueryParams) {
-        console.log(`Param found: ${jwtParam}:${queryJWT}`);
-        console.log(`Param found: ${lcParam}:${queryLoungeCode}`);
+        log(`Param found: ${jwtParam}:${queryJWT}`);
+        log(`Param found: ${lcParam}:${queryLoungeCode}`);
         jwt = queryJWT;
         loungeCode = queryLoungeCode;
         referrer = queryReferrer || '';
@@ -180,13 +180,13 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         loungeCode = getItem(LOUNGE_CODE)!;
         referrer = getItem(REFERRER) || '';
         platform = getItem(PLATFORM) || 'web';
-        console.log(`Retrieved ${jwtParam} and ${lcParam} from storage`);
-        console.log('referrer:', referrer);
-        console.log('platform:', platform);
+        log(`Retrieved ${jwtParam} and ${lcParam} from storage`);
+        log('referrer:', referrer);
+        log('platform:', platform);
       }
 
       if (!loungeCode || !jwt) {
-        console.log(
+        log(
           `Unable to retrieve ${jwtParam} or ${lcParam} from both query and storage`
         );
         setTokenError('Sorry, service is not available');
@@ -204,7 +204,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
 
       const payload = decodeJWT(jwt) as unknown as BridgePayload;
       if (!validatePayload(payload)) {
-        console.log('JWT did not pass validatePayload() checks');
+        log('JWT did not pass validatePayload() checks');
         setPayloadErrorTitle('Sorry, service is not available');
         setPayloadError(true);
       }
@@ -239,7 +239,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
             if (linkedAccounts) {
               const matchedAccount = findLinkedAccount(linkedAccounts);
               if (!matchedAccount) {
-                console.log(
+                log(
                   `[SIGN OUT]: data.getConsumerByID.linkedAccounts does not contain an item matching fields in payload: ${JSON.stringify(
                     payload || null
                   )}`
@@ -351,7 +351,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       >
         <LoungeError error={fetchConsumerError} />
         {!session.loading &&
-          (fetchConsumerLoading ? (
+          (fetchConsumerLoading || loadingLounge ? (
             <Flex justify="center" align="center" h="100%">
               <LoaderLifestyleX />
             </Flex>

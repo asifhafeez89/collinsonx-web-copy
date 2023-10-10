@@ -2,7 +2,7 @@ import { experienceX } from '@collinsonx/design-system/themes';
 
 import { Be_Vietnam_Pro } from 'next/font/google';
 import { MantineThemeOverride } from '@collinsonx/design-system/core';
-import { STORAGE_NAMESPACE } from '../constants';
+import { PRODUCTION_DOMAIN, STORAGE_NAMESPACE } from '../constants';
 
 import { LOUNGE_HOURS_OFFSET } from 'config/lounge';
 import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
@@ -69,6 +69,15 @@ export const setItem = (key: string, value: string) =>
 export const removeItem = (key: string) =>
   sessionStorage.removeItem(`${STORAGE_NAMESPACE}_${key}`);
 
+export const log = (...args: any[]) => {
+  const windowObj: any = window;
+  if (windowObj) {
+    if (windowObj.location.host !== PRODUCTION_DOMAIN) {
+      console.log(...args);
+    }
+  }
+};
+
 export const sendMobileEvent = (windowObj: any = {}, value: any) => {
   if (windowObj.Android && windowObj.Android.onWebViewEvent) {
     windowObj.Android.onWebViewEvent(value);
@@ -80,7 +89,7 @@ export const sendMobileEvent = (windowObj: any = {}, value: any) => {
   ) {
     windowObj.webkit.messageHandlers.onWebViewEvent.postMessage(value);
   } else {
-    console.log('ERROR: Unable to detect mobile environment');
+    log('ERROR: Unable to detect mobile environment');
   }
 };
 
