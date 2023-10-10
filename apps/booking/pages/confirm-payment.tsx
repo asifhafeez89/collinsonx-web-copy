@@ -381,34 +381,18 @@ export default function ConfirmPayment() {
                     </Stack>
                   )}
                   <Center>
-                    <Anchor
-                      target="_top"
-                      href={referrerUrl ? referrerUrl : '#'}
-                      onClick={handleClickBack}
-                      style={{
-                        textDecoration: 'underline',
-                        color: colors.blue,
-                        fontSize: '1.125rem',
-                        lineHeight: '1.75rem',
-                        fontWeight: '600',
-                        marginTop: '0.75rem',
-                      }}
-                    >
-                      Return to lounge page
-                    </Anchor>
+                    <GenerateBookingConfirmedPdf
+                      adults={adults}
+                      arrival={arrival}
+                      children={children}
+                      departureTime={departureTime}
+                      emailAddress={userData?.emailAddress}
+                      flightNumber={flightNumber}
+                      infants={infants}
+                      lounge={lounge}
+                      reference={dataBooking?.getBookingByID.reference}
+                    />
                   </Center>
-
-                  <GenerateBookingConfirmedPdf
-                    adults={adults}
-                    arrival={arrival}
-                    children={children}
-                    departureTime={departureTime}
-                    emailAddress={userData?.emailAddress}
-                    flightNumber={flightNumber}
-                    infants={infants}
-                    lounge={lounge}
-                    reference={dataBooking?.getBookingByID.reference}
-                  />
                 </Box>
               )}
 

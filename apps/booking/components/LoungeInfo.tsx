@@ -108,11 +108,12 @@ export const LoungeInfo = ({ guests, lounge, loading }: LoungeInfoProps) => {
               sx={{
                 '@media (max-width: 768px)': {
                   margin: '0 auto',
-                  width: '50%',
+                  width: '90%',
+                  textAlign: 'center',
                 },
               }}
             >
-              <Flex gap={2}>
+              <Flex gap={2} justify={'center'}>
                 <Text fw={700} size={28}>
                   {getCurrencySymbol(lounge?.pricing?.currency ?? '')}
                   {parseFloat(
