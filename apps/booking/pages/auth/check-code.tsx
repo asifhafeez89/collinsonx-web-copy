@@ -34,7 +34,7 @@ import {
 import { PinLockoutError } from '@collinsonx/constants/constants';
 import { getConsumerByID } from '@collinsonx/utils/queries';
 import { LinkedAccount } from '@collinsonx/utils/generatedTypes/graphql';
-import { accountIsEqual } from '../../lib/index';
+import { accountIsEqual, log } from '../../lib/index';
 
 const { ERR_MEMBERSHIP_ALREADY_CONNECTED } = BookingError;
 const { tooManyAttempts, expiredJwt } = PinLockoutError;
@@ -128,7 +128,7 @@ export default function CheckEmail() {
       );
 
       if (alreadyConnectedError) {
-        console.log('[SIGN OUT]: membership already connected');
+        log('[SIGN OUT]: membership already connected');
         Session.signOut().then(() => {
           setLayoutError(ERR_MEMBERSHIP_ALREADY_CONNECTED);
           router.push({
@@ -154,13 +154,13 @@ export default function CheckEmail() {
     let response = await consumePasswordlessCode({
       userInputCode: code,
     });
-    console.log('[check-code] calling supertokens consumerPasswordlessCode...');
+    log('[check-code] calling supertokens consumerPasswordlessCode...');
 
     if (
       response.status === 'INCORRECT_USER_INPUT_CODE_ERROR' ||
       response.status === 'EXPIRED_USER_INPUT_CODE_ERROR'
     ) {
-      console.log('[check-code] response.status error case ', response.status);
+      log('[check-code] response.status error case ', response.status);
       setPinError(true);
       setCheckingCode(false);
       setPinAttemptCount(response.failedCodeInputAttemptCount);
@@ -168,7 +168,7 @@ export default function CheckEmail() {
     }
 
     if (response.status === 'RESTART_FLOW_ERROR') {
-      console.log('[check-code] response.status error case ', response.status);
+      log('[check-code] response.status error case ', response.status);
       setPinLockoutError(pinAttemptCount === 4 ? tooManyAttempts : expiredJwt);
       setPinLockout(true);
       setCheckingCode(false);
@@ -176,12 +176,12 @@ export default function CheckEmail() {
     }
 
     if (response.status !== 'OK') {
-      console.log('[check-code] response.status error case ', response.status);
+      log('[check-code] response.status error case ', response.status);
       return window.alert('Login failed. Please try again');
     }
 
     if (response.createdNewUser) {
-      console.log(
+      log(
         '[check-code] consumerPasswordlessCode: response.createdNewUser === true'
       );
       router.push({
@@ -192,7 +192,7 @@ export default function CheckEmail() {
         },
       });
     } else {
-      console.log(
+      log(
         '[check-code] consumerPasswordlessCode: response.createdNewUser === false'
       );
       const userId = response.user.id;

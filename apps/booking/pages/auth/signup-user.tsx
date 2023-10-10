@@ -27,6 +27,7 @@ import getError from 'utils/getError';
 import Session from 'supertokens-auth-react/recipe/session';
 import { BookingError } from '../../constants';
 import { BookingQueryParams } from '@collinsonx/constants/enums';
+import { log } from '@lib';
 
 const { ERR_MEMBERSHIP_ALREADY_CONNECTED } = BookingError;
 
@@ -75,7 +76,7 @@ export default function SignupUser() {
         ERR_MEMBERSHIP_ALREADY_CONNECTED
       );
       if (alreadyConnectedError) {
-        console.log('[SIGN OUT]: membership already connected');
+        log('[SIGN OUT]: membership already connected');
         Session.signOut().then(() => {
           setLayoutError(ERR_MEMBERSHIP_ALREADY_CONNECTED);
           router.push({
@@ -83,10 +84,10 @@ export default function SignupUser() {
           });
         });
       } else if (response.data && response.data.linkAccount && consumerId) {
-        console.log('[SIGN UP]: linkAcount ID retrieved successfully');
+        log('[SIGN UP]: linkAcount ID retrieved successfully');
         setLinkedAccountId(response.data.linkAccount.id);
         if (router.query[bookingId]) {
-          console.log(
+          log(
             '[SIGN UP]: bookingId found - redirecting to cancel-booking page'
           );
           router.push({
@@ -94,7 +95,7 @@ export default function SignupUser() {
             query: { [bookingId]: router.query[bookingId] },
           });
         } else {
-          console.log('[SIGN UP]: redirecting to index page');
+          log('[SIGN UP]: redirecting to index page');
           router.push({
             pathname: '/',
           });

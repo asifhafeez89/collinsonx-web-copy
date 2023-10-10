@@ -48,7 +48,7 @@ import Price from '@components/Price';
 import Notification from '@components/Notification';
 import { InfoPanel } from 'utils/PanelInfo';
 import { GuestCount } from '@components/guests/GuestCount';
-import { sendMobileEvent } from '../lib/index';
+import { log, sendMobileEvent } from '../lib/index';
 import { FlightContext } from 'context/flightContext';
 
 interface AvailableSlotsErrorHandlingProps {
@@ -122,9 +122,7 @@ export default function ConfirmAvailability() {
     );
 
     if (!linkedAccountId) {
-      console.log(
-        `[createBooking error] linkedAccountId == ${linkedAccountId}`
-      );
+      log(`[createBooking error] linkedAccountId == ${linkedAccountId}`);
     }
 
     const bookingInput = {

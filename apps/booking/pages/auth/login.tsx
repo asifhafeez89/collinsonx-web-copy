@@ -24,6 +24,7 @@ import BackToLounge from '@components/BackToLounge';
 import Notification from '@components/Notification';
 import { BookingError } from '../../constants';
 import { BookingQueryParams } from '@collinsonx/constants/enums';
+import { log } from '@lib';
 
 const { bookingId } = BookingQueryParams;
 
@@ -87,7 +88,7 @@ export default function Login() {
           },
         });
       } catch (err: any) {
-        console.log(err);
+        log(err);
         if (err.isSuperTokensGeneralError === true) {
           // this may be a custom error message sent from the API by you,
           // or if the input email / phone number is not valid.
