@@ -24,6 +24,7 @@ import BackToLounge from '@components/BackToLounge';
 import Notification from '@components/Notification';
 import { BookingError } from '../../constants';
 import { BookingQueryParams } from '@collinsonx/constants/enums';
+import { log } from '@lib';
 
 const { bookingId } = BookingQueryParams;
 
@@ -76,6 +77,7 @@ export default function Login() {
       try {
         await createPasswordlessCode({
           email,
+          userContext: { accountProvider: payload?.accountProvider },
         });
         router.push({
           pathname: '/auth/check-code',
@@ -86,7 +88,7 @@ export default function Login() {
           },
         });
       } catch (err: any) {
-        console.log(err);
+        log(err);
         if (err.isSuperTokensGeneralError === true) {
           // this may be a custom error message sent from the API by you,
           // or if the input email / phone number is not valid.
@@ -132,7 +134,7 @@ export default function Login() {
                   },
                 }}
               >
-                Enter your email address
+                Enter your email
               </Title>
               {layoutError === ERR_MEMBERSHIP_ALREADY_CONNECTED && (
                 <Notification>
@@ -149,8 +151,8 @@ export default function Login() {
                 </Notification>
               )}
               <Text>
-                Enter email address where you will receive your booking
-                information
+                Please provide an email address we will use to communicate with
+                you including all booking information.
               </Text>
               <Stack spacing={10}>
                 <Text>
@@ -162,16 +164,16 @@ export default function Login() {
                 <InputLabel
                   type="text"
                   autoFocus
-                  placeholder="stark@gmail.com"
+                  placeholder="youremail@gmail.com"
                   {...form.getInputProps('email')}
                   data-testid="loginEmailAddress"
                 />
                 <Text align="left">
-                  We will send you a unique code via email to proceed
+                  We will send you a one time passcode via email to proceed.
                 </Text>
               </Stack>
               <Button type="submit" data-testid="login">
-                Continue
+                CONTINUE
               </Button>
             </Stack>
           </form>

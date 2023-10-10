@@ -1,25 +1,22 @@
 import { useQuery } from '@collinsonx/utils/apollo';
 import Layout from '@components/Layout';
 import { Box, Flex, Stack, Text } from '@collinsonx/design-system/core';
-import Breadcramp from '@components/Breadcramp';
 import { Booking } from '@collinsonx/utils/generatedTypes/graphql';
 import { useRouter } from 'next/router';
 import { getBookingByID } from '@collinsonx/utils/queries';
-import { Details, Button } from '@collinsonx/design-system';
-
-import { Clock, MapPin } from '@collinsonx/design-system/assets/icons';
+import { Details } from '@collinsonx/design-system';
 import { useState } from 'react';
-
-import { TIME_FORMAT, DATE_REDABLE_FORMAT } from '../config/Constants';
+import { TIME_FORMAT } from '../config/Constants';
 import { formatDate } from '../utils/DateFormatter';
-
 import { InfoGroup } from '@collinsonx/design-system/components/details';
-import { FAQLink } from 'utils/FAQLinks';
 import { LoungeInfoPreBooked } from '@components/LoungeInfoPreBooked';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
 import { BookingStatus } from '@collinsonx/utils/generatedTypes/graphql';
-
+import priceToDisplay from 'utils/PriceToDisplay';
 import colors from 'ui/colour-constants';
+import { InfoPanel } from 'utils/PanelInfo';
+import BackToLounge from '@components/BackToLounge';
+import { GuestCount } from '@components/guests/GuestCount';
 
 export default function CancelBooking() {
   const router = useRouter();
@@ -37,54 +34,11 @@ export default function CancelBooking() {
     notifyOnNetworkStatusChange: true,
   });
 
-  const priceToDisplay = bookingDetails?.getBookingByID.price
-    ? Number(
-        bookingDetails.getBookingByID.price
-          .toString()
-          .substring(
-            0,
-            bookingDetails.getBookingByID.price.toString().length - 2
-          )
-      ).toFixed(2)
-    : '0';
-
-  const infos = [
-    {
-      header: 'Day of flight',
-      description: formatDate(
-        new Date(`${bookingDetails?.getBookingByID.bookedFrom}`),
-        DATE_REDABLE_FORMAT
-      ),
-      icon: <MapPin width={16} height={16} color="#0C8599" />,
-    },
-    {
-      header: 'Time of flight',
-      description: formatDate(
-        new Date(`${bookingDetails?.getBookingByID.bookedTo}`),
-        TIME_FORMAT
-      ),
-      icon: <Clock width={16} height={16} color="#0C8599" />,
-    },
-    {
-      header: 'Flight number',
-      description: bookingDetails?.getBookingByID.metadata.flightNumber,
-      icon: <Clock width={16} height={16} color="#0C8599" />,
-    },
-  ];
-
   return (
     <Layout>
       {bookingDetails ? (
         <Stack spacing={16} sx={{ width: '100%' }}>
-          <Breadcramp
-            lefttitle={`BACK TO ${
-              bookingDetails.getBookingByID.experience?.loungeName?.toUpperCase() ||
-              'Lounges'
-            }`}
-            lefturl="/"
-            righttile={`FAQs`}
-            righturl={FAQLink('PRIORITY_PASS')}
-          />
+          <BackToLounge />
 
           <Flex
             justify="center"
@@ -112,13 +66,16 @@ export default function CancelBooking() {
                 },
               }}
             >
-              {bookingDetails && bookingDetails.getBookingByID.experience && (
-                <LoungeInfoPreBooked
-                  price={priceToDisplay}
-                  lounge={bookingDetails.getBookingByID.experience}
-                  loading={!bookingDetails.getBookingByID.experience}
-                />
-              )}
+              {bookingDetails?.getBookingByID?.price &&
+                bookingDetails.getBookingByID.experience && (
+                  <LoungeInfoPreBooked
+                    price={priceToDisplay(
+                      bookingDetails?.getBookingByID?.price
+                    )}
+                    lounge={bookingDetails.getBookingByID.experience}
+                    loading={!bookingDetails.getBookingByID.experience}
+                  />
+                )}
               {createLoading ? (
                 <Flex
                   direction={{ base: 'column', sm: 'row' }}
@@ -150,17 +107,10 @@ export default function CancelBooking() {
                               ? 'Your booking cancellation has failed, please contact our team'
                               : 'Your booking could not be cancelled, please contact our team'}
                           </Heading>
+
                           <Heading as="h2" margin={0} padding={0}>
-                            Cancellation Policy
-                          </Heading>
-                          <Text mb={32}>
-                            Cancel up to 48 hours before your booking to receive
-                            a full refund. Bookings cannot be cancelled within
-                            48 hours of booking arrival time, including new
-                            bookings made within that time range.
-                          </Text>
-                          <Heading as="h4" margin={0} padding={0}>
-                            Booking Reference: <strong>{emailBookingId}</strong>
+                            Booking Refence:{' '}
+                            {bookingDetails?.getBookingByID?.reference}
                           </Heading>
                           <Text>
                             {bookingDetails.getBookingByID.status ===
@@ -179,36 +129,33 @@ export default function CancelBooking() {
                             Flight details
                           </Heading>
                           <Details
-                            infos={infos as InfoGroup[]}
+                            infos={
+                              InfoPanel(
+                                bookingDetails?.getBookingByID?.bookedTo,
+                                bookingDetails?.getBookingByID?.metadata
+                                  ?.flightNumber
+                              ) as InfoGroup[]
+                            }
                             direction="row"
                           />
 
-                          <Heading as="h2" margin={0} padding={0}>
-                            Who's coming
+                          <Heading as="h3" margin={0} padding={0}>
+                            Who's coming?
                           </Heading>
-                          <Flex direction="row" gap={10}>
-                            <p style={{ padding: '0', margin: '0' }}>
-                              {' '}
-                              <strong>Adults</strong>{' '}
-                              {bookingDetails.getBookingByID.guestAdultCount}
-                            </p>{' '}
-                            {Number(
-                              bookingDetails.getBookingByID.guestChildrenCount
-                            ) > 0 && (
-                              <>
-                                <p style={{ padding: '0', margin: '0' }}>
-                                  {' '}
-                                  <strong>Children</strong>{' '}
-                                  {
-                                    bookingDetails.getBookingByID
-                                      .guestChildrenCount
-                                  }
-                                </p>
-                              </>
-                            )}
-                          </Flex>
 
-                          <Heading as="h2" margin={0} padding={0}>
+                          <GuestCount
+                            adults={
+                              bookingDetails.getBookingByID.guestAdultCount
+                            }
+                            children={
+                              bookingDetails.getBookingByID.guestChildrenCount
+                            }
+                            infants={
+                              bookingDetails.getBookingByID.guestInfantCount
+                            }
+                          />
+
+                          <Heading as="h3" margin={0} padding={0}>
                             Estimated time of arrival
                           </Heading>
                           <Flex
@@ -219,7 +166,14 @@ export default function CancelBooking() {
                               {' '}
                               {formatDate(
                                 new Date(
-                                  `${bookingDetails.getBookingByID.bookedFrom}`
+                                  `${bookingDetails?.getBookingByID.bookedFrom}`
+                                ),
+                                TIME_FORMAT
+                              )}{' '}
+                              -{' '}
+                              {formatDate(
+                                new Date(
+                                  `${bookingDetails?.getBookingByID.lastArrival}`
                                 ),
                                 TIME_FORMAT
                               )}

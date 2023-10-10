@@ -1,5 +1,5 @@
 import Layout from '@components/Layout';
-import { useContext, useMemo, useState } from 'react';
+import { useContext, useState } from 'react';
 import {
   Flex,
   Stack,
@@ -11,10 +11,8 @@ import { useForm } from '@mantine/form';
 import { LoungeInfo } from '@components/LoungeInfo';
 import { FlightInfo } from '../components/flightInfo/FlightInfo';
 import GuestInfo from '@components/GuestInfo';
-
 import { FlightDetails } from '@collinsonx/utils';
 import { getFlightDetails } from '@collinsonx/utils/queries';
-
 import {
   AIRPORT_CODE_TYPE,
   DATE_FORMAT,
@@ -22,17 +20,17 @@ import {
 } from 'config/Constants';
 import { useLazyQuery } from '@collinsonx/utils/apollo';
 import { validateFlightNumber } from '../utils/flightValidation';
-
-import dayjs from 'dayjs';
-
 import usePayload from 'hooks/payload';
 import router from 'next/router';
-
 import { BookingContext } from 'context/bookingContext';
 import colors from 'ui/colour-constants';
 import Notification from '@components/Notification';
 import { MAX_GUESTS, ValidationErrorResponses } from '../constants';
 import BackToLounge from '@components/BackToLounge';
+import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
+import Price from '@components/Price';
+import { formatDate } from 'utils/DateFormatter';
+import { FlightContext } from 'context/flightContext';
 interface DepartureFlightInfo {
   airport: { iata: string };
   date: { local: string; utc: string };
@@ -46,17 +44,11 @@ interface FlightInfo {
 }
 
 const Lounge = () => {
-  const [date, setDate] = useState<string>(dayjs().format(DATE_FORMAT));
-  const [flightNumber, setFlightNumber] = useState<string>();
   const [guestError, setGuestError] = useState<Boolean>(false);
-  const { payload, lounge } = usePayload();
+  const { lounge, referrerUrl } = usePayload();
 
   const { setBooking } = useContext(BookingContext);
-
-  const flightCode = useMemo(
-    () => (flightNumber ? validateFlightNumber(flightNumber) : undefined),
-    [flightNumber]
-  );
+  const { setFlight } = useContext(FlightContext);
 
   const form = useForm({
     initialValues: {
@@ -73,57 +65,87 @@ const Lounge = () => {
     validate: {
       departureDate: (value) =>
         value !== null ? null : ValidationErrorResponses.INVALID_DATE.message,
-      flightNumber: (value: string) =>
-        /^([A-Z]{3}|[A-Z\d]{2})(?:\s?)(\d{1,4})$/.test(value.toUpperCase())
-          ? null
-          : ValidationErrorResponses.INVALID_FLIGHT.message,
+      flightNumber: (value: string) => {
+        let error = null;
+
+        const validFlight =
+          /^([a-zA-Z]{2,3}|([0-9]{1}[a-zA-Z]{1})|([a-zA-Z]{1}[0-9]{1}))([0-9]{1,4})$/.test(
+            value.toUpperCase()
+          );
+
+        if (!validFlight) {
+          error = ValidationErrorResponses.INVALID_FLIGHT.message;
+        }
+
+        return error;
+      },
     },
   });
 
   type FormValues = typeof form.values;
 
-  const [
-    fetchFlightInfo,
-    {
-      loading: flightInfoLoading,
-      error: flightInfoError,
-      data: flightInfoData,
-    },
-  ] = useLazyQuery<{
+  const [fetchFlightInfo] = useLazyQuery<{
     getFlightDetails: FlightDetails[];
   }>(getFlightDetails, {
-    variables: {
-      flightDetails: {
-        carrierCode: flightCode ? flightCode[1] : '',
-        codeType: AIRPORT_CODE_TYPE,
-        departureDate: date,
-        flightNumber: flightCode ? flightCode[2] : '',
-        version: OAG_API_VERSION,
-      },
-    },
     pollInterval: 300000,
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
+    onCompleted: (flightInfoData) => {
+      if (flightInfoData.getFlightDetails.length === 0) {
+        form.setFieldError(
+          'flightNumber',
+          ValidationErrorResponses.INVALID_DATEFlIGHT.message
+        );
+      } else {
+        if (form.isValid()) {
+          const upperCaseFlight = form.values.flightNumber.toUpperCase();
+          form.values.flightNumber = upperCaseFlight;
+          setBooking(form.values);
+          setFlight(flightInfoData.getFlightDetails[0]);
+          const query = router.query;
+          router.push({
+            pathname: '/check-availability',
+            query: {
+              ...query,
+            },
+          });
+        }
+      }
+    },
+    onError: (error) => {},
   });
 
-  const handleClickCheckAvailability = (values: FormValues) => {
-    form.validate();
-    if (values.children + values.adults + values.infants > MAX_GUESTS) {
+  const handleClickCheckAvailability = async (values: FormValues) => {
+    if (values.children + values.adults > MAX_GUESTS) {
       setGuestError(true);
       return false;
     } else {
       setGuestError(false);
     }
+    const upperCaseFlight = form.values.flightNumber.toUpperCase();
+    const carrieCode = validateFlightNumber(upperCaseFlight)[1];
+    const flightNo = validateFlightNumber(upperCaseFlight)[2];
 
-    const query = router.query;
+    if (form.isValid()) {
+      fetchFlightInfo({
+        variables: {
+          flightDetails: {
+            carrierCode: carrieCode,
+            codeType: AIRPORT_CODE_TYPE,
+            departureDate: formatDate(
+              new Date(String(form.values.departureDate)),
+              DATE_FORMAT
+            ),
+            flightNumber: flightNo,
+            version: OAG_API_VERSION,
+          },
+        },
+      });
+    }
+
+    values.flightNumber = upperCaseFlight;
+
     setBooking(values);
-
-    router.push({
-      pathname: '/check-availability',
-      query: {
-        ...query,
-      },
-    });
   };
 
   return (
@@ -166,7 +188,7 @@ const Lounge = () => {
                 lounge={lounge}
                 loading={!lounge}
               />
-              <FlightInfo form={form} loading={!lounge || flightInfoLoading} />
+              <FlightInfo form={form} loading={!lounge} />
 
               {guestError ? (
                 <Box
@@ -178,17 +200,31 @@ const Lounge = () => {
                   }}
                 >
                   <Notification>
-                    The maximum capacity of the lounge is a total of{' '}
-                    {MAX_GUESTS} guests.
+                    You can book for a maximum of {MAX_GUESTS} guests. Please
+                    try again.
                   </Notification>
                 </Box>
               ) : (
                 ''
               )}
 
-              <GuestInfo form={form} loading={!lounge} />
+              <GuestInfo
+                form={form}
+                loading={!lounge}
+                referreUrl={referrerUrl ?? '#'}
+              />
+              <EditableTitle title="Total price" as="h3">
+                <Price
+                  lounge={lounge}
+                  guests={{
+                    adults: form.getInputProps('adults').value,
+                    children: form.getInputProps('children').value,
+                    infants: form.getInputProps('infants').value,
+                  }}
+                ></Price>
+              </EditableTitle>
               <Center w="100%">
-                <Button disabled={!lounge || flightInfoLoading} type="submit">
+                <Button disabled={!lounge} type="submit">
                   CHECK AVAILABILITY
                 </Button>
               </Center>

@@ -35,10 +35,10 @@ describe('<PinLockout />', () => {
       'Contact support'
     );
     expect(getByTestId('attempts-header')).toHaveTextContent(
-      'Sorry, too many wrong attempts'
+      'Sorry, passcode not verified'
     );
     expect(getByTestId('attempts-body')).toHaveTextContent(
-      '5 incorrect attempts were made to enter the verification code. Please try again in an hour'
+      'Too many incorrect attempts were made to enter the verification passcode. Your account will be locked for 60 minutes.'
     );
   });
 

@@ -15,10 +15,11 @@ import AuthWrapper from '@components/AuthWrapper';
 import { PayloadProvider } from 'hooks/payload';
 import BookingProvider from 'context/bookingContext';
 import { datadogRum } from '@datadog/browser-rum';
-
 import getConfig from 'next/config';
-
 import Maintenance from 'pages/maintenance';
+
+import '../styles.css';
+
 if (typeof window !== 'undefined') {
   // we only want to call this init function on the frontend, so
   // we check typeof window !== 'undefined'
@@ -71,6 +72,7 @@ export default function MyApp({ Component, pageProps }: Props) {
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
       </Head>
       <UserProvider>
         <SuperTokensWrapper>

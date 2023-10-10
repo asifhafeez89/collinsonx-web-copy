@@ -8,24 +8,22 @@ interface EditableTitlesProps {
   title: string;
   as: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'legend';
   children: React.ReactNode;
-  to?: string;
+  to?: string | null;
 }
 
 export default function EditableTitle({
   title,
   as,
   children,
-  to,
+  to = null,
 }: EditableTitlesProps) {
   return (
-
     <Box
       sx={{
         '@media (max-width: 768px)': {
           backgroundColor: '#fff',
           padding: '20px',
           width: '100%',
-
         },
       }}
     >
@@ -33,7 +31,8 @@ export default function EditableTitle({
         <Heading as={as} padding={0} margin={0}>
           {title}
         </Heading>
-        {to && (
+
+        {to !== null && (
           <Link href={to}>
             {' '}
             <Pencil />
@@ -42,6 +41,5 @@ export default function EditableTitle({
       </Flex>
       {children}
     </Box>
-
   );
 }

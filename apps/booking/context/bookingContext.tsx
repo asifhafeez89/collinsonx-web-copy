@@ -22,7 +22,7 @@ const defaultContext = {
     sessionStorage.setItem('bookingdetail', JSON.stringify(booking));
   },
   getBooking: () => {
-    return JSON.parse(sessionStorage.getItem('bookingdetail') ?? '');
+    return JSON.parse(sessionStorage.getItem('bookingdetail') ?? '{}');
   },
 };
 

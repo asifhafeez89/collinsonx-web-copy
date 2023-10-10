@@ -1,7 +1,13 @@
-import { Box, MantineProvider } from '@collinsonx/design-system/core';
-import { hasRequired } from '@lib';
+import { Box, MantineProvider, Flex } from '@collinsonx/design-system/core';
+import { log, hasRequired } from '@lib';
 import { useRouter } from 'next/router';
-import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
+import {
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { createContext, useContext } from 'react';
 
 import { BridgePayload } from 'types/booking';
@@ -32,6 +38,8 @@ import {
   signOut,
 } from 'supertokens-auth-react/recipe/session';
 import LoungeError from '@components/LoungeError';
+import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
+import { accountIsEqual } from '../lib/index';
 import {
   LOUNGE_CODE,
   JWT,
@@ -82,7 +90,7 @@ export const usePayload = (): PayloadState => {
  * @returns
  */
 const validatePayload = (payload: BridgePayload) =>
-  hasRequired(payload, ['membershipNumber', 'accountProvider']);
+  hasRequired(payload, ['accountProvider', 'externalId']);
 
 function callThemeFunction(name: AccountProvider | Client) {
   switch (name) {
@@ -105,6 +113,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
   const [loungeCode, setLoungeCode] = useState<string>();
   const [jwt, setJWT] = useState<string>();
   const [tokenError, setTokenError] = useState<string>();
+  const [payloadError, setPayloadError] = useState<boolean>(false);
   const [payloadErrorTitle, setPayloadErrorTitle] = useState<string>();
   const [payloadErrorMessage, setPayloadErrorMessage] = useState<string>();
   const [linkedAccountId, setLinkedAccountId] = useState<string>();
@@ -114,7 +123,11 @@ export const PayloadProvider = (props: PropsWithChildren) => {
 
   const [
     fetchConsumer,
-    { loading: fetchConsumerLoading, error: fetchConsumerError },
+    {
+      loading: fetchConsumerLoading,
+      error: fetchConsumerError,
+      data: fetchConsumerData,
+    },
   ] = useLazyQuery(getConsumerByID);
 
   const {
@@ -156,8 +169,8 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       let platform: string = 'web';
 
       if (hasQueryParams) {
-        console.log(`Param found: ${jwtParam}:${queryJWT}`);
-        console.log(`Param found: ${lcParam}:${queryLoungeCode}`);
+        log(`Param found: ${jwtParam}:${queryJWT}`);
+        log(`Param found: ${lcParam}:${queryLoungeCode}`);
         jwt = queryJWT;
         loungeCode = queryLoungeCode;
         referrer = queryReferrer || '';
@@ -167,11 +180,13 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         loungeCode = getItem(LOUNGE_CODE)!;
         referrer = getItem(REFERRER) || '';
         platform = getItem(PLATFORM) || 'web';
-        console.log(`Retrieved ${jwtParam} and ${lcParam} from storage`);
+        log(`Retrieved ${jwtParam} and ${lcParam} from storage`);
+        log('referrer:', referrer);
+        log('platform:', platform);
       }
 
       if (!loungeCode || !jwt) {
-        console.log(
+        log(
           `Unable to retrieve ${jwtParam} or ${lcParam} from both query and storage`
         );
         setTokenError('Sorry, service is not available');
@@ -189,12 +204,20 @@ export const PayloadProvider = (props: PropsWithChildren) => {
 
       const payload = decodeJWT(jwt) as unknown as BridgePayload;
       if (!validatePayload(payload)) {
-        console.log('JWT did not pass validatePayload() checks');
+        log('JWT did not pass validatePayload() checks');
         setPayloadErrorTitle('Sorry, service is not available');
+        setPayloadError(true);
       }
       setPayload(payload);
     }
   }, [router]);
+
+  const findLinkedAccount = useCallback(
+    (linkedAccounts: LinkedAccount[] = []) => {
+      return linkedAccounts.find(accountIsEqual(payload));
+    },
+    [payload]
+  );
 
   useEffect(() => {
     if (
@@ -213,26 +236,10 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         })
           .then(({ data }) => {
             const { linkedAccounts } = data.getConsumerByID;
-            console.log(`[PAYLOAD] ${JSON.stringify(payload || null)}`);
-            console.log(
-              `[GET CONSUMER] ${JSON.stringify(data.getConsumerByID || null)}`
-            );
-            console.log(
-              `[GET CONSUMER LINKED ACCOUNTS] ${
-                JSON.stringify(data.getConsumerByID?.linkedAccounts) || null
-              }`
-            );
             if (linkedAccounts) {
-              const matchedAccount = linkedAccounts.find(
-                (item: LinkedAccount) =>
-                  String(item.externalID) === String(payload.externalId) &&
-                  String(item.membershipID) ===
-                    String(payload.membershipNumber) &&
-                  (item.provider as unknown as AccountProvider) ===
-                    payload.accountProvider
-              );
+              const matchedAccount = findLinkedAccount(linkedAccounts);
               if (!matchedAccount) {
-                console.log(
+                log(
                   `[SIGN OUT]: data.getConsumerByID.linkedAccounts does not contain an item matching fields in payload: ${JSON.stringify(
                     payload || null
                   )}`
@@ -246,10 +253,10 @@ export const PayloadProvider = (props: PropsWithChildren) => {
           });
       }
     }
-  }, [session, payload, router]);
+  }, [session, payload, router, fetchConsumer]);
 
   useEffect(() => {
-    if (tokenError !== undefined) {
+    if (payloadError || tokenError !== undefined) {
       setPayloadErrorTitle('Sorry, service is not available');
     } else if (!loadingLounge && !lounge) {
       setPayloadErrorTitle("Sorry we can't find the lounge you requested");
@@ -258,6 +265,46 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       );
     }
   }, [lounge, loadingLounge, tokenError]);
+
+  useEffect(() => {
+    if (
+      router.isReady &&
+      !session.loading &&
+      !linkedAccountId &&
+      !router.pathname.includes('/auth')
+    ) {
+      if (!fetchConsumerData) {
+        const { userId } = session;
+        if (userId) {
+          fetchConsumer({
+            variables: {
+              getConsumerById: userId,
+            },
+          }).then(({ data }) => {
+            if (data?.getConsumerByID?.linkedAccounts) {
+              const linkedAccount = findLinkedAccount(
+                data.getConsumerByID.linkedAccounts
+              );
+              setLinkedAccountId(linkedAccount?.id);
+            }
+          });
+        }
+      } else if (fetchConsumerData?.getConsumerByID?.linkedAccounts) {
+        const linkedAccount = findLinkedAccount(
+          fetchConsumerData.getConsumerByID.linkedAccounts
+        );
+        setLinkedAccountId(linkedAccount?.id);
+      }
+    }
+  }, [
+    payload,
+    linkedAccountId,
+    router,
+    session,
+    fetchConsumer,
+    fetchConsumerData,
+    fetchConsumerLoading,
+  ]);
 
   const providerTheme = () => {
     if (!payload) return PP;
@@ -304,17 +351,24 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       >
         <LoungeError error={fetchConsumerError} />
         {!session.loading &&
-          (fetchConsumerLoading ? null : (
+          (fetchConsumerLoading || loadingLounge ? (
+            <Flex justify="center" align="center" h="100%">
+              <LoaderLifestyleX />
+            </Flex>
+          ) : (
             <>
               {payloadErrorTitle &&
-              (loungeError || tokenError || (!loadingLounge && !lounge)) ? (
+              (loungeError ||
+                tokenError ||
+                (!loadingLounge && !lounge) ||
+                payloadError) ? (
                 <LayoutError
                   payloadTheme={layoutErrorTheme()}
                   payloadErrorTitle={payloadErrorTitle}
                   payloadErrorMessage={payloadErrorMessage}
                 />
               ) : (
-                props.children
+                payload && props.children
               )}
             </>
           ))}

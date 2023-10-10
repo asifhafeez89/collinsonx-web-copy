@@ -2,10 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { USER_ID, USER_TYPE, USER_META, SELECTED_LOUNGE } from 'config';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import { getItem, setItem, removeItem } from '@lib';
-import { LOUNGE_CODE, JWT } from '../constants';
+import { LOUNGE_CODE, JWT, REFERRER, PLATFORM } from '../constants';
 import { BookingQueryParams } from '@collinsonx/constants/enums';
 
-const { loungeCode: lcParam, jwt: jwtParam } = BookingQueryParams;
+const {
+  loungeCode: lcParam,
+  jwt: jwtParam,
+  referrer: referParam,
+  platform: platParam,
+} = BookingQueryParams;
 
 interface AuthWrapperProps {
   children: React.ReactNode;
@@ -19,7 +24,6 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
 
   const session: any = useSessionContext();
   useEffect(() => {
-    console.log('Session ', JSON.stringify(session || null));
     const { accessTokenPayload = {} } = session as any;
     if (accessTokenPayload.experiences) {
       setItem(
@@ -37,17 +41,24 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
         const urlParams = new URLSearchParams(window.location.search);
         const tokenParam = urlParams.get(jwtParam);
         const loungeParam = urlParams.get(lcParam);
+        const referrerParam = urlParams.get(referParam);
+        const platformParam = urlParams.get(platParam);
 
         if (tokenParam && loungeParam) {
           setItem(LOUNGE_CODE, loungeParam);
           setItem(JWT, tokenParam);
+          setItem(PLATFORM, platformParam ?? '');
+        }
+
+        if (referrerParam) {
+          setItem(REFERRER, referrerParam ?? '');
         }
 
         if (!checkIsAllowed(window.location.pathname)) {
           const urlParams = new URLSearchParams(window.location.search);
-          const idParam = urlParams.get('id');
+          const idParam = urlParams.get('bookingId');
           if (idParam) {
-            window.location.href = `/auth/login?id=${idParam}`;
+            window.location.href = `/auth/login?bookingId=${idParam}`;
           } else {
             window.location.href = `/auth/login`;
           }

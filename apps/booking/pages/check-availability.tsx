@@ -1,4 +1,8 @@
-import { useLazyQuery, useMutation, useQuery } from '@collinsonx/utils/apollo';
+import {
+  ApolloError,
+  useLazyQuery,
+  useMutation,
+} from '@collinsonx/utils/apollo';
 import Layout from '@components/Layout';
 import {
   Box,
@@ -15,27 +19,20 @@ import { useRouter } from 'next/router';
 import { LoungeInfo } from '@components/LoungeInfo';
 import { Details } from '@collinsonx/design-system';
 import createBooking from '@collinsonx/utils/mutations/createBooking';
-import Link from 'next/link';
-
-import { Clock, MapPin } from '@collinsonx/design-system/assets/icons';
-import { useMemo, useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect, useCallback, FC } from 'react';
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
-import LoungeError from '@components/LoungeError';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import { Availability } from '@collinsonx/utils';
-import AvailableSlots from '@components/flightInfo/AvailableSlots';
-import getAvailableSlots from '@collinsonx/utils/queries/getAvailableSlots';
-import { validateFlightNumber } from '../utils/flightValidation';
-import { FlightDetails, Slots } from '@collinsonx/utils';
-import getFlightDetails from '@collinsonx/utils/queries/getFlightDetails';
 import {
-  AIRPORT_CODE_TYPE,
-  OAG_API_VERSION,
-  DATE_FORMAT,
+  AvailableSlots,
+  hasLoungeCapacity,
+  availableSlotsNotEnoughCapacityParser,
+} from '@components/flightInfo/availability';
+import getAvailableSlots from '@collinsonx/utils/queries/getAvailableSlots';
+import { Slots } from '@collinsonx/utils';
+import {
   TIME_FORMAT,
-  DATE_REDABLE_FORMAT,
   DATE_TIME_FORMAT,
-  LOUNGE,
   TRAVEL_TYPE,
 } from '../config/Constants';
 import { formatDate, formatDateUTC } from '../utils/DateFormatter';
@@ -43,21 +40,43 @@ import usePayload from 'hooks/payload';
 import { InfoGroup } from '@collinsonx/design-system/components/details';
 import { BookingContext } from 'context/bookingContext';
 import dayjs from 'dayjs';
-import { constants } from '../constants';
+import { MOBILE_ACTION_BACK, constants } from '../constants';
 import colors from 'ui/colour-constants';
 import BackToLounge from '@components/BackToLounge';
 import BookingLightbox from '@collinsonx/design-system/components/bookinglightbox';
+import Price from '@components/Price';
+import Notification from '@components/Notification';
+import { InfoPanel } from 'utils/PanelInfo';
+import { GuestCount } from '@components/guests/GuestCount';
+import { log, sendMobileEvent } from '../lib/index';
+import { FlightContext } from 'context/flightContext';
+
+interface AvailableSlotsErrorHandlingProps {
+  error: ApolloError | unknown;
+}
+
+const AvailableSlotsErrorHandling: FC<AvailableSlotsErrorHandlingProps> = ({
+  error,
+}) => {
+  const ENOUGH_CAPACITY_ERROR_IS_VALID = hasLoungeCapacity(error);
+
+  if (ENOUGH_CAPACITY_ERROR_IS_VALID) {
+    return availableSlotsNotEnoughCapacityParser(error);
+  }
+
+  return null;
+};
 
 export default function ConfirmAvailability() {
   const router = useRouter();
 
   const { getBooking, setBooking } = useContext(BookingContext);
+  const { getFlight } = useContext(FlightContext);
 
   const [selectedslot, setSelectedslot] = useState<string>('');
   const { referrerUrl, lounge, linkedAccountId } = usePayload();
   const [airportMismatch, setAirportMismatch] = useState(false);
   const [terminalMismatch, setTerminalMismath] = useState(false);
-  const [flightInfoAirport, setFlightInfoAirport] = useState('');
   const [env, setEnv] = useState<string>();
 
   useEffect(() => {
@@ -72,26 +91,19 @@ export default function ConfirmAvailability() {
   }, []);
 
   const booking = getBooking();
+  const flightData = getFlight();
 
-  const { flightNumber, departureDate, children, adults, infants } = booking;
-
-  const flightCode = useMemo(
-    () =>
-      flightNumber ? validateFlightNumber(flightNumber as string) : undefined,
-
-    [flightNumber]
-  );
+  const { flightNumber, children, adults, infants } = booking;
 
   booking.arrival = selectedslot;
   setBooking(booking);
 
-  const [mutate, { loading: cbLoading, error: cbError }] =
-    useMutation(createBooking);
+  const [mutate, { loading: cbLoading }] = useMutation(createBooking);
 
   const findSelectedSlot = (slots: Slots[] | undefined, value: string) => {
     const slot = slots?.find((slot) => {
-      const startDate = formatDateUTC(slot.startDate, TIME_FORMAT);
-      const endDate = formatDateUTC(slot.endDate, TIME_FORMAT);
+      const startDate = formatDate(slot.startDate, TIME_FORMAT);
+      const endDate = formatDate(slot.endDate, TIME_FORMAT);
       const slotLabel = ` ${startDate}-${endDate}`;
       return slotLabel === value;
     });
@@ -101,12 +113,17 @@ export default function ConfirmAvailability() {
   const handleSubmit = () => {
     const availableSlots = slotsData?.getAvailableSlots.slots;
     const slot = findSelectedSlot(availableSlots, selectedslot);
-    const departureTime =
-      fligtData?.getFlightDetails[0]?.departure?.dateTime?.utc;
+
+    const departureTime = flightData?.departure?.dateTime?.local;
+
     const formattedDepartureTime = formatDateUTC(
       new Date(String(departureTime)),
       DATE_TIME_FORMAT
     );
+
+    if (!linkedAccountId) {
+      log(`[createBooking error] linkedAccountId == ${linkedAccountId}`);
+    }
 
     const bookingInput = {
       ...(linkedAccountId && { actingAccount: linkedAccountId }),
@@ -120,7 +137,7 @@ export default function ConfirmAvailability() {
       guestInfantCount: infants,
       metadata: {
         flightNumber,
-        flightTime: dayjs(departureDate).format(constants.TIMEFORMAT),
+        flightTime,
       },
     };
 
@@ -147,112 +164,70 @@ export default function ConfirmAvailability() {
     getAvailableSlots: Availability;
   }>(getAvailableSlots);
 
-  const {
-    data: fligtData,
-    loading: flightDataLoading,
-    error: flightDataError,
-  } = useQuery<{
-    getFlightDetails: FlightDetails[];
-  }>(getFlightDetails, {
-    variables: {
-      flightDetails: {
-        carrierCode: flightCode ? flightCode[1] : '',
-        codeType: AIRPORT_CODE_TYPE,
-        departureDate: formatDate(new Date(String(departureDate)), DATE_FORMAT),
-        flightNumber: flightCode ? flightCode[2] : '',
-        version: OAG_API_VERSION,
-      },
-    },
-    pollInterval: 300000,
-    fetchPolicy: 'network-only',
-    notifyOnNetworkStatusChange: true,
-    skip: !lounge || !env,
-    onCompleted: (flightInfoData) => {
-      if (flightInfoData) {
-        const airport = flightInfoData.getFlightDetails[0].departure?.airport;
-        const terminal = flightInfoData.getFlightDetails[0].departure?.terminal;
+  useEffect(() => {
+    if (!flightData || !lounge) return;
 
-        const airportCode = lounge?.location?.airportCode;
+    const airport = flightData.departure?.airport;
+    const airportCode = lounge.location?.airportCode;
 
-        // TODO - Once the data is checked and terminals are ok
-        /// const loungeTerminal = lounge?.location?.terminal?.split(' ')[1];
+    const sameAirport =
+      airportCode?.toLocaleLowerCase() === airport?.toLocaleLowerCase();
 
-        setFlightInfoAirport(airport ?? '');
+    if (!sameAirport) {
+      setAirportMismatch(true);
+    }
 
-        const sameAirport =
-          airportCode?.toLocaleLowerCase() === airport?.toLocaleLowerCase();
-
-        // const sameTerminal =
-        //   loungeTerminal?.toLocaleLowerCase() === terminal?.toLocaleLowerCase();
-
-        if (!sameAirport) {
-          setAirportMismatch(true);
-        }
-
-        fetchSlots({
-          variables: {
-            data: {
-              flightInformation: {
-                type: TRAVEL_TYPE,
-                dateTime:
-                  flightInfoData?.getFlightDetails[0].departure?.dateTime
-                    ?.local,
-                airport: flightInfoData?.getFlightDetails[0].departure?.airport,
-                terminal: '-1',
-              },
-              guests: {
-                adultCount: adults,
-                childrenCount: children,
-                infantCount: infants,
-              },
-              product: {
-                productType: ProductType.Lounge,
-                productID:
-                  env === 'prod'
-                    ? lounge?.partnerIdProd
-                    : lounge?.partnerIdTest,
-                supplierCode: lounge?.partnerIntegrationId,
-              },
-            },
+    fetchSlots({
+      variables: {
+        data: {
+          flightInformation: {
+            type: TRAVEL_TYPE,
+            dateTime: flightData.departure?.dateTime?.utc,
+            airport: flightData.departure?.airport,
+            terminal: '-1',
           },
-        });
-      }
-    },
+          guests: {
+            adultCount: adults,
+            childrenCount: children,
+            infantCount: infants,
+          },
+          product: {
+            productType: ProductType.Lounge,
+            productID:
+              env === 'prod' ? lounge.partnerIdProd : lounge.partnerIdTest,
+            supplierCode: lounge.partnerIntegrationId,
+          },
+        },
+      },
+    });
+  }, []);
+
+  const departureTime = flightData?.departure?.dateTime?.local;
+
+  const dayjsDepartureTime = dayjs(departureTime, {
+    format: 'YYYY-MM-DD HH:mm',
   });
+  const flightTime = dayjsDepartureTime.format(constants.TIME_FORMAT);
+  const flightTimeToDisplay = dayjsDepartureTime.format(
+    constants.TIME_FORMAT_DISPLAY
+  );
 
   const handleSelectSlot = (value: string) => {
     setSelectedslot(value);
   };
 
-  const infos = [
-    {
-      header: 'Day of flight',
-      description: formatDate(
-        new Date(
-          `${fligtData?.getFlightDetails[0]?.departure?.dateTime?.local}`
-        ),
-        DATE_REDABLE_FORMAT
-      ),
-      icon: <MapPin width={16} height={16} color="#0C8599" />,
-    },
-    {
-      header: 'Time of flight',
-      description: formatDate(
-        new Date(
-          `${fligtData?.getFlightDetails[0]?.departure?.dateTime?.local}`
-        ),
-        TIME_FORMAT
-      ),
-      icon: <Clock width={16} height={16} color="#0C8599" />,
-    },
-    {
-      header: 'Flight number',
-      description: flightNumber,
-      icon: <Clock width={16} height={16} color="#0C8599" />,
-    },
-  ];
-
   const showAlert = airportMismatch || terminalMismatch;
+
+  const handleClickBack = useCallback(() => {
+    if (top) {
+      if (referrerUrl) {
+        top.location.href = referrerUrl;
+      } else {
+        const windowObj: any = window;
+        sendMobileEvent(windowObj, MOBILE_ACTION_BACK);
+      }
+    }
+  }, [referrerUrl]);
 
   return (
     <Layout>
@@ -265,48 +240,25 @@ export default function ConfirmAvailability() {
             setAirportMismatch(false);
             setTerminalMismath(false);
           }}
-          onClose={() => {
-            if (window) {
-              window.location.href = referrerUrl ?? '/';
-            }
-          }}
+          onClose={handleClickBack}
         >
           <div>
-            {airportMismatch && <h1>Airport Mismatch</h1>}
-            {terminalMismatch && <h1>Terminal Mismatch</h1>}
+            {airportMismatch && <h1>Airports don&apos;t match</h1>}
+            {terminalMismatch && <h1>Terminals don&apos;t match</h1>}
             <div>
               {airportMismatch && (
                 <p>
-                  Please note, that the lounge you are booking is not in the
-                  airport your flight is scheduled.{' '}
+                  The lounge you are booking is not in the same airport your
+                  flight is scheduled to depart from.
                 </p>
               )}
-
               {terminalMismatch && (
                 <p>
-                  Please note, that the lounge you are booking is not in the
-                  terminal your flight is scheduled.{' '}
+                  The lounge you are booking is not in the same terminal your
+                  flight is scheduled to depart from.{' '}
                 </p>
               )}
-
-              <p>
-                {' '}
-                Lounge airport is{' '}
-                <strong>{lounge?.location?.airportName}</strong>.{' '}
-              </p>
-
-              <p>
-                {' '}
-                Lounge terminal is <strong>{lounge?.location?.terminal}</strong>
-                .{' '}
-              </p>
-
-              <p>
-                {' '}
-                Flight departure airport is {flightInfoAirport}. Do you still
-                want to book this lounge even it is not in the airport of
-                departure?
-              </p>
+              <p>Do you still want to go ahead with this booking?</p>
             </div>
           </div>
         </BookingLightbox>
@@ -351,6 +303,9 @@ export default function ConfirmAvailability() {
               lounge={lounge}
               loading={!lounge}
             />
+            {!linkedAccountId && (
+              <Notification>Linked account ID could not be found</Notification>
+            )}
             <Flex
               direction={{ base: 'column', sm: 'row' }}
               gap={{ base: 'sm', sm: 'lg' }}
@@ -376,46 +331,82 @@ export default function ConfirmAvailability() {
                   {lounge && (
                     <Stack spacing={8}>
                       <EditableTitle title="Flight details" to="/" as="h2">
-                        <Details infos={infos as InfoGroup[]} direction="row" />
+                        {departureTime && (
+                          <Details
+                            infos={
+                              InfoPanel(
+                                departureTime,
+                                flightNumber
+                              ) as InfoGroup[]
+                            }
+                            direction="row"
+                          />
+                        )}
                       </EditableTitle>
 
-                      <EditableTitle title="Who's coming" to="/" as="h2">
-                        <Flex gap={10}>
-                          <p style={{ padding: '0', margin: '0' }}>
-                            {' '}
-                            <strong>Adults</strong> {adults}
-                          </p>{' '}
-                          {Number(children) > 0 ? (
-                            <>
-                              <p style={{ padding: '0', margin: '0' }}>
-                                {' '}
-                                <strong>Children</strong> {children}
-                              </p>
-                            </>
-                          ) : null}
-                        </Flex>
+                      <Flex
+                        direction={{ base: 'column', lg: 'row' }}
+                        justify={'space-between'}
+                        sx={{
+                          width: '87%',
+
+                          '@media (max-width: 768px)': {
+                            width: '100%',
+                          },
+                        }}
+                      >
+                        <EditableTitle title="Who's coming?" as="h2">
+                          <GuestCount
+                            adults={adults}
+                            children={children}
+                            infants={infants}
+                          />
+                        </EditableTitle>
+                        <Box
+                          sx={{
+                            width: 'initial',
+
+                            '@media (max-width: 768px)': {
+                              marginTop: '0.5rem',
+                            },
+                          }}
+                        >
+                          <EditableTitle title="Total price" as="h2">
+                            <Price
+                              lounge={lounge}
+                              guests={{ adults, infants, children }}
+                            ></Price>
+                          </EditableTitle>
+                        </Box>
+                      </Flex>
+
+                      <EditableTitle title="" as="h2">
                         {slotsData ? (
                           <AvailableSlots
                             onSelectSlot={handleSelectSlot}
                             availableSlots={slotsData?.getAvailableSlots}
                           />
                         ) : null}
+
+                        <AvailableSlotsErrorHandling
+                          error={slotsError}
+                        ></AvailableSlotsErrorHandling>
                         <div>
-                          This is a rough estimate so that lounge can prepare
-                          for your arrival
+                          This is just a rough estimate so the lounge can
+                          prepare for your arrival.
                         </div>
                       </EditableTitle>
-
                       <EditableTitle title="Cancelation policy" as="h2">
                         <p style={{ padding: '0', margin: '0' }}>
-                          Free cancellation for 24 hours. Cancel before [date of
-                          flight] for a partial refund.
+                          Cancel up to 48 hours before your booking to receive a
+                          full refund. Bookings cannot be cancelled within 48
+                          hours of booking arrival time, including new bookings
+                          made within that time range.
                         </p>
-                        <Link href="cancelation-policy">Learn more</Link>
                         <div>
                           <p>
-                            As your flight is at 7:00am, your maximum stay is 3
-                            hours prior.
+                            As your flight is at {flightTimeToDisplay}, your
+                            maximum stay is 3 hours prior.
                           </p>
                         </div>
                       </EditableTitle>
@@ -428,7 +419,9 @@ export default function ConfirmAvailability() {
         </Flex>
         <Center>
           <Button
-            disabled={slotsLoading || cbLoading}
+            disabled={
+              slotsLoading || cbLoading || hasLoungeCapacity(slotsError)
+            }
             type="submit"
             data-testid="submit"
             onClick={handleSubmit}

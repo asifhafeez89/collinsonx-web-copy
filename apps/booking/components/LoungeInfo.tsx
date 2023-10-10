@@ -7,8 +7,10 @@ import {
   Stack,
   Skeleton,
   Center,
+  Box,
 } from '@collinsonx/design-system/core';
 import { Experience } from '@collinsonx/utils';
+import { getCurrencySymbol } from 'utils/currencysymbol';
 
 interface LoungeInfoProps {
   guests?: {
@@ -19,13 +21,6 @@ interface LoungeInfoProps {
   lounge?: Experience;
   loading: boolean;
 }
-
-const currencyMap: Record<string, string> = {
-  GBP: String.fromCharCode(163),
-};
-
-const getCurrencySymbol = (currency: string) =>
-  currencyMap[currency] || currency;
 
 const getSumToPay = (
   guests: {
@@ -108,10 +103,37 @@ export const LoungeInfo = ({ guests, lounge, loading }: LoungeInfoProps) => {
           <Text size={18}>{loungeLocation}</Text>
         </Skeleton>
         <Skeleton visible={loading}>
-          {loungePrice ? (
-            <Text size={28} fw={700}>
-              {loungePrice}
-            </Text>
+          {lounge?.pricing?.reservationOnlyFee ? (
+            <Box
+              sx={{
+                '@media (max-width: 768px)': {
+                  margin: '0 auto',
+                  width: '90%',
+                  textAlign: 'center',
+                },
+              }}
+            >
+              <Flex
+                gap={2}
+                sx={{
+                  justifyContent: 'initial',
+
+                  '@media (max-width: 768px)': {
+                    justifyContent: 'center',
+                  },
+                }}
+              >
+                <Text fw={700} size={28}>
+                  {getCurrencySymbol(lounge?.pricing?.currency ?? '')}
+                  {parseFloat(
+                    lounge.pricing.reservationOnlyFee.toString()
+                  ).toFixed(2)}{' '}
+                </Text>{' '}
+                <Text size={20} style={{ lineHeight: '50px' }}>
+                  per person
+                </Text>
+              </Flex>
+            </Box>
           ) : null}
         </Skeleton>
       </Flex>

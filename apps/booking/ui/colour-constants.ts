@@ -11,6 +11,7 @@ const colors = {
   borderColor: '#B4B3BA',
   theme: '#827127',
   iconTeal: '#0C8599',
+  dialogFooter: '#F7F7F7',
 };
 
 export default colors;

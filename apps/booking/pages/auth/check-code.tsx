@@ -16,8 +16,8 @@ import {
 } from '@collinsonx/utils/supertokens';
 import LayoutLogin from '@components/LayoutLogin';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
-import { useEffect, useRef, useState } from 'react';
-import { useMutation } from '@collinsonx/utils/apollo';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useLazyQuery, useMutation } from '@collinsonx/utils/apollo';
 import { default as ErrorComponent } from '@components/Error';
 import usePayload from 'hooks/payload';
 import colors from 'ui/colour-constants';
@@ -27,8 +27,14 @@ import Session from 'supertokens-auth-react/recipe/session';
 import BackToLounge from '@components/BackToLounge';
 import getError from 'utils/getError';
 import { BookingError } from '../../constants';
-import { BookingQueryParams } from '@collinsonx/constants/enums';
+import {
+  AccountProvider,
+  BookingQueryParams,
+} from '@collinsonx/constants/enums';
 import { PinLockoutError } from '@collinsonx/constants/constants';
+import { getConsumerByID } from '@collinsonx/utils/queries';
+import { LinkedAccount } from '@collinsonx/utils/generatedTypes/graphql';
+import { accountIsEqual, log } from '../../lib/index';
 
 const { ERR_MEMBERSHIP_ALREADY_CONNECTED } = BookingError;
 const { tooManyAttempts, expiredJwt } = PinLockoutError;
@@ -55,6 +61,15 @@ export default function CheckEmail() {
 
   let interval = useRef<NodeJS.Timeout>();
 
+  const [
+    fetchConsumer,
+    {
+      loading: fetchConsumerLoading,
+      error: fetchConsumerError,
+      data: fetchConsumerData,
+    },
+  ] = useLazyQuery(getConsumerByID);
+
   useEffect(() => {
     interval.current = setInterval(() => {
       setCount((count) => {
@@ -67,12 +82,39 @@ export default function CheckEmail() {
     return () => clearInterval(interval.current);
   }, []);
 
+  const findLinkedAccount = useCallback(
+    (linkedAccounts: LinkedAccount[] = []) => {
+      return linkedAccounts.find(accountIsEqual(payload));
+    },
+    [payload]
+  );
+
   const handleClickResend = () => {
     try {
-      createPasswordlessCode({ email });
+      createPasswordlessCode({
+        email,
+        userContext: {
+          accountProvider: payload?.accountProvider,
+        },
+      });
     } catch (e) {}
     setCount(20);
   };
+
+  const redirect = useCallback(() => {
+    if (router.query.bookingId) {
+      router.push({
+        pathname: '/cancel-booking',
+        query: {
+          [bookingId]: router.query[bookingId] as string,
+        },
+      });
+    } else {
+      router.push({
+        pathname: '/',
+      });
+    }
+  }, [router]);
 
   const handleLinkAccount = () =>
     dolinkAccount({
@@ -89,8 +131,9 @@ export default function CheckEmail() {
         response,
         ERR_MEMBERSHIP_ALREADY_CONNECTED
       );
+
       if (alreadyConnectedError) {
-        console.log('[SIGN OUT]: membership already connected');
+        log('[SIGN OUT]: membership already connected');
         Session.signOut().then(() => {
           setLayoutError(ERR_MEMBERSHIP_ALREADY_CONNECTED);
           router.push({
@@ -101,18 +144,7 @@ export default function CheckEmail() {
 
       setLinkedAccountId(response.data.linkAccount.id);
 
-      if (router.query.id) {
-        router.push({
-          pathname: '/cancel-booking',
-          query: {
-            [bookingId]: router.query[bookingId] as string,
-          },
-        });
-      } else {
-        router.push({
-          pathname: '/',
-        });
-      }
+      redirect();
     });
 
   const handleClickConfirm = async () => {
@@ -127,13 +159,13 @@ export default function CheckEmail() {
     let response = await consumePasswordlessCode({
       userInputCode: code,
     });
-    console.log('[check-code] calling supertokens consumerPasswordlessCode...');
+    log('[check-code] calling supertokens consumerPasswordlessCode...');
 
     if (
       response.status === 'INCORRECT_USER_INPUT_CODE_ERROR' ||
       response.status === 'EXPIRED_USER_INPUT_CODE_ERROR'
     ) {
-      console.log('[check-code] response.status error case ', response.status);
+      log('[check-code] response.status error case ', response.status);
       setPinError(true);
       setCheckingCode(false);
       setPinAttemptCount(response.failedCodeInputAttemptCount);
@@ -141,7 +173,7 @@ export default function CheckEmail() {
     }
 
     if (response.status === 'RESTART_FLOW_ERROR') {
-      console.log('[check-code] response.status error case ', response.status);
+      log('[check-code] response.status error case ', response.status);
       setPinLockoutError(pinAttemptCount === 4 ? tooManyAttempts : expiredJwt);
       setPinLockout(true);
       setCheckingCode(false);
@@ -149,12 +181,12 @@ export default function CheckEmail() {
     }
 
     if (response.status !== 'OK') {
-      console.log('[check-code] response.status error case ', response.status);
+      log('[check-code] response.status error case ', response.status);
       return window.alert('Login failed. Please try again');
     }
 
     if (response.createdNewUser) {
-      console.log(
+      log(
         '[check-code] consumerPasswordlessCode: response.createdNewUser === true'
       );
       router.push({
@@ -165,10 +197,23 @@ export default function CheckEmail() {
         },
       });
     } else {
-      console.log(
+      log(
         '[check-code] consumerPasswordlessCode: response.createdNewUser === false'
       );
-      await handleLinkAccount();
+      const userId = response.user.id;
+      fetchConsumer({
+        variables: {
+          getConsumerById: userId,
+        },
+      }).then(({ data }) => {
+        const { linkedAccounts } = data.getConsumerByID;
+        const matchedAccount = findLinkedAccount(linkedAccounts || []);
+        if (!matchedAccount) {
+          handleLinkAccount();
+        } else {
+          redirect();
+        }
+      });
     }
   };
 
@@ -262,9 +307,9 @@ export default function CheckEmail() {
                       align="center"
                       size={16}
                     >
-                      Perhaps the code is invalid or has expired.
+                      Passcode may be incorrect or expired.
                       <br />
-                      Please try again
+                      Please try again.
                     </Text>
                   )}
                   <Flex

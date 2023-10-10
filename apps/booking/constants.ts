@@ -1,7 +1,8 @@
 import { BridgePayload } from 'types/booking';
 
 const constants = {
-  TIMEFORMAT: 'HH:mm',
+  TIME_FORMAT: 'HH:mm',
+  TIME_FORMAT_DISPLAY: 'h:mma',
 };
 
 const cookiesNames = {
@@ -32,15 +33,28 @@ export const POLLING_TIME = 3000;
 
 export enum BookingError {
   ERR_MEMBERSHIP_ALREADY_CONNECTED = 'ERR_MEMBERSHIP_ALREADY_CONNECTED',
+  ERR_BOOKING_NOT_FOUND = 'ERR_BOOKING_NOT_FOUND',
+  ERR_BOOKING_ALREADY_CANCELLED = 'ERR_BOOKING_ALREADY_CANCELLED',
+  ERR_BOOKING_NOT_OWNED = 'ERR_BOOKING_NOT_OWNED',
+  ERR_CANCELLATION_FAILED = 'ERR_CANCELLATION_FAILED',
+  ERR_CANCELLATION_FAILED_WITH_SUCCESS = 'ERR_CANCELLATION_FAILED_WITH_SUCCESS',
+  ERR_CANCELATION_NOT_ALLOWED = 'ERR_CANCELATION_NOT_ALLOWED',
+  ERR_SOMETHING_WENT_WRONG = 'ERR_SOMETHING_WENT_WRONG',
 }
 
 export const ValidationErrorResponses = {
   INVALID_DATE: {
     code: 'ERR_INVALID_DATE',
-    message: 'Invalid Date',
+    message: 'Must provide date of flight.',
+  },
+  INVALID_DATEFlIGHT: {
+    code: 'ERR_INVALID_DATEFlIGHT',
+    message: 'Flight details not recognised. Please check and try again.',
   },
   INVALID_FLIGHT: {
     code: 'ERR_INVALID_FLIGHT',
-    message: 'Invalid Flight',
+    message: 'Flight details not recognised. Please check and try again.',
   },
 } as const;
+
+export const PRODUCTION_DOMAIN = 'booking.cergea.com';

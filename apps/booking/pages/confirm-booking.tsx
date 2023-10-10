@@ -5,60 +5,36 @@ import { Consumer } from '@collinsonx/utils/generatedTypes/graphql';
 import { LoungeInfo } from '@components/LoungeInfo';
 import { getConsumer } from '@collinsonx/utils/queries';
 import { Details, Button } from '@collinsonx/design-system';
-import Link from 'next/link';
-import { useMemo, useContext } from 'react';
+import { useContext, useState } from 'react';
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
-import { Availability } from '@collinsonx/utils';
-import { validateFlightNumber } from '../utils/flightValidation';
-import { FlightDetails } from '@collinsonx/utils';
-import getFlightDetails from '@collinsonx/utils/queries/getFlightDetails';
-import {
-  AIRPORT_CODE_TYPE,
-  OAG_API_VERSION,
-  DATE_FORMAT,
-  TIME_FORMAT,
-  DATE_REDABLE_FORMAT,
-} from '../config/Constants';
-import { formatDate } from '../utils/DateFormatter';
+import { constants } from '../constants';
 import usePayload from 'hooks/payload';
 import { InfoGroup } from '@collinsonx/design-system/components/details';
 import { BookingContext } from 'context/bookingContext';
 import { getCheckoutSessionUrl } from 'services/payment';
 import colors from 'ui/colour-constants';
 import BackToLounge from '@components/BackToLounge';
-import { useRouter } from 'next/router';
+import Price from '@components/Price';
+import dayjs from 'dayjs';
+import StripeCheckout from '@components/stripe';
+import { InfoPanel } from 'utils/PanelInfo';
+import { GuestCount } from '@components/guests/GuestCount';
+import { FlightContext } from 'context/flightContext';
+import { log } from '@lib';
 
-interface AvailableSlotsProps {
-  availableSlots: Availability;
-}
-
-export default function ConfirmAvailability({
-  availableSlots,
-}: AvailableSlotsProps) {
-  const router = useRouter();
-  const { lounge, platform } = usePayload();
+export default function ConfirmBooking() {
+  const [clientSecret, setClientSecret] = useState<''>();
+  const { lounge } = usePayload();
 
   const { getBooking } = useContext(BookingContext);
+  const { getFlight } = useContext(FlightContext);
 
-  const {
-    flightNumber,
-    departureDate,
-    children,
-    bookingId,
-    adults,
-    arrival,
-    infants,
-  } = getBooking();
+  const { flightNumber, children, bookingId, adults, infants } = getBooking();
+
+  const flightData = getFlight();
 
   const totalQuantity: number = Number(adults + children);
-
-  const flightCode = useMemo(
-    () =>
-      flightNumber ? validateFlightNumber(flightNumber as string) : undefined,
-
-    [flightNumber]
-  );
 
   const { data: consumer, loading: loadingConsumer } = useQuery<{
     getConsumer: Consumer;
@@ -70,108 +46,37 @@ export default function ConfirmAvailability({
     onCompleted: () => {},
   });
 
-  const isReferrerDevice: boolean =
-    platform === 'android' || platform === 'ios';
-  const successUrl = isReferrerDevice ? 'confirm-payment' : 'close-window';
-
   const handleSubmit = async () => {
     try {
       const paymentinput = {
         bookingID: bookingId ?? '',
         consumerID: consumer?.getConsumer.id ?? '',
         internalProductId: lounge?.id ?? '',
-        successUrl: `${process.env.NEXT_PUBLIC_URL}/${successUrl}`,
-        cancelUrl: `${process.env.NEXT_PUBLIC_URL}/booking-not-successful`,
+        returnUrl: `${process.env.NEXT_PUBLIC_URL}/confirm-payment`,
         quantity: totalQuantity,
       };
 
       const getSessionUrl = await getCheckoutSessionUrl(paymentinput);
 
       // should these be throwing errors?
-      if (!getSessionUrl.data) console.log('error getting payment link');
-      if (!window) console.log('No window object');
+      if (!getSessionUrl.data) log('error getting payment link');
+      if (!window) log('No window object');
 
-      if (isReferrerDevice) {
-        window.location.href = getSessionUrl?.data?.url;
-      } else {
-        /*
-          this block opens the stripe url and upon a successful payment sends an event
-          to the stripe successUrl telling it to close itself, bypassing a security
-          policy preventing windows being closed by a source which didn't open them
-          "Scripts may close only the windows that were opened by them."
-
-          This is because of the iframe.
-        */
-        let completed: boolean;
-        const stripeWindow = window.open();
-
-        if (!stripeWindow) throw new Error('No payment window generated');
-
-        stripeWindow.location.href = getSessionUrl.data.url;
-
-        const closerPoller: NodeJS.Timer = setInterval(() => {
-          if (completed) return clearInterval(closerPoller);
-
-          stripeWindow.postMessage('Wakey wakey');
-        }, 1000);
-
-        const closeListener: any = window.addEventListener('message', () => {
-          completed = true;
-          stripeWindow.close();
-          window.removeEventListener('message', closeListener);
-        });
-
-        router.push({
-          pathname: '/confirm-payment',
-        });
-      }
+      setClientSecret(getSessionUrl?.data?.clientSecret);
     } catch (error) {
-      console.log(error);
+      log(error);
     }
   };
 
-  const { data: fligtData } = useQuery<{
-    getFlightDetails: FlightDetails[];
-  }>(getFlightDetails, {
-    variables: {
-      flightDetails: {
-        carrierCode: flightCode ? flightCode[1] : '',
-        codeType: AIRPORT_CODE_TYPE,
-        departureDate: formatDate(new Date(String(departureDate)), DATE_FORMAT),
-        flightNumber: flightCode ? flightCode[2] : '',
-        version: OAG_API_VERSION,
-      },
-    },
-    pollInterval: 300000,
-    fetchPolicy: 'network-only',
-    notifyOnNetworkStatusChange: true,
-    onCompleted: () => {},
+  const departureTime = flightData?.departure?.dateTime?.local;
+
+  const dayjsDepartureTime = dayjs(departureTime, {
+    format: 'YYYY-MM-DD HH:mm',
   });
 
-  const infos = [
-    {
-      header: 'Day of flight',
-      description: formatDate(
-        new Date(
-          `${fligtData?.getFlightDetails[0]?.departure?.dateTime?.local}`
-        ),
-        DATE_REDABLE_FORMAT
-      ),
-    },
-    {
-      header: 'Time of flight',
-      description: formatDate(
-        new Date(
-          `${fligtData?.getFlightDetails[0]?.departure?.dateTime?.local}`
-        ),
-        TIME_FORMAT
-      ),
-    },
-    {
-      header: 'Flight number',
-      description: flightNumber,
-    },
-  ];
+  const flightTimeToDisplay = dayjsDepartureTime.format(
+    constants.TIME_FORMAT_DISPLAY
+  );
 
   return (
     <Layout>
@@ -212,80 +117,101 @@ export default function ConfirmAvailability({
               sx={{
                 width: '100%',
                 flexDirection: 'row',
-
                 '@media (max-width: 768px)': {
                   flexDirection: 'column',
                 },
               }}
             >
               {loadingConsumer && <BookingFormSkeleton />}
-              {!loadingConsumer && (
-                <Box>
-                  {lounge && (
+              {clientSecret ? (
+                <StripeCheckout clientSecret={clientSecret} />
+              ) : (
+                !loadingConsumer &&
+                lounge && (
+                  <Box>
                     <Stack spacing={8}>
                       <EditableTitle title="Flight details" to="/" as="h2">
-                        <Details infos={infos as InfoGroup[]} direction="row" />
+                        {departureTime && (
+                          <Details
+                            infos={
+                              InfoPanel(
+                                departureTime,
+                                flightNumber
+                              ) as InfoGroup[]
+                            }
+                            direction="row"
+                          />
+                        )}
                       </EditableTitle>
-                      <EditableTitle title="Who's coming" to="/" as="h2">
-                        <Flex direction="row" gap={10}>
-                          <p style={{ padding: '0', margin: '0' }}>
-                            {' '}
-                            <strong>Adults</strong> {adults}
-                          </p>{' '}
-                          {Number(children) > 0 ? (
-                            <>
-                              <p style={{ padding: '0', margin: '0' }}>
-                                {' '}
-                                <strong>Children</strong> {children}
-                              </p>
-                            </>
-                          ) : null}
-                        </Flex>
-                      </EditableTitle>
-                      <EditableTitle
-                        title="Estimated time of arrival"
-                        to="/check-availability"
-                        as="h2"
+
+                      <Flex
+                        direction={{ base: 'column', lg: 'row' }}
+                        justify={'space-between'}
+                        sx={{
+                          width: '87%',
+
+                          '@media (max-width: 768px)': {
+                            width: '100%',
+                          },
+                        }}
                       >
-                        <Flex
-                          direction={{ base: 'column', sm: 'row' }}
-                          gap={10}
+                        <EditableTitle title="Who's coming?" as="h2">
+                          <GuestCount
+                            adults={adults}
+                            children={children}
+                            infants={infants}
+                          />
+                        </EditableTitle>
+                        <Box
+                          sx={{
+                            width: 'initial',
+
+                            '@media (max-width: 768px)': {
+                              marginTop: '0.5rem',
+                            },
+                          }}
                         >
-                          <p style={{ padding: '0', margin: '0' }}>
-                            {' '}
-                            {arrival?.split('-')[0]}
-                          </p>{' '}
-                        </Flex>
-                        <div>
-                          This is a rough estimate so that lounge can prepare
-                          for your arrival
-                        </div>
-                      </EditableTitle>
+                          <EditableTitle title="Total price" as="h2">
+                            <Price
+                              lounge={lounge}
+                              guests={{ adults, infants, children }}
+                            ></Price>
+                          </EditableTitle>
+                        </Box>
+                      </Flex>
+
                       <EditableTitle title="Cancelation policy" as="h2">
                         <p style={{ padding: '0', margin: '0' }}>
-                          Free cancellation for 24 hours. Cancel before [date of
-                          flight] for a partial refund.
+                          Cancel up to 48 hours before your booking to receive a
+                          full refund. Bookings cannot be cancelled within 48
+                          hours of booking arrival time, including new bookings
+                          made within that time range.
                         </p>
-                        <Link href="cancelation-policy">Learn more</Link>
                         <div>
                           <p>
-                            As your flight is at 7:00am, your maximum stay is 3
-                            hours prior.
+                            As your flight is at {flightTimeToDisplay}, your
+                            maximum stay is 3 hours prior.
+                          </p>
+                        </div>
+                        <div>
+                          <p>
+                            Please confirm details are correct before making
+                            payment.
                           </p>
                         </div>
                       </EditableTitle>
                     </Stack>
-                  )}
-                  <Button
-                    type="submit"
-                    data-testid="submit"
-                    spacing="20px"
-                    align="center"
-                    handleClick={handleSubmit}
-                  >
-                    GO TO PAYMENT
-                  </Button>
-                </Box>
+                    <Button
+                      type="submit"
+                      data-testid="submit"
+                      spacing="20px"
+                      align="center"
+                      handleClick={handleSubmit}
+                    >
+                      GO TO PAYMENT
+                    </Button>
+                  </Box>
+                )
               )}
             </Flex>
           </Stack>
@@ -295,4 +221,4 @@ export default function ConfirmAvailability({
   );
 }
 
-ConfirmAvailability.getLayout = (page: JSX.Element) => <>{page}</>;
+ConfirmBooking.getLayout = (page: JSX.Element) => <>{page}</>;

@@ -1,5 +1,10 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# Styleguide is a tool for testing front-end components
+# The project mockup backend data
+# Repo: https://github.com/CollinsonX/collinsonx-web-styleguide
+/styleguide
+
 # dependencies
 /node_modules
 /.pnp

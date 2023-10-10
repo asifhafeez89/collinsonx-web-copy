@@ -1,6 +1,5 @@
 import { useQuery } from '@collinsonx/utils/apollo';
 import Layout from '@components/Layout';
-
 import {
   Anchor,
   Box,
@@ -19,21 +18,21 @@ import { useRouter } from 'next/router';
 import { LoungeInfo } from '@components/LoungeInfo';
 import LoaderLightBox from '@collinsonx/design-system/components/loaderlightbox';
 import { getConsumerByID } from '@collinsonx/utils/queries';
-import { Details, Button } from '@collinsonx/design-system';
-
+import { Details } from '@collinsonx/design-system';
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
-
-import { TIME_FORMAT, DATE_REDABLE_FORMAT } from '../config/Constants';
-import { formatDate } from '../utils/DateFormatter';
 import usePayload from 'hooks/payload';
-
 import { InfoGroup } from '@collinsonx/design-system/components/details';
 import colors from 'ui/colour-constants';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
 import { BookingContext } from 'context/bookingContext';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
-
-import { useCallback, useContext, useEffect, useRef } from 'react';
+import {
+  MouseEventHandler,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+} from 'react';
 import { useState } from 'react';
 import { useMemo } from 'react';
 import { useLazyQuery } from '@collinsonx/utils/apollo';
@@ -41,7 +40,14 @@ import { getBookingByID } from '@collinsonx/utils/queries';
 import { AlertIcon } from '@collinsonx/design-system/assets/icons';
 import BackToLounge from '@components/BackToLounge';
 import { MOBILE_ACTION_BACK, POLLING_TIME } from '../constants';
-import { sendMobileEvent } from '@lib';
+import { log, sendMobileEvent } from '@lib';
+import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
+import Price from '@components/Price';
+import { InfoPanel } from 'utils/PanelInfo';
+import { GenerateBookingConfirmedPdf } from '@components/booking/GenerateBookingConfirmedPdf';
+import { GuestCount } from '@components/guests/GuestCount';
+import BackButton from '@components/BackButton';
+import { FlightContext } from 'context/flightContext';
 
 export default function ConfirmPayment() {
   const router = useRouter();
@@ -52,25 +58,44 @@ export default function ConfirmPayment() {
 
   const { lounge, referrerUrl } = usePayload();
 
-  const handleClickBack = useCallback(() => {
-    if (window && !referrerUrl) {
-      const windowObj: any = window;
-      sendMobileEvent(windowObj, MOBILE_ACTION_BACK);
-    }
-  }, [referrerUrl]);
+  const handleClickBack: MouseEventHandler<HTMLAnchorElement> = useCallback(
+    (e) => {
+      if (window && !referrerUrl) {
+        e.preventDefault();
+        const windowObj: any = window;
+        sendMobileEvent(windowObj, MOBILE_ACTION_BACK);
+      }
+    },
+    [referrerUrl]
+  );
 
-  const {
-    loading: userLoading,
-    error: userError,
-    data: userData,
-  } = useQuery<{
+  const [userData, setUserData] = useState<Consumer | null>(null);
+
+  const { loading: userLoading, error: userError } = useQuery<{
     getConsumerByID: Consumer;
-  }>(getConsumerByID, { variables: { getConsumerById: session.userId } });
+  }>(getConsumerByID, {
+    variables: { getConsumerById: session.userId },
+    fetchPolicy: 'network-only',
+    onCompleted: (data) => {
+      setUserData(data?.getConsumerByID || null);
+    },
+  });
 
-  const { getBooking, setBooking } = useContext(BookingContext);
+  const { getBooking } = useContext(BookingContext);
+  const { getFlight } = useContext(FlightContext);
 
   const [open, setOpen] = useState(true);
   const [alert, setAlert] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    if (session.userId) {
+      userLoading && log('Fetching user data...');
+
+      if (userError) {
+        console.error('Error fetching user data:', userError);
+      }
+    }
+  }, [session.userId, userLoading, userError]);
 
   useEffect(() => {
     // Check if the booking state is incompleted and]
@@ -87,16 +112,10 @@ export default function ConfirmPayment() {
     fetchBookingDetails();
   };
 
-  const {
-    flightNumber,
-    departureDate,
-    children,
-    bookingId,
-    carrierCode,
-    adults,
-    arrival,
-    infants,
-  } = getBooking();
+  const { flightNumber, children, bookingId, adults, arrival, infants } =
+    getBooking();
+
+  const flightData = getFlight();
 
   const loungeLocation = useMemo(
     () =>
@@ -109,63 +128,45 @@ export default function ConfirmPayment() {
     [lounge]
   );
 
-  const handleSubmit = () => {};
+  const departureTime = flightData?.departure?.dateTime?.local;
 
-  const [
-    fetchBookingDetails,
-    { loading: loadingBooking, error: errorBooking, data: dataBooking },
-  ] = useLazyQuery<{
-    getBookingByID: Booking;
-  }>(getBookingByID, {
-    variables: {
-      getBookingById: bookingId,
-    },
-    fetchPolicy: 'network-only',
-    notifyOnNetworkStatusChange: true,
-    onCompleted: (data) => {
-      setTimer(timer + 1);
+  const [fetchBookingDetails, { loading: loadingBooking, data: dataBooking }] =
+    useLazyQuery<{
+      getBookingByID: Booking;
+    }>(getBookingByID, {
+      variables: {
+        getBookingById: bookingId,
+      },
+      fetchPolicy: 'network-only',
+      notifyOnNetworkStatusChange: true,
+      onCompleted: (data) => {
+        setTimer(timer + 1);
 
-      // 30s passed booking is still pending
-      if (timer > 10 && data.getBookingByID.status === BookingStatus.Pending) {
-        clearInterval(interval.current);
-        setOpen(false);
-        setAlert(true);
-        clearInterval(interval.current);
-      }
-      if (
-        data.getBookingByID.status === BookingStatus.Declined ||
-        data.getBookingByID.status === BookingStatus.Confirmed
-      ) {
-        setOpen(false);
-        setAlert(false);
-        clearInterval(interval.current);
-
-        if (data.getBookingByID.status === BookingStatus.Declined) {
-          router.push({
-            pathname: '/failure-booking',
-          });
+        // 30s passed booking is still pending
+        if (
+          timer > 10 &&
+          data.getBookingByID.status === BookingStatus.Pending
+        ) {
+          clearInterval(interval.current);
+          setOpen(false);
+          setAlert(true);
         }
-      }
-    },
-  });
+        if (
+          data.getBookingByID.status === BookingStatus.Declined ||
+          data.getBookingByID.status === BookingStatus.Confirmed
+        ) {
+          setOpen(false);
+          setAlert(false);
+          clearInterval(interval.current);
 
-  const infos = [
-    {
-      header: 'Day of flight',
-      description: formatDate(
-        new Date(`${departureDate}`),
-        DATE_REDABLE_FORMAT
-      ),
-    },
-    {
-      header: 'Time of flight',
-      description: formatDate(new Date(`${departureDate}`), TIME_FORMAT),
-    },
-    {
-      header: 'Flight number',
-      description: flightNumber,
-    },
-  ];
+          if (data.getBookingByID.status === BookingStatus.Declined) {
+            router.push({
+              pathname: '/failure-booking',
+            });
+          }
+        }
+      },
+    });
 
   return (
     <Layout>
@@ -182,17 +183,16 @@ export default function ConfirmPayment() {
           <div>
             <h2>Payment is being processed</h2>
             <p>
-              Your payment for the{' '}
+              Your payment for{' '}
               <strong>
                 {lounge?.loungeName} &nbsp;
                 {loungeLocation}
               </strong>{' '}
-              is being processed. This might take a few minutes/seconds to
+              is being processed.
+              <br />
+              <br />
+              Please don't refresh the page, it may take a few minutes to
               complete.
-              <br />
-              <br />
-              Please do not leave the screen rather close your browser until the
-              action finishes.
             </p>
           </div>
         </LoaderLightBox>
@@ -260,7 +260,7 @@ export default function ConfirmPayment() {
                           fontWeight: '700',
                         }}
                       >
-                        Your Booking has been confirmed
+                        Good news! Your booking has been confirmed
                       </Title>
                       <Text
                         style={{
@@ -285,7 +285,7 @@ export default function ConfirmPayment() {
                       >
                         A confirmation email has been sent to{' '}
                         <span style={{ fontWeight: 700 }}>
-                          {userData?.getConsumerByID?.emailAddress}
+                          {userData?.emailAddress}
                         </span>
                       </Text>
                     </Box>
@@ -311,8 +311,55 @@ export default function ConfirmPayment() {
                         <Heading as="h2" padding={0} margin={0}>
                           Flight details
                         </Heading>
-                        <Details infos={infos as InfoGroup[]} direction="row" />
+                        {departureTime && (
+                          <Details
+                            infos={
+                              InfoPanel(
+                                departureTime,
+                                flightNumber
+                              ) as InfoGroup[]
+                            }
+                            direction="row"
+                          />
+                        )}
                       </Box>
+
+                      <Flex
+                        direction={{ base: 'column', lg: 'row' }}
+                        justify={'space-between'}
+                        sx={{
+                          width: '87%',
+
+                          '@media (max-width: 768px)': {
+                            width: '100%',
+                          },
+                        }}
+                      >
+                        <EditableTitle title="Who's coming?" as="h2">
+                          <GuestCount
+                            adults={adults}
+                            children={children}
+                            infants={infants}
+                          />
+                        </EditableTitle>
+                        <Box
+                          sx={{
+                            width: 'initial',
+
+                            '@media (max-width: 768px)': {
+                              marginTop: '0.5rem',
+                            },
+                          }}
+                        >
+                          <EditableTitle title="Total price" as="h2">
+                            <Price
+                              lounge={lounge}
+                              guests={{ adults, infants, children }}
+                            ></Price>
+                          </EditableTitle>
+                        </Box>
+                      </Flex>
+
                       <Box
                         sx={{
                           '@media (max-width: 768px)': {
@@ -322,33 +369,7 @@ export default function ConfirmPayment() {
                         }}
                       >
                         <Heading as="h2" padding={0} margin={0}>
-                          Who's coming
-                        </Heading>
-                        <Flex direction="row" gap={10}>
-                          <p style={{ padding: '0', margin: '0' }}>
-                            {' '}
-                            <strong>Adults</strong> {adults}
-                          </p>{' '}
-                          {Number(children) > 0 ? (
-                            <>
-                              <p style={{ padding: '0', margin: '0' }}>
-                                {' '}
-                                <strong>Children</strong> {children}
-                              </p>
-                            </>
-                          ) : null}
-                        </Flex>
-                      </Box>
-                      <Box
-                        sx={{
-                          '@media (max-width: 768px)': {
-                            background: colors.white,
-                            padding: '20px',
-                          },
-                        }}
-                      >
-                        <Heading as="h2" padding={0} margin={0}>
-                          Estimated time of arrival
+                          Estimated lounge arrival time
                         </Heading>
                         <Flex direction="row" gap={10}>
                           <p style={{ padding: '0', margin: '0' }}>
@@ -360,31 +381,18 @@ export default function ConfirmPayment() {
                     </Stack>
                   )}
                   <Center>
-                    <Anchor
-                      href={referrerUrl ? referrerUrl : '#'}
-                      onClick={handleClickBack}
-                      style={{
-                        textDecoration: 'underline',
-                        color: colors.blue,
-                        fontSize: '1.125rem',
-                        lineHeight: '1.75rem',
-                        fontWeight: '600',
-                        marginTop: '0.75rem',
-                      }}
-                    >
-                      Return to lounge page
-                    </Anchor>
+                    <GenerateBookingConfirmedPdf
+                      adults={adults}
+                      arrival={arrival}
+                      children={children}
+                      departureTime={departureTime}
+                      emailAddress={userData?.emailAddress}
+                      flightNumber={flightNumber}
+                      infants={infants}
+                      lounge={lounge}
+                      reference={dataBooking?.getBookingByID.reference}
+                    />
                   </Center>
-
-                  <Button
-                    type="submit"
-                    data-testid="submit"
-                    spacing="1.25rem"
-                    align="center"
-                    handleClick={handleSubmit}
-                  >
-                    DOWNLOAD COPY
-                  </Button>
                 </Box>
               )}
 
@@ -413,23 +421,13 @@ export default function ConfirmPayment() {
                       </Title>
 
                       <Text>
-                        We are not able to confirm your booking yet, we will
-                        send you an email once your booking is confirmed
+                        We're sorry we're not able to confirm your booking right
+                        now. We will send an email as soon as your booking is
+                        confirmed.
                       </Text>
-
-                      <Button
-                        type="submit"
-                        data-testid="submit"
-                        spacing="1.25rem"
-                        align="center"
-                        handleClick={() => {
-                          if (window) {
-                            window.location.href = referrerUrl ?? '/';
-                          }
-                        }}
-                      >
-                        GO TO LOUNGES
-                      </Button>
+                      <Box sx={{ padding: '1.25rem', textAlign: 'center' }}>
+                        <BackButton>GO TO LOUNGES</BackButton>
+                      </Box>
                     </Box>
                   </Stack>
                 </Box>

@@ -59,9 +59,9 @@ const PinLockout = ({
 
   useEffect(() => {
     if (errorMessage === tooManyAttempts) {
-      setTitle('Sorry, too many wrong attempts');
+      setTitle('Sorry, passcode not verified');
       setDesc(
-        '5 incorrect attempts were made to enter the verification code.\nPlease try again in an hour'
+        'Too many incorrect attempts were made to enter the verification passcode.\nYour account will be locked for 60 minutes.'
       );
       setButton('RE-ENTER EMAIL');
     } else if (errorMessage === expiredJwt) {
