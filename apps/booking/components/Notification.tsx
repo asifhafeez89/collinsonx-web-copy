@@ -41,10 +41,13 @@ function Notification({ children }: NotificationProps) {
         </Box>
 
         <Text
-          size={16}
           align="left"
           fw={400}
-          style={{ wordWrap: 'break-word' }}
+          style={{
+            wordWrap: 'break-word',
+            fontSize: '0.875rem',
+            marginTop: '0.3rem',
+          }}
         >
           {children}
         </Text>
