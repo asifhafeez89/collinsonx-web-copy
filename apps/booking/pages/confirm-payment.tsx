@@ -380,7 +380,11 @@ export default function ConfirmPayment() {
                       </Box>
                     </Stack>
                   )}
-                  <Center>
+                  <Flex
+                    justify={'center'}
+                    direction={'column'}
+                    align={'center'}
+                  >
                     <GenerateBookingConfirmedPdf
                       adults={adults}
                       arrival={arrival}
@@ -392,7 +396,22 @@ export default function ConfirmPayment() {
                       lounge={lounge}
                       reference={dataBooking?.getBookingByID.reference}
                     />
-                  </Center>
+                    <Anchor
+                      target="_top"
+                      href={referrerUrl ? referrerUrl : '#'}
+                      onClick={handleClickBack}
+                      style={{
+                        textDecoration: 'underline',
+                        color: colors.blue,
+                        fontSize: '1.125rem',
+                        lineHeight: '1.75rem',
+                        fontWeight: '600',
+                        marginTop: '0.75rem',
+                      }}
+                    >
+                      Return to lounge page
+                    </Anchor>
+                  </Flex>
                 </Box>
               )}
 

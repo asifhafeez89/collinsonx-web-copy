@@ -95,6 +95,5 @@ export const sendMobileEvent = (windowObj: any = {}, value: any) => {
 
 export const accountIsEqual =
   (payload: BridgePayload | undefined) => (item: LinkedAccount) =>
-    String(item.membershipID) === String(payload?.membershipNumber) &&
     String(item.externalID) === String(payload?.externalId) &&
     (item.provider as unknown as AccountProvider) === payload?.accountProvider;
