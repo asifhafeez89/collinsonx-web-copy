@@ -77,18 +77,6 @@ export default function ConfirmAvailability() {
   const { referrerUrl, lounge, linkedAccountId } = usePayload();
   const [airportMismatch, setAirportMismatch] = useState(false);
   const [terminalMismatch, setTerminalMismath] = useState(false);
-  const [env, setEnv] = useState<string>();
-
-  useEffect(() => {
-    if (
-      window.location.href.includes('uat') ||
-      window.location.href.includes('test')
-    ) {
-      setEnv('test');
-    } else {
-      setEnv('prod');
-    }
-  }, []);
 
   const booking = getBooking();
   const flightData = getFlight();
@@ -177,6 +165,15 @@ export default function ConfirmAvailability() {
       setAirportMismatch(true);
     }
 
+    const partnerKey = process.env.NEXT_PUBLIC_SNAPLOGIC_PARTNER_KEY
+      ? process.env.NEXT_PUBLIC_SNAPLOGIC_PARTNER_KEY
+      : 'partnerIdProd';
+    const productID =
+      partnerKey === 'partnerIdTest'
+        ? lounge.partnerIdTest
+        : lounge.partnerIdProd;
+    console.log('NEXT_PUBLIC_SNAPLOGIC_PARTNER_KEY', partnerKey, productID);
+
     fetchSlots({
       variables: {
         data: {
@@ -193,8 +190,7 @@ export default function ConfirmAvailability() {
           },
           product: {
             productType: ProductType.Lounge,
-            productID:
-              env === 'prod' ? lounge.partnerIdProd : lounge.partnerIdTest,
+            productID: productID,
             supplierCode: lounge.partnerIntegrationId,
           },
         },
