@@ -168,7 +168,11 @@ export default function ConfirmAvailability() {
     const partnerKey = process.env.NEXT_PUBLIC_SNAPLOGIC_PARTNER_KEY
       ? process.env.NEXT_PUBLIC_SNAPLOGIC_PARTNER_KEY
       : 'partnerIdProd';
-    console.log('partnerKey', partnerKey);
+    const productID =
+      partnerKey === 'partnerIdTest'
+        ? lounge.partnerIdTest
+        : lounge.partnerIdProd;
+    console.log('NEXT_PUBLIC_SNAPLOGIC_PARTNER_KEY', partnerKey, productID);
 
     fetchSlots({
       variables: {
@@ -186,7 +190,7 @@ export default function ConfirmAvailability() {
           },
           product: {
             productType: ProductType.Lounge,
-            productID: partnerKey,
+            productID: productID,
             supplierCode: lounge.partnerIntegrationId,
           },
         },
