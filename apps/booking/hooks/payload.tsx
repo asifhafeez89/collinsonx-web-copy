@@ -351,7 +351,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       >
         <LoungeError error={fetchConsumerError} />
         {!session.loading &&
-          (fetchConsumerLoading ? (
+          (fetchConsumerLoading || loadingLounge ? (
             <Flex justify="center" align="center" h="100%">
               <LoaderLifestyleX />
             </Flex>
