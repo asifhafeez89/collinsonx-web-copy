@@ -72,6 +72,7 @@ export default function MyApp({ Component, pageProps }: Props) {
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
       </Head>
       <UserProvider>
         <SuperTokensWrapper>
