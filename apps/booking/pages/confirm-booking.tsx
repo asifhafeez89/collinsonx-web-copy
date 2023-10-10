@@ -21,6 +21,7 @@ import StripeCheckout from '@components/stripe';
 import { InfoPanel } from 'utils/PanelInfo';
 import { GuestCount } from '@components/guests/GuestCount';
 import { FlightContext } from 'context/flightContext';
+import { log } from '@lib';
 
 export default function ConfirmBooking() {
   const [clientSecret, setClientSecret] = useState<''>();
@@ -58,12 +59,12 @@ export default function ConfirmBooking() {
       const getSessionUrl = await getCheckoutSessionUrl(paymentinput);
 
       // should these be throwing errors?
-      if (!getSessionUrl.data) console.log('error getting payment link');
-      if (!window) console.log('No window object');
+      if (!getSessionUrl.data) log('error getting payment link');
+      if (!window) log('No window object');
 
       setClientSecret(getSessionUrl?.data?.clientSecret);
     } catch (error) {
-      console.log(error);
+      log(error);
     }
   };
 

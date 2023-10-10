@@ -40,7 +40,7 @@ import { getBookingByID } from '@collinsonx/utils/queries';
 import { AlertIcon } from '@collinsonx/design-system/assets/icons';
 import BackToLounge from '@components/BackToLounge';
 import { MOBILE_ACTION_BACK, POLLING_TIME } from '../constants';
-import { sendMobileEvent } from '@lib';
+import { log, sendMobileEvent } from '@lib';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import Price from '@components/Price';
 import { InfoPanel } from 'utils/PanelInfo';
@@ -89,7 +89,7 @@ export default function ConfirmPayment() {
 
   useEffect(() => {
     if (session.userId) {
-      userLoading && console.log('Fetching user data...');
+      userLoading && log('Fetching user data...');
 
       if (userError) {
         console.error('Error fetching user data:', userError);

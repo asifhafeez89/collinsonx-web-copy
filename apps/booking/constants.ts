@@ -56,3 +56,5 @@ export const ValidationErrorResponses = {
     message: 'Flight details not recognised. Please check and try again.',
   },
 } as const;
+
+export const PRODUCTION_DOMAIN = 'booking.cergea.com';
