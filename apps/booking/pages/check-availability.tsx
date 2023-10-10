@@ -477,7 +477,9 @@ export default function ConfirmAvailability() {
         </Flex>
         <Center>
           <Button
-            disabled={slotsLoading || cbLoading}
+            disabled={
+              slotsLoading || cbLoading || hasLoungeCapacity(slotsError)
+            }
             type="submit"
             data-testid="submit"
             onClick={handleSubmit}
