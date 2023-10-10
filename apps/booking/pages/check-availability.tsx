@@ -2,7 +2,6 @@ import {
   ApolloError,
   useLazyQuery,
   useMutation,
-  useQuery,
 } from '@collinsonx/utils/apollo';
 import Layout from '@components/Layout';
 import {
@@ -20,14 +19,7 @@ import { useRouter } from 'next/router';
 import { LoungeInfo } from '@components/LoungeInfo';
 import { Details } from '@collinsonx/design-system';
 import createBooking from '@collinsonx/utils/mutations/createBooking';
-import {
-  useMemo,
-  useState,
-  useContext,
-  useEffect,
-  useCallback,
-  FC,
-} from 'react';
+import { useState, useContext, useEffect, useCallback, FC } from 'react';
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import { Availability } from '@collinsonx/utils';
@@ -37,13 +29,8 @@ import {
   availableSlotsNotEnoughCapacityParser,
 } from '@components/flightInfo/availability';
 import getAvailableSlots from '@collinsonx/utils/queries/getAvailableSlots';
-import { validateFlightNumber } from '../utils/flightValidation';
-import { FlightDetails, Slots } from '@collinsonx/utils';
-import getFlightDetails from '@collinsonx/utils/queries/getFlightDetails';
+import { Slots } from '@collinsonx/utils';
 import {
-  AIRPORT_CODE_TYPE,
-  OAG_API_VERSION,
-  DATE_FORMAT,
   TIME_FORMAT,
   DATE_TIME_FORMAT,
   TRAVEL_TYPE,
@@ -62,6 +49,7 @@ import Notification from '@components/Notification';
 import { InfoPanel } from 'utils/PanelInfo';
 import { GuestCount } from '@components/guests/GuestCount';
 import { sendMobileEvent } from '../lib/index';
+import { FlightContext } from 'context/flightContext';
 
 interface AvailableSlotsErrorHandlingProps {
   error: ApolloError | unknown;
@@ -83,12 +71,12 @@ export default function ConfirmAvailability() {
   const router = useRouter();
 
   const { getBooking, setBooking } = useContext(BookingContext);
+  const { getFlight } = useContext(FlightContext);
 
   const [selectedslot, setSelectedslot] = useState<string>('');
   const { referrerUrl, lounge, linkedAccountId } = usePayload();
   const [airportMismatch, setAirportMismatch] = useState(false);
   const [terminalMismatch, setTerminalMismath] = useState(false);
-  const [flightInfoAirport, setFlightInfoAirport] = useState('');
   const [env, setEnv] = useState<string>();
 
   useEffect(() => {
@@ -103,21 +91,14 @@ export default function ConfirmAvailability() {
   }, []);
 
   const booking = getBooking();
+  const flightData = getFlight();
 
-  const { flightNumber, departureDate, children, adults, infants } = booking;
-
-  const flightCode = useMemo(
-    () =>
-      flightNumber ? validateFlightNumber(flightNumber as string) : undefined,
-
-    [flightNumber]
-  );
+  const { flightNumber, children, adults, infants } = booking;
 
   booking.arrival = selectedslot;
   setBooking(booking);
 
-  const [mutate, { loading: cbLoading, error: cbError }] =
-    useMutation(createBooking);
+  const [mutate, { loading: cbLoading }] = useMutation(createBooking);
 
   const findSelectedSlot = (slots: Slots[] | undefined, value: string) => {
     const slot = slots?.find((slot) => {
@@ -133,8 +114,7 @@ export default function ConfirmAvailability() {
     const availableSlots = slotsData?.getAvailableSlots.slots;
     const slot = findSelectedSlot(availableSlots, selectedslot);
 
-    const departureTime =
-      flightData?.getFlightDetails[0]?.departure?.dateTime?.local;
+    const departureTime = flightData?.departure?.dateTime?.local;
 
     const formattedDepartureTime = formatDateUTC(
       new Date(String(departureTime)),
@@ -186,81 +166,45 @@ export default function ConfirmAvailability() {
     getAvailableSlots: Availability;
   }>(getAvailableSlots);
 
-  const {
-    data: flightData,
-    loading: flightDataLoading,
-    error: flightDataError,
-  } = useQuery<{
-    getFlightDetails: FlightDetails[];
-  }>(getFlightDetails, {
-    variables: {
-      flightDetails: {
-        carrierCode: flightCode ? flightCode[1] : '',
-        codeType: AIRPORT_CODE_TYPE,
-        departureDate: formatDate(new Date(String(departureDate)), DATE_FORMAT),
-        flightNumber: flightCode ? flightCode[2] : '',
-        version: OAG_API_VERSION,
-      },
-    },
-    pollInterval: 300000,
-    fetchPolicy: 'network-only',
-    notifyOnNetworkStatusChange: true,
-    skip: !lounge || !env,
-    onCompleted: (flightInfoData) => {
-      if (flightInfoData) {
-        const airport = flightInfoData.getFlightDetails[0]?.departure?.airport;
-        const terminal =
-          flightInfoData.getFlightDetails[0]?.departure?.terminal;
+  useEffect(() => {
+    if (!flightData || !lounge) return;
 
-        const airportCode = lounge?.location?.airportCode;
+    const airport = flightData.departure?.airport;
+    const airportCode = lounge.location?.airportCode;
 
-        // TODO - Once the data is checked and terminals are ok
-        /// const loungeTerminal = lounge?.location?.terminal?.split(' ')[1];
+    const sameAirport =
+      airportCode?.toLocaleLowerCase() === airport?.toLocaleLowerCase();
 
-        setFlightInfoAirport(airport ?? '');
+    if (!sameAirport) {
+      setAirportMismatch(true);
+    }
 
-        const sameAirport =
-          airportCode?.toLocaleLowerCase() === airport?.toLocaleLowerCase();
-
-        // const sameTerminal =
-        //   loungeTerminal?.toLocaleLowerCase() === terminal?.toLocaleLowerCase();
-
-        if (!sameAirport) {
-          setAirportMismatch(true);
-        }
-
-        fetchSlots({
-          variables: {
-            data: {
-              flightInformation: {
-                type: TRAVEL_TYPE,
-                dateTime:
-                  flightInfoData?.getFlightDetails[0]?.departure?.dateTime?.utc,
-                airport:
-                  flightInfoData?.getFlightDetails[0]?.departure?.airport,
-                terminal: '-1',
-              },
-              guests: {
-                adultCount: adults,
-                childrenCount: children,
-                infantCount: infants,
-              },
-              product: {
-                productType: ProductType.Lounge,
-                productID:
-                  env === 'prod'
-                    ? lounge?.partnerIdProd
-                    : lounge?.partnerIdTest,
-                supplierCode: lounge?.partnerIntegrationId,
-              },
-            },
+    fetchSlots({
+      variables: {
+        data: {
+          flightInformation: {
+            type: TRAVEL_TYPE,
+            dateTime: flightData.departure?.dateTime?.utc,
+            airport: flightData.departure?.airport,
+            terminal: '-1',
           },
-        });
-      }
-    },
-  });
-  const departureTime =
-    flightData?.getFlightDetails[0]?.departure?.dateTime?.local;
+          guests: {
+            adultCount: adults,
+            childrenCount: children,
+            infantCount: infants,
+          },
+          product: {
+            productType: ProductType.Lounge,
+            productID:
+              env === 'prod' ? lounge.partnerIdProd : lounge.partnerIdTest,
+            supplierCode: lounge.partnerIntegrationId,
+          },
+        },
+      },
+    });
+  }, []);
+
+  const departureTime = flightData?.departure?.dateTime?.local;
 
   const dayjsDepartureTime = dayjs(departureTime, {
     format: 'YYYY-MM-DD HH:mm',

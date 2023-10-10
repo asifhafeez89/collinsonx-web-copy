@@ -1,5 +1,5 @@
 import Layout from '@components/Layout';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useState } from 'react';
 import {
   Flex,
   Stack,
@@ -11,10 +11,8 @@ import { useForm } from '@mantine/form';
 import { LoungeInfo } from '@components/LoungeInfo';
 import { FlightInfo } from '../components/flightInfo/FlightInfo';
 import GuestInfo from '@components/GuestInfo';
-
 import { FlightDetails } from '@collinsonx/utils';
 import { getFlightDetails } from '@collinsonx/utils/queries';
-
 import {
   AIRPORT_CODE_TYPE,
   DATE_FORMAT,
@@ -22,12 +20,8 @@ import {
 } from 'config/Constants';
 import { useLazyQuery } from '@collinsonx/utils/apollo';
 import { validateFlightNumber } from '../utils/flightValidation';
-
-import dayjs from 'dayjs';
-
 import usePayload from 'hooks/payload';
 import router from 'next/router';
-
 import { BookingContext } from 'context/bookingContext';
 import colors from 'ui/colour-constants';
 import Notification from '@components/Notification';
@@ -36,7 +30,7 @@ import BackToLounge from '@components/BackToLounge';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import Price from '@components/Price';
 import { formatDate } from 'utils/DateFormatter';
-import BookingLightbox from '@collinsonx/design-system/components/bookinglightbox';
+import { FlightContext } from 'context/flightContext';
 interface DepartureFlightInfo {
   airport: { iata: string };
   date: { local: string; utc: string };
@@ -50,13 +44,11 @@ interface FlightInfo {
 }
 
 const Lounge = () => {
-  const [date, setDate] = useState<string>(dayjs().format(DATE_FORMAT));
-  const [flightNumber, setFlightNumber] = useState<string>();
   const [guestError, setGuestError] = useState<Boolean>(false);
-  const { payload, lounge, referrerUrl } = usePayload();
-  const [wrongFlightDate, setWrongFlightDate] = useState(false);
+  const { lounge, referrerUrl } = usePayload();
 
   const { setBooking } = useContext(BookingContext);
+  const { setFlight } = useContext(FlightContext);
 
   const form = useForm({
     initialValues: {
@@ -92,14 +84,7 @@ const Lounge = () => {
 
   type FormValues = typeof form.values;
 
-  const [
-    fetchFlightInfo,
-    {
-      loading: flightInfoLoading,
-      error: flightInfoError,
-      data: flightInfoData,
-    },
-  ] = useLazyQuery<{
+  const [fetchFlightInfo] = useLazyQuery<{
     getFlightDetails: FlightDetails[];
   }>(getFlightDetails, {
     pollInterval: 300000,
@@ -116,6 +101,7 @@ const Lounge = () => {
           const upperCaseFlight = form.values.flightNumber.toUpperCase();
           form.values.flightNumber = upperCaseFlight;
           setBooking(form.values);
+          setFlight(flightInfoData.getFlightDetails[0]);
           const query = router.query;
           router.push({
             pathname: '/check-availability',

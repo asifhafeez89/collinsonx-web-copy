@@ -18,17 +18,8 @@ import { useRouter } from 'next/router';
 import { LoungeInfo } from '@components/LoungeInfo';
 import LoaderLightBox from '@collinsonx/design-system/components/loaderlightbox';
 import { getConsumerByID } from '@collinsonx/utils/queries';
-import { Details, Button } from '@collinsonx/design-system';
+import { Details } from '@collinsonx/design-system';
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
-import {
-  AIRPORT_CODE_TYPE,
-  OAG_API_VERSION,
-  DATE_FORMAT,
-} from '../config/Constants';
-import { FlightDetails } from '@collinsonx/utils';
-import { validateFlightNumber } from '../utils/flightValidation';
-import getFlightDetails from '@collinsonx/utils/queries/getFlightDetails';
-import { formatDate } from '../utils/DateFormatter';
 import usePayload from 'hooks/payload';
 import { InfoGroup } from '@collinsonx/design-system/components/details';
 import colors from 'ui/colour-constants';
@@ -56,6 +47,7 @@ import { InfoPanel } from 'utils/PanelInfo';
 import { GenerateBookingConfirmedPdf } from '@components/booking/GenerateBookingConfirmedPdf';
 import { GuestCount } from '@components/guests/GuestCount';
 import BackButton from '@components/BackButton';
+import { FlightContext } from 'context/flightContext';
 
 export default function ConfirmPayment() {
   const router = useRouter();
@@ -89,7 +81,8 @@ export default function ConfirmPayment() {
     },
   });
 
-  const { getBooking, setBooking } = useContext(BookingContext);
+  const { getBooking } = useContext(BookingContext);
+  const { getFlight } = useContext(FlightContext);
 
   const [open, setOpen] = useState(true);
   const [alert, setAlert] = useState<boolean | null>(null);
@@ -119,16 +112,10 @@ export default function ConfirmPayment() {
     fetchBookingDetails();
   };
 
-  const {
-    flightNumber,
-    departureDate,
-    children,
-    bookingId,
-    carrierCode,
-    adults,
-    arrival,
-    infants,
-  } = getBooking();
+  const { flightNumber, children, bookingId, adults, arrival, infants } =
+    getBooking();
+
+  const flightData = getFlight();
 
   const loungeLocation = useMemo(
     () =>
@@ -141,71 +128,45 @@ export default function ConfirmPayment() {
     [lounge]
   );
 
-  const flightCode = useMemo(
-    () =>
-      flightNumber ? validateFlightNumber(flightNumber as string) : undefined,
-    [flightNumber]
-  );
+  const departureTime = flightData?.departure?.dateTime?.local;
 
-  const { data: flightData } = useQuery<{
-    getFlightDetails: FlightDetails[];
-  }>(getFlightDetails, {
-    variables: {
-      flightDetails: {
-        carrierCode: flightCode ? flightCode[1] : '',
-        codeType: AIRPORT_CODE_TYPE,
-        departureDate: formatDate(new Date(String(departureDate)), DATE_FORMAT),
-        flightNumber: flightCode ? flightCode[2] : '',
-        version: OAG_API_VERSION,
+  const [fetchBookingDetails, { loading: loadingBooking, data: dataBooking }] =
+    useLazyQuery<{
+      getBookingByID: Booking;
+    }>(getBookingByID, {
+      variables: {
+        getBookingById: bookingId,
       },
-    },
-    pollInterval: 300000,
-    fetchPolicy: 'network-only',
-    notifyOnNetworkStatusChange: true,
-    onCompleted: () => {},
-  });
+      fetchPolicy: 'network-only',
+      notifyOnNetworkStatusChange: true,
+      onCompleted: (data) => {
+        setTimer(timer + 1);
 
-  const departureTime =
-    flightData?.getFlightDetails[0]?.departure?.dateTime?.local;
-
-  const handleSubmit = () => {};
-
-  const [
-    fetchBookingDetails,
-    { loading: loadingBooking, error: errorBooking, data: dataBooking },
-  ] = useLazyQuery<{
-    getBookingByID: Booking;
-  }>(getBookingByID, {
-    variables: {
-      getBookingById: bookingId,
-    },
-    fetchPolicy: 'network-only',
-    notifyOnNetworkStatusChange: true,
-    onCompleted: (data) => {
-      setTimer(timer + 1);
-
-      // 30s passed booking is still pending
-      if (timer > 10 && data.getBookingByID.status === BookingStatus.Pending) {
-        clearInterval(interval.current);
-        setOpen(false);
-        setAlert(true);
-      }
-      if (
-        data.getBookingByID.status === BookingStatus.Declined ||
-        data.getBookingByID.status === BookingStatus.Confirmed
-      ) {
-        setOpen(false);
-        setAlert(false);
-        clearInterval(interval.current);
-
-        if (data.getBookingByID.status === BookingStatus.Declined) {
-          router.push({
-            pathname: '/failure-booking',
-          });
+        // 30s passed booking is still pending
+        if (
+          timer > 10 &&
+          data.getBookingByID.status === BookingStatus.Pending
+        ) {
+          clearInterval(interval.current);
+          setOpen(false);
+          setAlert(true);
         }
-      }
-    },
-  });
+        if (
+          data.getBookingByID.status === BookingStatus.Declined ||
+          data.getBookingByID.status === BookingStatus.Confirmed
+        ) {
+          setOpen(false);
+          setAlert(false);
+          clearInterval(interval.current);
+
+          if (data.getBookingByID.status === BookingStatus.Declined) {
+            router.push({
+              pathname: '/failure-booking',
+            });
+          }
+        }
+      },
+    });
 
   return (
     <Layout>

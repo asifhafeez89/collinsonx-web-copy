@@ -5,19 +5,10 @@ import { Consumer } from '@collinsonx/utils/generatedTypes/graphql';
 import { LoungeInfo } from '@components/LoungeInfo';
 import { getConsumer } from '@collinsonx/utils/queries';
 import { Details, Button } from '@collinsonx/design-system';
-import { useMemo, useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
-import { validateFlightNumber } from '../utils/flightValidation';
-import { FlightDetails } from '@collinsonx/utils';
-import getFlightDetails from '@collinsonx/utils/queries/getFlightDetails';
-import {
-  AIRPORT_CODE_TYPE,
-  OAG_API_VERSION,
-  DATE_FORMAT,
-} from '../config/Constants';
 import { constants } from '../constants';
-import { formatDate } from '../utils/DateFormatter';
 import usePayload from 'hooks/payload';
 import { InfoGroup } from '@collinsonx/design-system/components/details';
 import { BookingContext } from 'context/bookingContext';
@@ -29,24 +20,20 @@ import dayjs from 'dayjs';
 import StripeCheckout from '@components/stripe';
 import { InfoPanel } from 'utils/PanelInfo';
 import { GuestCount } from '@components/guests/GuestCount';
+import { FlightContext } from 'context/flightContext';
 
 export default function ConfirmBooking() {
   const [clientSecret, setClientSecret] = useState<''>();
   const { lounge } = usePayload();
 
   const { getBooking } = useContext(BookingContext);
+  const { getFlight } = useContext(FlightContext);
 
-  const { flightNumber, departureDate, children, bookingId, adults, infants } =
-    getBooking();
+  const { flightNumber, children, bookingId, adults, infants } = getBooking();
+
+  const flightData = getFlight();
 
   const totalQuantity: number = Number(adults + children);
-
-  const flightCode = useMemo(
-    () =>
-      flightNumber ? validateFlightNumber(flightNumber as string) : undefined,
-
-    [flightNumber]
-  );
 
   const { data: consumer, loading: loadingConsumer } = useQuery<{
     getConsumer: Consumer;
@@ -80,26 +67,7 @@ export default function ConfirmBooking() {
     }
   };
 
-  const { data: flightData } = useQuery<{
-    getFlightDetails: FlightDetails[];
-  }>(getFlightDetails, {
-    variables: {
-      flightDetails: {
-        carrierCode: flightCode ? flightCode[1] : '',
-        codeType: AIRPORT_CODE_TYPE,
-        departureDate: formatDate(new Date(String(departureDate)), DATE_FORMAT),
-        flightNumber: flightCode ? flightCode[2] : '',
-        version: OAG_API_VERSION,
-      },
-    },
-    pollInterval: 300000,
-    fetchPolicy: 'network-only',
-    notifyOnNetworkStatusChange: true,
-    onCompleted: () => {},
-  });
-
-  const departureTime =
-    flightData?.getFlightDetails[0]?.departure?.dateTime?.local;
+  const departureTime = flightData?.departure?.dateTime?.local;
 
   const dayjsDepartureTime = dayjs(departureTime, {
     format: 'YYYY-MM-DD HH:mm',
