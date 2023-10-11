@@ -142,7 +142,9 @@ export default function CheckEmail() {
         });
       }
 
-      setLinkedAccountId(response.data.linkAccount.id);
+      if (response.data.linkAccount) {
+        setLinkedAccountId(response.data.linkAccount.id);
+      }
 
       redirect();
     });
