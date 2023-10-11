@@ -1,12 +1,8 @@
-import { useQuery } from '@collinsonx/utils/apollo';
 import Layout from '@components/Layout';
 import { Box, Flex, Stack } from '@collinsonx/design-system/core';
-import { Consumer } from '@collinsonx/utils/generatedTypes/graphql';
 import { LoungeInfo } from '@components/LoungeInfo';
-import { getConsumer } from '@collinsonx/utils/queries';
 import { Details, Button } from '@collinsonx/design-system';
 import { useContext, useState } from 'react';
-import BookingFormSkeleton from '@components/BookingFormSkeleton';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import { constants } from '../constants';
 import usePayload from 'hooks/payload';
@@ -24,8 +20,8 @@ import { FlightContext } from 'context/flightContext';
 import { log } from '@lib';
 
 export default function ConfirmBooking() {
-  const [clientSecret, setClientSecret] = useState<''>();
-  const { lounge } = usePayload();
+  const [clientSecret, setClientSecret] = useState('');
+  const { lounge, consumerData } = usePayload();
 
   const { getBooking } = useContext(BookingContext);
   const { getFlight } = useContext(FlightContext);
@@ -36,21 +32,11 @@ export default function ConfirmBooking() {
 
   const totalQuantity: number = Number(adults + children);
 
-  const { data: consumer, loading: loadingConsumer } = useQuery<{
-    getConsumer: Consumer;
-  }>(getConsumer, {
-    variables: {},
-    pollInterval: 300000,
-    fetchPolicy: 'network-only',
-    notifyOnNetworkStatusChange: true,
-    onCompleted: () => {},
-  });
-
   const handleSubmit = async () => {
     try {
       const paymentinput = {
         bookingID: bookingId ?? '',
-        consumerID: consumer?.getConsumer.id ?? '',
+        consumerID: consumerData?.getConsumerByID.id ?? '',
         internalProductId: lounge?.id ?? '',
         returnUrl: `${process.env.NEXT_PUBLIC_URL}/confirm-payment`,
         quantity: totalQuantity,
@@ -122,11 +108,9 @@ export default function ConfirmBooking() {
                 },
               }}
             >
-              {loadingConsumer && <BookingFormSkeleton />}
               {clientSecret ? (
                 <StripeCheckout clientSecret={clientSecret} />
               ) : (
-                !loadingConsumer &&
                 lounge && (
                   <Box>
                     <Stack spacing={8}>

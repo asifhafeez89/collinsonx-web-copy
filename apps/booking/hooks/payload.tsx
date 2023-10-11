@@ -1,4 +1,4 @@
-import { Box, MantineProvider, Flex } from '@collinsonx/design-system/core';
+import { MantineProvider, Flex } from '@collinsonx/design-system/core';
 import { log, hasRequired } from '@lib';
 import { useRouter } from 'next/router';
 import {
@@ -9,11 +9,8 @@ import {
   useState,
 } from 'react';
 import { createContext, useContext } from 'react';
-
 import { BridgePayload } from 'types/booking';
-
 import { decodeJWT } from '@collinsonx/jwt';
-
 import {
   hsbc,
   loungeKey,
@@ -32,7 +29,6 @@ import {
   Client,
   BookingQueryParams,
 } from '@collinsonx/constants/enums';
-
 import {
   useSessionContext,
   signOut,
@@ -47,6 +43,7 @@ import {
   REFERRER,
   PLATFORM,
 } from '../constants';
+import { Consumer } from 'types/consumer';
 
 const {
   loungeCode: lcParam,
@@ -67,6 +64,8 @@ type PayloadState = {
   setLayoutError: (err: string) => void;
   setPayload(payload: BridgePayload): void;
   setLinkedAccountId(linkedAccountId: string): void;
+  setConsumerData(consumer: Consumer): void;
+  consumerData: Consumer | undefined;
 };
 
 const PayloadContext = createContext<PayloadState | null>(null);
@@ -120,6 +119,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
   const [referrerUrl, setReferrerUrl] = useState<string>();
   const [platform, setPlatform] = useState<string>();
   const [layoutError, setLayoutError] = useState<string>();
+  const [consumerData, setConsumerData] = useState<Consumer>();
 
   const [
     fetchConsumer,
@@ -203,11 +203,13 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       setPlatform(platform);
 
       const payload = decodeJWT(jwt) as unknown as BridgePayload;
+
       if (!validatePayload(payload)) {
         log('JWT did not pass validatePayload() checks');
         setPayloadErrorTitle('Sorry, service is not available');
         setPayloadError(true);
       }
+
       setPayload(payload);
     }
   }, [router]);
@@ -219,6 +221,19 @@ export const PayloadProvider = (props: PropsWithChildren) => {
     [payload]
   );
 
+  const handleMatchedAccounts = (linkedAccounts: []) => {
+    const matchedAccount = findLinkedAccount(linkedAccounts);
+
+    if (!matchedAccount) {
+      log(
+        `[SIGN OUT]: data.getConsumerByID.linkedAccounts does not contain an item matching fields in payload: ${JSON.stringify(
+          payload || null
+        )}`
+      );
+      signOut();
+    }
+  };
+
   useEffect(() => {
     if (
       router.isReady &&
@@ -228,29 +243,30 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       payload
     ) {
       const { userId } = session;
+
       if (userId) {
-        fetchConsumer({
-          variables: {
-            getConsumerById: userId,
-          },
-        })
-          .then(({ data }) => {
-            const { linkedAccounts } = data.getConsumerByID;
-            if (linkedAccounts) {
-              const matchedAccount = findLinkedAccount(linkedAccounts);
-              if (!matchedAccount) {
-                log(
-                  `[SIGN OUT]: data.getConsumerByID.linkedAccounts does not contain an item matching fields in payload: ${JSON.stringify(
-                    payload || null
-                  )}`
-                );
-                signOut();
-              }
-            }
+        if (!consumerData || !consumerData.getConsumerByID) {
+          fetchConsumer({
+            variables: {
+              getConsumerById: userId,
+            },
           })
-          .catch((err) => {
-            setPayloadErrorTitle(err.message ?? err);
-          });
+            .then(({ data }) => {
+              const { linkedAccounts } = data.getConsumerByID;
+              if (linkedAccounts) {
+                handleMatchedAccounts(linkedAccounts);
+                setConsumerData(data);
+              }
+            })
+            .catch((err) => {
+              setPayloadErrorTitle(err.message ?? err);
+            });
+        } else {
+          const { linkedAccounts } = consumerData.getConsumerByID;
+          if (linkedAccounts) {
+            handleMatchedAccounts(linkedAccounts);
+          }
+        }
       }
     }
   }, [session, payload, router, fetchConsumer]);
@@ -287,6 +303,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
               );
               setLinkedAccountId(linkedAccount?.id);
             }
+            setConsumerData(data);
           });
         }
       } else if (fetchConsumerData?.getConsumerByID?.linkedAccounts) {
@@ -294,6 +311,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
           fetchConsumerData.getConsumerByID.linkedAccounts
         );
         setLinkedAccountId(linkedAccount?.id);
+        setConsumerData(fetchConsumerData);
       }
     }
   }, [
@@ -342,6 +360,8 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         setLinkedAccountId,
         layoutError,
         setLayoutError,
+        consumerData,
+        setConsumerData,
       }}
     >
       <MantineProvider
