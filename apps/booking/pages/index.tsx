@@ -14,7 +14,8 @@ import GuestInfo from '@components/GuestInfo';
 import { FlightDetails } from '@collinsonx/utils';
 import { getFlightDetails } from '@collinsonx/utils/queries';
 import {
-  AIRPORT_CODE_TYPE,
+  CODE_IATA,
+  CODE_ICAO,
   DATE_FORMAT,
   OAG_API_VERSION,
 } from 'config/Constants';
@@ -131,7 +132,7 @@ const Lounge = () => {
         variables: {
           flightDetails: {
             carrierCode: carrieCode,
-            codeType: AIRPORT_CODE_TYPE,
+            codeType: `${CODE_IATA}, ${CODE_ICAO}`,
             departureDate: formatDate(
               new Date(String(form.values.departureDate)),
               DATE_FORMAT
