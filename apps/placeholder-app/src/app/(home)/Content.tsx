@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, Dispatch, SetStateAction } from 'react';
+import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 
 import { useForm, joiResolver } from '@mantine/form';
 import {
@@ -26,7 +26,7 @@ import { getAccountProviders } from '@collinsonx/constants/enums';
 
 import { signJWT, decodeJWT } from '@collinsonx/jwt';
 
-import { LoungeSchema, lounges } from '@/data/Lounge';
+import { LoungeSchema, lounges, loungesProd } from '@/data/Lounge';
 
 import schema, { SchemaType } from './schema';
 
@@ -88,16 +88,18 @@ interface LoungeSelectBoxProps {
   setLounge: Dispatch<SetStateAction<string>>;
   setFlightDetails: (flightarray: string[]) => void;
   setAirportName: (airportName: string) => void;
+  displayedLounges: Array<LoungeSchema>;
 }
 
 function LoungeSelectBox({
   setLounge,
   setFlightDetails,
   setAirportName,
+  displayedLounges,
 }: LoungeSelectBoxProps) {
   const selectChange = (LoungeCode: string) => {
     setLounge(LoungeCode);
-    lounges.map((lounge: LoungeSchema, i: number) => {
+    displayedLounges.map((lounge: LoungeSchema, i: number) => {
       if (lounge.LoungeCode === LoungeCode) {
         setFlightDetails(lounge.FlightNumbers);
         setAirportName(lounge.AirportName);
@@ -105,14 +107,10 @@ function LoungeSelectBox({
     });
   };
 
-  const data = lounges.map((lounge: LoungeSchema, i: number) => {
+  const data = displayedLounges.map((lounge: LoungeSchema, i: number) => {
     const value = lounge.LoungeCode;
 
-    // Requirement: Lounges BHD1 and BIRM are not available in BaaS.
     let label = `${lounge.LoungeCode} - ${lounge.LoungeName} - ${lounge.AirportName}`;
-    if (lounge.LoungeCode === 'BHD1' || lounge.LoungeCode === 'BIRM') {
-      label = `${label} - Not supported`;
-    }
 
     return {
       value,
@@ -184,6 +182,9 @@ function DebugBox({ domain, loungeCode, jwt, object }: DebugBoxProps) {
 
 const Content = () => {
   const [lounge, setLounge] = useState<string>('');
+  const [displayedLounges, setDisplayedLounges] =
+    useState<Array<LoungeSchema>>(lounges);
+
   const [referrer, setReferrer] = useState<string>('');
 
   const [domain, setDomain] = useState<string | null>('');
@@ -204,6 +205,14 @@ const Content = () => {
   const [flight, setFlight] = useState<string[]>([]);
   const [airportName, setAirportName] = useState<string>('');
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (domain !== 'https://booking.cergea.com') {
+      setDisplayedLounges(lounges);
+    } else {
+      setDisplayedLounges(loungesProd);
+    }
+  }, [domain]);
 
   const createNewJWT = async (values: SchemaType) => {
     setError('');
@@ -255,8 +264,10 @@ const Content = () => {
   const form = useForm({
     validate: joiResolver(schema),
     initialValues: {
-      externalId: Math.floor(Math.random() * 10000).toString(),
-      membershipNumber: Math.floor(Math.random() * 10000).toString(),
+      externalId: `baasTest${Math.floor(Math.random() * 10000).toString()}`,
+      membershipNumber: `baasTest${Math.floor(
+        Math.random() * 10000
+      ).toString()}`,
       email: '',
       customFirstName: '',
       customLastName: '',
@@ -383,6 +394,7 @@ const Content = () => {
               setLounge={setLounge}
               setFlightDetails={setFlightArray}
               setAirportName={setAirport}
+              displayedLounges={displayedLounges}
             />
           </Grid.Col>
         </Grid>
