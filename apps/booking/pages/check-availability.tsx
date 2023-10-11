@@ -26,7 +26,9 @@ import { Availability } from '@collinsonx/utils';
 import {
   AvailableSlots,
   hasLoungeCapacity,
+  hasLoungeCapacityDefaultError,
   availableSlotsNotEnoughCapacityParser,
+  loadDefaultError,
 } from '@components/flightInfo/availability';
 import getAvailableSlots from '@collinsonx/utils/queries/getAvailableSlots';
 import { Slots } from '@collinsonx/utils';
@@ -62,6 +64,12 @@ const AvailableSlotsErrorHandling: FC<AvailableSlotsErrorHandlingProps> = ({
 
   if (ENOUGH_CAPACITY_ERROR_IS_VALID) {
     return availableSlotsNotEnoughCapacityParser(error);
+  }
+
+  const DEFAULT_ERROR = hasLoungeCapacityDefaultError(error);
+
+  if (DEFAULT_ERROR) {
+    return loadDefaultError();
   }
 
   return null;
@@ -416,7 +424,10 @@ export default function ConfirmAvailability() {
         <Center>
           <Button
             disabled={
-              slotsLoading || cbLoading || hasLoungeCapacity(slotsError)
+              slotsLoading ||
+              cbLoading ||
+              hasLoungeCapacity(slotsError) ||
+              hasLoungeCapacityDefaultError(slotsError)
             }
             type="submit"
             data-testid="submit"
