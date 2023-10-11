@@ -1,4 +1,3 @@
-import { useQuery } from '@collinsonx/utils/apollo';
 import Layout from '@components/Layout';
 import {
   Anchor,
@@ -10,14 +9,12 @@ import {
   Title,
 } from '@collinsonx/design-system/core';
 import {
-  Consumer,
   Booking,
   BookingStatus,
 } from '@collinsonx/utils/generatedTypes/graphql';
 import { useRouter } from 'next/router';
 import { LoungeInfo } from '@components/LoungeInfo';
 import LoaderLightBox from '@collinsonx/design-system/components/loaderlightbox';
-import { getConsumerByID } from '@collinsonx/utils/queries';
 import { Details } from '@collinsonx/design-system';
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
 import usePayload from 'hooks/payload';
@@ -25,7 +22,6 @@ import { InfoGroup } from '@collinsonx/design-system/components/details';
 import colors from 'ui/colour-constants';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
 import { BookingContext } from 'context/bookingContext';
-import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import {
   MouseEventHandler,
   useCallback,
@@ -40,7 +36,7 @@ import { getBookingByID } from '@collinsonx/utils/queries';
 import { AlertIcon } from '@collinsonx/design-system/assets/icons';
 import BackToLounge from '@components/BackToLounge';
 import { MOBILE_ACTION_BACK, POLLING_TIME } from '../constants';
-import { log, sendMobileEvent } from '@lib';
+import { sendMobileEvent } from '@lib';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import Price from '@components/Price';
 import { InfoPanel } from 'utils/PanelInfo';
@@ -51,12 +47,11 @@ import { FlightContext } from 'context/flightContext';
 
 export default function ConfirmPayment() {
   const router = useRouter();
-  const session: any = useSessionContext();
   const [timer, setTimer] = useState(0);
 
   let interval = useRef<NodeJS.Timeout>();
 
-  const { lounge, referrerUrl } = usePayload();
+  const { lounge, referrerUrl, consumerData } = usePayload();
 
   const handleClickBack: MouseEventHandler<HTMLAnchorElement> = useCallback(
     (e) => {
@@ -69,33 +64,11 @@ export default function ConfirmPayment() {
     [referrerUrl]
   );
 
-  const [userData, setUserData] = useState<Consumer | null>(null);
-
-  const { loading: userLoading, error: userError } = useQuery<{
-    getConsumerByID: Consumer;
-  }>(getConsumerByID, {
-    variables: { getConsumerById: session.userId },
-    fetchPolicy: 'network-only',
-    onCompleted: (data) => {
-      setUserData(data?.getConsumerByID || null);
-    },
-  });
-
   const { getBooking } = useContext(BookingContext);
   const { getFlight } = useContext(FlightContext);
 
   const [open, setOpen] = useState(true);
   const [alert, setAlert] = useState<boolean | null>(null);
-
-  useEffect(() => {
-    if (session.userId) {
-      userLoading && log('Fetching user data...');
-
-      if (userError) {
-        console.error('Error fetching user data:', userError);
-      }
-    }
-  }, [session.userId, userLoading, userError]);
 
   useEffect(() => {
     // Check if the booking state is incompleted and]
@@ -285,7 +258,7 @@ export default function ConfirmPayment() {
                       >
                         A confirmation email has been sent to{' '}
                         <span style={{ fontWeight: 700 }}>
-                          {userData?.emailAddress}
+                          {consumerData?.getConsumerByID.emailAddress}
                         </span>
                       </Text>
                     </Box>
@@ -390,7 +363,7 @@ export default function ConfirmPayment() {
                       arrival={arrival}
                       children={children}
                       departureTime={departureTime}
-                      emailAddress={userData?.emailAddress}
+                      emailAddress={consumerData?.getConsumerByID.emailAddress}
                       flightNumber={flightNumber}
                       infants={infants}
                       lounge={lounge}

@@ -27,10 +27,7 @@ import Session from 'supertokens-auth-react/recipe/session';
 import BackToLounge from '@components/BackToLounge';
 import getError from 'utils/getError';
 import { BookingError } from '../../constants';
-import {
-  AccountProvider,
-  BookingQueryParams,
-} from '@collinsonx/constants/enums';
+import { BookingQueryParams } from '@collinsonx/constants/enums';
 import { PinLockoutError } from '@collinsonx/constants/constants';
 import { getConsumerByID } from '@collinsonx/utils/queries';
 import { LinkedAccount } from '@collinsonx/utils/generatedTypes/graphql';
@@ -41,8 +38,14 @@ const { tooManyAttempts, expiredJwt } = PinLockoutError;
 const { bookingId } = BookingQueryParams;
 
 export default function CheckEmail() {
-  const { jwt, lounge, payload, setLinkedAccountId, setLayoutError } =
-    usePayload();
+  const {
+    jwt,
+    lounge,
+    payload,
+    setLinkedAccountId,
+    setLayoutError,
+    setConsumerData,
+  } = usePayload();
   const router = useRouter();
   const email = router.query?.email as string;
   const [code, setCode] = useState<string>();
@@ -61,14 +64,7 @@ export default function CheckEmail() {
 
   let interval = useRef<NodeJS.Timeout>();
 
-  const [
-    fetchConsumer,
-    {
-      loading: fetchConsumerLoading,
-      error: fetchConsumerError,
-      data: fetchConsumerData,
-    },
-  ] = useLazyQuery(getConsumerByID);
+  const [fetchConsumer] = useLazyQuery(getConsumerByID);
 
   useEffect(() => {
     interval.current = setInterval(() => {
@@ -142,7 +138,9 @@ export default function CheckEmail() {
         });
       }
 
-      setLinkedAccountId(response.data.linkAccount.id);
+      if (response.data.linkAccount) {
+        setLinkedAccountId(response.data.linkAccount.id);
+      }
 
       redirect();
     });
@@ -213,6 +211,7 @@ export default function CheckEmail() {
         } else {
           redirect();
         }
+        setConsumerData(data);
       });
     }
   };
