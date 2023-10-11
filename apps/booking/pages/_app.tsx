@@ -10,7 +10,6 @@ import SuperTokensReact, {
 import { UserProvider } from '@collinsonx/utils/lib/userContext';
 import { useApollo, ApolloProvider } from '@collinsonx/utils/apolloBooking';
 import SessionManager from '@components/SessionManager';
-import { Analytics } from '@vercel/analytics/react';
 import AuthWrapper from '@components/AuthWrapper';
 import { PayloadProvider } from 'hooks/payload';
 import BookingProvider from 'context/bookingContext';
@@ -89,7 +88,6 @@ export default function MyApp({ Component, pageProps }: Props) {
                       )
                     )}
                   </BookingProvider>
-                  <Analytics />
                 </PayloadProvider>
               </SessionManager>
             </AuthWrapper>
