@@ -33,10 +33,9 @@ const GeneratedPDF = (props: BookingConfirmedPdfProps) => (
 
         <Text style={[styles.marginTop, styles.padding]}>
           Good news! Your booking for{' '}
-          {formatDate(new Date(`${props.departureTime}`), DATE_READABLE_FORMAT)}
+          {formatDate(new Date(`${props.departureTime}`), DATE_READABLE_FORMAT)}{' '}
           at {props.lounge.loungeName}, {props.lounge.location?.terminal},{' '}
-          {props.lounge.location?.airportName}
-          has been confirmed.
+          {props.lounge.location?.airportName} has been confirmed.
         </Text>
         <Text style={[styles.marginTop, styles.padding]}>
           Your booking details
