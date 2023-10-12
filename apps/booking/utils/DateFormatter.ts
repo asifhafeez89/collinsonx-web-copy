@@ -1,5 +1,7 @@
 import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 
 export function formatDateUTC(dateval: Date, formattype: string): string {
   return dayjsTz(dateval).utc().format(formattype);
