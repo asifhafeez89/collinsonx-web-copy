@@ -180,7 +180,7 @@ export default function ConfirmAvailability() {
       partnerKey === 'partnerIdTest'
         ? lounge.partnerIdTest
         : lounge.partnerIdProd;
-    console.log('NEXT_PUBLIC_SNAPLOGIC_PARTNER_KEY', partnerKey, productID);
+    log('NEXT_PUBLIC_SNAPLOGIC_PARTNER_KEY', partnerKey, productID);
 
     fetchSlots({
       variables: {
