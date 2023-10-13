@@ -17,7 +17,6 @@ import colors from 'ui/colour-constants';
 import { InfoPanel } from 'utils/PanelInfo';
 import BackToLounge from '@components/BackToLounge';
 import { GuestCount } from '@components/guests/GuestCount';
-import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 
 export default function CancelBooking() {
   const router = useRouter();
@@ -57,7 +56,7 @@ export default function CancelBooking() {
             }}
           >
             <Stack
-              spacing={12}
+              spacing={24}
               sx={{
                 width: '591px',
 
@@ -85,6 +84,7 @@ export default function CancelBooking() {
                 ></Flex>
               ) : (
                 <Flex
+                  gap={{ base: 'sm', sm: 'lg' }}
                   sx={{
                     width: '100%',
                     flexDirection: 'row',
@@ -95,101 +95,90 @@ export default function CancelBooking() {
                   }}
                 >
                   {
-                    <Box
-                      sx={{
-                        width: '100%',
-                        '@media (max-width: 768px)': {
-                          width: '100%',
-                          gap: '0.5rem',
-                          border: 'none',
-                        },
-                      }}
-                    >
+                    <Box sx={{ width: '100%' }}>
                       {bookingDetails.getBookingByID.experience && (
-                        <Stack spacing={8}>
-                          <EditableTitle title="" as="h3" showBorder={false}>
-                            <h2>
+                        <Stack spacing={8} sx={{ padding: '20px' }}>
+                          <Heading as="h1" margin={0} padding={0}>
+                            {bookingDetails.getBookingByID.status ===
+                            BookingStatus.Cancelled
+                              ? ' Your Booking has been cancelled'
+                              : bookingDetails.getBookingByID.status ===
+                                BookingStatus.CancelationFailed
+                              ? 'Your booking cancellation has failed, please contact our team'
+                              : 'Your booking could not be cancelled, please contact our team'}
+                          </Heading>
+
+                          <Heading as="h2" margin={0} padding={0}>
+                            Booking Refence:{' '}
+                            {bookingDetails?.getBookingByID?.reference}
+                          </Heading>
+                          <Text>
+                            {bookingDetails.getBookingByID.status ===
+                            BookingStatus.Cancelled
+                              ? 'A confimation email has been sent to '
+                              : 'An email has been sent to '}
+                            <strong>
+                              {
+                                bookingDetails.getBookingByID.consumer
+                                  ?.emailAddress
+                              }
+                            </strong>
+                          </Text>
+
+                          <Heading as="h2" margin={0} padding={0}>
+                            Flight details
+                          </Heading>
+                          <Details
+                            infos={
+                              InfoPanel(
+                                bookingDetails?.getBookingByID?.bookedTo,
+                                bookingDetails?.getBookingByID?.metadata
+                                  ?.flightNumber
+                              ) as InfoGroup[]
+                            }
+                            direction="row"
+                          />
+
+                          <Heading as="h3" margin={0} padding={0}>
+                            Who's coming?
+                          </Heading>
+
+                          <GuestCount
+                            adults={
+                              bookingDetails.getBookingByID.guestAdultCount
+                            }
+                            children={
+                              bookingDetails.getBookingByID.guestChildrenCount
+                            }
+                            infants={
+                              bookingDetails.getBookingByID.guestInfantCount
+                            }
+                          />
+
+                          <Heading as="h3" margin={0} padding={0}>
+                            Estimated time of arrival
+                          </Heading>
+                          <Flex
+                            direction={{ base: 'column', sm: 'row' }}
+                            gap={10}
+                          >
+                            <p style={{ padding: '0', margin: '0' }}>
                               {' '}
-                              {bookingDetails.getBookingByID.status ===
-                              BookingStatus.Cancelled
-                                ? ' Your Booking has been cancelled'
-                                : bookingDetails.getBookingByID.status ===
-                                  BookingStatus.CancelationFailed
-                                ? 'Your booking cancellation has failed, please contact our team'
-                                : 'Your booking could not be cancelled, please contact our team'}
-                            </h2>
-                          </EditableTitle>
-                          <Box
-                            sx={{
-                              '@media (max-width: 768px)': {
-                                width: '100%',
-                                marginTop: '0rem',
-                                border: 'none',
-                              },
-                            }}
-                          >
-                            <EditableTitle
-                              title="Flight details"
-                              as="h3"
-                              showBorder={true}
-                            >
-                              <Details
-                                infos={
-                                  InfoPanel(
-                                    bookingDetails?.getBookingByID?.bookedTo,
-                                    bookingDetails?.getBookingByID?.metadata
-                                      ?.flightNumber
-                                  ) as InfoGroup[]
-                                }
-                                direction="row"
-                              />
-                            </EditableTitle>
-                          </Box>
-
-                          <EditableTitle title="  Who's coming?" as="h2">
-                            <p style={{ marginTop: '0px' }}>
-                              You can book up to 5 people
-                            </p>
-                            <GuestCount
-                              adults={
-                                bookingDetails.getBookingByID.guestAdultCount
-                              }
-                              children={
-                                bookingDetails.getBookingByID.guestChildrenCount
-                              }
-                              infants={
-                                bookingDetails.getBookingByID.guestInfantCount
-                              }
-                            />
-                          </EditableTitle>
-
-                          <EditableTitle
-                            title="Time of visit (local)"
-                            as="h3"
-                            showBorder={false}
-                          >
-                            <Flex
-                              direction={{ base: 'column', sm: 'row' }}
-                              gap={10}
-                            >
-                              <p style={{ padding: '0', margin: '0' }}>
-                                {' '}
-                                {formatDate(
-                                  new Date(
-                                    `${bookingDetails?.getBookingByID.bookedFrom}`
-                                  ),
-                                  TIME_FORMAT
-                                )}{' '}
-                                -{' '}
-                                {formatDate(
-                                  new Date(
-                                    `${bookingDetails?.getBookingByID.lastArrival}`
-                                  ),
-                                  TIME_FORMAT
-                                )}
-                              </p>{' '}
-                            </Flex>
-                          </EditableTitle>
+                              {formatDate(
+                                new Date(
+                                  `${bookingDetails?.getBookingByID.bookedFrom}`
+                                ),
+                                TIME_FORMAT
+                              )}{' '}
+                              -{' '}
+                              {formatDate(
+                                new Date(
+                                  `${bookingDetails?.getBookingByID.lastArrival}`
+                                ),
+                                TIME_FORMAT
+                              )}
+                            </p>{' '}
+                          </Flex>
                         </Stack>
                       )}
                     </Box>

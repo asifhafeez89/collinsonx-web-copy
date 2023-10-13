@@ -60,20 +60,6 @@ export function hasLoungeCapacity(response: unknown | ApolloError): boolean {
   return true;
 }
 
-export function hasLoungeCapacityDefaultError(
-  response: unknown | ApolloError
-): boolean {
-  const error = fetchGrahpQLErrorObject(response);
-
-  if (!error) return false;
-
-  if ('code' in error) {
-    return true;
-  }
-
-  return false;
-}
-
 export function availableSlotsNotEnoughCapacityParser(slotsError: unknown) {
   const error = fetchGrahpQLErrorObject(slotsError);
   const { adultCount, childrenCount, infantCount } =
@@ -92,33 +78,11 @@ export function availableSlotsNotEnoughCapacityParser(slotsError: unknown) {
   );
 }
 
-export function loadDefaultError() {
-  return <AvailableSlotsNotEnoughCapacity />;
-}
-
 interface Props {
-  adults?: number;
-  child?: number;
-  infants?: number;
+  adults: number;
+  child: number;
+  infants: number;
 }
-
-const ErrorMessage: FC<Props> = ({ adults = 0, child = 0, infants = 0 }) => {
-  if (adults === 0) {
-    const message =
-      "We're sorry, the lounge selected is at capacity at this time. You can try booking for a smaller number of guests or please check to see if another lounge is available.";
-
-    return <Box>{message}</Box>;
-  }
-
-  return (
-    <Box>
-      Our apologies, but capacity of the lounge for the time slot you selected
-      is {setAdultsPrefix(adults)}
-      {setChildPrefix(child, adults)}
-      {setInfantPrefix(infants, adults, child)}
-    </Box>
-  );
-};
 
 const AvailableSlotsNotEnoughCapacity: FC<Props> = ({
   adults = 0,
@@ -141,7 +105,12 @@ const AvailableSlotsNotEnoughCapacity: FC<Props> = ({
           </Box>
 
           <Stack>
-            <ErrorMessage adults={adults} child={child} infants={infants} />
+            <Box>
+              Our apologies, but capacity of the lounge for the time slot you
+              selected is {setAdultsPrefix(adults)}
+              {setChildPrefix(child, adults)}
+              {setInfantPrefix(infants, adults, child)}
+            </Box>
             <Box>
               You can:
               <ul>

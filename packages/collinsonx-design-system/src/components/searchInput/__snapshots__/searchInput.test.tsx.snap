@@ -338,7 +338,7 @@ exports[`<SearchInput /> renders SearchInput 1`] = `
     <input
       aria-invalid={false}
       className="emotion-6 emotion-7 emotion-8"
-      id="mantine-cgbj9kxd2"
+      id="mantine-k8bwbzksx"
       onChange={[MockFunction]}
       placeholder="Search for airport or lounge"
       type="text"

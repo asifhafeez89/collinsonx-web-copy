@@ -12,8 +12,6 @@ const colors = {
   theme: '#827127',
   iconTeal: '#0C8599',
   dialogFooter: '#F7F7F7',
-  shadow: '#2525251A',
-  borderSection: '#b4b4b4',
 };
 
 export default colors;

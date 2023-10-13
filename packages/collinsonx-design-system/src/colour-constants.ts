@@ -9,8 +9,7 @@ const colors = {
   background: '#F3F2F3',
   boxBorder: '#CCCCCC',
   borderColor: '#B4B3BA',
-  shadow: '#2525251A',
-  borderSection: '#b4b4b4',
+
   theme: '#827127',
 };
 

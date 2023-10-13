@@ -60,16 +60,6 @@ exports[`<LoungeImageTitle /> renders LoungeImageTitle 1`] = `
   align-items: center;
 }
 
-.emotion-11 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-}
-
 <div
   className="emotion-0"
 >
@@ -109,27 +99,9 @@ exports[`<LoungeImageTitle /> renders LoungeImageTitle 1`] = `
     <div
       className="emotion-10"
     >
-      <div
-        className="emotion-11"
-      >
-        <h2
-          style={
-            {
-              "fontSize": "12px",
-              "margin": "0",
-              "padding": "0",
-            }
-          }
-        >
-          LoungeX
-        </h2>
-        <strong>
-          Athens, Greece
-        </strong>
-        <strong>
-          80
-        </strong>
-      </div>
+      <strong>
+        LoungeX
+      </strong>
     </div>
   </div>
 </div>

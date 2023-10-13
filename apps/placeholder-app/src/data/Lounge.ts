@@ -27,47 +27,18 @@ export type LoungeSchema = {
 
 export const lounges: Array<LoungeSchema> = [
   {
-    LoungeCode: 'BHD1',
+    LoungeCode: 'BHX7',
+    LoungeName: 'Clubrooms Birmingham',
     Partner: {
-      IntegrationId: '001',
-      UID: 'Swissport to Provide',
+      IntegrationId: '',
+      UID: '',
     },
-    ServiceCentre: 'London',
-    LoungeName: 'Aspire Lounge',
-    PPBOOperatorName: 'Swissport GB Limited',
-    AirportCode: AirportCode.BHD,
-    AirportName: 'Belfast George Best City',
-    FlightNumbers: ['EI3688', 'EZY802', 'EI3656', 'BA1417'],
+    ServiceCentre: '',
+    PPBOOperatorName: '',
+    AirportCode: AirportCode.BHX,
+    AirportName: 'Birmingham',
+    FlightNumbers: ['LS 1353', 'BA 8895', 'EJU 7844', 'EI 3647'],
   },
-  {
-    LoungeCode: 'MAN6',
-    Partner: {
-      IntegrationId: '001',
-      UID: 'Swissport to Provide',
-    },
-    ServiceCentre: 'London',
-    LoungeName: 'Aspire Lounge',
-    PPBOOperatorName: 'Swissport GB Limited',
-    AirportCode: AirportCode.MAN,
-    AirportName: 'Manchester International',
-    FlightNumbers: ['MS782', 'EZY2065', 'EZY2269', 'LS1719'],
-  },
-  {
-    LoungeCode: 'MAN3',
-    Partner: {
-      IntegrationId: '001',
-      UID: 'Swissport to Provide',
-    },
-    ServiceCentre: 'London',
-    LoungeName: 'Aspire Lounge',
-    PPBOOperatorName: 'Swissport GB Limited',
-    AirportCode: AirportCode.MAN,
-    AirportName: 'Manchester International',
-    FlightNumbers: ['MS782', 'EZY2065', 'EZY2269', 'LS1719'],
-  },
-];
-
-export const loungesProd: Array<LoungeSchema> = [
   {
     LoungeCode: 'BHD1',
     Partner: {
@@ -108,20 +79,20 @@ export const loungesProd: Array<LoungeSchema> = [
     FlightNumbers: ['LS 1353', 'BA 8895', 'EJU 7844', 'EI 3647'],
   },
   {
-    LoungeCode: 'EDI2',
+    LoungeCode: 'BRS',
     Partner: {
       IntegrationId: '001',
       UID: 'Swissport to Provide',
     },
     ServiceCentre: 'London',
-    LoungeName: 'Aspire Lounge (Gate 16)',
+    LoungeName: 'Aspire Lounge',
     PPBOOperatorName: 'Swissport GB Limited',
-    AirportCode: AirportCode.EDI,
-    AirportName: 'Edinburgh International',
-    FlightNumbers: ['BA8853', 'HU408', 'UA979', 'EZY602'],
+    AirportCode: AirportCode.BRS,
+    AirportName: 'Bristol International',
+    FlightNumbers: ['EZY 2779', 'EZY 239', 'LS 1831', 'LS 1891'],
   },
   {
-    LoungeCode: 'EDI',
+    LoungeCode: 'EDI2',
     Partner: {
       IntegrationId: '001',
       UID: 'Swissport to Provide',
@@ -186,19 +157,6 @@ export const loungesProd: Array<LoungeSchema> = [
     FlightNumbers: ['MS782', 'EZY2065', 'EZY2269', 'LS1719'],
   },
   {
-    LoungeCode: 'MAN3',
-    Partner: {
-      IntegrationId: '001',
-      UID: 'Swissport to Provide',
-    },
-    ServiceCentre: 'London',
-    LoungeName: 'Aspire Lounge',
-    PPBOOperatorName: 'Swissport GB Limited',
-    AirportCode: AirportCode.MAN,
-    AirportName: 'Manchester International',
-    FlightNumbers: ['MS782', 'EZY2065', 'EZY2269', 'LS1719'],
-  },
-  {
     LoungeCode: 'NCL',
     Partner: {
       IntegrationId: '001',
@@ -212,13 +170,13 @@ export const loungesProd: Array<LoungeSchema> = [
     FlightNumbers: ['TOM589', 'LM505', 'EZY239', 'LS598'],
   },
   {
-    LoungeCode: 'LAD1',
+    LoungeCode: 'MAN3',
     Partner: {
       IntegrationId: '001',
       UID: 'Swissport to Provide',
     },
     ServiceCentre: 'London',
-    LoungeName: 'Test Lounge',
+    LoungeName: 'Aspire Lounge',
     PPBOOperatorName: 'Swissport GB Limited',
     AirportCode: AirportCode.MAN,
     AirportName: 'Manchester International',

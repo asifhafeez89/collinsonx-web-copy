@@ -478,71 +478,53 @@ exports[`Card component renders Container 1`] = `
     <div
       className="emotion-15"
     >
-      <div
+      <button
+        className="emotion-16 emotion-17 emotion-18"
+        data-button={true}
         style={
           {
-            "padding": "0px",
-            "textAlign": "left",
+            "border": "2px solid black",
+            "color": "black",
           }
         }
+        type="button"
       >
-        <button
-          className="emotion-16 emotion-17 emotion-18"
-          data-button={true}
-          style={
-            {
-              "border": "2px solid black",
-              "color": "black",
+        <div
+          className="emotion-19 emotion-20"
+        >
+          <span
+            className="emotion-21 emotion-22"
+            style={
+              {
+                "textTransform": undefined,
+              }
             }
-          }
-          type="button"
-        >
-          <div
-            className="emotion-19 emotion-20"
           >
-            <span
-              className="emotion-21 emotion-22"
-              style={
-                {
-                  "textTransform": undefined,
-                }
-              }
-            >
-              Scan QR
-            </span>
-          </div>
-        </button>
-      </div>
-      <div
-        style={
-          {
-            "padding": "0px",
-            "textAlign": "left",
-          }
-        }
+            Scan QR
+          </span>
+        </div>
+      </button>
+      <button
+        className="emotion-16 emotion-17 emotion-25"
+        data-button={true}
+        onClick={[Function]}
+        type="button"
       >
-        <button
-          className="emotion-16 emotion-17 emotion-25"
-          data-button={true}
-          onClick={[Function]}
-          type="button"
+        <div
+          className="emotion-19 emotion-20"
         >
-          <div
-            className="emotion-19 emotion-20"
-          >
-            <span
-              className="emotion-21 emotion-22"
-              style={
-                {
-                  "textTransform": undefined,
-                }
+          <span
+            className="emotion-21 emotion-22"
+            style={
+              {
+                "textTransform": undefined,
               }
-            >
-              View Lounge
-            </span>
-          </div>
-        </button>
-      </div>
+            }
+          >
+            View Lounge
+          </span>
+        </div>
+      </button>
     </div>
   </div>
 </div>

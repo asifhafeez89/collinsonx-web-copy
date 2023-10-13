@@ -39,7 +39,7 @@ function LoaderLightbox({
           </Center>
           <Flex
             justify="center"
-            sx={{ backgroundColor: '#F7F7F7', padding: '20px' }}
+            sx={{ backgroundColor: '#C8C9CA', padding: '20px' }}
           >
             <Button
               onClick={onHandleClick}

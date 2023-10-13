@@ -26,9 +26,7 @@ import { Availability } from '@collinsonx/utils';
 import {
   AvailableSlots,
   hasLoungeCapacity,
-  hasLoungeCapacityDefaultError,
   availableSlotsNotEnoughCapacityParser,
-  loadDefaultError,
 } from '@components/flightInfo/availability';
 import getAvailableSlots from '@collinsonx/utils/queries/getAvailableSlots';
 import { Slots } from '@collinsonx/utils';
@@ -66,12 +64,6 @@ const AvailableSlotsErrorHandling: FC<AvailableSlotsErrorHandlingProps> = ({
     return availableSlotsNotEnoughCapacityParser(error);
   }
 
-  const DEFAULT_ERROR = hasLoungeCapacityDefaultError(error);
-
-  if (DEFAULT_ERROR) {
-    return loadDefaultError();
-  }
-
   return null;
 };
 
@@ -98,8 +90,8 @@ export default function ConfirmAvailability() {
 
   const findSelectedSlot = (slots: Slots[] | undefined, value: string) => {
     const slot = slots?.find((slot) => {
-      const startDate = formatDate(slot.startDate, TIME_FORMAT, timeDifference);
-      const endDate = formatDate(slot.endDate, TIME_FORMAT, timeDifference);
+      const startDate = formatDate(slot.startDate, TIME_FORMAT);
+      const endDate = formatDate(slot.endDate, TIME_FORMAT);
       const slotLabel = ` ${startDate}-${endDate}`;
       return slotLabel === value;
     });
@@ -110,10 +102,10 @@ export default function ConfirmAvailability() {
     const availableSlots = slotsData?.getAvailableSlots.slots;
     const slot = findSelectedSlot(availableSlots, selectedslot);
 
-    const departureTime = flightData?.departure?.dateTime?.utc;
+    const departureTime = flightData?.departure?.dateTime?.local;
 
-    const formattedDepartureTime = formatDate(
-      new Date(`${departureTime}`),
+    const formattedDepartureTime = formatDateUTC(
+      new Date(String(departureTime)),
       DATE_TIME_FORMAT
     );
 
@@ -180,8 +172,7 @@ export default function ConfirmAvailability() {
       partnerKey === 'partnerIdTest'
         ? lounge.partnerIdTest
         : lounge.partnerIdProd;
-
-    log('NEXT_PUBLIC_SNAPLOGIC_PARTNER_KEY', partnerKey, productID);
+    console.log('NEXT_PUBLIC_SNAPLOGIC_PARTNER_KEY', partnerKey, productID);
 
     fetchSlots({
       variables: {
@@ -209,16 +200,8 @@ export default function ConfirmAvailability() {
 
   const departureTime = flightData?.departure?.dateTime?.local;
 
-  const localTimeHour = dayjs(flightData?.departure?.dateTime?.local, {
-    format: TIME_FORMAT,
-  });
-  const utcTimeHour = dayjs(flightData?.departure?.dateTime?.utc, {
-    format: TIME_FORMAT,
-  });
-  const timeDifference = localTimeHour.diff(utcTimeHour, 'hour');
-
   const dayjsDepartureTime = dayjs(departureTime, {
-    format: 'dd-MM-YYYY HH:mm',
+    format: 'YYYY-MM-DD HH:mm',
   });
   const flightTime = dayjsDepartureTime.format(constants.TIME_FORMAT);
   const flightTimeToDisplay = dayjsDepartureTime.format(
@@ -301,7 +284,7 @@ export default function ConfirmAvailability() {
           }}
         >
           <Stack
-            spacing={10}
+            spacing={24}
             sx={{
               width: '591px',
               margin: '0 auto',
@@ -321,6 +304,7 @@ export default function ConfirmAvailability() {
             )}
             <Flex
               direction={{ base: 'column', sm: 'row' }}
+              gap={{ base: 'sm', sm: 'lg' }}
               sx={{
                 justifyContent: 'center',
 
@@ -360,21 +344,14 @@ export default function ConfirmAvailability() {
                         direction={{ base: 'column', lg: 'row' }}
                         justify={'space-between'}
                         sx={{
-                          width: '100%',
-                          borderBottom: `1px solid ${colors.borderSection}`,
+                          width: '87%',
 
                           '@media (max-width: 768px)': {
                             width: '100%',
-                            border: 'none',
-                            padding: '0px',
                           },
                         }}
                       >
-                        <EditableTitle
-                          title="Who's coming?"
-                          as="h2"
-                          showBorder={false}
-                        >
+                        <EditableTitle title="Who's coming?" as="h2">
                           <GuestCount
                             adults={adults}
                             children={children}
@@ -390,11 +367,7 @@ export default function ConfirmAvailability() {
                             },
                           }}
                         >
-                          <EditableTitle
-                            title="Total price"
-                            as="h2"
-                            showBorder={false}
-                          >
+                          <EditableTitle title="Total price" as="h2">
                             <Price
                               lounge={lounge}
                               guests={{ adults, infants, children }}
@@ -403,12 +376,11 @@ export default function ConfirmAvailability() {
                         </Box>
                       </Flex>
 
-                      <EditableTitle title="" as="h2" showBorder={true}>
+                      <EditableTitle title="" as="h2">
                         {slotsData ? (
                           <AvailableSlots
                             onSelectSlot={handleSelectSlot}
                             availableSlots={slotsData?.getAvailableSlots}
-                            timeZoneDifference={timeDifference}
                           />
                         ) : null}
 
@@ -416,14 +388,11 @@ export default function ConfirmAvailability() {
                           error={slotsError}
                         ></AvailableSlotsErrorHandling>
                         <div>
-                          This is the time you will arrive at the lounge.
+                          This is just a rough estimate so the lounge can
+                          prepare for your arrival.
                         </div>
                       </EditableTitle>
-                      <EditableTitle
-                        title="Cancellation policy"
-                        as="h2"
-                        showBorder={false}
-                      >
+                      <EditableTitle title="Cancelation policy" as="h2">
                         <p style={{ padding: '0', margin: '0' }}>
                           Cancel up to 48 hours before your booking to receive a
                           full refund. Bookings cannot be cancelled within 48
@@ -447,10 +416,7 @@ export default function ConfirmAvailability() {
         <Center>
           <Button
             disabled={
-              slotsLoading ||
-              cbLoading ||
-              hasLoungeCapacity(slotsError) ||
-              hasLoungeCapacityDefaultError(slotsError)
+              slotsLoading || cbLoading || hasLoungeCapacity(slotsError)
             }
             type="submit"
             data-testid="submit"

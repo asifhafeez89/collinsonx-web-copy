@@ -37,7 +37,7 @@ export const getTheme = () => {
         fontFamily: beVietnamPro.style.fontFamily,
       });
     } catch (e) {
-      log(`Theme '${themeKey}' not found`);
+      console.error(`Theme '${themeKey}' not found`);
       theme = experienceX({
         fontFamily: beVietnamPro.style.fontFamily,
       });

@@ -43,7 +43,6 @@ export default function LayoutError(props: LayoutProps) {
         sx={{
           borderBottom: `1px solid ${colors.boxBorder}`,
           width: '100%',
-          boxShadow: `4px 4px 4px 0px ${colors.shadow}`,
         }}
       >
         <Center pb={8} pt={8} sx={{ backgroundColor: colors.white }}>
@@ -65,8 +64,6 @@ export default function LayoutError(props: LayoutProps) {
           style={{
             backgroundColor: colors.white,
             maxWidth: '440px',
-            position: 'fixed',
-            zIndex: 200,
           }}
           sx={{
             '@media (max-width: 768px)': {

@@ -8,18 +8,6 @@ const theme = (
   { fontFamily }: ThemeOptions = { fontFamily: 'Be Vietnam Pro' }
 ): MantineThemeOverride => ({
   components: {
-    Anchor: {
-      styles: ({ colors }) => ({
-        ':focus': {
-          backgroundColor: 'transparent',
-          textDecoration: 'none',
-        },
-        ':hover': {
-          backgroundColor: 'transparent',
-          textDecoration: 'none',
-        },
-      }),
-    },
     DatePickerInput: {
       styles: ({ colors }) => ({
         label: {
@@ -32,26 +20,12 @@ const theme = (
     DateTimePicker: {
       styles: ({ colors }) => ({
         label: {
-          fontSize: '1.9rem',
+          fontSize: '1rem',
           marginTop: '10px',
           marginBottom: '10px',
         },
-        input: {
-          fontSize: '1.9rem',
-        },
       }),
     },
-    Select: {
-      styles: ({ colors }) => ({
-        input: {
-          fontSize: '1.2rem',
-          ':focus': {
-            color: '#827127',
-          },
-        },
-      }),
-    },
-
     TextInput: {
       styles: ({ colors }) => ({
         label: {
@@ -67,9 +41,6 @@ const theme = (
             '::placeholder': {
               color: colors.gray[5],
             },
-          },
-          ':focus': {
-            color: '#827127',
           },
         },
       }),

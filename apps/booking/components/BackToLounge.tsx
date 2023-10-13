@@ -18,20 +18,8 @@ function BackToLounge() {
       <Anchor
         target="_top"
         href={referrerUrl ? referrerUrl : '#'}
+        sx={{ width: 'fit-content', textDecoration: 'none' }}
         onClick={handleClickBack}
-        sx={{
-          width: 'fit-content',
-          textDecoration: 'none',
-          background: 'transparent',
-          ':hover': {
-            backgroundColor: 'transparent !important',
-            textDecoration: 'none',
-          },
-
-          button: {
-            backgroundColor: 'transparent !important',
-          },
-        }}
       >
         <NavLink
           label={`BACK TO ${(lounge?.loungeName || '').toUpperCase()}`}
@@ -42,18 +30,7 @@ function BackToLounge() {
       <Anchor
         href={FAQLink(payload?.accountProvider)}
         target="_blank"
-        sx={{
-          width: 'fit-content',
-          textDecoration: 'none',
-          background: 'transparent',
-          ':hover': {
-            backgroundColor: 'transparent !important',
-            textDecoration: 'none',
-          },
-          button: {
-            backgroundColor: 'transparent !important',
-          },
-        }}
+        sx={{ width: 'fit-content', textDecoration: 'none' }}
       >
         <NavLink label="FAQs" />
       </Anchor>

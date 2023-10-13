@@ -1,8 +1,12 @@
+import { useQuery } from '@collinsonx/utils/apollo';
 import Layout from '@components/Layout';
 import { Box, Flex, Stack } from '@collinsonx/design-system/core';
+import { Consumer } from '@collinsonx/utils/generatedTypes/graphql';
 import { LoungeInfo } from '@components/LoungeInfo';
+import { getConsumer } from '@collinsonx/utils/queries';
 import { Details, Button } from '@collinsonx/design-system';
 import { useContext, useState } from 'react';
+import BookingFormSkeleton from '@components/BookingFormSkeleton';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import { constants } from '../constants';
 import usePayload from 'hooks/payload';
@@ -20,24 +24,33 @@ import { FlightContext } from 'context/flightContext';
 import { log } from '@lib';
 
 export default function ConfirmBooking() {
-  const [clientSecret, setClientSecret] = useState('');
-  const { lounge, consumerData } = usePayload();
+  const [clientSecret, setClientSecret] = useState<''>();
+  const { lounge } = usePayload();
 
   const { getBooking } = useContext(BookingContext);
   const { getFlight } = useContext(FlightContext);
 
-  const { flightNumber, children, bookingId, adults, infants, arrival } =
-    getBooking();
+  const { flightNumber, children, bookingId, adults, infants } = getBooking();
 
   const flightData = getFlight();
 
   const totalQuantity: number = Number(adults + children);
 
+  const { data: consumer, loading: loadingConsumer } = useQuery<{
+    getConsumer: Consumer;
+  }>(getConsumer, {
+    variables: {},
+    pollInterval: 300000,
+    fetchPolicy: 'network-only',
+    notifyOnNetworkStatusChange: true,
+    onCompleted: () => {},
+  });
+
   const handleSubmit = async () => {
     try {
       const paymentinput = {
         bookingID: bookingId ?? '',
-        consumerID: consumerData?.getConsumerByID.id ?? '',
+        consumerID: consumer?.getConsumer.id ?? '',
         internalProductId: lounge?.id ?? '',
         returnUrl: `${process.env.NEXT_PUBLIC_URL}/confirm-payment`,
         quantity: totalQuantity,
@@ -85,7 +98,7 @@ export default function ConfirmBooking() {
           }}
         >
           <Stack
-            spacing={8}
+            spacing={24}
             sx={{
               width: '591px',
               '@media (max-width: 768px)': {
@@ -98,24 +111,22 @@ export default function ConfirmBooking() {
               guests={{ adults, children, infants }}
               lounge={lounge}
               loading={!lounge}
-              hideImage={clientSecret ? true : false}
-              width={clientSecret ? '400px' : '100%'}
             />
             <Flex
               gap={{ base: 'sm', sm: 'lg' }}
               sx={{
+                width: '100%',
                 flexDirection: 'row',
                 '@media (max-width: 768px)': {
                   flexDirection: 'column',
                 },
-                width: clientSecret ? '400px' : '100%',
-                margin: clientSecret ? '0 auto' : 'initial',
-                height: '1000px',
               }}
             >
+              {loadingConsumer && <BookingFormSkeleton />}
               {clientSecret ? (
                 <StripeCheckout clientSecret={clientSecret} />
               ) : (
+                !loadingConsumer &&
                 lounge && (
                   <Box>
                     <Stack spacing={8}>
@@ -137,19 +148,14 @@ export default function ConfirmBooking() {
                         direction={{ base: 'column', lg: 'row' }}
                         justify={'space-between'}
                         sx={{
-                          width: '100%',
-                          borderBottom: `1px solid ${colors.borderSection}`,
+                          width: '87%',
 
                           '@media (max-width: 768px)': {
                             width: '100%',
                           },
                         }}
                       >
-                        <EditableTitle
-                          title="Who's coming?"
-                          as="h2"
-                          showBorder={false}
-                        >
+                        <EditableTitle title="Who's coming?" as="h2">
                           <GuestCount
                             adults={adults}
                             children={children}
@@ -165,11 +171,7 @@ export default function ConfirmBooking() {
                             },
                           }}
                         >
-                          <EditableTitle
-                            title="Total price"
-                            as="h2"
-                            showBorder={false}
-                          >
+                          <EditableTitle title="Total price" as="h2">
                             <Price
                               lounge={lounge}
                               guests={{ adults, infants, children }}
@@ -177,19 +179,8 @@ export default function ConfirmBooking() {
                           </EditableTitle>
                         </Box>
                       </Flex>
-                      <EditableTitle
-                        title="Time of visit (local)"
-                        as="h2"
-                        showBorder={true}
-                      >
-                        <Flex direction="row" gap={5}>
-                          <p style={{ padding: '0', margin: '0' }}>
-                            {' '}
-                            {arrival}
-                          </p>{' '}
-                        </Flex>
-                      </EditableTitle>
-                      <EditableTitle title="Cancellation policy" as="h2">
+
+                      <EditableTitle title="Cancelation policy" as="h2">
                         <p style={{ padding: '0', margin: '0' }}>
                           Cancel up to 48 hours before your booking to receive a
                           full refund. Bookings cannot be cancelled within 48

@@ -14,8 +14,7 @@ import GuestInfo from '@components/GuestInfo';
 import { FlightDetails } from '@collinsonx/utils';
 import { getFlightDetails } from '@collinsonx/utils/queries';
 import {
-  CODE_IATA,
-  CODE_ICAO,
+  AIRPORT_CODE_TYPE,
   DATE_FORMAT,
   OAG_API_VERSION,
 } from 'config/Constants';
@@ -132,7 +131,7 @@ const Lounge = () => {
         variables: {
           flightDetails: {
             carrierCode: carrieCode,
-            codeType: `${CODE_IATA}, ${CODE_ICAO}`,
+            codeType: AIRPORT_CODE_TYPE,
             departureDate: formatDate(
               new Date(String(form.values.departureDate)),
               DATE_FORMAT
@@ -214,7 +213,7 @@ const Lounge = () => {
                 loading={!lounge}
                 referreUrl={referrerUrl ?? '#'}
               />
-              <EditableTitle title="Total price" as="h3" showBorder={false}>
+              <EditableTitle title="Total price" as="h3">
                 <Price
                   lounge={lounge}
                   guests={{

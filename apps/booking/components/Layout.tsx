@@ -17,6 +17,7 @@ export default function Layout({ children }: LayoutProps) {
       px={0}
       sx={{
         maxWidth: '100%',
+        backgroundColor: colors.background,
         height: '100%',
 
         '@media (max-width: 768px)': {
@@ -30,9 +31,6 @@ export default function Layout({ children }: LayoutProps) {
         sx={{
           width: '100%',
           backgroundColor: colors.white,
-          boxShadow: `4px 4px 4px 0px ${colors.shadow}`,
-          position: 'fixed',
-          zIndex: 200,
         }}
       >
         <Center pb={8} pt={8}>
@@ -44,18 +42,7 @@ export default function Layout({ children }: LayoutProps) {
           )}
         </Center>
       </Box>
-      <Box
-        sx={{
-          paddingBottom: '1.3rem',
-          marginTop: '10rem',
-          '@media (max-width: 768px)': {
-            marginTop: '6rem',
-            padding: '0',
-          },
-        }}
-      >
-        {children}
-      </Box>
+      <Box sx={{ paddingBottom: '1.3rem' }}>{children}</Box>
     </Container>
   );
 }

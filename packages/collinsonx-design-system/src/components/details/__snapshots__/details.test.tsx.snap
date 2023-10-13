@@ -2,6 +2,10 @@
 
 exports[`<Details /> renders Details 1`] = `
 .emotion-0 {
+  background: #fff;
+}
+
+.emotion-2 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -9,45 +13,93 @@ exports[`<Details /> renders Details 1`] = `
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
-  gap: 1.5rem;
+  -webkit-align-items: stretch;
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  gap: 0.5rem;
 }
 
-@media (min-width: 75em) {
-  .emotion-0 {
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
-  }
+.emotion-3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 0.5rem;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
 }
 
-.emotion-1 {
+.emotion-4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.emotion-5 {
   font-weight: 600;
 }
 
-<div>
+<div
+  className="emotion-0"
+>
   <div
-    className="emotion-0"
+    className="emotion-1 emotion-2"
   >
-    <div>
+    <div
+      className="emotion-3"
+    >
       <div
-        className="emotion-1"
+        className="emotion-4"
+      >
+        <test-file-stub
+          color="#0C8599"
+          width={16}
+        />
+      </div>
+      <div
+        className="emotion-5"
       >
         Heathrow
       </div>
       <div
-        className="emotion-2"
+        className="emotion-6"
       >
         Terminal 5
       </div>
     </div>
-    <div>
+    <div
+      className="emotion-3"
+    >
       <div
-        className="emotion-1"
+        className="emotion-4"
+      >
+        <test-file-stub
+          color="#0C8599"
+          width={16}
+        />
+      </div>
+      <div
+        className="emotion-5"
       >
         Mon - Sun | 05:00 - 22:00
       </div>
       <div
-        className="emotion-2"
+        className="emotion-6"
       >
         Walk-in available
       </div>

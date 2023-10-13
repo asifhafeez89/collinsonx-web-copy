@@ -9,7 +9,7 @@ import {
   PDFDownloadLink,
 } from '@react-pdf/renderer';
 import { formatDate } from 'utils/DateFormatter';
-import { DATE_READABLE_FORMAT } from 'config/Constants';
+import { DATE_REDABLE_FORMAT, TIME_FORMAT } from 'config/Constants';
 import { Booking } from 'context/bookingContext';
 import { Experience } from '@collinsonx/utils';
 
@@ -33,9 +33,10 @@ const GeneratedPDF = (props: BookingConfirmedPdfProps) => (
 
         <Text style={[styles.marginTop, styles.padding]}>
           Good news! Your booking for{' '}
-          {formatDate(new Date(`${props.departureTime}`), DATE_READABLE_FORMAT)}{' '}
+          {formatDate(new Date(`${props.departureTime}`), DATE_REDABLE_FORMAT)}
           at {props.lounge.loungeName}, {props.lounge.location?.terminal},{' '}
-          {props.lounge.location?.airportName} has been confirmed.
+          {props.lounge.location?.airportName}
+          has been confirmed.
         </Text>
         <Text style={[styles.marginTop, styles.padding]}>
           Your booking details
@@ -45,13 +46,13 @@ const GeneratedPDF = (props: BookingConfirmedPdfProps) => (
         </Text>
         <Text style={[styles.p, styles.padding]}>
           Date:{' '}
-          {formatDate(new Date(`${props.departureTime}`), DATE_READABLE_FORMAT)}
+          {formatDate(new Date(`${props.departureTime}`), DATE_REDABLE_FORMAT)}
         </Text>
         <Text style={[styles.p, styles.padding]}>
           Flight number: {props.flightNumber}
         </Text>
         <Text style={[styles.p, styles.padding]}>
-          Time of visit (local): {props.arrival}
+          Estimated lounge arrival time: {props.arrival}
         </Text>
 
         <Text style={[styles.h2, styles.marginTop, styles.padding]}>

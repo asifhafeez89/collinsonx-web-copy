@@ -20,8 +20,6 @@ interface LoungeInfoProps {
   };
   lounge?: Experience;
   loading: boolean;
-  hideImage?: boolean;
-  width?: string;
 }
 
 const getSumToPay = (
@@ -36,13 +34,7 @@ const getSumToPay = (
   return sum.toFixed(2);
 };
 
-export const LoungeInfo = ({
-  guests,
-  lounge,
-  loading,
-  hideImage = false,
-  width = '100%',
-}: LoungeInfoProps) => {
+export const LoungeInfo = ({ guests, lounge, loading }: LoungeInfoProps) => {
   const loungeLocation = useMemo(
     () =>
       lounge && lounge.location
@@ -69,24 +61,7 @@ export const LoungeInfo = ({
   }
 
   return (
-    <Flex
-      w={width}
-      p={24}
-      gap={16}
-      direction={{ base: 'column', xl: 'row' }}
-      bg="#FFF"
-      justify={'center'}
-      align={'center'}
-      sx={{
-        width: width,
-        margin: '0 auto',
-        borderRadius: '0.4rem',
-
-        '@media (max-width: 768px)': {
-          width: '100%',
-        },
-      }}
-    >
+    <Flex p={24} gap={16} direction={{ base: 'column', xl: 'row' }} bg="#FFF">
       <div>
         <Skeleton
           visible={loading}
@@ -94,7 +69,7 @@ export const LoungeInfo = ({
             width: '100%',
           }}
         >
-          {!hideImage && lounge?.images && lounge.images[0] ? (
+          {lounge?.images && lounge.images[0] ? (
             <Image
               sx={() => ({
                 width: '176px',
