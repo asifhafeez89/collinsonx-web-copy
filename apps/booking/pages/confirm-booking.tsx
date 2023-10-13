@@ -209,27 +209,6 @@ export default function ConfirmBooking() {
                           </p>
                         </div>
                       </EditableTitle>
-
-                      <EditableTitle
-                        title="Important Notes"
-                        as="h3"
-                        showBorder={false}
-                      >
-                        <ul style={{ paddingLeft: '1em' }}>
-                          <li>
-                            {' '}
-                            Please remember to bring your booking reference
-                            number, boarding pass and photo ID along with your
-                            Priority Pass membership card for check in at the
-                            lounge.{' '}
-                          </li>
-                          <li>
-                            Cancellation must be made at least 48 hours in
-                            advance of your visit date & time to receive a
-                            refund. No refund will be issued after this time.
-                          </li>
-                        </ul>
-                      </EditableTitle>
                     </Stack>
                     <Button
                       type="submit"
