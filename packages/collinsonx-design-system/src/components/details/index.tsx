@@ -28,7 +28,9 @@ export default function LoungeDetails({
     <div>
       <Flex
         direction={{ base: 'column', lg: 'row' }}
-        gap={{ base: '0', lg: rem(48) }}
+        sx={{
+          gap: '1.5rem',
+        }}
       >
         {infos.map((info, i) => (
           <div key={i}>

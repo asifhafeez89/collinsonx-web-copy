@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@collinsonx/utils/apollo';
 import Layout from '@components/Layout';
-import { Box, Flex, Stack, Text } from '@collinsonx/design-system/core';
+import { Box, Center, Flex, Stack, Text } from '@collinsonx/design-system/core';
 import { Booking } from '@collinsonx/utils/generatedTypes/graphql';
 import cancellationDateValidation from '@collinsonx/utils/lib/validateDateCancellation';
 import { useRouter } from 'next/router';
@@ -114,7 +114,7 @@ export default function CancelBooking() {
   return (
     <Layout>
       {bookingDetails ? (
-        <Stack spacing={16} sx={{ width: '100%' }}>
+        <Stack spacing={8} sx={{ width: '100%' }}>
           <BackToLounge />
 
           <BookingLightbox
@@ -160,11 +160,11 @@ export default function CancelBooking() {
             }}
           >
             <Stack
-              spacing={24}
               sx={{
                 width: '591px',
 
                 '@media (max-width: 768px)': {
+                  gap: '0.5rem',
                   width: '100%',
                   margin: '0',
                 },
@@ -212,37 +212,59 @@ export default function CancelBooking() {
                         <Notification>{errorMessage}</Notification>
                       )}
                       {bookingDetails?.getBookingByID?.experience && (
-                        <Stack spacing={8} sx={{ padding: '20px' }}>
-                          <Heading as="h2" margin={0} padding={0}>
-                            Booking Refence:{' '}
+                        <>
+                          <EditableTitle
+                            title="Booking Reference:"
+                            as="h3"
+                            showBorder={true}
+                          >
                             {bookingDetails?.getBookingByID?.reference}
-                          </Heading>
-                          <Heading as="h2" margin={0} padding={0}>
-                            Flight details
-                          </Heading>
-                          <Details
-                            infos={
-                              InfoPanel(
-                                bookingDetails?.getBookingByID?.bookedTo,
-                                bookingDetails?.getBookingByID?.metadata
-                                  ?.flightNumber
-                              ) as InfoGroup[]
-                            }
-                            direction="row"
-                          />
-
+                          </EditableTitle>
+                          {''}
+                          <Box
+                            sx={{
+                              '@media (max-width: 768px)': {
+                                marginTop: '0.5rem',
+                              },
+                            }}
+                          >
+                            <EditableTitle
+                              title="Flight details"
+                              as="h3"
+                              showBorder={true}
+                            >
+                              <Details
+                                infos={
+                                  InfoPanel(
+                                    bookingDetails?.getBookingByID?.bookedTo,
+                                    bookingDetails?.getBookingByID?.metadata
+                                      ?.flightNumber
+                                  ) as InfoGroup[]
+                                }
+                                direction="row"
+                              />
+                            </EditableTitle>
+                          </Box>
                           <Flex
                             direction={{ base: 'column', lg: 'row' }}
                             justify={'space-between'}
                             sx={{
-                              width: '87%',
+                              width: '100%',
+                              borderBottom: `1px solid ${colors.borderSection}`,
 
                               '@media (max-width: 768px)': {
                                 width: '100%',
+                                marginTop: '0.5rem',
+                                border: 'none',
                               },
                             }}
                           >
-                            <EditableTitle title="Who's coming?" as="h3">
+                            <EditableTitle
+                              title="Who's coming?"
+                              as="h3"
+                              showBorder={false}
+                            >
+                              <p>You can book up to 5 people</p>
                               <Flex direction="row" gap={10}>
                                 <Flex sx={{ width: '60%' }} gap={10}>
                                   <p style={{ padding: '0', margin: '0' }}>
@@ -276,11 +298,15 @@ export default function CancelBooking() {
                                 width: 'initial',
 
                                 '@media (max-width: 768px)': {
-                                  marginTop: '0.5rem',
+                                  margin: '0.5rem 0',
                                 },
                               }}
                             >
-                              <EditableTitle title="Total price" as="h3">
+                              <EditableTitle
+                                title="Total price"
+                                as="h3"
+                                showBorder={false}
+                              >
                                 <Price
                                   lounge={
                                     bookingDetails?.getBookingByID?.experience
@@ -300,42 +326,49 @@ export default function CancelBooking() {
                               </EditableTitle>
                             </Box>
                           </Flex>
-
-                          <Heading as="h3" margin={0} padding={0}>
-                            Estimated time of arrival
-                          </Heading>
-                          <Flex
-                            direction={{ base: 'column', sm: 'row' }}
-                            gap={10}
+                          <EditableTitle
+                            title="Estimated time of arrival"
+                            as="h3"
+                            showBorder={false}
                           >
-                            <p style={{ padding: '0', margin: '0' }}>
-                              {' '}
-                              {formatDate(
-                                new Date(
-                                  `${bookingDetails?.getBookingByID?.bookedFrom}`
-                                ),
-                                TIME_FORMAT
-                              )}{' '}
-                              -{' '}
-                              {formatDate(
-                                new Date(
-                                  `${bookingDetails?.getBookingByID.lastArrival}`
-                                ),
-                                TIME_FORMAT
-                              )}
-                            </p>{' '}
-                          </Flex>
-                        </Stack>
+                            <Flex
+                              direction={{ base: 'column', sm: 'row' }}
+                              gap={10}
+                              sx={{
+                                border: 'none',
+                              }}
+                            >
+                              <p style={{ padding: '0', margin: '0' }}>
+                                {' '}
+                                {formatDate(
+                                  new Date(
+                                    `${bookingDetails?.getBookingByID?.bookedFrom}`
+                                  ),
+                                  TIME_FORMAT
+                                )}{' '}
+                                -{' '}
+                                {formatDate(
+                                  new Date(
+                                    `${bookingDetails?.getBookingByID.lastArrival}`
+                                  ),
+                                  TIME_FORMAT
+                                )}
+                              </p>{' '}
+                            </Flex>
+                          </EditableTitle>
+                        </>
                       )}
-
-                      <Button
-                        py={8}
-                        handleClick={open}
-                        align="center"
-                        type="submit"
-                      >
-                        CANCEL BOOKING
-                      </Button>
+                      <Center>
+                        <Button
+                          py={8}
+                          handleClick={open}
+                          align="center"
+                          type="submit"
+                          mt={15}
+                        >
+                          CANCEL BOOKING
+                        </Button>
+                      </Center>
                     </Box>
                   }
                 </Flex>

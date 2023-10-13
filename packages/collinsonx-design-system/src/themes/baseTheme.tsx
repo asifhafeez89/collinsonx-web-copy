@@ -58,6 +58,28 @@ const baseTheme = ({
           },
         }),
       },
+      Anchor: {
+        styles: ({ colors }) => ({
+          ':focus': {
+            backgroundColor: 'transparent',
+            textDecoration: 'none',
+          },
+          ':hover': {
+            backgroundColor: 'transparent',
+            textDecoration: 'none',
+          },
+        }),
+      },
+      Select: {
+        styles: ({ colors }) => ({
+          input: {
+            fontSize: '1.2rem',
+            ':focus': {
+              color: '#827127',
+            },
+          },
+        }),
+      },
       Input: {
         styles: ({ colors }) => ({
           input: {
@@ -109,7 +131,7 @@ const baseTheme = ({
             },
             ':focus': {
               color: colors.dark[6],
-              borderColor: colors.dark[6],
+              borderColor: '#827127',
             },
             '&[data-invalid]': {
               borderColor: colors.red[6],
@@ -154,6 +176,7 @@ const baseTheme = ({
           },
           input: {
             borderRadius: rem(4),
+            fontSize: '1.2rem',
             '&[data-invalid]': {
               borderColor: colors.red[6],
               color: colors.red[4],

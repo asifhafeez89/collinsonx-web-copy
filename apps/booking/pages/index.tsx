@@ -214,7 +214,7 @@ const Lounge = () => {
                 loading={!lounge}
                 referreUrl={referrerUrl ?? '#'}
               />
-              <EditableTitle title="Total price" as="h3">
+              <EditableTitle title="Total price" as="h3" showBorder={false}>
                 <Price
                   lounge={lounge}
                   guests={{

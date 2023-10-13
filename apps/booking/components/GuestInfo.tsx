@@ -54,6 +54,7 @@ const GuestInfo = ({ form, loading, referreUrl }: GuestInfoProps) => {
         <Title order={3} size={18} pb={20}>
           Who&apos;s coming?
         </Title>
+        <p style={{ marginTop: '0px' }}>You can book up to 5 people</p>
         <Grid>
           <Grid.Col lg={6}>
             <QuantityInput

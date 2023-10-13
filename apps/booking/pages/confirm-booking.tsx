@@ -84,7 +84,7 @@ export default function ConfirmBooking() {
           }}
         >
           <Stack
-            spacing={24}
+            spacing={8}
             sx={{
               width: '591px',
               '@media (max-width: 768px)': {
@@ -97,15 +97,19 @@ export default function ConfirmBooking() {
               guests={{ adults, children, infants }}
               lounge={lounge}
               loading={!lounge}
+              hideImage={clientSecret ? true : false}
+              width={clientSecret ? '400px' : '100%'}
             />
             <Flex
               gap={{ base: 'sm', sm: 'lg' }}
               sx={{
-                width: '100%',
                 flexDirection: 'row',
                 '@media (max-width: 768px)': {
                   flexDirection: 'column',
                 },
+                width: clientSecret ? '400px' : '100%',
+                margin: clientSecret ? '0 auto' : 'initial',
+                height: '1000px',
               }}
             >
               {clientSecret ? (
@@ -132,14 +136,19 @@ export default function ConfirmBooking() {
                         direction={{ base: 'column', lg: 'row' }}
                         justify={'space-between'}
                         sx={{
-                          width: '87%',
+                          width: '100%',
+                          borderBottom: `1px solid ${colors.borderSection}`,
 
                           '@media (max-width: 768px)': {
                             width: '100%',
                           },
                         }}
                       >
-                        <EditableTitle title="Who's coming?" as="h2">
+                        <EditableTitle
+                          title="Who's coming?"
+                          as="h2"
+                          showBorder={false}
+                        >
                           <GuestCount
                             adults={adults}
                             children={children}
@@ -155,7 +164,11 @@ export default function ConfirmBooking() {
                             },
                           }}
                         >
-                          <EditableTitle title="Total price" as="h2">
+                          <EditableTitle
+                            title="Total price"
+                            as="h2"
+                            showBorder={false}
+                          >
                             <Price
                               lounge={lounge}
                               guests={{ adults, infants, children }}
@@ -164,7 +177,7 @@ export default function ConfirmBooking() {
                         </Box>
                       </Flex>
 
-                      <EditableTitle title="Cancelation policy" as="h2">
+                      <EditableTitle title="Cancellation policy" as="h2">
                         <p style={{ padding: '0', margin: '0' }}>
                           Cancel up to 48 hours before your booking to receive a
                           full refund. Bookings cannot be cancelled within 48
@@ -183,6 +196,32 @@ export default function ConfirmBooking() {
                             payment.
                           </p>
                         </div>
+                      </EditableTitle>
+
+                      <EditableTitle
+                        title="Important Notes"
+                        as="h3"
+                        showBorder={false}
+                      >
+                        <ul style={{ paddingLeft: '1em' }}>
+                          <li>
+                            {' '}
+                            Please remember to bring your booking reference
+                            number, boarding pass and photo ID along with your
+                            Priority Pass membership card for check in at the
+                            lounge.{' '}
+                          </li>
+                          <li>
+                            {' '}
+                            The lounge will hold your booking for 1 hour after
+                            your booking starts.{' '}
+                          </li>
+                          <li>
+                            Cancellation must be made at least 48 hours in
+                            advance of your visit date & time to receive a
+                            refund. No refund will be issued after this time.
+                          </li>
+                        </ul>
                       </EditableTitle>
                     </Stack>
                     <Button

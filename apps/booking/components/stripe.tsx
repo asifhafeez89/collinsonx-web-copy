@@ -15,7 +15,10 @@ const stripePromise = loadStripe(stripeApiToken, {
 
 const StripeCheckout = ({ clientSecret }: any) => {
   return (
-    <Stack align="center" sx={{ width: '100%' }}>
+    <Stack
+      align="center"
+      sx={{ width: '100%', backgroundColor: 'transparent' }}
+    >
       <Title data-testid="paymentInformation" order={3}>
         Payment information
       </Title>

@@ -186,13 +186,11 @@ export default function ConfirmPayment() {
           }}
         >
           <Stack
-            spacing={24}
             sx={{
               width: '591px',
-
+              gap: '0.5rem',
               '@media (max-width: 768px)': {
                 width: '100%',
-                margin: '0',
               },
             }}
           >
@@ -203,7 +201,7 @@ export default function ConfirmPayment() {
             />
 
             <Flex
-              gap={{ base: 'sm', sm: 'lg' }}
+              gap={0}
               sx={{
                 width: '100%',
                 flexDirection: 'row',
@@ -216,53 +214,49 @@ export default function ConfirmPayment() {
               {(!lounge || loadingBooking) && <BookingFormSkeleton />}
 
               {lounge && alert === false && (
-                <Box>
-                  <Stack>
-                    <Box
-                      sx={{
-                        '@media (max-width: 768px)': {
-                          background: colors.white,
-                          padding: '20px',
-                        },
+                <Box p={0}>
+                  <Box
+                    sx={{
+                      '@media (max-width: 768px)': {
+                        background: colors.white,
+                      },
+                    }}
+                  >
+                    <Heading
+                      style={{
+                        fontSize: '1.5rem',
+                        lineHeight: '2.25rem',
+                        fontWeight: '700',
                       }}
+                      as="h1"
+                      padding={0}
+                      margin={0}
                     >
-                      <Title
-                        style={{
-                          fontSize: '1.5rem',
-                          lineHeight: '2.25rem',
-                          fontWeight: '700',
+                      <Box
+                        sx={{
+                          '@media (max-width: 768px)': {
+                            padding: '20px',
+                          },
                         }}
                       >
                         Good news! Your booking has been confirmed
-                      </Title>
-                      <Text
-                        style={{
-                          fontSize: '1.125rem',
-                          lineHeight: '1.75rem',
-                          fontWeight: '700',
-                          marginTop: '0.75rem',
-                          marginBottom: '0.75rem',
-                        }}
-                      >
-                        Booking reference{' '}
-                        {dataBooking?.getBookingByID.reference}
-                      </Text>
-
-                      <Text
-                        style={{
-                          fontSize: '1.125rem',
-                          lineHeight: '1.75rem',
-                          marginTop: '0.75rem',
-                          marginBottom: '0.75rem',
-                        }}
-                      >
+                      </Box>
+                    </Heading>
+                    <EditableTitle
+                      title=" Booking reference"
+                      as="h2"
+                      showBorder={true}
+                    >
+                      Booking reference {''}{' '}
+                      {dataBooking?.getBookingByID.reference}
+                      <p>
                         A confirmation email has been sent to{' '}
                         <span style={{ fontWeight: 700 }}>
                           {consumerData?.getConsumerByID.emailAddress}
                         </span>
-                      </Text>
-                    </Box>
-                  </Stack>
+                      </p>
+                    </EditableTitle>
+                  </Box>
 
                   {!!lounge && (
                     <Stack
@@ -277,38 +271,45 @@ export default function ConfirmPayment() {
                         sx={{
                           '@media (max-width: 768px)': {
                             background: colors.white,
-                            padding: '20px',
                           },
                         }}
                       >
-                        <Heading as="h2" padding={0} margin={0}>
-                          Flight details
-                        </Heading>
-                        {departureTime && (
-                          <Details
-                            infos={
-                              InfoPanel(
-                                departureTime,
-                                flightNumber
-                              ) as InfoGroup[]
-                            }
-                            direction="row"
-                          />
-                        )}
+                        <EditableTitle
+                          as="h2"
+                          title="Flight details"
+                          showBorder={true}
+                        >
+                          {departureTime && (
+                            <Details
+                              infos={
+                                InfoPanel(
+                                  departureTime,
+                                  flightNumber
+                                ) as InfoGroup[]
+                              }
+                              direction="row"
+                            />
+                          )}
+                        </EditableTitle>
                       </Box>
 
                       <Flex
                         direction={{ base: 'column', lg: 'row' }}
                         justify={'space-between'}
                         sx={{
-                          width: '87%',
+                          width: '100%',
+                          borderBottom: `1px solid ${colors.borderSection}`,
 
                           '@media (max-width: 768px)': {
                             width: '100%',
                           },
                         }}
                       >
-                        <EditableTitle title="Who's coming?" as="h2">
+                        <EditableTitle
+                          title="Who's coming?"
+                          as="h2"
+                          showBorder={false}
+                        >
                           <GuestCount
                             adults={adults}
                             children={children}
@@ -324,7 +325,11 @@ export default function ConfirmPayment() {
                             },
                           }}
                         >
-                          <EditableTitle title="Total price" as="h2">
+                          <EditableTitle
+                            title="Total price"
+                            as="h2"
+                            showBorder={false}
+                          >
                             <Price
                               lounge={lounge}
                               guests={{ adults, infants, children }}
@@ -337,20 +342,48 @@ export default function ConfirmPayment() {
                         sx={{
                           '@media (max-width: 768px)': {
                             background: colors.white,
-                            padding: '20px',
                           },
                         }}
                       >
-                        <Heading as="h2" padding={0} margin={0}>
-                          Estimated lounge arrival time
-                        </Heading>
-                        <Flex direction="row" gap={10}>
-                          <p style={{ padding: '0', margin: '0' }}>
-                            {' '}
-                            {arrival}
-                          </p>{' '}
-                        </Flex>
+                        <EditableTitle
+                          title="Estimated lounge arrival time"
+                          as="h2"
+                          showBorder={true}
+                        >
+                          <Flex direction="row" gap={5}>
+                            <p style={{ padding: '0', margin: '0' }}>
+                              {' '}
+                              {arrival}
+                            </p>{' '}
+                          </Flex>
+                        </EditableTitle>
                       </Box>
+
+                      <EditableTitle
+                        title="Important Notes"
+                        as="h3"
+                        showBorder={false}
+                      >
+                        <ul style={{ paddingLeft: '1em' }}>
+                          <li>
+                            {' '}
+                            Please remember to bring your booking reference
+                            number, boarding pass and photo ID along with your
+                            Priority Pass membership card for check in at the
+                            lounge.{' '}
+                          </li>
+                          <li>
+                            {' '}
+                            The lounge will hold your booking for 1 hour after
+                            your booking starts.{' '}
+                          </li>
+                          <li>
+                            Cancellation must be made at least 48 hours in
+                            advance of your visit date & time to receive a
+                            refund. No refund will be issued after this time.
+                          </li>
+                        </ul>
+                      </EditableTitle>
                     </Stack>
                   )}
                   <Flex

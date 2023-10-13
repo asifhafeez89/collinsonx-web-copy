@@ -254,7 +254,11 @@ export default function CheckEmail() {
                 <ErrorComponent error={errorLinkAccount} />
                 <Text size="18px" align="center">
                   We have sent a unique code to
-                  <Text weight={700}>{email}</Text>
+                  <Text weight={700}>
+                    {email.length < 30
+                      ? email
+                      : `${email.substring(0, 30)} ...`}
+                  </Text>
                 </Text>
                 <Box sx={{ textAlign: 'center' }}>
                   <Text align="center" size={16}>

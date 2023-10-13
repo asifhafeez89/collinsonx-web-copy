@@ -6,15 +6,15 @@ export const InfoPanel = (
   flightNumber: string
 ) => [
   {
-    header: 'Date:',
+    header: 'Date',
     description: formatDate(new Date(`${departureDate}`), DATE_READABLE_FORMAT),
   },
   {
-    header: 'Time of flight:',
+    header: 'Time of flight',
     description: formatDate(new Date(`${departureDate}`), TIME_FORMAT),
   },
   {
-    header: 'Flight number:',
+    header: 'Flight number',
     description: flightNumber,
   },
 ];
