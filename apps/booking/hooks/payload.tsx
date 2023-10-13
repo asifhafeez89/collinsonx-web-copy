@@ -221,56 +221,6 @@ export const PayloadProvider = (props: PropsWithChildren) => {
     [payload]
   );
 
-  const handleMatchedAccounts = (linkedAccounts: []) => {
-    const matchedAccount = findLinkedAccount(linkedAccounts);
-
-    if (!matchedAccount) {
-      log(
-        `[SIGN OUT]: data.getConsumerByID.linkedAccounts does not contain an item matching fields in payload: ${JSON.stringify(
-          payload || null
-        )}`
-      );
-      signOut();
-    }
-  };
-
-  useEffect(() => {
-    if (
-      router.isReady &&
-      !session.loading &&
-      session.doesSessionExist &&
-      !router.pathname.includes('/auth') &&
-      payload
-    ) {
-      const { userId } = session;
-
-      if (userId) {
-        if (!consumerData || !consumerData.getConsumerByID) {
-          fetchConsumer({
-            variables: {
-              getConsumerById: userId,
-            },
-          })
-            .then(({ data }) => {
-              const { linkedAccounts } = data.getConsumerByID;
-              if (linkedAccounts) {
-                handleMatchedAccounts(linkedAccounts);
-                setConsumerData(data);
-              }
-            })
-            .catch((err) => {
-              setPayloadErrorTitle(err.message ?? err);
-            });
-        } else {
-          const { linkedAccounts } = consumerData.getConsumerByID;
-          if (linkedAccounts) {
-            handleMatchedAccounts(linkedAccounts);
-          }
-        }
-      }
-    }
-  }, [session, payload, router, fetchConsumer]);
-
   useEffect(() => {
     if (payloadError || tokenError !== undefined) {
       setPayloadErrorTitle('Sorry, service is not available');
@@ -282,47 +232,35 @@ export const PayloadProvider = (props: PropsWithChildren) => {
     }
   }, [lounge, loadingLounge, tokenError]);
 
+  // user already logged-in
   useEffect(() => {
     if (
       router.isReady &&
+      payload &&
       !session.loading &&
       !linkedAccountId &&
       !router.pathname.includes('/auth')
     ) {
-      if (!fetchConsumerData) {
-        const { userId } = session;
-        if (userId) {
-          fetchConsumer({
-            variables: {
-              getConsumerById: userId,
-            },
-          }).then(({ data }) => {
-            if (data?.getConsumerByID?.linkedAccounts) {
-              const linkedAccount = findLinkedAccount(
-                data.getConsumerByID.linkedAccounts
-              );
-              setLinkedAccountId(linkedAccount?.id);
-            }
-            setConsumerData(data);
-          });
-        }
-      } else if (fetchConsumerData?.getConsumerByID?.linkedAccounts) {
-        const linkedAccount = findLinkedAccount(
-          fetchConsumerData.getConsumerByID.linkedAccounts
-        );
-        setLinkedAccountId(linkedAccount?.id);
-        setConsumerData(fetchConsumerData);
+      const { userId } = session;
+      if (userId) {
+        fetchConsumer({
+          variables: {
+            getConsumerById: userId,
+          },
+        }).then(({ data }) => {
+          setConsumerData(data);
+          const accountMatched = findLinkedAccount(
+            data.getConsumerByID.linkedAccounts
+          );
+          if (accountMatched) {
+            setLinkedAccountId(accountMatched?.id);
+          } else {
+            signOut();
+          }
+        });
       }
     }
-  }, [
-    payload,
-    linkedAccountId,
-    router,
-    session,
-    fetchConsumer,
-    fetchConsumerData,
-    fetchConsumerLoading,
-  ]);
+  }, [payload, linkedAccountId, router, session]);
 
   const providerTheme = () => {
     if (!payload) return PP;
