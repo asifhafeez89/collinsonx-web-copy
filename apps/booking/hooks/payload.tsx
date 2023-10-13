@@ -221,19 +221,6 @@ export const PayloadProvider = (props: PropsWithChildren) => {
     [payload]
   );
 
-  const handleMatchedAccounts = (linkedAccounts: []) => {
-    const matchedAccount = findLinkedAccount(linkedAccounts);
-
-    if (!matchedAccount) {
-      log(
-        `[SIGN OUT]: data.getConsumerByID.linkedAccounts does not contain an item matching fields in payload: ${JSON.stringify(
-          payload || null
-        )}`
-      );
-      signOut();
-    }
-  };
-
   useEffect(() => {
     if (payloadError || tokenError !== undefined) {
       setPayloadErrorTitle('Sorry, service is not available');
