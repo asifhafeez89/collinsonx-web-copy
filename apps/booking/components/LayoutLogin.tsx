@@ -34,6 +34,9 @@ export default function LayoutLogin({ children }: LayoutProps) {
           sx={{
             borderBottom: `1px solid ${colors.boxBorder}`,
             width: '100%',
+            boxShadow: `4px 4px 4px 0px ${colors.shadow}`,
+            position: 'fixed',
+            zIndex: 200,
           }}
         >
           <Center pb={8} pt={8} sx={{ backgroundColor: colors.white }}>
@@ -45,7 +48,18 @@ export default function LayoutLogin({ children }: LayoutProps) {
             )}
           </Center>
         </Box>
-        <Box pt={10}>{children}</Box>
+        <Box
+          sx={{
+            paddingBottom: '1.3rem',
+            marginTop: '10rem',
+            '@media (max-width: 768px)': {
+              marginTop: '6rem',
+              padding: '0',
+            },
+          }}
+        >
+          {children}
+        </Box>
       </Container>
     </ScrollArea>
   );

@@ -27,10 +27,7 @@ import Session from 'supertokens-auth-react/recipe/session';
 import BackToLounge from '@components/BackToLounge';
 import getError from 'utils/getError';
 import { BookingError } from '../../constants';
-import {
-  AccountProvider,
-  BookingQueryParams,
-} from '@collinsonx/constants/enums';
+import { BookingQueryParams } from '@collinsonx/constants/enums';
 import { PinLockoutError } from '@collinsonx/constants/constants';
 import { getConsumerByID } from '@collinsonx/utils/queries';
 import { LinkedAccount } from '@collinsonx/utils/generatedTypes/graphql';
@@ -41,8 +38,14 @@ const { tooManyAttempts, expiredJwt } = PinLockoutError;
 const { bookingId } = BookingQueryParams;
 
 export default function CheckEmail() {
-  const { jwt, lounge, payload, setLinkedAccountId, setLayoutError } =
-    usePayload();
+  const {
+    jwt,
+    lounge,
+    payload,
+    setLinkedAccountId,
+    setLayoutError,
+    setConsumerData,
+  } = usePayload();
   const router = useRouter();
   const email = router.query?.email as string;
   const [code, setCode] = useState<string>();
@@ -61,14 +64,7 @@ export default function CheckEmail() {
 
   let interval = useRef<NodeJS.Timeout>();
 
-  const [
-    fetchConsumer,
-    {
-      loading: fetchConsumerLoading,
-      error: fetchConsumerError,
-      data: fetchConsumerData,
-    },
-  ] = useLazyQuery(getConsumerByID);
+  const [fetchConsumer] = useLazyQuery(getConsumerByID);
 
   useEffect(() => {
     interval.current = setInterval(() => {
@@ -101,20 +97,32 @@ export default function CheckEmail() {
     setCount(20);
   };
 
-  const redirect = useCallback(() => {
-    if (router.query.bookingId) {
-      router.push({
-        pathname: '/cancel-booking',
-        query: {
-          [bookingId]: router.query[bookingId] as string,
-        },
-      });
-    } else {
-      router.push({
-        pathname: '/',
-      });
-    }
-  }, [router]);
+  const redirect = useCallback(
+    (newUser?: boolean) => {
+      if (newUser) {
+        return router.push({
+          pathname: '/auth/signup-user',
+          query: {
+            email,
+            [bookingId]: router.query[bookingId] || '',
+          },
+        });
+      }
+      if (router.query.bookingId) {
+        router.push({
+          pathname: '/cancel-booking',
+          query: {
+            [bookingId]: router.query[bookingId] as string,
+          },
+        });
+      } else {
+        router.push({
+          pathname: '/',
+        });
+      }
+    },
+    [router]
+  );
 
   const handleLinkAccount = () =>
     dolinkAccount({
@@ -142,9 +150,9 @@ export default function CheckEmail() {
         });
       }
 
-      setLinkedAccountId(response.data.linkAccount.id);
-
-      redirect();
+      if (response.data.linkAccount) {
+        setLinkedAccountId(response.data.linkAccount.id);
+      }
     });
 
   const handleClickConfirm = async () => {
@@ -184,37 +192,32 @@ export default function CheckEmail() {
       log('[check-code] response.status error case ', response.status);
       return window.alert('Login failed. Please try again');
     }
-
     if (response.createdNewUser) {
       log(
         '[check-code] consumerPasswordlessCode: response.createdNewUser === true'
       );
-      router.push({
-        pathname: '/auth/signup-user',
-        query: {
-          email,
-          [bookingId]: router.query[bookingId] || '',
-        },
-      });
     } else {
       log(
         '[check-code] consumerPasswordlessCode: response.createdNewUser === false'
       );
-      const userId = response.user.id;
-      fetchConsumer({
-        variables: {
-          getConsumerById: userId,
-        },
-      }).then(({ data }) => {
-        const { linkedAccounts } = data.getConsumerByID;
-        const matchedAccount = findLinkedAccount(linkedAccounts || []);
-        if (!matchedAccount) {
-          handleLinkAccount();
-        } else {
-          redirect();
-        }
-      });
     }
+
+    const userId = response.user.id;
+    fetchConsumer({
+      variables: {
+        getConsumerById: userId,
+      },
+    }).then(({ data }) => {
+      const { linkedAccounts } = data.getConsumerByID;
+      const matchedAccount = findLinkedAccount(linkedAccounts || []);
+      setConsumerData(data);
+      if (!matchedAccount) {
+        handleLinkAccount();
+      } else {
+        setLinkedAccountId(matchedAccount.id);
+      }
+      redirect(response.status === 'OK' && response.createdNewUser);
+    });
   };
 
   const handleClickReenter = () => {
@@ -255,7 +258,11 @@ export default function CheckEmail() {
                 <ErrorComponent error={errorLinkAccount} />
                 <Text size="18px" align="center">
                   We have sent a unique code to
-                  <Text weight={700}>{email}</Text>
+                  <Text weight={700}>
+                    {email.length < 30
+                      ? email
+                      : `${email.substring(0, 30)} ...`}
+                  </Text>
                 </Text>
                 <Box sx={{ textAlign: 'center' }}>
                   <Text align="center" size={16}>

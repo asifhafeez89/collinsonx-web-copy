@@ -1,4 +1,3 @@
-import { useQuery } from '@collinsonx/utils/apollo';
 import Layout from '@components/Layout';
 import {
   Anchor,
@@ -10,14 +9,12 @@ import {
   Title,
 } from '@collinsonx/design-system/core';
 import {
-  Consumer,
   Booking,
   BookingStatus,
 } from '@collinsonx/utils/generatedTypes/graphql';
 import { useRouter } from 'next/router';
 import { LoungeInfo } from '@components/LoungeInfo';
 import LoaderLightBox from '@collinsonx/design-system/components/loaderlightbox';
-import { getConsumerByID } from '@collinsonx/utils/queries';
 import { Details } from '@collinsonx/design-system';
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
 import usePayload from 'hooks/payload';
@@ -25,7 +22,6 @@ import { InfoGroup } from '@collinsonx/design-system/components/details';
 import colors from 'ui/colour-constants';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
 import { BookingContext } from 'context/bookingContext';
-import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import {
   MouseEventHandler,
   useCallback,
@@ -40,7 +36,7 @@ import { getBookingByID } from '@collinsonx/utils/queries';
 import { AlertIcon } from '@collinsonx/design-system/assets/icons';
 import BackToLounge from '@components/BackToLounge';
 import { MOBILE_ACTION_BACK, POLLING_TIME } from '../constants';
-import { log, sendMobileEvent } from '@lib';
+import { sendMobileEvent } from '@lib';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import Price from '@components/Price';
 import { InfoPanel } from 'utils/PanelInfo';
@@ -51,12 +47,11 @@ import { FlightContext } from 'context/flightContext';
 
 export default function ConfirmPayment() {
   const router = useRouter();
-  const session: any = useSessionContext();
   const [timer, setTimer] = useState(0);
 
   let interval = useRef<NodeJS.Timeout>();
 
-  const { lounge, referrerUrl } = usePayload();
+  const { lounge, referrerUrl, consumerData } = usePayload();
 
   const handleClickBack: MouseEventHandler<HTMLAnchorElement> = useCallback(
     (e) => {
@@ -69,33 +64,11 @@ export default function ConfirmPayment() {
     [referrerUrl]
   );
 
-  const [userData, setUserData] = useState<Consumer | null>(null);
-
-  const { loading: userLoading, error: userError } = useQuery<{
-    getConsumerByID: Consumer;
-  }>(getConsumerByID, {
-    variables: { getConsumerById: session.userId },
-    fetchPolicy: 'network-only',
-    onCompleted: (data) => {
-      setUserData(data?.getConsumerByID || null);
-    },
-  });
-
   const { getBooking } = useContext(BookingContext);
   const { getFlight } = useContext(FlightContext);
 
   const [open, setOpen] = useState(true);
   const [alert, setAlert] = useState<boolean | null>(null);
-
-  useEffect(() => {
-    if (session.userId) {
-      userLoading && log('Fetching user data...');
-
-      if (userError) {
-        console.error('Error fetching user data:', userError);
-      }
-    }
-  }, [session.userId, userLoading, userError]);
 
   useEffect(() => {
     // Check if the booking state is incompleted and]
@@ -213,13 +186,11 @@ export default function ConfirmPayment() {
           }}
         >
           <Stack
-            spacing={24}
             sx={{
               width: '591px',
-
+              gap: '0.5rem',
               '@media (max-width: 768px)': {
                 width: '100%',
-                margin: '0',
               },
             }}
           >
@@ -230,7 +201,7 @@ export default function ConfirmPayment() {
             />
 
             <Flex
-              gap={{ base: 'sm', sm: 'lg' }}
+              gap={0}
               sx={{
                 width: '100%',
                 flexDirection: 'row',
@@ -243,53 +214,49 @@ export default function ConfirmPayment() {
               {(!lounge || loadingBooking) && <BookingFormSkeleton />}
 
               {lounge && alert === false && (
-                <Box>
-                  <Stack>
-                    <Box
-                      sx={{
-                        '@media (max-width: 768px)': {
-                          background: colors.white,
-                          padding: '20px',
-                        },
+                <Box p={0}>
+                  <Box
+                    sx={{
+                      '@media (max-width: 768px)': {
+                        background: colors.white,
+                      },
+                    }}
+                  >
+                    <Heading
+                      style={{
+                        fontSize: '1.5rem',
+                        lineHeight: '2.25rem',
+                        fontWeight: '700',
                       }}
+                      as="h1"
+                      padding={0}
+                      margin={0}
                     >
-                      <Title
-                        style={{
-                          fontSize: '1.5rem',
-                          lineHeight: '2.25rem',
-                          fontWeight: '700',
+                      <Box
+                        sx={{
+                          '@media (max-width: 768px)': {
+                            padding: '20px',
+                          },
                         }}
                       >
                         Good news! Your booking has been confirmed
-                      </Title>
-                      <Text
-                        style={{
-                          fontSize: '1.125rem',
-                          lineHeight: '1.75rem',
-                          fontWeight: '700',
-                          marginTop: '0.75rem',
-                          marginBottom: '0.75rem',
-                        }}
-                      >
-                        Booking reference{' '}
-                        {dataBooking?.getBookingByID.reference}
-                      </Text>
-
-                      <Text
-                        style={{
-                          fontSize: '1.125rem',
-                          lineHeight: '1.75rem',
-                          marginTop: '0.75rem',
-                          marginBottom: '0.75rem',
-                        }}
-                      >
+                      </Box>
+                    </Heading>
+                    <EditableTitle
+                      title=" Booking reference"
+                      as="h2"
+                      showBorder={true}
+                    >
+                      Booking reference {''}{' '}
+                      {dataBooking?.getBookingByID.reference}
+                      <p>
                         A confirmation email has been sent to{' '}
                         <span style={{ fontWeight: 700 }}>
-                          {userData?.emailAddress}
+                          {consumerData?.getConsumerByID.emailAddress}
                         </span>
-                      </Text>
-                    </Box>
-                  </Stack>
+                      </p>
+                    </EditableTitle>
+                  </Box>
 
                   {!!lounge && (
                     <Stack
@@ -304,38 +271,44 @@ export default function ConfirmPayment() {
                         sx={{
                           '@media (max-width: 768px)': {
                             background: colors.white,
-                            padding: '20px',
                           },
                         }}
                       >
-                        <Heading as="h2" padding={0} margin={0}>
-                          Flight details
-                        </Heading>
-                        {departureTime && (
-                          <Details
-                            infos={
-                              InfoPanel(
-                                departureTime,
-                                flightNumber
-                              ) as InfoGroup[]
-                            }
-                            direction="row"
-                          />
-                        )}
+                        <EditableTitle
+                          as="h2"
+                          title="Flight details"
+                          showBorder={true}
+                        >
+                          {departureTime && (
+                            <Details
+                              infos={
+                                InfoPanel(
+                                  departureTime,
+                                  flightNumber
+                                ) as InfoGroup[]
+                              }
+                              direction="row"
+                            />
+                          )}
+                        </EditableTitle>
                       </Box>
-
                       <Flex
                         direction={{ base: 'column', lg: 'row' }}
                         justify={'space-between'}
                         sx={{
-                          width: '87%',
+                          width: '100%',
+                          borderBottom: `1px solid ${colors.borderSection}`,
 
                           '@media (max-width: 768px)': {
                             width: '100%',
                           },
                         }}
                       >
-                        <EditableTitle title="Who's coming?" as="h2">
+                        <EditableTitle
+                          title="Who's coming?"
+                          as="h2"
+                          showBorder={false}
+                        >
                           <GuestCount
                             adults={adults}
                             children={children}
@@ -351,7 +324,11 @@ export default function ConfirmPayment() {
                             },
                           }}
                         >
-                          <EditableTitle title="Total price" as="h2">
+                          <EditableTitle
+                            title="Total price"
+                            as="h2"
+                            showBorder={false}
+                          >
                             <Price
                               lounge={lounge}
                               guests={{ adults, infants, children }}
@@ -364,20 +341,43 @@ export default function ConfirmPayment() {
                         sx={{
                           '@media (max-width: 768px)': {
                             background: colors.white,
-                            padding: '20px',
                           },
                         }}
                       >
-                        <Heading as="h2" padding={0} margin={0}>
-                          Estimated lounge arrival time
-                        </Heading>
-                        <Flex direction="row" gap={10}>
-                          <p style={{ padding: '0', margin: '0' }}>
-                            {' '}
-                            {arrival}
-                          </p>{' '}
-                        </Flex>
+                        <EditableTitle
+                          title="Time of visit (local)"
+                          as="h2"
+                          showBorder={true}
+                        >
+                          <Flex direction="row" gap={5}>
+                            <p style={{ padding: '0', margin: '0' }}>
+                              {' '}
+                              {arrival}
+                            </p>{' '}
+                          </Flex>
+                        </EditableTitle>
                       </Box>
+
+                      <EditableTitle
+                        title="Important Notes"
+                        as="h3"
+                        showBorder={false}
+                      >
+                        <ul style={{ paddingLeft: '1em' }}>
+                          <li>
+                            {' '}
+                            Please remember to bring your booking reference
+                            number, boarding pass and photo ID along with your
+                            Priority Pass membership card for check in at the
+                            lounge.{' '}
+                          </li>
+                          <li>
+                            Cancellation must be made at least 48 hours in
+                            advance of your visit date & time to receive a
+                            refund. No refund will be issued after this time. 
+                          </li>
+                        </ul>
+                      </EditableTitle>
                     </Stack>
                   )}
                   <Flex
@@ -390,7 +390,7 @@ export default function ConfirmPayment() {
                       arrival={arrival}
                       children={children}
                       departureTime={departureTime}
-                      emailAddress={userData?.emailAddress}
+                      emailAddress={consumerData?.getConsumerByID.emailAddress}
                       flightNumber={flightNumber}
                       infants={infants}
                       lounge={lounge}

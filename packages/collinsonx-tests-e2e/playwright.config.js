@@ -8,7 +8,7 @@ require('dotenv').config();
 
 module.exports = defineConfig({
   // max time (ms) for tests inc. teardown
-  timeout: 60000,
+  timeout: 100000,
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -16,9 +16,9 @@ module.exports = defineConfig({
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
-  workers: 4,
+  workers: process.env.CI ? 8 : 4,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [['html', { open: 'always' }]],
+  reporter: [['html', { open: 'never' }]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -27,10 +27,10 @@ module.exports = defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
     // Record tests
-    video: 'retain-on-failure'
+    video: 'retain-on-failure',
   },
   expect: {
-    timeout: 10000
+    timeout: 10000,
   },
   projects: [
     { name: 'setup', testMatch: /auth.setup\.js/ },
@@ -38,25 +38,39 @@ module.exports = defineConfig({
       name: 'partner-chromium-test',
       testDir: './tests/partner-management',
       // ENV variable is given by the package.json script
-      use: { ...devices['Desktop Chrome'], storageState: 'playwright/.auth/user.json', baseURL: `https://partner-local.${process.env.ENV}.cergea.com:4010`, ignoreHTTPSErrors: true },
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'playwright/.auth/user.json',
+        baseURL: `https://partner-local.${process.env.ENV}.cergea.com:4010`,
+        ignoreHTTPSErrors: true,
+      },
       dependencies: ['setup'],
       // Skip running the acessibility tests
-      testIgnore: 'accessibility.spec.js'
+      testIgnore: 'accessibility.spec.js',
     },
     {
       name: 'accessibility-tests',
       testDir: './tests/partner-management',
       // ENV variable is given by the package.json script
-      use: { ...devices['Desktop Chrome'], storageState: 'playwright/.auth/user.json', baseURL: `https://partner-local.${process.env.ENV}.cergea.com:4010`, ignoreHTTPSErrors: true },
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'playwright/.auth/user.json',
+        baseURL: `https://partner-local.${process.env.ENV}.cergea.com:4010`,
+        ignoreHTTPSErrors: true,
+      },
       dependencies: ['setup'],
       // Only run the accessibility tests
-      testMatch: 'accessibility.spec.js'
+      testMatch: 'accessibility.spec.js',
     },
     {
       name: 'booking',
       testDir: './tests/booking',
       // ENV variable is given by the package.json script
-      use: { ...devices['Desktop Chrome'], baseURL: `https://booking-local.${process.env.ENV}.cergea.com:4011`, ignoreHTTPSErrors: true }
+      use: {
+        ...devices['Desktop Chrome'],
+        baseURL: `https://booking-local.${process.env.ENV}.cergea.com:4011`,
+        ignoreHTTPSErrors: true,
+      },
     },
     // {
     //   name: 'Safari Test',

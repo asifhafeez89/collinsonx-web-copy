@@ -12,6 +12,7 @@
     "e2e:test-booking": "cross-env ENV=TEST playwright test --project=booking --headed",
     "e2e:test-partner": "cross-env ENV=TEST playwright test --project=partner-chromium-test --headed",
     "e2e:test-partner-accessibility": "cross-env ENV=TEST playwright test --project=accessibility-tests --headed",
+    "e2e:uat-booking": "cross-env ENV=UAT playwright test --project=booking --headed",
     "e2e:uat-partner": "cross-env ENV=UAT playwright test --project=partner-chromium-test --headed",
     "e2e:uat-partner-accessibility": "cross-env ENV=UAT playwright test --project=accessibility-tests --headed"
   },
