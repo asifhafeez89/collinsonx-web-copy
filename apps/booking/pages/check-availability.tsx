@@ -98,8 +98,8 @@ export default function ConfirmAvailability() {
 
   const findSelectedSlot = (slots: Slots[] | undefined, value: string) => {
     const slot = slots?.find((slot) => {
-      const startDate = formatDate(slot.startDate, TIME_FORMAT, timeDifference);
-      const endDate = formatDate(slot.endDate, TIME_FORMAT, timeDifference);
+      const startDate = formatDate(slot.startDate, TIME_FORMAT);
+      const endDate = formatDate(slot.endDate, TIME_FORMAT);
       const slotLabel = ` ${startDate}-${endDate}`;
       return slotLabel === value;
     });
@@ -112,7 +112,22 @@ export default function ConfirmAvailability() {
 
     const departureTime = flightData?.departure?.dateTime?.utc;
 
-    const formattedDepartureTime = formatDate(
+    const localTimeHour = dayjs(flightData?.departure?.dateTime?.local);
+    const utcTimeHour = dayjs(flightData?.departure?.dateTime?.utc);
+    const timeDifference = utcTimeHour.diff(localTimeHour, 'hour');
+
+    const utcStartDate = formatDateUTC(
+      slot?.startDate,
+      DATE_TIME_FORMAT,
+      timeDifference
+    );
+    const utcEndDate = formatDateUTC(
+      slot?.endDate,
+      DATE_TIME_FORMAT,
+      timeDifference
+    );
+
+    const utcDepartureTime = formatDate(
       new Date(`${departureTime}`),
       DATE_TIME_FORMAT
     );
@@ -124,9 +139,9 @@ export default function ConfirmAvailability() {
     const bookingInput = {
       ...(linkedAccountId && { actingAccount: linkedAccountId }),
       experience: { id: lounge?.id },
-      bookedFrom: slot?.startDate,
-      lastArrival: slot?.endDate,
-      bookedTo: formattedDepartureTime,
+      bookedFrom: utcStartDate,
+      lastArrival: utcEndDate,
+      bookedTo: utcDepartureTime,
       type: BookingType.ReservationFeeOnly,
       guestAdultCount: adults,
       guestChildrenCount: children,
@@ -187,7 +202,7 @@ export default function ConfirmAvailability() {
         data: {
           flightInformation: {
             type: TRAVEL_TYPE,
-            dateTime: flightData.departure?.dateTime?.utc,
+            dateTime: flightData.departure?.dateTime?.local,
             airport: flightData.departure?.airport,
             terminal: '-1',
           },
@@ -207,14 +222,6 @@ export default function ConfirmAvailability() {
   }, []);
 
   const departureTime = flightData?.departure?.dateTime?.local;
-
-  const localTimeHour = dayjs(flightData?.departure?.dateTime?.local, {
-    format: TIME_FORMAT,
-  });
-  const utcTimeHour = dayjs(flightData?.departure?.dateTime?.utc, {
-    format: TIME_FORMAT,
-  });
-  const timeDifference = localTimeHour.diff(utcTimeHour, 'hour');
 
   const dayjsDepartureTime = dayjs(departureTime, {
     format: 'dd-MM-YYYY HH:mm',
@@ -407,7 +414,6 @@ export default function ConfirmAvailability() {
                           <AvailableSlots
                             onSelectSlot={handleSelectSlot}
                             availableSlots={slotsData?.getAvailableSlots}
-                            timeZoneDifference={timeDifference}
                           />
                         ) : null}
 
