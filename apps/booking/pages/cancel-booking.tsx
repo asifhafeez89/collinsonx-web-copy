@@ -275,6 +275,14 @@ export default function CancelBooking() {
                                         ?.guestAdultCount
                                     }
                                   </p>{' '}
+                                  <p style={{ padding: '0', margin: '0' }}>
+                                    {' '}
+                                    Children{' '}
+                                    {
+                                      bookingDetails?.getBookingByID
+                                        ?.guestChildrenCount
+                                    }
+                                  </p>{' '}
                                   {Number(
                                     bookingDetails?.getBookingByID
                                       ?.guestInfantCount
@@ -327,7 +335,7 @@ export default function CancelBooking() {
                             </Box>
                           </Flex>
                           <EditableTitle
-                            title="Estimated time of arrival"
+                            title="Time of visit (local)"
                             as="h3"
                             showBorder={false}
                           >

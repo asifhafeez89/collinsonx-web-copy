@@ -51,7 +51,7 @@ const GeneratedPDF = (props: BookingConfirmedPdfProps) => (
           Flight number: {props.flightNumber}
         </Text>
         <Text style={[styles.p, styles.padding]}>
-          Estimated lounge arrival time: {props.arrival}
+          Time of visit (local): {props.arrival}
         </Text>
 
         <Text style={[styles.h2, styles.marginTop, styles.padding]}>

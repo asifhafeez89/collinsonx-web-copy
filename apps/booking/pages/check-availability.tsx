@@ -415,8 +415,7 @@ export default function ConfirmAvailability() {
                           error={slotsError}
                         ></AvailableSlotsErrorHandling>
                         <div>
-                          This is just a rough estimate so the lounge can
-                          prepare for your arrival.
+                          This is the time you will arrive at the lounge.
                         </div>
                       </EditableTitle>
                       <EditableTitle

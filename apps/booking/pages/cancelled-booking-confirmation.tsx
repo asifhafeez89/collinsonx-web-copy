@@ -164,7 +164,7 @@ export default function CancelBooking() {
                           </EditableTitle>
 
                           <EditableTitle
-                            title="Estimated time of arrival"
+                            title="Time of visit (local)"
                             as="h3"
                             showBorder={false}
                           >

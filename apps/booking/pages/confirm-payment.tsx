@@ -292,7 +292,6 @@ export default function ConfirmPayment() {
                           )}
                         </EditableTitle>
                       </Box>
-
                       <Flex
                         direction={{ base: 'column', lg: 'row' }}
                         justify={'space-between'}
@@ -346,7 +345,7 @@ export default function ConfirmPayment() {
                         }}
                       >
                         <EditableTitle
-                          title="Estimated lounge arrival time"
+                          title="Time of visit (local)"
                           as="h2"
                           showBorder={true}
                         >
@@ -373,14 +372,9 @@ export default function ConfirmPayment() {
                             lounge.{' '}
                           </li>
                           <li>
-                            {' '}
-                            The lounge will hold your booking for 1 hour after
-                            your booking starts.{' '}
-                          </li>
-                          <li>
                             Cancellation must be made at least 48 hours in
                             advance of your visit date & time to receive a
-                            refund. No refund will be issued after this time.
+                            refund. No refund will be issued after this time. 
                           </li>
                         </ul>
                       </EditableTitle>

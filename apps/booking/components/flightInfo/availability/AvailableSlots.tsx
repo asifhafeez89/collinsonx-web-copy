@@ -43,14 +43,10 @@ const AvailableSlots = ({
   return (
     <>
       <Heading as="h2" padding={0} margin={0}>
-        Accessible slots
+        Time of visit (local)
       </Heading>
-      <p>
-        The lounge will reserve your booking for up to 1 hour after time of
-        visit.
-      </p>
       <Select
-        label="Estimated lounge arrival time"
+        label=""
         placeholder="Select time"
         data={data}
         onChange={onSelectSlot}

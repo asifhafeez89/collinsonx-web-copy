@@ -26,7 +26,8 @@ export default function ConfirmBooking() {
   const { getBooking } = useContext(BookingContext);
   const { getFlight } = useContext(FlightContext);
 
-  const { flightNumber, children, bookingId, adults, infants } = getBooking();
+  const { flightNumber, children, bookingId, adults, infants, arrival } =
+    getBooking();
 
   const flightData = getFlight();
 
@@ -176,7 +177,18 @@ export default function ConfirmBooking() {
                           </EditableTitle>
                         </Box>
                       </Flex>
-
+                      <EditableTitle
+                        title="Time of visit (local)"
+                        as="h2"
+                        showBorder={true}
+                      >
+                        <Flex direction="row" gap={5}>
+                          <p style={{ padding: '0', margin: '0' }}>
+                            {' '}
+                            {arrival}
+                          </p>{' '}
+                        </Flex>
+                      </EditableTitle>
                       <EditableTitle title="Cancellation policy" as="h2">
                         <p style={{ padding: '0', margin: '0' }}>
                           Cancel up to 48 hours before your booking to receive a
@@ -210,11 +222,6 @@ export default function ConfirmBooking() {
                             number, boarding pass and photo ID along with your
                             Priority Pass membership card for check in at the
                             lounge.{' '}
-                          </li>
-                          <li>
-                            {' '}
-                            The lounge will hold your booking for 1 hour after
-                            your booking starts.{' '}
                           </li>
                           <li>
                             Cancellation must be made at least 48 hours in
