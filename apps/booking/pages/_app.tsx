@@ -77,19 +77,17 @@ export default function MyApp({ Component, pageProps }: Props) {
         <SuperTokensWrapper>
           <ApolloProvider client={apolloClient}>
             <AuthWrapper>
-              <SessionManager>
-                <PayloadProvider>
-                  <BookingProvider>
-                    {getLayout(
-                      isMaintenanceMode ? (
-                        <Maintenance />
-                      ) : (
-                        <Component {...pageProps} />
-                      )
-                    )}
-                  </BookingProvider>
-                </PayloadProvider>
-              </SessionManager>
+              <PayloadProvider>
+                <BookingProvider>
+                  {getLayout(
+                    isMaintenanceMode ? (
+                      <Maintenance />
+                    ) : (
+                      <Component {...pageProps} />
+                    )
+                  )}
+                </BookingProvider>
+              </PayloadProvider>
             </AuthWrapper>
           </ApolloProvider>
         </SuperTokensWrapper>

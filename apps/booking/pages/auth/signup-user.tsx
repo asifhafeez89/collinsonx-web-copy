@@ -11,9 +11,8 @@ import {
 import { useForm } from '@collinsonx/design-system/form';
 import LayoutLogin from '../../components/LayoutLogin';
 import { InputLabel } from '@collinsonx/design-system';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import updateConsumer from '@collinsonx/utils/mutations/updateConsumer';
-import linkAccount from '@collinsonx/utils/mutations/linkAccount';
 import { useMutation } from '@collinsonx/utils/apollo';
 import { ConsumerInput } from '@collinsonx/utils';
 import { useRouter } from 'next/router';
@@ -23,13 +22,8 @@ import Error from '@components/Error';
 import usePayload from 'hooks/payload';
 import colors from 'ui/colour-constants';
 import BackToLounge from '@components/BackToLounge';
-import getError from 'utils/getError';
-import Session from 'supertokens-auth-react/recipe/session';
-import { BookingError } from '../../constants';
 import { BookingQueryParams } from '@collinsonx/constants/enums';
 import { log } from '@lib';
-
-const { ERR_MEMBERSHIP_ALREADY_CONNECTED } = BookingError;
 
 const { bookingId } = BookingQueryParams;
 
@@ -60,48 +54,20 @@ export default function SignupUser() {
   const [updateConsumerCall, { loading: loadingUpdateConsumer, error, data }] =
     useMutation(updateConsumer);
 
-  const [dolinkAccount] = useMutation(linkAccount);
-
-  const handleLinkAccount = (values: any, consumerId: string) =>
-    dolinkAccount({
-      variables: {
-        linkedAccountInput: {
-          token: jwt,
-          analytics: { email: values.email },
-        },
-      },
-    }).then((response) => {
-      const alreadyConnectedError = getError(
-        response,
-        ERR_MEMBERSHIP_ALREADY_CONNECTED
-      );
-      if (alreadyConnectedError) {
-        log('[SIGN OUT]: membership already connected');
-        Session.signOut().then(() => {
-          setLayoutError(ERR_MEMBERSHIP_ALREADY_CONNECTED);
-          router.push({
-            pathname: '/auth/login',
-          });
-        });
-      } else if (response.data && response.data.linkAccount && consumerId) {
-        log('[SIGN UP]: linkAcount ID retrieved successfully');
-        setLinkedAccountId(response.data.linkAccount.id);
-        if (router.query[bookingId]) {
-          log(
-            '[SIGN UP]: bookingId found - redirecting to cancel-booking page'
-          );
-          router.push({
-            pathname: '/cancel-booking',
-            query: { [bookingId]: router.query[bookingId] },
-          });
-        } else {
-          log('[SIGN UP]: redirecting to index page');
-          router.push({
-            pathname: '/',
-          });
-        }
-      }
-    });
+  const redirect = useCallback(() => {
+    if (router.query[bookingId]) {
+      log('[SIGN UP]: bookingId found - redirecting to cancel-booking page');
+      router.push({
+        pathname: '/cancel-booking',
+        query: { [bookingId]: router.query[bookingId] },
+      });
+    } else {
+      log('[SIGN UP]: redirecting to index page');
+      router.push({
+        pathname: '/',
+      });
+    }
+  }, [router]);
 
   return loading || loadingUpdateConsumer ? (
     <Flex justify="center" align="center" h="100%">
@@ -134,7 +100,7 @@ export default function SignupUser() {
           updateConsumerCall({
             variables: { consumerInput },
             onCompleted: (data) => {
-              handleLinkAccount(values, data?.updateConsumer?.id);
+              redirect();
             },
             onError: () => {
               setLoading(false);

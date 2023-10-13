@@ -97,20 +97,32 @@ export default function CheckEmail() {
     setCount(20);
   };
 
-  const redirect = useCallback(() => {
-    if (router.query.bookingId) {
-      router.push({
-        pathname: '/cancel-booking',
-        query: {
-          [bookingId]: router.query[bookingId] as string,
-        },
-      });
-    } else {
-      router.push({
-        pathname: '/',
-      });
-    }
-  }, [router]);
+  const redirect = useCallback(
+    (newUser?: boolean) => {
+      if (newUser) {
+        return router.push({
+          pathname: '/auth/signup-user',
+          query: {
+            email,
+            [bookingId]: router.query[bookingId] || '',
+          },
+        });
+      }
+      if (router.query.bookingId) {
+        router.push({
+          pathname: '/cancel-booking',
+          query: {
+            [bookingId]: router.query[bookingId] as string,
+          },
+        });
+      } else {
+        router.push({
+          pathname: '/',
+        });
+      }
+    },
+    [router]
+  );
 
   const handleLinkAccount = () =>
     dolinkAccount({
@@ -182,38 +194,32 @@ export default function CheckEmail() {
       log('[check-code] response.status error case ', response.status);
       return window.alert('Login failed. Please try again');
     }
-
     if (response.createdNewUser) {
       log(
         '[check-code] consumerPasswordlessCode: response.createdNewUser === true'
       );
-      router.push({
-        pathname: '/auth/signup-user',
-        query: {
-          email,
-          [bookingId]: router.query[bookingId] || '',
-        },
-      });
     } else {
       log(
         '[check-code] consumerPasswordlessCode: response.createdNewUser === false'
       );
-      const userId = response.user.id;
-      fetchConsumer({
-        variables: {
-          getConsumerById: userId,
-        },
-      }).then(({ data }) => {
-        const { linkedAccounts } = data.getConsumerByID;
-        const matchedAccount = findLinkedAccount(linkedAccounts || []);
-        if (!matchedAccount) {
-          handleLinkAccount();
-        } else {
-          redirect();
-        }
-        setConsumerData(data);
-      });
     }
+
+    const userId = response.user.id;
+    fetchConsumer({
+      variables: {
+        getConsumerById: userId,
+      },
+    }).then(({ data }) => {
+      const { linkedAccounts } = data.getConsumerByID;
+      const matchedAccount = findLinkedAccount(linkedAccounts || []);
+      setConsumerData(data);
+      if (!matchedAccount) {
+        handleLinkAccount();
+      } else {
+        setLinkedAccountId(matchedAccount.id);
+      }
+      redirect(response.status === 'OK' && response.createdNewUser);
+    });
   };
 
   const handleClickReenter = () => {
