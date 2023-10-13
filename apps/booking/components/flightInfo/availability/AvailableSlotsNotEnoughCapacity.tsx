@@ -104,12 +104,10 @@ interface Props {
 
 const ErrorMessage: FC<Props> = ({ adults = 0, child = 0, infants = 0 }) => {
   if (adults === 0) {
-    return (
-      <Box>
-        Sorry, the lounge doesn&rsquo;t have slots available for the flight
-        you&rsquo;ve selected
-      </Box>
-    );
+    const message =
+      "We're sorry, the lounge selected is at capacity at this time. You can try booking for a smaller number of guests or please check to see if another lounge is available.";
+
+    return <Box>{message}</Box>;
   }
 
   return (

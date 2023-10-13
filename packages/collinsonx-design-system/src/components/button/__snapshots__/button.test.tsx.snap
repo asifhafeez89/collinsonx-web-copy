@@ -142,23 +142,32 @@ exports[`<Button /> renders outline variant 1`] = `
   align-items: center;
 }
 
-<button
-  className="emotion-0 emotion-1 emotion-2"
-  data-button={true}
-  onClick={[MockFunction]}
-  type="button"
+<div
+  style={
+    {
+      "padding": "0px",
+      "textAlign": "left",
+    }
+  }
 >
-  <div
-    className="emotion-3 emotion-4"
+  <button
+    className="emotion-0 emotion-1 emotion-2"
+    data-button={true}
+    onClick={[MockFunction]}
+    type="button"
   >
-    <span
-      className="emotion-5 emotion-6"
-      style={
-        {
-          "textTransform": undefined,
+    <div
+      className="emotion-3 emotion-4"
+    >
+      <span
+        className="emotion-5 emotion-6"
+        style={
+          {
+            "textTransform": undefined,
+          }
         }
-      }
-    />
-  </div>
-</button>
+      />
+    </div>
+  </button>
+</div>
 `;

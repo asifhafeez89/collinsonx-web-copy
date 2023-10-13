@@ -46,7 +46,7 @@ function BookingLightbox({
             padding: '20px',
             borderTop: '1px solid #C8C9CA',
           }}
-          gap={3}
+          gap={10}
           direction={{ base: 'column', lg: 'row' }}
         >
           <Button
@@ -58,7 +58,7 @@ function BookingLightbox({
                 border: 'solid',
                 backgroundColor: 'transparent',
                 borderColor: '#000',
-                fontSize: '12px',
+                fontSize: '16px',
                 borderWidth: 2,
                 color: '#fff',
               },
@@ -70,7 +70,7 @@ function BookingLightbox({
             {ctaCancel}
           </Button>
 
-          <Button onClick={ctaForwardCall} sx={{ fontSize: '12px' }}>
+          <Button onClick={ctaForwardCall} sx={{ fontSize: '16px' }}>
             {ctaForward}
           </Button>
         </Flex>

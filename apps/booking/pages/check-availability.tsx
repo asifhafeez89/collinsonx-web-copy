@@ -98,8 +98,8 @@ export default function ConfirmAvailability() {
 
   const findSelectedSlot = (slots: Slots[] | undefined, value: string) => {
     const slot = slots?.find((slot) => {
-      const startDate = formatDate(slot.startDate, TIME_FORMAT);
-      const endDate = formatDate(slot.endDate, TIME_FORMAT);
+      const startDate = formatDate(slot.startDate, TIME_FORMAT, timeDifference);
+      const endDate = formatDate(slot.endDate, TIME_FORMAT, timeDifference);
       const slotLabel = ` ${startDate}-${endDate}`;
       return slotLabel === value;
     });
@@ -110,10 +110,10 @@ export default function ConfirmAvailability() {
     const availableSlots = slotsData?.getAvailableSlots.slots;
     const slot = findSelectedSlot(availableSlots, selectedslot);
 
-    const departureTime = flightData?.departure?.dateTime?.local;
+    const departureTime = flightData?.departure?.dateTime?.utc;
 
-    const formattedDepartureTime = formatDateUTC(
-      new Date(String(departureTime)),
+    const formattedDepartureTime = formatDate(
+      new Date(`${departureTime}`),
       DATE_TIME_FORMAT
     );
 
@@ -180,7 +180,7 @@ export default function ConfirmAvailability() {
       partnerKey === 'partnerIdTest'
         ? lounge.partnerIdTest
         : lounge.partnerIdProd;
-    console.log('NEXT_PUBLIC_SNAPLOGIC_PARTNER_KEY', partnerKey, productID);
+    log('NEXT_PUBLIC_SNAPLOGIC_PARTNER_KEY', partnerKey, productID);
 
     fetchSlots({
       variables: {
@@ -208,8 +208,16 @@ export default function ConfirmAvailability() {
 
   const departureTime = flightData?.departure?.dateTime?.local;
 
+  const localTimeHour = dayjs(flightData?.departure?.dateTime?.local, {
+    format: TIME_FORMAT,
+  });
+  const utcTimeHour = dayjs(flightData?.departure?.dateTime?.utc, {
+    format: TIME_FORMAT,
+  });
+  const timeDifference = localTimeHour.diff(utcTimeHour, 'hour');
+
   const dayjsDepartureTime = dayjs(departureTime, {
-    format: 'YYYY-MM-DD HH:mm',
+    format: 'dd-MM-YYYY HH:mm',
   });
   const flightTime = dayjsDepartureTime.format(constants.TIME_FORMAT);
   const flightTimeToDisplay = dayjsDepartureTime.format(
@@ -292,7 +300,7 @@ export default function ConfirmAvailability() {
           }}
         >
           <Stack
-            spacing={24}
+            spacing={10}
             sx={{
               width: '591px',
               margin: '0 auto',
@@ -312,7 +320,6 @@ export default function ConfirmAvailability() {
             )}
             <Flex
               direction={{ base: 'column', sm: 'row' }}
-              gap={{ base: 'sm', sm: 'lg' }}
               sx={{
                 justifyContent: 'center',
 
@@ -352,14 +359,21 @@ export default function ConfirmAvailability() {
                         direction={{ base: 'column', lg: 'row' }}
                         justify={'space-between'}
                         sx={{
-                          width: '87%',
+                          width: '100%',
+                          borderBottom: `1px solid ${colors.borderSection}`,
 
                           '@media (max-width: 768px)': {
                             width: '100%',
+                            border: 'none',
+                            padding: '0px',
                           },
                         }}
                       >
-                        <EditableTitle title="Who's coming?" as="h2">
+                        <EditableTitle
+                          title="Who's coming?"
+                          as="h2"
+                          showBorder={false}
+                        >
                           <GuestCount
                             adults={adults}
                             children={children}
@@ -375,7 +389,11 @@ export default function ConfirmAvailability() {
                             },
                           }}
                         >
-                          <EditableTitle title="Total price" as="h2">
+                          <EditableTitle
+                            title="Total price"
+                            as="h2"
+                            showBorder={false}
+                          >
                             <Price
                               lounge={lounge}
                               guests={{ adults, infants, children }}
@@ -384,11 +402,12 @@ export default function ConfirmAvailability() {
                         </Box>
                       </Flex>
 
-                      <EditableTitle title="" as="h2">
+                      <EditableTitle title="" as="h2" showBorder={true}>
                         {slotsData ? (
                           <AvailableSlots
                             onSelectSlot={handleSelectSlot}
                             availableSlots={slotsData?.getAvailableSlots}
+                            timeZoneDifference={timeDifference}
                           />
                         ) : null}
 
@@ -400,7 +419,11 @@ export default function ConfirmAvailability() {
                           prepare for your arrival.
                         </div>
                       </EditableTitle>
-                      <EditableTitle title="Cancelation policy" as="h2">
+                      <EditableTitle
+                        title="Cancellation policy"
+                        as="h2"
+                        showBorder={false}
+                      >
                         <p style={{ padding: '0', margin: '0' }}>
                           Cancel up to 48 hours before your booking to receive a
                           full refund. Bookings cannot be cancelled within 48

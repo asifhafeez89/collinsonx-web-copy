@@ -2,12 +2,12 @@ name: run e2e web tests - booking
 
 on:
   pull_request:
-    branches: ["dev"]
+    branches: ['dev']
     paths:
-      - "apps/booking/**"
-      - "packages/collinsonx-tests-e2e/tests/booking"
-      - "packages/collinsonx-tests-e2e/playwright.config.js"
-      - "packages/collinsonx-tests-e2e/package.json"
+      - 'apps/booking/**'
+      - 'packages/collinsonx-tests-e2e/tests/booking'
+      - 'packages/collinsonx-tests-e2e/playwright.config.js'
+      - 'packages/collinsonx-tests-e2e/package.json'
 
 jobs:
   test:
@@ -24,7 +24,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 20
-          cache: "pnpm"
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: |
@@ -55,7 +55,6 @@ jobs:
           pnpm add --global pm2
           cd apps/booking
           pm2 --name dev-server --interpreter bash start pnpm -- dev:test
-
 
           attempt_counter=0
           max_attempts=5
