@@ -153,8 +153,6 @@ export default function CheckEmail() {
       if (response.data.linkAccount) {
         setLinkedAccountId(response.data.linkAccount.id);
       }
-
-      redirect();
     });
 
   const handleClickConfirm = async () => {
