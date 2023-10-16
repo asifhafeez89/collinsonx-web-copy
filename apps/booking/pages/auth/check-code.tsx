@@ -124,7 +124,7 @@ export default function CheckEmail() {
     [router]
   );
 
-  const handleLinkAccount = () =>
+  const handleLinkAccount = (isUserNew: boolean) =>
     dolinkAccount({
       variables: {
         linkedAccountInput: {
@@ -142,7 +142,7 @@ export default function CheckEmail() {
 
       if (alreadyConnectedError) {
         log('[SIGN OUT]: membership already connected');
-        Session.signOut().then(() => {
+        return Session.signOut().then(() => {
           setLayoutError(ERR_MEMBERSHIP_ALREADY_CONNECTED);
           router.push({
             pathname: '/auth/login',
@@ -153,6 +153,7 @@ export default function CheckEmail() {
       if (response.data.linkAccount) {
         setLinkedAccountId(response.data.linkAccount.id);
       }
+      redirect(isUserNew);
     });
 
   const handleClickConfirm = async () => {
@@ -212,11 +213,11 @@ export default function CheckEmail() {
       const matchedAccount = findLinkedAccount(linkedAccounts || []);
       setConsumerData(data);
       if (!matchedAccount) {
-        handleLinkAccount();
+        handleLinkAccount(response.status === 'OK' && response.createdNewUser);
       } else {
         setLinkedAccountId(matchedAccount.id);
+        redirect(response.status === 'OK' && response.createdNewUser);
       }
-      redirect(response.status === 'OK' && response.createdNewUser);
     });
   };
 
