@@ -133,8 +133,6 @@ export default function CheckEmail() {
         },
       },
     }).then((response) => {
-      if (!response.data) throw new Error('no user data');
-
       const alreadyConnectedError = getError(
         response,
         ERR_MEMBERSHIP_ALREADY_CONNECTED
@@ -150,10 +148,11 @@ export default function CheckEmail() {
         });
       }
 
-      if (response.data.linkAccount) {
+      // only redirect if there are no errors
+      if (response.data && response.data.linkAccount && !response.errors) {
         setLinkedAccountId(response.data.linkAccount.id);
+        redirect(isUserNew);
       }
-      redirect(isUserNew);
     });
 
   const handleClickConfirm = async () => {
