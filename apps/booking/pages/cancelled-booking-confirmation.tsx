@@ -39,8 +39,6 @@ export default function CancelBooking() {
     <Layout>
       {bookingDetails ? (
         <Stack spacing={16} sx={{ width: '100%' }}>
-          <BackToLounge />
-
           <Flex
             justify="center"
             align="center"

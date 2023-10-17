@@ -115,8 +115,6 @@ export default function CancelBooking() {
     <Layout>
       {bookingDetails ? (
         <Stack spacing={8} sx={{ width: '100%' }}>
-          <BackToLounge />
-
           <BookingLightbox
             open={opened}
             ctaForwardCall={handleCancellation}
