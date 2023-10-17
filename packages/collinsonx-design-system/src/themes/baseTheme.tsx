@@ -1,5 +1,6 @@
-import { MantineThemeOverride } from '@mantine/core';
+import { MantineThemeOverride, darken } from '@mantine/core';
 import { rem } from '@mantine/core';
+import colors from '../colour-constants';
 
 type ThemeOptions = {
   fontFamily?: string;
@@ -18,7 +19,7 @@ const baseTheme = ({
       brandColor: [themeOverrides?.brandColor || '#D3DAE1'],
       splashColor: [themeOverrides?.splashColor || '#858B91'],
 
-      brandCollinsons: [themeOverrides?.brandCollinsons || '#827127'],
+      brandCollinsons: [themeOverrides?.brandColor || '#827127'],
     },
     primaryColor: 'brandCollinsons',
 
@@ -112,6 +113,10 @@ const baseTheme = ({
             borderRadius: 4,
             fontSize: 18,
             height: 44,
+
+            '&:hover': {
+              backgroundColor: theme.fn.darken(theme.colors.brandColor[0], 0.1),
+            },
           },
         }),
       },
@@ -131,7 +136,7 @@ const baseTheme = ({
             },
             ':focus': {
               color: colors.dark[6],
-              borderColor: '#827127',
+              borderColor: colors.theme,
             },
             '&[data-invalid]': {
               borderColor: colors.red[6],
