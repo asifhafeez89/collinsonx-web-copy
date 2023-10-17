@@ -62,11 +62,15 @@ const availabilityMessagess: Record<string, string> = {
 
 interface AvailableSlotsErrorHandlingProps {
   error: ApolloError | unknown;
+  airportMismatch: boolean;
 }
 
 const AvailableSlotsErrorHandling: FC<AvailableSlotsErrorHandlingProps> = ({
   error,
+  airportMismatch,
 }) => {
+  if (airportMismatch) return null;
+
   const ENOUGH_CAPACITY_ERROR_IS_VALID = hasLoungeCapacity(error);
 
   if (ENOUGH_CAPACITY_ERROR_IS_VALID) {
@@ -434,6 +438,7 @@ export default function CheckAvailability() {
 
                         <AvailableSlotsErrorHandling
                           error={slotsError}
+                          airportMismatch={airportMismatch}
                         ></AvailableSlotsErrorHandling>
                         <div>
                           This is the time you will arrive at the lounge.
