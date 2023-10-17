@@ -51,7 +51,7 @@ export default function ConfirmPayment() {
 
   let interval = useRef<NodeJS.Timeout>();
 
-  const { lounge, referrerUrl, consumerData } = usePayload();
+  const { lounge, referrerUrl, consumerData, platform } = usePayload();
 
   const handleClickBack: MouseEventHandler<HTMLAnchorElement> = useCallback(
     (e) => {
@@ -385,17 +385,21 @@ export default function ConfirmPayment() {
                     direction={'column'}
                     align={'center'}
                   >
-                    <GenerateBookingConfirmedPdf
-                      adults={adults}
-                      arrival={arrival}
-                      children={children}
-                      departureTime={departureTime}
-                      emailAddress={consumerData?.getConsumerByID.emailAddress}
-                      flightNumber={flightNumber}
-                      infants={infants}
-                      lounge={lounge}
-                      reference={dataBooking?.getBookingByID.reference}
-                    />
+                    {platform === 'web' && (
+                      <GenerateBookingConfirmedPdf
+                        adults={adults}
+                        arrival={arrival}
+                        children={children}
+                        departureTime={departureTime}
+                        emailAddress={
+                          consumerData?.getConsumerByID.emailAddress
+                        }
+                        flightNumber={flightNumber}
+                        infants={infants}
+                        lounge={lounge}
+                        reference={dataBooking?.getBookingByID.reference}
+                      />
+                    )}
                     <Anchor
                       target="_top"
                       href={referrerUrl ? referrerUrl : '#'}
