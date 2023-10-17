@@ -10,7 +10,7 @@ import { TIME_FORMAT } from '../config/Constants';
 import { formatDate } from '../utils/DateFormatter';
 import { InfoGroup } from '@collinsonx/design-system/components/details';
 import { LoungeInfoPreBooked } from '@components/LoungeInfoPreBooked';
-import Heading from '@collinsonx/design-system/components/heading/Heading';
+import Price from '@components/Price';
 import { BookingStatus } from '@collinsonx/utils/generatedTypes/graphql';
 import priceToDisplay from 'utils/PriceToDisplay';
 import colors from 'ui/colour-constants';
@@ -107,24 +107,69 @@ export default function CancelBooking() {
                     >
                       {bookingDetails.getBookingByID.experience && (
                         <Stack spacing={8}>
-                          <EditableTitle title="" as="h3" showBorder={false}>
-                            <h2>
-                              {' '}
-                              {bookingDetails.getBookingByID.status ===
-                              BookingStatus.Cancelled
-                                ? ' Your Booking has been cancelled'
-                                : bookingDetails.getBookingByID.status ===
-                                  BookingStatus.CancelationFailed
-                                ? 'Your booking cancellation has failed, please contact our team'
-                                : 'Your booking could not be cancelled, please contact our team'}
-                            </h2>
-                          </EditableTitle>
                           <Box
                             sx={{
                               '@media (max-width: 768px)': {
-                                width: '100%',
-                                marginTop: '0rem',
-                                border: 'none',
+                                marginTop: '0.5rem',
+                                backgroundColor: colors.white,
+                                padding: '0 1.2rem',
+                              },
+                            }}
+                          >
+                            <EditableTitle title="" as="h3" showBorder={false}>
+                              <h2>
+                                {' '}
+                                {bookingDetails.getBookingByID.status ===
+                                BookingStatus.Cancelled
+                                  ? ' Your Booking has been cancelled'
+                                  : bookingDetails.getBookingByID.status ===
+                                    BookingStatus.CancelationFailed
+                                  ? 'Your booking cancellation has failed, please contact our team'
+                                  : 'Your booking could not be cancelled, please contact our team'}
+                              </h2>
+                            </EditableTitle>
+                          </Box>
+                          <Box
+                            sx={{
+                              '@media (max-width: 768px)': {
+                                marginTop: '0.5rem',
+                                backgroundColor: colors.white,
+                                padding: '1.2rem',
+                              },
+                            }}
+                          >
+                            <EditableTitle
+                              title="Booking Reference:"
+                              as="h3"
+                              showBorder={false}
+                            >
+                              {bookingDetails?.getBookingByID?.reference}
+                            </EditableTitle>
+                            {bookingDetails?.getBookingByID?.consumer && (
+                              <Text
+                                sx={{
+                                  '@media (max-width: 768px)': {
+                                    paddingLeft: '1.25rem',
+                                  },
+                                  padding: '1.25rem ',
+                                }}
+                              >
+                                A confirmation email has been sent to{' '}
+                                <strong>
+                                  {
+                                    bookingDetails?.getBookingByID?.consumer
+                                      .emailAddress
+                                  }
+                                </strong>
+                              </Text>
+                            )}
+                          </Box>
+                          <Box
+                            sx={{
+                              '@media (max-width: 768px)': {
+                                marginTop: '0.5rem',
+                                backgroundColor: colors.white,
+                                padding: '1.2rem',
                               },
                             }}
                           >
@@ -145,51 +190,105 @@ export default function CancelBooking() {
                               />
                             </EditableTitle>
                           </Box>
-
-                          <EditableTitle title="  Who's coming?" as="h2">
-                            <p style={{ marginTop: '0px' }}>
-                              You can book up to 5 people
-                            </p>
-                            <GuestCount
-                              adults={
-                                bookingDetails.getBookingByID.guestAdultCount
-                              }
-                              children={
-                                bookingDetails.getBookingByID.guestChildrenCount
-                              }
-                              infants={
-                                bookingDetails.getBookingByID.guestInfantCount
-                              }
-                            />
-                          </EditableTitle>
-
-                          <EditableTitle
-                            title="Time of visit (local)"
-                            as="h3"
-                            showBorder={false}
+                          <Box
+                            sx={{
+                              '@media (max-width: 768px)': {
+                                marginTop: '0.5rem',
+                                backgroundColor: colors.white,
+                                padding: '1.2rem',
+                              },
+                            }}
                           >
-                            <Flex
-                              direction={{ base: 'column', sm: 'row' }}
-                              gap={10}
+                            <EditableTitle
+                              title="Who's coming?"
+                              as="h3"
+                              showBorder={false}
                             >
-                              <p style={{ padding: '0', margin: '0' }}>
-                                {' '}
-                                {formatDate(
-                                  new Date(
-                                    `${bookingDetails?.getBookingByID.bookedFrom}`
-                                  ),
-                                  TIME_FORMAT
-                                )}{' '}
-                                -{' '}
-                                {formatDate(
-                                  new Date(
-                                    `${bookingDetails?.getBookingByID.lastArrival}`
-                                  ),
-                                  TIME_FORMAT
-                                )}
-                              </p>{' '}
-                            </Flex>
-                          </EditableTitle>
+                              <GuestCount
+                                adults={
+                                  bookingDetails.getBookingByID.guestAdultCount
+                                }
+                                children={
+                                  bookingDetails.getBookingByID
+                                    .guestChildrenCount
+                                }
+                                infants={
+                                  bookingDetails.getBookingByID.guestInfantCount
+                                }
+                              />
+                            </EditableTitle>
+                          </Box>
+                          <Box
+                            sx={{
+                              width: 'initial',
+
+                              '@media (max-width: 768px)': {
+                                margin: '0.5rem 0',
+                                backgroundColor: colors.white,
+                                padding: '1.2rem',
+                              },
+                            }}
+                          >
+                            <EditableTitle
+                              title="Total price"
+                              as="h3"
+                              showBorder={false}
+                            >
+                              <Price
+                                lounge={
+                                  bookingDetails?.getBookingByID?.experience
+                                }
+                                guests={{
+                                  adults:
+                                    bookingDetails?.getBookingByID
+                                      ?.guestAdultCount,
+                                  infants:
+                                    bookingDetails?.getBookingByID
+                                      ?.guestInfantCount,
+                                  children:
+                                    bookingDetails?.getBookingByID
+                                      ?.guestChildrenCount,
+                                }}
+                              ></Price>
+                            </EditableTitle>
+                          </Box>
+                          <Box
+                            sx={{
+                              '@media (max-width: 768px)': {
+                                marginTop: '0.5rem',
+                                backgroundColor: colors.white,
+                                padding: '1.2rem',
+                              },
+                            }}
+                          >
+                            <EditableTitle
+                              title="Time of visit (local)"
+                              as="h3"
+                              showBorder={false}
+                            >
+                              <Flex
+                                direction={{ base: 'column', sm: 'row' }}
+                                gap={10}
+                              >
+                                <p style={{ padding: '0', margin: '0' }}>
+                                  {' '}
+                                  {formatDate(
+                                    new Date(
+                                      `${bookingDetails?.getBookingByID.bookedFrom}`
+                                    ),
+                                    TIME_FORMAT
+                                  )}{' '}
+                                  -{' '}
+                                  {formatDate(
+                                    new Date(
+                                      `${bookingDetails?.getBookingByID.lastArrival}`
+                                    ),
+                                    TIME_FORMAT
+                                  )}
+                                </p>{' '}
+                              </Flex>
+                            </EditableTitle>
+                          </Box>
                         </Stack>
                       )}
                     </Box>
