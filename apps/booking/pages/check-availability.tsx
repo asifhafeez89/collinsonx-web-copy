@@ -42,7 +42,7 @@ import usePayload from 'hooks/payload';
 import { InfoGroup } from '@collinsonx/design-system/components/details';
 import { BookingContext } from 'context/bookingContext';
 import dayjs from 'dayjs';
-import { MOBILE_ACTION_BACK, constants } from '../constants';
+import { BookingError, MOBILE_ACTION_BACK, constants } from '../constants';
 import colors from 'ui/colour-constants';
 import BackToLounge from '@components/BackToLounge';
 import BookingLightbox from '@collinsonx/design-system/components/bookinglightbox';
@@ -52,14 +52,25 @@ import { InfoPanel } from 'utils/PanelInfo';
 import { GuestCount } from '@components/guests/GuestCount';
 import { log, sendMobileEvent } from '../lib/index';
 import { FlightContext } from 'context/flightContext';
+import getError from 'utils/getError';
+
+const { BAD_USER_INPUT } = BookingError;
+
+const availabilityMessagess: Record<string, string> = {
+  [BAD_USER_INPUT]: 'Please select your estimated arrival time',
+};
 
 interface AvailableSlotsErrorHandlingProps {
   error: ApolloError | unknown;
+  airportMismatch: boolean;
 }
 
 const AvailableSlotsErrorHandling: FC<AvailableSlotsErrorHandlingProps> = ({
   error,
+  airportMismatch,
 }) => {
+  if (airportMismatch) return null;
+
   const ENOUGH_CAPACITY_ERROR_IS_VALID = hasLoungeCapacity(error);
 
   if (ENOUGH_CAPACITY_ERROR_IS_VALID) {
@@ -75,7 +86,7 @@ const AvailableSlotsErrorHandling: FC<AvailableSlotsErrorHandlingProps> = ({
   return null;
 };
 
-export default function ConfirmAvailability() {
+export default function CheckAvailability() {
   const router = useRouter();
 
   const { getBooking, setBooking } = useContext(BookingContext);
@@ -85,6 +96,7 @@ export default function ConfirmAvailability() {
   const { referrerUrl, lounge, linkedAccountId } = usePayload();
   const [airportMismatch, setAirportMismatch] = useState(false);
   const [terminalMismatch, setTerminalMismath] = useState(false);
+  const [message, setMessage] = useState('');
 
   const booking = getBooking();
   const flightData = getFlight();
@@ -107,6 +119,8 @@ export default function ConfirmAvailability() {
   };
 
   const handleSubmit = () => {
+    setMessage('');
+
     const availableSlots = slotsData?.getAvailableSlots.slots;
     const slot = findSelectedSlot(availableSlots, selectedslot);
 
@@ -115,6 +129,10 @@ export default function ConfirmAvailability() {
     const localTimeHour = dayjs(flightData?.departure?.dateTime?.local);
     const utcTimeHour = dayjs(flightData?.departure?.dateTime?.utc);
     const timeDifference = utcTimeHour.diff(localTimeHour, 'hour');
+
+    if (!slot) {
+      return setMessage(availabilityMessagess[BAD_USER_INPUT]);
+    }
 
     const utcStartDate = formatDateUTC(
       slot?.startDate,
@@ -152,19 +170,19 @@ export default function ConfirmAvailability() {
       },
     };
 
-    mutate({
-      variables: { bookingInput },
-      onCompleted(data) {
-        if (data?.createBooking) {
-          booking.bookingId = data.createBooking.id;
+    mutate({ variables: { bookingInput } }).then((response) => {
+      const badUserInputError = getError(response, BAD_USER_INPUT);
+      if (badUserInputError) {
+        return setMessage(availabilityMessagess[BAD_USER_INPUT]);
+      } else if (response.data?.createBooking) {
+        booking.bookingId = response.data.createBooking.id;
 
-          setBooking(booking);
+        setBooking(booking);
 
-          router.push({
-            pathname: '/confirm-booking',
-          });
-        }
-      },
+        router.push({
+          pathname: '/confirm-booking',
+        });
+      }
     });
   };
 
@@ -349,6 +367,7 @@ export default function ConfirmAvailability() {
                 >
                   {lounge && (
                     <Stack spacing={8}>
+                      {message && <Notification>{message}</Notification>}
                       <EditableTitle title="Flight details" to="/" as="h2">
                         {departureTime && (
                           <Details
@@ -420,6 +439,7 @@ export default function ConfirmAvailability() {
 
                         <AvailableSlotsErrorHandling
                           error={slotsError}
+                          airportMismatch={airportMismatch}
                         ></AvailableSlotsErrorHandling>
                         <div>
                           This is the time you will arrive at the lounge.
@@ -475,4 +495,4 @@ export default function ConfirmAvailability() {
   );
 }
 
-ConfirmAvailability.getLayout = (page: JSX.Element) => <>{page}</>;
+CheckAvailability.getLayout = (page: JSX.Element) => <>{page}</>;
