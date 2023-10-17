@@ -262,10 +262,14 @@ export default function CancelBooking() {
                             }}
                           >
                             <EditableTitle
-                              title="Time of visit (local)"
+                              title="Estimated time of arrival"
                               as="h3"
                               showBorder={false}
                             >
+                              <p style={{ padding: '0', margin: '0' }}>
+                                Timeslots are shown in the time zone of the
+                                lounge location
+                              </p>
                               <Flex
                                 direction={{ base: 'column', sm: 'row' }}
                                 gap={10}

@@ -184,10 +184,14 @@ export default function ConfirmBooking() {
                         </Box>
                       </Flex>
                       <EditableTitle
-                        title="Time of visit (local)"
+                        title="Estimated time of arrival"
                         as="h2"
                         showBorder={true}
                       >
+                        <p style={{ padding: '0', margin: '0' }}>
+                          Timeslots are shown in the time zone of the lounge
+                          location
+                        </p>
                         <Flex direction="row" gap={5}>
                           <p style={{ padding: '0', margin: '0' }}>
                             {' '}
@@ -202,12 +206,6 @@ export default function ConfirmBooking() {
                           hours of booking arrival time, including new bookings
                           made within that time range.
                         </p>
-                        <div>
-                          <p>
-                            As your flight is at {flightTimeToDisplay}, your
-                            maximum stay is 3 hours prior.
-                          </p>
-                        </div>
                         <div>
                           <p>
                             Please confirm details are correct before making
