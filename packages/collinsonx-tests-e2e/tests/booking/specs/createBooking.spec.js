@@ -210,7 +210,7 @@ test.describe('Create booking flow', () => {
   });
 
   test.describe('BKG-008 - Create Booking with incorrect format for the Flight Number', () => {
-    test('User should see an error message should be displayed indicating that the flight number is invalid.', async ({
+    test('User should see an error message indicating that the flight number is invalid.', async ({
       page,
     }) => {
       // Arrange

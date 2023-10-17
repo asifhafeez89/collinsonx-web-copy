@@ -385,7 +385,7 @@ test.describe('Onboarding flow', () => {
       const id = uuidv4() + process.env.ENV.toLowerCase();
       const email = `${id}@${mailinatorAddress}`;
       const payload = {
-        membershipNumber: '781',
+        membershipNumber: '98794810',
         externalId: uuidv4(),
         email,
         firstName,
@@ -401,7 +401,6 @@ test.describe('Onboarding flow', () => {
       const pin = await getPinFromEmail(email);
       await enterPinPage.enterPin(pin);
       await enterPinPage.clickVerify();
-      await registrationPage.clickConfirm();
 
       // Assert
       const errorElement = await enterEmailPage.incorrectEmailError();
@@ -409,41 +408,37 @@ test.describe('Onboarding flow', () => {
     });
   });
 
-  test.describe.skip(
-    'ONB-016 - User registration with new email and existing external ID',
-    () => {
-      test('User should see a linked to a different email address error message', async ({
-        page,
-      }) => {
-        // Arrange
-        const { enterEmailPage, enterPinPage, registrationPage } =
-          await getPageObjectModel(page);
-        const id = uuidv4() + process.env.ENV.toLowerCase();
-        const email = `${id}@${mailinatorAddress}`;
+  test.describe('ONB-016 - User registration with new email and existing external ID', () => {
+    test('User should see a linked to a different email address error message', async ({
+      page,
+    }) => {
+      // Arrange
+      const { enterEmailPage, enterPinPage, registrationPage } =
+        await getPageObjectModel(page);
+      const id = uuidv4() + process.env.ENV.toLowerCase();
+      const email = `${id}@${mailinatorAddress}`;
 
-        const payload = {
-          membershipNumber: uuidv4(),
-          externalId: '071189',
-          email,
-          firstName,
-          lastName,
-          membershipType,
-          accountProvider,
-        };
-        const jwt = await signJWT(payload, secret);
+      const payload = {
+        membershipNumber: uuidv4(),
+        externalId: '071189',
+        email,
+        firstName,
+        lastName,
+        membershipType,
+        accountProvider,
+      };
+      const jwt = await signJWT(payload, secret);
 
-        // Act
-        await redirectToBaas(page, jwt, lounge);
-        await enterEmailPage.clickContinue();
-        const pin = await getPinFromEmail(email);
-        await enterPinPage.enterPin(pin);
-        await enterPinPage.clickVerify();
-        await registrationPage.clickConfirm();
+      // Act
+      await redirectToBaas(page, jwt, lounge);
+      await enterEmailPage.clickContinue();
+      const pin = await getPinFromEmail(email);
+      await enterPinPage.enterPin(pin);
+      await enterPinPage.clickVerify();
 
-        // Assert
-        const errorElement = await enterEmailPage.incorrectEmailError();
-        await expect(errorElement).not.toBeNull();
-      });
-    }
-  );
+      // Assert
+      const errorElement = await enterEmailPage.incorrectEmailError();
+      await expect(errorElement).not.toBeNull();
+    });
+  });
 });
