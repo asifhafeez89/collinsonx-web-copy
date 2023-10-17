@@ -59,7 +59,7 @@ const GuestInfo = ({ form, loading, referreUrl }: GuestInfoProps) => {
         </Title>
         <Flex direction="row" align="top" gap={8}>
           <Box pt={2}>
-            <Warning style={{ width: 16, height: 16 }} fill="black" />
+            <Warning style={{ width: 16, height: 16 }} />
           </Box>
           <p style={{ marginTop: '0px' }}>
             Maximum group size is 5, excluding infants. Please check
