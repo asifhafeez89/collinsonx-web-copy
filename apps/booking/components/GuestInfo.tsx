@@ -91,7 +91,7 @@ const GuestInfo = ({ form, loading, referreUrl }: GuestInfoProps) => {
             />
           </Grid.Col>
         </Grid>
-        <Text size={14}>
+        <Text size={14} pt={16}>
           Refer to{' '}
           <Anchor
             color={colors.blue}

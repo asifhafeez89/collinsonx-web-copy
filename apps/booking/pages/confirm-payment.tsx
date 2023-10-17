@@ -301,6 +301,7 @@ export default function ConfirmPayment() {
 
                           '@media (max-width: 768px)': {
                             width: '100%',
+                            border: 'none',
                           },
                         }}
                       >

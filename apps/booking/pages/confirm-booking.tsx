@@ -142,6 +142,7 @@ export default function ConfirmBooking() {
 
                           '@media (max-width: 768px)': {
                             width: '100%',
+                            border: 'none',
                           },
                         }}
                       >
