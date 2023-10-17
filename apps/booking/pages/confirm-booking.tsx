@@ -2,7 +2,7 @@ import Layout from '@components/Layout';
 import { Box, Flex, Stack } from '@collinsonx/design-system/core';
 import { LoungeInfo } from '@components/LoungeInfo';
 import { Details, Button } from '@collinsonx/design-system';
-import { useContext, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import { constants } from '../constants';
 import usePayload from 'hooks/payload';
@@ -29,6 +29,8 @@ export default function ConfirmBooking() {
   const { flightNumber, children, bookingId, adults, infants, arrival } =
     getBooking();
 
+  const layoutRef = useRef<HTMLDivElement>(null);
+
   const flightData = getFlight();
 
   const totalQuantity: number = Number(adults + children);
@@ -53,6 +55,9 @@ export default function ConfirmBooking() {
     } catch (error) {
       log(error);
     }
+    if (window) {
+      layoutRef.current?.scrollTo(0, 0);
+    }
   };
 
   const departureTime = flightData?.departure?.dateTime?.local;
@@ -66,7 +71,7 @@ export default function ConfirmBooking() {
   );
 
   return (
-    <Layout>
+    <Layout ref={layoutRef}>
       <Stack spacing={16} sx={{ backgroundColor: colors.background }}>
         <Stack>
           <BackToLounge />
