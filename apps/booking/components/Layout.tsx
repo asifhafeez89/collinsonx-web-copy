@@ -50,7 +50,7 @@ export default function Layout({ children }: LayoutProps) {
           marginTop: '10rem',
           '@media (max-width: 768px)': {
             marginTop: '6rem',
-            padding: '0',
+            padding: '0 0 1.3rem 0',
           },
         }}
       >
