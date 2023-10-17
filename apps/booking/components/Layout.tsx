@@ -1,6 +1,6 @@
 import { Box, Center, Container } from '@collinsonx/design-system/core';
 
-import { ReactNode } from 'react';
+import { ReactNode, Ref, forwardRef } from 'react';
 import usePayload from 'hooks/payload';
 import AppLogo from './AppLogo';
 import colors from 'ui/colour-constants';
@@ -8,8 +8,9 @@ import colors from 'ui/colour-constants';
 interface LayoutProps {
   children: ReactNode;
 }
+type ContainerRef = Ref<HTMLDivElement> | undefined;
 
-export default function Layout({ children }: LayoutProps) {
+const Layout = forwardRef(({ children }: LayoutProps, ref: ContainerRef) => {
   const { payload, setPayload } = usePayload();
 
   return (
@@ -25,6 +26,7 @@ export default function Layout({ children }: LayoutProps) {
         },
         overflow: 'scroll',
       }}
+      ref={ref}
     >
       <Box
         sx={{
@@ -50,7 +52,7 @@ export default function Layout({ children }: LayoutProps) {
           marginTop: '10rem',
           '@media (max-width: 768px)': {
             marginTop: '6rem',
-            padding: '0',
+            padding: '0 0 1.3rem 0',
           },
         }}
       >
@@ -58,4 +60,6 @@ export default function Layout({ children }: LayoutProps) {
       </Box>
     </Container>
   );
-}
+});
+
+export default Layout;
