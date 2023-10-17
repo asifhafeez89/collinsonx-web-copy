@@ -33,7 +33,8 @@ import { getConsumerByID } from '@collinsonx/utils/queries';
 import { LinkedAccount } from '@collinsonx/utils/generatedTypes/graphql';
 import { accountIsEqual, log } from '../../lib/index';
 
-const { ERR_MEMBERSHIP_ALREADY_CONNECTED } = BookingError;
+const { ERR_MEMBERSHIP_ALREADY_CONNECTED, ERR_TOKEN_INVALID_OR_EXPIRED } =
+  BookingError;
 const { tooManyAttempts, expiredJwt } = PinLockoutError;
 const { bookingId } = BookingQueryParams;
 
@@ -45,6 +46,7 @@ export default function CheckEmail() {
     setLinkedAccountId,
     setLayoutError,
     setConsumerData,
+    setTokenError,
   } = usePayload();
   const router = useRouter();
   const email = router.query?.email as string;
@@ -137,8 +139,11 @@ export default function CheckEmail() {
         response,
         ERR_MEMBERSHIP_ALREADY_CONNECTED
       );
+      const tokenError = getError(response, ERR_TOKEN_INVALID_OR_EXPIRED);
 
-      if (alreadyConnectedError) {
+      if (tokenError) {
+        setTokenError('Sorry, service is not available');
+      } else if (alreadyConnectedError) {
         log('[SIGN OUT]: membership already connected');
         return Session.signOut().then(() => {
           setLayoutError(ERR_MEMBERSHIP_ALREADY_CONNECTED);
