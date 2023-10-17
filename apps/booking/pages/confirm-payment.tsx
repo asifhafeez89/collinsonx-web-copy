@@ -346,10 +346,14 @@ export default function ConfirmPayment() {
                         }}
                       >
                         <EditableTitle
-                          title="Time of visit (local)"
+                          title="Estimated time of arrival"
                           as="h2"
                           showBorder={true}
                         >
+                          <p style={{ padding: '0', margin: '0' }}>
+                            Timeslots are shown in the time zone of the lounge
+                            location
+                          </p>
                           <Flex direction="row" gap={5}>
                             <p style={{ padding: '0', margin: '0' }}>
                               {' '}

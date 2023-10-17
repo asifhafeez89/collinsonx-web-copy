@@ -10,6 +10,7 @@ import {
   Stack,
   Button,
   Center,
+  ActionIcon,
 } from '@collinsonx/design-system/core';
 import {
   BookingType,
@@ -53,6 +54,7 @@ import { GuestCount } from '@components/guests/GuestCount';
 import { log, sendMobileEvent } from '../lib/index';
 import { FlightContext } from 'context/flightContext';
 import getError from 'utils/getError';
+import { Clock, Warning } from '@collinsonx/design-system/assets/icons';
 
 const { BAD_USER_INPUT } = BookingError;
 
@@ -428,7 +430,42 @@ export default function CheckAvailability() {
                         </Box>
                       </Flex>
 
-                      <EditableTitle title="" as="h2" showBorder={true}>
+                      <EditableTitle
+                        title="Estimated time of arrival"
+                        as="h2"
+                        showBorder={true}
+                      >
+                        <Flex
+                          align={'center'}
+                          gap={'xs'}
+                          sx={{
+                            '@media (max-width: 768px)': {
+                              alignItems: 'flex-start',
+                            },
+                          }}
+                        >
+                          <ActionIcon
+                            sx={{
+                              color: '#000',
+                              svg: {
+                                width: 20,
+                                height: 20,
+                              },
+                            }}
+                          >
+                            <Warning />
+                          </ActionIcon>
+                          <p
+                            style={{
+                              padding: '0',
+                              margin: '0',
+                              paddingLeft: '10',
+                            }}
+                          >
+                            Timeslots are shown in the time zone of the lounge
+                            location
+                          </p>
+                        </Flex>
                         {slotsData ? (
                           <AvailableSlots
                             onSelectSlot={handleSelectSlot}
@@ -443,6 +480,38 @@ export default function CheckAvailability() {
                         <div>
                           This is the time you will arrive at the lounge.
                         </div>
+                        <Flex
+                          align={'center'}
+                          gap={'xs'}
+                          sx={{
+                            '@media (max-width: 768px)': {
+                              alignItems: 'flex-start',
+                            },
+                          }}
+                        >
+                          <ActionIcon
+                            sx={{
+                              color: '#000',
+                              svg: {
+                                width: 20,
+                                height: 20,
+                              },
+                            }}
+                          >
+                            <Clock />
+                          </ActionIcon>
+                          <p
+                            style={{
+                              padding: '0',
+                              margin: '0',
+                              paddingLeft: '10',
+                            }}
+                          >
+                            As your flight is at{' '}
+                            <strong>{flightTimeToDisplay}</strong>, your maximum
+                            stay is <strong>3 hours prior</strong>.
+                          </p>
+                        </Flex>
                       </EditableTitle>
                       <EditableTitle
                         title="Cancellation policy"
@@ -456,9 +525,9 @@ export default function CheckAvailability() {
                           made within that time range.
                         </p>
                         <div>
-                          <p>
-                            As your flight is at {flightTimeToDisplay}, your
-                            maximum stay is 3 hours prior.
+                          <p style={{ padding: '0', margin: '0' }}>
+                            Please confirm details are correct before making
+                            payment.
                           </p>
                         </div>
                       </EditableTitle>

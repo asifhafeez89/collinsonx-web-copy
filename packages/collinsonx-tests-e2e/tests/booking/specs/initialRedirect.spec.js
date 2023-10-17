@@ -94,46 +94,6 @@ test.describe('Initial Redirect to BAAS page', () => {
     });
   });
 
-  // Failing
-  test.describe.skip('RDR-005 - Valid JWT with invalid expiration date', () => {
-    test('should redirect to service not available page', async ({ page }) => {
-      // Arrange
-      const errorPage = new ErrorPage(page);
-      const membershipNumber = uuidv4();
-      const externalId = uuidv4();
-      const payload = { membershipNumber, externalId, accountProvider };
-      const invalidexpiration = '0h';
-      const jwt = await signJWT(payload, secret, invalidexpiration);
-
-      // Act
-      await redirectToBaas(page, jwt, lounge);
-
-      // Assert
-      const errorElement = await errorPage.serviceNotAvailableError();
-      await expect(errorElement).not.toBeNull();
-    });
-  });
-
-  // Failing
-  test.describe.skip('RDR-006 - Invalid JWT signature', () => {
-    test('should redirect to service not available page', async ({ page }) => {
-      // Arrange
-      const errorPage = new ErrorPage(page);
-      const membershipNumber = uuidv4();
-      const externalId = uuidv4();
-      const payload = { membershipNumber, externalId, accountProvider };
-      const secret = 'invalid';
-      const jwt = await signJWT(payload, secret);
-
-      // Act
-      await redirectToBaas(page, jwt, lounge);
-
-      // Assert
-      const errorElement = await errorPage.serviceNotAvailableError();
-      await expect(errorElement).not.toBeNull();
-    });
-  });
-
   test.describe('RDR-007 - Valid JWT and optional email', () => {
     test('should redirect successfully and user can see Enter your email page with the email pre-populated', async ({
       page,

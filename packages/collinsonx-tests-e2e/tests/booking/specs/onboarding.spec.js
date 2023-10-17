@@ -6,6 +6,7 @@ import EnterEmailPage from '../pages/EnterEmailPage';
 import EnterPinPage from '../pages/EnterPinPage';
 import RegistrationPage from '../pages/RegistrationPage';
 import PreBookPage from '../pages/PreBookPage';
+import ErrorPage from '../pages/ErrorPage';
 
 import { mailinatorAddress } from '../config';
 import { test, expect } from '../../../baseFixtures';
@@ -23,7 +24,14 @@ async function getPageObjectModel(page) {
   const enterPinPage = new EnterPinPage(page);
   const registrationPage = new RegistrationPage(page);
   const preBookPage = new PreBookPage(page);
-  return { enterEmailPage, enterPinPage, registrationPage, preBookPage };
+  const errorPage = new ErrorPage(page);
+  return {
+    enterEmailPage,
+    enterPinPage,
+    registrationPage,
+    preBookPage,
+    errorPage,
+  };
 }
 
 async function assertRegistrationPageDetails(
@@ -438,6 +446,40 @@ test.describe('Onboarding flow', () => {
 
       // Assert
       const errorElement = await enterEmailPage.incorrectEmailError();
+      await expect(errorElement).not.toBeNull();
+    });
+  });
+
+  test.describe('Invalid JWT secret', () => {
+    test('should redirect to service not available page', async ({ page }) => {
+      // Arrange
+      const { enterEmailPage, enterPinPage, errorPage } =
+        await getPageObjectModel(page);
+      const membershipNumber = uuidv4();
+      const secret = 'invalid';
+      const externalId = uuidv4();
+      const id = uuidv4() + process.env.ENV.toLowerCase();
+      const email = `${id}@${mailinatorAddress}`;
+      const payload = {
+        membershipNumber,
+        externalId,
+        accountProvider,
+        email,
+        firstName,
+        lastName,
+      };
+      const jwt = await signJWT(payload, secret);
+
+      // Act
+      await redirectToBaas(page, jwt, lounge);
+      await enterEmailPage.clickContinue();
+      await page.waitForTimeout(5000);
+      const pin = await getPinFromEmail(email);
+      await enterPinPage.enterPin(pin);
+      await enterPinPage.clickVerify();
+
+      // Assert
+      const errorElement = await errorPage.serviceNotAvailableError();
       await expect(errorElement).not.toBeNull();
     });
   });
