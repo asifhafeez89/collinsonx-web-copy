@@ -50,14 +50,25 @@ const ShowDesktop = ({ children }: ShowDesktopInterface) => {
   );
 };
 
+const size = {
+  desktop: {
+    width: '28em',
+    height: '6em',
+  },
+  mobile: {
+    width: '14em',
+    height: '3em',
+  },
+};
+
 const logos: Record<AccountProvider | string, ReactNode> = {
   [LK]: (
     <>
       <ShowDesktop>
-        <LogoLK width="28em" height="8em" />
+        <LogoLK width={size.desktop.width} height={size.desktop.height} />
       </ShowDesktop>
       <ShowMobile>
-        <LogoLK width="14em" height="4em" />
+        <LogoLK height={size.mobile.height} />
       </ShowMobile>
     </>
   ),
@@ -65,20 +76,20 @@ const logos: Record<AccountProvider | string, ReactNode> = {
   [PP]: (
     <>
       <ShowDesktop>
-        <LogoPP width="28em" height="8em" />
+        <LogoPP width={size.desktop.width} height={size.desktop.height} />
       </ShowDesktop>
       <ShowMobile>
-        <LogoPP width={'14em'} height="4em" />
+        <LogoPP height={size.mobile.height} />
       </ShowMobile>
     </>
   ),
   [Mastercard_HSBC]: (
     <>
       <ShowDesktop>
-        <LogoHSBC width="28em" height="8em" />
+        <LogoHSBC width={size.desktop.width} height={size.desktop.height} />
       </ShowDesktop>
       <ShowMobile>
-        <LogoHSBC width="14em" height="4em" />
+        <LogoHSBC height={size.mobile.height} />
       </ShowMobile>
     </>
   ),
