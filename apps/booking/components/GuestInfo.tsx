@@ -63,7 +63,7 @@ const GuestInfo = ({ form, loading, referreUrl }: GuestInfoProps) => {
           </Box>
           <p style={{ marginTop: '0px' }}>
             Maximum group size is 5, excluding infants. Please check
-            availability for lounge specific restrictions on number of infants.
+            availability for lounge-specific restrictions on number of infants.
           </p>
         </Flex>
         <Grid>
