@@ -146,10 +146,7 @@ export default function CancelBooking() {
                             </EditableTitle>
                           </Box>
 
-                          <EditableTitle title="  Who's coming?" as="h2">
-                            <p style={{ marginTop: '0px' }}>
-                              You can book up to 5 people
-                            </p>
+                          <EditableTitle title="Who's coming?" as="h2">
                             <GuestCount
                               adults={
                                 bookingDetails.getBookingByID.guestAdultCount

@@ -7,7 +7,10 @@ import {
   NumberInputHandlers,
   Grid,
   Box,
+  Flex,
 } from '@collinsonx/design-system/core';
+
+import { Warning } from '@collinsonx/design-system/assets/icons';
 import QuantityInput from './QuantityInput';
 import colors from 'ui/colour-constants';
 
@@ -51,10 +54,18 @@ const GuestInfo = ({ form, loading, referreUrl }: GuestInfoProps) => {
           },
         }}
       >
-        <Title order={3} size={18} pb={20}>
+        <Title order={3} size={18} pb={4}>
           Who&apos;s coming?
         </Title>
-        <p style={{ marginTop: '0px' }}>You can book up to 5 people</p>
+        <Flex direction="row" align="top" gap={8}>
+          <Box pt={2}>
+            <Warning style={{ width: 16, height: 16 }} fill="black" />
+          </Box>
+          <p style={{ marginTop: '0px' }}>
+            Maximum group size is 5, excluding infants. Please check
+            availability for lounge specific restrictions on number of infants.
+          </p>
+        </Flex>
         <Grid>
           <Grid.Col lg={6}>
             <QuantityInput

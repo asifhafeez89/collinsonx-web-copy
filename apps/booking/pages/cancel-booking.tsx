@@ -264,7 +264,6 @@ export default function CancelBooking() {
                               as="h3"
                               showBorder={false}
                             >
-                              <p>You can book up to 5 people</p>
                               <Flex direction="row" gap={10}>
                                 <Flex sx={{ width: '60%' }} gap={10}>
                                   <p style={{ padding: '0', margin: '0' }}>
