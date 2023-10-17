@@ -32,9 +32,6 @@ const AvailableSlots = ({
 
   return (
     <>
-      <Heading as="h2" padding={0} margin={0}>
-        Time of visit (local)
-      </Heading>
       <Select
         label=""
         placeholder="Select time"

@@ -1,6 +1,5 @@
-import { MantineThemeOverride, darken } from '@mantine/core';
+import { MantineThemeOverride } from '@mantine/core';
 import { rem } from '@mantine/core';
-import colors from '../colour-constants';
 
 type ThemeOptions = {
   fontFamily?: string;

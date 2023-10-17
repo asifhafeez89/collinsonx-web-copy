@@ -53,19 +53,20 @@ const {
 } = BookingQueryParams;
 
 type PayloadState = {
-  payload: BridgePayload | undefined;
-  jwt: string | undefined;
-  linkedAccountId: string | undefined;
-  loungeCode: string | undefined;
-  lounge: Experience | undefined;
-  referrerUrl: string | undefined;
-  layoutError: string | undefined;
-  platform: string | undefined;
-  setLayoutError: (err: string) => void;
-  setPayload(payload: BridgePayload): void;
-  setLinkedAccountId(linkedAccountId: string): void;
-  setConsumerData(consumer: Consumer): void;
   consumerData: Consumer | undefined;
+  jwt: string | undefined;
+  layoutError: string | undefined;
+  linkedAccountId: string | undefined;
+  lounge: Experience | undefined;
+  loungeCode: string | undefined;
+  payload: BridgePayload | undefined;
+  platform: string | undefined;
+  referrerUrl: string | undefined;
+  setConsumerData(consumer: Consumer): void;
+  setLayoutError: (err: string) => void;
+  setLinkedAccountId(linkedAccountId: string): void;
+  setPayload(payload: BridgePayload): void;
+  setTokenError: (err: string) => void;
 };
 
 const PayloadContext = createContext<PayloadState | null>(null);
@@ -202,7 +203,16 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       setReferrerUrl(referrer);
       setPlatform(platform);
 
-      const payload = decodeJWT(jwt) as unknown as BridgePayload;
+      let payload: BridgePayload;
+
+      try {
+        payload = decodeJWT(jwt) as BridgePayload;
+      } catch (e) {
+        log('Decode JWT error: ', e);
+        setPayloadErrorTitle('Sorry, service is not available');
+        setPayloadError(true);
+        return;
+      }
 
       if (!validatePayload(payload)) {
         log('JWT did not pass validatePayload() checks');
@@ -222,15 +232,17 @@ export const PayloadProvider = (props: PropsWithChildren) => {
   );
 
   useEffect(() => {
-    if (payloadError || tokenError !== undefined) {
-      setPayloadErrorTitle('Sorry, service is not available');
-    } else if (!loadingLounge && !lounge) {
-      setPayloadErrorTitle("Sorry we can't find the lounge you requested");
-      setPayloadErrorMessage(
-        "There might be an error in the system. We can't find the lounge you requested. Please try again or browse other options"
-      );
+    if (router.isReady && !session.loading) {
+      if (payloadError || tokenError !== undefined) {
+        setPayloadErrorTitle('Sorry, service is not available');
+      } else if (!loadingLounge && !lounge) {
+        setPayloadErrorTitle("Sorry we can't find the lounge you requested");
+        setPayloadErrorMessage(
+          "There might be an error in the system. We can't find the lounge you requested. Please try again or browse other options"
+        );
+      }
     }
-  }, [lounge, loadingLounge, tokenError]);
+  }, [lounge, loadingLounge, tokenError, router, session]);
 
   // user already logged-in
   useEffect(() => {
@@ -287,19 +299,20 @@ export const PayloadProvider = (props: PropsWithChildren) => {
   return (
     <PayloadContext.Provider
       value={{
-        payload,
-        setPayload,
+        consumerData,
         jwt,
+        layoutError,
+        linkedAccountId,
         lounge,
         loungeCode,
-        referrerUrl,
+        payload,
         platform,
-        linkedAccountId,
-        setLinkedAccountId,
-        layoutError,
-        setLayoutError,
-        consumerData,
+        referrerUrl,
         setConsumerData,
+        setLayoutError,
+        setLinkedAccountId,
+        setPayload,
+        setTokenError,
       }}
     >
       <MantineProvider

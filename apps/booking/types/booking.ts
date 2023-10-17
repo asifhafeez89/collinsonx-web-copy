@@ -1,4 +1,5 @@
 import { AccountProvider, Client } from '@collinsonx/constants/enums';
+import { JWTPayload } from 'jose';
 
 export enum BookingType {
   Reservation = 'RESERVATION',
@@ -38,7 +39,7 @@ export type LoungeSchema = {
 /**
  * https://lifestyle-x-wiki.atlassian.net/wiki/spaces/BAAS/pages/97419266/How+will+we+redirect+to+the+Bridge+App#Parameters-to-be-received-when-opening-the-Bridge-App-from-PP%2FLK
  */
-export interface BridgePayload {
+export interface BridgePayload extends JWTPayload {
   membershipNumber: string;
   externalId: string;
   email?: string;
