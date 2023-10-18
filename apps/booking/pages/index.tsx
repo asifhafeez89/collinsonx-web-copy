@@ -32,6 +32,7 @@ import EditableTitle from '@collinsonx/design-system/components/editabletitles/E
 import Price from '@components/Price';
 import { formatDate } from 'utils/DateFormatter';
 import { FlightContext } from 'context/flightContext';
+import Heading from '@collinsonx/design-system/components/heading/Heading';
 interface DepartureFlightInfo {
   airport: { iata: string };
   date: { local: string; utc: string };
@@ -171,7 +172,7 @@ const Lounge = () => {
             }}
           >
             <Stack
-              spacing={24}
+              spacing={12}
               sx={{
                 maxWidth: '591px',
 
@@ -180,6 +181,21 @@ const Lounge = () => {
                 },
               }}
             >
+              {' '}
+              <Center
+                sx={{
+                  padding: '0px',
+                  margin: '0',
+
+                  '@media (min-width: 768px)': {
+                    display: 'none',
+                  },
+                }}
+              >
+                <Heading as="h1" padding={0} margin={0} lineHeight={1}>
+                  Flight and guests entry
+                </Heading>
+              </Center>
               <LoungeInfo
                 guests={{
                   adults: form.getInputProps('adults').value,
@@ -190,13 +206,12 @@ const Lounge = () => {
                 loading={!lounge}
               />
               <FlightInfo form={form} loading={!lounge} />
-
               {guestError ? (
                 <Box
                   sx={{
                     '@media (max-width: 768px)': {
                       backgroundColor: colors.white,
-                      padding: '1.2rem',
+                      padding: '1.2rem 0',
                     },
                   }}
                 >
@@ -208,7 +223,6 @@ const Lounge = () => {
               ) : (
                 ''
               )}
-
               <GuestInfo
                 form={form}
                 loading={!lounge}

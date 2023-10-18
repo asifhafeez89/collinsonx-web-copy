@@ -70,7 +70,11 @@ function BookingLightbox({
             {ctaCancel}
           </Button>
 
-          <Button onClick={ctaForwardCall} sx={{ fontSize: '16px' }}>
+          <Button
+            onClick={ctaForwardCall}
+            variant="filled"
+            sx={{ fontSize: '16px' }}
+          >
             {ctaForward}
           </Button>
         </Flex>

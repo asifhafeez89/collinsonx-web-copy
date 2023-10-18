@@ -194,11 +194,33 @@ export default function ConfirmPayment() {
               },
             }}
           >
-            <LoungeInfo
-              guests={{ adults, children, infants }}
-              lounge={lounge}
-              loading={!lounge}
-            />
+            <Center
+              sx={{
+                padding: '10px',
+                margin: '0',
+
+                '@media (min-width: 768px)': {
+                  display: 'none',
+                },
+              }}
+            >
+              <Heading as="h1" padding={0} margin={0} lineHeight={1}>
+                Booking confirmation
+              </Heading>
+            </Center>
+            <Box
+              sx={{
+                '@media (max-width: 480px)': {
+                  display: 'none',
+                },
+              }}
+            >
+              <LoungeInfo
+                guests={{ adults, children, infants }}
+                lounge={lounge}
+                loading={!lounge}
+              />
+            </Box>
 
             <Flex
               gap={0}
@@ -228,9 +250,10 @@ export default function ConfirmPayment() {
                         lineHeight: '2.25rem',
                         fontWeight: '700',
                       }}
-                      as="h1"
+                      as="h2"
                       padding={0}
                       margin={0}
+                      lineHeight={1.3}
                     >
                       <Box
                         sx={{
@@ -244,7 +267,7 @@ export default function ConfirmPayment() {
                     </Heading>
                     <EditableTitle
                       title=" Booking reference"
-                      as="h2"
+                      as="h3"
                       showBorder={true}
                     >
                       Booking reference {''}{' '}
@@ -365,7 +388,7 @@ export default function ConfirmPayment() {
 
                       <EditableTitle
                         title="Important Notes"
-                        as="h3"
+                        as="h2"
                         showBorder={false}
                       >
                         <ul style={{ paddingLeft: '1em' }}>
