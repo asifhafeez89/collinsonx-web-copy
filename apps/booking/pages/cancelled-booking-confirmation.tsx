@@ -1,6 +1,6 @@
 import { useQuery } from '@collinsonx/utils/apollo';
 import Layout from '@components/Layout';
-import { Box, Flex, Stack, Text } from '@collinsonx/design-system/core';
+import { Box, Center, Flex, Stack, Text } from '@collinsonx/design-system/core';
 import { Booking } from '@collinsonx/utils/generatedTypes/graphql';
 import { useRouter } from 'next/router';
 import { getBookingByID } from '@collinsonx/utils/queries';
@@ -18,6 +18,7 @@ import { InfoPanel } from 'utils/PanelInfo';
 import BackToLounge from '@components/BackToLounge';
 import { GuestCount } from '@components/guests/GuestCount';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
+import Heading from '@collinsonx/design-system/components/heading/Heading';
 
 export default function CancelBooking() {
   const router = useRouter();
@@ -55,9 +56,10 @@ export default function CancelBooking() {
             }}
           >
             <Stack
-              spacing={12}
+              spacing={8}
               sx={{
                 width: '591px',
+                marginTop: '2rem',
 
                 '@media (max-width: 768px)': {
                   width: '100%',
@@ -65,6 +67,20 @@ export default function CancelBooking() {
                 },
               }}
             >
+              <Center
+                sx={{
+                  padding: '10px',
+                  margin: '0',
+
+                  '@media (min-width: 768px)': {
+                    display: 'none',
+                  },
+                }}
+              >
+                <Heading as="h1" padding={0} margin={0} lineHeight={1}>
+                  Booking confirmation
+                </Heading>
+              </Center>
               {bookingDetails?.getBookingByID?.price &&
                 bookingDetails.getBookingByID.experience && (
                   <LoungeInfoPreBooked
@@ -98,17 +114,16 @@ export default function CancelBooking() {
                         width: '100%',
                         '@media (max-width: 768px)': {
                           width: '100%',
-                          gap: '0.5rem',
+                          gap: '0px',
                           border: 'none',
                         },
                       }}
                     >
                       {bookingDetails.getBookingByID.experience && (
-                        <Stack spacing={8}>
+                        <Stack spacing={0}>
                           <Box
                             sx={{
                               '@media (max-width: 768px)': {
-                                marginTop: '0.5rem',
                                 backgroundColor: colors.white,
                                 padding: '0 1.2rem',
                               },

@@ -1,5 +1,6 @@
 import { MantineThemeOverride } from '@mantine/core';
 import { rem } from '@mantine/core';
+import colors from '../colour-constants';
 
 type ThemeOptions = {
   fontFamily?: string;
@@ -113,9 +114,9 @@ const baseTheme = ({
             fontSize: 18,
             height: 44,
 
-            '&:hover': {
-              backgroundColor: theme.fn.darken(theme.colors.brandColor[0], 0.1),
-            },
+            // '&:hover': {
+            //   backgroundColor: theme.fn.darken(theme.colors.brandColor[0], 0.1),
+            // },
           },
         }),
       },

@@ -20,6 +20,7 @@ import { useForm, UseFormReturnType } from '@mantine/form';
 import { Labrada } from 'next/font/google';
 
 import { MAX_GUESTS, MOBILE_ACTION_BACK } from '../constants';
+import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 
 export interface GuestInfoProps {
   form: UseFormReturnType<any, any>;
@@ -50,7 +51,7 @@ const GuestInfo = ({ form, loading, referreUrl }: GuestInfoProps) => {
     <Stack
       sx={{
         borderTop: `1px solid ${colors.borderColor}`,
-        paddingTop: '1rem',
+        paddingTop: '0',
         backgroundColor: 'none',
 
         '@media (max-width: 768px)': {
@@ -59,17 +60,7 @@ const GuestInfo = ({ form, loading, referreUrl }: GuestInfoProps) => {
         },
       }}
     >
-      <Box
-        sx={{
-          '@media (max-width: 768px)': {
-            backgroundColor: colors.white,
-            padding: '1.2rem',
-          },
-        }}
-      >
-        <Title order={3} size={18} pb={4}>
-          Who&apos;s coming?
-        </Title>
+      <EditableTitle title="Who's coming?" as="h3" showBorder={true}>
         <Flex direction="row" align="top" gap={8}>
           <Box pt={2}>
             <Warning style={{ width: 16, height: 16 }} />
@@ -122,7 +113,7 @@ const GuestInfo = ({ form, loading, referreUrl }: GuestInfoProps) => {
           </Anchor>{' '}
           for age restrictions
         </Text>
-      </Box>
+      </EditableTitle>
     </Stack>
   );
 };

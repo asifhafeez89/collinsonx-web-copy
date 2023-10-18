@@ -51,9 +51,9 @@ export default function LayoutLogin({ children }: LayoutProps) {
         <Box
           sx={{
             paddingBottom: '1.3rem',
-            marginTop: '10rem',
+            marginTop: '6.5rem',
             '@media (max-width: 768px)': {
-              marginTop: '6rem',
+              marginTop: '4.3rem',
               padding: '0',
             },
           }}
