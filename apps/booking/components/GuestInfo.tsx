@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useCallback } from 'react';
 import {
   Stack,
   Text,
@@ -10,6 +10,8 @@ import {
   Flex,
 } from '@collinsonx/design-system/core';
 
+import { sendMobileEvent } from '@lib';
+
 import { Warning } from '@collinsonx/design-system/assets/icons';
 import QuantityInput from './QuantityInput';
 import colors from 'ui/colour-constants';
@@ -17,7 +19,7 @@ import colors from 'ui/colour-constants';
 import { useForm, UseFormReturnType } from '@mantine/form';
 import { Labrada } from 'next/font/google';
 
-import { MAX_GUESTS } from '../constants';
+import { MAX_GUESTS, MOBILE_ACTION_BACK } from '../constants';
 
 export interface GuestInfoProps {
   form: UseFormReturnType<any, any>;
@@ -32,6 +34,17 @@ const GuestInfo = ({ form, loading, referreUrl }: GuestInfoProps) => {
     useRef<NumberInputHandlers>(),
     useRef<NumberInputHandlers>(),
   ];
+
+  const handleClick = useCallback(() => {
+    if (top) {
+      if (referreUrl) {
+        top.location.href = referreUrl;
+      } else {
+        const windowObj: any = window;
+        sendMobileEvent(windowObj, MOBILE_ACTION_BACK);
+      }
+    }
+  }, [referreUrl]);
 
   return (
     <Stack
@@ -104,11 +117,7 @@ const GuestInfo = ({ form, loading, referreUrl }: GuestInfoProps) => {
         </Grid>
         <Text size={14} pt={16}>
           Refer to{' '}
-          <Anchor
-            color={colors.blue}
-            href={referreUrl ? referreUrl : '#'}
-            target="_blank"
-          >
+          <Anchor color={colors.blue} onClick={handleClick}>
             lounge conditions
           </Anchor>{' '}
           for age restrictions

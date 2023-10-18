@@ -53,7 +53,7 @@ const ShowDesktop = ({ children }: ShowDesktopInterface) => {
 const size = {
   desktop: {
     width: '28em',
-    height: '6em',
+    height: '5em',
   },
   mobile: {
     width: '14em',
