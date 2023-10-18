@@ -172,7 +172,18 @@ export default function CheckAvailability() {
       },
     };
 
+    log('[createBooking] linkedAccountId: ', linkedAccountId);
+    log('[createBooking] bookingInput: ', JSON.stringify(bookingInput));
+    log(
+      '[createBooking] bookingInput.actingAccount: ',
+      bookingInput.actingAccount
+    );
+
     mutate({ variables: { bookingInput } }).then((response) => {
+      log(
+        '[createBooking] createBooking response: ',
+        JSON.stringify(response || null)
+      );
       const badUserInputError = getError(response, BAD_USER_INPUT);
       if (badUserInputError) {
         return setMessage(availabilityMessagess[BAD_USER_INPUT]);

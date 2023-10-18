@@ -255,11 +255,16 @@ export const PayloadProvider = (props: PropsWithChildren) => {
     ) {
       const { userId } = session;
       if (userId) {
+        log('[payload hook] fetchConsumer ID: ', userId);
         fetchConsumer({
           variables: {
             getConsumerById: userId,
           },
         }).then(({ data }) => {
+          log(
+            '[payload hook] fetchConsumer response: ',
+            JSON.stringify(data || null)
+          );
           setConsumerData(data);
           const accountMatched = findLinkedAccount(
             data.getConsumerByID.linkedAccounts
