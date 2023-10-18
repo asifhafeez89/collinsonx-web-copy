@@ -162,6 +162,7 @@ export default function CancelBooking() {
               sx={{
                 width: '591px',
                 paddingTop: '0rem',
+                marginTop: '1.2rem',
 
                 '@media (max-width: 768px)': {
                   gap: '0rem',
