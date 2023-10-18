@@ -59,28 +59,15 @@ export default function CancelBooking() {
               spacing={8}
               sx={{
                 width: '591px',
-                marginTop: '2rem',
+                marginTop: '1rem',
 
                 '@media (max-width: 768px)': {
                   width: '100%',
                   margin: '0',
+                  marginTop: '1rem',
                 },
               }}
             >
-              <Center
-                sx={{
-                  padding: '10px',
-                  margin: '0',
-
-                  '@media (min-width: 768px)': {
-                    display: 'none',
-                  },
-                }}
-              >
-                <Heading as="h1" padding={0} margin={0} lineHeight={1}>
-                  Booking confirmation
-                </Heading>
-              </Center>
               {bookingDetails?.getBookingByID?.price &&
                 bookingDetails.getBookingByID.experience && (
                   <LoungeInfoPreBooked

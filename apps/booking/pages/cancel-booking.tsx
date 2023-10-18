@@ -162,6 +162,7 @@ export default function CancelBooking() {
               sx={{
                 width: '591px',
                 paddingTop: '0rem',
+                marginTop: '1.2rem',
 
                 '@media (max-width: 768px)': {
                   gap: '0rem',
@@ -170,21 +171,6 @@ export default function CancelBooking() {
                 },
               }}
             >
-              <Center
-                sx={{
-                  padding: '1.3rem',
-                  margin: '0',
-
-                  '@media (min-width: 768px)': {
-                    display: 'none',
-                  },
-                }}
-              >
-                <Heading as="h1" padding={0} margin={0} lineHeight={1}>
-                  Booking confirmation
-                </Heading>
-              </Center>
-
               <LoungeInfo
                 guests={{
                   adults: bookingDetails?.getBookingByID?.guestAdultCount,
