@@ -255,7 +255,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
     ) {
       const { userId } = session;
       if (userId) {
-        log('[payload-hook] fetchConsumer ID: ', userId);
+        log('[payload hook] fetchConsumer ID: ', userId);
         fetchConsumer({
           variables: {
             getConsumerById: userId,
