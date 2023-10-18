@@ -55,6 +55,7 @@ import { log, sendMobileEvent } from '../lib/index';
 import { FlightContext } from 'context/flightContext';
 import getError from 'utils/getError';
 import { Clock, Warning } from '@collinsonx/design-system/assets/icons';
+import Heading from '@collinsonx/design-system/components/heading/Heading';
 
 const { BAD_USER_INPUT } = BookingError;
 
@@ -172,7 +173,18 @@ export default function CheckAvailability() {
       },
     };
 
+    log('[createBooking] linkedAccountId: ', linkedAccountId);
+    log('[createBooking] bookingInput: ', JSON.stringify(bookingInput));
+    log(
+      '[createBooking] bookingInput.actingAccount: ',
+      bookingInput.actingAccount
+    );
+
     mutate({ variables: { bookingInput } }).then((response) => {
+      log(
+        '[createBooking] createBooking response: ',
+        JSON.stringify(response || null)
+      );
       const badUserInputError = getError(response, BAD_USER_INPUT);
       if (badUserInputError) {
         return setMessage(availabilityMessagess[BAD_USER_INPUT]);
@@ -337,6 +349,20 @@ export default function CheckAvailability() {
               },
             }}
           >
+            <Center
+              sx={{
+                padding: '0',
+                margin: '10 0px',
+
+                '@media (min-width: 768px)': {
+                  display: 'none',
+                },
+              }}
+            >
+              <Heading as="h1" padding={0} margin={0} lineHeight={1}>
+                Arrival time selection
+              </Heading>
+            </Center>
             <LoungeInfo
               guests={{ adults, children, infants }}
               lounge={lounge}

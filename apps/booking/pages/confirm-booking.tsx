@@ -1,5 +1,5 @@
 import Layout from '@components/Layout';
-import { Box, Flex, Stack } from '@collinsonx/design-system/core';
+import { Box, Center, Flex, Stack } from '@collinsonx/design-system/core';
 import { LoungeInfo } from '@components/LoungeInfo';
 import { Details, Button } from '@collinsonx/design-system';
 import { useContext, useRef, useState } from 'react';
@@ -18,6 +18,7 @@ import { InfoPanel } from 'utils/PanelInfo';
 import { GuestCount } from '@components/guests/GuestCount';
 import { FlightContext } from 'context/flightContext';
 import { log } from '@lib';
+import Heading from '@collinsonx/design-system/components/heading/Heading';
 
 export default function ConfirmBooking() {
   const [clientSecret, setClientSecret] = useState('');
@@ -99,6 +100,21 @@ export default function ConfirmBooking() {
               },
             }}
           >
+            <Center
+              sx={{
+                padding: '10px',
+                margin: '0',
+
+                '@media (min-width: 768px)': {
+                  display: 'none',
+                },
+              }}
+            >
+              <Heading as="h1" padding={0} margin={0} lineHeight={1}>
+                {!clientSecret ? 'Booking summary' : 'Payment summary'}
+              </Heading>
+            </Center>
+
             <LoungeInfo
               guests={{ adults, children, infants }}
               lounge={lounge}

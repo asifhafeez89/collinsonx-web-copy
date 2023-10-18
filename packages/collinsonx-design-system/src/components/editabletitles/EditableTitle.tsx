@@ -22,7 +22,7 @@ export default function EditableTitle({
 }: EditableTitlesProps) {
   return (
     <Stack
-      p={{ base: '20px', xl: '20px 0' }}
+      p={{ base: '20px', lg: '10px 0', xl: '10px 0' }}
       sx={{
         borderBottom: showBorder
           ? `1px solid ${colors.borderSection}`

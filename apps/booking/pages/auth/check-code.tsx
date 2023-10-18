@@ -208,11 +208,16 @@ export default function CheckEmail() {
     }
 
     const userId = response.user.id;
+    log('[check-code] fetchConsumer ID: ', userId);
     fetchConsumer({
       variables: {
         getConsumerById: userId,
       },
     }).then(({ data }) => {
+      log(
+        '[check-code] fetchConsumer response: ',
+        JSON.stringify(data || null)
+      );
       const { linkedAccounts } = data.getConsumerByID;
       const matchedAccount = findLinkedAccount(linkedAccounts || []);
       setConsumerData(data);

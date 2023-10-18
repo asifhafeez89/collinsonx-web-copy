@@ -114,7 +114,7 @@ export default function CancelBooking() {
   return (
     <Layout>
       {bookingDetails ? (
-        <Stack spacing={8} sx={{ width: '100%' }}>
+        <Stack spacing={8} sx={{ width: '100%', marginTop: '100px' }}>
           <BookingLightbox
             open={opened}
             ctaForwardCall={handleCancellation}
@@ -126,13 +126,14 @@ export default function CancelBooking() {
               align="center"
               justify="center"
               wrap="wrap"
-              sx={{ padding: '20px 0' }}
+              sx={{ padding: '10px 0' }}
             >
               <Heading
                 as="h2"
                 margin={0}
                 padding={0}
                 style={{ textAlign: 'center' }}
+                lineHeight={1.2}
               >
                 Booking Cancellation
               </Heading>
@@ -160,14 +161,31 @@ export default function CancelBooking() {
             <Stack
               sx={{
                 width: '591px',
+                paddingTop: '0rem',
+                marginTop: '1.2rem',
 
                 '@media (max-width: 768px)': {
-                  gap: '0.5rem',
+                  gap: '0rem',
                   width: '100%',
                   margin: '0',
                 },
               }}
             >
+              <Center
+                sx={{
+                  padding: '1.3rem',
+                  margin: '0',
+
+                  '@media (min-width: 768px)': {
+                    display: 'none',
+                  },
+                }}
+              >
+                <Heading as="h1" padding={0} margin={0} lineHeight={1}>
+                  Booking confirmation
+                </Heading>
+              </Center>
+
               <LoungeInfo
                 guests={{
                   adults: bookingDetails?.getBookingByID?.guestAdultCount,
@@ -224,11 +242,6 @@ export default function CancelBooking() {
                               },
                             }}
                           >
-                            <Box>
-                              <Heading as="h1" padding={0} margin={16}>
-                                Booking Confirmation
-                              </Heading>
-                            </Box>
                             <EditableTitle
                               title="Booking Reference:"
                               as="h3"
