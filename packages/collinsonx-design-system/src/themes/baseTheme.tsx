@@ -18,7 +18,7 @@ const baseTheme = ({
       brandColor: [themeOverrides?.brandColor || '#D3DAE1'],
       splashColor: [themeOverrides?.splashColor || '#858B91'],
 
-      brandCollinsons: [themeOverrides?.brandCollinsons || '#827127'],
+      brandCollinsons: [themeOverrides?.brandColor || '#827127'],
     },
     primaryColor: 'brandCollinsons',
 
@@ -58,6 +58,28 @@ const baseTheme = ({
           },
         }),
       },
+      Anchor: {
+        styles: ({ colors }) => ({
+          ':focus': {
+            backgroundColor: 'transparent',
+            textDecoration: 'none',
+          },
+          ':hover': {
+            backgroundColor: 'transparent',
+            textDecoration: 'none',
+          },
+        }),
+      },
+      Select: {
+        styles: ({ colors }) => ({
+          input: {
+            fontSize: '1.2rem',
+            ':focus': {
+              color: '#827127',
+            },
+          },
+        }),
+      },
       Input: {
         styles: ({ colors }) => ({
           input: {
@@ -90,6 +112,10 @@ const baseTheme = ({
             borderRadius: 4,
             fontSize: 18,
             height: 44,
+
+            '&:hover': {
+              backgroundColor: theme.fn.darken(theme.colors.brandColor[0], 0.1),
+            },
           },
         }),
       },
@@ -109,7 +135,7 @@ const baseTheme = ({
             },
             ':focus': {
               color: colors.dark[6],
-              borderColor: colors.dark[6],
+              borderColor: colors.theme,
             },
             '&[data-invalid]': {
               borderColor: colors.red[6],
@@ -154,6 +180,7 @@ const baseTheme = ({
           },
           input: {
             borderRadius: rem(4),
+            fontSize: '1.2rem',
             '&[data-invalid]': {
               borderColor: colors.red[6],
               color: colors.red[4],

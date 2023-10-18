@@ -69,7 +69,11 @@ export const FlightInfo = ({ form, loading }: FlightInfoProps) => {
             w={270}
             disabled={loading}
             withAsterisk
-            sx={{}}
+            sx={{
+              '@media (max-width: 768px)': {
+                paddingBottom: '16px',
+              },
+            }}
             {...form.getInputProps('departureDate')}
             styles={{
               day: {

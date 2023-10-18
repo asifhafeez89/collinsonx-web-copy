@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useCallback } from 'react';
 import {
   Stack,
   Text,
@@ -7,14 +7,19 @@ import {
   NumberInputHandlers,
   Grid,
   Box,
+  Flex,
 } from '@collinsonx/design-system/core';
+
+import { sendMobileEvent } from '@lib';
+
+import { Warning } from '@collinsonx/design-system/assets/icons';
 import QuantityInput from './QuantityInput';
 import colors from 'ui/colour-constants';
 
 import { useForm, UseFormReturnType } from '@mantine/form';
 import { Labrada } from 'next/font/google';
 
-import { MAX_GUESTS } from '../constants';
+import { MAX_GUESTS, MOBILE_ACTION_BACK } from '../constants';
 
 export interface GuestInfoProps {
   form: UseFormReturnType<any, any>;
@@ -29,6 +34,17 @@ const GuestInfo = ({ form, loading, referreUrl }: GuestInfoProps) => {
     useRef<NumberInputHandlers>(),
     useRef<NumberInputHandlers>(),
   ];
+
+  const handleClick = useCallback(() => {
+    if (top) {
+      if (referreUrl) {
+        top.location.href = referreUrl;
+      } else {
+        const windowObj: any = window;
+        sendMobileEvent(windowObj, MOBILE_ACTION_BACK);
+      }
+    }
+  }, [referreUrl]);
 
   return (
     <Stack
@@ -51,9 +67,18 @@ const GuestInfo = ({ form, loading, referreUrl }: GuestInfoProps) => {
           },
         }}
       >
-        <Title order={3} size={18} pb={20}>
+        <Title order={3} size={18} pb={4}>
           Who&apos;s coming?
         </Title>
+        <Flex direction="row" align="top" gap={8}>
+          <Box pt={2}>
+            <Warning style={{ width: 16, height: 16 }} />
+          </Box>
+          <p style={{ marginTop: '0px' }}>
+            Maximum group size is 5, excluding infants. Please check
+            availability for lounge-specific restrictions on number of infants.
+          </p>
+        </Flex>
         <Grid>
           <Grid.Col lg={6}>
             <QuantityInput
@@ -90,13 +115,9 @@ const GuestInfo = ({ form, loading, referreUrl }: GuestInfoProps) => {
             />
           </Grid.Col>
         </Grid>
-        <Text size={14}>
+        <Text size={14} pt={16}>
           Refer to{' '}
-          <Anchor
-            color={colors.blue}
-            href={referreUrl ? referreUrl : '#'}
-            target="_blank"
-          >
+          <Anchor color={colors.blue} onClick={handleClick}>
             lounge conditions
           </Anchor>{' '}
           for age restrictions

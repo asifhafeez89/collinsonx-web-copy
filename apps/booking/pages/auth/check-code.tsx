@@ -27,22 +27,27 @@ import Session from 'supertokens-auth-react/recipe/session';
 import BackToLounge from '@components/BackToLounge';
 import getError from 'utils/getError';
 import { BookingError } from '../../constants';
-import {
-  AccountProvider,
-  BookingQueryParams,
-} from '@collinsonx/constants/enums';
+import { BookingQueryParams } from '@collinsonx/constants/enums';
 import { PinLockoutError } from '@collinsonx/constants/constants';
 import { getConsumerByID } from '@collinsonx/utils/queries';
 import { LinkedAccount } from '@collinsonx/utils/generatedTypes/graphql';
 import { accountIsEqual, log } from '../../lib/index';
 
-const { ERR_MEMBERSHIP_ALREADY_CONNECTED } = BookingError;
+const { ERR_MEMBERSHIP_ALREADY_CONNECTED, ERR_TOKEN_INVALID_OR_EXPIRED } =
+  BookingError;
 const { tooManyAttempts, expiredJwt } = PinLockoutError;
 const { bookingId } = BookingQueryParams;
 
 export default function CheckEmail() {
-  const { jwt, lounge, payload, setLinkedAccountId, setLayoutError } =
-    usePayload();
+  const {
+    jwt,
+    lounge,
+    payload,
+    setLinkedAccountId,
+    setLayoutError,
+    setConsumerData,
+    setTokenError,
+  } = usePayload();
   const router = useRouter();
   const email = router.query?.email as string;
   const [code, setCode] = useState<string>();
@@ -61,14 +66,7 @@ export default function CheckEmail() {
 
   let interval = useRef<NodeJS.Timeout>();
 
-  const [
-    fetchConsumer,
-    {
-      loading: fetchConsumerLoading,
-      error: fetchConsumerError,
-      data: fetchConsumerData,
-    },
-  ] = useLazyQuery(getConsumerByID);
+  const [fetchConsumer] = useLazyQuery(getConsumerByID);
 
   useEffect(() => {
     interval.current = setInterval(() => {
@@ -101,22 +99,34 @@ export default function CheckEmail() {
     setCount(20);
   };
 
-  const redirect = useCallback(() => {
-    if (router.query.bookingId) {
-      router.push({
-        pathname: '/cancel-booking',
-        query: {
-          [bookingId]: router.query[bookingId] as string,
-        },
-      });
-    } else {
-      router.push({
-        pathname: '/',
-      });
-    }
-  }, [router]);
+  const redirect = useCallback(
+    (newUser?: boolean) => {
+      if (newUser) {
+        return router.push({
+          pathname: '/auth/signup-user',
+          query: {
+            email,
+            [bookingId]: router.query[bookingId] || '',
+          },
+        });
+      }
+      if (router.query.bookingId) {
+        router.push({
+          pathname: '/cancel-booking',
+          query: {
+            [bookingId]: router.query[bookingId] as string,
+          },
+        });
+      } else {
+        router.push({
+          pathname: '/',
+        });
+      }
+    },
+    [router]
+  );
 
-  const handleLinkAccount = () =>
+  const handleLinkAccount = (isUserNew: boolean) =>
     dolinkAccount({
       variables: {
         linkedAccountInput: {
@@ -125,16 +135,17 @@ export default function CheckEmail() {
         },
       },
     }).then((response) => {
-      if (!response.data) throw new Error('no user data');
-
       const alreadyConnectedError = getError(
         response,
         ERR_MEMBERSHIP_ALREADY_CONNECTED
       );
+      const tokenError = getError(response, ERR_TOKEN_INVALID_OR_EXPIRED);
 
-      if (alreadyConnectedError) {
+      if (tokenError) {
+        setTokenError('Sorry, service is not available');
+      } else if (alreadyConnectedError) {
         log('[SIGN OUT]: membership already connected');
-        Session.signOut().then(() => {
+        return Session.signOut().then(() => {
           setLayoutError(ERR_MEMBERSHIP_ALREADY_CONNECTED);
           router.push({
             pathname: '/auth/login',
@@ -142,9 +153,11 @@ export default function CheckEmail() {
         });
       }
 
-      setLinkedAccountId(response.data.linkAccount.id);
-
-      redirect();
+      // only redirect if there are no errors
+      if (response.data && response.data.linkAccount && !response.errors) {
+        setLinkedAccountId(response.data.linkAccount.id);
+        redirect(isUserNew);
+      }
     });
 
   const handleClickConfirm = async () => {
@@ -184,37 +197,32 @@ export default function CheckEmail() {
       log('[check-code] response.status error case ', response.status);
       return window.alert('Login failed. Please try again');
     }
-
     if (response.createdNewUser) {
       log(
         '[check-code] consumerPasswordlessCode: response.createdNewUser === true'
       );
-      router.push({
-        pathname: '/auth/signup-user',
-        query: {
-          email,
-          [bookingId]: router.query[bookingId] || '',
-        },
-      });
     } else {
       log(
         '[check-code] consumerPasswordlessCode: response.createdNewUser === false'
       );
-      const userId = response.user.id;
-      fetchConsumer({
-        variables: {
-          getConsumerById: userId,
-        },
-      }).then(({ data }) => {
-        const { linkedAccounts } = data.getConsumerByID;
-        const matchedAccount = findLinkedAccount(linkedAccounts || []);
-        if (!matchedAccount) {
-          handleLinkAccount();
-        } else {
-          redirect();
-        }
-      });
     }
+
+    const userId = response.user.id;
+    fetchConsumer({
+      variables: {
+        getConsumerById: userId,
+      },
+    }).then(({ data }) => {
+      const { linkedAccounts } = data.getConsumerByID;
+      const matchedAccount = findLinkedAccount(linkedAccounts || []);
+      setConsumerData(data);
+      if (!matchedAccount) {
+        handleLinkAccount(response.status === 'OK' && response.createdNewUser);
+      } else {
+        setLinkedAccountId(matchedAccount.id);
+        redirect(response.status === 'OK' && response.createdNewUser);
+      }
+    });
   };
 
   const handleClickReenter = () => {
@@ -255,7 +263,11 @@ export default function CheckEmail() {
                 <ErrorComponent error={errorLinkAccount} />
                 <Text size="18px" align="center">
                   We have sent a unique code to
-                  <Text weight={700}>{email}</Text>
+                  <Text weight={700}>
+                    {email.length < 30
+                      ? email
+                      : `${email.substring(0, 30)} ...`}
+                  </Text>
                 </Text>
                 <Box sx={{ textAlign: 'center' }}>
                   <Text align="center" size={16}>

@@ -2,343 +2,270 @@ import { test, expect } from '../../../baseFixtures';
 import { signJWT } from '@collinsonx/jwt';
 import { redirectToBaas } from '../utils/redirectToBaas';
 import EnterEmailPage from '../pages/EnterEmailPage';
+import ErrorPage from '../pages/ErrorPage';
 import { v4 as uuidv4 } from 'uuid';
 import { mailinatorAddress } from '../config';
 
 const secret = process.env.NEXT_PUBLIC_JWT_SECRET || '';
+const lounge = 'MAN6';
+const accountProvider = 'PRIORITY_PASS';
 
-test.describe('Initial Redirect to BAAS page - current implementation', () => {
-  test.describe('Valid JWT and all mandatory fields', () => {
+test.describe('Initial Redirect to BAAS page', () => {
+  test.describe('RDR-001 - Valid JWT and all mandatory fields', () => {
     test('should redirect successfully', async ({ page }) => {
       // Arrange
       const enterEmailPage = new EnterEmailPage(page);
-      const id = uuidv4() + process.env.ENV.toLowerCase();
-      const email = `${id}@${mailinatorAddress}`;
+
+      const membershipNumber = uuidv4();
+      const externalId = uuidv4();
       const payload = {
-        membershipNumber: uuidv4(),
-        externalId: uuidv4(),
-        email,
-        firstName: 'Alice',
-        lastName: 'Smith',
-        membershipType: 'MASTERCARD_HSBC',
-        accountProvider: 'PRIORITY_PASS',
+        membershipNumber,
+        externalId,
+        accountProvider,
       };
-      const expirationTime = '12h';
-      const jwt = await signJWT(payload, secret, expirationTime);
-      const lounge = 'MAN6';
+      const jwt = await signJWT(payload, secret);
 
       // Act
       await redirectToBaas(page, jwt, lounge);
 
       // Assert
       const emailPageTitle = await enterEmailPage.title();
-      await expect(emailPageTitle).toEqual('Enter your email address');
+      await expect(emailPageTitle).toEqual('Enter your email');
+    });
+  });
+
+  test.describe('RDR-002 - Valid JWT but missing membershipNumber', () => {
+    test('should redirect successfully', async ({ page }) => {
+      // Arrange
+      const enterEmailPage = new EnterEmailPage(page);
+      const externalId = uuidv4();
+
+      const payload = {
+        externalId,
+        accountProvider,
+      };
+
+      const jwt = await signJWT(payload, secret);
+
+      // Act
+      await redirectToBaas(page, jwt, lounge);
+
+      // Assert
+      const emailPageTitle = await enterEmailPage.title();
+      await expect(emailPageTitle).toEqual('Enter your email');
+    });
+  });
+
+  test.describe('RDR-003 - Valid JWT but missing accountProvider', () => {
+    test('should redirect to service not available page', async ({ page }) => {
+      // Arrange
+      const errorPage = new ErrorPage(page);
+      const membershipNumber = uuidv4();
+      const externalId = uuidv4();
+      const payload = {
+        membershipNumber,
+        externalId,
+      };
+      const jwt = await signJWT(payload, secret);
+
+      // Act
+      await redirectToBaas(page, jwt, lounge);
+
+      // Assert
+      const errorElement = await errorPage.serviceNotAvailableError();
+      await expect(errorElement).not.toBeNull();
+    });
+  });
+
+  test.describe('RDR-004 - Valid JWT but missing externalId', () => {
+    test('should redirect to service not available page', async ({ page }) => {
+      // Arrange
+      const errorPage = new ErrorPage(page);
+      const membershipNumber = uuidv4();
+      const payload = { membershipNumber, accountProvider };
+      const jwt = await signJWT(payload, secret);
+
+      // Act
+      await redirectToBaas(page, jwt, lounge);
+
+      // Assert
+      const errorElement = await errorPage.serviceNotAvailableError();
+      await expect(errorElement).not.toBeNull();
+    });
+  });
+
+  test.describe('RDR-007 - Valid JWT and optional email', () => {
+    test('should redirect successfully and user can see Enter your email page with the email pre-populated', async ({
+      page,
+    }) => {
+      const enterEmailPage = new EnterEmailPage(page);
+      const membershipNumber = uuidv4();
+      const externalId = uuidv4();
+      const id = uuidv4() + process.env.ENV.toLowerCase();
+      const email = `${id}@${mailinatorAddress}`;
+      // Arrange
+      const payload = {
+        externalId,
+        membershipNumber,
+        accountProvider,
+        email,
+      };
+      const jwt = await signJWT(payload, secret);
+
+      // Act
+      await redirectToBaas(page, jwt, lounge);
+
+      // Assert
+      const emailPageTitle = await enterEmailPage.title();
+      const emailInputValue = await enterEmailPage.emailInputValue();
+      await expect(emailPageTitle).toEqual('Enter your email');
+      await expect(emailInputValue).toEqual(email);
+    });
+  });
+
+  test.describe('RDR-008 - Valid JWT and optional firstName and lastName', () => {
+    test('should redirect successfully', async ({ page }) => {
+      // Arrange
+      const enterEmailPage = new EnterEmailPage(page);
+      const membershipNumber = uuidv4();
+      const externalId = uuidv4();
+      const firstName = 'Mac';
+      const lastName = 'Mohan';
+
+      const payload = {
+        firstName,
+        lastName,
+        externalId,
+        membershipNumber,
+        accountProvider,
+      };
+      const jwt = await signJWT(payload, secret);
+
+      // Act
+      await redirectToBaas(page, jwt, lounge);
+
+      // Assert
+      const emailPageTitle = await enterEmailPage.title();
+      await expect(emailPageTitle).toEqual('Enter your email');
+    });
+  });
+
+  test.describe('RDR-014 - Direct access without JWT', () => {
+    test('User can see error message “service not available”', async ({
+      page,
+    }) => {
+      // Arrange
+      const errorPage = new ErrorPage(page);
+
+      // Act
+      await page.goto(`/?loungeCode=${lounge}`, { waitUntil: 'networkidle' });
+
+      // Assert
+      const errorElement = await errorPage.serviceNotAvailableError();
+      await expect(errorElement).not.toBeNull();
+    });
+  });
+
+  test.describe('RDR-015 - URL with lounge code for lounge that does not exist', () => {
+    test('User can see error message “lounge not available”', async ({
+      page,
+    }) => {
+      const errorPage = new ErrorPage(page);
+      const membershipNumber = uuidv4();
+      const externalId = uuidv4();
+      const payload = {
+        membershipNumber,
+        externalId,
+        accountProvider,
+      };
+      const jwt = await signJWT(payload, secret);
+      const lounge = 'invalid';
+
+      // Act
+      await redirectToBaas(page, jwt, lounge);
+
+      // Assert
+      const errorElement = await errorPage.loungeNotAvailableError();
+      await expect(errorElement).not.toBeNull();
+    });
+  });
+
+  test.describe('RDR-016 - URL with both valid and invalid parameters', () => {
+    test('Redirection successful, but extra parameters ignored', async ({
+      page,
+    }) => {
+      // Arrange
+      const enterEmailPage = new EnterEmailPage(page);
+      const membershipNumber = uuidv4();
+      const externalId = uuidv4();
+
+      const payload = {
+        externalId,
+        membershipNumber,
+        accountProvider,
+      };
+      const jwt = await signJWT(payload, secret);
+
+      // Act
+      const url = `/?linkAccountToken=${jwt}&loungeCode=${lounge}&extra=xyz`;
+      await page.goto(url, {
+        waitUntil: 'networkidle',
+      });
+
+      // Assert
+      const emailPageTitle = await enterEmailPage.title();
+      await expect(emailPageTitle).toEqual('Enter your email');
+    });
+  });
+
+  test.describe('RDR-017 - Valid JWT but accountProvider=INVALID', () => {
+    test('User should see show error message “service not available”', async ({
+      page,
+    }) => {
+      // Arrange
+      const errorPage = new ErrorPage(page);
+      const membershipNumber = uuidv4();
+      const externalId = uuidv4();
+      const invalidAccountProvider = 'INVALID';
+
+      const payload = {
+        externalId,
+        membershipNumber,
+        accountProvider: invalidAccountProvider,
+      };
+      const jwt = await signJWT(payload, secret);
+
+      // Act
+      await redirectToBaas(page, jwt, lounge);
+
+      // Assert
+      const errorElement = await errorPage.serviceNotAvailableError();
+      await expect(errorElement).not.toBeNull();
+    });
+  });
+
+  test.describe('RDR-018 - Lounge code missing from URL', () => {
+    test('should redirect to service not available page', async ({ page }) => {
+      // Arrange
+      const errorPage = new ErrorPage(page);
+      const membershipNumber = uuidv4();
+      const externalId = uuidv4();
+
+      const payload = {
+        externalId,
+        membershipNumber,
+        accountProvider,
+      };
+      const jwt = await signJWT(payload, secret);
+
+      // Act
+      await page.goto(`/?linkAccountToken=${jwt}`, {
+        waitUntil: 'networkidle',
+      });
+
+      // Assert
+      const errorElement = await errorPage.serviceNotAvailableError();
+      await expect(errorElement).not.toBeNull();
     });
   });
 });
-
-// Below is the real implementation - these tests will be added once we use the correct JWT token
-// test.describe('Initial Redirect', () => {
-//   test.describe('Valid JWT and all mandatory fields', () => {
-//     test('should redirect successfully', async ({ page }) => {
-//       // Arrange
-//       const object = {
-//         consumerNumber: '123',
-//         membershipNumber: '1234567890',
-//         accountProvider: 'PP',
-//       };
-//       const expirationTime = '12h';
-//       const jwt = await encryptJWT(object, secret, expirationTime);
-//       const lounge = 'BHX7';
-
-//       // Act
-//       await page.goto(`/?in=${jwt}&lc=${lounge}`, { waitUntil: 'networkidle' });
-
-//       // Assert
-//       // Redirection successful and user can see "Enter your email address" page
-//     });
-//   });
-
-// test.describe('Valid JWT but missing membershipNumber', () => {
-//   test('should redirect to not allowed booking” page', async ({ page }) => {
-//     // Arrange
-//     const object = { consumerNumber: '123', accountProvider: 'PP' };
-//     const expirationTime = '12h';
-//     const jwt = await encryptJWT(object, secret, expirationTime);
-//     const lounge = 'BHX7';
-
-//     // Act
-//     await page.goto(`/?in=${jwt}&lc=${lounge}`, { waitUntil: 'networkidle' });
-
-//     // Assert
-//     // User can see “Not allowed booking” page
-//   });
-// });
-
-// test.describe('Valid JWT but missing accountProvider', () => {
-//   test('should redirect to not allowed booking” page', async ({ page }) => {
-//     // Arrange
-//     const object = { consumerNumber: '123', accountProvider: 'PP' };
-//     const expirationTime = '12h';
-//     const jwt = await encryptJWT(object, secret, expirationTime);
-//     const lounge = 'BHX7';
-
-//     // Act
-//     await page.goto(`/?in=${jwt}&lc=${lounge}`, { waitUntil: 'networkidle' });
-
-//     // Assert
-//     // User can see “Not allowed booking” page
-//   });
-// });
-
-// test.describe('Valid JWT but missing consumerNumber', () => {
-//   test('should redirect to not allowed booking” page', async ({ page }) => {
-//     // Arrange
-//     const object = { membershipNumber: '1234567890', accountProvider: 'PP' };
-//     const expirationTime = '12h';
-//     const jwt = await encryptJWT(object, secret, expirationTime);
-//     const lounge = 'BHX7';
-
-//     // Act
-//     await page.goto(`/?in=${jwt}&lc=${lounge}`, { waitUntil: 'networkidle' });
-
-//     // Assert
-//     // User can see “Not allowed booking” page
-//   });
-// });
-
-// test.describe('Valid JWT with invalid expiration date', () => {
-//   test('should redirect to not allowed booking page', async ({ page }) => {
-//     // Arrange
-//     const object = {
-//       consumerNumber: '123',
-//       membershipNumber: '1234567890',
-//       accountProvider: 'PP',
-//     };
-//     // Change to invalid expiration date
-//     const expirationTime = '12h';
-//     const jwt = await encryptJWT(object, secret, expirationTime);
-//     const lounge = 'BHX7';
-
-//     // Act
-//     await page.goto(`/?in=${jwt}&lc=${lounge}`, { waitUntil: 'networkidle' });
-
-//     // Assert
-//     // User can see “Not allowed booking” page
-//   });
-// });
-
-// test.describe('Invalid JWT signature', () => {
-//   test('should redirect to not allowed booking” page', async ({ page }) => {
-//     // Arrange
-//     const object = {
-//       consumerNumber: '123',
-//       membershipNumber: '1234567890',
-//       accountProvider: 'PP',
-//     };
-//     const expirationTime = '12h';
-//     const secret = 'invalid';
-//     const jwt = await encryptJWT(object, secret, expirationTime);
-//     const lounge = 'BHX7';
-
-//     // Act
-//     await page.goto(`/?in=${jwt}&lc=${lounge}`, { waitUntil: 'networkidle' });
-
-//     // Assert
-//     // User can see “Not allowed booking” page
-//   });
-// });
-
-// test.describe('Valid JWT and optional email', () => {
-//   test('should redirect successfully and user can see enter your email address page with the email pre-populated', async ({
-//     page,
-//   }) => {
-//     // Arrange
-//     const object = {
-//       email: 'test@gmail.com',
-//       membershipNumber: '1234567890',
-//       accountProvider: 'PP',
-//       consumerNumber: '123',
-//     };
-//     const expirationTime = '12h';
-//     const jwt = await encryptJWT(object, secret, expirationTime);
-//     const lounge = 'BHX7';
-
-//     // Act
-//     await page.goto(`/?in=${jwt}&lc=${lounge}`, { waitUntil: 'networkidle' });
-
-//     // Assert
-//     // Redirection successful and user can see "Enter your email address" page with the email pre-populated
-//   });
-// });
-
-// test.describe('Valid JWT and optional firstName and lastName', () => {
-//   test('should redirect successfully', async ({ page }) => {
-//     // Arrange
-//     const object = {
-//       firstName: 'Mac',
-//       lastName: 'Mohan',
-//       membershipNumber: '1234567890',
-//       accountProvider: 'PP',
-//       consumerNumber: '123',
-//     };
-//     const expirationTime = '12h';
-//     const jwt = await encryptJWT(object, secret, expirationTime);
-//     const lounge = 'BHX7';
-
-//     // Act
-//     await page.goto(`/?in=${jwt}&lc=${lounge}`, { waitUntil: 'networkidle' });
-
-//     // Assert
-//     // Redirection successful and user can see "Enter your email address" page
-//   });
-// });
-
-// test.describe('Valid JWT and accountProvider=PP', () => {
-//   test('should redirect successfully and UI personalised with Priority Pass theme', async ({ page }) => {
-//     // Arrange
-//     const object = { "consumerNumber": "123", "membershipNumber": "1234567890", "accountProvider": "PP"};
-//     const expirationTime = '12h';
-//     const jwt = await encryptJWT(object, secret, expirationTime);
-//     const lounge = 'BHX7';
-
-//     // Act
-//     await page.goto(`/?in=${jwt}&lc=${lounge}`, { waitUntil: 'networkidle' });
-
-//     // Assert
-//     // Redirection successful and UI personalised with Priority Pass theme
-//   });
-// });
-
-// test.describe('Valid JWT and accountProvider=LK', () => {
-//   test('should redirect successfully and UI personalised with Lounge Key theme', async ({ page }) => {
-//     // Arrange
-//     const object = { "consumerNumber": "123", "membershipNumber": "1234567890", "accountProvider": "LK"};
-//     const expirationTime = '12h';
-//     const jwt = await encryptJWT(object, secret, expirationTime);
-//     const lounge = 'BHX7';
-
-//     // Act
-//     await page.goto(`/?in=${jwt}&lc=${lounge}`, { waitUntil: 'networkidle' });
-
-//     // Assert
-//     // Redirection successful and UI personalised with Lounge Key theme
-//   });
-// });
-
-// test.describe('Valid JWT and membershipType=Mastercard', () => {
-//   test('should redirect successfully and UI personalised with Mastercard theme', async ({ page }) => {
-//     // Arrange
-//     const object = { "membershipType": "Mastercard", "membershipNumber": "1234567890", "accountProvider": "PP", "consumerNumber": "123"  };
-//     const expirationTime = '12h';
-//     const jwt = await encryptJWT(object, secret, expirationTime);
-//     const lounge = 'BHX7';
-
-//     // Act
-//     await page.goto(`/?in=${jwt}&lc=${lounge}`, { waitUntil: 'networkidle' });
-
-//     // Assert
-//     // Redirection successful and UI personalised with Mastercard theme
-//   });
-// });
-
-// test.describe('Valid JWT and membershipType=Mastercard_HSBC', () => {
-//   test('should redirect successfully and UI personalised with Mastercard_HSBC theme', async ({ page }) => {
-//     // Arrange
-//     const object = { "membershipType": "Mastercard_HSBC", "membershipNumber": "1234567890", "accountProvider": "PP", "consumerNumber": "123" };
-//     const expirationTime = '12h';
-//     const jwt = await encryptJWT(object, secret, expirationTime);
-//     const lounge = 'BHX7';
-
-//     // Act
-//     await page.goto(`/?in=${jwt}&lc=${lounge}`, { waitUntil: 'networkidle' });
-
-//     // Assert
-//     // Redirection successful and UI personalised with Mastercard_HSBC theme
-//   });
-// });
-
-// test.describe('Direct access without JWT', () => {
-//   test('should redirect to not allowed booking” page', async ({ page }) => {
-
-//     // Act
-//     await page.goto(`/`, { waitUntil: 'networkidle' });
-
-//     // Assert
-//     // User can see “Not allowed booking” page
-//   });
-// });
-
-// test.describe('URL with lounge code for lounge that does not exist', () => {
-//   test('should redirect to not allowed booking” page', async ({ page }) => {
-//     // Arrange
-
-//     const object = {
-//       consumerNumber: '123',
-//       membershipNumber: '1234567890',
-//       accountProvider: 'PP',
-//     };
-//     const expirationTime = '12h';
-//     const jwt = await encryptJWT(object, secret, expirationTime);
-//     const lounge = 'INVALID';
-
-//     // Act
-//     await page.goto(`/?in=${jwt}&lc=${lounge}`, { waitUntil: 'networkidle' });
-
-//     // Assert
-//     // User can see “Not allowed booking” page
-//   });
-// });
-
-// test.describe('URL with both valid and invalid parameters', () => {
-//   test('should redirect to not allowed booking” page', async ({ page }) => {
-//     // Arrange
-
-//     const object = { "consumerNumber": "123", "membershipNumber": "1234567890", "accountProvider": "PP"};
-//     const expirationTime = '12h';
-//     const jwt = await encryptJWT(object, secret, expirationTime);
-//     const lounge = 'BHX7';
-
-//     // Act
-//     await page.goto(`/?in=${jwt}&lc=${lounge}&extra=xyz`, { waitUntil: 'networkidle' });
-
-//     // Assert
-//     // Redirection successful
-//   });
-// });
-
-// test.describe('None expired session', () => {
-//   test('should redirect to the pre-booking page', async ({ page }) => {
-//     // Arrange
-//     // Need to find out a way to add session token to already registered user
-
-//     const object = { "consumerNumber": "123", "membershipNumber": "1234567890", "accountProvider": "PP"};
-//     const expirationTime = '12h';
-//     const jwt = await encryptJWT(object, secret, expirationTime);
-//     const lounge = 'BHX7';
-
-//     // Act
-//     await page.goto(`/?in=${jwt}&lc=${lounge}&extra=xyz`, { waitUntil: 'networkidle' });
-
-//     // Assert
-//     // Redirection successful to the pre-booking page
-//   });
-// });
-
-// test.describe('Lounge code missing from URL', () => {
-//   test('should redirect to not allowed booking” page', async ({ page }) => {
-//     // Arrange
-//     // Need to find out a way to add session token to already registered user
-
-//     const object = { "consumerNumber": "123", "membershipNumber": "1234567890", "accountProvider": "PP"};
-//     const expirationTime = '12h';
-//     const jwt = await encryptJWT(object, secret, expirationTime);
-
-//     // Act
-//     await page.goto(`/?in=${jwt}`, { waitUntil: 'networkidle' });
-
-//     // Assert
-//     // User can see “Lounge does not exist” page
-//   });
-// });
-// });

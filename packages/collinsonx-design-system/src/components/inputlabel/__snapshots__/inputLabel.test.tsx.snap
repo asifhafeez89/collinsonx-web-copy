@@ -21,10 +21,11 @@ exports[`<InputLabel /> renders textinput 1`] = `
   word-break: break-word;
   cursor: default;
   -webkit-tap-highlight-color: transparent;
+  padding: 0 0 0.5rem 0;
   -webkit-order: -2;
   -ms-flex-order: -2;
   order: -2;
-  color: #000000;
+  color: #25262B;
 }
 
 .emotion-6 {
@@ -66,6 +67,7 @@ exports[`<InputLabel /> renders textinput 1`] = `
   -webkit-order: -1;
   -ms-flex-order: -1;
   order: -1;
+  text-transform: none;
 }
 
 .emotion-14:focus,
@@ -198,8 +200,8 @@ exports[`<InputLabel /> renders textinput 1`] = `
 >
   <label
     className="emotion-3 emotion-4 emotion-5"
-    htmlFor="mantine-fwaiv052d"
-    id="mantine-fwaiv052d-label"
+    htmlFor="mantine-rk4jovn18"
+    id="mantine-rk4jovn18-label"
     onMouseDown={[Function]}
   >
     Full name
@@ -216,7 +218,7 @@ exports[`<InputLabel /> renders textinput 1`] = `
     <input
       aria-invalid={false}
       className="emotion-12 emotion-13 emotion-14"
-      id="mantine-fwaiv052d"
+      id="mantine-rk4jovn18"
       placeholder="Your name"
       type="text"
     />

@@ -10,6 +10,7 @@ import {
   Stack,
   Button,
   Center,
+  ActionIcon,
 } from '@collinsonx/design-system/core';
 import {
   BookingType,
@@ -26,7 +27,9 @@ import { Availability } from '@collinsonx/utils';
 import {
   AvailableSlots,
   hasLoungeCapacity,
+  hasLoungeCapacityDefaultError,
   availableSlotsNotEnoughCapacityParser,
+  loadDefaultError,
 } from '@components/flightInfo/availability';
 import getAvailableSlots from '@collinsonx/utils/queries/getAvailableSlots';
 import { Slots } from '@collinsonx/utils';
@@ -40,7 +43,7 @@ import usePayload from 'hooks/payload';
 import { InfoGroup } from '@collinsonx/design-system/components/details';
 import { BookingContext } from 'context/bookingContext';
 import dayjs from 'dayjs';
-import { MOBILE_ACTION_BACK, constants } from '../constants';
+import { BookingError, MOBILE_ACTION_BACK, constants } from '../constants';
 import colors from 'ui/colour-constants';
 import BackToLounge from '@components/BackToLounge';
 import BookingLightbox from '@collinsonx/design-system/components/bookinglightbox';
@@ -50,24 +53,42 @@ import { InfoPanel } from 'utils/PanelInfo';
 import { GuestCount } from '@components/guests/GuestCount';
 import { log, sendMobileEvent } from '../lib/index';
 import { FlightContext } from 'context/flightContext';
+import getError from 'utils/getError';
+import { Clock, Warning } from '@collinsonx/design-system/assets/icons';
+
+const { BAD_USER_INPUT } = BookingError;
+
+const availabilityMessagess: Record<string, string> = {
+  [BAD_USER_INPUT]: 'Please select your estimated arrival time',
+};
 
 interface AvailableSlotsErrorHandlingProps {
   error: ApolloError | unknown;
+  airportMismatch: boolean;
 }
 
 const AvailableSlotsErrorHandling: FC<AvailableSlotsErrorHandlingProps> = ({
   error,
+  airportMismatch,
 }) => {
+  if (airportMismatch) return null;
+
   const ENOUGH_CAPACITY_ERROR_IS_VALID = hasLoungeCapacity(error);
 
   if (ENOUGH_CAPACITY_ERROR_IS_VALID) {
     return availableSlotsNotEnoughCapacityParser(error);
   }
 
+  const DEFAULT_ERROR = hasLoungeCapacityDefaultError(error);
+
+  if (DEFAULT_ERROR) {
+    return loadDefaultError();
+  }
+
   return null;
 };
 
-export default function ConfirmAvailability() {
+export default function CheckAvailability() {
   const router = useRouter();
 
   const { getBooking, setBooking } = useContext(BookingContext);
@@ -77,6 +98,7 @@ export default function ConfirmAvailability() {
   const { referrerUrl, lounge, linkedAccountId } = usePayload();
   const [airportMismatch, setAirportMismatch] = useState(false);
   const [terminalMismatch, setTerminalMismath] = useState(false);
+  const [message, setMessage] = useState('');
 
   const booking = getBooking();
   const flightData = getFlight();
@@ -99,13 +121,34 @@ export default function ConfirmAvailability() {
   };
 
   const handleSubmit = () => {
+    setMessage('');
+
     const availableSlots = slotsData?.getAvailableSlots.slots;
     const slot = findSelectedSlot(availableSlots, selectedslot);
 
-    const departureTime = flightData?.departure?.dateTime?.local;
+    const departureTime = flightData?.departure?.dateTime?.utc;
 
-    const formattedDepartureTime = formatDateUTC(
-      new Date(String(departureTime)),
+    const localTimeHour = dayjs(flightData?.departure?.dateTime?.local);
+    const utcTimeHour = dayjs(flightData?.departure?.dateTime?.utc);
+    const timeDifference = utcTimeHour.diff(localTimeHour, 'hour');
+
+    if (!slot) {
+      return setMessage(availabilityMessagess[BAD_USER_INPUT]);
+    }
+
+    const utcStartDate = formatDateUTC(
+      slot?.startDate,
+      DATE_TIME_FORMAT,
+      timeDifference
+    );
+    const utcEndDate = formatDateUTC(
+      slot?.endDate,
+      DATE_TIME_FORMAT,
+      timeDifference
+    );
+
+    const utcDepartureTime = formatDate(
+      new Date(`${departureTime}`),
       DATE_TIME_FORMAT
     );
 
@@ -116,9 +159,9 @@ export default function ConfirmAvailability() {
     const bookingInput = {
       ...(linkedAccountId && { actingAccount: linkedAccountId }),
       experience: { id: lounge?.id },
-      bookedFrom: slot?.startDate,
-      lastArrival: slot?.endDate,
-      bookedTo: formattedDepartureTime,
+      bookedFrom: utcStartDate,
+      lastArrival: utcEndDate,
+      bookedTo: utcDepartureTime,
       type: BookingType.ReservationFeeOnly,
       guestAdultCount: adults,
       guestChildrenCount: children,
@@ -129,19 +172,19 @@ export default function ConfirmAvailability() {
       },
     };
 
-    mutate({
-      variables: { bookingInput },
-      onCompleted(data) {
-        if (data?.createBooking) {
-          booking.bookingId = data.createBooking.id;
+    mutate({ variables: { bookingInput } }).then((response) => {
+      const badUserInputError = getError(response, BAD_USER_INPUT);
+      if (badUserInputError) {
+        return setMessage(availabilityMessagess[BAD_USER_INPUT]);
+      } else if (response.data?.createBooking) {
+        booking.bookingId = response.data.createBooking.id;
 
-          setBooking(booking);
+        setBooking(booking);
 
-          router.push({
-            pathname: '/confirm-booking',
-          });
-        }
-      },
+        router.push({
+          pathname: '/confirm-booking',
+        });
+      }
     });
   };
 
@@ -172,14 +215,14 @@ export default function ConfirmAvailability() {
       partnerKey === 'partnerIdTest'
         ? lounge.partnerIdTest
         : lounge.partnerIdProd;
-    console.log('NEXT_PUBLIC_SNAPLOGIC_PARTNER_KEY', partnerKey, productID);
+    log('NEXT_PUBLIC_SNAPLOGIC_PARTNER_KEY', partnerKey, productID);
 
     fetchSlots({
       variables: {
         data: {
           flightInformation: {
             type: TRAVEL_TYPE,
-            dateTime: flightData.departure?.dateTime?.utc,
+            dateTime: flightData.departure?.dateTime?.local,
             airport: flightData.departure?.airport,
             terminal: '-1',
           },
@@ -201,7 +244,7 @@ export default function ConfirmAvailability() {
   const departureTime = flightData?.departure?.dateTime?.local;
 
   const dayjsDepartureTime = dayjs(departureTime, {
-    format: 'YYYY-MM-DD HH:mm',
+    format: 'dd-MM-YYYY HH:mm',
   });
   const flightTime = dayjsDepartureTime.format(constants.TIME_FORMAT);
   const flightTimeToDisplay = dayjsDepartureTime.format(
@@ -284,7 +327,7 @@ export default function ConfirmAvailability() {
           }}
         >
           <Stack
-            spacing={24}
+            spacing={10}
             sx={{
               width: '591px',
               margin: '0 auto',
@@ -304,7 +347,6 @@ export default function ConfirmAvailability() {
             )}
             <Flex
               direction={{ base: 'column', sm: 'row' }}
-              gap={{ base: 'sm', sm: 'lg' }}
               sx={{
                 justifyContent: 'center',
 
@@ -326,6 +368,7 @@ export default function ConfirmAvailability() {
                 >
                   {lounge && (
                     <Stack spacing={8}>
+                      {message && <Notification>{message}</Notification>}
                       <EditableTitle title="Flight details" to="/" as="h2">
                         {departureTime && (
                           <Details
@@ -344,14 +387,21 @@ export default function ConfirmAvailability() {
                         direction={{ base: 'column', lg: 'row' }}
                         justify={'space-between'}
                         sx={{
-                          width: '87%',
+                          width: '100%',
+                          borderBottom: `1px solid ${colors.borderSection}`,
 
                           '@media (max-width: 768px)': {
                             width: '100%',
+                            border: 'none',
+                            padding: '0px',
                           },
                         }}
                       >
-                        <EditableTitle title="Who's coming?" as="h2">
+                        <EditableTitle
+                          title="Who's coming?"
+                          as="h2"
+                          showBorder={false}
+                        >
                           <GuestCount
                             adults={adults}
                             children={children}
@@ -367,7 +417,11 @@ export default function ConfirmAvailability() {
                             },
                           }}
                         >
-                          <EditableTitle title="Total price" as="h2">
+                          <EditableTitle
+                            title="Total price"
+                            as="h2"
+                            showBorder={false}
+                          >
                             <Price
                               lounge={lounge}
                               guests={{ adults, infants, children }}
@@ -376,7 +430,42 @@ export default function ConfirmAvailability() {
                         </Box>
                       </Flex>
 
-                      <EditableTitle title="" as="h2">
+                      <EditableTitle
+                        title="Estimated time of arrival"
+                        as="h2"
+                        showBorder={true}
+                      >
+                        <Flex
+                          align={'center'}
+                          gap={'xs'}
+                          sx={{
+                            '@media (max-width: 768px)': {
+                              alignItems: 'flex-start',
+                            },
+                          }}
+                        >
+                          <ActionIcon
+                            sx={{
+                              color: '#000',
+                              svg: {
+                                width: 20,
+                                height: 20,
+                              },
+                            }}
+                          >
+                            <Warning />
+                          </ActionIcon>
+                          <p
+                            style={{
+                              padding: '0',
+                              margin: '0',
+                              paddingLeft: '10',
+                            }}
+                          >
+                            Timeslots are shown in the time zone of the lounge
+                            location
+                          </p>
+                        </Flex>
                         {slotsData ? (
                           <AvailableSlots
                             onSelectSlot={handleSelectSlot}
@@ -386,13 +475,49 @@ export default function ConfirmAvailability() {
 
                         <AvailableSlotsErrorHandling
                           error={slotsError}
+                          airportMismatch={airportMismatch}
                         ></AvailableSlotsErrorHandling>
                         <div>
-                          This is just a rough estimate so the lounge can
-                          prepare for your arrival.
+                          This is the time you will arrive at the lounge.
                         </div>
+                        <Flex
+                          align={'center'}
+                          gap={'xs'}
+                          sx={{
+                            '@media (max-width: 768px)': {
+                              alignItems: 'flex-start',
+                            },
+                          }}
+                        >
+                          <ActionIcon
+                            sx={{
+                              color: '#000',
+                              svg: {
+                                width: 20,
+                                height: 20,
+                              },
+                            }}
+                          >
+                            <Clock />
+                          </ActionIcon>
+                          <p
+                            style={{
+                              padding: '0',
+                              margin: '0',
+                              paddingLeft: '10',
+                            }}
+                          >
+                            As your flight is at{' '}
+                            <strong>{flightTimeToDisplay}</strong>, your maximum
+                            stay is <strong>3 hours prior</strong>.
+                          </p>
+                        </Flex>
                       </EditableTitle>
-                      <EditableTitle title="Cancelation policy" as="h2">
+                      <EditableTitle
+                        title="Cancellation policy"
+                        as="h2"
+                        showBorder={false}
+                      >
                         <p style={{ padding: '0', margin: '0' }}>
                           Cancel up to 48 hours before your booking to receive a
                           full refund. Bookings cannot be cancelled within 48
@@ -400,9 +525,9 @@ export default function ConfirmAvailability() {
                           made within that time range.
                         </p>
                         <div>
-                          <p>
-                            As your flight is at {flightTimeToDisplay}, your
-                            maximum stay is 3 hours prior.
+                          <p style={{ padding: '0', margin: '0' }}>
+                            Please confirm details are correct before making
+                            payment.
                           </p>
                         </div>
                       </EditableTitle>
@@ -416,7 +541,10 @@ export default function ConfirmAvailability() {
         <Center>
           <Button
             disabled={
-              slotsLoading || cbLoading || hasLoungeCapacity(slotsError)
+              slotsLoading ||
+              cbLoading ||
+              hasLoungeCapacity(slotsError) ||
+              hasLoungeCapacityDefaultError(slotsError)
             }
             type="submit"
             data-testid="submit"
@@ -435,4 +563,4 @@ export default function ConfirmAvailability() {
   );
 }
 
-ConfirmAvailability.getLayout = (page: JSX.Element) => <>{page}</>;
+CheckAvailability.getLayout = (page: JSX.Element) => <>{page}</>;

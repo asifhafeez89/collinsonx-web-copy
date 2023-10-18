@@ -1,8 +1,9 @@
 import { Availability } from '@collinsonx/utils';
 import { Select } from '@collinsonx/design-system/core';
 import { TIME_FORMAT } from '../../../config/Constants';
-import { formatDate, formatDateUTC } from '../../../utils/DateFormatter';
+import { formatDate } from '../../../utils/DateFormatter';
 import { useMemo } from 'react';
+import Heading from '@collinsonx/design-system/components/heading/Heading';
 
 interface AvailableSlotsProps {
   availableSlots: Availability;
@@ -30,12 +31,14 @@ const AvailableSlots = ({
   );
 
   return (
-    <Select
-      label="Estimated lounge arrival time"
-      placeholder="Select time"
-      data={data}
-      onChange={onSelectSlot}
-    />
+    <>
+      <Select
+        label=""
+        placeholder="Select time"
+        data={data}
+        onChange={onSelectSlot}
+      />
+    </>
   );
 };
 

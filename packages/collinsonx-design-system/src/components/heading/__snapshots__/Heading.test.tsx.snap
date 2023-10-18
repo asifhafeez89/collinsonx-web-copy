@@ -11,7 +11,14 @@ exports[`<Heading /> renders heading 1`] = `
   className="emotion-0"
   color="#000000"
 >
-  <h2>
+  <h2
+    style={
+      {
+        "margin": 0,
+        "padding": 0,
+      }
+    }
+  >
     Heading Title
   </h2>
 </div>
