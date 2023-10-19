@@ -396,8 +396,8 @@ export default function ConfirmPayment() {
                             {' '}
                             Please remember to bring your booking reference
                             number, boarding pass and photo ID along with your
-                            Priority Pass membership card for check in at the
-                            lounge.{' '}
+                            Priority Pass membership card or eligible access
+                            method for check in at the lounge.{' '}
                           </li>
                           <li>
                             Cancellation must be made at least 48 hours in
