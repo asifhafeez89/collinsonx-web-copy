@@ -11,9 +11,9 @@ import {
 import { Experience } from '@collinsonx/utils';
 
 interface LoungeInfoProps {
-  price: string;
   lounge: Experience;
   loading: boolean;
+  width?: string;
 }
 
 const currencyMap: Record<string, string> = {
@@ -24,9 +24,9 @@ const getCurrencySymbol = (currency: string) =>
   currencyMap[currency] || currency;
 
 export const LoungeInfoPreBooked = ({
-  price,
   lounge,
   loading,
+  width = '100%',
 }: LoungeInfoProps) => {
   const loungeLocation = useMemo(
     () =>
@@ -42,10 +42,26 @@ export const LoungeInfoPreBooked = ({
   if (!loading && !lounge) {
     return null;
   }
-
+  const price = lounge.pricing?.reservationOnlyFee?.toFixed(2);
   const currencySymbol = getCurrencySymbol(lounge?.pricing?.currency || 'GBP');
   return (
-    <Flex p={24} gap={16} direction={{ base: 'column', xl: 'row' }} bg="#FFF">
+    <Flex
+      p={24}
+      gap={16}
+      direction={{ base: 'column', xl: 'row' }}
+      bg="#FFF"
+      justify={'center'}
+      align={'center'}
+      sx={{
+        width: width,
+        margin: '0 auto',
+        borderRadius: '0.4rem',
+
+        '@media (max-width: 768px)': {
+          width: '100%',
+        },
+      }}
+    >
       <div>
         <Skeleton
           visible={loading}
@@ -90,7 +106,10 @@ export const LoungeInfoPreBooked = ({
           {price ? (
             <Text size={28} fw={700}>
               {currencySymbol}
-              {price}
+              {price}{' '}
+              <span style={{ fontSize: '1.25rem', fontWeight: 400 }}>
+                per person
+              </span>
             </Text>
           ) : null}
         </Skeleton>
