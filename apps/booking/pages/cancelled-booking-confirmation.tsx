@@ -34,6 +34,9 @@ export default function CancelBooking() {
     pollInterval: 300000,
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
+    onCompleted: (data) => {
+      console.log(data);
+    },
   });
 
   return (
@@ -71,9 +74,6 @@ export default function CancelBooking() {
               {bookingDetails?.getBookingByID?.price &&
                 bookingDetails.getBookingByID.experience && (
                   <LoungeInfoPreBooked
-                    price={priceToDisplay(
-                      bookingDetails?.getBookingByID?.price
-                    )}
                     lounge={bookingDetails.getBookingByID.experience}
                     loading={!bookingDetails.getBookingByID.experience}
                   />
