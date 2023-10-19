@@ -137,7 +137,7 @@ const AvailableSlotsNotEnoughCapacity: FC<Props> = ({
       <Center>
         <Stack>
           <Box>
-            <Title size="h3">No enough spaces in the lounge</Title>
+            <Title size="h3">Lounge is at capacity</Title>
           </Box>
 
           <Stack>
