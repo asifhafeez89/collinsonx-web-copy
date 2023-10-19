@@ -145,8 +145,8 @@ const AvailableSlotsNotEnoughCapacity: FC<Props> = ({
             <Box>
               You can:
               <ul>
-                <li>change time slot</li>
                 <li>change number of guests</li>
+                <li>change time slot</li>
                 <li>find another lounge</li>
               </ul>
             </Box>

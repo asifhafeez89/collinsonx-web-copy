@@ -121,7 +121,7 @@ export default function CancelBooking() {
                                 {' '}
                                 {bookingDetails.getBookingByID.status ===
                                 BookingStatus.Cancelled
-                                  ? ' Your Booking has been cancelled'
+                                  ? ' Your booking has been cancelled'
                                   : bookingDetails.getBookingByID.status ===
                                     BookingStatus.CancelationFailed
                                   ? 'Your booking cancellation has failed, please contact our team'
