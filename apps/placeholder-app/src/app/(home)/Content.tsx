@@ -30,7 +30,7 @@ import { LoungeSchema, lounges, loungesProd } from '@/data/Lounge';
 
 import schema, { SchemaType } from './schema';
 
-import urls from './urls';
+import urls, { isProdUrl } from './urls';
 import secrets from './secrets';
 import { firstNames, lastNames } from './names';
 
@@ -42,15 +42,32 @@ const {
 
 interface ClientSelectBoxProps {
   setClient: Dispatch<SetStateAction<string | null>>;
+  domain: string | null;
 }
 
-function ClientSelectBox({ setClient }: ClientSelectBoxProps) {
-  const data = getClients().map((client: Client) => {
-    return {
-      value: client,
-      label: client,
-    };
-  });
+function ClientSelectBox({ setClient, domain }: ClientSelectBoxProps) {
+  const isProdValue = function (value: string) {
+    return value.toUpperCase() === Client.None;
+  };
+
+  const data = getClients()
+    .filter((client: Client) => {
+      if (!domain) {
+        return true;
+      }
+
+      if (isProdUrl(domain)) {
+        return isProdValue(client);
+      }
+
+      return true;
+    })
+    .map((client: Client) => {
+      return {
+        value: client,
+        label: client,
+      };
+    });
 
   return (
     <Select
@@ -376,7 +393,7 @@ const Content = () => {
         </Grid>
         <Grid>
           <Grid.Col span={6}>
-            <ClientSelectBox setClient={setClient} />
+            <ClientSelectBox setClient={setClient} domain={domain} />
           </Grid.Col>
           <Grid.Col span={4}>
             <Switch

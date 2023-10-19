@@ -21,4 +21,16 @@ const urls = [
   },
 ];
 
+export function isProdUrl(domain: string) {
+  const testingURls = urls
+    .filter((url) => {
+      return url.value === 'https://booking.cergea.com';
+    })
+    .map((url) => {
+      return url.value;
+    });
+
+  return testingURls.includes(domain);
+}
+
 export default urls;
