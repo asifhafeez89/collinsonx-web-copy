@@ -110,9 +110,11 @@ export default function ConfirmBooking() {
                 },
               }}
             >
-              <Heading as="h1" padding={0} margin={0} lineHeight={1}>
-                {!clientSecret ? 'Booking summary' : 'Payment summary'}
-              </Heading>
+              {!clientSecret && (
+                <Heading as="h1" padding={0} margin={0} lineHeight={1}>
+                  Booking summary
+                </Heading>
+              )}
             </Center>
 
             <LoungeInfo
