@@ -34,6 +34,9 @@ import urls, { isProdUrl } from './urls';
 import secrets from './secrets';
 import { firstNames, lastNames } from './names';
 
+import { randomIntValue } from './helpers';
+import { DEBUG_PREFIX } from './constants';
+
 const {
   loungeCode: lcParam,
   jwt: jwtParam,
@@ -253,8 +256,8 @@ const Content = () => {
       : lastName;
 
     const response = {
-      externalId: values.externalId,
-      membershipNumber: values.membershipNumber,
+      externalId: `${DEBUG_PREFIX}${values.externalId}`,
+      membershipNumber: `${DEBUG_PREFIX}${values.membershipNumber}`,
       email: values.email,
       firstName: firstNameValue,
       lastName: lastNameValue,
@@ -278,13 +281,14 @@ const Content = () => {
     window.open(url);
   };
 
+  const externalId = randomIntValue();
+  const membershipNumber = randomIntValue();
+
   const form = useForm({
     validate: joiResolver(schema),
     initialValues: {
-      externalId: `baasTest${Math.floor(Math.random() * 10000).toString()}`,
-      membershipNumber: `baasTest${Math.floor(
-        Math.random() * 10000
-      ).toString()}`,
+      externalId: externalId,
+      membershipNumber: membershipNumber,
       email: '',
       customFirstName: '',
       customLastName: '',
@@ -321,6 +325,12 @@ const Content = () => {
         <Grid>
           <Grid.Col span={6}>
             <TextInput
+              value={`${DEBUG_PREFIX}${form.values.externalId}`}
+              disabled
+            />
+          </Grid.Col>
+          <Grid.Col span={6}>
+            <TextInput
               {...form.getInputProps('externalId')}
               placeholder="Please add legacy external ID details"
             />
@@ -328,6 +338,12 @@ const Content = () => {
         </Grid>
 
         <Grid>
+          <Grid.Col span={6}>
+            <TextInput
+              value={`${DEBUG_PREFIX}${form.values.membershipNumber}`}
+              disabled
+            />
+          </Grid.Col>
           <Grid.Col span={6}>
             <TextInput
               {...form.getInputProps('membershipNumber')}
