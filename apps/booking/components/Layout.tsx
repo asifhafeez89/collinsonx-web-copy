@@ -71,7 +71,7 @@ const Layout = forwardRef(({ children }: LayoutProps, ref: ContainerRef) => {
           marginTop: '6.4rem',
 
           '@media (max-width: 768px)': {
-            marginTop: '3.rem',
+            marginTop: '3.3rem',
             padding: '0 0 1.3rem 0',
           },
         }}
