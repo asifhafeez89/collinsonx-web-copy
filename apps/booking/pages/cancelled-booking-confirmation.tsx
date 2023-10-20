@@ -71,6 +71,16 @@ export default function CancelBooking() {
                 },
               }}
             >
+              <Center
+                sx={{
+                  padding: '10px',
+                  margin: '0',
+                }}
+              >
+                <Heading as="h1" padding={0} margin={0} lineHeight={1}>
+                  Booking Cancellation
+                </Heading>
+              </Center>
               {bookingDetails?.getBookingByID?.price &&
                 bookingDetails.getBookingByID.experience && (
                   <LoungeInfoPreBooked
