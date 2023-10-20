@@ -30,9 +30,12 @@ import { LoungeSchema, lounges, loungesProd } from '@/data/Lounge';
 
 import schema, { SchemaType } from './schema';
 
-import urls from './urls';
+import urls, { isProdUrl } from './urls';
 import secrets from './secrets';
 import { firstNames, lastNames } from './names';
+
+import { randomIntValue } from './helpers';
+import { DEBUG_PREFIX } from './constants';
 
 const {
   loungeCode: lcParam,
@@ -42,15 +45,32 @@ const {
 
 interface ClientSelectBoxProps {
   setClient: Dispatch<SetStateAction<string | null>>;
+  domain: string | null;
 }
 
-function ClientSelectBox({ setClient }: ClientSelectBoxProps) {
-  const data = getClients().map((client: Client) => {
-    return {
-      value: client,
-      label: client,
-    };
-  });
+function ClientSelectBox({ setClient, domain }: ClientSelectBoxProps) {
+  const isProdValue = function (value: string) {
+    return value.toUpperCase() === Client.None;
+  };
+
+  const data = getClients()
+    .filter((client: Client) => {
+      if (!domain) {
+        return true;
+      }
+
+      if (isProdUrl(domain)) {
+        return isProdValue(client);
+      }
+
+      return true;
+    })
+    .map((client: Client) => {
+      return {
+        value: client,
+        label: client,
+      };
+    });
 
   return (
     <Select
@@ -236,8 +256,8 @@ const Content = () => {
       : lastName;
 
     const response = {
-      externalId: values.externalId,
-      membershipNumber: values.membershipNumber,
+      externalId: `${DEBUG_PREFIX}${values.externalId}`,
+      membershipNumber: `${DEBUG_PREFIX}${values.membershipNumber}`,
       email: values.email,
       firstName: firstNameValue,
       lastName: lastNameValue,
@@ -261,13 +281,14 @@ const Content = () => {
     window.open(url);
   };
 
+  const externalId = randomIntValue();
+  const membershipNumber = randomIntValue();
+
   const form = useForm({
     validate: joiResolver(schema),
     initialValues: {
-      externalId: `baasTest${Math.floor(Math.random() * 10000).toString()}`,
-      membershipNumber: `baasTest${Math.floor(
-        Math.random() * 10000
-      ).toString()}`,
+      externalId: externalId,
+      membershipNumber: membershipNumber,
       email: '',
       customFirstName: '',
       customLastName: '',
@@ -304,6 +325,12 @@ const Content = () => {
         <Grid>
           <Grid.Col span={6}>
             <TextInput
+              value={`${DEBUG_PREFIX}${form.values.externalId}`}
+              disabled
+            />
+          </Grid.Col>
+          <Grid.Col span={6}>
+            <TextInput
               {...form.getInputProps('externalId')}
               placeholder="Please add legacy external ID details"
             />
@@ -311,6 +338,12 @@ const Content = () => {
         </Grid>
 
         <Grid>
+          <Grid.Col span={6}>
+            <TextInput
+              value={`${DEBUG_PREFIX}${form.values.membershipNumber}`}
+              disabled
+            />
+          </Grid.Col>
           <Grid.Col span={6}>
             <TextInput
               {...form.getInputProps('membershipNumber')}
@@ -376,7 +409,7 @@ const Content = () => {
         </Grid>
         <Grid>
           <Grid.Col span={6}>
-            <ClientSelectBox setClient={setClient} />
+            <ClientSelectBox setClient={setClient} domain={domain} />
           </Grid.Col>
           <Grid.Col span={4}>
             <Switch

@@ -110,9 +110,11 @@ export default function ConfirmBooking() {
                 },
               }}
             >
-              <Heading as="h1" padding={0} margin={0} lineHeight={1}>
-                {!clientSecret ? 'Booking summary' : 'Payment summary'}
-              </Heading>
+              {!clientSecret && (
+                <Heading as="h1" padding={0} margin={0} lineHeight={1}>
+                  Booking summary
+                </Heading>
+              )}
             </Center>
 
             <LoungeInfo
@@ -120,6 +122,7 @@ export default function ConfirmBooking() {
               lounge={lounge}
               loading={!lounge}
               hideImage={clientSecret ? true : false}
+              hideImageMobile
               width={clientSecret ? '400px' : '100%'}
             />
             <Flex

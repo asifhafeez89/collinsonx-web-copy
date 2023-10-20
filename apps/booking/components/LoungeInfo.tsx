@@ -21,6 +21,7 @@ interface LoungeInfoProps {
   lounge?: Experience;
   loading: boolean;
   hideImage?: boolean;
+  hideImageMobile?: boolean;
   width?: string;
 }
 
@@ -41,6 +42,7 @@ export const LoungeInfo = ({
   lounge,
   loading,
   hideImage = false,
+  hideImageMobile,
   width = '100%',
 }: LoungeInfoProps) => {
   const loungeLocation = useMemo(
@@ -101,6 +103,7 @@ export const LoungeInfo = ({
                 '@media (max-width: 768px)': {
                   width: '100%',
                   height: '100%',
+                  display: hideImageMobile ? 'none' : 'auto',
                 },
               })}
               src={lounge?.images[0].url}
