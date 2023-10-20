@@ -225,18 +225,12 @@ export default function CheckEmail() {
       // consumer object has personal details attached
       const consumerHasDetails = firstName && lastName && dateOfBirth;
 
-      // supertokens new user happy path
-      const createdNewUser =
-        response.status === 'OK' && response.createdNewUser;
-
-      const isUserNew = createdNewUser || !consumerHasDetails;
-
       setConsumerData(data);
       if (!matchedAccount) {
-        handleLinkAccount(isUserNew);
+        handleLinkAccount(!consumerHasDetails);
       } else {
         setLinkedAccountId(matchedAccount.id);
-        redirect(isUserNew);
+        redirect(!consumerHasDetails);
       }
     });
   };
