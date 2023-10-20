@@ -61,7 +61,7 @@ const PinLockout = ({
     if (errorMessage === tooManyAttempts) {
       setTitle('Sorry, passcode not verified');
       setDesc(
-        'Too many incorrect attempts were made to enter the verification passcode.\nYour account will be locked for 60 minutes.'
+        'Too many incorrect attempts were made to enter the verification passcode.'
       );
       setButton('RE-ENTER EMAIL');
     } else if (errorMessage === expiredJwt) {

@@ -173,25 +173,24 @@ export default function CancelBooking() {
             >
               <Center
                 sx={{
-                  padding: '1.3rem',
+                  padding: '10px',
                   margin: '0',
-
                   '@media (min-width: 768px)': {
                     display: 'none',
                   },
                 }}
               >
                 <Heading as="h1" padding={0} margin={0} lineHeight={1}>
-                  Booking confirmation
+                  Booking Cancellation
                 </Heading>
               </Center>
-
               <LoungeInfo
                 guests={{
                   adults: bookingDetails?.getBookingByID?.guestAdultCount,
                   infants: bookingDetails?.getBookingByID?.guestInfantCount,
                   children: bookingDetails?.getBookingByID?.guestChildrenCount,
                 }}
+                hideImageMobile
                 lounge={bookingDetails?.getBookingByID?.experience ?? undefined}
                 loading={!bookingDetails?.getBookingByID?.experience}
               />

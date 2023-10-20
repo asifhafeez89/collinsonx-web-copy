@@ -34,6 +34,9 @@ export default function CancelBooking() {
     pollInterval: 300000,
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
+    onCompleted: (data) => {
+      console.log(data);
+    },
   });
 
   return (
@@ -72,22 +75,19 @@ export default function CancelBooking() {
                 sx={{
                   padding: '10px',
                   margin: '0',
-
                   '@media (min-width: 768px)': {
                     display: 'none',
                   },
                 }}
               >
                 <Heading as="h1" padding={0} margin={0} lineHeight={1}>
-                  Booking confirmation
+                  Booking Cancellation
                 </Heading>
               </Center>
               {bookingDetails?.getBookingByID?.price &&
                 bookingDetails.getBookingByID.experience && (
                   <LoungeInfoPreBooked
-                    price={priceToDisplay(
-                      bookingDetails?.getBookingByID?.price
-                    )}
+                    hideImageMobile
                     lounge={bookingDetails.getBookingByID.experience}
                     loading={!bookingDetails.getBookingByID.experience}
                   />
@@ -135,7 +135,7 @@ export default function CancelBooking() {
                                 {' '}
                                 {bookingDetails.getBookingByID.status ===
                                 BookingStatus.Cancelled
-                                  ? ' Your Booking has been cancelled'
+                                  ? ' Your booking has been cancelled'
                                   : bookingDetails.getBookingByID.status ===
                                     BookingStatus.CancelationFailed
                                   ? 'Your booking cancellation has failed, please contact our team'

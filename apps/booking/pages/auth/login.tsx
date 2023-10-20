@@ -129,9 +129,6 @@ export default function Login() {
                 size={20}
                 sx={{
                   textAlign: 'center',
-                  '@media (max-width: 768px)': {
-                    textAlign: 'left',
-                  },
                 }}
               >
                 Enter your email

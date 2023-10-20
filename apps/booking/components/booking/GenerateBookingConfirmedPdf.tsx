@@ -1,5 +1,5 @@
 import colors from 'ui/colour-constants';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import {
   Document,
   Page,
@@ -24,6 +24,16 @@ interface BookingConfirmedPdfProps {
   lounge: Experience;
   reference: string | undefined;
 }
+
+interface ListItemProps {
+  children: ReactNode;
+}
+const ListItem = ({ children }: ListItemProps) => (
+  <View style={[styles.item]}>
+    <Text style={[styles.bullet]}>•</Text>
+    <Text style={[styles.p]}>{children}</Text>
+  </View>
+);
 
 const GeneratedPDF = (props: BookingConfirmedPdfProps) => (
   <Document>
@@ -63,10 +73,21 @@ const GeneratedPDF = (props: BookingConfirmedPdfProps) => (
           {props.infants > 0 && `Infants ${props.infants}`}
         </Text>
 
-        <Text style={[styles.p, styles.marginTop, styles.padding]}>
-          Please remember to bring your booking reference, boarding pass and
-          photo ID for check in at the lounge.
+        <Text style={[styles.h2, styles.marginTop, styles.padding]}>
+          Important Notes
         </Text>
+        <View style={[styles.flex]}>
+          <ListItem>
+            Please remember to bring your booking reference number, boarding
+            pass and photo ID along with your Priority Pass membership card or
+            eligible access method for check in at the lounge.
+          </ListItem>
+          <ListItem>
+            Cancellation must be made at least 48 hours in advance of your visit
+            date & time to receive a refund. No refund will be issued after this
+            time.
+          </ListItem>
+        </View>
 
         <Text style={[styles.p, styles.padding]}>
           We look forward to seeing you there!
@@ -86,6 +107,16 @@ const GeneratedPDF = (props: BookingConfirmedPdfProps) => (
 );
 
 const styles = StyleSheet.create({
+  flex: {
+    flexDirection: 'column',
+    gap: 4,
+    paddingRight: 50,
+    paddingBottom: 20,
+  },
+  bullet: {
+    marginHorizontal: 8,
+  },
+  item: { flexDirection: 'row', marginBottom: 4 },
   view: {
     margin: 25,
   },

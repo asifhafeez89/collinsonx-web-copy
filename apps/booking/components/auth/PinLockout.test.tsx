@@ -38,7 +38,7 @@ describe('<PinLockout />', () => {
       'Sorry, passcode not verified'
     );
     expect(getByTestId('attempts-body')).toHaveTextContent(
-      'Too many incorrect attempts were made to enter the verification passcode. Your account will be locked for 60 minutes.'
+      'Too many incorrect attempts were made to enter the verification passcode.'
     );
   });
 
