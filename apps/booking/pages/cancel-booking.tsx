@@ -175,6 +175,9 @@ export default function CancelBooking() {
                 sx={{
                   padding: '10px',
                   margin: '0',
+                  '@media (min-width: 768px)': {
+                    display: 'none',
+                  },
                 }}
               >
                 <Heading as="h1" padding={0} margin={0} lineHeight={1}>
