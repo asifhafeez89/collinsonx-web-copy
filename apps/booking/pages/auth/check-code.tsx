@@ -218,14 +218,25 @@ export default function CheckEmail() {
         '[check-code] fetchConsumer response: ',
         JSON.stringify(data || null)
       );
-      const { linkedAccounts } = data.getConsumerByID;
+      const { linkedAccounts, firstName, lastName, emailAddress } =
+        data.getConsumerByID;
       const matchedAccount = findLinkedAccount(linkedAccounts || []);
+
+      // consumer object has personal details attached
+      const consumerHasDetails = firstName && lastName && emailAddress;
+
+      // supertokens new user happy path
+      const createdNewUser =
+        response.status === 'OK' && response.createdNewUser;
+
+      const isUserNew = createdNewUser || !consumerHasDetails;
+
       setConsumerData(data);
       if (!matchedAccount) {
-        handleLinkAccount(response.status === 'OK' && response.createdNewUser);
+        handleLinkAccount(isUserNew);
       } else {
         setLinkedAccountId(matchedAccount.id);
-        redirect(response.status === 'OK' && response.createdNewUser);
+        redirect(isUserNew);
       }
     });
   };
