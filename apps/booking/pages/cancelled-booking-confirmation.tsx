@@ -87,6 +87,7 @@ export default function CancelBooking() {
               {bookingDetails?.getBookingByID?.price &&
                 bookingDetails.getBookingByID.experience && (
                   <LoungeInfoPreBooked
+                    hideImageMobile
                     lounge={bookingDetails.getBookingByID.experience}
                     loading={!bookingDetails.getBookingByID.experience}
                   />

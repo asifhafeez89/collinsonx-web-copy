@@ -190,6 +190,8 @@ export default function CancelBooking() {
                   infants: bookingDetails?.getBookingByID?.guestInfantCount,
                   children: bookingDetails?.getBookingByID?.guestChildrenCount,
                 }}
+                hideImage
+                hideImageMobile
                 lounge={bookingDetails?.getBookingByID?.experience ?? undefined}
                 loading={!bookingDetails?.getBookingByID?.experience}
               />

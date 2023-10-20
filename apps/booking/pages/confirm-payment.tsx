@@ -219,6 +219,7 @@ export default function ConfirmPayment() {
                 guests={{ adults, children, infants }}
                 lounge={lounge}
                 loading={!lounge}
+                hideImageMobile
               />
             </Box>
 
