@@ -29,38 +29,49 @@ const Layout = forwardRef(({ children }: LayoutProps, ref: ContainerRef) => {
       ref={ref}
     >
       <Box
-        mb={2}
-        mt={2}
         sx={{
           width: '100%',
           backgroundColor: colors.white,
-          boxShadow: `4px 4px 4px 4px ${colors.shadow}`,
-          position: 'relative',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignContent: 'center',
-          alignItems: 'center',
-          height: '100px',
-          '@media (max-width: 768px)': {
-            height: '50px',
-          },
+          boxShadow: `4px 4px 4px 0px ${colors.shadow}`,
+          position: 'fixed',
           zIndex: 200,
         }}
       >
-        {payload && (
-          <AppLogo
-            accountProvider={payload.accountProvider}
-            membershipType={payload.membershipType}
-          />
-        )}
+        <Box
+          mb={2}
+          mt={2}
+          sx={{
+            width: '100%',
+            backgroundColor: colors.white,
+            boxShadow: `4px 4px 4px 4px ${colors.shadow}`,
+            position: 'relative',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignContent: 'center',
+            alignItems: 'center',
+            height: '100px',
+            '@media (max-width: 768px)': {
+              height: '50px',
+            },
+            zIndex: 200,
+          }}
+        >
+          {payload && (
+            <AppLogo
+              accountProvider={payload.accountProvider}
+              membershipType={payload.membershipType}
+            />
+          )}
+        </Box>
       </Box>
       <Box
         sx={{
           paddingBottom: '1.3rem',
+          marginTop: '6.4rem',
 
           '@media (max-width: 768px)': {
-            marginTop: '3.rem',
+            marginTop: '3.3rem',
             padding: '0 0 1.3rem 0',
           },
         }}
