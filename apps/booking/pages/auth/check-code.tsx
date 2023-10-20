@@ -225,12 +225,14 @@ export default function CheckEmail() {
       // consumer object has personal details attached
       const consumerHasDetails = firstName && lastName && dateOfBirth;
 
+      const isUserNew = !consumerHasDetails;
+
       setConsumerData(data);
       if (!matchedAccount) {
-        handleLinkAccount(!consumerHasDetails);
+        handleLinkAccount(isUserNew);
       } else {
         setLinkedAccountId(matchedAccount.id);
-        redirect(!consumerHasDetails);
+        redirect(isUserNew);
       }
     });
   };
