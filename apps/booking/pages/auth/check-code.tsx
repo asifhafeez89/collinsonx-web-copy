@@ -218,12 +218,12 @@ export default function CheckEmail() {
         '[check-code] fetchConsumer response: ',
         JSON.stringify(data || null)
       );
-      const { linkedAccounts, firstName, lastName, emailAddress } =
+      const { linkedAccounts, firstName, lastName, dateOfBirth } =
         data.getConsumerByID;
       const matchedAccount = findLinkedAccount(linkedAccounts || []);
 
       // consumer object has personal details attached
-      const consumerHasDetails = firstName && lastName && emailAddress;
+      const consumerHasDetails = firstName && lastName && dateOfBirth;
 
       // supertokens new user happy path
       const createdNewUser =
