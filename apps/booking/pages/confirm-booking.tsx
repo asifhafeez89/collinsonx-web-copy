@@ -122,6 +122,7 @@ export default function ConfirmBooking() {
               lounge={lounge}
               loading={!lounge}
               hideImage={clientSecret ? true : false}
+              hideImageMobile
               width={clientSecret ? '400px' : '100%'}
             />
             <Flex

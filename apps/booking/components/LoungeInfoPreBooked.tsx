@@ -14,6 +14,7 @@ interface LoungeInfoProps {
   lounge: Experience;
   loading: boolean;
   width?: string;
+  hideImageMobile?: boolean;
 }
 
 const currencyMap: Record<string, string> = {
@@ -26,6 +27,7 @@ const getCurrencySymbol = (currency: string) =>
 export const LoungeInfoPreBooked = ({
   lounge,
   loading,
+  hideImageMobile,
   width = '100%',
 }: LoungeInfoProps) => {
   const loungeLocation = useMemo(
@@ -76,6 +78,7 @@ export const LoungeInfoPreBooked = ({
                 '@media (max-width: 768px)': {
                   width: '100%',
                   height: '100%',
+                  display: hideImageMobile ? 'none' : 'auto',
                 },
               })}
               src={lounge?.images[0].url}
