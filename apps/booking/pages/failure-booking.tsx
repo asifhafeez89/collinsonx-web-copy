@@ -63,11 +63,7 @@ export default function BookingFailure() {
               },
             }}
           >
-            <LoungeInfo
-              guests={{ adults, children, infants }}
-              lounge={lounge}
-              loading={!lounge}
-            />
+            <LoungeInfo lounge={lounge} loading={!lounge} />
             <Flex
               gap={{ base: 'sm', sm: 'lg' }}
               sx={{
