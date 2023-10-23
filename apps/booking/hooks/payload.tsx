@@ -273,6 +273,8 @@ export const PayloadProvider = (props: PropsWithChildren) => {
             );
             if (accountMatched) {
               setLinkedAccountId(accountMatched?.id);
+            } else {
+              signOut();
             }
           } else {
             log('[payload hook] consumer is not valid');
