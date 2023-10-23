@@ -35,7 +35,7 @@ import {
 } from 'supertokens-auth-react/recipe/session';
 import LoungeError from '@components/LoungeError';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
-import { accountIsEqual } from '../lib/index';
+import { accountIsEqual, consumerIsValid } from '../lib/index';
 import {
   LOUNGE_CODE,
   JWT,
@@ -265,13 +265,19 @@ export const PayloadProvider = (props: PropsWithChildren) => {
             '[payload hook] fetchConsumer response: ',
             JSON.stringify(data || null)
           );
-          setConsumerData(data);
-          const accountMatched = findLinkedAccount(
-            data.getConsumerByID.linkedAccounts
-          );
-          if (accountMatched) {
-            setLinkedAccountId(accountMatched?.id);
+          const consumer = data.getConsumerByID;
+          if (consumerIsValid(consumer)) {
+            setConsumerData(data);
+            const accountMatched = findLinkedAccount(
+              data.getConsumerByID.linkedAccounts
+            );
+            if (accountMatched) {
+              setLinkedAccountId(accountMatched?.id);
+            } else {
+              signOut();
+            }
           } else {
+            log('[payload hook] consumer is not valid');
             signOut();
           }
         });

@@ -31,7 +31,7 @@ import { BookingQueryParams } from '@collinsonx/constants/enums';
 import { PinLockoutError } from '@collinsonx/constants/constants';
 import { getConsumerByID } from '@collinsonx/utils/queries';
 import { LinkedAccount } from '@collinsonx/utils/generatedTypes/graphql';
-import { accountIsEqual, log } from '../../lib/index';
+import { accountIsEqual, consumerIsValid, log } from '../../lib/index';
 
 const { ERR_MEMBERSHIP_ALREADY_CONNECTED, ERR_TOKEN_INVALID_OR_EXPIRED } =
   BookingError;
@@ -218,14 +218,11 @@ export default function CheckEmail() {
         '[check-code] fetchConsumer response: ',
         JSON.stringify(data || null)
       );
-      const { linkedAccounts, firstName, lastName, dateOfBirth } =
-        data.getConsumerByID;
+      const consumer = data.getConsumerByID || {};
+      const { linkedAccounts } = consumer;
       const matchedAccount = findLinkedAccount(linkedAccounts || []);
 
-      // consumer object has personal details attached
-      const consumerHasDetails = firstName && lastName && dateOfBirth;
-
-      const isUserNew = !consumerHasDetails;
+      const isUserNew = !consumerIsValid(consumer);
 
       setConsumerData(data);
       if (!matchedAccount) {
