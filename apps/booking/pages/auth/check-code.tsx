@@ -218,10 +218,11 @@ export default function CheckEmail() {
         '[check-code] fetchConsumer response: ',
         JSON.stringify(data || null)
       );
-      const { linkedAccounts } = data.getConsumerByID;
+      const consumer = data.getConsumerByID || {};
+      const { linkedAccounts } = consumer;
       const matchedAccount = findLinkedAccount(linkedAccounts || []);
 
-      const isUserNew = !consumerIsValid(data.getConsumerByID);
+      const isUserNew = !consumerIsValid(consumer);
 
       setConsumerData(data);
       if (!matchedAccount) {
