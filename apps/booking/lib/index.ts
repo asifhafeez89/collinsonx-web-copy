@@ -76,6 +76,7 @@ export const log = (...args: any[]) => {
   const windowObj: any = window;
   if (windowObj) {
     if (windowObj.location.host !== PRODUCTION_DOMAIN) {
+      // eslint-disable-next-line no-console
       console.log(...args);
     }
   }
