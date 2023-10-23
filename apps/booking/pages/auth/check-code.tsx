@@ -218,14 +218,21 @@ export default function CheckEmail() {
         '[check-code] fetchConsumer response: ',
         JSON.stringify(data || null)
       );
-      const { linkedAccounts } = data.getConsumerByID;
+      const { linkedAccounts, firstName, lastName, dateOfBirth } =
+        data.getConsumerByID;
       const matchedAccount = findLinkedAccount(linkedAccounts || []);
+
+      // consumer object has personal details attached
+      const consumerHasDetails = firstName && lastName && dateOfBirth;
+
+      const isUserNew = !consumerHasDetails;
+
       setConsumerData(data);
       if (!matchedAccount) {
-        handleLinkAccount(response.status === 'OK' && response.createdNewUser);
+        handleLinkAccount(isUserNew);
       } else {
         setLinkedAccountId(matchedAccount.id);
-        redirect(response.status === 'OK' && response.createdNewUser);
+        redirect(isUserNew);
       }
     });
   };
