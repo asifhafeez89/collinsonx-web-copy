@@ -237,6 +237,9 @@ export default function CheckEmail() {
   const handleClickReenter = () => {
     router.push({
       pathname: '/auth/login',
+      query: {
+        [bookingId]: router.query[bookingId] || '',
+      },
     });
   };
 
