@@ -118,7 +118,6 @@ export default function ConfirmBooking() {
             </Center>
 
             <LoungeInfo
-              guests={{ adults, children, infants }}
               lounge={lounge}
               loading={!lounge}
               hideImage={clientSecret ? true : false}

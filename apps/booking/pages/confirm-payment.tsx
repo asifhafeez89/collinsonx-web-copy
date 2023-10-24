@@ -215,12 +215,7 @@ export default function ConfirmPayment() {
                 },
               }}
             >
-              <LoungeInfo
-                guests={{ adults, children, infants }}
-                lounge={lounge}
-                loading={!lounge}
-                hideImageMobile
-              />
+              <LoungeInfo lounge={lounge} loading={!lounge} hideImageMobile />
             </Box>
 
             <Flex

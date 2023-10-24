@@ -185,11 +185,6 @@ export default function CancelBooking() {
                 </Heading>
               </Center>
               <LoungeInfo
-                guests={{
-                  adults: bookingDetails?.getBookingByID?.guestAdultCount,
-                  infants: bookingDetails?.getBookingByID?.guestInfantCount,
-                  children: bookingDetails?.getBookingByID?.guestChildrenCount,
-                }}
                 hideImageMobile
                 lounge={bookingDetails?.getBookingByID?.experience ?? undefined}
                 loading={!bookingDetails?.getBookingByID?.experience}

@@ -31,7 +31,7 @@ import { BookingQueryParams } from '@collinsonx/constants/enums';
 import { PinLockoutError } from '@collinsonx/constants/constants';
 import { getConsumerByID } from '@collinsonx/utils/queries';
 import { LinkedAccount } from '@collinsonx/utils/generatedTypes/graphql';
-import { accountIsEqual, log } from '../../lib/index';
+import { accountIsEqual, consumerIsValid, log } from '../../lib/index';
 
 const { ERR_MEMBERSHIP_ALREADY_CONNECTED, ERR_TOKEN_INVALID_OR_EXPIRED } =
   BookingError;
@@ -218,14 +218,18 @@ export default function CheckEmail() {
         '[check-code] fetchConsumer response: ',
         JSON.stringify(data || null)
       );
-      const { linkedAccounts } = data.getConsumerByID;
+      const consumer = data.getConsumerByID || {};
+      const { linkedAccounts } = consumer;
       const matchedAccount = findLinkedAccount(linkedAccounts || []);
+
+      const isUserNew = !consumerIsValid(consumer);
+
       setConsumerData(data);
       if (!matchedAccount) {
-        handleLinkAccount(response.status === 'OK' && response.createdNewUser);
+        handleLinkAccount(isUserNew);
       } else {
         setLinkedAccountId(matchedAccount.id);
-        redirect(response.status === 'OK' && response.createdNewUser);
+        redirect(isUserNew);
       }
     });
   };
@@ -233,6 +237,9 @@ export default function CheckEmail() {
   const handleClickReenter = () => {
     router.push({
       pathname: '/auth/login',
+      query: {
+        [bookingId]: router.query[bookingId] || '',
+      },
     });
   };
 

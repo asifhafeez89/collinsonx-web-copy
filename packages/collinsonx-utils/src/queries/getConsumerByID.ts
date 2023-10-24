@@ -20,6 +20,9 @@ const getConsumerByID = gql`
         updatedAt
         createdAt
       }
+      firstName
+      lastName
+      dateOfBirth
       createdAt
       emailAddress
       id

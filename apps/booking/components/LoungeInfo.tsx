@@ -4,20 +4,12 @@ import {
   Image,
   Flex,
   Text,
-  Stack,
   Skeleton,
-  Center,
-  Box,
 } from '@collinsonx/design-system/core';
 import { Experience } from '@collinsonx/utils';
 import { getCurrencySymbol } from 'utils/currencysymbol';
 
 interface LoungeInfoProps {
-  guests?: {
-    adults: number;
-    children: number;
-    infants: number;
-  };
   lounge?: Experience;
   loading: boolean;
   hideImage?: boolean;
@@ -25,20 +17,7 @@ interface LoungeInfoProps {
   width?: string;
 }
 
-const getSumToPay = (
-  guests: {
-    adults: number;
-    children: number;
-    infants: number;
-  },
-  reservationOnlyFee: number
-) => {
-  const sum = reservationOnlyFee * (guests.adults + guests.children);
-  return sum.toFixed(2);
-};
-
 export const LoungeInfo = ({
-  guests,
   lounge,
   loading,
   hideImage = false,
@@ -55,16 +34,6 @@ export const LoungeInfo = ({
         : '-',
     [lounge]
   );
-
-  const loungePrice = useMemo(() => {
-    if (guests) {
-      return lounge?.pricing?.currency && lounge.pricing.reservationOnlyFee
-        ? getCurrencySymbol(lounge.pricing.currency) +
-            ' ' +
-            getSumToPay(guests, lounge.pricing.reservationOnlyFee)
-        : '';
-    }
-  }, [lounge, guests]);
 
   if (!loading && !lounge) {
     return null;
@@ -83,7 +52,6 @@ export const LoungeInfo = ({
         width: width,
         margin: '0 auto',
         borderRadius: '0.4rem',
-
         '@media (max-width: 768px)': {
           width: '100%',
         },
@@ -96,7 +64,7 @@ export const LoungeInfo = ({
             width: '100%',
           }}
         >
-          {!hideImage && lounge?.images && lounge.images[0] ? (
+          {!hideImage && lounge?.images && lounge.images[0] && (
             <Image
               sx={() => ({
                 width: '176px',
@@ -106,10 +74,10 @@ export const LoungeInfo = ({
                   display: hideImageMobile ? 'none' : 'auto',
                 },
               })}
-              src={lounge?.images[0].url}
+              src={lounge.images[0].url}
               alt="lounge image"
             />
-          ) : undefined}
+          )}
         </Skeleton>
       </div>
       <Flex
@@ -131,38 +99,30 @@ export const LoungeInfo = ({
           <Text size={18}>{loungeLocation}</Text>
         </Skeleton>
         <Skeleton visible={loading}>
-          {lounge?.pricing?.reservationOnlyFee ? (
-            <Box
+          {lounge?.pricing?.reservationOnlyFee && (
+            <Flex
+              gap={2}
               sx={{
+                justifyContent: 'initial',
                 '@media (max-width: 768px)': {
                   margin: '0 auto',
                   width: '90%',
                   textAlign: 'center',
+                  justifyContent: 'center',
                 },
               }}
             >
-              <Flex
-                gap={2}
-                sx={{
-                  justifyContent: 'initial',
-
-                  '@media (max-width: 768px)': {
-                    justifyContent: 'center',
-                  },
-                }}
-              >
-                <Text fw={700} size={28}>
-                  {getCurrencySymbol(lounge?.pricing?.currency ?? '')}
-                  {parseFloat(
-                    lounge.pricing.reservationOnlyFee.toString()
-                  ).toFixed(2)}{' '}
-                </Text>{' '}
-                <Text size={20} style={{ lineHeight: '50px' }}>
-                  per person
-                </Text>
-              </Flex>
-            </Box>
-          ) : null}
+              <Text fw={700} size={28}>
+                {getCurrencySymbol(lounge?.pricing?.currency ?? '')}
+                {parseFloat(
+                  lounge.pricing.reservationOnlyFee.toString()
+                ).toFixed(2)}
+              </Text>
+              <Text size={20} style={{ lineHeight: '50px' }}>
+                per person
+              </Text>
+            </Flex>
+          )}
         </Skeleton>
       </Flex>
     </Flex>

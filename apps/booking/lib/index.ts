@@ -7,7 +7,10 @@ import { PRODUCTION_DOMAIN, STORAGE_NAMESPACE } from '../constants';
 import { LOUNGE_HOURS_OFFSET } from 'config/lounge';
 import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
 import { AccountProvider } from '@collinsonx/constants/enums';
-import { LinkedAccount } from '@collinsonx/utils/generatedTypes/graphql';
+import {
+  Consumer,
+  LinkedAccount,
+} from '@collinsonx/utils/generatedTypes/graphql';
 import { BridgePayload } from 'types/booking';
 
 export const getLoungeArrivalTime = (date: Date): string =>
@@ -73,6 +76,7 @@ export const log = (...args: any[]) => {
   const windowObj: any = window;
   if (windowObj) {
     if (windowObj.location.host !== PRODUCTION_DOMAIN) {
+      // eslint-disable-next-line no-console
       console.log(...args);
     }
   }
@@ -97,3 +101,8 @@ export const accountIsEqual =
   (payload: BridgePayload | undefined) => (item: LinkedAccount) =>
     String(item.externalID) === String(payload?.externalId) &&
     (item.provider as unknown as AccountProvider) === payload?.accountProvider;
+
+export const consumerIsValid = (consumer: Consumer) => {
+  const { firstName, lastName, dateOfBirth } = consumer || {};
+  return consumer && firstName && lastName && dateOfBirth;
+};

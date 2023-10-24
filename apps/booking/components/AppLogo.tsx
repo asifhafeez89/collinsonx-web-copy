@@ -65,9 +65,9 @@ const logos: Record<AccountProvider | string, ReactNode> = {
   [LK]: (
     <Box
       sx={{
-        transform: 'scale(0.35)',
+        transform: 'scale(1.3)',
         '@media (max-width: 768px)': {
-          transform: 'scale(0.17)',
+          transform: 'scale(0.7)',
         },
       }}
     >
