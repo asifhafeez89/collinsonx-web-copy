@@ -9,7 +9,9 @@ import { Stack, Title } from '@mantine/core';
 const stripeApiToken = process.env
   .NEXT_PUBLIC_STRIPE_PUBLISHABLE_TOKEN as string;
 
-const stripePromise = loadStripe(stripeApiToken);
+const stripePromise = loadStripe(stripeApiToken, {
+  betas: ['embedded_checkout_beta_1'],
+});
 
 const StripeCheckout = ({ clientSecret }: any) => {
   return (
