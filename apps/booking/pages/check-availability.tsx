@@ -363,11 +363,7 @@ export default function CheckAvailability() {
                 Arrival time selection
               </Heading>
             </Center>
-            <LoungeInfo
-              guests={{ adults, children, infants }}
-              lounge={lounge}
-              loading={!lounge}
-            />
+            <LoungeInfo lounge={lounge} loading={!lounge} />
             {!linkedAccountId && (
               <Notification>Linked account ID could not be found</Notification>
             )}

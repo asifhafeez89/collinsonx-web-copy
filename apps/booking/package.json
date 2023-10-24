@@ -58,7 +58,7 @@
     "supertokens-web-js": "0.6.0"
   },
   "devDependencies": {
-    "@testing-library/react": "^11.2.7",
+    "@testing-library/react": "^13.4.0",
     "@types/express": "^4.17.17",
     "@types/http-proxy": "^1.17.11",
     "@types/react": "^18.0.0",

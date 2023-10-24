@@ -35,11 +35,7 @@ const mockLounge: Experience = {
 describe('<LoungeInfo />', () => {
   it('renders', () => {
     const { getByText, getByAltText } = render(
-      <LoungeInfo
-        guests={{ adults: 2, children: 1, infants: 0 }}
-        lounge={mockLounge}
-        loading={false}
-      />
+      <LoungeInfo lounge={mockLounge} loading={false} />
     );
 
     expect(getByAltText('lounge image')).toHaveAttribute(
@@ -48,28 +44,12 @@ describe('<LoungeInfo />', () => {
     );
     expect(getByText('Mock Lounge Name')).toBeInTheDocument();
     expect(getByText('Mock Airport Name, Mock Terminal')).toBeInTheDocument();
-    expect(getByText('£ 150.00')).toBeInTheDocument();
+    expect(getByText('£50.00')).toBeInTheDocument();
   });
 
-  it('displays the correct sum to pay', () => {
-    const { getByText } = render(
-      <LoungeInfo
-        guests={{ adults: 1, children: 0, infants: 0 }}
-        lounge={mockLounge}
-        loading={false}
-      />
-    );
-    expect(getByText('£ 50.00')).toBeInTheDocument();
-  });
+  it('does not render if there is no lounge', () => {
+    const { container } = render(<LoungeInfo loading={false} />);
 
-  it('displays the correct sum to pay when infants are included', () => {
-    const { getByText } = render(
-      <LoungeInfo
-        guests={{ adults: 1, children: 0, infants: 3 }}
-        lounge={mockLounge}
-        loading={false}
-      />
-    );
-    expect(getByText('£ 50.00')).toBeInTheDocument();
+    expect(container).toBeEmptyDOMElement();
   });
 });

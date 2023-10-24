@@ -118,7 +118,6 @@ export default function ConfirmBooking() {
             </Center>
 
             <LoungeInfo
-              guests={{ adults, children, infants }}
               lounge={lounge}
               loading={!lounge}
               hideImage={clientSecret ? true : false}
@@ -132,7 +131,7 @@ export default function ConfirmBooking() {
                 '@media (max-width: 768px)': {
                   flexDirection: 'column',
                 },
-                width: clientSecret ? '400px' : '100%',
+                width: '100%',
                 margin: clientSecret ? '0 auto' : 'initial',
                 height: '1000px',
               }}
