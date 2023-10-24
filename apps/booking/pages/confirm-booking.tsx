@@ -131,7 +131,7 @@ export default function ConfirmBooking() {
                 '@media (max-width: 768px)': {
                   flexDirection: 'column',
                 },
-                width: '100%',
+                width: clientSecret ? '400px' : '100%',
                 margin: clientSecret ? '0 auto' : 'initial',
                 height: '1000px',
               }}
