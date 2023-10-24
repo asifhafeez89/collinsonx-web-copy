@@ -114,9 +114,9 @@ const baseTheme = ({
             fontSize: 18,
             height: 44,
 
-            // '&:hover': {
-            //   backgroundColor: theme.fn.darken(theme.colors.brandColor[0], 0.1),
-            // },
+            '&:hover': {
+              filter: 'brightness(85%)',
+            },
           },
         }),
       },
