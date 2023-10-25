@@ -23,6 +23,7 @@
     "@collinsonx/jwt": "workspace:*",
     "@collinsonx/pages": "workspace:*",
     "@collinsonx/utils": "workspace:*",
+    "@datadog/browser-logs": "^5.1.0",
     "@datadog/browser-rum": "^4.47.0",
     "@emotion/react": "^11.11.1",
     "@emotion/server": "^11.11.0",
