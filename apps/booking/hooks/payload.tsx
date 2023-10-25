@@ -1,5 +1,5 @@
 import { MantineProvider, Flex } from '@collinsonx/design-system/core';
-import { log, hasRequired } from '@lib';
+import { log, hasRequired, loggerProduction } from '@lib';
 import { useRouter } from 'next/router';
 import {
   PropsWithChildren,
@@ -211,6 +211,8 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         log('Decode JWT error: ', e);
         setPayloadErrorTitle('Sorry, service is not available');
         setPayloadError(true);
+        loggerProduction(e as Error, 'payload', 'catch: token is invalid', jwt);
+
         return;
       }
 
@@ -218,6 +220,13 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         log('JWT did not pass validatePayload() checks');
         setPayloadErrorTitle('Sorry, service is not available');
         setPayloadError(true);
+
+        loggerProduction(
+          new Error('Validation Failed'),
+          'payload',
+          'if: token failed validation',
+          payload
+        );
       }
 
       setPayload(payload);
