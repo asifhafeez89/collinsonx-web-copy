@@ -33,6 +33,7 @@ import Price from '@components/Price';
 import { formatDate } from 'utils/DateFormatter';
 import { FlightContext } from 'context/flightContext';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
+
 interface DepartureFlightInfo {
   airport: { iata: string };
   date: { local: string; utc: string };
@@ -49,16 +50,18 @@ const Lounge = () => {
   const [guestError, setGuestError] = useState<Boolean>(false);
   const { lounge, referrerUrl } = usePayload();
 
-  const { setBooking } = useContext(BookingContext);
+  const { getBooking, setBooking } = useContext(BookingContext);
   const { setFlight } = useContext(FlightContext);
+  const { flightNumber, departureDate, adults, children, infants } =
+    getBooking();
 
   const form = useForm({
     initialValues: {
-      flightNumber: '',
-      departureDate: null,
-      adults: 1,
-      children: 0,
-      infants: 0,
+      flightNumber: flightNumber || '',
+      departureDate: (departureDate && new Date(String(departureDate))) || null,
+      adults: adults || 1,
+      children: children || 0,
+      infants: infants || 0,
     },
     transformValues: (values) => ({
       ...values,
