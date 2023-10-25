@@ -3,16 +3,19 @@ import {
   Box,
   Center,
   Container,
+  Flex,
   Text,
 } from '@collinsonx/design-system/core';
 import AppLogo from './AppLogo';
 import colors from 'ui/colour-constants';
 import { AccountProvider, Client } from '@collinsonx/constants/enums';
 import BackButton from './BackButton';
+import UpdateEnvError, { devices } from './UpdateEnvError';
 
 interface LayoutProps {
   payloadErrorTitle?: string;
   payloadErrorMessage?: string;
+  payloadPlatform: String;
   payloadTheme: {
     accountProvider: AccountProvider;
     membershipType: Client;
@@ -24,7 +27,12 @@ const defaultErrMessage =
   'There might be an error in the system. Please try again or browse other options';
 
 export default function LayoutError(props: LayoutProps) {
-  let { payloadErrorMessage, payloadErrorTitle, payloadTheme } = props;
+  let {
+    payloadErrorMessage,
+    payloadErrorTitle,
+    payloadTheme,
+    payloadPlatform,
+  } = props;
 
   if (!payloadErrorMessage) payloadErrorMessage = defaultErrMessage;
   if (!payloadErrorTitle) payloadErrorTitle = defaultErrTitle;
@@ -91,6 +99,21 @@ export default function LayoutError(props: LayoutProps) {
           <Text align="center" mb={18}>
             {payloadErrorMessage}
           </Text>
+          <Box pt={10} pb={10}>
+            <Flex
+              direction="column"
+              sx={{ justifyItems: 'center', alignItems: 'center' }}
+            >
+              {' '}
+              <UpdateEnvError type={payloadPlatform as devices} />
+              {(payloadPlatform === 'ios' || payloadPlatform === 'android') && (
+                <Text mb={3} mt={3}>
+                  Try again or browse other options.
+                </Text>
+              )}
+            </Flex>
+          </Box>
+          {/* )} */}
           <Center>
             <Anchor href="#">
               <BackButton>{`Return to lounge`.toUpperCase()}</BackButton>

@@ -53,6 +53,7 @@ export default function CheckEmail() {
     setLayoutError,
     setConsumerData,
     setTokenError,
+    platform,
   } = usePayload();
   const router = useRouter();
   const email = router.query?.email as string;
