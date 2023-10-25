@@ -122,6 +122,11 @@ export const PayloadProvider = (props: PropsWithChildren) => {
   const [layoutError, setLayoutError] = useState<string>();
   const [consumerData, setConsumerData] = useState<Consumer>();
 
+  const ErrorAppMsgApp =
+    'There might be an error in the system. Please make sure to update to the latest version of the app.';
+  const ErrorWebTitle =
+    'There might be an error in the system. Please try again or browse other options.';
+
   const [
     fetchConsumer,
     {
@@ -186,6 +191,8 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         log('platform:', platform);
       }
 
+      setPlatform(queryPlatform);
+
       if (!loungeCode || !jwt) {
         log(
           `Unable to retrieve ${jwtParam} or ${lcParam} from both query and storage`
@@ -209,6 +216,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         payload = decodeJWT(jwt) as BridgePayload;
       } catch (e) {
         log('Decode JWT error: ', e);
+
         setPayloadErrorTitle('Sorry, service is not available');
         setPayloadError(true);
         loggerProduction(e as Error, 'payload', 'catch: token is invalid', jwt);
@@ -246,9 +254,6 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         setPayloadErrorTitle('Sorry, service is not available');
       } else if (!loadingLounge && !lounge) {
         setPayloadErrorTitle("Sorry we can't find the lounge you requested");
-        setPayloadErrorMessage(
-          "There might be an error in the system. We can't find the lounge you requested. Please try again or browse other options"
-        );
       }
     }
   }, [lounge, loadingLounge, tokenError, router, session]);
@@ -353,11 +358,18 @@ export const PayloadProvider = (props: PropsWithChildren) => {
                 tokenError ||
                 (!loadingLounge && !lounge) ||
                 payloadError) ? (
-                <LayoutError
-                  payloadTheme={layoutErrorTheme()}
-                  payloadErrorTitle={payloadErrorTitle}
-                  payloadErrorMessage={payloadErrorMessage}
-                />
+                <>
+                  <LayoutError
+                    payloadTheme={layoutErrorTheme()}
+                    payloadErrorTitle={payloadErrorTitle}
+                    payloadErrorMessage={
+                      platform === 'android' || platform === 'ios'
+                        ? ErrorAppMsgApp
+                        : ErrorWebTitle
+                    }
+                    payloadPlatform={platform ?? ''}
+                  />
+                </>
               ) : (
                 payload && props.children
               )}
