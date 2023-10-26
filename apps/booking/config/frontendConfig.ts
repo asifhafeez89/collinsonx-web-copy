@@ -5,8 +5,6 @@ import Session, { InputType } from 'supertokens-auth-react/recipe/session';
 import getWindowHandler from './windowHandler';
 import getCookieHandler from '@collinsonx/utils/lib/cookieHandler';
 
-const sessionTokenFrontendDomain = process.env.NEXT_PUBLIC_SESSION_SCOPE;
-
 async function userContextHandler(context: any) {
   const { userContext = {}, requestInit } = context;
   const body = requestInit.body ? JSON.parse(requestInit.body) : {};
@@ -24,7 +22,6 @@ export const frontendConfig = () => {
     recipeList: [
       Session.init({
         isInIframe: true,
-        sessionTokenFrontendDomain,
         preAPIHook: userContextHandler,
         tokenTransferMethod: 'header',
       } as InputType),
