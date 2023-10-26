@@ -226,6 +226,15 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       } catch (e) {
         log('Decode JWT error: ', e);
 
+        loggerProduction(
+          new Error(
+            `Unable to retrieve ${jwtParam} or ${lcParam} from both query and storage`
+          ),
+          'payload',
+          'catch: token is not found',
+          jwt
+        );
+
         setPayloadErrorTitle('Sorry, service is not available');
         setPayloadError(true);
 
