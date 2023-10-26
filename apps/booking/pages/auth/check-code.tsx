@@ -24,7 +24,7 @@ import colors from 'ui/colour-constants';
 import PinLockout from '@components/auth/PinLockout';
 import linkAccount from '@collinsonx/utils/mutations/linkAccount';
 import Session from 'supertokens-auth-react/recipe/session';
-import BackToLounge from '@components/BackToLounge';
+import TopBarLinks from '@components/TopBarLinks';
 import getError from 'utils/getError';
 import { BookingError } from '../../constants';
 import { BookingQueryParams } from '@collinsonx/constants/enums';
@@ -264,7 +264,7 @@ export default function CheckEmail() {
           ) : (
             <>
               <Skeleton visible={!lounge}>
-                <BackToLounge />
+                <TopBarLinks />
               </Skeleton>
               <Stack
                 spacing={24}

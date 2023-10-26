@@ -45,7 +45,7 @@ import { BookingContext } from 'context/bookingContext';
 import dayjs from 'dayjs';
 import { BookingError, MOBILE_ACTION_BACK, constants } from '../constants';
 import colors from 'ui/colour-constants';
-import BackToLounge from '@components/BackToLounge';
+import TopBarLinks from '@components/TopBarLinks';
 import BookingLightbox from '@collinsonx/design-system/components/bookinglightbox';
 import Price from '@components/Price';
 import Notification from '@components/Notification';
@@ -326,7 +326,7 @@ export default function CheckAvailability() {
         }}
       >
         <Stack sx={{ width: '100%' }}>
-          <BackToLounge />
+          <TopBarLinks />
         </Stack>
         <Flex
           direction="column"
