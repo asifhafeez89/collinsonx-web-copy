@@ -9,7 +9,6 @@ import SuperTokensReact, {
 } from '@collinsonx/utils/supertokens';
 import { UserProvider } from '@collinsonx/utils/lib/userContext';
 import { useApollo, ApolloProvider } from '@collinsonx/utils/apolloBooking';
-import SessionManager from '@components/SessionManager';
 import AuthWrapper from '@components/AuthWrapper';
 import { PayloadProvider } from 'hooks/payload';
 import BookingProvider from 'context/bookingContext';
@@ -30,7 +29,11 @@ if (typeof window !== 'undefined') {
     loggerInfo('_app.tsx', 'url change', event.destination.url);
   });
 
-  SuperTokensReact.init(frontendConfig() as SuperTokensConfig);
+  const isMobile = windowObj.webkit || windowObj.Android;
+
+  SuperTokensReact.init(
+    frontendConfig({ isInIframe: !isMobile }) as SuperTokensConfig
+  );
 }
 const { publicRuntimeConfig } = getConfig();
 const version = publicRuntimeConfig?.version;

@@ -13,15 +13,17 @@ async function userContextHandler(context: any) {
 
   return context;
 }
-
-export const frontendConfig = () => {
+interface FrontendConfigOptions {
+  isInIframe: boolean;
+}
+export const frontendConfig = ({ isInIframe }: FrontendConfigOptions) => {
   return {
     appInfo,
     windowHandler: getWindowHandler,
     cookieHandler: getCookieHandler,
     recipeList: [
       Session.init({
-        isInIframe: true,
+        isInIframe,
         preAPIHook: userContextHandler,
         tokenTransferMethod: 'header',
       } as InputType),
