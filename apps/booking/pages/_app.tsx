@@ -18,6 +18,7 @@ import getConfig from 'next/config';
 import Maintenance from 'pages/maintenance';
 
 import '../styles.css';
+import { datadogLogs } from '@datadog/browser-logs';
 
 if (typeof window !== 'undefined') {
   // we only want to call this init function on the frontend, so
@@ -31,6 +32,14 @@ const version = publicRuntimeConfig?.version;
 // Set in Vercel this variable for any environments that need monitoring. Prod and probably UAT
 const datadogenv: string | undefined = process.env.NEXT_PUBLIC_DATADOG_ENV;
 if ((datadogenv?.length ?? 0) > 0) {
+  datadogLogs.init({
+    clientToken: process.env.NEXT_PUBLIC_DATADOG_CLIENT_TOKEN ?? '',
+    site: process.env.NEXT_PUBLIC_DATADOG_SITE ?? '',
+    service: process.env.NEXT_PUBLIC_DATADOG_SERVICE ?? '',
+    forwardErrorsToLogs: true,
+    sessionSampleRate: 100,
+  });
+
   datadogRum.init({
     applicationId: process.env.NEXT_PUBLIC_DATADOG_APP_ID ?? '',
     clientToken: process.env.NEXT_PUBLIC_DATADOG_CLIENT_TOKEN ?? '',
