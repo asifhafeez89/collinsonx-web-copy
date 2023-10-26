@@ -45,9 +45,9 @@ export default function SignupUser() {
       email: (value: string) =>
         validateEmail(value) ? null : 'Please enter a valid email address.',
       firstname: (value: string) =>
-        value?.length > 0 ? null : 'Please enter your name.',
+        value?.trim().length > 0 ? null : 'Please enter your name.',
       lastname: (value: string) =>
-        value?.length > 0 ? null : 'Please enter your last name.',
+        value?.trim().length > 0 ? null : 'Please enter your last name.',
     },
   });
 
