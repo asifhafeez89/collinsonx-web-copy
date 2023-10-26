@@ -2,6 +2,8 @@ import { ThirdPartyPasswordless } from '@collinsonx/utils/supertokens';
 import { appInfo } from './appInfo';
 
 import Session, { InputType } from 'supertokens-auth-react/recipe/session';
+import getWindowHandler from './windowHandler';
+import getCookieHandler from '@collinsonx/utils/lib/cookieHandler';
 
 const sessionTokenFrontendDomain = process.env.NEXT_PUBLIC_SESSION_SCOPE;
 
@@ -17,11 +19,14 @@ async function userContextHandler(context: any) {
 export const frontendConfig = () => {
   return {
     appInfo,
+    windowHandler: getWindowHandler,
+    cookieHandler: getCookieHandler,
     recipeList: [
       Session.init({
         isInIframe: true,
         sessionTokenFrontendDomain,
         preAPIHook: userContextHandler,
+        tokenTransferMethod: 'header',
       } as InputType),
       ThirdPartyPasswordless.init({
         contactMethod: 'EMAIL',
