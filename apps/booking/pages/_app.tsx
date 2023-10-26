@@ -23,6 +23,17 @@ import { loggerInfo } from '@lib';
 if (typeof window !== 'undefined') {
   // we only want to call this init function on the frontend, so
   // we check typeof window !== 'undefined'
+<<<<<<< HEAD
+=======
+
+  const windowObj: any = window;
+  const isMobile = windowObj.webkit || windowObj.Android;
+
+  SuperTokensReact.init(
+    frontendConfig({ isInIframe: !isMobile }) as SuperTokensConfig
+  );
+}
+>>>>>>> effcc4ad (feat: enable isInIframe for mobile environment only)
 
   const windowObj: any = window;
   windowObj.navigation.addEventListener('navigate', (event: any) => {
