@@ -23,25 +23,15 @@ import { loggerInfo } from '@lib';
 if (typeof window !== 'undefined') {
   // we only want to call this init function on the frontend, so
   // we check typeof window !== 'undefined'
-<<<<<<< HEAD
-=======
-
-  const isInIframe = window.parent === window ? false : true;
-
-  SuperTokensReact.init(frontendConfig({ isInIframe }) as SuperTokensConfig);
-}
->>>>>>> effcc4ad (feat: enable isInIframe for mobile environment only)
 
   const windowObj: any = window;
   windowObj.navigation.addEventListener('navigate', (event: any) => {
     loggerInfo('_app.tsx', 'url change', event.destination.url);
   });
 
-  const isMobile = windowObj.webkit || windowObj.Android;
+  const isInIframe = window.parent === window ? false : true;
 
-  SuperTokensReact.init(
-    frontendConfig({ isInIframe: !isMobile }) as SuperTokensConfig
-  );
+  SuperTokensReact.init(frontendConfig({ isInIframe }) as SuperTokensConfig);
 }
 const { publicRuntimeConfig } = getConfig();
 const version = publicRuntimeConfig?.version;
