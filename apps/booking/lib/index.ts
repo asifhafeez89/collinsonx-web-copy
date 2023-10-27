@@ -108,7 +108,7 @@ export const consumerIsValid = (consumer: Consumer) => {
   return consumer && firstName && lastName && dateOfBirth;
 };
 
-export const loggerProduction = (
+export const loggerDataError = (
   error: Error,
   file: string,
   action: string,
@@ -125,5 +125,16 @@ export const loggerProduction = (
       },
       error
     );
+  }
+};
+
+export const loggerInfo = (file: string, action: string, data: unknown) => {
+  const datadogenv: string | undefined = process.env.NEXT_PUBLIC_DATADOG_ENV;
+  if ((datadogenv?.length ?? 0) > 0) {
+    datadogLogs.logger.info('Frontend Info', {
+      file,
+      action,
+      data,
+    });
   }
 };

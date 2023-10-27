@@ -1,5 +1,5 @@
 import { MantineProvider, Flex } from '@collinsonx/design-system/core';
-import { log, hasRequired, loggerProduction } from '@lib';
+import { log, hasRequired, loggerDataError } from '@lib';
 import { useRouter } from 'next/router';
 import {
   PropsWithChildren,
@@ -197,7 +197,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         log(
           `Unable to retrieve ${jwtParam} or ${lcParam} from both query and storage`
         );
-        loggerProduction(
+        loggerDataError(
           new Error(
             `Unable to retrieve ${jwtParam} or ${lcParam} from both query and storage`
           ),
@@ -226,7 +226,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       } catch (e) {
         log('Decode JWT error: ', e);
 
-        loggerProduction(
+        loggerDataError(
           new Error(
             `Unable to retrieve ${jwtParam} or ${lcParam} from both query and storage`
           ),
@@ -246,7 +246,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         setPayloadErrorTitle('Sorry, service is not available');
         setPayloadError(true);
 
-        loggerProduction(
+        loggerDataError(
           new Error('Validation Failed'),
           'payload',
           'if: token failed validation',
