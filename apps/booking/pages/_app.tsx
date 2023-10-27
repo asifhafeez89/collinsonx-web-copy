@@ -26,12 +26,9 @@ if (typeof window !== 'undefined') {
 <<<<<<< HEAD
 =======
 
-  const windowObj: any = window;
-  const isMobile = windowObj.webkit || windowObj.Android;
+  const isInIframe = window.parent === window ? false : true;
 
-  SuperTokensReact.init(
-    frontendConfig({ isInIframe: !isMobile }) as SuperTokensConfig
-  );
+  SuperTokensReact.init(frontendConfig({ isInIframe }) as SuperTokensConfig);
 }
 >>>>>>> effcc4ad (feat: enable isInIframe for mobile environment only)
 

@@ -21,6 +21,7 @@ export const frontendConfig = ({ isInIframe }: FrontendConfigOptions) => {
     appInfo,
     windowHandler: getWindowHandler,
     cookieHandler: getCookieHandler,
+    isInIframe,
     recipeList: [
       Session.init({
         isInIframe,
