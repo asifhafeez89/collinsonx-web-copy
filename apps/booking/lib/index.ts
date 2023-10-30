@@ -12,6 +12,7 @@ import {
   LinkedAccount,
 } from '@collinsonx/utils/generatedTypes/graphql';
 import { BridgePayload } from 'types/booking';
+import { datadogLogs } from '@datadog/browser-logs';
 
 export const getLoungeArrivalTime = (date: Date): string =>
   dayjsTz(date).subtract(LOUNGE_HOURS_OFFSET, 'hours').format('HH:mm');
@@ -105,4 +106,24 @@ export const accountIsEqual =
 export const consumerIsValid = (consumer: Consumer) => {
   const { firstName, lastName, dateOfBirth } = consumer || {};
   return consumer && firstName && lastName && dateOfBirth;
+};
+
+export const loggerProduction = (
+  error: Error,
+  file: string,
+  action: string,
+  data: unknown
+) => {
+  const datadogenv: string | undefined = process.env.NEXT_PUBLIC_DATADOG_ENV;
+  if ((datadogenv?.length ?? 0) > 0) {
+    datadogLogs.logger.error(
+      'Frontend Error Occured',
+      {
+        file,
+        action,
+        data,
+      },
+      error
+    );
+  }
 };

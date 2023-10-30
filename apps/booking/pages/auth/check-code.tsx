@@ -31,7 +31,13 @@ import { BookingQueryParams } from '@collinsonx/constants/enums';
 import { PinLockoutError } from '@collinsonx/constants/constants';
 import { getConsumerByID } from '@collinsonx/utils/queries';
 import { LinkedAccount } from '@collinsonx/utils/generatedTypes/graphql';
-import { accountIsEqual, consumerIsValid, log } from '../../lib/index';
+import {
+  accountIsEqual,
+  consumerIsValid,
+  log,
+  loggerProduction,
+} from '../../lib/index';
+import { datadogLogs } from '@datadog/browser-logs';
 
 const { ERR_MEMBERSHIP_ALREADY_CONNECTED, ERR_TOKEN_INVALID_OR_EXPIRED } =
   BookingError;
@@ -47,6 +53,7 @@ export default function CheckEmail() {
     setLayoutError,
     setConsumerData,
     setTokenError,
+    platform,
   } = usePayload();
   const router = useRouter();
   const email = router.query?.email as string;
@@ -143,6 +150,7 @@ export default function CheckEmail() {
 
       if (tokenError) {
         setTokenError('Sorry, service is not available');
+        loggerProduction(tokenError, 'checkcode', 'token error', jwt);
       } else if (alreadyConnectedError) {
         log('[SIGN OUT]: membership already connected');
         return Session.signOut().then(() => {

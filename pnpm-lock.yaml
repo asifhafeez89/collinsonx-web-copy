@@ -109,9 +109,12 @@ importers:
       '@collinsonx/utils':
         specifier: workspace:*
         version: link:../../packages/collinsonx-utils
+      '@datadog/browser-logs':
+        specifier: ^5.1.0
+        version: 5.1.0(@datadog/browser-rum@4.47.0)
       '@datadog/browser-rum':
         specifier: ^4.47.0
-        version: 4.47.0
+        version: 4.47.0(@datadog/browser-logs@5.1.0)
       '@emotion/react':
         specifier: ^11.11.1
         version: 11.11.1(@types/react@18.2.8)(react@18.2.0)
@@ -259,7 +262,7 @@ importers:
         version: link:../../packages/collinsonx-utils
       '@datadog/browser-rum':
         specifier: ^4.47.0
-        version: 4.47.0
+        version: 4.47.0(@datadog/browser-logs@5.1.0)
       '@svgr/webpack':
         specifier: ^6.5.1
         version: 6.5.1
@@ -3389,6 +3392,28 @@ packages:
       }
     dev: false
 
+  /@datadog/browser-core@5.1.0:
+    resolution:
+      {
+        integrity: sha512-KZMLXcJqA59TiXF4nFEaUEE23LhflxvLhv4LfGyhH9DIX7Be3bCJqrEyXajZHXYQiXUoZSsImC20w1d6kSf+KA==,
+      }
+    dev: false
+
+  /@datadog/browser-logs@5.1.0(@datadog/browser-rum@4.47.0):
+    resolution:
+      {
+        integrity: sha512-UtYboTfSgkg6fiArJxDqO25GpXsAReCREd3EgU0VKi75BfSW3StR7WOfbzKuy0X1s4tpbfhlC7ogKqBGInCprg==,
+      }
+    peerDependencies:
+      '@datadog/browser-rum': 5.1.0
+    peerDependenciesMeta:
+      '@datadog/browser-rum':
+        optional: true
+    dependencies:
+      '@datadog/browser-core': 5.1.0
+      '@datadog/browser-rum': 4.47.0(@datadog/browser-logs@5.1.0)
+    dev: false
+
   /@datadog/browser-rum-core@4.47.0:
     resolution:
       {
@@ -3398,7 +3423,7 @@ packages:
       '@datadog/browser-core': 4.47.0
     dev: false
 
-  /@datadog/browser-rum@4.47.0:
+  /@datadog/browser-rum@4.47.0(@datadog/browser-logs@5.1.0):
     resolution:
       {
         integrity: sha512-+CK8Z7w0fZnCN1oK7S3TQq9LfDmpXDnYxzmHw+11INHHdFhWqmUojpKKi+7+XLMaTOvU83yYBfOBFz2DSWvwew==,
@@ -3410,6 +3435,7 @@ packages:
         optional: true
     dependencies:
       '@datadog/browser-core': 4.47.0
+      '@datadog/browser-logs': 5.1.0(@datadog/browser-rum@4.47.0)
       '@datadog/browser-rum-core': 4.47.0
       '@datadog/browser-worker': 4.47.0
     dev: false
