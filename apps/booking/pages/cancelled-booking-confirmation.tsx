@@ -15,7 +15,6 @@ import { BookingStatus } from '@collinsonx/utils/generatedTypes/graphql';
 import priceToDisplay from 'utils/PriceToDisplay';
 import colors from 'ui/colour-constants';
 import { InfoPanel } from 'utils/PanelInfo';
-import BackToLounge from '@components/BackToLounge';
 import { GuestCount } from '@components/guests/GuestCount';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import Heading from '@collinsonx/design-system/components/heading/Heading';

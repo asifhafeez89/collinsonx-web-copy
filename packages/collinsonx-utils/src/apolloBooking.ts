@@ -12,6 +12,9 @@ import { doesSessionExist } from 'supertokens-auth-react/recipe/session';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
 import { useMemo } from 'react';
+import { setContext } from '@apollo/client/link/context';
+import { getCookiesFromStorage } from './lib/cookieHandler';
+import { cookieStringToObject } from './lib';
 
 const graphqlUrl = process.env.NEXT_PUBLIC_PRODUCTION_API_URL;
 
@@ -29,6 +32,18 @@ const defaultOptions: DefaultOptions = {
     errorPolicy: 'all',
   },
 };
+
+const authLink = setContext((_, { headers }) => {
+  const cookieStr = getCookiesFromStorage();
+  const cookies = cookieStringToObject(cookieStr);
+  const token = cookies['st-access-token'] || '';
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
+});
 
 const httpLink = new HttpLink({
   uri: graphqlUrl,
@@ -52,7 +67,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 });
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
-import { setContext } from '@apollo/client/link/context';
 
 const authMiddleware = new ApolloLink((operation, forward) => {
   return fromPromise(
@@ -69,6 +83,7 @@ function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
     link: ApolloLink.from([
+      authLink,
       authMiddleware,
       onError(({ graphQLErrors, networkError }) => {
         if (graphQLErrors)

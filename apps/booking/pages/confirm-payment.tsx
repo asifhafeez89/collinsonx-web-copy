@@ -34,7 +34,7 @@ import { useMemo } from 'react';
 import { useLazyQuery } from '@collinsonx/utils/apollo';
 import { getBookingByID } from '@collinsonx/utils/queries';
 import { AlertIcon } from '@collinsonx/design-system/assets/icons';
-import BackToLounge from '@components/BackToLounge';
+import TopBarLinks from '@components/TopBarLinks';
 import { MOBILE_ACTION_BACK, POLLING_TIME } from '../constants';
 import { sendMobileEvent } from '@lib';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
@@ -144,7 +144,7 @@ export default function ConfirmPayment() {
   return (
     <Layout>
       <Stack spacing={16} sx={{ backgroundColor: colors.background }}>
-        <BackToLounge />
+        <TopBarLinks />
 
         <LoaderLightBox
           open={open}
@@ -398,7 +398,7 @@ export default function ConfirmPayment() {
                           <li>
                             Cancellation must be made at least 48 hours in
                             advance of your visit date & time to receive a
-                            refund. No refund will be issued after this time. 
+                            refund. No refund will be issued after this time.
                           </li>
                         </ul>
                       </EditableTitle>

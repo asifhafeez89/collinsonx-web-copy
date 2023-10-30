@@ -21,7 +21,6 @@ import Price from '@components/Price';
 import Notification from '@components/Notification';
 import { InfoPanel } from 'utils/PanelInfo';
 import { LoungeInfo } from '@components/LoungeInfo';
-import BackToLounge from '@components/BackToLounge';
 
 import { BookingError } from '../constants';
 import BookingLightbox from '@collinsonx/design-system/components/bookinglightbox';

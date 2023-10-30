@@ -6,7 +6,7 @@ import { FAQLink } from 'utils/FAQLinks';
 import { MOBILE_ACTION_BACK } from '../constants';
 import { sendMobileEvent } from '@lib';
 
-function BackToLounge() {
+function TopBarLinks() {
   const { referrerUrl, payload, lounge } = usePayload();
   const handleClickBack = useCallback(() => {
     if (window && !referrerUrl) {
@@ -61,4 +61,4 @@ function BackToLounge() {
   );
 }
 
-export default BackToLounge;
+export default TopBarLinks;

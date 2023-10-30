@@ -10,7 +10,7 @@ import { InfoGroup } from '@collinsonx/design-system/components/details';
 import { BookingContext } from 'context/bookingContext';
 import { getCheckoutSessionUrl } from 'services/payment';
 import colors from 'ui/colour-constants';
-import BackToLounge from '@components/BackToLounge';
+import TopBarLinks from '@components/TopBarLinks';
 import Price from '@components/Price';
 import dayjs from 'dayjs';
 import StripeCheckout from '@components/stripe';
@@ -75,7 +75,7 @@ export default function ConfirmBooking() {
     <Layout ref={layoutRef}>
       <Stack spacing={16} sx={{ backgroundColor: colors.background }}>
         <Stack>
-          <BackToLounge />
+          <TopBarLinks />
         </Stack>
         <Flex
           justify="center"
@@ -131,7 +131,7 @@ export default function ConfirmBooking() {
                 '@media (max-width: 768px)': {
                   flexDirection: 'column',
                 },
-                width: clientSecret ? '400px' : '100%',
+                width: '100%',
                 margin: clientSecret ? '0 auto' : 'initial',
                 height: '1000px',
               }}

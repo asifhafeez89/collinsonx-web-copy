@@ -21,7 +21,7 @@ import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifesty
 import Error from '@components/Error';
 import usePayload from 'hooks/payload';
 import colors from 'ui/colour-constants';
-import BackToLounge from '@components/BackToLounge';
+import TopBarLinks from '@components/TopBarLinks';
 import { BookingQueryParams } from '@collinsonx/constants/enums';
 import { log } from '@lib';
 
@@ -45,9 +45,9 @@ export default function SignupUser() {
       email: (value: string) =>
         validateEmail(value) ? null : 'Please enter a valid email address.',
       firstname: (value: string) =>
-        value?.length > 0 ? null : 'Please enter your name.',
+        value?.trim().length > 0 ? null : 'Please enter your name.',
       lastname: (value: string) =>
-        value?.length > 0 ? null : 'Please enter your last name.',
+        value?.trim().length > 0 ? null : 'Please enter your last name.',
     },
   });
 
@@ -84,7 +84,7 @@ export default function SignupUser() {
       )}
       <Stack sx={{ width: '100%' }}>
         <Skeleton visible={!lounge}>
-          <BackToLounge />
+          <TopBarLinks />
         </Skeleton>
       </Stack>
       <form

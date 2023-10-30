@@ -12,7 +12,7 @@ import usePayload from 'hooks/payload';
 
 import colors from 'ui/colour-constants';
 import { BookingContext } from 'context/bookingContext';
-import BackToLounge from '@components/BackToLounge';
+import TopBarLinks from '@components/TopBarLinks';
 
 import { useContext } from 'react';
 import { AlertIcon } from '@collinsonx/design-system/assets/icons';
@@ -35,7 +35,7 @@ export default function BookingFailure() {
     <Layout>
       <Stack spacing={16} sx={{ backgroundColor: colors.background }}>
         <Stack sx={{ width: '100%' }}>
-          <BackToLounge />
+          <TopBarLinks />
         </Stack>
         <Flex
           justify="center"
