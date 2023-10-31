@@ -25,7 +25,7 @@ if (typeof window !== 'undefined') {
   // we check typeof window !== 'undefined'
 
   const windowObj: any = window;
-  windowObj.navigation.addEventListener('navigate', (event: any) => {
+  windowObj.addEventListener('navigate', (event: any) => {
     loggerInfo('_app.tsx', 'url change', event.destination.url);
   });
 
