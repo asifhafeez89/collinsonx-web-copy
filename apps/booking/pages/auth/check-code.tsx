@@ -35,7 +35,7 @@ import {
   accountIsEqual,
   consumerIsValid,
   log,
-  loggerDataError,
+  loggerProduction,
 } from '../../lib/index';
 import { datadogLogs } from '@datadog/browser-logs';
 
@@ -150,7 +150,7 @@ export default function CheckEmail() {
 
       if (tokenError) {
         setTokenError('Sorry, service is not available');
-        loggerDataError(tokenError, 'checkcode', 'token error', jwt);
+        loggerProduction(tokenError, 'checkcode', 'token error', jwt);
       } else if (alreadyConnectedError) {
         log('[SIGN OUT]: membership already connected');
         return Session.signOut().then(() => {
