@@ -19,19 +19,13 @@ import Maintenance from 'pages/maintenance';
 
 import '../styles.css';
 import { datadogLogs } from '@datadog/browser-logs';
-import { loggerInfo } from '@lib';
 
 if (typeof window !== 'undefined') {
   // we only want to call this init function on the frontend, so
   // we check typeof window !== 'undefined'
-
-  const windowObj: any = window;
-  windowObj.navigation.addEventListener('navigate', (event: any) => {
-    loggerInfo('_app.tsx', 'url change', event.destination.url);
-  });
-
   SuperTokensReact.init(frontendConfig() as SuperTokensConfig);
 }
+
 const { publicRuntimeConfig } = getConfig();
 const version = publicRuntimeConfig?.version;
 
