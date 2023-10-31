@@ -9,6 +9,7 @@
     "start": "next start -p 3011",
     "lint": "next lint",
     "clean": "rm -rf .next && rm -rf .turbo",
+    "test:ci": "jest --ci",
     "test": "jest -u"
   },
   "dependencies": {
