@@ -206,11 +206,11 @@ importers:
         specifier: ^0.5.0
         version: 0.5.0(react@18.2.0)
       supertokens-auth-react:
-        specifier: 0.32.1
-        version: 0.32.1(react-dom@18.2.0)(react@18.2.0)(supertokens-web-js@0.6.0)
+        specifier: 0.34.0
+        version: 0.34.0(react-dom@18.2.0)(react@18.2.0)(supertokens-web-js@0.7.0)
       supertokens-web-js:
-        specifier: 0.6.0
-        version: 0.6.0
+        specifier: 0.7.0
+        version: 0.7.0
     devDependencies:
       '@testing-library/react':
         specifier: ^13.4.0
@@ -300,11 +300,11 @@ importers:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
       supertokens-auth-react:
-        specifier: 0.32.1
-        version: 0.32.1(react-dom@18.2.0)(react@18.2.0)(supertokens-web-js@0.6.0)
+        specifier: 0.34.0
+        version: 0.34.0(react-dom@18.2.0)(react@18.2.0)(supertokens-web-js@0.7.0)
       supertokens-web-js:
-        specifier: 0.6.0
-        version: 0.6.0
+        specifier: 0.7.0
+        version: 0.7.0
     devDependencies:
       '@emotion/jest':
         specifier: ^11.11.0
@@ -729,11 +729,11 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       supertokens-auth-react:
-        specifier: 0.32.1
-        version: 0.32.1(react-dom@18.2.0)(react@18.2.0)(supertokens-web-js@0.6.0)
+        specifier: 0.34.0
+        version: 0.34.0(react-dom@18.2.0)(react@18.2.0)(supertokens-web-js@0.7.0)
       supertokens-web-js:
-        specifier: 0.6.0
-        version: 0.6.0
+        specifier: 0.7.0
+        version: 0.7.0
       validator:
         specifier: ^13.11.0
         version: 13.11.0
@@ -794,13 +794,13 @@ importers:
         version: 8.47.0
       eslint-config-next:
         specifier: canary
-        version: 13.5.4-canary.0(eslint@8.47.0)(typescript@4.9.5)
+        version: 13.4.16-canary.1(eslint@8.47.0)(typescript@4.9.5)
       eslint-config-prettier:
         specifier: ^8.10.0
         version: 8.10.0(eslint@8.47.0)
       eslint-config-turbo:
         specifier: latest
-        version: 1.10.14(eslint@8.47.0)
+        version: 1.10.12(eslint@8.47.0)
     devDependencies:
       typescript:
         specifier: ^4.9.5
@@ -5773,10 +5773,10 @@ packages:
       }
     dev: false
 
-  /@next/eslint-plugin-next@13.5.4-canary.0:
+  /@next/eslint-plugin-next@13.4.16-canary.1:
     resolution:
       {
-        integrity: sha512-vc7BsPl0lJU7cMJYuBeewJ/wahqpAro+WiGoxWmnqTfx6D6SK/EbvTakV17qaxf8Ibgqt+6GVm8Ypx5CaRz3WQ==,
+        integrity: sha512-0vMvGyeyksJXVsC1y+0Ly3AsybY84h7WDdinppLqS0xKyod972i5gbeGhF0vC2TKVoeCNcUKX+UbazrmBf8Ilw==,
       }
     dependencies:
       glob: 7.1.7
@@ -14161,10 +14161,10 @@ packages:
     optionalDependencies:
       source-map: 0.6.1
 
-  /eslint-config-next@13.5.4-canary.0(eslint@8.47.0)(typescript@4.9.5):
+  /eslint-config-next@13.4.16-canary.1(eslint@8.47.0)(typescript@4.9.5):
     resolution:
       {
-        integrity: sha512-yxXjCQFfko6w5Re8h8r5FsJFcZWAPf9HClCOrYAe5yERm0B2yv98tFV1dP6cjrwY14VHwYzc0l24hjDK9GAt8A==,
+        integrity: sha512-yYdV9rUsFcgdJ4hFARVkjR0SKpcDejo0CG3aMlAYORGv2GLz1IzojWdKfP6LC3lm5a6Bjr4la/q5YElOknXlBA==,
       }
     peerDependencies:
       eslint: ^7.23.0 || ^8.0.0
@@ -14173,7 +14173,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@next/eslint-plugin-next': 13.5.4-canary.0
+      '@next/eslint-plugin-next': 13.4.16-canary.1
       '@rushstack/eslint-patch': 1.3.3
       '@typescript-eslint/parser': 5.62.0(eslint@8.47.0)(typescript@4.9.5)
       eslint: 8.47.0
@@ -14201,16 +14201,16 @@ packages:
       eslint: 8.47.0
     dev: false
 
-  /eslint-config-turbo@1.10.14(eslint@8.47.0):
+  /eslint-config-turbo@1.10.12(eslint@8.47.0):
     resolution:
       {
-        integrity: sha512-ZeB+IcuFXy1OICkLuAplVa0euoYbhK+bMEQd0nH9+Lns18lgZRm33mVz/iSoH9VdUzl/1ZmFmoK+RpZc+8R80A==,
+        integrity: sha512-z3jfh+D7UGYlzMWGh+Kqz++hf8LOE96q3o5R8X4HTjmxaBWlLAWG+0Ounr38h+JLR2TJno0hU9zfzoPNkR9BdA==,
       }
     peerDependencies:
       eslint: '>6.6.0'
     dependencies:
       eslint: 8.47.0
-      eslint-plugin-turbo: 1.10.14(eslint@8.47.0)
+      eslint-plugin-turbo: 1.10.12(eslint@8.47.0)
     dev: false
 
   /eslint-import-resolver-node@0.3.9:
@@ -14410,10 +14410,10 @@ packages:
       - typescript
     dev: true
 
-  /eslint-plugin-turbo@1.10.14(eslint@8.47.0):
+  /eslint-plugin-turbo@1.10.12(eslint@8.47.0):
     resolution:
       {
-        integrity: sha512-sBdBDnYr9AjT1g4lR3PBkZDonTrMnR4TvuGv5W0OiF7z9az1rI68yj2UHJZvjkwwcGu5mazWA1AfB0oaagpmfg==,
+        integrity: sha512-uNbdj+ohZaYo4tFJ6dStRXu2FZigwulR1b3URPXe0Q8YaE7thuekKNP+54CHtZPH9Zey9dmDx5btAQl9mfzGOw==,
       }
     peerDependencies:
       eslint: '>6.6.0'
@@ -23062,23 +23062,23 @@ packages:
       ts-interface-checker: 0.1.13
     dev: true
 
-  /supertokens-auth-react@0.32.1(react-dom@18.2.0)(react@18.2.0)(supertokens-web-js@0.6.0):
+  /supertokens-auth-react@0.34.0(react-dom@18.2.0)(react@18.2.0)(supertokens-web-js@0.7.0):
     resolution:
       {
-        integrity: sha512-RdGurkuoBZQOhski2LZ/3WZ3zMPSm/VVs8ItmNO2OqiMC2yFsXLL27f9mUSK6SZIVnijt03B0nV2Vy4PM7lEVg==,
+        integrity: sha512-pA0dHAKHdZI8/EudqlPsM0AnMt+sAGOK5vdVuZIFd5xugGQ/qVnWjVb4F/tkHOVnvyxq/7HXa6VF80w9ag/9kg==,
       }
     engines: { node: '>=16.0.0', npm: '>=8' }
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
-      supertokens-web-js: ^0.5.0
+      supertokens-web-js: ^0.7.0
     dependencies:
       intl-tel-input: 17.0.21
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       supertokens-js-override: 0.0.4
-      supertokens-web-js: 0.6.0
+      supertokens-web-js: 0.7.0
     dev: false
 
   /supertokens-js-override@0.0.4:
@@ -23088,10 +23088,10 @@ packages:
       }
     dev: false
 
-  /supertokens-web-js@0.6.0:
+  /supertokens-web-js@0.7.0:
     resolution:
       {
-        integrity: sha512-2KOgWNGanh+/zpdaFQgiA9dQa6T9wA6LcoB6m1BTZ7JIqR3mYmpLD5uu8ERtISNAGUjcXziON/Fp5ZnlBByCcw==,
+        integrity: sha512-+ojphygeSEpP7D7QJz1Yf9rI+ohwkqd+ONsthrNE+yDhKhf0Y9c3thqYMhODoCiScZFlNOFh0E+NvSPcdt1dvQ==,
       }
     dependencies:
       supertokens-js-override: 0.0.4

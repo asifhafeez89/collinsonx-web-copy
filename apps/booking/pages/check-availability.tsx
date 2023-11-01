@@ -390,7 +390,6 @@ export default function CheckAvailability() {
                 >
                   {lounge && (
                     <Stack spacing={8}>
-                      {message && <Notification>{message}</Notification>}
                       <EditableTitle title="Flight details" to="/" as="h2">
                         {departureTime && (
                           <Details
@@ -492,6 +491,7 @@ export default function CheckAvailability() {
                           <AvailableSlots
                             onSelectSlot={handleSelectSlot}
                             availableSlots={slotsData?.getAvailableSlots}
+                            error={message}
                           />
                         ) : null}
 
