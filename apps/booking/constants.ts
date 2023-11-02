@@ -18,6 +18,7 @@ export const REFERRER = 'REFERRER';
 export const PLATFORM = 'PLATFORM';
 
 export const MOBILE_ACTION_BACK = 1;
+export const MOBILE_ACTION_DATA_URI = 'DATA_URI';
 
 export const apiAccountProviderMap: Record<
   BridgePayload['accountProvider'],

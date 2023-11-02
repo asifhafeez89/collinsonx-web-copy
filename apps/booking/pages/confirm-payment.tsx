@@ -51,7 +51,15 @@ export default function ConfirmPayment() {
 
   let interval = useRef<NodeJS.Timeout>();
 
-  const { lounge, referrerUrl, consumerData, platform } = usePayload();
+  const {
+    lounge,
+    loungeCode,
+    referrerUrl,
+    consumerData,
+    platform,
+    jwt,
+    payload,
+  } = usePayload();
 
   const handleClickBack: MouseEventHandler<HTMLAnchorElement> = useCallback(
     (e) => {
@@ -396,6 +404,9 @@ export default function ConfirmPayment() {
                             method for check in at the lounge.{' '}
                           </li>
                           <li>
+                            Maximum stay is 3 hours prior to your flight time.
+                          </li>
+                          <li>
                             Cancellation must be made at least 48 hours in
                             advance of your visit date & time to receive a
                             refund. No refund will be issued after this time.
@@ -409,21 +420,23 @@ export default function ConfirmPayment() {
                     direction={'column'}
                     align={'center'}
                   >
-                    {platform === 'web' && (
-                      <GenerateBookingConfirmedPdf
-                        adults={adults}
-                        arrival={arrival}
-                        children={children}
-                        departureTime={departureTime}
-                        emailAddress={
-                          consumerData?.getConsumerByID.emailAddress
-                        }
-                        flightNumber={flightNumber}
-                        infants={infants}
-                        lounge={lounge}
-                        reference={dataBooking?.getBookingByID.reference}
-                      />
-                    )}
+                    <GenerateBookingConfirmedPdf
+                      adults={adults}
+                      arrival={arrival}
+                      children={children}
+                      departureTime={departureTime}
+                      emailAddress={consumerData?.getConsumerByID.emailAddress}
+                      flightNumber={flightNumber}
+                      infants={infants}
+                      lounge={lounge}
+                      reference={dataBooking?.getBookingByID.reference}
+                      bookingId={dataBooking?.getBookingByID.id}
+                      loungeCode={loungeCode}
+                      linkAccountToken={jwt}
+                      accountProvider={payload?.accountProvider}
+                      membershipType={payload?.membershipType}
+                      platform={platform}
+                    />
                     <Anchor
                       target="_top"
                       href={referrerUrl ? referrerUrl : '#'}
