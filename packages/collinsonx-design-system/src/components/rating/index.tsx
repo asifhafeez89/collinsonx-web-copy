@@ -1,6 +1,6 @@
 import { Flex, Text, Box } from '@mantine/core';
 import { StarIcon } from '../../assets/icons';
-import colors from '../../colour-constants';
+import colors from '../../colour-constants-partner';
 
 export interface RatingProps {
   stars: number;
