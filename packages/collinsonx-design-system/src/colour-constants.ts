@@ -12,6 +12,8 @@ const colors = {
   shadow: '#2525251A',
   borderSection: '#b4b4b4',
   theme: '#827127',
+  'partner-text-default': '#202020',
+  'partner-text-grey': '#6B6B6B',
 };
 
 export default colors;
