@@ -1,13 +1,12 @@
 import { prettyPrintAxeReport } from 'axe-result-pretty-print';
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-
 import LoginPage from '../pages/LoginPage';
 import PendingRequestsPage from '../pages/PendingRequestsPage';
 import AllConfirmedBookingsPage from '../pages/AllConfirmedBookingsPage';
 import DeclinedBookingsPage from '../pages/DeclinedBookingsPage';
 import WalkUpQRCodePage from '../pages/WalkUpQRCodePage';
-import { loungeMap } from '../utils/config';
+import TestSetup from '../utils/TestSetup.js';
 
 const createAxeBuilder = (page) =>
   new AxeBuilder({ page })
@@ -15,16 +14,13 @@ const createAxeBuilder = (page) =>
     .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']);
 
 test.describe('Login page', () => {
-  test.use({ storageState: { cookies: [], origins: [] } });
   test('should not have any automatically detectable accessibility issues', async ({
     page,
   }) => {
-    // Arrange
     const loginPage = new LoginPage(page);
 
     await loginPage.goToURL();
 
-    // Act
     const axeBuilder = createAxeBuilder(page);
     const results = await axeBuilder.analyze();
 
@@ -32,130 +28,122 @@ test.describe('Login page', () => {
       violations: results.violations,
       passes: results.passes,
     });
-    // Assert
+
     expect(results.violations).toEqual([]);
   });
 });
 
-test.describe('Bookings overview page', () => {
-  const lounge = loungeMap.get('lounge1');
-  test.use({
-    storageState: `playwright/.auth/${lounge.toLowerCase()}User.json`,
-  });
-  test('should not have any automatically detectable accessibility issues', async ({
-    page,
-  }) => {
-    // Arrange
-    await page.goto('/', { waitUntil: 'networkidle' });
-    // Act
-    const axeBuilder = createAxeBuilder(page);
-    const results = await axeBuilder.analyze();
+test.describe('Pages that require initial login', () => {
+  let partnerDetails;
+  let lounge;
+  let loginPage;
 
-    prettyPrintAxeReport({
-      violations: results.violations,
-      passes: results.passes,
+  test.beforeEach(async ({ page, request }) => {
+    lounge = new TestSetup(request);
+    partnerDetails = await lounge.setup();
+    loginPage = new LoginPage(page);
+    await loginPage.login(partnerDetails.email, partnerDetails.password);
+  });
+
+  test.afterEach(async () => {
+    await lounge.teardown();
+  });
+
+  test.describe('Bookings overview page', () => {
+    test('should not have any automatically detectable accessibility issues', async ({
+      page,
+    }) => {
+      await page.goto('/', { waitUntil: 'networkidle' });
+
+      const axeBuilder = createAxeBuilder(page);
+      const results = await axeBuilder.analyze();
+
+      prettyPrintAxeReport({
+        violations: results.violations,
+        passes: results.passes,
+      });
+
+      expect(results.violations).toEqual([]);
     });
-    // Assert
-    expect(results.violations).toEqual([]);
   });
-});
 
-test.describe('Pending bookings page', () => {
-  const lounge = loungeMap.get('lounge2');
-  test.use({
-    storageState: `playwright/.auth/${lounge.toLowerCase()}User.json`,
-  });
-  test('should not have any automatically detectable accessibility issues', async ({
-    page,
-  }) => {
-    // Arrange
-    const pendingRequestsPage = new PendingRequestsPage(page);
+  test.describe('Pending bookings page', () => {
+    test('should not have any automatically detectable accessibility issues', async ({
+      page,
+    }) => {
+      const pendingRequestsPage = new PendingRequestsPage(page);
 
-    await pendingRequestsPage.goToURL();
-    // Act
-    const axeBuilder = createAxeBuilder(page);
-    const results = await axeBuilder.analyze();
+      await pendingRequestsPage.goToURL();
 
-    prettyPrintAxeReport({
-      violations: results.violations,
-      passes: results.passes,
+      const axeBuilder = createAxeBuilder(page);
+      const results = await axeBuilder.analyze();
+
+      prettyPrintAxeReport({
+        violations: results.violations,
+        passes: results.passes,
+      });
+
+      expect(results.violations).toEqual([]);
     });
-    // Assert
-    expect(results.violations).toEqual([]);
   });
-});
 
-test.describe('All confirmed bookings page', () => {
-  const lounge = loungeMap.get('lounge3');
-  test.use({
-    storageState: `playwright/.auth/${lounge.toLowerCase()}User.json`,
-  });
-  test('should not have any automatically detectable accessibility issues', async ({
-    page,
-  }) => {
-    // Arrange
-    const allConfirmedBookingsPage = new AllConfirmedBookingsPage(page);
+  test.describe('All confirmed bookings page', () => {
+    test('should not have any automatically detectable accessibility issues', async ({
+      page,
+    }) => {
+      const allConfirmedBookingsPage = new AllConfirmedBookingsPage(page);
 
-    await allConfirmedBookingsPage.goToURL();
-    // Act
-    const axeBuilder = createAxeBuilder(page);
-    const results = await axeBuilder.analyze();
+      await allConfirmedBookingsPage.goToURL();
 
-    prettyPrintAxeReport({
-      violations: results.violations,
-      passes: results.passes,
+      const axeBuilder = createAxeBuilder(page);
+      const results = await axeBuilder.analyze();
+
+      prettyPrintAxeReport({
+        violations: results.violations,
+        passes: results.passes,
+      });
+
+      expect(results.violations).toEqual([]);
     });
-    // Assert
-    expect(results.violations).toEqual([]);
   });
-});
 
-test.describe('Declined bookings page', () => {
-  const lounge = loungeMap.get('lounge4');
-  test.use({
-    storageState: `playwright/.auth/${lounge.toLowerCase()}User.json`,
-  });
-  test('should not have any automatically detectable accessibility issues', async ({
-    page,
-  }) => {
-    // Arrange
-    const declinedBookingsPage = new DeclinedBookingsPage(page);
+  test.describe('Declined bookings page', () => {
+    test('should not have any automatically detectable accessibility issues', async ({
+      page,
+    }) => {
+      const declinedBookingsPage = new DeclinedBookingsPage(page);
 
-    await declinedBookingsPage.goToURL();
-    // Act
-    const axeBuilder = createAxeBuilder(page);
-    const results = await axeBuilder.analyze();
+      await declinedBookingsPage.goToURL();
 
-    prettyPrintAxeReport({
-      violations: results.violations,
-      passes: results.passes,
+      const axeBuilder = createAxeBuilder(page);
+      const results = await axeBuilder.analyze();
+
+      prettyPrintAxeReport({
+        violations: results.violations,
+        passes: results.passes,
+      });
+
+      expect(results.violations).toEqual([]);
     });
-    // Assert
-    expect(results.violations).toEqual([]);
   });
-});
 
-test.describe('Walk-up QR code page', () => {
-  const lounge = loungeMap.get('lounge5');
-  test.use({
-    storageState: `playwright/.auth/${lounge.toLowerCase()}User.json`,
-  });
-  test('should not have any automatically detectable accessibility issues', async ({
-    page,
-  }) => {
-    // Arrange
-    const walkUpQRCodePage = new WalkUpQRCodePage(page);
+  test.describe('Walk-up QR code page', () => {
+    test('should not have any automatically detectable accessibility issues', async ({
+      page,
+    }) => {
+      const walkUpQRCodePage = new WalkUpQRCodePage(page);
 
-    await walkUpQRCodePage.goToURL();
-    // Act
-    const axeBuilder = createAxeBuilder(page);
-    const results = await axeBuilder.analyze();
+      await walkUpQRCodePage.goToURL();
 
-    prettyPrintAxeReport({
-      violations: results.violations,
-      passes: results.passes,
+      const axeBuilder = createAxeBuilder(page);
+      const results = await axeBuilder.analyze();
+
+      prettyPrintAxeReport({
+        violations: results.violations,
+        passes: results.passes,
+      });
+
+      expect(results.violations).toEqual([]);
     });
-    // Assert
-    expect(results.violations).toEqual([]);
   });
 });

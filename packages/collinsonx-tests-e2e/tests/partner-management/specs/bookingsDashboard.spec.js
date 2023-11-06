@@ -1,73 +1,98 @@
 import { test, expect } from '../../../baseFixtures';
 import BookingOverviewPage from '../pages/BookingOverviewPage';
 import BookingApi from '../utils/BookingApi';
-import { loungeMap } from '../utils/config';
+import TestSetup from '../utils/TestSetup.js';
+import LoginPage from '../pages/LoginPage';
+import { BookingStatus } from '@collinsonx/utils';
+
+let partnerDetails;
+let lounge;
+let loginPage;
+
+test.beforeEach(async ({ page, request }) => {
+  lounge = new TestSetup(request);
+  partnerDetails = await lounge.setup();
+  loginPage = new LoginPage(page);
+  await loginPage.login(partnerDetails.email, partnerDetails.password);
+});
+
+test.afterEach(async () => {
+  await lounge.teardown();
+});
 
 test.describe('booking overview dashboard', () => {
-    test.describe('pending requests', () => {
-        test.describe('add pending request using the booking API', () => {
-            const lounge = loungeMap.get("lounge1");
-            test.use({ storageState: `playwright/.auth/${lounge.toLowerCase()}User.json` })
-            test('should increase the booking count by 1', async ({ page }) => {
-                const bookingOverviewPage = new BookingOverviewPage(page);
-                const bookingApi = new BookingApi(page);
+  test.describe('pending requests', () => {
+    test.describe('add pending request using the booking API', () => {
+      test('should increase the booking count by 1', async ({ page }) => {
+        const bookingOverviewPage = new BookingOverviewPage(page);
+        const bookingApi = new BookingApi(page);
 
-                const initialCount = await bookingApi.getBookingCount(lounge, "PENDING");
+        const initialCount = await bookingApi.getBookingCount(
+          lounge,
+          BookingStatus.Pending
+        );
 
-                await bookingApi.addPendingRequest(lounge);
+        await bookingApi.addPendingRequest(lounge);
 
-                await page.goto('/', { waitUntil: "networkidle" });
+        await page.goto('/', { waitUntil: 'networkidle' });
 
-                const latestCount = await bookingOverviewPage.getPendingRequestCount();
+        const latestCount = await bookingOverviewPage.getPendingRequestCount();
 
-                expect(latestCount).toBe(initialCount + 1);
-            });
-        });
-        test.describe('remove pending request using the booking API', () => {
-            const lounge = loungeMap.get("lounge2");
-            test.use({ storageState: `playwright/.auth/${lounge.toLowerCase()}User.json` })
-            test('should decrease the booking count by 1', async ({ page }) => {
-                const bookingOverviewPage = new BookingOverviewPage(page);
-                const bookingApi = new BookingApi(page);
-
-                const bookingId = (await bookingApi.addPendingRequest(lounge)).bookingId;
-
-                let initialCount = await bookingApi.getBookingCount(lounge, "PENDING");
-
-                // requires atleast 2 bookings so that there is atleast 1 leftover for the assertion
-                if (initialCount === 1) {
-                    await bookingApi.addPendingRequest(lounge);
-                    initialCount = await bookingApi.getBookingCount(lounge, "PENDING");
-                };
-
-                await bookingApi.deleteBooking(bookingId);
-
-                await page.goto('/', { waitUntil: "networkidle" });
-
-                const latestCount = await bookingOverviewPage.getPendingRequestCount();
-
-                expect(latestCount).toBe(initialCount - 1);
-            });
-        });
-
+        expect(latestCount).toBe(initialCount + 1);
+      });
     });
+    test.describe('remove pending request using the booking API', () => {
+      test('should decrease the booking count by 1', async ({ page }) => {
+        const bookingOverviewPage = new BookingOverviewPage(page);
+        const bookingApi = new BookingApi(page);
 
-    test.describe('confirmed bookings', () => {
-        const lounge = loungeMap.get("lounge3");
-        test.use({ storageState: `playwright/.auth/${lounge.toLowerCase()}User.json` })
-        test('add confirmed booking using the booking API should increase the booking count by 1', async ({ page }) => {
-            const bookingOverviewPage = new BookingOverviewPage(page);
-            const bookingApi = new BookingApi(page);
+        const { bookingId } = await bookingApi.addPendingRequest(lounge);
 
-            const initialCount = await bookingApi.getBookingCount(lounge, 'CONFIRMED', 'CHECKED_IN');
+        let initialCount = await bookingApi.getBookingCount(
+          lounge,
+          BookingStatus.Pending
+        );
 
-            await bookingApi.addConfirmedBooking(lounge);
+        // requires atleast 2 bookings so that there is atleast 1 leftover for the assertion
+        if (initialCount === 1) {
+          await bookingApi.addPendingRequest(lounge);
+          initialCount = await bookingApi.getBookingCount(
+            lounge,
+            BookingStatus.Pending
+          );
+        }
 
-            await page.goto('/', { waitUntil: "networkidle" });
+        await bookingApi.deleteBooking(bookingId);
 
-            const latestCount = await bookingOverviewPage.getConfirmedBookingCount();
+        await page.goto('/', { waitUntil: 'networkidle' });
 
-            expect(latestCount).toBe(initialCount + 1);
-        });
+        const latestCount = await bookingOverviewPage.getPendingRequestCount();
+
+        expect(latestCount).toBe(initialCount - 1);
+      });
     });
+  });
+
+  test.describe('confirmed bookings', () => {
+    test('add confirmed booking using the booking API should increase the booking count by 1', async ({
+      page,
+    }) => {
+      const bookingOverviewPage = new BookingOverviewPage(page);
+      const bookingApi = new BookingApi(page);
+
+      const initialCount = await bookingApi.getBookingCount(
+        lounge,
+        BookingStatus.Confirmed,
+        BookingStatus.CheckedIn
+      );
+
+      await bookingApi.addConfirmedBooking(lounge);
+
+      await page.goto('/', { waitUntil: 'networkidle' });
+
+      const latestCount = await bookingOverviewPage.getConfirmedBookingCount();
+
+      expect(latestCount).toBe(initialCount + 1);
+    });
+  });
 });
