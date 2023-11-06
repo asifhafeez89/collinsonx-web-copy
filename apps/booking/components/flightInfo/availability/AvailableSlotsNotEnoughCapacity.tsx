@@ -16,8 +16,10 @@ import { useDisclosure } from '@collinsonx/design-system/hooks';
 import BackButton from '@components/BackButton';
 
 import fetchGrahpQLErrorObject from 'utils/fetchGrahpQLErrorObject';
+import getError from 'utils/getError';
 import { setAdultsPrefix, setChildPrefix, setInfantPrefix } from 'utils/guests';
 import { ApolloError } from '@collinsonx/utils/apollo';
+import { BookingError } from '../../../constants';
 
 type Metadata = {
   adultCount: {
@@ -68,6 +70,14 @@ export function hasLoungeCapacityDefaultError(
   if (!error) return false;
 
   if ('code' in error) {
+    return true;
+  }
+
+  const internalServerError = getError(
+    response,
+    BookingError.INTERNAL_SERVER_ERROR
+  );
+  if (internalServerError) {
     return true;
   }
 
