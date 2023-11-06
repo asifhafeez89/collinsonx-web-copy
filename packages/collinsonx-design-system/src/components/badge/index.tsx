@@ -27,11 +27,14 @@ const sizeCss = {
   `,
   small: `
     font-size: 12px;
+    height: 19px;
     padding: 2px 10px 2px 10px;
   `,
 };
 
 const _StyledBox = styled(Box)`
+  display: flex;
+  align-items: center;
   border-radius: 8px;
   text-transform: uppercase;
   font-weight: 600;
