@@ -60,15 +60,16 @@ $ npm install pm2@latest -g
 ```
 
 7. pnpm i (may need to run pnpm clean beforehand if receiving errors)
-8. cd apps/partner-management
-9. pm2 start "pnpm dev:test" --name dev-server
+8. pnpm run build --filter partner-management
+9. cd apps/partner-management
+10. pm2 start "pnpm dev:test" --name dev-server
 
 UI will be accessible in the following links:
 https://partner-local.test.cergea.com:4010 or http://localhost:3010
 
 ### Run Partner web app e2e tests
 
-10. pnpm --filter "@collinsonx/tests-e2e" e2e:test-partner
+11. pnpm --filter "@collinsonx/tests-e2e" e2e:test-partner
 
 ## Running tests for TEST/UAT environments (partner web app)
 

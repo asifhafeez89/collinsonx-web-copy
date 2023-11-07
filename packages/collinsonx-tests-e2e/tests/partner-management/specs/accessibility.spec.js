@@ -7,6 +7,7 @@ import AllConfirmedBookingsPage from '../pages/AllConfirmedBookingsPage';
 import DeclinedBookingsPage from '../pages/DeclinedBookingsPage';
 import WalkUpQRCodePage from '../pages/WalkUpQRCodePage';
 import TestSetup from '../utils/TestSetup.js';
+import BookingApi from '../utils/BookingApi';
 
 const createAxeBuilder = (page) =>
   new AxeBuilder({ page })
@@ -53,6 +54,10 @@ test.describe('Pages that require initial login', () => {
     test('should not have any automatically detectable accessibility issues', async ({
       page,
     }) => {
+      // add a pending request to test the font used for the displayed count
+      const bookingApi = new BookingApi(page);
+      await bookingApi.addPendingRequest(lounge);
+
       await page.goto('/', { waitUntil: 'networkidle' });
 
       const axeBuilder = createAxeBuilder(page);
@@ -71,6 +76,10 @@ test.describe('Pages that require initial login', () => {
     test('should not have any automatically detectable accessibility issues', async ({
       page,
     }) => {
+      // add booking row element
+      const bookingApi = new BookingApi(page);
+      await bookingApi.addPendingRequest(lounge);
+
       const pendingRequestsPage = new PendingRequestsPage(page);
 
       await pendingRequestsPage.goToURL();
@@ -91,6 +100,10 @@ test.describe('Pages that require initial login', () => {
     test('should not have any automatically detectable accessibility issues', async ({
       page,
     }) => {
+      // add booking row element
+      const bookingApi = new BookingApi(page);
+      await bookingApi.addConfirmedBooking(lounge);
+
       const allConfirmedBookingsPage = new AllConfirmedBookingsPage(page);
 
       await allConfirmedBookingsPage.goToURL();
@@ -111,6 +124,10 @@ test.describe('Pages that require initial login', () => {
     test('should not have any automatically detectable accessibility issues', async ({
       page,
     }) => {
+      // add booking row element
+      const bookingApi = new BookingApi(page);
+      await bookingApi.addDeclinedBooking(lounge);
+
       const declinedBookingsPage = new DeclinedBookingsPage(page);
 
       await declinedBookingsPage.goToURL();

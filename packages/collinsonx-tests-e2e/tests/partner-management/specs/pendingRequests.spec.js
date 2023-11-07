@@ -35,7 +35,7 @@ test.describe('pending requests page', () => {
 
         const initialPendingCount = await bookingApi.getBookingCount(
           lounge,
-          BookingStatus
+          BookingStatus.Pending
         );
         const initialDeclinedCount = await bookingApi.getBookingCount(
           lounge,

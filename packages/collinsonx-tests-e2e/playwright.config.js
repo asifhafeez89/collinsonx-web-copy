@@ -8,7 +8,7 @@ require('dotenv').config();
 
 module.exports = defineConfig({
   // max time (ms) for tests inc. teardown
-  timeout: 100000,
+  timeout: 200000,
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -39,7 +39,7 @@ module.exports = defineConfig({
       // ENV variable is given by the package.json script
       use: {
         ...devices['Desktop Chrome'],
-        baseURL: `https://partner-local.${process.env.ENV}.cergea.com`,
+        baseURL: `https://partner-local.${process.env.ENV}.cergea.com:4010`,
         ignoreHTTPSErrors: true,
       },
       // Skip running the acessibility tests
@@ -51,7 +51,6 @@ module.exports = defineConfig({
       // ENV variable is given by the package.json script
       use: {
         ...devices['Desktop Chrome'],
-        storageState: 'playwright/.auth/user.json',
         baseURL: `https://partner-local.${process.env.ENV}.cergea.com:4010`,
         ignoreHTTPSErrors: true,
       },

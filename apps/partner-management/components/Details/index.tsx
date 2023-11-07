@@ -61,7 +61,11 @@ const Details = ({ children, booking, loading = false }: DetailsProps) => {
           )}
         </DetailsKeyValue>
         <DetailsKeyValue label="Guests" loading={loading}>
-          {booking?.guestCount ?? '-'}
+          {booking
+            ? (booking.guestAdultCount ?? 0) +
+              (booking.guestChildrenCount ?? 0) +
+              (booking.guestInfantCount ?? 0)
+            : '-'}
         </DetailsKeyValue>
       </DetailsSection>
 

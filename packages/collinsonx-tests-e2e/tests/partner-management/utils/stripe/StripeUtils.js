@@ -60,6 +60,7 @@ class StripeUtils {
     const response = await stripe.products.update(this.productId, {
       active: boolean,
     });
+
     return response;
   }
 }

@@ -10,7 +10,9 @@ const getBookings = gql`
       metadata
       id
       reference
-      guestCount
+      guestAdultCount
+      guestChildrenCount
+      guestInfantCount
       status
       createdAt
       updatedAt
