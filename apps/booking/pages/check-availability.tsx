@@ -45,7 +45,7 @@ import { BookingContext } from 'context/bookingContext';
 import dayjs from 'dayjs';
 import { BookingError, MOBILE_ACTION_BACK, constants } from '../constants';
 import colors from 'ui/colour-constants';
-import BackToLounge from '@components/BackToLounge';
+import TopBarLinks from '@components/TopBarLinks';
 import BookingLightbox from '@collinsonx/design-system/components/bookinglightbox';
 import Price from '@components/Price';
 import Notification from '@components/Notification';
@@ -326,7 +326,7 @@ export default function CheckAvailability() {
         }}
       >
         <Stack sx={{ width: '100%' }}>
-          <BackToLounge />
+          <TopBarLinks />
         </Stack>
         <Flex
           direction="column"
@@ -390,7 +390,6 @@ export default function CheckAvailability() {
                 >
                   {lounge && (
                     <Stack spacing={8}>
-                      {message && <Notification>{message}</Notification>}
                       <EditableTitle title="Flight details" to="/" as="h2">
                         {departureTime && (
                           <Details
@@ -492,6 +491,7 @@ export default function CheckAvailability() {
                           <AvailableSlots
                             onSelectSlot={handleSelectSlot}
                             availableSlots={slotsData?.getAvailableSlots}
+                            error={message}
                           />
                         ) : null}
 

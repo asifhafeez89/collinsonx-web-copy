@@ -206,11 +206,11 @@ importers:
         specifier: ^0.5.0
         version: 0.5.0(react@18.2.0)
       supertokens-auth-react:
-        specifier: 0.32.1
-        version: 0.32.1(react-dom@18.2.0)(react@18.2.0)(supertokens-web-js@0.6.0)
+        specifier: 0.34.0
+        version: 0.34.0(react-dom@18.2.0)(react@18.2.0)(supertokens-web-js@0.7.0)
       supertokens-web-js:
-        specifier: 0.6.0
-        version: 0.6.0
+        specifier: 0.7.0
+        version: 0.7.0
     devDependencies:
       '@testing-library/react':
         specifier: ^13.4.0
@@ -300,11 +300,11 @@ importers:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
       supertokens-auth-react:
-        specifier: 0.32.1
-        version: 0.32.1(react-dom@18.2.0)(react@18.2.0)(supertokens-web-js@0.6.0)
+        specifier: 0.34.0
+        version: 0.34.0(react-dom@18.2.0)(react@18.2.0)(supertokens-web-js@0.7.0)
       supertokens-web-js:
-        specifier: 0.6.0
-        version: 0.6.0
+        specifier: 0.7.0
+        version: 0.7.0
     devDependencies:
       '@emotion/jest':
         specifier: ^11.11.0
@@ -729,11 +729,11 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       supertokens-auth-react:
-        specifier: 0.32.1
-        version: 0.32.1(react-dom@18.2.0)(react@18.2.0)(supertokens-web-js@0.6.0)
+        specifier: 0.34.0
+        version: 0.34.0(react-dom@18.2.0)(react@18.2.0)(supertokens-web-js@0.7.0)
       supertokens-web-js:
-        specifier: 0.6.0
-        version: 0.6.0
+        specifier: 0.7.0
+        version: 0.7.0
       validator:
         specifier: ^13.11.0
         version: 13.11.0
@@ -23062,23 +23062,23 @@ packages:
       ts-interface-checker: 0.1.13
     dev: true
 
-  /supertokens-auth-react@0.32.1(react-dom@18.2.0)(react@18.2.0)(supertokens-web-js@0.6.0):
+  /supertokens-auth-react@0.34.0(react-dom@18.2.0)(react@18.2.0)(supertokens-web-js@0.7.0):
     resolution:
       {
-        integrity: sha512-RdGurkuoBZQOhski2LZ/3WZ3zMPSm/VVs8ItmNO2OqiMC2yFsXLL27f9mUSK6SZIVnijt03B0nV2Vy4PM7lEVg==,
+        integrity: sha512-pA0dHAKHdZI8/EudqlPsM0AnMt+sAGOK5vdVuZIFd5xugGQ/qVnWjVb4F/tkHOVnvyxq/7HXa6VF80w9ag/9kg==,
       }
     engines: { node: '>=16.0.0', npm: '>=8' }
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
-      supertokens-web-js: ^0.5.0
+      supertokens-web-js: ^0.7.0
     dependencies:
       intl-tel-input: 17.0.21
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       supertokens-js-override: 0.0.4
-      supertokens-web-js: 0.6.0
+      supertokens-web-js: 0.7.0
     dev: false
 
   /supertokens-js-override@0.0.4:
@@ -23088,10 +23088,10 @@ packages:
       }
     dev: false
 
-  /supertokens-web-js@0.6.0:
+  /supertokens-web-js@0.7.0:
     resolution:
       {
-        integrity: sha512-2KOgWNGanh+/zpdaFQgiA9dQa6T9wA6LcoB6m1BTZ7JIqR3mYmpLD5uu8ERtISNAGUjcXziON/Fp5ZnlBByCcw==,
+        integrity: sha512-+ojphygeSEpP7D7QJz1Yf9rI+ohwkqd+ONsthrNE+yDhKhf0Y9c3thqYMhODoCiScZFlNOFh0E+NvSPcdt1dvQ==,
       }
     dependencies:
       supertokens-js-override: 0.0.4

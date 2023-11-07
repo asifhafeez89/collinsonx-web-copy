@@ -9,7 +9,6 @@ import SuperTokensReact, {
 } from '@collinsonx/utils/supertokens';
 import { UserProvider } from '@collinsonx/utils/lib/userContext';
 import { useApollo, ApolloProvider } from '@collinsonx/utils/apolloBooking';
-import SessionManager from '@components/SessionManager';
 import AuthWrapper from '@components/AuthWrapper';
 import { PayloadProvider } from 'hooks/payload';
 import BookingProvider from 'context/bookingContext';
@@ -19,13 +18,21 @@ import Maintenance from 'pages/maintenance';
 
 import '../styles.css';
 import { datadogLogs } from '@datadog/browser-logs';
+import { loggerInfo } from '@lib';
 
 if (typeof window !== 'undefined') {
   // we only want to call this init function on the frontend, so
   // we check typeof window !== 'undefined'
-  SuperTokensReact.init(frontendConfig() as SuperTokensConfig);
-}
 
+  const windowObj: any = window;
+  windowObj.addEventListener('navigate', (event: any) => {
+    loggerInfo('_app.tsx', 'url change', event.destination.url);
+  });
+
+  const isInIframe = window.parent === window ? false : true;
+
+  SuperTokensReact.init(frontendConfig({ isInIframe }) as SuperTokensConfig);
+}
 const { publicRuntimeConfig } = getConfig();
 const version = publicRuntimeConfig?.version;
 

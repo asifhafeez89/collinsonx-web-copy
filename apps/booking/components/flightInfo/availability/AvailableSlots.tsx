@@ -3,15 +3,17 @@ import { Select } from '@collinsonx/design-system/core';
 import { TIME_FORMAT } from '../../../config/Constants';
 import { formatDate } from '../../../utils/DateFormatter';
 import { useMemo } from 'react';
-import Heading from '@collinsonx/design-system/components/heading/Heading';
+import colors from 'ui/colour-constants';
 
 interface AvailableSlotsProps {
   availableSlots: Availability;
   onSelectSlot: (value: string) => void;
+  error?: string;
 }
 const AvailableSlots = ({
   availableSlots,
   onSelectSlot,
+  error,
 }: AvailableSlotsProps) => {
   const data = useMemo(
     () =>
@@ -37,6 +39,18 @@ const AvailableSlots = ({
         placeholder="Select time"
         data={data}
         onChange={onSelectSlot}
+        error={error}
+        styles={{
+          input: {
+            borderRadius: 4,
+            '&[data-invalid]': {
+              borderColor: colors.red,
+              '::placeholder': {
+                color: colors.errorPlaceholder,
+              },
+            },
+          },
+        }}
       />
     </>
   );

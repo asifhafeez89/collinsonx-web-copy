@@ -27,3 +27,13 @@ export const setItem = (key: string, value: string) => {
 export const removeItem = (key: string) => {
   return sessionStorage.removeItem(key);
 };
+
+export const cookieStringToObject = (cookieString: string) => {
+  const str = cookieString.split('; ');
+  const result: Record<string, string> = {};
+  for (let i in str) {
+    const cur = str[i].split('=');
+    result[cur[0]] = cur[1].replace(';expires', '');
+  }
+  return result;
+};

@@ -7,6 +7,7 @@ const config = require('@collinsonx/config/jest.config');
 module.exports = {
   ...config,
   rootDir: '.',
+  coveragePathIgnorePatterns: ['./logo/index.ts'],
   testEnvironment: 'jsdom',
   transform: {
     '^.+\\.(ts|tsx|js|jsx)$': [

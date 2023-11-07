@@ -27,7 +27,7 @@ import { BookingContext } from 'context/bookingContext';
 import colors from 'ui/colour-constants';
 import Notification from '@components/Notification';
 import { MAX_GUESTS, ValidationErrorResponses } from '../constants';
-import BackToLounge from '@components/BackToLounge';
+import TopBarLinks from '@components/TopBarLinks';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import Price from '@components/Price';
 import { formatDate } from 'utils/DateFormatter';
@@ -158,7 +158,7 @@ const Lounge = () => {
       <form onSubmit={form.onSubmit(handleClickCheckAvailability)}>
         <Stack spacing={16}>
           <Stack sx={{ width: '100%' }}>
-            <BackToLounge />
+            <TopBarLinks />
           </Stack>
           <Flex
             align="center"

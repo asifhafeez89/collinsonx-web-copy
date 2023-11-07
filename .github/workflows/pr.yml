@@ -1,9 +1,10 @@
-name: PR Check Partner
+name: PR Unit Tests
 
 on:
   pull_request:
     branches: ['dev']
     paths:
+      - 'apps/booking/**'
       - 'apps/partner-management/**'
 
 jobs:
@@ -11,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - uses: pnpm/action-setup@v2
         with:
           version: 8
@@ -20,7 +23,7 @@ jobs:
           cache: 'pnpm'
       - name: Install packages
         run: pnpm i
-      - name: Run Tests
+      - name: Run Unit Tests
         run: |
           export DD_CIVISIBILITY_AGENTLESS_ENABLED=true
           export DD_API_KEY=${{ secrets.DATADOG_API_KEY }}
@@ -28,4 +31,4 @@ jobs:
           export NODE_OPTIONS="-r dd-trace/ci/init"
           export DD_ENV=ci
           export DD_TAGS="test_type:unit"
-          pnpm run test:ci --filter partner-management
+          pnpm run test:ci --filter="[origin/dev...HEAD]"

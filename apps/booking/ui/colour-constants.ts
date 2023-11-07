@@ -4,6 +4,7 @@ const colors = {
   red: '#fa5252',
   white: '#ffffff',
   errorRed: '#D42A54',
+  errorPlaceholder: '#ff8787',
   buttonBlack: '#2C2C2C',
   dividerGrey: '#C8C9CA',
   background: '#F3F2F3',

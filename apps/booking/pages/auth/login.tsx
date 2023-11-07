@@ -20,7 +20,7 @@ import validateEmail from '@collinsonx/utils/lib/validateEmail';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 import usePayload from 'hooks/payload';
 import colors from 'ui/colour-constants';
-import BackToLounge from '@components/BackToLounge';
+import TopBarLinks from '@components/TopBarLinks';
 import Notification from '@components/Notification';
 import { BookingError } from '../../constants';
 import { BookingQueryParams } from '@collinsonx/constants/enums';
@@ -109,7 +109,7 @@ export default function Login() {
       ) : (
         <LayoutLogin>
           <Skeleton visible={!lounge}>
-            <BackToLounge />
+            <TopBarLinks />
           </Skeleton>
           <form onSubmit={form.onSubmit(handleClickContinue)}>
             <Stack
