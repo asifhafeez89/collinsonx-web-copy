@@ -53,11 +53,7 @@ const StyledBox = createPolymorphicComponent<'div', BoxProps | BadgeProps>(
 
 function Badge(props: BadgeProps) {
   const { type, children } = props;
-  return (
-    <StyledBox aria-label={`badge-${type}`} {...props}>
-      {children ? children : type}
-    </StyledBox>
-  );
+  return <StyledBox {...props}>{children ? children : type}</StyledBox>;
 }
 
 export default Badge;

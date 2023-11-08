@@ -9,11 +9,11 @@ describe('<CardOutlet />', () => {
     legacyCode: 'LHR31',
     status: Status.Active,
     title: 'Club Aspire Lounge',
-    airportName: 'London Heathrow',
+    name: 'London Heathrow',
     terminal: 'Terminal 5',
     lastEdit: '5 days ago',
     imageCount: 13,
-    outletTypes: [],
+    productCategories: [],
     rating: {
       stars: 5,
       ratingCount: 99,

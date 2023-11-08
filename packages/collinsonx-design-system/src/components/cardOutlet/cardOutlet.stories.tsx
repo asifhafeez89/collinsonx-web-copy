@@ -8,7 +8,7 @@ export default {
   title: 'Components/CardOutlet',
   component: CardOutlet,
   argTypes: {
-    code: {
+    legacyCode: {
       control: {
         type: 'text',
       },
@@ -27,7 +27,7 @@ export default {
   },
 } as ComponentMeta<typeof CardOutlet>;
 
-const OUTLET_TYPES = [
+const PRODUCT_CATEGORIES = [
   {
     label: 'Lounge',
     IconComponent: <OutletLoungeIcon width={24} height={24} />,
@@ -45,7 +45,7 @@ const OUTLET_TYPES = [
 const Template: ComponentStory<typeof CardOutlet> = (args) => (
   <Box sx={{ padding: 10 }}>
     <CardOutlet {...args}>
-      <Button variant="outline" fullWidth radius="md">
+      <Button aria-hidden={true} variant="outline" fullWidth radius="md">
         View details
       </Button>
     </CardOutlet>
@@ -59,11 +59,11 @@ const commonArgs = {
   legacyCode: 'LHR31',
   status: Status.Active,
   title: 'Club Aspire Lounge',
-  airportName: 'London Heathrow',
+  name: 'London Heathrow',
   terminal: 'Terminal 5',
   lastEdit: '5 days ago',
   imageCount: 13,
-  outletTypes: OUTLET_TYPES,
+  productCategories: PRODUCT_CATEGORIES,
   rating: {
     stars: 5,
     ratingCount: 99,

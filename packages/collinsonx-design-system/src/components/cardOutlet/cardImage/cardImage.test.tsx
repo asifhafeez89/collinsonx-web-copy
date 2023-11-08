@@ -12,7 +12,7 @@ describe('<CardImage />', () => {
   };
   it('should render', () => {
     render(<CardImage {...props} />);
-    expect(screen.getByLabelText('Lounge image')).toBeInTheDocument();
+    expect(screen.getByLabelText('Outlet image')).toBeInTheDocument();
   });
   it('should show lounge image count', () => {
     render(<CardImage {...props} />);

@@ -7,6 +7,7 @@ import {
   createPolymorphicComponent,
   Flex,
   Divider,
+  List,
 } from '@mantine/core';
 import colors from '../../colour-constants-partner';
 import Rating, { RatingProps } from '../rating/index';
@@ -29,7 +30,7 @@ export interface WorkflowStage {
 
 export interface CardOutletProps {
   title: string;
-  airportName?: string;
+  name?: string;
   terminal?: string;
   imageUrl: string;
   legacyCode?: string;
@@ -38,19 +39,33 @@ export interface CardOutletProps {
   rating?: RatingProps;
   imageCount?: number;
   workflowStage?: WorkflowStage;
-  outletTypes: Array<{
+  productCategories: Array<{
     label: string;
     IconComponent: any;
   }>;
   children?: ReactNode;
 }
 
+const StyledList = styled(List)`
+  display: flex;
+  gap: 10px;
+`;
+
 const _StyledCard = styled(Box)`
-  width: 418px;
+  width: 350px;
   height: 535px;
+  cursor: pointer;
   border: 1px solid ${colors['partner-grey-border']};
   background-color: #fff;
   border-radius: 8px;
+  &:hover {
+    box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.25);
+    transition: all 0.3s ease-in-out;
+    border: 1px solid ${colors['partner-text-grey']};
+    & > .outlet-image {
+      background-size: 105%;
+    }
+  }
 `;
 
 const StyledCard = createPolymorphicComponent<'div', BoxProps>(_StyledCard);
@@ -60,14 +75,14 @@ function CardOutlet({
   status,
   title,
   children,
-  airportName,
+  name,
   terminal,
   lastEdit,
   rating,
   imageCount,
   imageUrl,
   workflowStage,
-  outletTypes = [],
+  productCategories = [],
 }: CardOutletProps) {
   return (
     <StyledCard p={0} aria-label={title}>
@@ -77,8 +92,7 @@ function CardOutlet({
           <Stack spacing={6}>
             <Flex gap={6} align="baseline">
               <Text
-                component="h1"
-                aria-label="Lounge title"
+                component="h2"
                 my={0}
                 weight={600}
                 size={20}
@@ -89,7 +103,6 @@ function CardOutlet({
               </Text>
               {legacyCode && (
                 <Text
-                  aria-label="legacyCode"
                   size={16}
                   color={colors['partner-text-grey']}
                   sx={{ lineHeight: '20.24px' }}
@@ -98,14 +111,9 @@ function CardOutlet({
                 </Text>
               )}
             </Flex>
-            {airportName && (
-              <Text
-                aria-label="Airport"
-                weight={400}
-                size={16}
-                color={colors['partner-text-grey']}
-              >
-                {airportName}
+            {name && (
+              <Text weight={400} size={16} color={colors['partner-text-grey']}>
+                {name}
                 {terminal && ', ' + terminal}
               </Text>
             )}
@@ -132,13 +140,15 @@ function CardOutlet({
               )}
             </Flex>
             <Flex gap={24}>
-              <Flex gap={10}>
-                {outletTypes.map(({ label, IconComponent }, index) => (
-                  <FieldIcon key={index} text={label} textPosition="bottom">
-                    {IconComponent}
-                  </FieldIcon>
+              <StyledList listStyleType="none">
+                {productCategories.map(({ label, IconComponent }, index) => (
+                  <List.Item key={index}>
+                    <FieldIcon text={label} textPosition="bottom">
+                      {IconComponent}
+                    </FieldIcon>
+                  </List.Item>
                 ))}
-              </Flex>
+              </StyledList>
               {lastEdit && (
                 <CardField label="Last edited">
                   <Text color={colors['partner-text-default']} size={14}>

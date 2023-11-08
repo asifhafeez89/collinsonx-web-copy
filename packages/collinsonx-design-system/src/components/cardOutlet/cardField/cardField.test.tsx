@@ -7,14 +7,14 @@ import { Box } from '@mantine/core';
 describe('<CardField />', () => {
   let props: CardFieldProps = {
     label: 'My field',
-    children: <Box aria-label="mock" />,
+    children: <Box>mock</Box>,
   };
   it('should render', () => {
     render(<CardField {...props} />);
-    expect(screen.getByLabelText(props.label)).toBeInTheDocument();
+    expect(screen.getByText(props.label)).toBeInTheDocument();
   });
   it('should render children', () => {
     render(<CardField {...props} />);
-    expect(screen.getByLabelText('mock')).toBeInTheDocument();
+    expect(screen.getByText('mock')).toBeInTheDocument();
   });
 });

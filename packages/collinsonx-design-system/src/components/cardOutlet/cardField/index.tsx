@@ -9,7 +9,7 @@ export interface CardFieldProps {
 
 const CardField = ({ label, children }: CardFieldProps) => {
   return (
-    <Flex aria-label={label} gap={4} direction="column">
+    <Flex gap={4} direction="column">
       <Text color={colors['partner-text-grey']} size={12}>
         {label}
       </Text>

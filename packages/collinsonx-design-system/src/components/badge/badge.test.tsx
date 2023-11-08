@@ -10,7 +10,7 @@ describe('<Badge />', () => {
   };
   it('should render', () => {
     render(<Badge {...props} />);
-    expect(screen.getByLabelText('badge-active')).toBeInTheDocument();
+    expect(screen.getByText('active')).toBeInTheDocument();
   });
   it('should render children', () => {
     render(<Badge {...props}>foobar</Badge>);

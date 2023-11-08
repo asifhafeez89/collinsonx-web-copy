@@ -1,6 +1,11 @@
 import styled from '@emotion/styled';
 import { Status } from '../index';
-import { Box, BoxProps, createPolymorphicComponent } from '@mantine/core';
+import {
+  Box,
+  BoxProps,
+  Tooltip,
+  createPolymorphicComponent,
+} from '@mantine/core';
 import colors from '../../../colour-constants-partner';
 
 export interface CardImageProps {
@@ -20,8 +25,9 @@ const Container = styled.div`
     
     `}
     position: relative;
-    background-size: cover;
+    background-size: 100%;
     background-repeat: no-repeat;
+    transition: background-size 0.3s ease-in-out;
   }
 `;
 
@@ -49,11 +55,23 @@ const ImageCount: React.FC<BoxProps> = createPolymorphicComponent<
 const CardImage = (props: CardImageProps) => {
   const { imageCount } = props;
   return (
-    <Container role="img" aria-label="Lounge image" {...props}>
+    <Container
+      role="img"
+      className="outlet-image"
+      aria-label="Outlet image"
+      {...props}
+    >
       {imageCount && (
-        <ImageCount arial-label="Number of lounge images">
-          {imageCount}
-        </ImageCount>
+        <Tooltip
+          label="Images"
+          position="bottom"
+          arrowPosition="center"
+          arrowSize={6}
+          withinPortal
+          withArrow
+        >
+          <ImageCount>{imageCount}</ImageCount>
+        </Tooltip>
       )}
     </Container>
   );
