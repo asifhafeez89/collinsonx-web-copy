@@ -14,6 +14,7 @@ import { formatDate } from 'utils/DateFormatter';
 import { DATE_READABLE_FORMAT } from 'config/Constants';
 import { BookingConfirmedPdfProps } from './BookingConfirmationProps';
 import { getLogo } from './helpers/getLogo';
+import Price from '@components/Price';
 
 Font.register({
   family: 'Open Sans Regular',
@@ -157,7 +158,21 @@ export const BookingConfirmationPDF = (props: BookingConfirmedPdfProps) => {
             {props.infants > 0 &&
               `Infants: ${(<Text style={styles.strong}>props.infants</Text>)}`}
           </Text>
-
+          <Text
+            style={[styles.text, styles.h3, styles.marginTop, styles.padding]}
+          >
+            Total
+          </Text>
+          <Text style={[styles.text, styles.padding]}>
+            <Price
+              lounge={props.lounge}
+              guests={{
+                adults: props.adults,
+                infants: props.infants,
+                children: props.children,
+              }}
+            ></Price>
+          </Text>
           <Text
             style={[styles.text, styles.h3, styles.marginTop, styles.padding]}
           >
