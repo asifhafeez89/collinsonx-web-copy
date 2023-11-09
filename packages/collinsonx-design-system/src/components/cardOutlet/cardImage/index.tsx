@@ -15,12 +15,10 @@ export interface CardImageProps {
 }
 
 const Container = styled.div`
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
     width: 100%;
     height: 160px;
     ${({ src, status }: CardImageProps) => `
-        background: url("${src}");
+        background-image: url("${src}");
         ${status === Status.Inactive ? `filter: grayscale(100%);` : ''}
     
     `}

@@ -9,7 +9,7 @@ describe('<CardOutlet />', () => {
     legacyCode: 'LHR31',
     status: Status.Active,
     title: 'Club Aspire Lounge',
-    name: 'London Heathrow',
+    locationName: 'London Heathrow',
     terminal: 'Terminal 5',
     lastEdit: '5 days ago',
     imageCount: 13,
@@ -26,7 +26,7 @@ describe('<CardOutlet />', () => {
   };
   it('should render', () => {
     render(<CardOutlet {...props} />);
-    expect(screen.getByLabelText(props.title)).toBeInTheDocument();
+    expect(screen.getByText(props.title)).toBeInTheDocument();
   });
   it('should render footer', () => {
     render(

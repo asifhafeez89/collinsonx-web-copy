@@ -30,7 +30,7 @@ export interface WorkflowStage {
 
 export interface CardOutletProps {
   title: string;
-  name?: string;
+  locationName?: string;
   terminal?: string;
   imageUrl: string;
   legacyCode?: string;
@@ -55,6 +55,7 @@ const _StyledCard = styled(Box)`
   width: 350px;
   height: 535px;
   cursor: pointer;
+  overflow: hidden;
   border: 1px solid ${colors['partner-grey-border']};
   background-color: #fff;
   border-radius: 8px;
@@ -63,6 +64,7 @@ const _StyledCard = styled(Box)`
     transition: all 0.3s ease-in-out;
     border: 1px solid ${colors['partner-text-grey']};
     & > .outlet-image {
+      background-color: ${colors['partner-text-grey']};
       background-size: 105%;
     }
   }
@@ -75,7 +77,7 @@ function CardOutlet({
   status,
   title,
   children,
-  name,
+  locationName,
   terminal,
   lastEdit,
   rating,
@@ -85,7 +87,7 @@ function CardOutlet({
   productCategories = [],
 }: CardOutletProps) {
   return (
-    <StyledCard p={0} aria-label={title}>
+    <StyledCard p={0}>
       <CardImage src={imageUrl} status={status} imageCount={imageCount} />
       <Box p={24} sx={{ width: '100%' }}>
         <Stack spacing={24}>
@@ -111,9 +113,9 @@ function CardOutlet({
                 </Text>
               )}
             </Flex>
-            {name && (
+            {locationName && (
               <Text weight={400} size={16} color={colors['partner-text-grey']}>
-                {name}
+                {locationName}
                 {terminal && ', ' + terminal}
               </Text>
             )}

@@ -59,7 +59,7 @@ const commonArgs = {
   legacyCode: 'LHR31',
   status: Status.Active,
   title: 'Club Aspire Lounge',
-  name: 'London Heathrow',
+  locationName: 'London Heathrow',
   terminal: 'Terminal 5',
   lastEdit: '5 days ago',
   imageCount: 13,
