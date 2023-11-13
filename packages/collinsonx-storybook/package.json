@@ -37,11 +37,10 @@
     "@types/node": "^18.17.5",
     "@types/react": "^18.2.20",
     "dayjs": "^1.11.9",
-    "next": "12.1.7-canary.8",
+    "next": "^13.4.16",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "require-from-string": "^2.0.2",
-    "storybook-addon-next-router": "^4.0.2",
     "webpack": "^5.88.2"
   }
 }
