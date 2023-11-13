@@ -26,11 +26,10 @@ import EditableTitle from '@collinsonx/design-system/components/editabletitles/E
 import { Availability } from '@collinsonx/utils';
 import {
   AvailableSlots,
-  hasLoungeCapacity,
-  hasLoungeCapacityDefaultError,
-  availableSlotsNotEnoughCapacityParser,
-  loadDefaultError,
+  AvailableSlotsErrorHandling,
+  availableSlotsPopUpIsVisible,
 } from '@components/flightInfo/availability';
+
 import getAvailableSlots from '@collinsonx/utils/queries/getAvailableSlots';
 import { Slots } from '@collinsonx/utils';
 import {
@@ -61,32 +60,6 @@ const { BAD_USER_INPUT } = BookingError;
 
 const availabilityMessagess: Record<string, string> = {
   [BAD_USER_INPUT]: 'Please select your estimated arrival time',
-};
-
-interface AvailableSlotsErrorHandlingProps {
-  error: ApolloError | unknown;
-  airportMismatch: boolean;
-}
-
-const AvailableSlotsErrorHandling: FC<AvailableSlotsErrorHandlingProps> = ({
-  error,
-  airportMismatch,
-}) => {
-  if (airportMismatch) return null;
-
-  const ENOUGH_CAPACITY_ERROR_IS_VALID = hasLoungeCapacity(error);
-
-  if (ENOUGH_CAPACITY_ERROR_IS_VALID) {
-    return availableSlotsNotEnoughCapacityParser(error);
-  }
-
-  const DEFAULT_ERROR = hasLoungeCapacityDefaultError(error);
-
-  if (DEFAULT_ERROR) {
-    return loadDefaultError();
-  }
-
-  return null;
 };
 
 export default function CheckAvailability() {
@@ -565,8 +538,10 @@ export default function CheckAvailability() {
             disabled={
               slotsLoading ||
               cbLoading ||
-              hasLoungeCapacity(slotsError) ||
-              hasLoungeCapacityDefaultError(slotsError)
+              availableSlotsPopUpIsVisible({
+                error: slotsError,
+                airportMismatch: airportMismatch,
+              })
             }
             type="submit"
             data-testid="submit"
