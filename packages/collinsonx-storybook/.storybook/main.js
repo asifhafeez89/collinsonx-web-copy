@@ -13,6 +13,13 @@ module.exports = {
   },
   staticDirs: ['../public'],
   webpackFinal: async (config, { configType }) => {
+    config.resolve = config.resolve || {};
+    config.resolve.modules = config.resolve.modules || [];
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      'next/dist/shared/lib/router-context.shared-runtime':
+        'next/dist/shared/lib/router-context',
+    };
     config.module.rules = [
       ...config.module.rules.map((rule) => {
         if (/svg/.test(rule.test)) {
