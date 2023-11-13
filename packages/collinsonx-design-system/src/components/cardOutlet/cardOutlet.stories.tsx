@@ -5,7 +5,7 @@ import CardOutlet, { Status } from './index';
 import { OutletLoungeIcon } from '../../assets/icons';
 
 export default {
-  title: 'Components/CardOutlet',
+  title: 'Partner/CardOutlet',
   component: CardOutlet,
   argTypes: {
     legacyCode: {

@@ -4,7 +4,7 @@ import { Box } from '@mantine/core';
 import Badge from './index';
 
 export default {
-  title: 'Components/Badge',
+  title: 'Partner/Badge',
   component: Badge,
   argTypes: {
     size: { control: { type: 'select', options: ['small', 'large'] } },

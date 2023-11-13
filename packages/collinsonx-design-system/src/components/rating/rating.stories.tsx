@@ -5,7 +5,7 @@ import Rating from './index';
 import { Box } from '@mantine/core';
 
 export default {
-  title: 'Components/Rating',
+  title: 'Partner/Rating',
   component: Rating,
   argTypes: {
     stars: { control: 'number' },
