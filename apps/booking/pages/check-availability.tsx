@@ -32,12 +32,8 @@ import {
 
 import getAvailableSlots from '@collinsonx/utils/queries/getAvailableSlots';
 import { Slots } from '@collinsonx/utils';
-import {
-  TIME_FORMAT,
-  DATE_TIME_FORMAT,
-  TRAVEL_TYPE,
-} from '../config/Constants';
-import { formatDate, formatDateUTC } from '../utils/DateFormatter';
+import { TIME_FORMAT, TRAVEL_TYPE } from '../config/Constants';
+import { formatDate, formatTimezone } from '../utils/DateFormatter';
 import usePayload from 'hooks/payload';
 import { InfoGroup } from '@collinsonx/design-system/components/details';
 import { BookingContext } from 'context/bookingContext';
@@ -100,31 +96,22 @@ export default function CheckAvailability() {
     const availableSlots = slotsData?.getAvailableSlots.slots;
     const slot = findSelectedSlot(availableSlots, selectedslot);
 
-    const departureTime = flightData?.departure?.dateTime?.utc;
-
-    const localTimeHour = dayjs(flightData?.departure?.dateTime?.local);
-    const utcTimeHour = dayjs(flightData?.departure?.dateTime?.utc);
-    const timeDifference = utcTimeHour.diff(localTimeHour, 'hour');
+    const departureTime = flightData?.departure?.dateTime?.local as string;
+    const flightTimezone = lounge?.location?.timezone as string;
+    const departureTimeWithTimezone = formatTimezone(
+      departureTime,
+      flightTimezone
+    );
 
     if (!slot) {
       return setMessage(availabilityMessagess[BAD_USER_INPUT]);
     }
 
-    const utcStartDate = formatDateUTC(
-      slot?.startDate,
-      DATE_TIME_FORMAT,
-      timeDifference
+    const startDateWithTimezone = formatTimezone(
+      slot.startDate,
+      flightTimezone
     );
-    const utcEndDate = formatDateUTC(
-      slot?.endDate,
-      DATE_TIME_FORMAT,
-      timeDifference
-    );
-
-    const utcDepartureTime = formatDate(
-      new Date(`${departureTime}`),
-      DATE_TIME_FORMAT
-    );
+    const endDateWithTimezone = formatTimezone(slot.endDate, flightTimezone);
 
     if (!linkedAccountId) {
       log(`[createBooking error] linkedAccountId == ${linkedAccountId}`);
@@ -133,9 +120,9 @@ export default function CheckAvailability() {
     const bookingInput = {
       ...(linkedAccountId && { actingAccount: linkedAccountId }),
       experience: { id: lounge?.id },
-      bookedFrom: utcStartDate,
-      lastArrival: utcEndDate,
-      bookedTo: utcDepartureTime,
+      bookedFrom: startDateWithTimezone,
+      lastArrival: endDateWithTimezone,
+      bookedTo: departureTimeWithTimezone,
       type: BookingType.ReservationFeeOnly,
       guestAdultCount: adults,
       guestChildrenCount: children,
@@ -200,6 +187,7 @@ export default function CheckAvailability() {
       partnerKey === 'partnerIdTest'
         ? lounge.partnerIdTest
         : lounge.partnerIdProd;
+
     log('NEXT_PUBLIC_SNAPLOGIC_PARTNER_KEY', partnerKey, productID);
 
     fetchSlots({

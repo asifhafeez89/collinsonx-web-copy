@@ -17,6 +17,7 @@ const Details = ({ children, booking, loading = false }: DetailsProps) => {
     () => getTime(booking?.metadata?.flightTime),
     [booking]
   );
+
   return (
     <Stack spacing={40}>
       <DetailsSection label="Passenger details">
