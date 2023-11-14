@@ -89,10 +89,6 @@ export default function ConfirmPayment() {
     return () => clearInterval(interval.current);
   }, []);
 
-  const handleRedoQuery = () => {
-    fetchBookingDetails();
-  };
-
   const { flightNumber, children, bookingId, adults, arrival, infants } =
     getBooking();
 
@@ -154,13 +150,7 @@ export default function ConfirmPayment() {
       <Stack spacing={16} sx={{ backgroundColor: colors.background }}>
         <TopBarLinks />
 
-        <LoaderLightBox
-          open={open}
-          title=""
-          onHandleClick={handleRedoQuery}
-          ctaAction="TRY AGAIN"
-          onClose={() => {}}
-        >
+        <LoaderLightBox open={open} title="" ctaAction="" onClose={() => {}}>
           <div>
             <h2>Payment is being processed</h2>
             <p>
