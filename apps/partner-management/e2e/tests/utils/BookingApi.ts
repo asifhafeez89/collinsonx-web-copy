@@ -1,24 +1,29 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
 dotenv.config({ path: `.env.tests` });
-require('dotenv').config();
 import Stripe from 'stripe';
-import { apiURL, stripePayment } from '../utils/config';
-import { supertokensURL } from '../utils/config';
+import { apiURL, stripePayment } from './config';
+import { supertokensURL } from './config';
 import {
   DeleteInboxMessagesRequest,
   MailinatorClient,
   GetInboxRequest,
   GetMessageRequest,
 } from 'mailinator-client';
+import { Page } from '@playwright/test';
+import TestSetup from './TestSetup';
+import { BookingStatus } from '@collinsonx/utils';
 
-class BookingApi {
-  constructor(page) {
+export default class BookingApi {
+  private page: Page;
+  private consumerEmail: string;
+
+  constructor(page: Page) {
     this.page = page;
     this.consumerEmail = `testautomationconsumer@${process.env.MAILINATOR_EMAIL_ADDRESS}`;
   }
 
-  async addDeclinedBooking(lounge) {
+  async addDeclinedBooking(lounge: TestSetup) {
     const { bookingId, bookingRef, consumerId } = await this.addPendingRequest(
       lounge
     );
@@ -28,7 +33,7 @@ class BookingApi {
     return { bookingId, bookingRef, consumerId };
   }
 
-  async addConfirmedBooking(lounge) {
+  async addConfirmedBooking(lounge: TestSetup) {
     const { bookingId, bookingRef, consumerId } = await this.addPendingRequest(
       lounge
     );
@@ -38,7 +43,7 @@ class BookingApi {
     return { bookingId, bookingRef, consumerId };
   }
 
-  async addPendingRequest(lounge) {
+  async addPendingRequest(lounge: TestSetup) {
     const consumerId = await this.findOrCreateConsumer();
     const booking = await this.createBooking(lounge, consumerId);
     const bookingId = booking.id;
@@ -85,7 +90,7 @@ class BookingApi {
     return consumerId;
   }
 
-  async createBooking(lounge, consumerId) {
+  async createBooking(lounge: TestSetup, consumerId: string) {
     const consumerAuthToken = await this.authenticateAsConsumer();
 
     const mutation = `
@@ -166,8 +171,14 @@ class BookingApi {
     return { id: bookingId, reference };
   }
 
-  async stripeBookingPayment(lounge, consumerId, bookingId) {
-    const stripe = new Stripe(process.env.STRIPE_API_KEY);
+  async stripeBookingPayment(
+    lounge: TestSetup,
+    consumerId: string,
+    bookingId: string
+  ) {
+    const stripe = new Stripe(process.env.STRIPE_API_KEY!, {
+      apiVersion: '2022-11-15',
+    });
 
     const customer = await stripe.customers.create({
       email: this.consumerEmail,
@@ -179,6 +190,12 @@ class BookingApi {
         state: 'Surrey',
       },
     });
+
+    if (lounge.priceId === null) {
+      throw new Error(
+        'The lounge priceId property was null. Could not proceed with the Stripe payment for the booking.'
+      );
+    }
 
     const session = await stripe.checkout.sessions.create({
       line_items: [
@@ -212,6 +229,11 @@ class BookingApi {
     });
 
     const checkoutURL = session.url;
+    if (typeof checkoutURL !== 'string') {
+      throw new Error(
+        'The url is not in string format. Could not complete the Stripe payment for the booking.'
+      );
+    }
 
     await this.page.goto(checkoutURL);
 
@@ -231,7 +253,7 @@ class BookingApi {
 
     try {
       await this.page.waitForURL(stripePayment.successURL);
-    } catch (error) {
+    } catch (error: any) {
       if (error.message.includes('ERR_CONNECTION_REFUSED')) {
         console.log(
           'ignoring ERR_CONNECTION_REFUSED while waiting for successful Stripe payment'
@@ -242,7 +264,7 @@ class BookingApi {
     }
   }
 
-  async getBookingCount(lounge, ...statuses) {
+  async getBookingCount(lounge: TestSetup, ...statuses: BookingStatus[]) {
     const statusBookings = await this.getBookings(lounge, ...statuses);
 
     const statusBookingsCount = statusBookings.length;
@@ -250,7 +272,7 @@ class BookingApi {
     return statusBookingsCount;
   }
 
-  async declineBooking(bookingId) {
+  async declineBooking(bookingId: string) {
     const mutation = `
       mutation DeclineBooking($declineBookingId: ID!) {
         declineBooking(id: $declineBookingId) {
@@ -279,7 +301,7 @@ class BookingApi {
     }
   }
 
-  async confirmBooking(bookingId) {
+  async confirmBooking(bookingId: string) {
     const mutation = `
       mutation Mutation($confirmBookingId: ID!) {
         confirmBooking(id: $confirmBookingId) {
@@ -307,7 +329,7 @@ class BookingApi {
     }
   }
 
-  async deleteBooking(bookingId) {
+  async deleteBooking(bookingId: string) {
     const mutation = `
       mutation Mutation($deleteBookingId: ID!) {
         deleteBooking(id: $deleteBookingId) {
@@ -333,7 +355,7 @@ class BookingApi {
     }
   }
 
-  async getBookings(lounge, ...statuses) {
+  async getBookings(lounge: TestSetup, ...statuses: BookingStatus[]) {
     const query = `
       query GetBookings($experienceId: ID!) {
         getBookings(experienceID: $experienceId) {
@@ -360,14 +382,14 @@ class BookingApi {
 
     const bookings = responseJson.data.getBookings;
 
-    const statusBookings = bookings.filter((booking) => {
+    const statusBookings = bookings.filter((booking: any) => {
       return statuses.includes(booking.status);
     });
 
     return statusBookings;
   }
 
-  async getBookingById(bookingId) {
+  async getBookingById(bookingId: string) {
     const query = `
       query Query($getBookingByIdId: ID!) {
         getBookingByID(id: $getBookingByIdId) {
@@ -422,11 +444,11 @@ class BookingApi {
     const emailPrefix = this.consumerEmail.split('@')[0];
 
     const mailinatorClient = new MailinatorClient(
-      process.env.MAILINATOR_API_TOKEN
+      process.env.MAILINATOR_API_TOKEN!
     );
     await mailinatorClient.request(
       new DeleteInboxMessagesRequest(
-        process.env.MAILINATOR_EMAIL_ADDRESS,
+        process.env.MAILINATOR_EMAIL_ADDRESS!,
         emailPrefix
       )
     );
@@ -438,10 +460,10 @@ class BookingApi {
       count > 0 && (await new Promise((resolve) => setTimeout(resolve, 5000)));
 
       const inbox = await mailinatorClient.request(
-        new GetInboxRequest(process.env.MAILINATOR_EMAIL_ADDRESS)
+        new GetInboxRequest(process.env.MAILINATOR_EMAIL_ADDRESS!)
       );
 
-      latestMessage = await inbox.result.msgs.find(
+      latestMessage = await inbox.result?.msgs.find(
         (message) => message.to === emailPrefix
       );
 
@@ -458,13 +480,26 @@ class BookingApi {
 
     const otp = await mailinatorClient.request(
       new GetMessageRequest(
-        process.env.MAILINATOR_EMAIL_ADDRESS,
+        process.env.MAILINATOR_EMAIL_ADDRESS!,
         emailPrefix,
         id
       )
     );
+
+    if (otp.result === null) {
+      throw new Error(
+        'Unable to authenticate as a consumer. Could not find the Email containing the OTP.'
+      );
+    }
+
     const regex = /(\d{6})<\/div>/g;
     const match = regex.exec(otp.result.parts[0].body);
+
+    if (match === null) {
+      throw new Error(
+        'The regex condition could not find a OTP within the email.'
+      );
+    }
 
     const userInputCode = match[1].toString();
 
@@ -490,5 +525,3 @@ class BookingApi {
     return consumeResponse.headers['st-access-token'];
   }
 }
-
-module.exports = BookingApi;

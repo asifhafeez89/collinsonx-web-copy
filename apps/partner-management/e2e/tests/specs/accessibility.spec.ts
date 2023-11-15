@@ -1,15 +1,15 @@
 import { prettyPrintAxeReport } from 'axe-result-pretty-print';
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../baseFixtures';
 import AxeBuilder from '@axe-core/playwright';
 import LoginPage from '../pages/LoginPage';
 import PendingRequestsPage from '../pages/PendingRequestsPage';
 import AllConfirmedBookingsPage from '../pages/AllConfirmedBookingsPage';
 import DeclinedBookingsPage from '../pages/DeclinedBookingsPage';
 import WalkUpQRCodePage from '../pages/WalkUpQRCodePage';
-import TestSetup from '../utils/TestSetup.js';
+import TestSetup from '../utils/TestSetup';
 import BookingApi from '../utils/BookingApi';
 
-const createAxeBuilder = (page) =>
+const createAxeBuilder = (page: any) =>
   new AxeBuilder({ page })
     .exclude('iframe')
     .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']);
@@ -36,14 +36,14 @@ test.describe('Login page', () => {
 
 test.describe('Pages that require initial login', () => {
   let partnerDetails;
-  let lounge;
+  let lounge: TestSetup;
   let loginPage;
 
   test.beforeEach(async ({ page, request }) => {
     lounge = new TestSetup(request);
     partnerDetails = await lounge.setup();
     loginPage = new LoginPage(page);
-    await loginPage.login(partnerDetails.email, partnerDetails.password);
+    await loginPage.login(partnerDetails.username, partnerDetails.password);
   });
 
   test.afterEach(async () => {

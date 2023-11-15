@@ -1,9 +1,13 @@
-class LoginPage {
-  constructor(page) {
+import { Page } from '@playwright/test';
+
+export default class LoginPage {
+  private page: Page;
+
+  constructor(page: Page) {
     this.page = page;
   }
 
-  async login(email, password) {
+  async login(email: string, password: string) {
     await this.goToURL();
     await this.acceptCookieBanner();
     await this.enterEmailAddress(email);
@@ -13,11 +17,11 @@ class LoginPage {
     await this.waitToBeLoggedIn();
   }
 
-  enterEmailAddress(email) {
+  enterEmailAddress(email: string) {
     return this.page.getByLabel('email').fill(email);
   }
 
-  enterPassword(password) {
+  enterPassword(password: string) {
     return this.page.getByLabel('Password', { exact: true }).fill(password);
   }
 
@@ -45,5 +49,3 @@ class LoginPage {
     return this.page.waitForLoadState('networkidle');
   }
 }
-
-module.exports = LoginPage;

@@ -5,17 +5,23 @@ import {
   GetMessageRequest,
 } from 'mailinator-client';
 import axios from 'axios';
-import dotenv from 'dotenv';
 import { apiURL, supertokensURL } from './config';
+import { Request, APIRequestContext } from '@playwright/test';
+import dotenv from 'dotenv';
 dotenv.config({ path: `.env.tests` });
 
 class PartnerUtils {
+  private request: APIRequestContext;
+  private experienceId: string;
+  private partnerEmail: string;
+  private password: string;
+
   /**
    *
    * @param {string} experienceId - Experience ID to associate with the partner.
    * @param {object} request - Playwright object used to send API requests.
    */
-  constructor(experienceId, request) {
+  constructor(experienceId: string, request: APIRequestContext) {
     this.experienceId = experienceId;
     this.request = request;
     this.partnerEmail = `${uuidv4()}@${process.env.MAILINATOR_EMAIL_ADDRESS}`;
@@ -27,7 +33,7 @@ class PartnerUtils {
     const invitationToken = await this.getInvitationToken();
     await this.registerAsANewPartner(invitationToken);
     return {
-      email: this.partnerEmail,
+      username: this.partnerEmail,
       password: this.password,
     };
   }
@@ -111,7 +117,7 @@ class PartnerUtils {
     const emailPrefix = this.partnerEmail.split('@')[0];
 
     const mailinatorClient = new MailinatorClient(
-      process.env.MAILINATOR_API_TOKEN
+      process.env.MAILINATOR_API_TOKEN!
     );
 
     let latestMessage;
@@ -121,10 +127,10 @@ class PartnerUtils {
       count > 0 && (await new Promise((resolve) => setTimeout(resolve, 5000)));
 
       const inbox = await mailinatorClient.request(
-        new GetInboxRequest(process.env.MAILINATOR_EMAIL_ADDRESS)
+        new GetInboxRequest(process.env.MAILINATOR_EMAIL_ADDRESS!)
       );
 
-      latestMessage = await inbox.result.msgs.find(
+      latestMessage = await inbox.result?.msgs.find(
         (message) => message.to === emailPrefix
       );
 
@@ -141,7 +147,7 @@ class PartnerUtils {
 
     const latestMessageContents = await mailinatorClient.request(
       new GetMessageRequest(
-        process.env.MAILINATOR_EMAIL_ADDRESS,
+        process.env.MAILINATOR_EMAIL_ADDRESS!,
         emailPrefix,
         id
       )
@@ -166,7 +172,7 @@ class PartnerUtils {
     return invitationToken;
   }
 
-  getEncodedUrlFromMessageContents(messageContents) {
+  getEncodedUrlFromMessageContents(messageContents: string) {
     const regex = /https.*?(?=\])/;
     const urlMatch = regex.exec(messageContents);
     return urlMatch
@@ -178,7 +184,7 @@ class PartnerUtils {
    *
    * @param {string} invitationToken - Token retrieved from the registration Email as a form of authentication.
    */
-  async registerAsANewPartner(invitationToken) {
+  async registerAsANewPartner(invitationToken: string) {
     const authorisationToken = await this.authenticateAsSuperUser();
 
     const query = `mutation Mutation($acceptInvitationInput: AcceptInvitationInput!) {

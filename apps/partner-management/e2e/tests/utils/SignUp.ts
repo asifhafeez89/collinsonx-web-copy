@@ -4,15 +4,16 @@ import {
   GetMessageRequest,
 } from 'mailinator-client';
 import axios from 'axios';
-import dotenv from 'dotenv';
 import { apiURL, supertokensURL } from './config';
+import TestSetup from '../utils/TestSetup';
+import dotenv from 'dotenv';
 dotenv.config({ path: `.env.tests` });
 
-class SignUp {
+export default class SignUp {
   /**
    * @param {object} lounge - lounge object created from the TestSetup class. Used to access properties such as experienceId.
    */
-  async receiveRegistrationEmail(lounge, email) {
+  async receiveRegistrationEmail(lounge: TestSetup, email: string) {
     const authorisationToken = await this.authenticateAsSuperUser();
     const mutation = `
         mutation mutation($invitationInput: InvitationInput) {
@@ -58,11 +59,11 @@ class SignUp {
     }
   }
 
-  async getRegistrationURL(email) {
+  async getRegistrationURL(email: string) {
     const username = email.split('@')[0];
 
     const mailinatorClient = new MailinatorClient(
-      process.env.MAILINATOR_API_TOKEN
+      process.env.MAILINATOR_API_TOKEN!
     );
 
     try {
@@ -74,10 +75,10 @@ class SignUp {
           (await new Promise((resolve) => setTimeout(resolve, 5000)));
 
         const inbox = await mailinatorClient.request(
-          new GetInboxRequest(process.env.MAILINATOR_EMAIL_ADDRESS)
+          new GetInboxRequest(process.env.MAILINATOR_EMAIL_ADDRESS!)
         );
 
-        latestMessage = await inbox.result.msgs.find(
+        latestMessage = await inbox.result?.msgs.find(
           (message) => message.to === username
         );
 
@@ -94,7 +95,7 @@ class SignUp {
 
       const latestMessageContents = await mailinatorClient.request(
         new GetMessageRequest(
-          process.env.MAILINATOR_EMAIL_ADDRESS,
+          process.env.MAILINATOR_EMAIL_ADDRESS!,
           username,
           id
         )
@@ -102,7 +103,17 @@ class SignUp {
 
       const regex = /https.*?(?=\])/;
 
+      if (latestMessageContents.result === null) {
+        throw new Error('');
+      }
+
       const url = regex.exec(latestMessageContents.result.parts[0].body);
+
+      if (url === null) {
+        throw new Error(
+          'The regex condition could not find the new partner registration url link within the email. Could not register the new partner.'
+        );
+      }
 
       const formattedURL = url[0]
         .toString()
@@ -144,5 +155,3 @@ class SignUp {
     return response.headers['st-access-token'];
   }
 }
-
-module.exports = SignUp;

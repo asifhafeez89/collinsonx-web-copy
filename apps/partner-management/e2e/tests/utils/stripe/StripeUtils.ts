@@ -1,10 +1,18 @@
 import { v4 as uuidv4 } from 'uuid';
 import Stripe from 'stripe';
+import dotenv from 'dotenv';
+dotenv.config({ path: `.env.tests` });
 
-const stripe = new Stripe(process.env.STRIPE_API_KEY);
+const stripe = new Stripe(process.env.STRIPE_API_KEY!, {
+  apiVersion: '2022-11-15',
+});
 
 class StripeUtils {
-  constructor(experienceId) {
+  private productId: string;
+  private experienceId: string;
+  priceId: string | Stripe.Price | null | undefined;
+
+  constructor(experienceId: string) {
     this.productId = `prod_TESTAUTO${uuidv4()}`;
     this.experienceId = experienceId;
     this.priceId = null;
@@ -41,14 +49,20 @@ class StripeUtils {
    */
   async updateMetaDataForPriceObject() {
     // current stripe logic required the internalProductId metadata to be on both the product and price objects
-    const response = await stripe.prices.update(this.priceId, {
-      metadata: {
-        internalProductId: this.experienceId,
-        isForAutomationTesting: 'true',
-      },
-    });
+    if (typeof this.priceId === 'string') {
+      const response = await stripe.prices.update(this.priceId, {
+        metadata: {
+          internalProductId: this.experienceId,
+          isForAutomationTesting: 'true',
+        },
+      });
 
-    return response;
+      return response;
+    }
+
+    throw new Error(
+      'The Stripe priceId is not in string format. Unable to update the metadata for the price object.'
+    );
   }
 
   /**
@@ -56,7 +70,7 @@ class StripeUtils {
    * @param {boolean} boolean - whether to make the product active or inactive
    * @returns updated product object
    */
-  async setProductActiveStatus(boolean) {
+  async setProductActiveStatus(boolean: boolean) {
     const response = await stripe.products.update(this.productId, {
       active: boolean,
     });

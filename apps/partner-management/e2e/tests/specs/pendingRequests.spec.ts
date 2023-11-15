@@ -1,19 +1,19 @@
-import { test, expect } from '../../../baseFixtures';
+import { test, expect } from '../baseFixtures';
 import BookingApi from '../utils/BookingApi';
 import PendingRequestsPage from '../pages/PendingRequestsPage';
-import TestSetup from '../utils/TestSetup.js';
+import TestSetup from '../utils/TestSetup';
 import LoginPage from '../pages/LoginPage';
 import { BookingStatus } from '@collinsonx/utils';
 
 let partnerDetails;
-let lounge;
+let lounge: TestSetup;
 let loginPage;
 
 test.beforeEach(async ({ page, request }) => {
   lounge = new TestSetup(request);
   partnerDetails = await lounge.setup();
   loginPage = new LoginPage(page);
-  await loginPage.login(partnerDetails.email, partnerDetails.password);
+  await loginPage.login(partnerDetails.username, partnerDetails.password);
 });
 
 test.afterEach(async () => {

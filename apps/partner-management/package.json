@@ -11,7 +11,14 @@
     "lint": "next lint",
     "clean": "rm -rf .next && rm -rf .turbo",
     "test": "jest -u",
-    "test:ci": "jest --ci --collect-coverage"
+    "test:ci": "jest --ci --collect-coverage",
+    "e2e:report": "playwright show-report",
+    "e2e:ci-partner": "cross-env ENV=TEST playwright test --project=partner-chromium-test",
+    "e2e:ci-partner-accessibility": "cross-env ENV=TEST playwright test --project=accessibility-tests",
+    "e2e:test-partner": "cross-env ENV=TEST playwright test --config=./e2e/tests/ --project=partner-chromium-test --headed",
+    "e2e:test-partner-accessibility": "cross-env ENV=TEST playwright test --project=accessibility-tests --headed",
+    "e2e:uat-partner": "cross-env ENV=UAT playwright test --project=partner-chromium-test --headed",
+    "e2e:uat-partner-accessibility": "cross-env ENV=UAT playwright test --project=accessibility-tests --headed"
   },
   "resolutions": {
     "@types/react": "^18.0.26",
@@ -39,15 +46,27 @@
     "supertokens-web-js": "0.7.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.7.3",
     "@emotion/jest": "^11.11.0",
+    "@playwright/test": "^1.37.0",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
+    "@types/uuid": "^9.0.7",
+    "algoliasearch": "^4.20.0",
     "autoprefixer": "^10.4.16",
+    "axe-result-pretty-print": "^1.0.2",
+    "axios": "^1.4.0",
+    "cross-env": "^7.0.3",
     "dd-trace": "^4.18.0",
+    "dotenv": "^16.3.1",
     "eslint": "^8.53.0",
     "eslint-config-collinsonx": "workspace:*",
     "local-ssl-proxy": "^2.0.5",
+    "mailinator-client": "^1.0.3",
     "postcss": "^8.4.31",
-    "typescript": "5.2.2"
+    "start-server-and-test": "^1.15.4",
+    "stripe": "^12.18.0",
+    "typescript": "5.2.2",
+    "uuid": "^9.0.0"
   }
 }

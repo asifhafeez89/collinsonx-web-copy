@@ -1,7 +1,8 @@
+/* eslint-disable turbo/no-undeclared-env-vars */
 const { defineConfig, devices } = require('@playwright/test');
 import dotenv from 'dotenv';
 dotenv.config({ path: `.env.tests` });
-require('dotenv').config();
+
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
@@ -34,14 +35,28 @@ module.exports = defineConfig({
   },
   projects: [
     {
-      name: 'booking',
-      testDir: './tests/booking',
+      name: 'partner-chromium-test',
+      testDir: './',
       // ENV variable is given by the package.json script
       use: {
         ...devices['Desktop Chrome'],
-        baseURL: `https://booking-local.${process.env.ENV}.cergea.com:4011`,
+        baseURL: `https://partner-local.${process.env.ENV}.cergea.com:4010`,
         ignoreHTTPSErrors: true,
       },
+      // Skip running the acessibility tests
+      testIgnore: 'accessibility.spec.ts',
+    },
+    {
+      name: 'accessibility-tests',
+      testDir: './tests/partner-management',
+      // ENV variable is given by the package.json script
+      use: {
+        ...devices['Desktop Chrome'],
+        baseURL: `https://partner-local.${process.env.ENV}.cergea.com:4010`,
+        ignoreHTTPSErrors: true,
+      },
+      // Only run the accessibility tests
+      testMatch: 'accessibility.spec.ts',
     },
   ],
 });

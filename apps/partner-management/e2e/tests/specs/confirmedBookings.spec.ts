@@ -1,19 +1,19 @@
-const { test, expect } = require('@playwright/test');
+import { test, expect } from '../baseFixtures';
 import BookingApi from '../utils/BookingApi';
 import AllConfirmedBookingsPage from '../pages/AllConfirmedBookingsPage';
-import TestSetup from '../utils/TestSetup.js';
+import TestSetup from '../utils/TestSetup';
 import LoginPage from '../pages/LoginPage';
 import { BookingStatus } from '@collinsonx/utils';
 
 let partnerDetails;
-let lounge;
+let lounge: TestSetup;
 let loginPage;
 
 test.beforeEach(async ({ page, request }) => {
   lounge = new TestSetup(request);
   partnerDetails = await lounge.setup();
   loginPage = new LoginPage(page);
-  await loginPage.login(partnerDetails.email, partnerDetails.password);
+  await loginPage.login(partnerDetails.username, partnerDetails.password);
 });
 
 test.afterEach(async () => {
@@ -50,9 +50,9 @@ test.describe('all confirmed bookings page', () => {
 
       await page.goto('/bookings/confirmed', { waitUntil: 'domcontentloaded' });
 
-      await allConfirmedBookingsPage.checkCustomerIn(bookingRef);
+      await allConfirmedBookingsPage.checkCustomerIn();
 
-      await allConfirmedBookingsPage.waitForCheckedInElement(bookingRef);
+      await allConfirmedBookingsPage.waitForCheckedInElement();
 
       const finalConfirmedCount = await bookingApi.getBookingCount(
         lounge,

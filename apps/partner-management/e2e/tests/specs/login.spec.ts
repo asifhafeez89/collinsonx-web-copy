@@ -1,15 +1,16 @@
-import { test, expect } from '../../../baseFixtures';
+import { test, expect } from '../baseFixtures';
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
 import BookingOverviewPage from '../pages/BookingOverviewPage';
 import SignUp from '../utils/SignUp';
 import { v4 as uuidv4 } from 'uuid';
-import Helper from '../../helpers/Helper';
-import TestSetup from '../utils/TestSetup.js';
+import Helper from '../helpers/Helper';
+import TestSetup from '../utils/TestSetup';
+import { BasicAuth } from '../types/Authentication';
 
-let partnerDetails;
-let lounge;
-let loginPage;
+let partnerDetails: BasicAuth;
+let lounge: TestSetup;
+let loginPage: LoginPage;
 
 test.beforeEach(async ({ page, request }) => {
   lounge = new TestSetup(request);
@@ -25,7 +26,7 @@ test.describe('login page', () => {
   test('login as an existing partner', async ({ page }) => {
     const bookingOverviewPage = new BookingOverviewPage(page);
 
-    await loginPage.login(partnerDetails.email, partnerDetails.password);
+    await loginPage.login(partnerDetails.username, partnerDetails.password);
 
     const title = bookingOverviewPage.getPageTitle();
     const pendingRequestsTitle = bookingOverviewPage.getPendingRequestsTitle();
@@ -52,15 +53,15 @@ test.describe('login page', () => {
     const signUp = new SignUp();
     const signUpPage = new SignUpPage(page);
 
-    signUp.receiveRegistrationEmail(lounge, partnerDetails.email);
+    signUp.receiveRegistrationEmail(lounge, partnerDetails.username);
     // TODO: refactor 'wait' for ensuring the email has been sent before proceeding
     await helper.wait(5000);
-    const signUpURL = await signUp.getRegistrationURL(partnerDetails.email);
+    const signUpURL = await signUp.getRegistrationURL(partnerDetails.username);
     await page.goto(signUpURL);
 
     await signUpPage.acceptCookieBanner();
     await signUpPage.fillInDetails(
-      partnerDetails.email,
+      partnerDetails.username,
       partnerDetails.password
     );
 
