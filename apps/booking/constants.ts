@@ -61,4 +61,11 @@ export const ValidationErrorResponses = {
   },
 } as const;
 
+export enum ANALYTICS_TAGS {
+  ON_PAGE_ENTER_EMAIL = 'On_PG_Enter_Email',
+  ON_CONTINUE_CLICK = 'CK_BTN_Continue',
+  ON_CHANGE_EMAIL_ADDRESS = 'CHG_Email_Address',
+  ON_HIT_BACK_BUTTON = 'CK_BTN_Back_Enter_',
+}
+
 export const PRODUCTION_DOMAIN = 'booking.cergea.com';
