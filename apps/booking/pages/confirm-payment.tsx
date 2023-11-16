@@ -41,7 +41,7 @@ import EditableTitle from '@collinsonx/design-system/components/editabletitles/E
 import Price from '@components/Price';
 import { InfoPanel } from 'utils/PanelInfo';
 import { GenerateBookingConfirmedPdf } from '@components/booking/GenerateBookingConfirmedPdf';
-import { GuestCount } from '@components/guests/GuestCount';
+import { GuestCount } from '@components/guest-count/GuestCount';
 import BackButton from '@components/BackButton';
 import { FlightContext } from 'context/flightContext';
 
@@ -51,7 +51,15 @@ export default function ConfirmPayment() {
 
   let interval = useRef<NodeJS.Timeout>();
 
-  const { lounge, referrerUrl, consumerData, platform } = usePayload();
+  const {
+    lounge,
+    loungeCode,
+    referrerUrl,
+    consumerData,
+    platform,
+    jwt,
+    payload,
+  } = usePayload();
 
   const handleClickBack: MouseEventHandler<HTMLAnchorElement> = useCallback(
     (e) => {
@@ -80,10 +88,6 @@ export default function ConfirmPayment() {
 
     return () => clearInterval(interval.current);
   }, []);
-
-  const handleRedoQuery = () => {
-    fetchBookingDetails();
-  };
 
   const { flightNumber, children, bookingId, adults, arrival, infants } =
     getBooking();
@@ -146,13 +150,7 @@ export default function ConfirmPayment() {
       <Stack spacing={16} sx={{ backgroundColor: colors.background }}>
         <TopBarLinks />
 
-        <LoaderLightBox
-          open={open}
-          title=""
-          onHandleClick={handleRedoQuery}
-          ctaAction="TRY AGAIN"
-          onClose={() => {}}
-        >
+        <LoaderLightBox open={open} title="" ctaAction="" onClose={() => {}}>
           <div>
             <h2>Payment is being processed</h2>
             <p>
@@ -276,7 +274,6 @@ export default function ConfirmPayment() {
                       </p>
                     </EditableTitle>
                   </Box>
-
                   {!!lounge && (
                     <Stack
                       sx={{
@@ -330,9 +327,7 @@ export default function ConfirmPayment() {
                           showBorder={false}
                         >
                           <GuestCount
-                            adults={adults}
-                            children={children}
-                            infants={infants}
+                            guestList={{ adults, infants, children }}
                           />
                         </EditableTitle>
                         <Box
@@ -396,6 +391,9 @@ export default function ConfirmPayment() {
                             method for check in at the lounge.{' '}
                           </li>
                           <li>
+                            Maximum stay is 3 hours prior to your flight time.
+                          </li>
+                          <li>
                             Cancellation must be made at least 48 hours in
                             advance of your visit date & time to receive a
                             refund. No refund will be issued after this time.
@@ -422,6 +420,12 @@ export default function ConfirmPayment() {
                         infants={infants}
                         lounge={lounge}
                         reference={dataBooking?.getBookingByID.reference}
+                        bookingId={dataBooking?.getBookingByID.id}
+                        loungeCode={loungeCode}
+                        linkAccountToken={jwt}
+                        accountProvider={payload?.accountProvider}
+                        membershipType={payload?.membershipType}
+                        platform={platform}
                       />
                     )}
                     <Anchor

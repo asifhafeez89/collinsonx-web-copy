@@ -1,4 +1,4 @@
 module.exports = {
   root: true,
-  extends: ['collinsonx'],
-}
+  extends: ['collinsonx', 'next/babel', 'next/core-web-vitals'],
+};

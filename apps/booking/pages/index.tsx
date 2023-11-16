@@ -25,7 +25,6 @@ import usePayload from 'hooks/payload';
 import router from 'next/router';
 import { BookingContext } from 'context/bookingContext';
 import colors from 'ui/colour-constants';
-import Notification from '@components/Notification';
 import { MAX_GUESTS, ValidationErrorResponses } from '../constants';
 import TopBarLinks from '@components/TopBarLinks';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
@@ -201,27 +200,11 @@ const Lounge = () => {
               </Center>
               <LoungeInfo lounge={lounge} loading={!lounge} />
               <FlightInfo form={form} loading={!lounge} />
-              {guestError ? (
-                <Box
-                  sx={{
-                    '@media (max-width: 768px)': {
-                      backgroundColor: colors.white,
-                      padding: '1.2rem 0',
-                    },
-                  }}
-                >
-                  <Notification>
-                    You can book for a maximum of {MAX_GUESTS} guests. Please
-                    try again.
-                  </Notification>
-                </Box>
-              ) : (
-                ''
-              )}
               <GuestInfo
                 form={form}
                 loading={!lounge}
                 referreUrl={referrerUrl ?? '#'}
+                guestError={guestError}
               />
               <EditableTitle title="Total price" as="h3" showBorder={false}>
                 <Price
