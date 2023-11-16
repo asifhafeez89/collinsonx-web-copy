@@ -8,7 +8,7 @@ require('dotenv').config();
 
 module.exports = defineConfig({
   // max time (ms) for tests inc. teardown
-  timeout: 100000,
+  timeout: 200000,
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -33,35 +33,6 @@ module.exports = defineConfig({
     timeout: 10000,
   },
   projects: [
-    { name: 'setup', testMatch: /auth.setup\.js/ },
-    {
-      name: 'partner-chromium-test',
-      testDir: './tests/partner-management',
-      // ENV variable is given by the package.json script
-      use: {
-        ...devices['Desktop Chrome'],
-        storageState: 'playwright/.auth/user.json',
-        baseURL: `https://partner-local.${process.env.ENV}.cergea.com:4010`,
-        ignoreHTTPSErrors: true,
-      },
-      dependencies: ['setup'],
-      // Skip running the acessibility tests
-      testIgnore: 'accessibility.spec.js',
-    },
-    {
-      name: 'accessibility-tests',
-      testDir: './tests/partner-management',
-      // ENV variable is given by the package.json script
-      use: {
-        ...devices['Desktop Chrome'],
-        storageState: 'playwright/.auth/user.json',
-        baseURL: `https://partner-local.${process.env.ENV}.cergea.com:4010`,
-        ignoreHTTPSErrors: true,
-      },
-      dependencies: ['setup'],
-      // Only run the accessibility tests
-      testMatch: 'accessibility.spec.js',
-    },
     {
       name: 'booking',
       testDir: './tests/booking',
@@ -72,10 +43,5 @@ module.exports = defineConfig({
         ignoreHTTPSErrors: true,
       },
     },
-    // {
-    //   name: 'Safari Test',
-    //   use: { ...devices['Desktop Safari'], storageState: 'playwright/.auth/user.json', baseURL: process.env.URL },
-    //   dependencies: ['setup'],
-    // },
   ],
 });

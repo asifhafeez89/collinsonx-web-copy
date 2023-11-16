@@ -24,6 +24,9 @@ import { LoungeInfo } from '@components/LoungeInfo';
 
 import { BookingError } from '../constants';
 import BookingLightbox from '@collinsonx/design-system/components/bookinglightbox';
+import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
+import { GuestCount } from '@components/guest-count/GuestCount';
+import { guestBooking } from 'utils/guestListFormatter';
 
 const {
   ERR_BOOKING_NOT_FOUND,
@@ -59,6 +62,7 @@ export default function CancelBooking() {
   const [opened, { open, close }] = useDisclosure(false);
   const [dateError, setDateError] = useState<Boolean>(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const { data: bookingDetails } = useQuery<{
     getBookingByID: Booking;
@@ -74,6 +78,7 @@ export default function CancelBooking() {
     useMutation(cancelBooking);
 
   const handleCancellation = () => {
+    setLoading(true);
     close();
     setErrorMessage('');
     if (
@@ -89,6 +94,7 @@ export default function CancelBooking() {
           const item = response.errors[0];
           const code = item?.extensions?.code;
           const message = cancellationMessages[code as string];
+          setLoading(false);
           if (message) {
             setErrorMessage(message);
           } else if (code === ERR_CANCELLATION_FAILED_WITH_SUCCESS) {
@@ -102,17 +108,19 @@ export default function CancelBooking() {
             pathname: '/cancelled-booking-confirmation',
             query: { bookingId: emailBookingId },
           });
+          setLoading(false);
         }
       });
     } else {
       setDateError(true);
       close();
+      setLoading(false);
     }
   };
 
   return (
     <Layout>
-      {bookingDetails ? (
+      {bookingDetails && !loading ? (
         <Stack spacing={8} sx={{ width: '100%', marginTop: '100px' }}>
           <BookingLightbox
             open={opened}
@@ -283,41 +291,11 @@ export default function CancelBooking() {
                               as="h3"
                               showBorder={false}
                             >
-                              <Flex direction="row" gap={10}>
-                                <Flex sx={{ width: '60%' }} gap={10}>
-                                  <p style={{ padding: '0', margin: '0' }}>
-                                    {' '}
-                                    Adults{' '}
-                                    {
-                                      bookingDetails?.getBookingByID
-                                        ?.guestAdultCount
-                                    }
-                                  </p>{' '}
-                                  <p style={{ padding: '0', margin: '0' }}>
-                                    {' '}
-                                    Children{' '}
-                                    {
-                                      bookingDetails?.getBookingByID
-                                        ?.guestChildrenCount
-                                    }
-                                  </p>{' '}
-                                  {Number(
-                                    bookingDetails?.getBookingByID
-                                      ?.guestInfantCount
-                                  ) > 0 ? (
-                                    <>
-                                      <p style={{ padding: '0', margin: '0' }}>
-                                        {' '}
-                                        Infants{' '}
-                                        {
-                                          bookingDetails?.getBookingByID
-                                            ?.guestInfantCount
-                                        }
-                                      </p>
-                                    </>
-                                  ) : null}
-                                </Flex>
-                              </Flex>
+                              <GuestCount
+                                guestList={guestBooking(
+                                  bookingDetails?.getBookingByID
+                                )}
+                              />
                             </EditableTitle>
                           </Box>
                           <Box
@@ -419,9 +397,9 @@ export default function CancelBooking() {
           </Flex>
         </Stack>
       ) : (
-        <Stack>
-          <Box>Loading...</Box>
-        </Stack>
+        <Flex justify="center" align="center" h="100%" gap={30}>
+          <LoaderLifestyleX />
+        </Flex>
       )}
     </Layout>
   );
