@@ -18,6 +18,7 @@ export const REFERRER = 'REFERRER';
 export const PLATFORM = 'PLATFORM';
 
 export const MOBILE_ACTION_BACK = 1;
+export const MOBILE_ACTION_DATA_URI = 'DATA_URI';
 
 export const apiAccountProviderMap: Record<
   BridgePayload['accountProvider'],
@@ -42,6 +43,12 @@ export enum BookingError {
   ERR_CANCELATION_NOT_ALLOWED = 'ERR_CANCELATION_NOT_ALLOWED',
   ERR_SOMETHING_WENT_WRONG = 'ERR_SOMETHING_WENT_WRONG',
   ERR_TOKEN_INVALID_OR_EXPIRED = 'ERR_TOKEN_INVALID_OR_EXPIRED',
+  INTERNAL_SERVER_ERROR = 'INTERNAL_SERVER_ERROR',
+}
+
+export enum ValidationError {
+  ERR_FIELD_MAX_LENGTH = 'ERR_FIELD_MAX_LENGTH',
+  ERR_FIELD_NOT_ALLOWED_CHARS = 'ERR_FIELD_NOT_ALLOWED_CHARS',
 }
 
 export const ValidationErrorResponses = {
@@ -58,5 +65,12 @@ export const ValidationErrorResponses = {
     message: 'Flight details not recognised. Please check and try again.',
   },
 } as const;
+
+export enum ANALYTICS_TAGS {
+  ON_PAGE_ENTER_EMAIL = 'On_PG_Enter_Email',
+  ON_CONTINUE_CLICK = 'CK_BTN_Continue',
+  ON_CHANGE_EMAIL_ADDRESS = 'CHG_Email_Address',
+  ON_HIT_BACK_BUTTON = 'CK_BTN_Back_Enter_',
+}
 
 export const PRODUCTION_DOMAIN = 'booking.cergea.com';

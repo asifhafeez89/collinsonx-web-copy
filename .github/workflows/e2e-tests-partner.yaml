@@ -1,13 +1,6 @@
 name: run e2e web tests - partner
 
-on:
-  pull_request:
-    branches: ['dev']
-    paths:
-      - 'apps/partner-management/**'
-      - 'packages/collinsonx-tests-e2e/tests/partner-management/**'
-      - 'packages/collinsonx-tests-e2e/playwright.config.js'
-      - 'packages/collinsonx-tests-e2e/package.json'
+on: workflow_dispatch
 
 jobs:
   test:
@@ -44,11 +37,9 @@ jobs:
           chmod +x /usr/bin/mkcert
           cd apps/partner-management
           mkcert -key-file partner-local.test.cergea.com-key.pem -cert-file partner-local.test.cergea.com.pem partner-local.test.cergea.com
-          echo "${{ secrets.ENV_TEST_LOCAL_FILE }}" > .env.local
+          echo "${{ secrets.PARTNER_APP_ENV_FILE }}" > .env.local
 
       - name: Run partner webapp tests
-        env:
-          STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}
         run: |
           export INSTRUMENT_CODE=1
           pnpm run build --filter partner-management
@@ -78,9 +69,8 @@ jobs:
           export DD_ENV=ci
           export DD_TAGS="test_type:browser"
 
-          cd -
-          echo "${{ secrets.ENV_TESTS_FILE }}" > packages/collinsonx-tests-e2e/.env.tests
-          pnpm --filter "@collinsonx/tests-e2e" e2e:ci-partner
+          echo "${{ secrets.ENV_TESTS_FILE_PARTNER }}" > .env.tests
+          pnpm e2e:ci-partner
 
       - name: Archive npm failure logs
         uses: actions/upload-artifact@v2

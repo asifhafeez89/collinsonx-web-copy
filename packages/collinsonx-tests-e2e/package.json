@@ -7,16 +7,12 @@
     "e2e:start": "playwright test",
     "e2e:report": "playwright show-report",
     "e2e:ci-booking": "cross-env ENV=TEST playwright test --project=booking",
-    "e2e:ci-partner": "cross-env ENV=TEST playwright test --project=partner-chromium-test",
-    "e2e:ci-partner-accessibility": "cross-env ENV=TEST playwright test --project=accessibility-tests",
     "e2e:test-booking": "cross-env ENV=TEST playwright test --project=booking --headed",
-    "e2e:test-partner": "cross-env ENV=TEST playwright test --project=partner-chromium-test --headed",
-    "e2e:test-partner-accessibility": "cross-env ENV=TEST playwright test --project=accessibility-tests --headed",
-    "e2e:uat-booking": "cross-env ENV=UAT playwright test --project=booking --headed",
-    "e2e:uat-partner": "cross-env ENV=UAT playwright test --project=partner-chromium-test --headed",
-    "e2e:uat-partner-accessibility": "cross-env ENV=UAT playwright test --project=accessibility-tests --headed"
+    "e2e:uat-booking": "cross-env ENV=UAT playwright test --project=booking --headed"
   },
   "dependencies": {
+    "@collinsonx/utils": "workspace:^",
+    "algoliasearch": "^4.20.0",
     "dotenv": "^16.3.1",
     "start-server-and-test": "^1.15.4",
     "uuid": "^9.0.0"
@@ -25,6 +21,7 @@
     "@axe-core/playwright": "^4.7.3",
     "@collinsonx/jwt": "workspace:*",
     "@playwright/test": "^1.37.0",
+    "@types/uuid": "^9.0.7",
     "axe-result-pretty-print": "^1.0.2",
     "axios": "^1.4.0",
     "cross-env": "^7.0.3",
