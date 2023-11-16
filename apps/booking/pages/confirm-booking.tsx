@@ -15,7 +15,7 @@ import Price from '@components/Price';
 import dayjs from 'dayjs';
 import StripeCheckout from '@components/stripe';
 import { InfoPanel } from 'utils/PanelInfo';
-import { GuestCount } from '@components/guests/GuestCount';
+import { GuestCount } from '@components/guest-count/GuestCount';
 import { FlightContext } from 'context/flightContext';
 import { log } from '@lib';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
@@ -175,9 +175,7 @@ export default function ConfirmBooking() {
                           showBorder={false}
                         >
                           <GuestCount
-                            adults={adults}
-                            children={children}
-                            infants={infants}
+                            guestList={{ adults, infants, children }}
                           />
                         </EditableTitle>
                         <Box

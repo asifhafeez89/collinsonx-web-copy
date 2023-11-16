@@ -25,6 +25,8 @@ import { LoungeInfo } from '@components/LoungeInfo';
 import { BookingError } from '../constants';
 import BookingLightbox from '@collinsonx/design-system/components/bookinglightbox';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
+import { GuestCount } from '@components/guest-count/GuestCount';
+import { guestBooking } from 'utils/guestListFormatter';
 
 const {
   ERR_BOOKING_NOT_FOUND,
@@ -289,41 +291,11 @@ export default function CancelBooking() {
                               as="h3"
                               showBorder={false}
                             >
-                              <Flex direction="row" gap={10}>
-                                <Flex sx={{ width: '60%' }} gap={10}>
-                                  <p style={{ padding: '0', margin: '0' }}>
-                                    {' '}
-                                    Adults{' '}
-                                    {
-                                      bookingDetails?.getBookingByID
-                                        ?.guestAdultCount
-                                    }
-                                  </p>{' '}
-                                  <p style={{ padding: '0', margin: '0' }}>
-                                    {' '}
-                                    Children{' '}
-                                    {
-                                      bookingDetails?.getBookingByID
-                                        ?.guestChildrenCount
-                                    }
-                                  </p>{' '}
-                                  {Number(
-                                    bookingDetails?.getBookingByID
-                                      ?.guestInfantCount
-                                  ) > 0 ? (
-                                    <>
-                                      <p style={{ padding: '0', margin: '0' }}>
-                                        {' '}
-                                        Infants{' '}
-                                        {
-                                          bookingDetails?.getBookingByID
-                                            ?.guestInfantCount
-                                        }
-                                      </p>
-                                    </>
-                                  ) : null}
-                                </Flex>
-                              </Flex>
+                              <GuestCount
+                                guestList={guestBooking(
+                                  bookingDetails?.getBookingByID
+                                )}
+                              />
                             </EditableTitle>
                           </Box>
                           <Box

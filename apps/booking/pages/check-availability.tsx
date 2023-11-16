@@ -45,7 +45,7 @@ import BookingLightbox from '@collinsonx/design-system/components/bookinglightbo
 import Price from '@components/Price';
 import Notification from '@components/Notification';
 import { InfoPanel } from 'utils/PanelInfo';
-import { GuestCount } from '@components/guests/GuestCount';
+import { GuestCount } from '@components/guest-count/GuestCount';
 import { log, sendMobileEvent } from '../lib/index';
 import { FlightContext } from 'context/flightContext';
 import getError from 'utils/getError';
@@ -385,9 +385,7 @@ export default function CheckAvailability() {
                           showBorder={false}
                         >
                           <GuestCount
-                            adults={adults}
-                            children={children}
-                            infants={infants}
+                            guestList={{ adults, infants, children }}
                           />
                         </EditableTitle>
                         <Box

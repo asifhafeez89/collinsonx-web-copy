@@ -41,7 +41,7 @@ import EditableTitle from '@collinsonx/design-system/components/editabletitles/E
 import Price from '@components/Price';
 import { InfoPanel } from 'utils/PanelInfo';
 import { GenerateBookingConfirmedPdf } from '@components/booking/GenerateBookingConfirmedPdf';
-import { GuestCount } from '@components/guests/GuestCount';
+import { GuestCount } from '@components/guest-count/GuestCount';
 import BackButton from '@components/BackButton';
 import { FlightContext } from 'context/flightContext';
 
@@ -328,9 +328,7 @@ export default function ConfirmPayment() {
                           showBorder={false}
                         >
                           <GuestCount
-                            adults={adults}
-                            children={children}
-                            infants={infants}
+                            guestList={{ adults, infants, children }}
                           />
                         </EditableTitle>
                         <Box
