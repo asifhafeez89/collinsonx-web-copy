@@ -274,7 +274,6 @@ export default function ConfirmPayment() {
                       </p>
                     </EditableTitle>
                   </Box>
-
                   {!!lounge && (
                     <Stack
                       sx={{
@@ -408,23 +407,27 @@ export default function ConfirmPayment() {
                     direction={'column'}
                     align={'center'}
                   >
-                    <GenerateBookingConfirmedPdf
-                      adults={adults}
-                      arrival={arrival}
-                      children={children}
-                      departureTime={departureTime}
-                      emailAddress={consumerData?.getConsumerByID.emailAddress}
-                      flightNumber={flightNumber}
-                      infants={infants}
-                      lounge={lounge}
-                      reference={dataBooking?.getBookingByID.reference}
-                      bookingId={dataBooking?.getBookingByID.id}
-                      loungeCode={loungeCode}
-                      linkAccountToken={jwt}
-                      accountProvider={payload?.accountProvider}
-                      membershipType={payload?.membershipType}
-                      platform={platform}
-                    />
+                    {platform === 'web' && (
+                      <GenerateBookingConfirmedPdf
+                        adults={adults}
+                        arrival={arrival}
+                        children={children}
+                        departureTime={departureTime}
+                        emailAddress={
+                          consumerData?.getConsumerByID.emailAddress
+                        }
+                        flightNumber={flightNumber}
+                        infants={infants}
+                        lounge={lounge}
+                        reference={dataBooking?.getBookingByID.reference}
+                        bookingId={dataBooking?.getBookingByID.id}
+                        loungeCode={loungeCode}
+                        linkAccountToken={jwt}
+                        accountProvider={payload?.accountProvider}
+                        membershipType={payload?.membershipType}
+                        platform={platform}
+                      />
+                    )}
                     <Anchor
                       target="_top"
                       href={referrerUrl ? referrerUrl : '#'}
