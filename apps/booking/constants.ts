@@ -46,6 +46,11 @@ export enum BookingError {
   INTERNAL_SERVER_ERROR = 'INTERNAL_SERVER_ERROR',
 }
 
+export enum ValidationError {
+  ERR_FIELD_MAX_LENGTH = 'ERR_FIELD_MAX_LENGTH',
+  ERR_FIELD_NOT_ALLOWED_CHARS = 'ERR_FIELD_NOT_ALLOWED_CHARS',
+}
+
 export const ValidationErrorResponses = {
   INVALID_DATE: {
     code: 'ERR_INVALID_DATE',
