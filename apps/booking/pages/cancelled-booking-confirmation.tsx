@@ -168,7 +168,6 @@ export default function CancelBooking() {
                                   '@media (max-width: 768px)': {
                                     paddingLeft: '1.25rem',
                                   },
-                                  padding: '1.25rem ',
                                 }}
                               >
                                 A confirmation email has been sent to{' '}
@@ -185,7 +184,6 @@ export default function CancelBooking() {
                                 '@media (max-width: 768px)': {
                                   paddingLeft: '1.25rem',
                                 },
-                                padding: '1.25rem ',
                               }}
                             >
                               <Text fw={700} py={22}>
