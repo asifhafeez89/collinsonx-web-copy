@@ -12,6 +12,7 @@ const getSearchExperiences = gql`
         city
         country
         terminal
+        timezone
       }
       partnerIdProd
       partnerIdTest
