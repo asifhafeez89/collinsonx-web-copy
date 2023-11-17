@@ -36,6 +36,7 @@ export { default as AlertIcon } from './alert.svg';
 export { default as AppleStoreIcon } from './appleStore.svg';
 export { default as GoogleStoreIcon } from './googleStore.svg';
 export { default as StarIcon } from './star.svg';
+export { default as CatalogueIcon } from './catalogue.svg';
 export { default as OutletLoungeIcon } from './outlet-lounge.svg';
 export { default as OutletRestaurantIcon } from './restaurant.svg';
 export { default as OutletRestIcon } from './bedtime.svg';

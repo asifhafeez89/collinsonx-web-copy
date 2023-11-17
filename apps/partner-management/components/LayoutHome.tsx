@@ -1,18 +1,13 @@
-import colors from '@collinsonx/design-system/colour-constants-partner';
 import { Box, Flex, MediaQuery } from '@collinsonx/design-system/core';
 import Link from 'next/link';
 
 interface LayoutProps {
   subHeader?: JSX.Element;
-  hasPadding?: boolean;
+  heading: JSX.Element;
   children: JSX.Element;
 }
 
-export default function Layout({
-  children,
-  subHeader,
-  hasPadding = true,
-}: LayoutProps) {
+export default function Layout({ children, heading, subHeader }: LayoutProps) {
   return (
     <div
       style={{
@@ -59,13 +54,23 @@ export default function Layout({
           {subHeader}
         </MediaQuery>
       )}
+
+      <div
+        style={{
+          padding: '0 64px',
+          margin: 0,
+          backgroundColor: '#FFFFFF',
+          borderBottom: '1px solid #D5D5D5',
+        }}
+      >
+        {heading}
+      </div>
       <main
         style={{
-          padding: hasPadding ? '0 64px' : 'auto',
+          padding: '64px',
           margin: 0,
+          backgroundColor: '#F8F9FA',
           height: '100%',
-          width: '100%',
-          backgroundColor: colors['partner-bg-surface'],
         }}
       >
         {children}

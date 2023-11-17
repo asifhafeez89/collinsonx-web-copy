@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Layout /> should render 1`] = `
+exports[`<LayoutHome /> should render 1`] = `
 {
   "asFragment": [Function],
   "baseElement": @media print {
@@ -53,8 +53,13 @@ exports[`<Layout /> should render 1`] = `
           </div>
         </header>
         header
+        <div
+          style="padding: 0px 64px; margin: 0px; background-color: rgb(255, 255, 255); border-bottom: 1px solid #D5D5D5;"
+        >
+          heading
+        </div>
         <main
-          style="padding: 0px 64px; margin: 0px; height: 100%; width: 100%; background-color: rgb(251, 251, 251);"
+          style="padding: 64px; margin: 0px; background-color: rgb(248, 249, 250); height: 100%;"
         />
       </div>
     </div>
@@ -108,8 +113,13 @@ exports[`<Layout /> should render 1`] = `
         </div>
       </header>
       header
+      <div
+        style="padding: 0px 64px; margin: 0px; background-color: rgb(255, 255, 255); border-bottom: 1px solid #D5D5D5;"
+      >
+        heading
+      </div>
       <main
-        style="padding: 0px 64px; margin: 0px; height: 100%; width: 100%; background-color: rgb(251, 251, 251);"
+        style="padding: 64px; margin: 0px; background-color: rgb(248, 249, 250); height: 100%;"
       />
     </div>
   </div>,

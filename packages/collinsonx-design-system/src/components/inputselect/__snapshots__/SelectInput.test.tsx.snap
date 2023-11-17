@@ -227,14 +227,14 @@ exports[`<SelectInput /> renders SelectInput 1`] = `
 >
   <label
     className="emotion-3 emotion-4 emotion-5"
-    htmlFor="mantine-8tnlexugd"
-    id="mantine-8tnlexugd-label"
+    htmlFor="mantine-u2hoji2yu"
+    id="mantine-u2hoji2yu-label"
     onMouseDown={[Function]}
   >
     Your favorite framework/library
   </label>
   <div
-    aria-controls="mantine-8tnlexugd"
+    aria-controls="mantine-u2hoji2yu"
     aria-expanded={false}
     aria-haspopup="listbox"
     aria-owns={null}
@@ -259,7 +259,7 @@ exports[`<SelectInput /> renders SelectInput 1`] = `
         className="emotion-9 emotion-10 emotion-11"
         data-mantine-stop-propagation={false}
         disabled={false}
-        id="mantine-8tnlexugd"
+        id="mantine-u2hoji2yu"
         name={null}
         onBlur={[Function]}
         onChange={[Function]}

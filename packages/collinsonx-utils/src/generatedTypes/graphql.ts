@@ -1832,6 +1832,18 @@ export type GetOutletsQuery = {
   } | null> | null;
 };
 
+export type GetPartnerBrandsQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type GetPartnerBrandsQuery = {
+  __typename?: 'Query';
+  getPartnerBrands?: Array<{
+    __typename?: 'PartnerBrand';
+    id: string;
+  } | null> | null;
+};
+
 export type GetPartnerByIdQueryVariables = Exact<{
   getPartnerById: Scalars['ID']['input'];
 }>;
@@ -3700,6 +3712,54 @@ export const GetOutletsDocument = {
     },
   ],
 } as unknown as DocumentNode<GetOutletsQuery, GetOutletsQueryVariables>;
+export const GetPartnerBrandsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetPartnerBrands' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'limit' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'getPartnerBrands' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'limit' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'limit' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GetPartnerBrandsQuery,
+  GetPartnerBrandsQueryVariables
+>;
 export const GetPartnerByIdDocument = {
   kind: 'Document',
   definitions: [

@@ -55,6 +55,8 @@ const documents = {
     types.GetInvitationByIdDocument,
   '\n  query GetOutlets($limit: Int) {\n    getOutlets(limit: $limit) {\n      category\n      id\n      name\n      legacyCode\n      status\n      location {\n        name\n        terminal\n      }\n      tags\n    }\n  }\n':
     types.GetOutletsDocument,
+  '\n  query GetPartnerBrands($limit: Int) {\n    getPartnerBrands(limit: $limit) {\n      id\n    }\n  }\n':
+    types.GetPartnerBrandsDocument,
   '\n  query GetPartnerByID($getPartnerById: ID!) {\n    getPartnerByID(id: $getPartnerById) {\n      experiences {\n        id\n        loungeName\n        location {\n          airportName\n          terminal\n        }\n      }\n      id\n      lastName\n      updatedAt\n      firstName\n      fullName\n      createdAt\n      emailAddress\n    }\n  }\n':
     types.GetPartnerByIdDocument,
   '\n  query SearchExperiences($query: String, $searchFilter: SearchFilterInput) {\n    searchExperiences(query: $query, searchFilter: $searchFilter) {\n      id\n      loungeName\n      loungeCode\n      location {\n        airportName\n        airportCode\n        city\n        country\n        terminal\n        timezone\n      }\n      partnerIdProd\n      partnerIdTest\n      partnerIntegrationId\n      pricing {\n        pricingType\n        currency\n        reservationCost\n        lifestyleXReservationCharge\n        walkInCostCurrentPPRate\n        lifestyleXWalkInCharge\n        lifestyleXReservationCharge\n        vat\n        reservationOnlyFeeCost\n        reservationOnlyFee\n      }\n      facilities\n      openingHours\n      conditions\n      directions\n      images {\n        altText\n        url\n        height\n        width\n        id\n      }\n    }\n  }\n':
@@ -203,6 +205,12 @@ export function graphql(
 export function graphql(
   source: '\n  query GetOutlets($limit: Int) {\n    getOutlets(limit: $limit) {\n      category\n      id\n      name\n      legacyCode\n      status\n      location {\n        name\n        terminal\n      }\n      tags\n    }\n  }\n'
 ): (typeof documents)['\n  query GetOutlets($limit: Int) {\n    getOutlets(limit: $limit) {\n      category\n      id\n      name\n      legacyCode\n      status\n      location {\n        name\n        terminal\n      }\n      tags\n    }\n  }\n'];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  query GetPartnerBrands($limit: Int) {\n    getPartnerBrands(limit: $limit) {\n      id\n    }\n  }\n'
+): (typeof documents)['\n  query GetPartnerBrands($limit: Int) {\n    getPartnerBrands(limit: $limit) {\n      id\n    }\n  }\n'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
