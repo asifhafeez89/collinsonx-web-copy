@@ -125,7 +125,9 @@ export const BookingConfirmationPDF = (props: BookingConfirmedPdfProps) => {
             </Text>{' '}
             at{' '}
             <Text style={styles.strong}>
-              {props.lounge.loungeName}, {props.lounge.location?.terminal},{' '}
+              {props.lounge.loungeName},{' '}
+              {props.lounge.location?.terminal &&
+                props.lounge.location?.terminal + ', '}
               {props.lounge.location?.airportName}
             </Text>{' '}
             has been confirmed.
