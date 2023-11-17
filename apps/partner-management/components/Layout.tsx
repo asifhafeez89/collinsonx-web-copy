@@ -1,4 +1,5 @@
 import { LogoCergea } from '@collinsonx/design-system/assets/logo';
+import colors from '@collinsonx/design-system/colour-constants-partner';
 import { Box, Flex, MediaQuery } from '@collinsonx/design-system/core';
 import Link from 'next/link';
 
@@ -64,7 +65,15 @@ export default function Layout({
           {subHeader}
         </MediaQuery>
       )}
-      <main style={{ padding: hasPadding ? '32px 40px' : 'auto', margin: 0 }}>
+      <main
+        style={{
+          padding: hasPadding ? '32px 24px' : 'auto',
+          margin: 0,
+          height: '100%',
+          width: '100%',
+          backgroundColor: colors['partner-bg-surface'],
+        }}
+      >
         {children}
       </main>
     </div>

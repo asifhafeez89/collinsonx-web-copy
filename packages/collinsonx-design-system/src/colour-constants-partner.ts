@@ -5,6 +5,7 @@ const colors = {
   'bg-orange': '#FFF2DB',
   'bg-blue': '#D3E4F5',
   'bg-red': '#FFE3E3',
+  'partner-bg-surface': '#FBFBFB',
   'partner-bg-surface-dark': '#EFEFF1',
   'partner-grey-border': '#D5D5D5',
   green: '#487A04',

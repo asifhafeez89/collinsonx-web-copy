@@ -6,6 +6,7 @@ import {
   createPolymorphicComponent,
 } from '@mantine/core';
 import styled from '@emotion/styled';
+
 import { ReactNode } from 'react';
 import colors from '../../colour-constants-partner';
 
@@ -15,7 +16,10 @@ export interface FieldIconProps {
   textPosition: 'bottom' | 'right';
 }
 
-const _StyledBox = styled(Box)`
+const shouldForwardProp = (prop: string) => prop !== 'textPosition';
+const _StyledBox = styled(Box, {
+  shouldForwardProp,
+})`
   display: flex;
   align-items: center;
   width: fit-content;
@@ -41,7 +45,7 @@ const StyledBox = createPolymorphicComponent<'div', BoxProps | FieldIconProps>(
   _StyledBox
 );
 
-const _StyledText = styled(Text)`
+const _StyledText = styled(Text, { shouldForwardProp })`
   color: ${colors['partner-text-default']};
   ${({ textPosition }: FieldIconProps) => `
     text-transform: ${textPosition === 'right' ? 'uppercase' : 'capitalize'}

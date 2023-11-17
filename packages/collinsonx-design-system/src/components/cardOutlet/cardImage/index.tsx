@@ -9,7 +9,7 @@ import {
 import colors from '../../../colour-constants-partner';
 
 export interface CardImageProps {
-  src: string;
+  src?: string;
   status: Status;
   imageCount?: number;
 }
@@ -18,14 +18,15 @@ const Container = styled.div`
     width: 100%;
     height: 160px;
     ${({ src, status }: CardImageProps) => `
-        background-image: url("${src}");
+        ${src ? `background-image: url("${src}");` : ''}
         ${status === Status.Inactive ? `filter: grayscale(100%);` : ''}
     
     `}
+    background-color: ${colors['partner-grey-border']};
     position: relative;
     background-size: 100%;
     background-repeat: no-repeat;
-    transition: background-size 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
   }
 `;
 

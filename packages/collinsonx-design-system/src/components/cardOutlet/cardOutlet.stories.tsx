@@ -58,6 +58,7 @@ const SAMPLE_URL =
 const commonArgs = {
   legacyCode: 'LHR31',
   status: Status.Active,
+  width: '350px',
   title: 'Club Aspire Lounge',
   locationName: 'London Heathrow',
   terminal: 'Terminal 5',

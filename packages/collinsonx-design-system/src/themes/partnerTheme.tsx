@@ -1,4 +1,5 @@
 import { ButtonStylesParams, MantineThemeOverride } from '@mantine/core';
+import colors from '../colour-constants-partner';
 
 type ThemeOptions = {
   fontFamily?: string;
@@ -184,6 +185,17 @@ const theme = (
       }),
     },
     Button: {
+      variants: {
+        outline: (theme) => ({
+          root: {
+            color: colors['partner-text-default'],
+            border: `1px solid ${colors['partner-text-default']}`,
+            '&:hover': {
+              backgroundColor: 'transparent',
+            },
+          },
+        }),
+      },
       styles: (theme, params: ButtonStylesParams) => ({
         root: {
           //borderColor: params.variant === 'default' ? '#25262B' : undefined,
