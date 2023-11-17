@@ -19,6 +19,7 @@ import { GuestCount } from '@components/guest-count/GuestCount';
 import { FlightContext } from 'context/flightContext';
 import { log } from '@lib';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
+import EstimatedTimeArrival from '@components/EstimatedTimeArrival';
 
 export default function ConfirmBooking() {
   const [clientSecret, setClientSecret] = useState('');
@@ -155,7 +156,6 @@ export default function ConfirmBooking() {
                           />
                         )}
                       </EditableTitle>
-
                       <Flex
                         direction={{ base: 'column', lg: 'row' }}
                         justify={'space-between'}
@@ -199,22 +199,15 @@ export default function ConfirmBooking() {
                           </EditableTitle>
                         </Box>
                       </Flex>
+                      (
                       <EditableTitle
                         title="Estimated time of arrival"
                         as="h2"
                         showBorder={true}
                       >
-                        <p style={{ padding: '0', margin: '0' }}>
-                          Timeslots are shown in the time zone of the lounge
-                          location
-                        </p>
-                        <Flex direction="row" gap={5}>
-                          <p style={{ padding: '0', margin: '0' }}>
-                            {' '}
-                            {arrival}
-                          </p>{' '}
-                        </Flex>
+                        {arrival && <EstimatedTimeArrival arrival={arrival} />}
                       </EditableTitle>
+                      )
                       <EditableTitle title="Cancellation policy" as="h2">
                         <p style={{ padding: '0', margin: '0' }}>
                           Cancel up to 48 hours before your booking to receive a

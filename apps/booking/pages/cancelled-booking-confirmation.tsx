@@ -20,6 +20,8 @@ import EditableTitle from '@collinsonx/design-system/components/editabletitles/E
 import Heading from '@collinsonx/design-system/components/heading/Heading';
 import { GetAccountProviderString } from 'utils/GetAccountProviderString';
 import { guestBooking } from 'utils/guestListFormatter';
+import EstimatedTimeArrival from '@components/EstimatedTimeArrival';
+import { arrivalTimeFormatter } from 'utils/ArrivalTimeFormatter';
 
 export default function CancelBooking() {
   const router = useRouter();
@@ -37,10 +39,13 @@ export default function CancelBooking() {
     pollInterval: 300000,
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
-    onCompleted: (data) => {
-      console.log(data);
-    },
+    onCompleted: () => {},
   });
+
+  const arrival = arrivalTimeFormatter(
+    bookingDetails?.getBookingByID?.bookedFrom,
+    bookingDetails?.getBookingByID.lastArrival
+  );
 
   return (
     <Layout>
@@ -211,7 +216,7 @@ export default function CancelBooking() {
                             <EditableTitle
                               title="Flight details"
                               as="h3"
-                              showBorder={true}
+                              showBorder={false}
                             >
                               <Details
                                 infos={
@@ -292,33 +297,12 @@ export default function CancelBooking() {
                             <EditableTitle
                               title="Estimated time of arrival"
                               as="h3"
-                              showBorder={false}
+                              showBorder={true}
                             >
-                              <p style={{ padding: '0', margin: '0' }}>
-                                Timeslots are shown in the time zone of the
-                                lounge location
-                              </p>
-                              <Flex
-                                direction={{ base: 'column', sm: 'row' }}
-                                gap={10}
-                              >
-                                <p style={{ padding: '0', margin: '0' }}>
-                                  {' '}
-                                  {formatDate(
-                                    new Date(
-                                      `${bookingDetails?.getBookingByID.bookedFrom}`
-                                    ),
-                                    TIME_FORMAT
-                                  )}{' '}
-                                  -{' '}
-                                  {formatDate(
-                                    new Date(
-                                      `${bookingDetails?.getBookingByID.lastArrival}`
-                                    ),
-                                    TIME_FORMAT
-                                  )}
-                                </p>{' '}
-                              </Flex>
+                              {bookingDetails?.getBookingByID?.bookedFrom &&
+                                bookingDetails?.getBookingByID?.lastArrival && (
+                                  <EstimatedTimeArrival arrival={arrival} />
+                                )}
                             </EditableTitle>
                           </Box>
                         </Stack>

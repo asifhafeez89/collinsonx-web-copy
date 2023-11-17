@@ -27,6 +27,8 @@ import BookingLightbox from '@collinsonx/design-system/components/bookinglightbo
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
 import { GuestCount } from '@components/guest-count/GuestCount';
 import { guestBooking } from 'utils/guestListFormatter';
+import EstimatedTimeArrival from '@components/EstimatedTimeArrival';
+import { arrivalTimeFormatter } from 'utils/ArrivalTimeFormatter';
 
 const {
   ERR_BOOKING_NOT_FOUND,
@@ -117,6 +119,11 @@ export default function CancelBooking() {
       setLoading(false);
     }
   };
+
+  const arrival = arrivalTimeFormatter(
+    bookingDetails?.getBookingByID?.bookedFrom,
+    bookingDetails?.getBookingByID.lastArrival
+  );
 
   return (
     <Layout>
@@ -346,34 +353,10 @@ export default function CancelBooking() {
                               as="h3"
                               showBorder={false}
                             >
-                              <p style={{ padding: '0', margin: '0' }}>
-                                Timeslots are shown in the time zone of the
-                                lounge location
-                              </p>
-                              <Flex
-                                direction={{ base: 'column', sm: 'row' }}
-                                gap={10}
-                                sx={{
-                                  border: 'none',
-                                }}
-                              >
-                                <p style={{ padding: '0', margin: '0' }}>
-                                  {' '}
-                                  {formatDate(
-                                    new Date(
-                                      `${bookingDetails?.getBookingByID?.bookedFrom}`
-                                    ),
-                                    TIME_FORMAT
-                                  )}{' '}
-                                  -{' '}
-                                  {formatDate(
-                                    new Date(
-                                      `${bookingDetails?.getBookingByID.lastArrival}`
-                                    ),
-                                    TIME_FORMAT
-                                  )}
-                                </p>{' '}
-                              </Flex>
+                              {bookingDetails?.getBookingByID?.bookedFrom &&
+                                bookingDetails?.getBookingByID?.lastArrival && (
+                                  <EstimatedTimeArrival arrival={arrival} />
+                                )}
                             </EditableTitle>
                           </Box>
                         </>

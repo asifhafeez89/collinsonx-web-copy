@@ -44,6 +44,7 @@ import { GenerateBookingConfirmedPdf } from '@components/booking/GenerateBooking
 import { GuestCount } from '@components/guest-count/GuestCount';
 import BackButton from '@components/BackButton';
 import { FlightContext } from 'context/flightContext';
+import EstimatedTimeArrival from '@components/EstimatedTimeArrival';
 
 export default function ConfirmPayment() {
   const router = useRouter();
@@ -359,22 +360,17 @@ export default function ConfirmPayment() {
                           },
                         }}
                       >
+                        (
                         <EditableTitle
                           title="Estimated time of arrival"
                           as="h2"
                           showBorder={true}
                         >
-                          <p style={{ padding: '0', margin: '0' }}>
-                            Timeslots are shown in the time zone of the lounge
-                            location
-                          </p>
-                          <Flex direction="row" gap={5}>
-                            <p style={{ padding: '0', margin: '0' }}>
-                              {' '}
-                              {arrival}
-                            </p>{' '}
-                          </Flex>
+                          {arrival && (
+                            <EstimatedTimeArrival arrival={arrival} />
+                          )}
                         </EditableTitle>
+                        )
                       </Box>
 
                       <EditableTitle
