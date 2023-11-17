@@ -6,7 +6,9 @@ let inMemoryStorage: any = {};
 
 function setKeyValue(key: string, value: string) {
   try {
-    window.localStorage.setItem(key, value);
+    if (window) {
+      window.localStorage.setItem(key, value);
+    }
   } catch (err) {
     inMemoryStorage[key] = value;
   }
@@ -14,7 +16,7 @@ function setKeyValue(key: string, value: string) {
 
 function getKeyValue(key: string) {
   try {
-    return window.localStorage.getItem(key);
+    return window ? window.localStorage.getItem(key) : null;
   } catch (err) {
     if (inMemoryStorage[key] === undefined) {
       return null;

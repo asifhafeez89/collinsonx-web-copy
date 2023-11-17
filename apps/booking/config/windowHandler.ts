@@ -24,14 +24,14 @@ export default function getWindowHandler(original: any) {
       },
       getItem: async (key: string) => {
         try {
-          return window.localStorage.getItem(key);
+          return window ? window.localStorage.getItem(key) : null;
         } catch (err) {
           return inmemstorage[key] === undefined ? null : inmemstorage[key];
         }
       },
       clear: async () => {
         try {
-          return window.localStorage.clear();
+          return window ? window.localStorage.clear() : null;
         } catch (err) {
           inmemstorage = {};
         }
