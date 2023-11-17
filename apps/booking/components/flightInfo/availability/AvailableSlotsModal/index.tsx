@@ -82,9 +82,9 @@ const AvailableSlotsModal: FC<ComponentProps> = ({
   const [opened, { close }] = useDisclosure(true);
 
   return (
-    <Modal opened={opened} onClose={close} p="0">
+    <Modal opened={opened} onClose={close} p="0" padding={0}>
       <Center>
-        <Stack>
+        <Stack sx={{ gap: '0px' }}>
           <Box>
             <Title
               size="h3"
@@ -95,8 +95,8 @@ const AvailableSlotsModal: FC<ComponentProps> = ({
               {setHeaderTitle(headerStyle)}
             </Title>
           </Box>
-          <Stack>{Message}</Stack>
-          <Divider my="sm" m={0} />
+          <Stack style={{ padding: '1rem' }}>{Message}</Stack>
+          <Divider my="sm" m={0} style={{ marginBottom: '0px' }} />
           <Stack bg={colors.dialogFooter} p="lg">
             <Footer footerStyle={footerStyle} />
           </Stack>
