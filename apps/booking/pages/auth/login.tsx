@@ -117,7 +117,7 @@ export default function Login() {
       ) : (
         <LayoutLogin>
           <Skeleton visible={!lounge}>
-            <TopBarLinks page="Email" />
+            <TopBarLinks page="Enter_Email" />
           </Skeleton>
           <form onSubmit={form.onSubmit(handleClickContinue)}>
             <Stack

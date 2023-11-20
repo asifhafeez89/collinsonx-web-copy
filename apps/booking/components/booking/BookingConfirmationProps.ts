@@ -18,4 +18,5 @@ export interface BookingConfirmedPdfProps {
   linkAccountToken: string | undefined;
   accountProvider: AccountProvider | undefined;
   membershipType: Client | undefined;
+  analyticsTag: string;
 }

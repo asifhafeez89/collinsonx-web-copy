@@ -2,7 +2,7 @@ import colors from 'ui/colour-constants';
 import React, { useState } from 'react';
 import { PDFDownloadLink, BlobProvider } from '@react-pdf/renderer';
 import { Button } from '@collinsonx/design-system/core';
-import { loggerInfo, sendMobileEvent } from '@lib';
+import { loggerAction, loggerInfo, sendMobileEvent } from '@lib';
 import { MOBILE_ACTION_DATA_URI } from '../../constants';
 import { BookingConfirmedPdfProps } from './BookingConfirmationProps';
 import { BookingConfirmationPDF } from './BookingConfirmationPDF';
@@ -54,6 +54,7 @@ export const GenerateBookingConfirmedPdf = (
           <PDFDownloadLink
             document={pdf}
             fileName={`booking_confirmation_${props.reference}`}
+            onClick={() => loggerAction('downloadPdf', props.analyticsTag)}
             style={{
               borderRadius: 4,
               fontSize: 18,

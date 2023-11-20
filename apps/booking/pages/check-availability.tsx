@@ -38,7 +38,12 @@ import usePayload from 'hooks/payload';
 import { InfoGroup } from '@collinsonx/design-system/components/details';
 import { BookingContext } from 'context/bookingContext';
 import dayjs from 'dayjs';
-import { BookingError, MOBILE_ACTION_BACK, constants } from '../constants';
+import {
+  ANALYTICS_TAGS,
+  BookingError,
+  MOBILE_ACTION_BACK,
+  constants,
+} from '../constants';
 import colors from 'ui/colour-constants';
 import TopBarLinks from '@components/TopBarLinks';
 import BookingLightbox from '@collinsonx/design-system/components/bookinglightbox';
@@ -46,7 +51,7 @@ import Price from '@components/Price';
 import Notification from '@components/Notification';
 import { InfoPanel } from 'utils/PanelInfo';
 import { GuestCount } from '@components/guest-count/GuestCount';
-import { log, sendMobileEvent } from '../lib/index';
+import { log, loggerAction, sendMobileEvent } from '../lib/index';
 import { FlightContext } from 'context/flightContext';
 import getError from 'utils/getError';
 import { Clock, Warning } from '@collinsonx/design-system/assets/icons';
@@ -72,6 +77,7 @@ export default function CheckAvailability() {
 
   const booking = getBooking();
   const flightData = getFlight();
+  const pageName = 'Check Availability';
 
   const { flightNumber, children, adults, infants } = booking;
 
@@ -79,6 +85,10 @@ export default function CheckAvailability() {
   setBooking(booking);
 
   const [mutate, { loading: cbLoading }] = useMutation(createBooking);
+
+  useEffect(() => {
+    loggerAction(pageName, ANALYTICS_TAGS.ON_PAGE_ENTER_CHECKAVAILABILITY);
+  }, []);
 
   const findSelectedSlot = (slots: Slots[] | undefined, value: string) => {
     const slot = slots?.find((slot) => {

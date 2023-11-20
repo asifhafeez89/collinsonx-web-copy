@@ -4,10 +4,14 @@ import { DatePickerInput } from '@collinsonx/design-system/date';
 import { IconCalendar } from '@tabler/icons-react';
 import colors from 'ui/colour-constants';
 import { InputLabel } from '@collinsonx/design-system';
+import { loggerAction } from '@lib';
+import { ANALYTICS_TAGS } from '../../constants';
 
 interface FlightInfoProps {
-  form: UseFormReturnType<any, any>;
+  form?: UseFormReturnType<any, any>;
   loading: boolean;
+  tags?: ANALYTICS_TAGS[];
+  page?: string;
 }
 
 export interface AvailabilitySlot {
@@ -16,7 +20,12 @@ export interface AvailabilitySlot {
   maxDuration: number;
 }
 
-export const FlightInfo = ({ form, loading }: FlightInfoProps) => (
+export const FlightInfo = ({
+  form,
+  loading,
+  tags = [],
+  page = '',
+}: FlightInfoProps) => (
   <Box
     sx={{
       '@media (max-width: 768px)': {
@@ -47,12 +56,13 @@ export const FlightInfo = ({ form, loading }: FlightInfoProps) => (
           w={270}
           disabled={loading}
           withAsterisk
+          onClick={() => loggerAction(page, tags[0])}
           sx={{
             '@media (max-width: 768px)': {
               paddingBottom: '16px',
             },
           }}
-          {...form.getInputProps('departureDate')}
+          {...form?.getInputProps('departureDate')}
           styles={{
             day: {
               '&[data-weekend]': {
@@ -68,8 +78,9 @@ export const FlightInfo = ({ form, loading }: FlightInfoProps) => (
           disabled={loading}
           w={270}
           error={'invalid flight number'}
-          {...form.getInputProps('flightNumber')}
+          {...form?.getInputProps('flightNumber')}
           isCapitalLetters={true}
+          onClick={() => loggerAction(page, tags[1])}
         />
       </Flex>
     </Stack>

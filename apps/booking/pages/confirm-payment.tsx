@@ -35,8 +35,8 @@ import { useLazyQuery } from '@collinsonx/utils/apollo';
 import { getBookingByID } from '@collinsonx/utils/queries';
 import { AlertIcon } from '@collinsonx/design-system/assets/icons';
 import TopBarLinks from '@components/TopBarLinks';
-import { MOBILE_ACTION_BACK, POLLING_TIME } from '../constants';
-import { sendMobileEvent } from '@lib';
+import { ANALYTICS_TAGS, MOBILE_ACTION_BACK, POLLING_TIME } from '../constants';
+import { loggerAction, sendMobileEvent } from '@lib';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import Price from '@components/Price';
 import { InfoPanel } from 'utils/PanelInfo';
@@ -61,6 +61,12 @@ export default function ConfirmPayment() {
     jwt,
     payload,
   } = usePayload();
+
+  const pageName = 'BookingConfirmed';
+
+  useEffect(() => {
+    loggerAction(pageName, ANALYTICS_TAGS.ON_PAGE_ENTER_CONFIRMED);
+  }, []);
 
   const handleClickBack: MouseEventHandler<HTMLAnchorElement> = useCallback(
     (e) => {
@@ -422,6 +428,9 @@ export default function ConfirmPayment() {
                         accountProvider={payload?.accountProvider}
                         membershipType={payload?.membershipType}
                         platform={platform}
+                        analyticsTag={
+                          ANALYTICS_TAGS.ON_PAGE_CONFIRMED_BTN_DOWNLOAD
+                        }
                       />
                     )}
                     <Anchor
@@ -473,7 +482,13 @@ export default function ConfirmPayment() {
                         confirmed.
                       </Text>
                       <Box sx={{ padding: '1.25rem', textAlign: 'center' }}>
-                        <BackButton>GO TO LOUNGES</BackButton>
+                        <BackButton
+                          analyticsTag={
+                            ANALYTICS_TAGS.ON_PAGE_CONFIRMED_BACK_BTN
+                          }
+                        >
+                          GO TO LOUNGES
+                        </BackButton>
                       </Box>
                     </Box>
                   </Stack>

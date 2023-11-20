@@ -70,7 +70,18 @@ export enum ANALYTICS_TAGS {
   ON_PAGE_ENTER_EMAIL = 'On_PG_Enter_Email',
   ON_CONTINUE_CLICK = 'CK_BTN_Continue',
   ON_CHANGE_EMAIL_ADDRESS = 'CHG_Email_Address',
-  ON_HIT_BACK_BUTTON = 'CK_BTN_Back_Enter_',
+  ON_HIT_BACK_BUTTON = 'CK_BTN_Back_',
+  ON_PAGE_ENTER_CONFIRMED = 'On_PG_Bk_Cfnd',
+  ON_PAGE_CONFIRMED_BTN_DOWNLOAD = 'CK_BTN__Bk_Cfnd',
+  ON_PAGE_CONFIRMED_BACK_BTN = 'Ck_BTN_Back_Bk_Cfnd',
+  ON_PAGE_ENTER_CHECKAVAILABILITY = 'On_PG_Chk_Avl',
+  ON_PAGE_CHANGE_FLIGHT = 'CG_Flight_Date_Chk_Avl',
+  ON_CHANGE_DATE = 'CG_Flight_Date_Chk_Avl',
+  ON_CHANGE_DATE_ERROR = 'ERR_Flight_Date_Chk_Avl',
+  ON_CHANGE_FLIGHT_NUMBER = 'CG_Flight_Number_Chk_Avl',
+  ON_CHANGE_FLIGHT_NUMBER_ERROR = 'ERR_Flight_Number_Chk_Avl',
+  ON_CONTINUE_BUTTON_AVI = 'CK_BTN_Chk_Avl',
+  ON_CHANGE_ERROR_ATTENDEES_AVL = 'ERR_Number_Chk_Avl',
 }
 
 export const PRODUCTION_DOMAIN = 'booking.cergea.com';

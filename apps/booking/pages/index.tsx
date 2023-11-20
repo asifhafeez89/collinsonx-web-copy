@@ -1,5 +1,5 @@
 import Layout from '@components/Layout';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
   Flex,
   Stack,
@@ -25,13 +25,18 @@ import usePayload from 'hooks/payload';
 import router from 'next/router';
 import { BookingContext } from 'context/bookingContext';
 import colors from 'ui/colour-constants';
-import { MAX_GUESTS, ValidationErrorResponses } from '../constants';
+import {
+  ANALYTICS_TAGS,
+  MAX_GUESTS,
+  ValidationErrorResponses,
+} from '../constants';
 import TopBarLinks from '@components/TopBarLinks';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import Price from '@components/Price';
 import { formatDate } from 'utils/DateFormatter';
 import { FlightContext } from 'context/flightContext';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
+import { loggerAction } from '@lib';
 
 interface DepartureFlightInfo {
   airport: { iata: string };
@@ -49,10 +54,16 @@ const Lounge = () => {
   const [guestError, setGuestError] = useState<Boolean>(false);
   const { lounge, referrerUrl } = usePayload();
 
+  const pageName = 'Chk_Avl';
+
   const { getBooking, setBooking } = useContext(BookingContext);
   const { setFlight } = useContext(FlightContext);
   const { flightNumber, departureDate, adults, children, infants } =
     getBooking();
+
+  useEffect(() => {
+    loggerAction(pageName, ANALYTICS_TAGS.ON_PAGE_ENTER_CHECKAVAILABILITY);
+  }, []);
 
   const form = useForm({
     initialValues: {
@@ -67,8 +78,12 @@ const Lounge = () => {
       flightNumber: values.flightNumber.toUpperCase(),
     }),
     validate: {
-      departureDate: (value) =>
-        value !== null ? null : ValidationErrorResponses.INVALID_DATE.message,
+      departureDate: (value) => {
+        loggerAction(pageName, ANALYTICS_TAGS.ON_CHANGE_DATE_ERROR);
+        return value !== null
+          ? null
+          : ValidationErrorResponses.INVALID_DATE.message;
+      },
       flightNumber: (value: string) => {
         let error = null;
 
@@ -79,6 +94,7 @@ const Lounge = () => {
 
         if (!validFlight) {
           error = ValidationErrorResponses.INVALID_FLIGHT.message;
+          loggerAction(pageName, ANALYTICS_TAGS.ON_CHANGE_FLIGHT_NUMBER_ERROR);
         }
 
         return error;
@@ -94,12 +110,13 @@ const Lounge = () => {
     pollInterval: 300000,
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
-    onCompleted: (flightInfoData) => {
+    onCompleted: async (flightInfoData) => {
       if (flightInfoData.getFlightDetails.length === 0) {
         form.setFieldError(
           'flightNumber',
           ValidationErrorResponses.INVALID_DATEFlIGHT.message
         );
+        loggerAction(pageName, ANALYTICS_TAGS.ON_CHANGE_FLIGHT_NUMBER_ERROR);
       } else {
         if (form.isValid()) {
           const upperCaseFlight = form.values.flightNumber.toUpperCase();
@@ -120,8 +137,10 @@ const Lounge = () => {
   });
 
   const handleClickCheckAvailability = async (values: FormValues) => {
+    loggerAction(pageName, ANALYTICS_TAGS.ON_CONTINUE_BUTTON_AVI);
     if (values.children + values.adults > MAX_GUESTS) {
       setGuestError(true);
+      loggerAction(pageName, ANALYTICS_TAGS.ON_CHANGE_ERROR_ATTENDEES_AVL);
       return false;
     } else {
       setGuestError(false);
@@ -157,7 +176,7 @@ const Lounge = () => {
       <form onSubmit={form.onSubmit(handleClickCheckAvailability)}>
         <Stack spacing={16}>
           <Stack sx={{ width: '100%' }}>
-            <TopBarLinks />
+            <TopBarLinks page={pageName} />
           </Stack>
           <Flex
             align="center"
@@ -199,7 +218,15 @@ const Lounge = () => {
                 </Heading>
               </Center>
               <LoungeInfo lounge={lounge} loading={!lounge} />
-              <FlightInfo form={form} loading={!lounge} />
+              <FlightInfo
+                form={form}
+                loading={!lounge}
+                tags={[
+                  ANALYTICS_TAGS.ON_CHANGE_DATE,
+                  ANALYTICS_TAGS.ON_CHANGE_FLIGHT_NUMBER,
+                ]}
+                page={pageName}
+              />
               <GuestInfo
                 form={form}
                 loading={!lounge}
