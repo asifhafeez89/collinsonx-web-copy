@@ -366,7 +366,6 @@ export default function ConfirmPayment() {
                           },
                         }}
                       >
-                        (
                         <EditableTitle
                           title="Estimated time of arrival"
                           as="h2"
@@ -376,7 +375,6 @@ export default function ConfirmPayment() {
                             <EstimatedTimeArrival arrival={arrival} />
                           )}
                         </EditableTitle>
-                        )
                       </Box>
 
                       <EditableTitle

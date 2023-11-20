@@ -199,7 +199,6 @@ export default function ConfirmBooking() {
                           </EditableTitle>
                         </Box>
                       </Flex>
-                      (
                       <EditableTitle
                         title="Estimated time of arrival"
                         as="h2"
@@ -207,7 +206,6 @@ export default function ConfirmBooking() {
                       >
                         {arrival && <EstimatedTimeArrival arrival={arrival} />}
                       </EditableTitle>
-                      )
                       <EditableTitle title="Cancellation policy" as="h2">
                         <p style={{ padding: '0', margin: '0' }}>
                           Cancel up to 48 hours before your booking to receive a
