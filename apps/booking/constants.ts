@@ -85,3 +85,7 @@ export enum ANALYTICS_TAGS {
 }
 
 export const PRODUCTION_DOMAIN = 'booking.cergea.com';
+
+export const VALIDATION_RULES = {
+  MAX_LENGTH: 255,
+};

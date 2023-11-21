@@ -24,6 +24,7 @@ import colors from 'ui/colour-constants';
 import TopBarLinks from '@components/TopBarLinks';
 import { BookingQueryParams } from '@collinsonx/constants/enums';
 import { log } from '@lib';
+import { VALIDATION_RULES } from '../../constants';
 
 const { bookingId } = BookingQueryParams;
 
@@ -143,6 +144,7 @@ export default function SignupUser() {
                 {...form.getInputProps('firstname')}
                 placeholder="First name"
                 data-testid="firstName"
+                maxLength={VALIDATION_RULES.MAX_LENGTH}
               />
             </Stack>
             <Stack spacing={8}>
@@ -158,6 +160,7 @@ export default function SignupUser() {
                 {...form.getInputProps('lastname')}
                 placeholder="Last name"
                 data-testid="lastName"
+                maxLength={VALIDATION_RULES.MAX_LENGTH}
               />
             </Stack>
             <InputLabel
