@@ -43,5 +43,23 @@ module.exports = defineConfig({
         ignoreHTTPSErrors: true,
       },
     },
+    {
+      name: 'safari',
+      testDir: './tests/booking',
+      use: {
+        ...devices['Desktop Safari'],
+        baseURL: `https://booking-local.${process.env.ENV}.cergea.com:4011`,
+        ignoreHTTPSErrors: true,
+      },
+    },
+    {
+      name: 'mobile-safari',
+      testDir: './tests/booking',
+      use: {
+        ...devices['iPhone 12'],
+        baseURL: `https://booking-local.${process.env.ENV}.cergea.com:4011`,
+        ignoreHTTPSErrors: true,
+      },
+    },
   ],
 });
