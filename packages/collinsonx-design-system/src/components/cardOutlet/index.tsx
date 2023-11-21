@@ -53,6 +53,7 @@ export interface CardOutletProps {
     IconComponent: any;
   }>;
   children?: ReactNode;
+  dataTestId?: string;
 }
 
 const StyledList = styled(List)`
@@ -117,9 +118,10 @@ function CardOutlet({
   workflowStage,
   onClick = () => {},
   productCategories = [],
+  dataTestId,
 }: CardOutletProps) {
   return (
-    <StyledCard p={0} width={width} onClick={onClick}>
+    <StyledCard p={0} width={width} onClick={onClick} data-testid={dataTestId}>
       <CardImage src={imageUrl} status={status} imageCount={imageCount} />
       <Box p={24} sx={{ width: '100%' }}>
         <Stack spacing={24}>

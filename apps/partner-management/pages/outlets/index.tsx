@@ -43,6 +43,7 @@ export default function Outlets() {
           dataOutlets.getOutlets.map(
             ({ name, legacyCode, status, location, tags }, index) => (
               <CardOutlet
+                dataTestId={`card-outlet-${index}`}
                 key={index}
                 title={name}
                 onClick={() => {
@@ -77,7 +78,11 @@ export default function Outlets() {
                   status === OutletStatus.Live ? Status.Active : Status.Inactive
                 }
               >
-                <Button aria-hidden="true" variant="outline">
+                <Button
+                  aria-hidden="true"
+                  variant="outline"
+                  data-testid={`view-details-button-${index}`}
+                >
                   View details
                 </Button>
               </CardOutlet>
