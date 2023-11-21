@@ -26,7 +26,7 @@ import linkAccount from '@collinsonx/utils/mutations/linkAccount';
 import Session from 'supertokens-auth-react/recipe/session';
 import TopBarLinks from '@components/TopBarLinks';
 import getError from 'utils/getError';
-import { BookingError } from '../../constants';
+import { ANALYTICS_TAGS, BookingError } from '../../constants';
 import { BookingQueryParams } from '@collinsonx/constants/enums';
 import { PinLockoutError } from '@collinsonx/constants/constants';
 import { getConsumerByID } from '@collinsonx/utils/queries';
@@ -35,6 +35,7 @@ import {
   accountIsEqual,
   consumerIsValid,
   log,
+  loggerAction,
   loggerDataError,
 } from '../../lib/index';
 import { datadogLogs } from '@datadog/browser-logs';
@@ -72,8 +73,13 @@ export default function CheckEmail() {
   ] = useMutation(linkAccount);
 
   let interval = useRef<NodeJS.Timeout>();
+  const pageName = 'Email_Code';
 
   const [fetchConsumer] = useLazyQuery(getConsumerByID);
+
+  useEffect(() => {
+    loggerAction(pageName, ANALYTICS_TAGS.ON_CHECK_CODE_ENTER);
+  }, []);
 
   useEffect(() => {
     interval.current = setInterval(() => {
@@ -171,6 +177,8 @@ export default function CheckEmail() {
   const handleClickConfirm = async () => {
     setCheckingCode(true);
 
+    loggerAction(pageName, ANALYTICS_TAGS.ON_CHECK_CODE_VERIFY);
+
     if (!code || code.length !== 6) {
       setPinError(true);
       setCheckingCode(false);
@@ -251,6 +259,11 @@ export default function CheckEmail() {
     });
   };
 
+  const handleChange = (code: string) => {
+    setCode(code);
+    loggerAction(pageName, ANALYTICS_TAGS.ON_CHECK_CODE_CHANGE);
+  };
+
   return (
     <>
       {loadingLinkAccount ? (
@@ -264,7 +277,7 @@ export default function CheckEmail() {
           ) : (
             <>
               <Skeleton visible={!lounge}>
-                <TopBarLinks />
+                <TopBarLinks page={pageName} />
               </Skeleton>
               <Stack
                 spacing={24}
@@ -317,7 +330,7 @@ export default function CheckEmail() {
                     One time passcode
                   </Text>
                   <PinInput
-                    onChange={(code) => setCode(code)}
+                    onChange={handleChange}
                     placeholder="-"
                     length={6}
                     size="xl"

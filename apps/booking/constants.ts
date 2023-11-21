@@ -82,6 +82,20 @@ export enum ANALYTICS_TAGS {
   ON_CHANGE_FLIGHT_NUMBER_ERROR = 'ERR_Flight_Number_Chk_Avl',
   ON_CONTINUE_BUTTON_AVI = 'CK_BTN_Chk_Avl',
   ON_CHANGE_ERROR_ATTENDEES_AVL = 'ERR_Number_Chk_Avl',
+  ON_SLOT_PG_ENTER = 'On_PG_Pick_Slot',
+  ON_SLOT_CHANGE = 'CHG_Time_Slot_Pick_Slot ',
+  ON_SLOT_CONTINUE = 'CK_BTN_Confirm_Pick_Slot',
+  ON_PAYMENT_ENTER = 'On_PG_G_T_Pmt',
+  ON_PAYMENT_CONTINUE = 'CK_BTN_Confirm_G_T_Pmt',
+  ON_PAYMENT_PROCESSED = 'On_PG_Processing_Pmt',
+  ON_CHECK_CODE_ENTER = 'On_PG_Email_Code',
+  ON_CHECK_CODE_CHANGE = 'CG_Email_Code',
+  ON_CHECK_CODE_VERIFY = 'Ck_BTN_Verify_Email_Code',
+  ON_SIGNUP_PAGE_ENTER = 'On_PG_Upd_Dtl',
+  ON_SIGNUP_PAGE_FIRSTNAME_UPDATE = 'CG_First_Name_Upd_Dtl',
+  ON_SIGNUP_PAGE_LASTNAME_UPDATE = 'CG_Last_Name_Upd_Dtl',
+  ON_SIGNUP_PAGE_CONCENT = 'Tick_Consent_Upd_Dtl',
+  ON_SIGNUP_PAGE_CONFIRM = 'CK_BTN_Confirm_Upd_Dtl',
 }
 
 export const PRODUCTION_DOMAIN = 'booking.cergea.com';

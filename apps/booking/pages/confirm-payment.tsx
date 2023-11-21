@@ -157,7 +157,15 @@ export default function ConfirmPayment() {
       <Stack spacing={16} sx={{ backgroundColor: colors.background }}>
         <TopBarLinks />
 
-        <LoaderLightBox open={open} title="" ctaAction="" onClose={() => {}}>
+        <LoaderLightBox
+          open={open}
+          title=""
+          ctaAction=""
+          onClose={() => {}}
+          logAction={() =>
+            loggerAction(pageName, ANALYTICS_TAGS.ON_PAYMENT_PROCESSED)
+          }
+        >
           <div>
             <h2>Payment is being processed</h2>
             <p>

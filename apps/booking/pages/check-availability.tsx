@@ -77,7 +77,7 @@ export default function CheckAvailability() {
 
   const booking = getBooking();
   const flightData = getFlight();
-  const pageName = 'Check Availability';
+  const pageName = 'Pick_Slot';
 
   const { flightNumber, children, adults, infants } = booking;
 
@@ -87,7 +87,7 @@ export default function CheckAvailability() {
   const [mutate, { loading: cbLoading }] = useMutation(createBooking);
 
   useEffect(() => {
-    loggerAction(pageName, ANALYTICS_TAGS.ON_PAGE_ENTER_CHECKAVAILABILITY);
+    loggerAction(pageName, ANALYTICS_TAGS.ON_SLOT_PG_ENTER);
   }, []);
 
   const findSelectedSlot = (slots: Slots[] | undefined, value: string) => {
@@ -102,6 +102,8 @@ export default function CheckAvailability() {
 
   const handleSubmit = () => {
     setMessage('');
+
+    loggerAction(pageName, ANALYTICS_TAGS.ON_SLOT_CONTINUE);
 
     const availableSlots = slotsData?.getAvailableSlots.slots;
     const slot = findSelectedSlot(availableSlots, selectedslot);
@@ -150,7 +152,7 @@ export default function CheckAvailability() {
       bookingInput.actingAccount
     );
 
-    mutate({ variables: { bookingInput } }).then((response) => {
+    mutate({ variables: { bookingInput } }).then((response: any) => {
       log(
         '[createBooking] createBooking response: ',
         JSON.stringify(response || null)
@@ -234,7 +236,9 @@ export default function CheckAvailability() {
     constants.TIME_FORMAT_DISPLAY
   );
 
-  const handleSelectSlot = (value: string) => {
+  const handleSelectSlot = async (value: string) => {
+    await loggerAction(pageName, ANALYTICS_TAGS.ON_SLOT_CHANGE);
+    console.log(ANALYTICS_TAGS.ON_SLOT_CHANGE);
     setSelectedslot(value);
   };
 
@@ -297,7 +301,7 @@ export default function CheckAvailability() {
         }}
       >
         <Stack sx={{ width: '100%' }}>
-          <TopBarLinks />
+          <TopBarLinks page={pageName} />
         </Stack>
         <Flex
           direction="column"

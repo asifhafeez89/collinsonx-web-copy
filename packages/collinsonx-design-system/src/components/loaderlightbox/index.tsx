@@ -1,5 +1,5 @@
 import { Modal, Button, Flex, Box, Loader, Center } from '@mantine/core';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import LoaderLifestyleX from '../loaderLifestyleX';
 
 interface LightboxProps {
@@ -8,6 +8,7 @@ interface LightboxProps {
   open: boolean;
   ctaAction: String;
   onClose: () => void;
+  logAction?: () => void;
 }
 
 function LoaderLightbox({
@@ -16,7 +17,14 @@ function LoaderLightbox({
   open,
   ctaAction,
   onClose,
+  logAction,
 }: LightboxProps) {
+  useEffect(() => {
+    if (logAction) {
+      logAction();
+    }
+  }, []);
+
   return (
     <>
       <Modal

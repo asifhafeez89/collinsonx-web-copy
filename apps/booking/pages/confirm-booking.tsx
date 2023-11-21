@@ -2,9 +2,9 @@ import Layout from '@components/Layout';
 import { Box, Center, Flex, Stack } from '@collinsonx/design-system/core';
 import { LoungeInfo } from '@components/LoungeInfo';
 import { Details, Button } from '@collinsonx/design-system';
-import { useContext, useRef, useState } from 'react';
+import { useContext, useRef, useState, useEffect } from 'react';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
-import { constants } from '../constants';
+import { ANALYTICS_TAGS, constants } from '../constants';
 import usePayload from 'hooks/payload';
 import { InfoGroup } from '@collinsonx/design-system/components/details';
 import { BookingContext } from 'context/bookingContext';
@@ -17,7 +17,7 @@ import StripeCheckout from '@components/stripe';
 import { InfoPanel } from 'utils/PanelInfo';
 import { GuestCount } from '@components/guest-count/GuestCount';
 import { FlightContext } from 'context/flightContext';
-import { log } from '@lib';
+import { log, loggerAction } from '@lib';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
 import EstimatedTimeArrival from '@components/EstimatedTimeArrival';
 
@@ -28,6 +28,10 @@ export default function ConfirmBooking() {
   const { getBooking } = useContext(BookingContext);
   const { getFlight } = useContext(FlightContext);
 
+  useEffect(() => {
+    loggerAction(pageName, ANALYTICS_TAGS.ON_PAYMENT_ENTER);
+  }, []);
+
   const { flightNumber, children, bookingId, adults, infants, arrival } =
     getBooking();
 
@@ -35,9 +39,12 @@ export default function ConfirmBooking() {
 
   const flightData = getFlight();
 
+  const pageName = 'G_T_Pmt';
+
   const totalQuantity: number = Number(adults + children);
 
   const handleSubmit = async () => {
+    loggerAction(pageName, ANALYTICS_TAGS.ON_PAYMENT_CONTINUE);
     try {
       const paymentinput = {
         bookingID: bookingId ?? '',
@@ -76,7 +83,7 @@ export default function ConfirmBooking() {
     <Layout ref={layoutRef}>
       <Stack spacing={16} sx={{ backgroundColor: colors.background }}>
         <Stack>
-          <TopBarLinks />
+          <TopBarLinks page={pageName} />
         </Stack>
         <Flex
           justify="center"
@@ -240,5 +247,3 @@ export default function ConfirmBooking() {
     </Layout>
   );
 }
-
-ConfirmBooking.getLayout = (page: JSX.Element) => <>{page}</>;
