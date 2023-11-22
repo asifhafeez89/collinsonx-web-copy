@@ -15,11 +15,10 @@ import { BookingStatus } from '@collinsonx/utils/generatedTypes/graphql';
 import usePayload from 'hooks/payload';
 import colors from 'ui/colour-constants';
 import { InfoPanel } from 'utils/PanelInfo';
-import { GuestCount } from '@components/guest-count/GuestCount';
+import { GuestCount } from '@components/guests/GuestCount';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
 import { GetAccountProviderString } from 'utils/GetAccountProviderString';
-import { guestBooking } from 'utils/guestListFormatter';
 
 export default function CancelBooking() {
   const router = useRouter();
@@ -168,6 +167,7 @@ export default function CancelBooking() {
                                   '@media (max-width: 768px)': {
                                     paddingLeft: '1.25rem',
                                   },
+                                  padding: '1.25rem ',
                                 }}
                               >
                                 A confirmation email has been sent to{' '}
@@ -184,6 +184,7 @@ export default function CancelBooking() {
                                 '@media (max-width: 768px)': {
                                   paddingLeft: '1.25rem',
                                 },
+                                padding: '1.25rem ',
                               }}
                             >
                               <Text fw={700} py={22}>
@@ -240,9 +241,16 @@ export default function CancelBooking() {
                               showBorder={false}
                             >
                               <GuestCount
-                                guestList={guestBooking(
-                                  bookingDetails?.getBookingByID
-                                )}
+                                adults={
+                                  bookingDetails.getBookingByID.guestAdultCount
+                                }
+                                children={
+                                  bookingDetails.getBookingByID
+                                    .guestChildrenCount
+                                }
+                                infants={
+                                  bookingDetails.getBookingByID.guestInfantCount
+                                }
                               />
                             </EditableTitle>
                           </Box>

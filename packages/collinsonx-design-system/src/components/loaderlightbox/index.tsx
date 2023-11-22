@@ -7,6 +7,7 @@ interface LightboxProps {
   title: String;
   open: boolean;
   ctaAction: String;
+  onHandleClick: () => void;
   onClose: () => void;
 }
 
@@ -14,6 +15,7 @@ function LoaderLightbox({
   children,
   title,
   open,
+  onHandleClick,
   ctaAction,
   onClose,
 }: LightboxProps) {
@@ -35,25 +37,24 @@ function LoaderLightbox({
           <Center mt={40} mb={40}>
             <LoaderLifestyleX />
           </Center>
-          {ctaAction && ctaAction.length > 0 && (
-            <Flex
-              justify="center"
-              sx={{ backgroundColor: '#F7F7F7', padding: '20px' }}
+          <Flex
+            justify="center"
+            sx={{ backgroundColor: '#F7F7F7', padding: '20px' }}
+          >
+            <Button
+              onClick={onHandleClick}
+              color="dark"
+              variant="outline"
+              pl={40}
+              pr={40}
+              sx={{
+                borderColor: '#000',
+                color: '#000',
+              }}
             >
-              <Button
-                color="dark"
-                variant="outline"
-                pl={40}
-                pr={40}
-                sx={{
-                  borderColor: '#000',
-                  color: '#000',
-                }}
-              >
-                {ctaAction}
-              </Button>
-            </Flex>
-          )}
+              {ctaAction}
+            </Button>
+          </Flex>
         </Box>
       </Modal>
     </>
