@@ -41,11 +41,17 @@ export default function Outlets() {
         {!loadingOutlets &&
           dataOutlets &&
           dataOutlets.getOutlets.map(
-            ({ name, legacyCode, status, location, tags }, index) => (
+            ({ name, legacyCode, status, location, tags, content }, index) => (
               <CardOutlet
                 dataTestId={`card-outlet-${index}`}
                 key={index}
                 title={name}
+                imageCount={
+                  content?.media?.mediaCollection?.items.filter((item) =>
+                    item?.contentType?.includes('image/')
+                  ).length
+                }
+                imageUrl={content?.media?.mainPicture?.url ?? undefined}
                 onClick={() => {
                   router.push('#');
                 }}

@@ -13,6 +13,18 @@ const getOutlets = gql`
         terminal
       }
       tags
+      content {
+        media {
+          mainPicture {
+            url
+          }
+          mediaCollection {
+            items {
+              contentType
+            }
+          }
+        }
+      }
     }
   }
 `;

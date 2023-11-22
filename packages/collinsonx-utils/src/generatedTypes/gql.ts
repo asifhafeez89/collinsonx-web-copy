@@ -53,7 +53,7 @@ const documents = {
     types.GetFlightDetailsDocument,
   '\n  query GetInvitationByID($getInvitationById: ID!) {\n    getInvitationByID(id: $getInvitationById) {\n      createdAt\n      experience {\n        id\n      }\n      id\n      inviteeEmail\n      updatedAt\n    }\n  }\n':
     types.GetInvitationByIdDocument,
-  '\n  query GetOutlets($limit: Int) {\n    getOutlets(limit: $limit) {\n      category\n      id\n      name\n      legacyCode\n      status\n      location {\n        name\n        terminal\n      }\n      tags\n    }\n  }\n':
+  '\n  query GetOutlets($limit: Int) {\n    getOutlets(limit: $limit) {\n      category\n      id\n      name\n      legacyCode\n      status\n      location {\n        name\n        terminal\n      }\n      tags\n      content {\n        media {\n          mainPicture {\n            url\n          }\n          mediaCollection {\n            items {\n              contentType\n            }\n          }\n        }\n      }\n    }\n  }\n':
     types.GetOutletsDocument,
   '\n  query GetPartnerBrands($limit: Int) {\n    getPartnerBrands(limit: $limit) {\n      id\n    }\n  }\n':
     types.GetPartnerBrandsDocument,
@@ -203,8 +203,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  query GetOutlets($limit: Int) {\n    getOutlets(limit: $limit) {\n      category\n      id\n      name\n      legacyCode\n      status\n      location {\n        name\n        terminal\n      }\n      tags\n    }\n  }\n'
-): (typeof documents)['\n  query GetOutlets($limit: Int) {\n    getOutlets(limit: $limit) {\n      category\n      id\n      name\n      legacyCode\n      status\n      location {\n        name\n        terminal\n      }\n      tags\n    }\n  }\n'];
+  source: '\n  query GetOutlets($limit: Int) {\n    getOutlets(limit: $limit) {\n      category\n      id\n      name\n      legacyCode\n      status\n      location {\n        name\n        terminal\n      }\n      tags\n      content {\n        media {\n          mainPicture {\n            url\n          }\n          mediaCollection {\n            items {\n              contentType\n            }\n          }\n        }\n      }\n    }\n  }\n'
+): (typeof documents)['\n  query GetOutlets($limit: Int) {\n    getOutlets(limit: $limit) {\n      category\n      id\n      name\n      legacyCode\n      status\n      location {\n        name\n        terminal\n      }\n      tags\n      content {\n        media {\n          mainPicture {\n            url\n          }\n          mediaCollection {\n            items {\n              contentType\n            }\n          }\n        }\n      }\n    }\n  }\n'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
