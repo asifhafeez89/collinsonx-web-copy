@@ -7,27 +7,27 @@ export default class BookingOverviewPage {
     this.page = page;
   }
 
-  getPageTitle() {
+  title() {
     return this.page.getByTestId('bookingOverviewTitle');
   }
 
-  getLoungeTitle() {
+  loungeTitle() {
     return this.page.getByTestId('loungeTitle');
   }
 
-  getPendingRequestsTitle() {
+  pendingRequestsTitle() {
     return this.page.getByTestId('pendingRequestsTitle');
   }
 
-  getConfirmedBookingsTitle() {
+  confirmedBookingsTitle() {
     return this.page.getByTestId('confirmedBookingsTitle');
   }
 
-  getWalkupQRcodeTitle() {
+  walkupQRcodeTitle() {
     return this.page.getByTestId('walkupQRcodeTitle');
   }
 
-  getCancelledBookingsTitle() {
+  cancelledBookingsTitle() {
     return this.page.getByTestId('cancelledBookingsTitle');
   }
 
@@ -43,11 +43,11 @@ export default class BookingOverviewPage {
     return this.page.getByTestId('viewAllConfirmed').click();
   }
 
-  async getPendingRequestCount() {
+  async pendingRequestCount() {
     return await this.getBookingCount('pendingRequestsCount');
   }
 
-  async getConfirmedBookingCount() {
+  async confirmedBookingCount() {
     return await this.getBookingCount('allBookingsCount');
   }
 

@@ -19,7 +19,8 @@
     "e2e:test-partner-accessibility": "cross-env ENV=TEST playwright test --config=./e2e/tests/ --project=accessibility-tests --headed",
     "e2e:uat-partner": "cross-env ENV=UAT playwright test --config=./e2e/tests/ --project=partner-chromium-test --headed",
     "e2e:uat-partner-accessibility": "cross-env ENV=UAT playwright test --config=./e2e/tests/ --project=accessibility-tests --headed",
-    "e2e:partner-portal": "cross-env ENV=TEST playwright test --config=./e2e/tests/ --project=partner-portal --headed"
+    "e2e:partner-portal": "cross-env ENV=TEST playwright test --config=./e2e/tests/ --project=partner-portal --headed",
+    "e2e:ci-partner-portal": "cross-env ENV=TEST playwright test --config=./e2e/tests/ --project=partner-portal"
   },
   "resolutions": {
     "@types/react": "^18.0.26",

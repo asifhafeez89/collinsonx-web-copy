@@ -28,14 +28,12 @@ test.describe('login page', () => {
 
     await loginPage.login(partnerDetails.username, partnerDetails.password);
 
-    const title = bookingOverviewPage.getPageTitle();
-    const pendingRequestsTitle = bookingOverviewPage.getPendingRequestsTitle();
-    const cancelledBookingsTitle =
-      bookingOverviewPage.getCancelledBookingsTitle();
-    const confirmedBookingsTitle =
-      bookingOverviewPage.getConfirmedBookingsTitle();
-    const walkupQRcodeTitle = bookingOverviewPage.getWalkupQRcodeTitle();
-    const loungeTitle = bookingOverviewPage.getLoungeTitle();
+    const title = bookingOverviewPage.title();
+    const pendingRequestsTitle = bookingOverviewPage.pendingRequestsTitle();
+    const cancelledBookingsTitle = bookingOverviewPage.cancelledBookingsTitle();
+    const confirmedBookingsTitle = bookingOverviewPage.confirmedBookingsTitle();
+    const walkupQRcodeTitle = bookingOverviewPage.walkupQRcodeTitle();
+    const loungeTitle = bookingOverviewPage.loungeTitle();
 
     await expect(title).toBeVisible();
     await expect(loungeTitle).toBeVisible();
@@ -90,14 +88,12 @@ test('login as a new partner', async ({ page }) => {
   // TODO: currently after filling in the details you are taken to the partner.test.cergea.com page, not the local one!
   await signUpPage.fillInDetails(email, password);
 
-  const title = bookingOverviewPage.getPageTitle();
-  const pendingRequestsTitle = bookingOverviewPage.getPendingRequestsTitle();
-  const cancelledBookingsTitle =
-    bookingOverviewPage.getCancelledBookingsTitle();
-  const confirmedBookingsTitle =
-    bookingOverviewPage.getConfirmedBookingsTitle();
-  const walkupQRcodeTitle = bookingOverviewPage.getWalkupQRcodeTitle();
-  const loungeTitle = bookingOverviewPage.getLoungeTitle();
+  const title = bookingOverviewPage.title();
+  const pendingRequestsTitle = bookingOverviewPage.pendingRequestsTitle();
+  const cancelledBookingsTitle = bookingOverviewPage.cancelledBookingsTitle();
+  const confirmedBookingsTitle = bookingOverviewPage.confirmedBookingsTitle();
+  const walkupQRcodeTitle = bookingOverviewPage.walkupQRcodeTitle();
+  const loungeTitle = bookingOverviewPage.loungeTitle();
 
   await expect(title).toBeVisible();
   await expect(loungeTitle).toBeVisible();

@@ -36,7 +36,7 @@ test.describe('booking overview dashboard', () => {
 
         await page.goto('/', { waitUntil: 'networkidle' });
 
-        const latestCount = await bookingOverviewPage.getPendingRequestCount();
+        const latestCount = await bookingOverviewPage.pendingRequestCount();
 
         expect(latestCount).toBe(initialCount + 1);
       });
@@ -66,7 +66,7 @@ test.describe('booking overview dashboard', () => {
 
         await page.goto('/', { waitUntil: 'networkidle' });
 
-        const latestCount = await bookingOverviewPage.getPendingRequestCount();
+        const latestCount = await bookingOverviewPage.pendingRequestCount();
 
         expect(latestCount).toBe(initialCount - 1);
       });
@@ -90,7 +90,7 @@ test.describe('booking overview dashboard', () => {
 
       await page.goto('/', { waitUntil: 'networkidle' });
 
-      const latestCount = await bookingOverviewPage.getConfirmedBookingCount();
+      const latestCount = await bookingOverviewPage.confirmedBookingCount();
 
       expect(latestCount).toBe(initialCount + 1);
     });

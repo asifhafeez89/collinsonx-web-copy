@@ -56,7 +56,7 @@ module.exports = defineConfig({
         ignoreHTTPSErrors: true,
       },
       // Only run the accessibility tests
-      testMatch: 'outlets.spec.ts',
+      testMatch: 'partnerPortalAccess.spec.ts',
     },
     {
       name: 'accessibility-tests',

@@ -19,4 +19,8 @@ export default class PartnerPortalDashboardPage {
   clickViewAllPartnersButton() {
     return this.page.getByTestId('viewAllPartners').click();
   }
+
+  catalogueWidget() {
+    return this.page.getByTestId('catalogueOverviewCard');
+  }
 }
