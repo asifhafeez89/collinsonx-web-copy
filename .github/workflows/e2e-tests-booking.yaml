@@ -71,7 +71,7 @@ jobs:
 
           cd -
           echo "${{ secrets.ENV_TESTS_FILE_BOOKING }}" > packages/collinsonx-tests-e2e/.env.tests
-          pnpm --filter "@collinsonx/tests-e2e" e2e:start
+          pnpm --filter "@collinsonx/tests-e2e" e2e:ci-booking
 
       - name: Archive npm failure logs
         uses: actions/upload-artifact@v2
