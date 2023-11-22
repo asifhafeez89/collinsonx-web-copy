@@ -51,10 +51,20 @@ export default function SignupUser() {
     validate: {
       email: (value: string) =>
         validateEmail(value) ? null : 'Please enter a valid email address.',
-      firstname: (value: string) =>
-        value?.trim().length > 0 ? null : 'Please enter your name.',
-      lastname: (value: string) =>
-        value?.trim().length > 0 ? null : 'Please enter your last name.',
+      firstname: function (value: string) {
+        if (value.length > VALIDATION_RULES.MAX_LENGTH) {
+          return 'Max length is 255 characters';
+        }
+
+        return value?.trim().length > 0 ? null : "Name can't be empty";
+      },
+      lastname: function (value: string) {
+        if (value.length > VALIDATION_RULES.MAX_LENGTH) {
+          return 'Max length is 255 characters';
+        }
+
+        return value?.trim().length > 0 ? null : "Name can't be empty";
+      },
     },
   });
 
