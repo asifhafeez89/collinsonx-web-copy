@@ -1,10 +1,16 @@
 import AvailableSlots from './AvailableSlots';
-import AvailableSlotsErrorHandling, {
-  availableSlotsPopUpIsVisible,
-} from './AvailableSlotsModal/AvailableSlotsErrorHandling';
+import AvailableSlotsNotEnoughCapacity, {
+  hasLoungeCapacity,
+  availableSlotsNotEnoughCapacityParser,
+  hasLoungeCapacityDefaultError,
+  loadDefaultError,
+} from './AvailableSlotsNotEnoughCapacity';
 
 export {
   AvailableSlots,
-  AvailableSlotsErrorHandling,
-  availableSlotsPopUpIsVisible,
+  AvailableSlotsNotEnoughCapacity,
+  hasLoungeCapacity,
+  hasLoungeCapacityDefaultError,
+  loadDefaultError,
+  availableSlotsNotEnoughCapacityParser,
 };

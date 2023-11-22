@@ -41,7 +41,7 @@ import EditableTitle from '@collinsonx/design-system/components/editabletitles/E
 import Price from '@components/Price';
 import { InfoPanel } from 'utils/PanelInfo';
 import { GenerateBookingConfirmedPdf } from '@components/booking/GenerateBookingConfirmedPdf';
-import { GuestCount } from '@components/guest-count/GuestCount';
+import { GuestCount } from '@components/guests/GuestCount';
 import BackButton from '@components/BackButton';
 import { FlightContext } from 'context/flightContext';
 
@@ -88,6 +88,10 @@ export default function ConfirmPayment() {
 
     return () => clearInterval(interval.current);
   }, []);
+
+  const handleRedoQuery = () => {
+    fetchBookingDetails();
+  };
 
   const { flightNumber, children, bookingId, adults, arrival, infants } =
     getBooking();
@@ -150,7 +154,13 @@ export default function ConfirmPayment() {
       <Stack spacing={16} sx={{ backgroundColor: colors.background }}>
         <TopBarLinks />
 
-        <LoaderLightBox open={open} title="" ctaAction="" onClose={() => {}}>
+        <LoaderLightBox
+          open={open}
+          title=""
+          onHandleClick={handleRedoQuery}
+          ctaAction="TRY AGAIN"
+          onClose={() => {}}
+        >
           <div>
             <h2>Payment is being processed</h2>
             <p>
@@ -327,7 +337,9 @@ export default function ConfirmPayment() {
                           showBorder={false}
                         >
                           <GuestCount
-                            guestList={{ adults, infants, children }}
+                            adults={adults}
+                            children={children}
+                            infants={infants}
                           />
                         </EditableTitle>
                         <Box

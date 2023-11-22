@@ -3,14 +3,10 @@ import { Anchor, Flex, NavLink } from '@collinsonx/design-system/core';
 import usePayload from 'hooks/payload';
 import { useCallback } from 'react';
 import { FAQLink } from 'utils/FAQLinks';
-import { ANALYTICS_TAGS, MOBILE_ACTION_BACK } from '../constants';
-import { loggerAction, sendMobileEvent } from '@lib';
+import { MOBILE_ACTION_BACK } from '../constants';
+import { sendMobileEvent } from '@lib';
 
-interface TopBarLinksProps {
-  page?: string;
-}
-
-function TopBarLinks({ page }: TopBarLinksProps) {
+function TopBarLinks() {
   const { referrerUrl, payload, lounge } = usePayload();
   const handleClickBack = useCallback(() => {
     if (window && !referrerUrl) {
@@ -41,13 +37,6 @@ function TopBarLinks({ page }: TopBarLinksProps) {
           label={`BACK TO ${(lounge?.loungeName || '').toUpperCase()}`}
           icon={<ArrowLeft size="1rem" stroke={1.5} />}
           sx={{ color: '#827127' }}
-          onClick={() =>
-            loggerAction(
-              'backToLounge',
-              `${ANALYTICS_TAGS.ON_HIT_BACK_BUTTON}${page}`,
-              null
-            )
-          }
         />
       </Anchor>
       <Anchor

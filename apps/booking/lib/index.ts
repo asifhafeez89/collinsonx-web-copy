@@ -13,7 +13,6 @@ import {
 } from '@collinsonx/utils/generatedTypes/graphql';
 import { BridgePayload } from 'types/booking';
 import { datadogLogs } from '@datadog/browser-logs';
-import { datadogRum } from '@datadog/browser-rum';
 
 export const getLoungeArrivalTime = (date: Date): string =>
   dayjsTz(date).subtract(LOUNGE_HOURS_OFFSET, 'hours').format('HH:mm');
@@ -138,15 +137,4 @@ export const loggerInfo = (file: string, action: string, data: unknown) => {
       data,
     });
   }
-};
-
-export const loggerAction = async (
-  file: string,
-  action: string,
-  data?: unknown
-) => {
-  await datadogRum.addAction(action, {
-    file: file,
-    data: data,
-  });
 };

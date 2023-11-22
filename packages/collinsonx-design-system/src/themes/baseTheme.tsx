@@ -1,6 +1,6 @@
 import { MantineThemeOverride } from '@mantine/core';
 import { rem } from '@mantine/core';
-import colors from '../colour-constants-baas';
+import colors from '../colour-constants';
 
 type ThemeOptions = {
   fontFamily?: string;

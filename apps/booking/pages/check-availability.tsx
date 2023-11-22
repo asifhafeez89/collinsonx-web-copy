@@ -26,14 +26,19 @@ import EditableTitle from '@collinsonx/design-system/components/editabletitles/E
 import { Availability } from '@collinsonx/utils';
 import {
   AvailableSlots,
-  AvailableSlotsErrorHandling,
-  availableSlotsPopUpIsVisible,
+  hasLoungeCapacity,
+  hasLoungeCapacityDefaultError,
+  availableSlotsNotEnoughCapacityParser,
+  loadDefaultError,
 } from '@components/flightInfo/availability';
-
 import getAvailableSlots from '@collinsonx/utils/queries/getAvailableSlots';
 import { Slots } from '@collinsonx/utils';
-import { TIME_FORMAT, TRAVEL_TYPE } from '../config/Constants';
-import { formatDate, formatTimezone } from '../utils/DateFormatter';
+import {
+  TIME_FORMAT,
+  DATE_TIME_FORMAT,
+  TRAVEL_TYPE,
+} from '../config/Constants';
+import { formatDate, formatDateUTC } from '../utils/DateFormatter';
 import usePayload from 'hooks/payload';
 import { InfoGroup } from '@collinsonx/design-system/components/details';
 import { BookingContext } from 'context/bookingContext';
@@ -45,7 +50,7 @@ import BookingLightbox from '@collinsonx/design-system/components/bookinglightbo
 import Price from '@components/Price';
 import Notification from '@components/Notification';
 import { InfoPanel } from 'utils/PanelInfo';
-import { GuestCount } from '@components/guest-count/GuestCount';
+import { GuestCount } from '@components/guests/GuestCount';
 import { log, sendMobileEvent } from '../lib/index';
 import { FlightContext } from 'context/flightContext';
 import getError from 'utils/getError';
@@ -56,6 +61,32 @@ const { BAD_USER_INPUT } = BookingError;
 
 const availabilityMessagess: Record<string, string> = {
   [BAD_USER_INPUT]: 'Please select your estimated arrival time',
+};
+
+interface AvailableSlotsErrorHandlingProps {
+  error: ApolloError | unknown;
+  airportMismatch: boolean;
+}
+
+const AvailableSlotsErrorHandling: FC<AvailableSlotsErrorHandlingProps> = ({
+  error,
+  airportMismatch,
+}) => {
+  if (airportMismatch) return null;
+
+  const ENOUGH_CAPACITY_ERROR_IS_VALID = hasLoungeCapacity(error);
+
+  if (ENOUGH_CAPACITY_ERROR_IS_VALID) {
+    return availableSlotsNotEnoughCapacityParser(error);
+  }
+
+  const DEFAULT_ERROR = hasLoungeCapacityDefaultError(error);
+
+  if (DEFAULT_ERROR) {
+    return loadDefaultError();
+  }
+
+  return null;
 };
 
 export default function CheckAvailability() {
@@ -96,22 +127,31 @@ export default function CheckAvailability() {
     const availableSlots = slotsData?.getAvailableSlots.slots;
     const slot = findSelectedSlot(availableSlots, selectedslot);
 
-    const departureTime = flightData?.departure?.dateTime?.local as string;
-    const flightTimezone = lounge?.location?.timezone as string;
-    const departureTimeWithTimezone = formatTimezone(
-      departureTime,
-      flightTimezone
-    );
+    const departureTime = flightData?.departure?.dateTime?.utc;
+
+    const localTimeHour = dayjs(flightData?.departure?.dateTime?.local);
+    const utcTimeHour = dayjs(flightData?.departure?.dateTime?.utc);
+    const timeDifference = utcTimeHour.diff(localTimeHour, 'hour');
 
     if (!slot) {
       return setMessage(availabilityMessagess[BAD_USER_INPUT]);
     }
 
-    const startDateWithTimezone = formatTimezone(
-      slot.startDate,
-      flightTimezone
+    const utcStartDate = formatDateUTC(
+      slot?.startDate,
+      DATE_TIME_FORMAT,
+      timeDifference
     );
-    const endDateWithTimezone = formatTimezone(slot.endDate, flightTimezone);
+    const utcEndDate = formatDateUTC(
+      slot?.endDate,
+      DATE_TIME_FORMAT,
+      timeDifference
+    );
+
+    const utcDepartureTime = formatDate(
+      new Date(`${departureTime}`),
+      DATE_TIME_FORMAT
+    );
 
     if (!linkedAccountId) {
       log(`[createBooking error] linkedAccountId == ${linkedAccountId}`);
@@ -120,9 +160,9 @@ export default function CheckAvailability() {
     const bookingInput = {
       ...(linkedAccountId && { actingAccount: linkedAccountId }),
       experience: { id: lounge?.id },
-      bookedFrom: startDateWithTimezone,
-      lastArrival: endDateWithTimezone,
-      bookedTo: departureTimeWithTimezone,
+      bookedFrom: utcStartDate,
+      lastArrival: utcEndDate,
+      bookedTo: utcDepartureTime,
       type: BookingType.ReservationFeeOnly,
       guestAdultCount: adults,
       guestChildrenCount: children,
@@ -187,7 +227,6 @@ export default function CheckAvailability() {
       partnerKey === 'partnerIdTest'
         ? lounge.partnerIdTest
         : lounge.partnerIdProd;
-
     log('NEXT_PUBLIC_SNAPLOGIC_PARTNER_KEY', partnerKey, productID);
 
     fetchSlots({
@@ -385,7 +424,9 @@ export default function CheckAvailability() {
                           showBorder={false}
                         >
                           <GuestCount
-                            guestList={{ adults, infants, children }}
+                            adults={adults}
+                            children={children}
+                            infants={infants}
                           />
                         </EditableTitle>
                         <Box
@@ -524,10 +565,8 @@ export default function CheckAvailability() {
             disabled={
               slotsLoading ||
               cbLoading ||
-              availableSlotsPopUpIsVisible({
-                error: slotsError,
-                airportMismatch: airportMismatch,
-              })
+              hasLoungeCapacity(slotsError) ||
+              hasLoungeCapacityDefaultError(slotsError)
             }
             type="submit"
             data-testid="submit"

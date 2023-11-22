@@ -15,10 +15,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "incremental": true,
-    "jsx": "react-jsx",
-    "paths": {
-      "react": ["./node_modules/@types/react"]
-    }
+    "jsx": "react-jsx"
   },
   "include": ["src"],
   "exclude": ["node_modules", "**/*.stories.tsx"]
