@@ -43,7 +43,7 @@ export default function Outlets() {
           dataOutlets.getOutlets.map(
             ({ name, legacyCode, status, location, tags, content }, index) => (
               <CardOutlet
-                dataTestId={`card-outlet-${index}`}
+                dataTestId={`outlet-card`}
                 key={index}
                 title={name}
                 imageCount={

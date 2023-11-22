@@ -1,8 +1,8 @@
-import { test, expect } from '../baseFixtures';
-import LoginPage from '../pages/LoginPage';
-import TestSetup from '../utils/TestSetup';
-import PartnerPortalDashboardPage from '../pages/PartnerPortalDashboardPage';
-import BookingOverviewPage from '../pages/BookingOverviewPage';
+import { test, expect } from '../../baseFixtures';
+import LoginPage from '../../pages/LoginPage';
+import TestSetup from '../../utils/TestSetup';
+import PartnerPortalDashboardPage from '../../pages/PartnerPortalDashboardPage';
+import BookingOverviewPage from '../../pages/BookingOverviewPage';
 
 test.describe('partner portal dashboard', () => {
   test('super user has access to the catalogue widget', async ({ page }) => {

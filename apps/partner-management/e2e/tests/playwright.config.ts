@@ -48,15 +48,13 @@ module.exports = defineConfig({
     },
     {
       name: 'partner-portal',
-      testDir: './',
+      testDir: './specs/portal',
       // ENV variable is given by the package.json script
       use: {
         ...devices['Desktop Chrome'],
         baseURL: `https://partner-local.${process.env.ENV}.cergea.com:4010`,
         ignoreHTTPSErrors: true,
       },
-      // Only run the accessibility tests
-      testMatch: 'partnerPortalAccess.spec.ts',
     },
     {
       name: 'accessibility-tests',
