@@ -14,7 +14,6 @@ import { formatDate } from 'utils/DateFormatter';
 import { DATE_READABLE_FORMAT } from 'config/Constants';
 import { BookingConfirmedPdfProps } from './BookingConfirmationProps';
 import { getLogo } from './helpers/getLogo';
-import Price from '@components/Price';
 
 Font.register({
   family: 'Open Sans Regular',
@@ -89,17 +88,6 @@ const ListItem = ({ children }: ListItemProps) => (
   </View>
 );
 
-interface GuestCountProps {
-  label: string;
-  count: number;
-}
-
-const GuestCount = ({ label, count }: GuestCountProps) => (
-  <>
-    {label}: <Text style={styles.strong}>{count} </Text>
-  </>
-);
-
 export const BookingConfirmationPDF = (props: BookingConfirmedPdfProps) => {
   const { loungeCode = '', bookingId = '', linkAccountToken = '' } = props;
   const cancelBookingUrl = new URL(window.location.origin);
@@ -161,29 +149,15 @@ export const BookingConfirmationPDF = (props: BookingConfirmedPdfProps) => {
             Who's coming?
           </Text>
           <Text style={[styles.text, styles.padding]}>
-            <GuestCount label={'Adults'} count={props.adults} />
-            {props.children > 0 && (
-              <GuestCount label={'Children'} count={props.children} />
-            )}{' '}
-            {props.infants > 0 && (
-              <GuestCount label={'Infants'} count={props.infants} />
-            )}
+            Adults: <Text style={styles.strong}>{props.adults} </Text>
+            {props.children > 0 &&
+              `Children: ${(
+                <Text style={styles.strong}>props.children</Text>
+              )}`}{' '}
+            {props.infants > 0 &&
+              `Infants: ${(<Text style={styles.strong}>props.infants</Text>)}`}
           </Text>
-          <Text
-            style={[styles.text, styles.h3, styles.marginTop, styles.padding]}
-          >
-            Total
-          </Text>
-          <Text style={[styles.text, styles.padding]}>
-            <Price
-              lounge={props.lounge}
-              guests={{
-                adults: props.adults,
-                infants: props.infants,
-                children: props.children,
-              }}
-            ></Price>
-          </Text>
+
           <Text
             style={[styles.text, styles.h3, styles.marginTop, styles.padding]}
           >

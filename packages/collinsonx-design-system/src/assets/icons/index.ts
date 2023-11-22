@@ -35,5 +35,3 @@ export { default as MaintenanceIcon } from './maintenance-icon.svg';
 export { default as AlertIcon } from './alert.svg';
 export { default as AppleStoreIcon } from './appleStore.svg';
 export { default as GoogleStoreIcon } from './googleStore.svg';
-export { default as OutletLoungeIcon } from './outlet-lounge.svg';
-export { default as StarIcon } from './star.svg';
