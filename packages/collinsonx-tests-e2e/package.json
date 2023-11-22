@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "e2e:dev": "playwright test --headed",
-    "e2e:start": "playwright test",
+    "e2e:dev": "cross-env ENV=TEST playwright test --headed",
+    "e2e:start": "cross-env ENV=TEST playwright test",
     "e2e:report": "playwright show-report",
     "e2e:ci-booking": "cross-env ENV=TEST playwright test --project=booking",
     "e2e:test-booking": "cross-env ENV=TEST playwright test --project=booking --headed",
