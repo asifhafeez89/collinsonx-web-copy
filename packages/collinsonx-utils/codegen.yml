@@ -1,6 +1,6 @@
 ---
 schema:
-  - 'https://gateway-api.uat.cergea.com/graphql'
+  - 'https://gateway-api.test.cergea.com/graphql'
 documents:
   - src/**/*.ts
 generates:
