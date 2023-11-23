@@ -26,32 +26,32 @@ import EditableTitle from '@collinsonx/design-system/components/editabletitles/E
 import { Availability } from '@collinsonx/utils';
 import {
   AvailableSlots,
-  hasLoungeCapacity,
-  hasLoungeCapacityDefaultError,
-  availableSlotsNotEnoughCapacityParser,
-  loadDefaultError,
+  AvailableSlotsErrorHandling,
+  availableSlotsPopUpIsVisible,
 } from '@components/flightInfo/availability';
+
 import getAvailableSlots from '@collinsonx/utils/queries/getAvailableSlots';
 import { Slots } from '@collinsonx/utils';
-import {
-  TIME_FORMAT,
-  DATE_TIME_FORMAT,
-  TRAVEL_TYPE,
-} from '../config/Constants';
-import { formatDate, formatDateUTC } from '../utils/DateFormatter';
+import { TIME_FORMAT, TRAVEL_TYPE } from '../config/Constants';
+import { formatDate, formatTimezone } from '../utils/DateFormatter';
 import usePayload from 'hooks/payload';
 import { InfoGroup } from '@collinsonx/design-system/components/details';
 import { BookingContext } from 'context/bookingContext';
 import dayjs from 'dayjs';
-import { BookingError, MOBILE_ACTION_BACK, constants } from '../constants';
+import {
+  ANALYTICS_TAGS,
+  BookingError,
+  MOBILE_ACTION_BACK,
+  constants,
+} from '../constants';
 import colors from 'ui/colour-constants';
 import TopBarLinks from '@components/TopBarLinks';
 import BookingLightbox from '@collinsonx/design-system/components/bookinglightbox';
 import Price from '@components/Price';
 import Notification from '@components/Notification';
 import { InfoPanel } from 'utils/PanelInfo';
-import { GuestCount } from '@components/guests/GuestCount';
-import { log, sendMobileEvent } from '../lib/index';
+import { GuestCount } from '@components/guest-count/GuestCount';
+import { log, loggerAction, sendMobileEvent } from '../lib/index';
 import { FlightContext } from 'context/flightContext';
 import getError from 'utils/getError';
 import { Clock, Warning } from '@collinsonx/design-system/assets/icons';
@@ -61,32 +61,6 @@ const { BAD_USER_INPUT } = BookingError;
 
 const availabilityMessagess: Record<string, string> = {
   [BAD_USER_INPUT]: 'Please select your estimated arrival time',
-};
-
-interface AvailableSlotsErrorHandlingProps {
-  error: ApolloError | unknown;
-  airportMismatch: boolean;
-}
-
-const AvailableSlotsErrorHandling: FC<AvailableSlotsErrorHandlingProps> = ({
-  error,
-  airportMismatch,
-}) => {
-  if (airportMismatch) return null;
-
-  const ENOUGH_CAPACITY_ERROR_IS_VALID = hasLoungeCapacity(error);
-
-  if (ENOUGH_CAPACITY_ERROR_IS_VALID) {
-    return availableSlotsNotEnoughCapacityParser(error);
-  }
-
-  const DEFAULT_ERROR = hasLoungeCapacityDefaultError(error);
-
-  if (DEFAULT_ERROR) {
-    return loadDefaultError();
-  }
-
-  return null;
 };
 
 export default function CheckAvailability() {
@@ -103,6 +77,7 @@ export default function CheckAvailability() {
 
   const booking = getBooking();
   const flightData = getFlight();
+  const pageName = 'Pick_Slot';
 
   const { flightNumber, children, adults, infants } = booking;
 
@@ -110,6 +85,10 @@ export default function CheckAvailability() {
   setBooking(booking);
 
   const [mutate, { loading: cbLoading }] = useMutation(createBooking);
+
+  useEffect(() => {
+    loggerAction(pageName, ANALYTICS_TAGS.ON_SLOT_PG_ENTER);
+  }, []);
 
   const findSelectedSlot = (slots: Slots[] | undefined, value: string) => {
     const slot = slots?.find((slot) => {
@@ -124,34 +103,27 @@ export default function CheckAvailability() {
   const handleSubmit = () => {
     setMessage('');
 
+    loggerAction(pageName, ANALYTICS_TAGS.ON_SLOT_CONTINUE);
+
     const availableSlots = slotsData?.getAvailableSlots.slots;
     const slot = findSelectedSlot(availableSlots, selectedslot);
 
-    const departureTime = flightData?.departure?.dateTime?.utc;
-
-    const localTimeHour = dayjs(flightData?.departure?.dateTime?.local);
-    const utcTimeHour = dayjs(flightData?.departure?.dateTime?.utc);
-    const timeDifference = utcTimeHour.diff(localTimeHour, 'hour');
+    const departureTime = flightData?.departure?.dateTime?.local as string;
+    const flightTimezone = lounge?.location?.timezone as string;
+    const departureTimeWithTimezone = formatTimezone(
+      departureTime,
+      flightTimezone
+    );
 
     if (!slot) {
       return setMessage(availabilityMessagess[BAD_USER_INPUT]);
     }
 
-    const utcStartDate = formatDateUTC(
-      slot?.startDate,
-      DATE_TIME_FORMAT,
-      timeDifference
+    const startDateWithTimezone = formatTimezone(
+      slot.startDate,
+      flightTimezone
     );
-    const utcEndDate = formatDateUTC(
-      slot?.endDate,
-      DATE_TIME_FORMAT,
-      timeDifference
-    );
-
-    const utcDepartureTime = formatDate(
-      new Date(`${departureTime}`),
-      DATE_TIME_FORMAT
-    );
+    const endDateWithTimezone = formatTimezone(slot.endDate, flightTimezone);
 
     if (!linkedAccountId) {
       log(`[createBooking error] linkedAccountId == ${linkedAccountId}`);
@@ -160,9 +132,9 @@ export default function CheckAvailability() {
     const bookingInput = {
       ...(linkedAccountId && { actingAccount: linkedAccountId }),
       experience: { id: lounge?.id },
-      bookedFrom: utcStartDate,
-      lastArrival: utcEndDate,
-      bookedTo: utcDepartureTime,
+      bookedFrom: startDateWithTimezone,
+      lastArrival: endDateWithTimezone,
+      bookedTo: departureTimeWithTimezone,
       type: BookingType.ReservationFeeOnly,
       guestAdultCount: adults,
       guestChildrenCount: children,
@@ -180,7 +152,7 @@ export default function CheckAvailability() {
       bookingInput.actingAccount
     );
 
-    mutate({ variables: { bookingInput } }).then((response) => {
+    mutate({ variables: { bookingInput } }).then((response: any) => {
       log(
         '[createBooking] createBooking response: ',
         JSON.stringify(response || null)
@@ -227,6 +199,7 @@ export default function CheckAvailability() {
       partnerKey === 'partnerIdTest'
         ? lounge.partnerIdTest
         : lounge.partnerIdProd;
+
     log('NEXT_PUBLIC_SNAPLOGIC_PARTNER_KEY', partnerKey, productID);
 
     fetchSlots({
@@ -263,7 +236,9 @@ export default function CheckAvailability() {
     constants.TIME_FORMAT_DISPLAY
   );
 
-  const handleSelectSlot = (value: string) => {
+  const handleSelectSlot = async (value: string) => {
+    await loggerAction(pageName, ANALYTICS_TAGS.ON_SLOT_CHANGE);
+    console.log(ANALYTICS_TAGS.ON_SLOT_CHANGE);
     setSelectedslot(value);
   };
 
@@ -326,7 +301,7 @@ export default function CheckAvailability() {
         }}
       >
         <Stack sx={{ width: '100%' }}>
-          <TopBarLinks />
+          <TopBarLinks page={pageName} />
         </Stack>
         <Flex
           direction="column"
@@ -424,9 +399,7 @@ export default function CheckAvailability() {
                           showBorder={false}
                         >
                           <GuestCount
-                            adults={adults}
-                            children={children}
-                            infants={infants}
+                            guestList={{ adults, infants, children }}
                           />
                         </EditableTitle>
                         <Box
@@ -565,8 +538,10 @@ export default function CheckAvailability() {
             disabled={
               slotsLoading ||
               cbLoading ||
-              hasLoungeCapacity(slotsError) ||
-              hasLoungeCapacityDefaultError(slotsError)
+              availableSlotsPopUpIsVisible({
+                error: slotsError,
+                airportMismatch: airportMismatch,
+              })
             }
             type="submit"
             data-testid="submit"

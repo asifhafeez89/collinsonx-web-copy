@@ -1,51 +1,32 @@
-import Layout from '@components/Layout';
-import {
-  Title,
-  Text,
-  Grid,
-  Button,
-  Stack,
-  Flex,
-  Box,
-  Skeleton,
-} from '@collinsonx/design-system/core';
-import OverviewCard from '@components/OverviewCard';
-import OverviewMetric from '@components/OverviewMetric';
-import Error from '@components/Error';
-import OverviewSeparator from '@components/OverviewSeparator';
+import LayoutHome from '@components/LayoutHome';
+import { Title, Text, Button, Flex, Box } from '@collinsonx/design-system/core';
+import OverviewCard from '@collinsonx/design-system/components/overviewCard';
+import OverviewMetric from '@collinsonx/design-system/components/overviewMetric';
+import { LogoCollinson } from '@collinsonx/design-system/assets/logo';
 import Link from 'next/link';
 import { useQuery } from '@collinsonx/utils/apollo';
-import getBookingsOverview from '@collinsonx/utils/queries/getBookingsOverview';
-import { Booking, BookingStatus } from '@collinsonx/utils';
-import { useMemo, useState } from 'react';
-import dayjs from 'dayjs';
-import getLoungeTitle from 'lib/getLoungeTitle';
+import { PartnerBrand, Outlet } from '@collinsonx/utils';
+import getPartnerBrands from '@collinsonx/utils/queries/getPartnerBrands';
+import getOutlets from '@collinsonx/utils/queries/getOutlets';
+
+import { useEffect, useState } from 'react';
 import {
   attemptRefreshingSession,
   useSessionContext,
 } from 'supertokens-auth-react/recipe/session';
-import { FourSquares } from '@collinsonx/design-system/assets/icons';
-import { useExperience } from 'hooks/experience';
 import PageTitle from '@components/PageTitle';
-import LoadExperiences from '@components/LoadExperiences';
-
-const { Pending, Confirmed, Declined, Cancelled, CheckedIn } = BookingStatus;
+import { CatalogueIcon } from '@collinsonx/design-system/assets/icons';
 
 export default function Overview() {
   const session: any = useSessionContext();
 
-  const { experience, setExperience } = useExperience();
-
   const [lastUpdate, setLastUpdate] = useState<String>();
 
-  const {
-    loading: loadingPending,
-    error: errorPending,
-    data: dataPending,
-  } = useQuery<{ getBookings: Booking[] }>(getBookingsOverview, {
+  const { loading: loadingOutlets, data: dataOutlets } = useQuery<{
+    getOutlets: Outlet[];
+  }>(getOutlets, {
     variables: {
-      experienceId: experience.id,
-      status: Pending,
+      limit: 3000,
     },
     pollInterval: 300000,
     fetchPolicy: 'network-only',
@@ -58,14 +39,11 @@ export default function Overview() {
     },
   });
 
-  const {
-    loading: loadingConfirmed,
-    error: errorConfirmed,
-    data: dataConfirmed,
-  } = useQuery<{ getBookings: Booking[] }>(getBookingsOverview, {
+  const { loading: loadingPartnerBrands, data: dataPartnerBrands } = useQuery<{
+    getPartnerBrands: PartnerBrand[];
+  }>(getPartnerBrands, {
     variables: {
-      experienceId: experience.id,
-      status: Confirmed,
+      limit: 3000,
     },
     pollInterval: 300000,
     fetchPolicy: 'network-only',
@@ -78,282 +56,59 @@ export default function Overview() {
     },
   });
 
-  const {
-    loading: loadingCheckedIn,
-    error: errorCheckedIn,
-    data: dataCheckedIn,
-  } = useQuery<{ getBookings: Booking[] }>(getBookingsOverview, {
-    variables: {
-      experienceId: experience.id,
-      status: CheckedIn,
-    },
-    pollInterval: 300000,
-    fetchPolicy: 'network-only',
-    notifyOnNetworkStatusChange: true,
-    onCompleted: () => {
-      attemptRefreshingSession().then((success: any) => {});
-      setLastUpdate(
-        new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
-      );
-    },
-  });
-
-  const {
-    loading: loadingDeclined,
-    error: errorDeclined,
-    data: dataDeclined,
-  } = useQuery<{ getBookings: Booking[] }>(getBookingsOverview, {
-    variables: {
-      experienceId: experience.id,
-      status: Declined,
-    },
-    pollInterval: 300000,
-    fetchPolicy: 'network-only',
-    notifyOnNetworkStatusChange: true,
-    onCompleted: () => {
-      attemptRefreshingSession().then((success: any) => {});
-      setLastUpdate(
-        new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
-      );
-    },
-  });
-
-  const {
-    loading: loadingCancelled,
-    error: errorCancelled,
-    data: dataCancelled,
-  } = useQuery<{ getBookings: Booking[] }>(getBookingsOverview, {
-    variables: {
-      experienceId: experience.id,
-      status: Cancelled,
-    },
-    pollInterval: 300000,
-    fetchPolicy: 'network-only',
-    notifyOnNetworkStatusChange: true,
-    onCompleted: () => {
-      attemptRefreshingSession().then((success: any) => {});
-      setLastUpdate(
-        new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
-      );
-    },
-  });
-
-  const bookingsConfirmed =
-    (dataConfirmed?.getBookings.length || 0) +
-    (dataCheckedIn?.getBookings.length || 0);
-
-  const bookingsDeclined =
-    (dataDeclined?.getBookings.length || 0) +
-    (dataCancelled?.getBookings.length || 0);
-
-  const todaysConfirmed = useMemo(() => {
-    if (dataConfirmed && dataCheckedIn) {
-      const allConfirmed = [
-        ...(dataConfirmed.getBookings || []),
-        ...(dataCheckedIn.getBookings || []),
-      ];
-      return allConfirmed.filter(
-        (item) =>
-          dayjs(item.bookedFrom).format('YYYY-MM-DD') ==
-          dayjs(new Date()).format('YYYY-MM-DD')
-      );
-    } else {
-      return [];
+  useEffect(() => {
+    if (window && session.accessTokenPayload.userType !== 'SUPER_USER') {
+      window.location.href = '/booking';
     }
-  }, [dataConfirmed, dataCheckedIn]);
-
-  if (session.accessTokenPayload.userType !== 'SUPER_USER') {
-    if (!experience) {
-      return (
-        <Box py={40} px={32}>
-          Experience could not be found
-        </Box>
-      );
-    }
-  }
+  }, [session]);
 
   return (
     <>
-      <Error error={errorPending} />
-      <Error error={errorConfirmed} />
-      <Error error={errorCheckedIn} />
-      <Error error={errorCancelled} />
-      <Error error={errorDeclined} />
-      <PageTitle title="Booking overview" />
-      <Title mb={8} size={32} data-testid="bookingOverviewTitle">
-        Booking overview
-      </Title>
-      {session.accessTokenPayload.userType !== 'SUPER_USER' && (
-        <Text mb={33} size={18} data-testid="loungeTitle">
-          {getLoungeTitle(experience)}
-        </Text>
-      )}
-      {session.accessTokenPayload.userType === 'SUPER_USER' && (
-        <Stack mb={33} sx={{ width: '300px' }}>
-          {/* TODO: Add a check if the user is a superUser  */}
+      <PageTitle title="Partner Portal" />
 
-          <LoadExperiences
-            onExperienceSelected={(newExperience) => {
-              setExperience(newExperience);
-            }}
-            selectedExperience={experience}
-          />
-        </Stack>
-      )}
-      <Grid>
-        <Grid.Col lg={6}>
-          <Stack spacing={24}>
-            <OverviewCard
-              title="Pending requests"
-              variant="pending"
-              datatestid="pendingRequestsTitle"
+      <OverviewCard
+        title="Catalogue"
+        icon={<CatalogueIcon />}
+        datatestid="catalogueOverviewCard"
+      >
+        <>
+          <Flex gap="xs" maw="27%">
+            <OverviewMetric
+              loading={loadingOutlets}
+              label="Outlets"
+              value={dataOutlets?.getOutlets?.length || 0}
+              datatestid="outletsRequestsCount"
             >
-              <>
-                {!loadingPending && !dataPending?.getBookings.length ? (
-                  'You have no pending requests'
-                ) : (
-                  <Flex gap={72} maw="40%">
-                    <OverviewMetric
-                      loading={loadingPending}
-                      label="Recent pending"
-                      value={dataPending?.getBookings.length || 0}
-                      datatestid="pendingRequestsCount"
-                    >
-                      <Link href="/bookings/pending" passHref>
-                        <Button
-                          variant="default"
-                          sx={{ width: 'fit-content' }}
-                          data-testid="viewAllPendingRequests"
-                        >
-                          View all
-                        </Button>
-                      </Link>
-                    </OverviewMetric>
-                  </Flex>
-                )}
-              </>
-            </OverviewCard>
-            <OverviewCard
-              title="Declined / cancelled bookings"
-              variant="declined"
-              datatestid="cancelledBookingsTitle"
+              <Link href="/outlets" passHref>
+                <Button
+                  variant="default"
+                  sx={{ width: 'fit-content' }}
+                  data-testid="viewAllOutlets"
+                >
+                  View all outlets
+                </Button>
+              </Link>
+            </OverviewMetric>
+            <OverviewMetric
+              loading={loadingPartnerBrands}
+              label="Partners"
+              value={dataPartnerBrands?.getPartnerBrands?.length || 0}
+              datatestid="partnersRequestsCount"
             >
-              {!loadingDeclined && !loadingCancelled && !bookingsDeclined ? (
-                'You have no cancelled bookings'
-              ) : (
-                <Flex gap={72} maw="40%">
-                  <OverviewMetric
-                    loading={loadingDeclined || loadingCancelled}
-                    label="Recent cancelled"
-                    value={bookingsDeclined}
-                    datatestid="declinedBookingsCount"
-                  >
-                    <Link href="/bookings/declined" passHref>
-                      <Button
-                        variant="default"
-                        sx={{ width: 'fit-content' }}
-                        data-testid="viewAllDeclined"
-                      >
-                        View all
-                      </Button>
-                    </Link>
-                  </OverviewMetric>
-                </Flex>
-              )}
-            </OverviewCard>
-          </Stack>
-        </Grid.Col>
-        <Grid.Col lg={6}>
-          <Stack spacing={24}>
-            <OverviewCard
-              title="Confirmed bookings"
-              variant="confirmed"
-              datatestid="confirmedBookingsTitle"
-            >
-              <>
-                {!loadingConfirmed &&
-                !loadingCheckedIn &&
-                !bookingsConfirmed ? (
-                  'You have no confirmed bookings'
-                ) : (
-                  <Flex gap={72}>
-                    <OverviewMetric
-                      loading={loadingConfirmed || loadingCheckedIn}
-                      label="Today's bookings"
-                      value={todaysConfirmed?.length}
-                      datatestid="todaysBookingsCount"
-                    >
-                      <Link
-                        href={{
-                          pathname: '/bookings/confirmed',
-                          query: {
-                            date: dayjs(new Date()).format('YYYY-MM-DD'),
-                          },
-                        }}
-                        passHref
-                      >
-                        <Button
-                          variant="default"
-                          sx={{ width: 'fit-content' }}
-                          data-testid="viewTodaysBookings"
-                        >
-                          Today&apos;s bookings
-                        </Button>
-                      </Link>
-                    </OverviewMetric>
-                    <Flex justify="center">
-                      <OverviewSeparator />
-                    </Flex>
-                    <OverviewMetric
-                      loading={loadingConfirmed || loadingCheckedIn}
-                      label="All bookings"
-                      value={bookingsConfirmed}
-                      datatestid="allBookingsCount"
-                    >
-                      <Link href="/bookings/confirmed" passHref>
-                        <Button
-                          variant="default"
-                          sx={{ width: 'fit-content' }}
-                          data-testid="viewAllConfirmed"
-                        >
-                          View all
-                        </Button>
-                      </Link>
-                    </OverviewMetric>
-                  </Flex>
-                )}
-              </>
-            </OverviewCard>
-            <OverviewCard
-              title="Walk-up QR code"
-              variant="qrcodewalkup"
-              icon={<FourSquares />}
-              datatestid="walkupQRcodeTitle"
-            >
-              <Skeleton visible={false}>
-                <Stack spacing={82}>
-                  <Text color="#9b9ca0" size={16} weight={600}>
-                    Reveal the QR code used for Walk-up customers
-                  </Text>
-                  <Link
-                    href="/qr-code"
-                    passHref
-                    style={{ width: 'fit-content' }}
-                  >
-                    <Button
-                      variant="default"
-                      sx={{ width: 'fit-content' }}
-                      data-testid="viewQRcode"
-                    >
-                      View
-                    </Button>
-                  </Link>
-                </Stack>
-              </Skeleton>
-            </OverviewCard>
-          </Stack>
-        </Grid.Col>
-      </Grid>
+              <Link href="/partners" passHref>
+                <Button
+                  variant="default"
+                  sx={{ width: 'fit-content' }}
+                  data-testid="viewAllPartners"
+                >
+                  View all partners
+                </Button>
+              </Link>
+            </OverviewMetric>
+          </Flex>
+        </>
+      </OverviewCard>
+
       <Text mb={33} mt={33} size={10}>
         {lastUpdate && `Last updated ${lastUpdate}`}
       </Text>
@@ -361,4 +116,19 @@ export default function Overview() {
   );
 }
 
-Overview.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;
+const OverviewHeading = () => (
+  <Flex justify="space-between" align="center" mt={53} mb={53}>
+    <Title mb={8} size={48} data-testid="bookingOverviewTitle">
+      Partner Portal
+    </Title>
+    <Box>
+      <Link href="/" aria-label="Overview">
+        <LogoCollinson />
+      </Link>
+    </Box>
+  </Flex>
+);
+
+Overview.getLayout = (page: JSX.Element) => (
+  <LayoutHome heading={<OverviewHeading />}>{page}</LayoutHome>
+);

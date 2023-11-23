@@ -1,4 +1,5 @@
 import { ButtonStylesParams, MantineThemeOverride } from '@mantine/core';
+import colors from '../colour-constants-partner';
 
 type ThemeOptions = {
   fontFamily?: string;
@@ -17,7 +18,13 @@ const theme = (
   primaryColor: 'brandColor',
   primaryShade: 0,
   defaultRadius: 4,
-  //spacing: { xs: 15, sm: 20, md: 25, lg: 30, xl: 40 },
+  spacing: {
+    xs: '8px',
+    sm: '16px',
+    md: '24px',
+    lg: '32px',
+    xl: '48px',
+  },
   fontFamily,
   globalStyles: ({ colors }) => ({
     body: {
@@ -36,6 +43,11 @@ const theme = (
     // properties for all headings
     fontFamily,
     fontWeight: 600,
+    sizes: {
+      h1: {
+        fontWeight: 300,
+      },
+    },
   },
   components: {
     DatePickerInput: {
@@ -184,9 +196,20 @@ const theme = (
       }),
     },
     Button: {
+      variants: {
+        outline: (theme) => ({
+          root: {
+            color: colors['partner-text-default'],
+            border: `1px solid ${colors['partner-text-default']}`,
+            '&:hover': {
+              backgroundColor: 'transparent',
+            },
+          },
+        }),
+      },
       styles: (theme, params: ButtonStylesParams) => ({
         root: {
-          //borderColor: params.variant === 'default' ? '#25262B' : undefined,
+          borderColor: '#25262B',
           color: params.color === 'red' ? '#cf4545' : undefined,
         },
       }),

@@ -43,6 +43,12 @@ export enum BookingError {
   ERR_CANCELATION_NOT_ALLOWED = 'ERR_CANCELATION_NOT_ALLOWED',
   ERR_SOMETHING_WENT_WRONG = 'ERR_SOMETHING_WENT_WRONG',
   ERR_TOKEN_INVALID_OR_EXPIRED = 'ERR_TOKEN_INVALID_OR_EXPIRED',
+  INTERNAL_SERVER_ERROR = 'INTERNAL_SERVER_ERROR',
+}
+
+export enum ValidationError {
+  ERR_FIELD_MAX_LENGTH = 'ERR_FIELD_MAX_LENGTH',
+  ERR_FIELD_NOT_ALLOWED_CHARS = 'ERR_FIELD_NOT_ALLOWED_CHARS',
 }
 
 export const ValidationErrorResponses = {
@@ -60,4 +66,40 @@ export const ValidationErrorResponses = {
   },
 } as const;
 
+export enum ANALYTICS_TAGS {
+  ON_PAGE_ENTER_EMAIL = 'On_PG_Enter_Email',
+  ON_CONTINUE_CLICK = 'CK_BTN_Continue',
+  ON_CHANGE_EMAIL_ADDRESS = 'CHG_Email_Address',
+  ON_HIT_BACK_BUTTON = 'CK_BTN_Back_',
+  ON_PAGE_ENTER_CONFIRMED = 'On_PG_Bk_Cfnd',
+  ON_PAGE_CONFIRMED_BTN_DOWNLOAD = 'CK_BTN__Bk_Cfnd',
+  ON_PAGE_CONFIRMED_BACK_BTN = 'Ck_BTN_Back_Bk_Cfnd',
+  ON_PAGE_ENTER_CHECKAVAILABILITY = 'On_PG_Chk_Avl',
+  ON_PAGE_CHANGE_FLIGHT = 'CG_Flight_Date_Chk_Avl',
+  ON_CHANGE_DATE = 'CG_Flight_Date_Chk_Avl',
+  ON_CHANGE_DATE_ERROR = 'ERR_Flight_Date_Chk_Avl',
+  ON_CHANGE_FLIGHT_NUMBER = 'CG_Flight_Number_Chk_Avl',
+  ON_CHANGE_FLIGHT_NUMBER_ERROR = 'ERR_Flight_Number_Chk_Avl',
+  ON_CONTINUE_BUTTON_AVI = 'CK_BTN_Chk_Avl',
+  ON_CHANGE_ERROR_ATTENDEES_AVL = 'ERR_Number_Chk_Avl',
+  ON_SLOT_PG_ENTER = 'On_PG_Pick_Slot',
+  ON_SLOT_CHANGE = 'CHG_Time_Slot_Pick_Slot ',
+  ON_SLOT_CONTINUE = 'CK_BTN_Confirm_Pick_Slot',
+  ON_PAYMENT_ENTER = 'On_PG_G_T_Pmt',
+  ON_PAYMENT_CONTINUE = 'CK_BTN_Confirm_G_T_Pmt',
+  ON_PAYMENT_PROCESSED = 'On_PG_Processing_Pmt',
+  ON_CHECK_CODE_ENTER = 'On_PG_Email_Code',
+  ON_CHECK_CODE_CHANGE = 'CG_Email_Code',
+  ON_CHECK_CODE_VERIFY = 'Ck_BTN_Verify_Email_Code',
+  ON_SIGNUP_PAGE_ENTER = 'On_PG_Upd_Dtl',
+  ON_SIGNUP_PAGE_FIRSTNAME_UPDATE = 'CG_First_Name_Upd_Dtl',
+  ON_SIGNUP_PAGE_LASTNAME_UPDATE = 'CG_Last_Name_Upd_Dtl',
+  ON_SIGNUP_PAGE_CONCENT = 'Tick_Consent_Upd_Dtl',
+  ON_SIGNUP_PAGE_CONFIRM = 'CK_BTN_Confirm_Upd_Dtl',
+}
+
 export const PRODUCTION_DOMAIN = 'booking.cergea.com';
+
+export const VALIDATION_RULES = {
+  MAX_LENGTH: 255,
+};

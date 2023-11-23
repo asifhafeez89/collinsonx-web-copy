@@ -14,6 +14,7 @@ exports[`<Heading /> renders heading 1`] = `
   <h2
     style={
       {
+        "lineHeight": undefined,
         "margin": 0,
         "padding": 0,
       }

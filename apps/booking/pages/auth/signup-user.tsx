@@ -11,7 +11,7 @@ import {
 import { useForm } from '@collinsonx/design-system/form';
 import LayoutLogin from '../../components/LayoutLogin';
 import { InputLabel } from '@collinsonx/design-system';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import updateConsumer from '@collinsonx/utils/mutations/updateConsumer';
 import { useMutation } from '@collinsonx/utils/apollo';
 import { ConsumerInput } from '@collinsonx/utils';
@@ -23,7 +23,9 @@ import usePayload from 'hooks/payload';
 import colors from 'ui/colour-constants';
 import TopBarLinks from '@components/TopBarLinks';
 import { BookingQueryParams } from '@collinsonx/constants/enums';
-import { log } from '@lib';
+
+import { log, loggerAction } from '@lib';
+import { ANALYTICS_TAGS, VALIDATION_RULES } from '../../constants';
 
 const { bookingId } = BookingQueryParams;
 
@@ -32,6 +34,11 @@ export default function SignupUser() {
     usePayload();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const pageName = 'Upd_Dtl';
+
+  useEffect(() => {
+    loggerAction(pageName, ANALYTICS_TAGS.ON_SIGNUP_PAGE_ENTER);
+  }, []);
 
   const form = useForm({
     initialValues: {
@@ -44,10 +51,20 @@ export default function SignupUser() {
     validate: {
       email: (value: string) =>
         validateEmail(value) ? null : 'Please enter a valid email address.',
-      firstname: (value: string) =>
-        value?.trim().length > 0 ? null : 'Please enter your name.',
-      lastname: (value: string) =>
-        value?.trim().length > 0 ? null : 'Please enter your last name.',
+      firstname: function (value: string) {
+        if (value.length > VALIDATION_RULES.MAX_LENGTH) {
+          return 'Max length is 255 characters';
+        }
+
+        return value?.trim().length > 0 ? null : "Name can't be empty";
+      },
+      lastname: function (value: string) {
+        if (value.length > VALIDATION_RULES.MAX_LENGTH) {
+          return 'Max length is 255 characters';
+        }
+
+        return value?.trim().length > 0 ? null : "Name can't be empty";
+      },
     },
   });
 
@@ -61,11 +78,21 @@ export default function SignupUser() {
         pathname: '/cancel-booking',
         query: { [bookingId]: router.query[bookingId] },
       });
+      loggerAction(
+        pageName,
+        ANALYTICS_TAGS.ON_SIGNUP_PAGE_CONFIRM,
+        'redirected to cancel'
+      );
     } else {
       log('[SIGN UP]: redirecting to index page');
       router.push({
         pathname: '/',
       });
+      loggerAction(
+        pageName,
+        ANALYTICS_TAGS.ON_SIGNUP_PAGE_CONFIRM,
+        'redirected to /'
+      );
     }
   }, [router]);
 
@@ -84,7 +111,7 @@ export default function SignupUser() {
       )}
       <Stack sx={{ width: '100%' }}>
         <Skeleton visible={!lounge}>
-          <TopBarLinks />
+          <TopBarLinks page={pageName} />
         </Skeleton>
       </Stack>
       <form
@@ -143,6 +170,13 @@ export default function SignupUser() {
                 {...form.getInputProps('firstname')}
                 placeholder="First name"
                 data-testid="firstName"
+                onClick={() =>
+                  loggerAction(
+                    pageName,
+                    ANALYTICS_TAGS.ON_SIGNUP_PAGE_FIRSTNAME_UPDATE
+                  )
+                }
+                maxLength={VALIDATION_RULES.MAX_LENGTH}
               />
             </Stack>
             <Stack spacing={8}>
@@ -158,6 +192,13 @@ export default function SignupUser() {
                 {...form.getInputProps('lastname')}
                 placeholder="Last name"
                 data-testid="lastName"
+                onClick={() =>
+                  loggerAction(
+                    pageName,
+                    ANALYTICS_TAGS.ON_SIGNUP_PAGE_LASTNAME_UPDATE
+                  )
+                }
+                maxLength={VALIDATION_RULES.MAX_LENGTH}
               />
             </Stack>
             <InputLabel
@@ -171,6 +212,9 @@ export default function SignupUser() {
                 type: 'checkbox',
               })}
               data-testid="marketingCheckbox"
+              onClick={() =>
+                loggerAction(pageName, ANALYTICS_TAGS.ON_SIGNUP_PAGE_CONCENT)
+              }
             />
             <Button fullWidth type="submit" data-testid="loginAfterSignUp">
               Login

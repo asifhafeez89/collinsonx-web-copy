@@ -13,6 +13,7 @@ import {
 } from '@collinsonx/utils/generatedTypes/graphql';
 import { BridgePayload } from 'types/booking';
 import { datadogLogs } from '@datadog/browser-logs';
+import { datadogRum } from '@datadog/browser-rum';
 
 export const getLoungeArrivalTime = (date: Date): string =>
   dayjsTz(date).subtract(LOUNGE_HOURS_OFFSET, 'hours').format('HH:mm');
@@ -64,14 +65,29 @@ export const hasRequired = (object: any, requiredKeys: string[]) =>
   String(object.externalId).length >= 1 &&
   (object.accountProvider === PP || object.accountProvider === LK);
 
-export const getItem = (key: string): string | null =>
-  sessionStorage.getItem(`${STORAGE_NAMESPACE}_${key}`);
+export const getItem = (key: string) => {
+  try {
+    return sessionStorage.getItem(`${STORAGE_NAMESPACE}_${key}`);
+  } catch (e) {
+    loggerDataError(e as Error, 'lib/index', 'get session storage', null);
+  }
+};
 
-export const setItem = (key: string, value: string) =>
-  sessionStorage.setItem(`${STORAGE_NAMESPACE}_${key}`, value);
+export const setItem = (key: string, value: string) => {
+  try {
+    return sessionStorage.setItem(`${STORAGE_NAMESPACE}_${key}`, value);
+  } catch (e) {
+    loggerDataError(e as Error, 'lib/index', 'set session storage', null);
+  }
+};
 
-export const removeItem = (key: string) =>
-  sessionStorage.removeItem(`${STORAGE_NAMESPACE}_${key}`);
+export const removeItem = (key: string) => {
+  try {
+    return sessionStorage.removeItem(`${STORAGE_NAMESPACE}_${key}`);
+  } catch (e) {
+    loggerDataError(e as Error, 'lib/index', 'remove session storage', null);
+  }
+};
 
 export const log = (...args: any[]) => {
   const windowObj: any = window;
@@ -137,4 +153,15 @@ export const loggerInfo = (file: string, action: string, data: unknown) => {
       data,
     });
   }
+};
+
+export const loggerAction = async (
+  file: string,
+  action: string,
+  data?: unknown
+) => {
+  await datadogRum.addAction(action, {
+    file: file,
+    data: data,
+  });
 };

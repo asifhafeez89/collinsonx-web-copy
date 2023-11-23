@@ -3,7 +3,6 @@ import {
   Button as MantineButton,
   ButtonProps as MantineBProps,
 } from '@mantine/core';
-import styled from '../../styled';
 
 interface ButtonProps extends MantineBProps {
   handleClick?: () => void;

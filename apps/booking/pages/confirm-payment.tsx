@@ -35,15 +35,16 @@ import { useLazyQuery } from '@collinsonx/utils/apollo';
 import { getBookingByID } from '@collinsonx/utils/queries';
 import { AlertIcon } from '@collinsonx/design-system/assets/icons';
 import TopBarLinks from '@components/TopBarLinks';
-import { MOBILE_ACTION_BACK, POLLING_TIME } from '../constants';
-import { sendMobileEvent } from '@lib';
+import { ANALYTICS_TAGS, MOBILE_ACTION_BACK, POLLING_TIME } from '../constants';
+import { loggerAction, sendMobileEvent } from '@lib';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import Price from '@components/Price';
 import { InfoPanel } from 'utils/PanelInfo';
 import { GenerateBookingConfirmedPdf } from '@components/booking/GenerateBookingConfirmedPdf';
-import { GuestCount } from '@components/guests/GuestCount';
+import { GuestCount } from '@components/guest-count/GuestCount';
 import BackButton from '@components/BackButton';
 import { FlightContext } from 'context/flightContext';
+import EstimatedTimeArrival from '@components/EstimatedTimeArrival';
 
 export default function ConfirmPayment() {
   const router = useRouter();
@@ -60,6 +61,12 @@ export default function ConfirmPayment() {
     jwt,
     payload,
   } = usePayload();
+
+  const pageName = 'BookingConfirmed';
+
+  useEffect(() => {
+    loggerAction(pageName, ANALYTICS_TAGS.ON_PAGE_ENTER_CONFIRMED);
+  }, []);
 
   const handleClickBack: MouseEventHandler<HTMLAnchorElement> = useCallback(
     (e) => {
@@ -88,10 +95,6 @@ export default function ConfirmPayment() {
 
     return () => clearInterval(interval.current);
   }, []);
-
-  const handleRedoQuery = () => {
-    fetchBookingDetails();
-  };
 
   const { flightNumber, children, bookingId, adults, arrival, infants } =
     getBooking();
@@ -157,9 +160,11 @@ export default function ConfirmPayment() {
         <LoaderLightBox
           open={open}
           title=""
-          onHandleClick={handleRedoQuery}
-          ctaAction="TRY AGAIN"
+          ctaAction=""
           onClose={() => {}}
+          logAction={() =>
+            loggerAction(pageName, ANALYTICS_TAGS.ON_PAYMENT_PROCESSED)
+          }
         >
           <div>
             <h2>Payment is being processed</h2>
@@ -284,7 +289,6 @@ export default function ConfirmPayment() {
                       </p>
                     </EditableTitle>
                   </Box>
-
                   {!!lounge && (
                     <Stack
                       sx={{
@@ -338,9 +342,7 @@ export default function ConfirmPayment() {
                           showBorder={false}
                         >
                           <GuestCount
-                            adults={adults}
-                            children={children}
-                            infants={infants}
+                            guestList={{ adults, infants, children }}
                           />
                         </EditableTitle>
                         <Box
@@ -377,16 +379,9 @@ export default function ConfirmPayment() {
                           as="h2"
                           showBorder={true}
                         >
-                          <p style={{ padding: '0', margin: '0' }}>
-                            Timeslots are shown in the time zone of the lounge
-                            location
-                          </p>
-                          <Flex direction="row" gap={5}>
-                            <p style={{ padding: '0', margin: '0' }}>
-                              {' '}
-                              {arrival}
-                            </p>{' '}
-                          </Flex>
+                          {arrival && (
+                            <EstimatedTimeArrival arrival={arrival} />
+                          )}
                         </EditableTitle>
                       </Box>
 
@@ -420,23 +415,30 @@ export default function ConfirmPayment() {
                     direction={'column'}
                     align={'center'}
                   >
-                    <GenerateBookingConfirmedPdf
-                      adults={adults}
-                      arrival={arrival}
-                      children={children}
-                      departureTime={departureTime}
-                      emailAddress={consumerData?.getConsumerByID.emailAddress}
-                      flightNumber={flightNumber}
-                      infants={infants}
-                      lounge={lounge}
-                      reference={dataBooking?.getBookingByID.reference}
-                      bookingId={dataBooking?.getBookingByID.id}
-                      loungeCode={loungeCode}
-                      linkAccountToken={jwt}
-                      accountProvider={payload?.accountProvider}
-                      membershipType={payload?.membershipType}
-                      platform={platform}
-                    />
+                    {platform === 'web' && (
+                      <GenerateBookingConfirmedPdf
+                        adults={adults}
+                        arrival={arrival}
+                        children={children}
+                        departureTime={departureTime}
+                        emailAddress={
+                          consumerData?.getConsumerByID.emailAddress
+                        }
+                        flightNumber={flightNumber}
+                        infants={infants}
+                        lounge={lounge}
+                        reference={dataBooking?.getBookingByID.reference}
+                        bookingId={dataBooking?.getBookingByID.id}
+                        loungeCode={loungeCode}
+                        linkAccountToken={jwt}
+                        accountProvider={payload?.accountProvider}
+                        membershipType={payload?.membershipType}
+                        platform={platform}
+                        analyticsTag={
+                          ANALYTICS_TAGS.ON_PAGE_CONFIRMED_BTN_DOWNLOAD
+                        }
+                      />
+                    )}
                     <Anchor
                       target="_top"
                       href={referrerUrl ? referrerUrl : '#'}
@@ -486,7 +488,13 @@ export default function ConfirmPayment() {
                         confirmed.
                       </Text>
                       <Box sx={{ padding: '1.25rem', textAlign: 'center' }}>
-                        <BackButton>GO TO LOUNGES</BackButton>
+                        <BackButton
+                          analyticsTag={
+                            ANALYTICS_TAGS.ON_PAGE_CONFIRMED_BACK_BTN
+                          }
+                        >
+                          GO TO LOUNGES
+                        </BackButton>
                       </Box>
                     </Box>
                   </Stack>

@@ -1,5 +1,5 @@
 import { Modal, Button, Flex, Box, Loader, Center } from '@mantine/core';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import LoaderLifestyleX from '../loaderLifestyleX';
 
 interface LightboxProps {
@@ -7,18 +7,24 @@ interface LightboxProps {
   title: String;
   open: boolean;
   ctaAction: String;
-  onHandleClick: () => void;
   onClose: () => void;
+  logAction?: () => void;
 }
 
 function LoaderLightbox({
   children,
   title,
   open,
-  onHandleClick,
   ctaAction,
   onClose,
+  logAction,
 }: LightboxProps) {
+  useEffect(() => {
+    if (logAction) {
+      logAction();
+    }
+  }, []);
+
   return (
     <>
       <Modal
@@ -37,24 +43,25 @@ function LoaderLightbox({
           <Center mt={40} mb={40}>
             <LoaderLifestyleX />
           </Center>
-          <Flex
-            justify="center"
-            sx={{ backgroundColor: '#F7F7F7', padding: '20px' }}
-          >
-            <Button
-              onClick={onHandleClick}
-              color="dark"
-              variant="outline"
-              pl={40}
-              pr={40}
-              sx={{
-                borderColor: '#000',
-                color: '#000',
-              }}
+          {ctaAction && ctaAction.length > 0 && (
+            <Flex
+              justify="center"
+              sx={{ backgroundColor: '#F7F7F7', padding: '20px' }}
             >
-              {ctaAction}
-            </Button>
-          </Flex>
+              <Button
+                color="dark"
+                variant="outline"
+                pl={40}
+                pr={40}
+                sx={{
+                  borderColor: '#000',
+                  color: '#000',
+                }}
+              >
+                {ctaAction}
+              </Button>
+            </Flex>
+          )}
         </Box>
       </Modal>
     </>
