@@ -33,12 +33,14 @@ import schema, { SchemaType } from './schema';
 import urls, { isProdUrl } from './urls';
 import secrets from './secrets';
 import { firstNames, lastNames } from './names';
+import { languages } from './languages';
 
 import { randomIntValue } from './helpers';
 import { DEBUG_PREFIX } from './constants';
 
 const {
   loungeCode: lcParam,
+  ln: language,
   jwt: jwtParam,
   referrer: referrerParam,
 } = BookingQueryParams;
@@ -225,6 +227,7 @@ const Content = () => {
   const [flight, setFlight] = useState<string[]>([]);
   const [airportName, setAirportName] = useState<string>('');
   const [error, setError] = useState('');
+  const [ln, setLn] = useState('en');
 
   useEffect(() => {
     if (domain !== 'https://booking.cergea.com') {
@@ -276,7 +279,7 @@ const Content = () => {
     const jwtToken = await signJWT(response, secret);
     setJWT(jwtToken);
 
-    const url = `${domain}?${lcParam}=${lounge}&${jwtParam}=${jwtToken}&${referrerParam}=${referrer}`;
+    const url = `${domain}?ln=${ln}&${lcParam}=${lounge}&${jwtParam}=${jwtToken}&${referrerParam}=${referrer}`;
 
     window.open(url);
   };
@@ -357,6 +360,16 @@ const Content = () => {
             <TextInput
               {...form.getInputProps('email')}
               placeholder="Please add your email"
+            />
+          </Grid.Col>
+        </Grid>
+
+        <Grid>
+          <Grid.Col span={6}>
+            <Select
+              placeholder="Please select a language"
+              data={languages}
+              onChange={(language) => setLn(language ?? 'en')}
             />
           </Grid.Col>
         </Grid>
@@ -462,6 +475,7 @@ const Content = () => {
         checked={debugModeIsActive}
         onChange={(event) => setDebugModeIsActive(event.currentTarget.checked)}
       />
+
       <br />
       {debugModeIsActive && (
         <DebugBox
