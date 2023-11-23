@@ -4759,6 +4759,8 @@ export type GetPartnerBrandsQuery = {
   getPartnerBrands?: Array<{
     __typename?: 'PartnerBrand';
     id: string;
+    name: string;
+    outlets: Array<{ __typename?: 'Outlet'; id: string } | null>;
   } | null> | null;
 };
 
@@ -6723,6 +6725,17 @@ export const GetPartnerBrandsDocument = {
               kind: 'SelectionSet',
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'outlets' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    ],
+                  },
+                },
               ],
             },
           },

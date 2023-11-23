@@ -59,11 +59,9 @@ const StyledText = createPolymorphicComponent<
 
 function FieldIcon({ children, text, textPosition }: FieldIconProps) {
   return (
-    <StyledBox aria-label="Field container" textPosition={textPosition}>
+    <StyledBox textPosition={textPosition}>
       {children}
-      <StyledText aria-label={text} textPosition={textPosition}>
-        {text}
-      </StyledText>
+      <StyledText textPosition={textPosition}>{text}</StyledText>
     </StyledBox>
   );
 }

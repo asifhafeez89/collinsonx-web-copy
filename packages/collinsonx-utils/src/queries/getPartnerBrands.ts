@@ -4,6 +4,10 @@ const getPartnerBrands = gql`
   query GetPartnerBrands($limit: Int) {
     getPartnerBrands(limit: $limit) {
       id
+      name
+      outlets {
+        id
+      }
     }
   }
 `;

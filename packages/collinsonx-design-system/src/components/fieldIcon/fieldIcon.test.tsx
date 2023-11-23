@@ -10,10 +10,6 @@ describe('<FieldIcon />', () => {
     textPosition: 'right',
     children: <Box aria-label="mock-icon" />,
   };
-  it('should render', () => {
-    render(<FieldIcon {...props} />);
-    expect(screen.getByLabelText('Field container')).toBeInTheDocument();
-  });
   it('should render text', () => {
     render(<FieldIcon {...props} />);
     expect(screen.getByText('foobar')).toBeInTheDocument();

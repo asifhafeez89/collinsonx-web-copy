@@ -26,7 +26,7 @@ describe('<CardOutlet />', () => {
   };
   it('should render', () => {
     render(<CardOutlet {...props} />);
-    expect(screen.getByText(props.title)).toBeInTheDocument();
+    expect(screen.getByText(props.title as string)).toBeInTheDocument();
   });
   it('should render footer', () => {
     render(

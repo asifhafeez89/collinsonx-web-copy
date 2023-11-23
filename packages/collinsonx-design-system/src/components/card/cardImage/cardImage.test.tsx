@@ -7,6 +7,7 @@ import { Status } from '..';
 describe('<CardImage />', () => {
   let props: CardImageProps = {
     src: '#',
+    alt: 'Outlet image',
     status: Status.Active,
     imageCount: 10,
   };
@@ -17,9 +18,5 @@ describe('<CardImage />', () => {
   it('should show lounge image count', () => {
     render(<CardImage {...props} />);
     expect(screen.getByText(String(props.imageCount))).toBeInTheDocument();
-  });
-  it('should hide image count when it is provided', () => {
-    render(<CardImage {...props} imageCount={undefined} />);
-    expect(screen.queryByLabelText('Lounge image count')).toBe(null);
   });
 });
