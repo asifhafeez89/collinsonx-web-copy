@@ -207,7 +207,7 @@ test.describe('Initial Redirect to BAAS page', () => {
       const jwt = await signJWT(payload, secret);
 
       // Act
-      const url = `/?linkAccountToken=${jwt}&loungeCode=${lounge}&extra=xyz`;
+      const url = `/?linkAccountToken=${jwt}&loungeCode=${lounge}&extra=xyz&ln=en`;
       await page.goto(url, {
         waitUntil: 'networkidle',
       });
