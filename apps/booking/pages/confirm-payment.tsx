@@ -45,6 +45,7 @@ import { GuestCount } from '@components/guest-count/GuestCount';
 import BackButton from '@components/BackButton';
 import { FlightContext } from 'context/flightContext';
 import EstimatedTimeArrival from '@components/EstimatedTimeArrival';
+import { FlightDetailsAndGuests } from '@components/FlightDetailsAndGuests';
 
 export default function ConfirmPayment() {
   const router = useRouter();
@@ -298,74 +299,13 @@ export default function ConfirmPayment() {
                       }}
                       spacing={8}
                     >
-                      <Box
-                        sx={{
-                          '@media (max-width: 768px)': {
-                            background: colors.white,
-                          },
-                        }}
-                      >
-                        <EditableTitle
-                          as="h2"
-                          title="Flight details"
-                          showBorder={true}
-                        >
-                          {departureTime && (
-                            <Details
-                              infos={
-                                InfoPanel(
-                                  departureTime,
-                                  flightNumber
-                                ) as InfoGroup[]
-                              }
-                              direction="row"
-                            />
-                          )}
-                        </EditableTitle>
-                      </Box>
-                      <Flex
-                        direction={{ base: 'column', lg: 'row' }}
-                        justify={'space-between'}
-                        sx={{
-                          width: '100%',
-                          borderBottom: `1px solid ${colors.borderSection}`,
-
-                          '@media (max-width: 768px)': {
-                            width: '100%',
-                            border: 'none',
-                          },
-                        }}
-                      >
-                        <EditableTitle
-                          title="Who's coming?"
-                          as="h2"
-                          showBorder={false}
-                        >
-                          <GuestCount
-                            guestList={{ adults, infants, children }}
-                          />
-                        </EditableTitle>
-                        <Box
-                          sx={{
-                            width: 'initial',
-
-                            '@media (max-width: 768px)': {
-                              marginTop: '0.5rem',
-                            },
-                          }}
-                        >
-                          <EditableTitle
-                            title="Total price"
-                            as="h2"
-                            showBorder={false}
-                          >
-                            <Price
-                              lounge={lounge}
-                              guests={{ adults, infants, children }}
-                            ></Price>
-                          </EditableTitle>
-                        </Box>
-                      </Flex>
+                      <FlightDetailsAndGuests
+                        departureTime={departureTime ? departureTime : ''}
+                        flightNumber={flightNumber}
+                        guestList={{ adults, infants, children }}
+                        lounge={lounge}
+                        noEdit={true}
+                      />
 
                       <Box
                         sx={{

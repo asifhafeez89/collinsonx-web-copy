@@ -20,6 +20,7 @@ import { FlightContext } from 'context/flightContext';
 import { log, loggerAction } from '@lib';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
 import EstimatedTimeArrival from '@components/EstimatedTimeArrival';
+import { FlightDetailsAndGuests } from '@components/FlightDetailsAndGuests';
 
 export default function ConfirmBooking() {
   const [clientSecret, setClientSecret] = useState('');
@@ -150,62 +151,12 @@ export default function ConfirmBooking() {
                 lounge && (
                   <Box>
                     <Stack spacing={8}>
-                      <EditableTitle title="Flight details" to="/" as="h2">
-                        {departureTime && (
-                          <Details
-                            infos={
-                              InfoPanel(
-                                departureTime,
-                                flightNumber
-                              ) as InfoGroup[]
-                            }
-                            direction="row"
-                          />
-                        )}
-                      </EditableTitle>
-                      <Flex
-                        direction={{ base: 'column', lg: 'row' }}
-                        justify={'space-between'}
-                        sx={{
-                          width: '100%',
-                          borderBottom: `1px solid ${colors.borderSection}`,
-
-                          '@media (max-width: 768px)': {
-                            width: '100%',
-                            border: 'none',
-                          },
-                        }}
-                      >
-                        <EditableTitle
-                          title="Who's coming?"
-                          as="h2"
-                          showBorder={false}
-                        >
-                          <GuestCount
-                            guestList={{ adults, infants, children }}
-                          />
-                        </EditableTitle>
-                        <Box
-                          sx={{
-                            width: 'initial',
-
-                            '@media (max-width: 768px)': {
-                              marginTop: '0.5rem',
-                            },
-                          }}
-                        >
-                          <EditableTitle
-                            title="Total price"
-                            as="h2"
-                            showBorder={false}
-                          >
-                            <Price
-                              lounge={lounge}
-                              guests={{ adults, infants, children }}
-                            ></Price>
-                          </EditableTitle>
-                        </Box>
-                      </Flex>
+                      <FlightDetailsAndGuests
+                        departureTime={departureTime ? departureTime : ''}
+                        flightNumber={flightNumber}
+                        guestList={{ adults, infants, children }}
+                        lounge={lounge}
+                      />
                       <EditableTitle
                         title="Estimated time of arrival"
                         as="h2"
