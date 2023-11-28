@@ -101,7 +101,7 @@ test.describe('Initial Redirect to BAAS page', () => {
       const enterEmailPage = new EnterEmailPage(page);
       const membershipNumber = uuidv4();
       const externalId = uuidv4();
-      const id = uuidv4() + process.env.ENV.toLowerCase();
+      const id = uuidv4() + (process.env.ENV || 'test').toLowerCase();
       const email = `${id}@${mailinatorAddress}`;
       // Arrange
       const payload = {
