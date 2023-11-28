@@ -41,6 +41,7 @@ export default function Partners() {
           dataPartners &&
           dataPartners.getPartnerBrands.map(({ name, outlets }, index) => (
             <Card
+              dataTestId="partner-card"
               key={index}
               status={Status.Active}
               hasImagePadding
@@ -58,13 +59,22 @@ export default function Partners() {
                   >
                     <CardTitle>{name}</CardTitle>
                   </Anchor>
-                  <Text size={16} color={colors['partner-text-grey']}>
+                  <Text
+                    size={16}
+                    color={colors['partner-text-grey']}
+                    data-testid={`outlet-count-${index}`}
+                  >
                     {`${outlets.length} ${
                       outlets.length > 1 ? 'outlets' : 'outlet'
                     }`}
                   </Text>
                 </Stack>
-                <Button aria-hidden="true" variant="outline" tabIndex={-1}>
+                <Button
+                  aria-hidden="true"
+                  variant="outline"
+                  tabIndex={-1}
+                  data-testid={`view-outlets-button-${index}`}
+                >
                   View outlets
                 </Button>
               </Stack>

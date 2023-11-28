@@ -4,17 +4,20 @@ import {
   GetMessageRequest,
 } from 'mailinator-client';
 import axios from 'axios';
-import { apiURL, supertokensURL } from './config';
+import { apiURL } from './config';
 import TestSetup from '../utils/TestSetup';
 import dotenv from 'dotenv';
 dotenv.config({ path: `.env.tests` });
+import Authenticate from './Authenticate';
 
 export default class SignUp {
   /**
    * @param {object} lounge - lounge object created from the TestSetup class. Used to access properties such as experienceId.
    */
   async receiveRegistrationEmail(lounge: TestSetup, email: string) {
-    const authorisationToken = await this.authenticateAsSuperUser();
+    const authenticate = new Authenticate();
+    const superUserAuthToken = await authenticate.asASuperUser();
+
     const mutation = `
         mutation mutation($invitationInput: InvitationInput) {
           createInvitation(invitationInput: $invitationInput) {
@@ -44,7 +47,7 @@ export default class SignUp {
 
     const headers = {
       Accept: 'application/json',
-      Authorization: `Bearer ${authorisationToken}`,
+      Authorization: `Bearer ${superUserAuthToken}`,
       'Content-Type': 'application/json',
     };
 
@@ -124,34 +127,5 @@ export default class SignUp {
     } catch (err) {
       throw err;
     }
-  }
-
-  async authenticateAsSuperUser() {
-    const username = process.env['SUPER_USER_USERNAME_' + process.env.ENV];
-    const password = process.env['SUPER_USER_PASSWORD_' + process.env.ENV];
-
-    const body = {
-      formFields: [
-        {
-          id: 'email',
-          value: username,
-        },
-        {
-          id: 'password',
-          value: password,
-        },
-      ],
-    };
-
-    const response = await axios.post(`${supertokensURL}/signin`, body, {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        rid: 'emailpassword',
-        'st-auth-mode': 'header',
-      },
-    });
-
-    return response.headers['st-access-token'];
   }
 }
