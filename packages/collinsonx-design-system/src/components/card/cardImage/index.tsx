@@ -37,11 +37,9 @@ const Container = styled.div`
 `;
 
 const _ImageCount = styled(Box)`
-  background-color: ${colors['partner-grey-border']};
   border-radius: 8px;
   padding: 4px 8px 4px 8px;
   color: ${colors['partner-text-default']};
-  opacity: 0.7;
   font-size: 16px;
   position: absolute;
   bottom: 8px;
@@ -68,7 +66,11 @@ const CardImage = (props: CardImageProps) => {
       withinPortal
       withArrow
     >
-      <ImageCount>{imageCount}</ImageCount>
+      <ImageCount
+        sx={(theme) => ({ backgroundColor: theme.fn.rgba(colors.white, 0.7) })}
+      >
+        {imageCount}
+      </ImageCount>
     </Tooltip>
   );
   const image = (
