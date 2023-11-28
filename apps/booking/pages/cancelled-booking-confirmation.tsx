@@ -22,6 +22,7 @@ import { GetAccountProviderString } from 'utils/GetAccountProviderString';
 import { guestBooking } from 'utils/guestListFormatter';
 import EstimatedTimeArrival from '@components/EstimatedTimeArrival';
 import { arrivalTimeFormatter } from 'utils/ArrivalTimeFormatter';
+import { FlightDetailsAndGuests } from '@components/FlightDetailsAndGuests';
 
 export default function CancelBooking() {
   const router = useRouter();
@@ -204,53 +205,22 @@ export default function CancelBooking() {
                               </Text>
                             </Box>
                           </Box>
-                          <Box
-                            sx={{
-                              '@media (max-width: 768px)': {
-                                marginTop: '0.5rem',
-                                backgroundColor: colors.white,
-                                padding: '1.2rem',
-                              },
-                            }}
-                          >
-                            <EditableTitle
-                              title="Flight details"
-                              as="h3"
-                              showBorder={false}
-                            >
-                              <Details
-                                infos={
-                                  InfoPanel(
-                                    bookingDetails?.getBookingByID?.bookedTo,
-                                    bookingDetails?.getBookingByID?.metadata
-                                      ?.flightNumber
-                                  ) as InfoGroup[]
-                                }
-                                direction="row"
-                              />
-                            </EditableTitle>
-                          </Box>
-                          <Box
-                            sx={{
-                              '@media (max-width: 768px)': {
-                                marginTop: '0.5rem',
-                                backgroundColor: colors.white,
-                                padding: '1.2rem',
-                              },
-                            }}
-                          >
-                            <EditableTitle
-                              title="Who's coming?"
-                              as="h3"
-                              showBorder={false}
-                            >
-                              <GuestCount
-                                guestList={guestBooking(
-                                  bookingDetails?.getBookingByID
-                                )}
-                              />
-                            </EditableTitle>
-                          </Box>
+                          <FlightDetailsAndGuests
+                            departureTime={
+                              bookingDetails?.getBookingByID?.bookedTo
+                                ? bookingDetails?.getBookingByID?.bookedTo
+                                : ''
+                            }
+                            flightNumber={
+                              bookingDetails?.getBookingByID?.metadata
+                                ?.flightNumber
+                            }
+                            guestList={guestBooking(
+                              bookingDetails?.getBookingByID
+                            )}
+                            lounge={bookingDetails?.getBookingByID?.experience}
+                            noEdit={true}
+                          />
                           <Box
                             sx={{
                               width: 'initial',

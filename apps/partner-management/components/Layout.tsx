@@ -61,9 +61,10 @@ export default function Layout({
       )}
       <main
         style={{
-          padding: hasPadding ? '0 64px' : 'auto',
+          padding: hasPadding ? '24px 64px' : 'auto',
           margin: 0,
-          height: '100%',
+          height: 'auto',
+          minHeight: 'calc(100% - 65px)',
           width: '100%',
           backgroundColor: colors['partner-bg-surface'],
         }}

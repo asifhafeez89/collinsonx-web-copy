@@ -145,7 +145,8 @@ export const loggerDataError = (
 };
 
 export const loggerInfo = (file: string, action: string, data: unknown) => {
-  const datadogenv: string | undefined = process.env.NEXT_PUBLIC_DATADOG_ENV;
+  const datadogenv: string | undefined =
+    process.env.NEXT_PUBLIC_DATADOG_INFOLOGS_SWITCH;
   if ((datadogenv?.length ?? 0) > 0) {
     datadogLogs.logger.info('Frontend Info', {
       file,

@@ -1,4 +1,5 @@
 const colors = {
+  white: '#FFF',
   'partner-text-default': '#202020',
   'partner-text-grey': '#6B6B6B',
   'bg-green': '#E9FAC8',

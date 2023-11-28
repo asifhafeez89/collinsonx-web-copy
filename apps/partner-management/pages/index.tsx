@@ -3,13 +3,13 @@ import { Title, Text, Button, Flex, Box } from '@collinsonx/design-system/core';
 import OverviewCard from '@collinsonx/design-system/components/overviewCard';
 import OverviewMetric from '@collinsonx/design-system/components/overviewMetric';
 import { LogoCollinson } from '@collinsonx/design-system/assets/logo';
-import Link from 'next/link';
 import { useQuery } from '@collinsonx/utils/apollo';
 import { PartnerBrand, Outlet } from '@collinsonx/utils';
 import getPartnerBrands from '@collinsonx/utils/queries/getPartnerBrands';
 import getOutlets from '@collinsonx/utils/queries/getOutlets';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import {
   attemptRefreshingSession,
   useSessionContext,
@@ -79,15 +79,15 @@ export default function Overview() {
               value={dataOutlets?.getOutlets?.length || 0}
               datatestid="outletsRequestsCount"
             >
-              <Link href="/outlets" passHref>
-                <Button
-                  variant="default"
-                  sx={{ width: 'fit-content' }}
-                  data-testid="viewAllOutlets"
-                >
-                  View all outlets
-                </Button>
-              </Link>
+              <Button
+                variant="default"
+                sx={{ width: 'fit-content' }}
+                component={Link}
+                data-testid="viewAllOutlets"
+                href="/outlets"
+              >
+                View all outlets
+              </Button>
             </OverviewMetric>
             <OverviewMetric
               loading={loadingPartnerBrands}
@@ -95,15 +95,15 @@ export default function Overview() {
               value={dataPartnerBrands?.getPartnerBrands?.length || 0}
               datatestid="partnersRequestsCount"
             >
-              <Link href="/partners" passHref>
-                <Button
-                  variant="default"
-                  sx={{ width: 'fit-content' }}
-                  data-testid="viewAllPartners"
-                >
-                  View all partners
-                </Button>
-              </Link>
+              <Button
+                variant="default"
+                sx={{ width: 'fit-content' }}
+                data-testid="viewAllPartners"
+                component={Link}
+                href="/partners"
+              >
+                View all partners
+              </Button>
             </OverviewMetric>
           </Flex>
         </>
@@ -122,9 +122,7 @@ const OverviewHeading = () => (
       Partner Portal
     </Title>
     <Box>
-      <Link href="/" aria-label="Overview">
-        <LogoCollinson />
-      </Link>
+      <LogoCollinson />
     </Box>
   </Flex>
 );

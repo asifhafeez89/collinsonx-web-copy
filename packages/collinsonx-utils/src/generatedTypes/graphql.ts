@@ -2250,6 +2250,8 @@ export type Outlet = {
   __typename?: 'Outlet';
   /** The category of outlet eg AIRPORT, FERRY_STATION, RAILWAY_STATION */
   category: OutletCategory;
+  /** The code of the outlet */
+  code?: Maybe<Scalars['String']['output']>;
   /** The content data from Contentful */
   content?: Maybe<OutletContent>;
   /** Whether the outlet has disabled access */
@@ -2694,6 +2696,8 @@ export type OutletListing = {
   __typename?: 'OutletListing';
   /** The category of outlet eg AIRPORT, FERRY_STATION, RAILWAY_STATION */
   category: OutletCategory;
+  /** The code of the outlet */
+  code?: Maybe<Scalars['String']['output']>;
   /** The content data from Contentful */
   content?: Maybe<OutletContent>;
   /** Whether the outlet has disabled access */
@@ -3601,13 +3605,16 @@ export type Query = {
   getInvitationByID?: Maybe<Invitation>;
   getInvitations: Array<Invitation>;
   getOutletByID?: Maybe<Outlet>;
+  getOutletBySalesforceID?: Maybe<Outlet>;
   getOutlets?: Maybe<Array<Maybe<OutletListing>>>;
   getPartner?: Maybe<Partner>;
   getPartnerBrandByID?: Maybe<PartnerBrand>;
+  getPartnerBrandBySalesforceID?: Maybe<PartnerBrand>;
   getPartnerBrands?: Maybe<Array<Maybe<PartnerBrand>>>;
   getPartnerByEmailAddress?: Maybe<Partner>;
   getPartnerByID?: Maybe<Partner>;
   getProductByID?: Maybe<Product>;
+  getProductBySalesforceID?: Maybe<Product>;
   isInvitationTokenValid?: Maybe<Scalars['Boolean']['output']>;
   locationSummary?: Maybe<LocationSummary>;
   locationSummaryCollection?: Maybe<LocationSummaryCollection>;
@@ -3729,12 +3736,20 @@ export type QueryGetOutletByIdArgs = {
   id: Scalars['ID']['input'];
 };
 
+export type QueryGetOutletBySalesforceIdArgs = {
+  salesforceID: Scalars['String']['input'];
+};
+
 export type QueryGetOutletsArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type QueryGetPartnerBrandByIdArgs = {
   id: Scalars['ID']['input'];
+};
+
+export type QueryGetPartnerBrandBySalesforceIdArgs = {
+  salesforceID: Scalars['String']['input'];
 };
 
 export type QueryGetPartnerBrandsArgs = {
@@ -3751,6 +3766,10 @@ export type QueryGetPartnerByIdArgs = {
 
 export type QueryGetProductByIdArgs = {
   id: Scalars['ID']['input'];
+};
+
+export type QueryGetProductBySalesforceIdArgs = {
+  salesforceID: Scalars['String']['input'];
 };
 
 export type QueryIsInvitationTokenValidArgs = {
@@ -4740,6 +4759,8 @@ export type GetPartnerBrandsQuery = {
   getPartnerBrands?: Array<{
     __typename?: 'PartnerBrand';
     id: string;
+    name: string;
+    outlets: Array<{ __typename?: 'Outlet'; id: string } | null>;
   } | null> | null;
 };
 
@@ -6704,6 +6725,17 @@ export const GetPartnerBrandsDocument = {
               kind: 'SelectionSet',
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'outlets' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    ],
+                  },
+                },
               ],
             },
           },

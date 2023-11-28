@@ -54,7 +54,7 @@ exports[`<Layout /> should render 1`] = `
         </header>
         header
         <main
-          style="padding: 0px 64px; margin: 0px; height: 100%; width: 100%; background-color: rgb(251, 251, 251);"
+          style="padding: 24px 64px; margin: 0px; height: auto; min-height: calc(100% - 65px); width: 100%; background-color: rgb(251, 251, 251);"
         />
       </div>
     </div>
@@ -109,7 +109,7 @@ exports[`<Layout /> should render 1`] = `
       </header>
       header
       <main
-        style="padding: 0px 64px; margin: 0px; height: 100%; width: 100%; background-color: rgb(251, 251, 251);"
+        style="padding: 24px 64px; margin: 0px; height: auto; min-height: calc(100% - 65px); width: 100%; background-color: rgb(251, 251, 251);"
       />
     </div>
   </div>,

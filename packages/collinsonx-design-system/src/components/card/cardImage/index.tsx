@@ -12,6 +12,8 @@ export interface CardImageProps {
   src?: string;
   status: Status;
   imageCount?: number;
+  alt?: string;
+  hasPadding?: boolean;
 }
 
 const Container = styled.div`
@@ -24,18 +26,20 @@ const Container = styled.div`
     `}
     background-color: ${colors['partner-grey-border']};
     position: relative;
-    background-size: 100%;
+    background-size: ${({ hasPadding }: CardImageProps) => `
+      ${hasPadding ? 'cover' : '100%'};
+    `}
+
     background-repeat: no-repeat;
+    background-position: center;
     transition: all 0.3s ease-in-out;
   }
 `;
 
 const _ImageCount = styled(Box)`
-  background-color: ${colors['partner-grey-border']};
   border-radius: 8px;
   padding: 4px 8px 4px 8px;
   color: ${colors['partner-text-default']};
-  opacity: 0.7;
   font-size: 16px;
   position: absolute;
   bottom: 8px;
@@ -52,27 +56,37 @@ const ImageCount: React.FC<BoxProps> = createPolymorphicComponent<
 >(_ImageCount);
 
 const CardImage = (props: CardImageProps) => {
-  const { imageCount } = props;
-  return (
-    <Container
-      role="img"
-      className="outlet-image"
-      aria-label="Outlet image"
-      {...props}
+  const { imageCount, alt, hasPadding } = props;
+  const tooltip = imageCount && (
+    <Tooltip
+      label="Images"
+      position="bottom"
+      arrowPosition="center"
+      arrowSize={6}
+      withinPortal
+      withArrow
     >
-      {imageCount && (
-        <Tooltip
-          label="Images"
-          position="bottom"
-          arrowPosition="center"
-          arrowSize={6}
-          withinPortal
-          withArrow
-        >
-          <ImageCount>{imageCount}</ImageCount>
-        </Tooltip>
-      )}
+      <ImageCount
+        sx={(theme) => ({ backgroundColor: theme.fn.rgba(colors.white, 0.7) })}
+      >
+        {imageCount}
+      </ImageCount>
+    </Tooltip>
+  );
+  const image = (
+    <Container role="img" className="card-image" aria-label={alt} {...props}>
+      {tooltip}
     </Container>
+  );
+  return hasPadding ? (
+    <Box
+      p={24}
+      sx={{ borderBottom: `1px solid ${colors['partner-grey-border']}` }}
+    >
+      {image}
+    </Box>
+  ) : (
+    image
   );
 };
 

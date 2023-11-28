@@ -55,7 +55,7 @@ const documents = {
     types.GetInvitationByIdDocument,
   '\n  query GetOutlets($limit: Int) {\n    getOutlets(limit: $limit) {\n      category\n      id\n      name\n      legacyCode\n      status\n      location {\n        name\n        terminal\n      }\n      tags\n      content {\n        media {\n          mainPicture {\n            url\n          }\n          mediaCollection {\n            items {\n              contentType\n            }\n          }\n        }\n      }\n    }\n  }\n':
     types.GetOutletsDocument,
-  '\n  query GetPartnerBrands($limit: Int) {\n    getPartnerBrands(limit: $limit) {\n      id\n    }\n  }\n':
+  '\n  query GetPartnerBrands($limit: Int) {\n    getPartnerBrands(limit: $limit) {\n      id\n      name\n      outlets {\n        id\n      }\n    }\n  }\n':
     types.GetPartnerBrandsDocument,
   '\n  query GetPartnerByID($getPartnerById: ID!) {\n    getPartnerByID(id: $getPartnerById) {\n      experiences {\n        id\n        loungeName\n        location {\n          airportName\n          terminal\n        }\n      }\n      id\n      lastName\n      updatedAt\n      firstName\n      fullName\n      createdAt\n      emailAddress\n    }\n  }\n':
     types.GetPartnerByIdDocument,
@@ -209,8 +209,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  query GetPartnerBrands($limit: Int) {\n    getPartnerBrands(limit: $limit) {\n      id\n    }\n  }\n'
-): (typeof documents)['\n  query GetPartnerBrands($limit: Int) {\n    getPartnerBrands(limit: $limit) {\n      id\n    }\n  }\n'];
+  source: '\n  query GetPartnerBrands($limit: Int) {\n    getPartnerBrands(limit: $limit) {\n      id\n      name\n      outlets {\n        id\n      }\n    }\n  }\n'
+): (typeof documents)['\n  query GetPartnerBrands($limit: Int) {\n    getPartnerBrands(limit: $limit) {\n      id\n      name\n      outlets {\n        id\n      }\n    }\n  }\n'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

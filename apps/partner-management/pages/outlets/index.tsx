@@ -17,6 +17,7 @@ import Error from '@components/Error';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import outletIcons from '../../config/outletIcons';
+import CardTitle from '@collinsonx/design-system/components/card/cardTitle';
 
 export default function Outlets() {
   const router = useRouter();
@@ -29,7 +30,7 @@ export default function Outlets() {
   });
 
   return (
-    <Stack spacing={32} pb={24}>
+    <Stack spacing={32}>
       <Title>Outlets</Title>
       <Error error={errorOutlets} />
       <SimpleGrid
@@ -43,9 +44,8 @@ export default function Outlets() {
           dataOutlets.getOutlets.map(
             ({ name, legacyCode, status, location, tags, content }, index) => (
               <CardOutlet
-                dataTestId={`outlet-card`}
+                dataTestId="outlet-card"
                 key={index}
-                title={name}
                 imageCount={
                   content?.media?.mediaCollection?.items.filter((item) =>
                     item?.contentType?.includes('image/')
@@ -55,16 +55,16 @@ export default function Outlets() {
                 onClick={() => {
                   router.push('#');
                 }}
-                TitleRenderer={({ children }) => (
+                title={
                   <Anchor
                     sx={{ textDecoration: 'none' }}
                     underline={false}
                     component={Link}
                     href="#"
                   >
-                    {children}
+                    <CardTitle>{name}</CardTitle>
                   </Anchor>
-                )}
+                }
                 workflowStage={{ type: 'draft', label: 'Draft' }}
                 legacyCode={legacyCode ?? undefined}
                 locationName={location.name ?? undefined}
@@ -75,7 +75,9 @@ export default function Outlets() {
                         const Icon = outletIcons[tag!] ?? OutletLoungeIcon;
                         return {
                           label: tag!,
-                          IconComponent: <Icon width={24} height={24} />,
+                          IconComponent: (
+                            <Icon width={24} height={24} aria-hidden={true} />
+                          ),
                         };
                       })
                     : []
@@ -87,6 +89,7 @@ export default function Outlets() {
                 <Button
                   aria-hidden="true"
                   variant="outline"
+                  tabIndex={-1}
                   data-testid={`view-details-button-${index}`}
                 >
                   View details

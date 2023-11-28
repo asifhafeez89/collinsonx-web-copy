@@ -4,7 +4,7 @@ export default {
       email: {
         title: 'Ingresa tu dirección de correo electrónico',
         input: {
-          lable: 'Ingresa tu dirección de correo electrónico',
+          label: 'Ingresa tu dirección de correo electrónico',
           description:
             'Proporcione una dirección de correo electrónico que utilizaremos para comunicarnos con usted, incluida toda la información de la reserva.',
           placeholder: 'youremail@gmail.com',
@@ -44,7 +44,7 @@ export default {
         label: 'Nombre(s)',
         placeholder: 'John',
       },
-      lastName: {
+      lastNameInput: {
         label: 'Apellido(s)',
         placeholder: 'Smith',
       },

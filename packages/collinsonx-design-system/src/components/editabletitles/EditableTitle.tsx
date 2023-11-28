@@ -27,13 +27,11 @@ export default function EditableTitle({
         borderBottom: showBorder
           ? `1px solid ${colors.borderSection}`
           : 'initial',
-        paddingBottom: '20px',
 
         '@media (max-width: 768px)': {
           backgroundColor: '#fff',
           width: '100%',
           borderBottom: 'initial',
-          paddingBottom: '2rem',
         },
       }}
     >

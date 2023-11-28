@@ -42,6 +42,7 @@ import {
   apiAccountProviderMap,
   REFERRER,
   PLATFORM,
+  LANGUAGE,
 } from '../constants';
 import { Consumer } from 'types/consumer';
 
@@ -50,6 +51,7 @@ const {
   jwt: jwtParam,
   referrer: referrerParam,
   platform: platformParam,
+  ln: ln,
 } = BookingQueryParams;
 
 type PayloadState = {
@@ -162,6 +164,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       const queryLoungeCode = router.query[lcParam] as string;
       const queryReferrer = router.query[referrerParam] as string;
       const queryPlatform = router.query[platformParam] as string;
+      const queryLanguage = router.query[ln] as string;
 
       const storageJWT = getItem(JWT);
       const storageLoungeCode = getItem(LOUNGE_CODE);
@@ -171,6 +174,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
 
       let jwt: string = '';
       let loungeCode: string = '';
+      let language: string = '';
       let referrer: string = '';
       let platform: string = 'web';
 
@@ -181,11 +185,13 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         loungeCode = queryLoungeCode;
         referrer = queryReferrer || '';
         platform = queryPlatform || 'web';
+        language = queryLanguage || 'en';
       } else if (hasStoredData) {
         jwt = getItem(JWT)!;
         loungeCode = getItem(LOUNGE_CODE)!;
         referrer = getItem(REFERRER) || '';
         platform = getItem(PLATFORM) || 'web';
+        language = getItem(LANGUAGE) || 'en';
         log(`Retrieved ${jwtParam} and ${lcParam} from storage`);
         log('referrer:', referrer);
         log('platform:', platform);
@@ -211,6 +217,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       }
 
       setItem(LOUNGE_CODE, loungeCode);
+      setItem(LANGUAGE, language);
       setItem(JWT, jwt);
       setItem(REFERRER, referrer);
       setItem(PLATFORM, platform);

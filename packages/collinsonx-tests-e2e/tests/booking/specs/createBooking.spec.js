@@ -23,6 +23,7 @@ async function loginAsExistingUser(page, id, membershipNumber, externalId) {
     lastName: 'Smith',
     membershipType: 'MASTERCARD_HSBC',
     accountProvider: 'PRIORITY_PASS',
+    language: 'en',
   };
   const jwt = await signJWT(payload, secret);
   const lounge = 'MAN6';
