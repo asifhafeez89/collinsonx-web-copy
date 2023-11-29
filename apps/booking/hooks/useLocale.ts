@@ -5,8 +5,8 @@ import es from 'locales/es';
 import { LangObj } from 'types/language';
 
 const useLocale = () => {
-  const router = useRouter();
-  const { locale } = router;
+  const locale = window ? sessionStorage.PREBOOKING_LANGUAGE : 'en';
+
   const t: LangObj = locale === 'en' ? en : es;
 
   return t;

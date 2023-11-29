@@ -2,7 +2,7 @@ export default {
   auth: {
     login: {
       email: {
-        title: 'Enter your email address',
+        title: 'Enter your email',
         input: {
           label: 'Enter your email address',
           description:
@@ -21,18 +21,18 @@ export default {
     },
     checkCode: {
       title: 'Check your email',
-      description: (email: string) => `We have sent a unique code to ${email}`,
+      description: 'We have sent a unique code to ',
       wrongEmailTitle: 'Wrong email?',
       reEnterEmailLabel: 'Re-enter your email address',
       passcodeSubtitle: 'One time passcode',
-      uniqueCodeText: 'You can resend the unique code in 4 seconds',
+      uniqueCodeText: (count: number) =>
+        `You can resend the unique code in ${count} seconds`,
       btn: {
         resend: 'Resend',
         verify: 'Verify',
       },
       error: {
-        wrongCode:
-          'Perhaps a code is invalid or has expired. Please try again.',
+        wrongCode: 'Passcode may be incorrect or expired. Please try again.',
       },
     },
     signUp: {
