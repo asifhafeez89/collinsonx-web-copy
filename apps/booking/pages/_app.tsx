@@ -45,6 +45,7 @@ if ((datadogenv?.length ?? 0) > 0) {
     service: process.env.NEXT_PUBLIC_DATADOG_SERVICE ?? '',
     forwardErrorsToLogs: true,
     sessionSampleRate: 100,
+    env: process.env.NEXT_PUBLIC_DATADOG_ENV ?? '',
   });
 
   datadogRum.init({
