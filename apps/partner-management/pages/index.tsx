@@ -5,8 +5,8 @@ import OverviewMetric from '@collinsonx/design-system/components/overviewMetric'
 import { LogoCollinson } from '@collinsonx/design-system/assets/logo';
 import { useQuery } from '@collinsonx/utils/apollo';
 import { PartnerBrand, Outlet } from '@collinsonx/utils';
-import getPartnerBrands from '@collinsonx/utils/queries/getPartnerBrands';
-import getOutlets from '@collinsonx/utils/queries/getOutlets';
+import getOutletsCount from '@collinsonx/utils/queries/getOutletsCount';
+import getPartnerBrandsCount from '@collinsonx/utils/queries/getPartnerBrandsCount';
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -24,7 +24,7 @@ export default function Overview() {
 
   const { loading: loadingOutlets, data: dataOutlets } = useQuery<{
     getOutlets: Outlet[];
-  }>(getOutlets, {
+  }>(getOutletsCount, {
     variables: {
       limit: 3000,
     },
@@ -41,7 +41,7 @@ export default function Overview() {
 
   const { loading: loadingPartnerBrands, data: dataPartnerBrands } = useQuery<{
     getPartnerBrands: PartnerBrand[];
-  }>(getPartnerBrands, {
+  }>(getPartnerBrandsCount, {
     variables: {
       limit: 3000,
     },
