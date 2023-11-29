@@ -51,7 +51,7 @@ export default function Outlets() {
                     item?.contentType?.includes('image/')
                   ).length
                 }
-                imageUrl={content?.media?.mainPicture?.url ?? undefined}
+                imageUrl={content?.media?.mainImage?.url ?? undefined}
                 onClick={() => {
                   router.push('#');
                 }}

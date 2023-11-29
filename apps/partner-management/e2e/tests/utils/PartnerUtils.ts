@@ -5,10 +5,11 @@ import {
   GetMessageRequest,
 } from 'mailinator-client';
 import axios from 'axios';
-import { apiURL, supertokensURL } from './config';
-import { Request, APIRequestContext } from '@playwright/test';
+import { apiURL } from './config';
+import { APIRequestContext } from '@playwright/test';
 import dotenv from 'dotenv';
 dotenv.config({ path: `.env.tests` });
+import Authenticate from './Authenticate';
 
 class PartnerUtils {
   private request: APIRequestContext;
@@ -39,7 +40,8 @@ class PartnerUtils {
   }
 
   async receiveRegistrationEmail() {
-    const authorisationToken = await this.authenticateAsSuperUser();
+    const authenticate = new Authenticate();
+    const superUserAuthToken = await authenticate.asASuperUser();
     const mutation = `
         mutation mutation($invitationInput: InvitationInput) {
           createInvitation(invitationInput: $invitationInput) {
@@ -69,7 +71,7 @@ class PartnerUtils {
 
     const headers = {
       Accept: 'application/json',
-      Authorization: `Bearer ${authorisationToken}`,
+      Authorization: `Bearer ${superUserAuthToken}`,
       'Content-Type': 'application/json',
     };
 
@@ -82,35 +84,6 @@ class PartnerUtils {
         'The createInvitation response object is null. The registration email was unable to be sent out. The method of authorisation, or the credentials themselves, may be incorrect.'
       );
     }
-  }
-
-  async authenticateAsSuperUser() {
-    const username = process.env['SUPER_USER_USERNAME_' + process.env.ENV];
-    const password = process.env['SUPER_USER_PASSWORD_' + process.env.ENV];
-
-    const body = {
-      formFields: [
-        {
-          id: 'email',
-          value: username,
-        },
-        {
-          id: 'password',
-          value: password,
-        },
-      ],
-    };
-
-    const response = await axios.post(`${supertokensURL}/signin`, body, {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        rid: 'emailpassword',
-        'st-auth-mode': 'header',
-      },
-    });
-
-    return response.headers['st-access-token'];
   }
 
   async getInvitationToken() {
@@ -185,7 +158,8 @@ class PartnerUtils {
    * @param {string} invitationToken - Token retrieved from the registration Email as a form of authentication.
    */
   async registerAsANewPartner(invitationToken: string) {
-    const authorisationToken = await this.authenticateAsSuperUser();
+    const authenticate = new Authenticate();
+    const superUserAuthToken = await authenticate.asASuperUser();
 
     const query = `mutation Mutation($acceptInvitationInput: AcceptInvitationInput!) {
       acceptInvitation(acceptInvitationInput: $acceptInvitationInput) {
@@ -215,7 +189,7 @@ class PartnerUtils {
 
     const headers = {
       Accept: 'application/json',
-      Authorization: `Bearer ${authorisationToken}`,
+      Authorization: `Bearer ${superUserAuthToken}`,
       'Content-Type': 'application/json',
     };
 

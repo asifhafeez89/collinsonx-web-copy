@@ -25,6 +25,12 @@ class ConfirmBookingPage {
       return elements.find((element) => element.textContent.trim() === text);
     }, loungeTimeString);
   }
+
+  async clickSubmit() {
+    const submitButtonSelector = 'button[type="submit"]';
+    const submitButton = await this.page.$(submitButtonSelector);
+    await submitButton.click();
+  }
 }
 
 module.exports = ConfirmBookingPage;

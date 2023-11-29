@@ -15,7 +15,7 @@ const getOutlets = gql`
       tags
       content {
         media {
-          mainPicture {
+          mainImage {
             url
           }
           mediaCollection {

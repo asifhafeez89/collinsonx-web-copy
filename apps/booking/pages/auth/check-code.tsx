@@ -39,6 +39,7 @@ import {
   loggerDataError,
 } from '../../lib/index';
 import { datadogLogs } from '@datadog/browser-logs';
+import useLocale from 'hooks/useLocale';
 
 const { ERR_MEMBERSHIP_ALREADY_CONNECTED, ERR_TOKEN_INVALID_OR_EXPIRED } =
   BookingError;
@@ -76,6 +77,8 @@ export default function CheckEmail() {
   const pageName = 'Email_Code';
 
   const [fetchConsumer] = useLazyQuery(getConsumerByID);
+
+  const translations = useLocale();
 
   useEffect(() => {
     loggerAction(pageName, ANALYTICS_TAGS.ON_CHECK_CODE_ENTER);
@@ -292,10 +295,10 @@ export default function CheckEmail() {
                   },
                 }}
               >
-                <Title size="26">Check your email</Title>
+                <Title size="26">{translations.auth.checkCode.title}</Title>
                 <ErrorComponent error={errorLinkAccount} />
                 <Text size="18px" align="center">
-                  We have sent a unique code to
+                  {translations.auth.checkCode.description}
                   <Text weight={700}>
                     {email.length < 30
                       ? email
@@ -304,7 +307,7 @@ export default function CheckEmail() {
                 </Text>
                 <Box sx={{ textAlign: 'center' }}>
                   <Text align="center" size={16}>
-                    Wrong email?
+                    {translations.auth.checkCode.wrongEmailTitle}
                   </Text>
                   <Anchor
                     fw={700}
@@ -315,7 +318,7 @@ export default function CheckEmail() {
                     }}
                     onClick={handleClickReenter}
                   >
-                    Re-enter your email address
+                    {translations.auth.checkCode.reEnterEmailLabel}
                   </Anchor>
                 </Box>
                 <Box
@@ -327,7 +330,7 @@ export default function CheckEmail() {
                 />
                 <Box>
                   <Text fw={700} size={12}>
-                    One time passcode
+                    {translations.auth.checkCode.passcodeSubtitle}
                   </Text>
                   <PinInput
                     onChange={handleChange}
@@ -352,9 +355,7 @@ export default function CheckEmail() {
                       align="center"
                       size={16}
                     >
-                      Passcode may be incorrect or expired.
-                      <br />
-                      Please try again.
+                      {translations.auth.checkCode.error.wrongCode}
                     </Text>
                   )}
                   <Flex
@@ -387,7 +388,7 @@ export default function CheckEmail() {
                         },
                       }}
                     >
-                      RESEND
+                      {translations.auth.checkCode.btn.resend}
                     </Button>
                     <Button
                       fullWidth
@@ -396,13 +397,13 @@ export default function CheckEmail() {
                       data-testid="verify"
                       disabled={checkingCode}
                     >
-                      VERIFY
+                      {translations.auth.checkCode.btn.verify}
                     </Button>
                   </Flex>
                 </Box>
                 {count > 0 && (
                   <Text size={14} fw={400} pb={10}>
-                    You can resend the unique code in {count} seconds
+                    {translations.auth.checkCode.uniqueCodeText(count)}
                   </Text>
                 )}
               </Stack>

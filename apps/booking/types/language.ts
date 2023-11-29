@@ -19,11 +19,11 @@ type AuthLang = {
   };
   checkCode: {
     title: string;
-    description: (emailR: string) => string;
+    description: string;
     wrongEmailTitle: string;
     reEnterEmailLabel: string;
     passcodeSubtitle: string;
-    uniqueCodeText: string;
+    uniqueCodeText: (count: number) => string;
     btn: {
       resend: string;
       verify: string;

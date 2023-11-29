@@ -2,7 +2,7 @@ export default {
   auth: {
     login: {
       email: {
-        title: 'Ingresa tu dirección de correo electrónico',
+        title: 'Introduce tu correo electrónico',
         input: {
           label: 'Ingresa tu dirección de correo electrónico',
           description:
@@ -22,19 +22,19 @@ export default {
     },
     checkCode: {
       title: 'Revisa tu correo electrónico',
-      description: (email: string) =>
-        `Hemos enviado un código único a ${email}`,
+      description: 'Hemos enviado un código único a ',
       wrongEmailTitle: '¿Correo electrónico incorrecto',
       reEnterEmailLabel: 'Vuelva a ingresar su dirección de correo electrónico',
       passcodeSubtitle: 'Código de acceso de un solo uso',
-      uniqueCodeText: 'Puede volver a enviar el código único en 4 segundos',
+      uniqueCodeText: (count: number) =>
+        `Puede volver a enviar el código único en ${count} segundos`,
       btn: {
         resend: 'Reenviar',
         verify: 'Verificar',
       },
       error: {
         wrongCode:
-          'Es posible que un código no sea válido o haya caducado. Por favor, inténtelo de nuevo.',
+          'El código de acceso puede ser incorrecto o caducado. Por favor, inténtelo de nuevo.',
       },
     },
     signUp: {

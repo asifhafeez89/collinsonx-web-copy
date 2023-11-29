@@ -210,6 +210,7 @@ export type AssetLinkingCollections = {
   outletContentDuplicateCollection?: Maybe<OutletContentDuplicateCollection>;
   outletForContentfulCollection?: Maybe<OutletForContentfulCollection>;
   outletModelCollection?: Maybe<OutletModelCollection>;
+  partnerBrandContentCollection?: Maybe<PartnerBrandContentCollection>;
 };
 
 export type AssetLinkingCollectionsEntryCollectionArgs = {
@@ -241,6 +242,13 @@ export type AssetLinkingCollectionsOutletForContentfulCollectionArgs = {
 };
 
 export type AssetLinkingCollectionsOutletModelCollectionArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  locale?: InputMaybe<Scalars['String']['input']>;
+  preview?: InputMaybe<Scalars['Boolean']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type AssetLinkingCollectionsPartnerBrandContentCollectionArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   locale?: InputMaybe<Scalars['String']['input']>;
   preview?: InputMaybe<Scalars['Boolean']['input']>;
@@ -521,12 +529,10 @@ export type ConditionsLinkingCollectionsOutletContentCollectionArgs = {
 };
 
 export enum ConditionsLinkingCollectionsOutletContentCollectionOrder {
-  CodeAsc = 'code_ASC',
-  CodeDesc = 'code_DESC',
+  LegacyCodeAsc = 'legacyCode_ASC',
+  LegacyCodeDesc = 'legacyCode_DESC',
   NameAsc = 'name_ASC',
   NameDesc = 'name_DESC',
-  PartnerLogoAsc = 'partnerLogo_ASC',
-  PartnerLogoDesc = 'partnerLogo_DESC',
   SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
   SysFirstPublishedAtDesc = 'sys_firstPublishedAt_DESC',
   SysIdAsc = 'sys_id_ASC',
@@ -1071,12 +1077,10 @@ export type FacilitiesLinkingCollectionsOutletContentCollectionArgs = {
 };
 
 export enum FacilitiesLinkingCollectionsOutletContentCollectionOrder {
-  CodeAsc = 'code_ASC',
-  CodeDesc = 'code_DESC',
+  LegacyCodeAsc = 'legacyCode_ASC',
+  LegacyCodeDesc = 'legacyCode_DESC',
   NameAsc = 'name_ASC',
   NameDesc = 'name_DESC',
-  PartnerLogoAsc = 'partnerLogo_ASC',
-  PartnerLogoDesc = 'partnerLogo_DESC',
   SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
   SysFirstPublishedAtDesc = 'sys_firstPublishedAt_DESC',
   SysIdAsc = 'sys_id_ASC',
@@ -1744,12 +1748,10 @@ export type LocationSummaryLinkingCollectionsOutletContentCollectionArgs = {
 };
 
 export enum LocationSummaryLinkingCollectionsOutletContentCollectionOrder {
-  CodeAsc = 'code_ASC',
-  CodeDesc = 'code_DESC',
+  LegacyCodeAsc = 'legacyCode_ASC',
+  LegacyCodeDesc = 'legacyCode_DESC',
   NameAsc = 'name_ASC',
   NameDesc = 'name_DESC',
-  PartnerLogoAsc = 'partnerLogo_ASC',
-  PartnerLogoDesc = 'partnerLogo_DESC',
   SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
   SysFirstPublishedAtDesc = 'sys_firstPublishedAt_DESC',
   SysIdAsc = 'sys_id_ASC',
@@ -1782,7 +1784,7 @@ export type Media = Entry & {
   __typename?: 'Media';
   contentfulMetadata: ContentfulMetadata;
   linkedFrom?: Maybe<MediaLinkingCollections>;
-  mainPicture?: Maybe<Asset>;
+  mainImage?: Maybe<Asset>;
   mediaCollection?: Maybe<AssetCollection>;
   sys: Sys;
 };
@@ -1793,7 +1795,7 @@ export type MediaLinkedFromArgs = {
 };
 
 /** [See type definition](https://app.contentful.com/spaces/687qsr16btly/content_types/media) */
-export type MediaMainPictureArgs = {
+export type MediaMainImageArgs = {
   locale?: InputMaybe<Scalars['String']['input']>;
   preview?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -1818,7 +1820,7 @@ export type MediaFilter = {
   AND?: InputMaybe<Array<InputMaybe<MediaFilter>>>;
   OR?: InputMaybe<Array<InputMaybe<MediaFilter>>>;
   contentfulMetadata?: InputMaybe<ContentfulMetadataFilter>;
-  mainPicture_exists?: InputMaybe<Scalars['Boolean']['input']>;
+  mainImage_exists?: InputMaybe<Scalars['Boolean']['input']>;
   mediaCollection_exists?: InputMaybe<Scalars['Boolean']['input']>;
   sys?: InputMaybe<SysFilter>;
 };
@@ -1847,12 +1849,10 @@ export type MediaLinkingCollectionsOutletContentCollectionArgs = {
 };
 
 export enum MediaLinkingCollectionsOutletContentCollectionOrder {
-  CodeAsc = 'code_ASC',
-  CodeDesc = 'code_DESC',
+  LegacyCodeAsc = 'legacyCode_ASC',
+  LegacyCodeDesc = 'legacyCode_DESC',
   NameAsc = 'name_ASC',
   NameDesc = 'name_DESC',
-  PartnerLogoAsc = 'partnerLogo_ASC',
-  PartnerLogoDesc = 'partnerLogo_DESC',
   SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
   SysFirstPublishedAtDesc = 'sys_firstPublishedAt_DESC',
   SysIdAsc = 'sys_id_ASC',
@@ -1894,7 +1894,6 @@ export type Mutation = {
   deleteOutlet?: Maybe<Outlet>;
   deletePartnerBrand?: Maybe<PartnerBrand>;
   deleteProduct?: Maybe<Product>;
-  findAndCompleteBookings: Array<Booking>;
   /** This is used to generate a consumer, but if they are already created we will return their details */
   findOrCreateConsumer?: Maybe<Consumer>;
   /** This is used to generate a partner, but if they are already created we will return their details */
@@ -1992,10 +1991,6 @@ export type MutationDeleteProductArgs = {
   id: Scalars['ID']['input'];
 };
 
-export type MutationFindAndCompleteBookingsArgs = {
-  status: BookingStatus;
-};
-
 export type MutationFindOrCreateConsumerArgs = {
   consumerInput?: InputMaybe<ConsumerInput>;
 };
@@ -2085,7 +2080,6 @@ export type OpeningTimesModel = Entry & {
   closurePeriods?: Maybe<Scalars['String']['output']>;
   contentfulMetadata: ContentfulMetadata;
   linkedFrom?: Maybe<OpeningTimesModelLinkingCollections>;
-  loungeCode?: Maybe<Scalars['String']['output']>;
   pPboOpeningTimes?: Maybe<Scalars['String']['output']>;
   recurringClosures?: Maybe<Scalars['String']['output']>;
   specificDateClosures?: Maybe<Scalars['String']['output']>;
@@ -2100,11 +2094,6 @@ export type OpeningTimesModelClosurePeriodsArgs = {
 /** [See type definition](https://app.contentful.com/spaces/687qsr16btly/content_types/openingTimesModel) */
 export type OpeningTimesModelLinkedFromArgs = {
   allowedLocales?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-};
-
-/** [See type definition](https://app.contentful.com/spaces/687qsr16btly/content_types/openingTimesModel) */
-export type OpeningTimesModelLoungeCodeArgs = {
-  locale?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** [See type definition](https://app.contentful.com/spaces/687qsr16btly/content_types/openingTimesModel) */
@@ -2143,13 +2132,6 @@ export type OpeningTimesModelFilter = {
     Array<InputMaybe<Scalars['String']['input']>>
   >;
   contentfulMetadata?: InputMaybe<ContentfulMetadataFilter>;
-  loungeCode?: InputMaybe<Scalars['String']['input']>;
-  loungeCode_contains?: InputMaybe<Scalars['String']['input']>;
-  loungeCode_exists?: InputMaybe<Scalars['Boolean']['input']>;
-  loungeCode_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  loungeCode_not?: InputMaybe<Scalars['String']['input']>;
-  loungeCode_not_contains?: InputMaybe<Scalars['String']['input']>;
-  loungeCode_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   pPboOpeningTimes?: InputMaybe<Scalars['String']['input']>;
   pPboOpeningTimes_contains?: InputMaybe<Scalars['String']['input']>;
   pPboOpeningTimes_exists?: InputMaybe<Scalars['Boolean']['input']>;
@@ -2189,7 +2171,6 @@ export type OpeningTimesModelFilter = {
 export type OpeningTimesModelLinkingCollections = {
   __typename?: 'OpeningTimesModelLinkingCollections';
   entryCollection?: Maybe<EntryCollection>;
-  outletContentCollection?: Maybe<OutletContentCollection>;
 };
 
 export type OpeningTimesModelLinkingCollectionsEntryCollectionArgs = {
@@ -2198,35 +2179,6 @@ export type OpeningTimesModelLinkingCollectionsEntryCollectionArgs = {
   preview?: InputMaybe<Scalars['Boolean']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
 };
-
-export type OpeningTimesModelLinkingCollectionsOutletContentCollectionArgs = {
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  locale?: InputMaybe<Scalars['String']['input']>;
-  order?: InputMaybe<
-    Array<
-      InputMaybe<OpeningTimesModelLinkingCollectionsOutletContentCollectionOrder>
-    >
-  >;
-  preview?: InputMaybe<Scalars['Boolean']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-};
-
-export enum OpeningTimesModelLinkingCollectionsOutletContentCollectionOrder {
-  CodeAsc = 'code_ASC',
-  CodeDesc = 'code_DESC',
-  NameAsc = 'name_ASC',
-  NameDesc = 'name_DESC',
-  PartnerLogoAsc = 'partnerLogo_ASC',
-  PartnerLogoDesc = 'partnerLogo_DESC',
-  SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
-  SysFirstPublishedAtDesc = 'sys_firstPublishedAt_DESC',
-  SysIdAsc = 'sys_id_ASC',
-  SysIdDesc = 'sys_id_DESC',
-  SysPublishedAtAsc = 'sys_publishedAt_ASC',
-  SysPublishedAtDesc = 'sys_publishedAt_DESC',
-  SysPublishedVersionAsc = 'sys_publishedVersion_ASC',
-  SysPublishedVersionDesc = 'sys_publishedVersion_DESC',
-}
 
 export enum OpeningTimesModelOrder {
   SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
@@ -2290,22 +2242,15 @@ export enum OutletCategory {
 /** [See type definition](https://app.contentful.com/spaces/687qsr16btly/content_types/outletContent) */
 export type OutletContent = Entry & {
   __typename?: 'OutletContent';
-  code?: Maybe<Scalars['String']['output']>;
   conditions?: Maybe<Conditions>;
   contentfulMetadata: ContentfulMetadata;
   facilities?: Maybe<Facilities>;
+  legacyCode?: Maybe<Scalars['String']['output']>;
   linkedFrom?: Maybe<OutletContentLinkingCollections>;
   locationSummary?: Maybe<LocationSummary>;
   media?: Maybe<Media>;
   name?: Maybe<Scalars['String']['output']>;
-  openingTimes?: Maybe<OpeningTimesModel>;
-  partnerLogo?: Maybe<Scalars['String']['output']>;
   sys: Sys;
-};
-
-/** [See type definition](https://app.contentful.com/spaces/687qsr16btly/content_types/outletContent) */
-export type OutletContentCodeArgs = {
-  locale?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** [See type definition](https://app.contentful.com/spaces/687qsr16btly/content_types/outletContent) */
@@ -2320,6 +2265,11 @@ export type OutletContentFacilitiesArgs = {
   locale?: InputMaybe<Scalars['String']['input']>;
   preview?: InputMaybe<Scalars['Boolean']['input']>;
   where?: InputMaybe<FacilitiesFilter>;
+};
+
+/** [See type definition](https://app.contentful.com/spaces/687qsr16btly/content_types/outletContent) */
+export type OutletContentLegacyCodeArgs = {
+  locale?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** [See type definition](https://app.contentful.com/spaces/687qsr16btly/content_types/outletContent) */
@@ -2343,18 +2293,6 @@ export type OutletContentMediaArgs = {
 
 /** [See type definition](https://app.contentful.com/spaces/687qsr16btly/content_types/outletContent) */
 export type OutletContentNameArgs = {
-  locale?: InputMaybe<Scalars['String']['input']>;
-};
-
-/** [See type definition](https://app.contentful.com/spaces/687qsr16btly/content_types/outletContent) */
-export type OutletContentOpeningTimesArgs = {
-  locale?: InputMaybe<Scalars['String']['input']>;
-  preview?: InputMaybe<Scalars['Boolean']['input']>;
-  where?: InputMaybe<OpeningTimesModelFilter>;
-};
-
-/** [See type definition](https://app.contentful.com/spaces/687qsr16btly/content_types/outletContent) */
-export type OutletContentPartnerLogoArgs = {
   locale?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -2468,18 +2406,18 @@ export enum OutletContentDuplicateOrder {
 export type OutletContentFilter = {
   AND?: InputMaybe<Array<InputMaybe<OutletContentFilter>>>;
   OR?: InputMaybe<Array<InputMaybe<OutletContentFilter>>>;
-  code?: InputMaybe<Scalars['String']['input']>;
-  code_contains?: InputMaybe<Scalars['String']['input']>;
-  code_exists?: InputMaybe<Scalars['Boolean']['input']>;
-  code_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  code_not?: InputMaybe<Scalars['String']['input']>;
-  code_not_contains?: InputMaybe<Scalars['String']['input']>;
-  code_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   conditions?: InputMaybe<CfConditionsNestedFilter>;
   conditions_exists?: InputMaybe<Scalars['Boolean']['input']>;
   contentfulMetadata?: InputMaybe<ContentfulMetadataFilter>;
   facilities?: InputMaybe<CfFacilitiesNestedFilter>;
   facilities_exists?: InputMaybe<Scalars['Boolean']['input']>;
+  legacyCode?: InputMaybe<Scalars['String']['input']>;
+  legacyCode_contains?: InputMaybe<Scalars['String']['input']>;
+  legacyCode_exists?: InputMaybe<Scalars['Boolean']['input']>;
+  legacyCode_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  legacyCode_not?: InputMaybe<Scalars['String']['input']>;
+  legacyCode_not_contains?: InputMaybe<Scalars['String']['input']>;
+  legacyCode_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   locationSummary?: InputMaybe<CfLocationSummaryNestedFilter>;
   locationSummary_exists?: InputMaybe<Scalars['Boolean']['input']>;
   media?: InputMaybe<CfMediaNestedFilter>;
@@ -2491,17 +2429,6 @@ export type OutletContentFilter = {
   name_not?: InputMaybe<Scalars['String']['input']>;
   name_not_contains?: InputMaybe<Scalars['String']['input']>;
   name_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  openingTimes?: InputMaybe<CfOpeningTimesModelNestedFilter>;
-  openingTimes_exists?: InputMaybe<Scalars['Boolean']['input']>;
-  partnerLogo?: InputMaybe<Scalars['String']['input']>;
-  partnerLogo_contains?: InputMaybe<Scalars['String']['input']>;
-  partnerLogo_exists?: InputMaybe<Scalars['Boolean']['input']>;
-  partnerLogo_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  partnerLogo_not?: InputMaybe<Scalars['String']['input']>;
-  partnerLogo_not_contains?: InputMaybe<Scalars['String']['input']>;
-  partnerLogo_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['String']['input']>>
-  >;
   sys?: InputMaybe<SysFilter>;
 };
 
@@ -2518,12 +2445,10 @@ export type OutletContentLinkingCollectionsEntryCollectionArgs = {
 };
 
 export enum OutletContentOrder {
-  CodeAsc = 'code_ASC',
-  CodeDesc = 'code_DESC',
+  LegacyCodeAsc = 'legacyCode_ASC',
+  LegacyCodeDesc = 'legacyCode_DESC',
   NameAsc = 'name_ASC',
   NameDesc = 'name_DESC',
-  PartnerLogoAsc = 'partnerLogo_ASC',
-  PartnerLogoDesc = 'partnerLogo_DESC',
   SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
   SysFirstPublishedAtDesc = 'sys_firstPublishedAt_DESC',
   SysIdAsc = 'sys_id_ASC',
@@ -3374,6 +3299,80 @@ export enum OutletModelOrder {
   WifiDesc = 'wifi_DESC',
 }
 
+/** [See type definition](https://app.contentful.com/spaces/687qsr16btly/content_types/outletNestedModel) */
+export type OutletNestedModel = Entry & {
+  __typename?: 'OutletNestedModel';
+  contentfulMetadata: ContentfulMetadata;
+  linkedFrom?: Maybe<OutletNestedModelLinkingCollections>;
+  name?: Maybe<Scalars['String']['output']>;
+  openingTimes?: Maybe<Entry>;
+  sys: Sys;
+};
+
+/** [See type definition](https://app.contentful.com/spaces/687qsr16btly/content_types/outletNestedModel) */
+export type OutletNestedModelLinkedFromArgs = {
+  allowedLocales?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
+/** [See type definition](https://app.contentful.com/spaces/687qsr16btly/content_types/outletNestedModel) */
+export type OutletNestedModelNameArgs = {
+  locale?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** [See type definition](https://app.contentful.com/spaces/687qsr16btly/content_types/outletNestedModel) */
+export type OutletNestedModelOpeningTimesArgs = {
+  locale?: InputMaybe<Scalars['String']['input']>;
+  preview?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type OutletNestedModelCollection = {
+  __typename?: 'OutletNestedModelCollection';
+  items: Array<Maybe<OutletNestedModel>>;
+  limit: Scalars['Int']['output'];
+  skip: Scalars['Int']['output'];
+  total: Scalars['Int']['output'];
+};
+
+export type OutletNestedModelFilter = {
+  AND?: InputMaybe<Array<InputMaybe<OutletNestedModelFilter>>>;
+  OR?: InputMaybe<Array<InputMaybe<OutletNestedModelFilter>>>;
+  contentfulMetadata?: InputMaybe<ContentfulMetadataFilter>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  name_contains?: InputMaybe<Scalars['String']['input']>;
+  name_exists?: InputMaybe<Scalars['Boolean']['input']>;
+  name_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  name_not?: InputMaybe<Scalars['String']['input']>;
+  name_not_contains?: InputMaybe<Scalars['String']['input']>;
+  name_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  openingTimes_exists?: InputMaybe<Scalars['Boolean']['input']>;
+  sys?: InputMaybe<SysFilter>;
+};
+
+export type OutletNestedModelLinkingCollections = {
+  __typename?: 'OutletNestedModelLinkingCollections';
+  entryCollection?: Maybe<EntryCollection>;
+};
+
+export type OutletNestedModelLinkingCollectionsEntryCollectionArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  locale?: InputMaybe<Scalars['String']['input']>;
+  preview?: InputMaybe<Scalars['Boolean']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export enum OutletNestedModelOrder {
+  NameAsc = 'name_ASC',
+  NameDesc = 'name_DESC',
+  SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
+  SysFirstPublishedAtDesc = 'sys_firstPublishedAt_DESC',
+  SysIdAsc = 'sys_id_ASC',
+  SysIdDesc = 'sys_id_DESC',
+  SysPublishedAtAsc = 'sys_publishedAt_ASC',
+  SysPublishedAtDesc = 'sys_publishedAt_DESC',
+  SysPublishedVersionAsc = 'sys_publishedVersion_ASC',
+  SysPublishedVersionDesc = 'sys_publishedVersion_DESC',
+}
+
 export enum OutletProductAccessType {
   Reservation = 'RESERVATION',
   ReservationFeeOnly = 'RESERVATION_FEE_ONLY',
@@ -3405,6 +3404,80 @@ export type PartnerBrand = {
   /** The salesforce ID of the partner brand */
   salesforceID: Scalars['String']['output'];
 };
+
+/** [See type definition](https://app.contentful.com/spaces/687qsr16btly/content_types/partnerBrandContent) */
+export type PartnerBrandContent = Entry & {
+  __typename?: 'PartnerBrandContent';
+  contentfulMetadata: ContentfulMetadata;
+  linkedFrom?: Maybe<PartnerBrandContentLinkingCollections>;
+  logo?: Maybe<Asset>;
+  name?: Maybe<Scalars['String']['output']>;
+  sys: Sys;
+};
+
+/** [See type definition](https://app.contentful.com/spaces/687qsr16btly/content_types/partnerBrandContent) */
+export type PartnerBrandContentLinkedFromArgs = {
+  allowedLocales?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
+/** [See type definition](https://app.contentful.com/spaces/687qsr16btly/content_types/partnerBrandContent) */
+export type PartnerBrandContentLogoArgs = {
+  locale?: InputMaybe<Scalars['String']['input']>;
+  preview?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** [See type definition](https://app.contentful.com/spaces/687qsr16btly/content_types/partnerBrandContent) */
+export type PartnerBrandContentNameArgs = {
+  locale?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type PartnerBrandContentCollection = {
+  __typename?: 'PartnerBrandContentCollection';
+  items: Array<Maybe<PartnerBrandContent>>;
+  limit: Scalars['Int']['output'];
+  skip: Scalars['Int']['output'];
+  total: Scalars['Int']['output'];
+};
+
+export type PartnerBrandContentFilter = {
+  AND?: InputMaybe<Array<InputMaybe<PartnerBrandContentFilter>>>;
+  OR?: InputMaybe<Array<InputMaybe<PartnerBrandContentFilter>>>;
+  contentfulMetadata?: InputMaybe<ContentfulMetadataFilter>;
+  logo_exists?: InputMaybe<Scalars['Boolean']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  name_contains?: InputMaybe<Scalars['String']['input']>;
+  name_exists?: InputMaybe<Scalars['Boolean']['input']>;
+  name_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  name_not?: InputMaybe<Scalars['String']['input']>;
+  name_not_contains?: InputMaybe<Scalars['String']['input']>;
+  name_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  sys?: InputMaybe<SysFilter>;
+};
+
+export type PartnerBrandContentLinkingCollections = {
+  __typename?: 'PartnerBrandContentLinkingCollections';
+  entryCollection?: Maybe<EntryCollection>;
+};
+
+export type PartnerBrandContentLinkingCollectionsEntryCollectionArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  locale?: InputMaybe<Scalars['String']['input']>;
+  preview?: InputMaybe<Scalars['Boolean']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export enum PartnerBrandContentOrder {
+  NameAsc = 'name_ASC',
+  NameDesc = 'name_DESC',
+  SysFirstPublishedAtAsc = 'sys_firstPublishedAt_ASC',
+  SysFirstPublishedAtDesc = 'sys_firstPublishedAt_DESC',
+  SysIdAsc = 'sys_id_ASC',
+  SysIdDesc = 'sys_id_DESC',
+  SysPublishedAtAsc = 'sys_publishedAt_ASC',
+  SysPublishedAtDesc = 'sys_publishedAt_DESC',
+  SysPublishedVersionAsc = 'sys_publishedVersion_ASC',
+  SysPublishedVersionDesc = 'sys_publishedVersion_DESC',
+}
 
 export type PartnerBrandInput = {
   /** The name of the partner brand */
@@ -3602,6 +3675,7 @@ export type Query = {
   getEntitlements: Array<Entitlement>;
   getExperienceByID?: Maybe<Experience>;
   getFlightDetails: Array<FlightDetails>;
+  getFlightDetailsHealthCheck: Array<FlightDetails>;
   getInvitationByID?: Maybe<Invitation>;
   getInvitations: Array<Invitation>;
   getOutletByID?: Maybe<Outlet>;
@@ -3630,6 +3704,10 @@ export type Query = {
   outletForContentfulCollection?: Maybe<OutletForContentfulCollection>;
   outletModel?: Maybe<OutletModel>;
   outletModelCollection?: Maybe<OutletModelCollection>;
+  outletNestedModel?: Maybe<OutletNestedModel>;
+  outletNestedModelCollection?: Maybe<OutletNestedModelCollection>;
+  partnerBrandContent?: Maybe<PartnerBrandContent>;
+  partnerBrandContentCollection?: Maybe<PartnerBrandContentCollection>;
   searchExperiences?: Maybe<Array<Maybe<Experience>>>;
 };
 
@@ -3721,6 +3799,10 @@ export type QueryGetExperienceByIdArgs = {
 };
 
 export type QueryGetFlightDetailsArgs = {
+  flightDetails?: InputMaybe<FlightDetailsInput>;
+};
+
+export type QueryGetFlightDetailsHealthCheckArgs = {
   flightDetails?: InputMaybe<FlightDetailsInput>;
 };
 
@@ -3879,6 +3961,36 @@ export type QueryOutletModelCollectionArgs = {
   preview?: InputMaybe<Scalars['Boolean']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<OutletModelFilter>;
+};
+
+export type QueryOutletNestedModelArgs = {
+  id: Scalars['String']['input'];
+  locale?: InputMaybe<Scalars['String']['input']>;
+  preview?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type QueryOutletNestedModelCollectionArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  locale?: InputMaybe<Scalars['String']['input']>;
+  order?: InputMaybe<Array<InputMaybe<OutletNestedModelOrder>>>;
+  preview?: InputMaybe<Scalars['Boolean']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  where?: InputMaybe<OutletNestedModelFilter>;
+};
+
+export type QueryPartnerBrandContentArgs = {
+  id: Scalars['String']['input'];
+  locale?: InputMaybe<Scalars['String']['input']>;
+  preview?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type QueryPartnerBrandContentCollectionArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  locale?: InputMaybe<Scalars['String']['input']>;
+  order?: InputMaybe<Array<InputMaybe<PartnerBrandContentOrder>>>;
+  preview?: InputMaybe<Scalars['Boolean']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  where?: InputMaybe<PartnerBrandContentFilter>;
 };
 
 export type QuerySearchExperiencesArgs = {
@@ -4210,64 +4322,8 @@ export type CfMediaNestedFilter = {
   AND?: InputMaybe<Array<InputMaybe<CfMediaNestedFilter>>>;
   OR?: InputMaybe<Array<InputMaybe<CfMediaNestedFilter>>>;
   contentfulMetadata?: InputMaybe<ContentfulMetadataFilter>;
-  mainPicture_exists?: InputMaybe<Scalars['Boolean']['input']>;
+  mainImage_exists?: InputMaybe<Scalars['Boolean']['input']>;
   mediaCollection_exists?: InputMaybe<Scalars['Boolean']['input']>;
-  sys?: InputMaybe<SysFilter>;
-};
-
-export type CfOpeningTimesModelNestedFilter = {
-  AND?: InputMaybe<Array<InputMaybe<CfOpeningTimesModelNestedFilter>>>;
-  OR?: InputMaybe<Array<InputMaybe<CfOpeningTimesModelNestedFilter>>>;
-  closurePeriods?: InputMaybe<Scalars['String']['input']>;
-  closurePeriods_contains?: InputMaybe<Scalars['String']['input']>;
-  closurePeriods_exists?: InputMaybe<Scalars['Boolean']['input']>;
-  closurePeriods_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  closurePeriods_not?: InputMaybe<Scalars['String']['input']>;
-  closurePeriods_not_contains?: InputMaybe<Scalars['String']['input']>;
-  closurePeriods_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['String']['input']>>
-  >;
-  contentfulMetadata?: InputMaybe<ContentfulMetadataFilter>;
-  loungeCode?: InputMaybe<Scalars['String']['input']>;
-  loungeCode_contains?: InputMaybe<Scalars['String']['input']>;
-  loungeCode_exists?: InputMaybe<Scalars['Boolean']['input']>;
-  loungeCode_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  loungeCode_not?: InputMaybe<Scalars['String']['input']>;
-  loungeCode_not_contains?: InputMaybe<Scalars['String']['input']>;
-  loungeCode_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  pPboOpeningTimes?: InputMaybe<Scalars['String']['input']>;
-  pPboOpeningTimes_contains?: InputMaybe<Scalars['String']['input']>;
-  pPboOpeningTimes_exists?: InputMaybe<Scalars['Boolean']['input']>;
-  pPboOpeningTimes_in?: InputMaybe<
-    Array<InputMaybe<Scalars['String']['input']>>
-  >;
-  pPboOpeningTimes_not?: InputMaybe<Scalars['String']['input']>;
-  pPboOpeningTimes_not_contains?: InputMaybe<Scalars['String']['input']>;
-  pPboOpeningTimes_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['String']['input']>>
-  >;
-  recurringClosures?: InputMaybe<Scalars['String']['input']>;
-  recurringClosures_contains?: InputMaybe<Scalars['String']['input']>;
-  recurringClosures_exists?: InputMaybe<Scalars['Boolean']['input']>;
-  recurringClosures_in?: InputMaybe<
-    Array<InputMaybe<Scalars['String']['input']>>
-  >;
-  recurringClosures_not?: InputMaybe<Scalars['String']['input']>;
-  recurringClosures_not_contains?: InputMaybe<Scalars['String']['input']>;
-  recurringClosures_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['String']['input']>>
-  >;
-  specificDateClosures?: InputMaybe<Scalars['String']['input']>;
-  specificDateClosures_contains?: InputMaybe<Scalars['String']['input']>;
-  specificDateClosures_exists?: InputMaybe<Scalars['Boolean']['input']>;
-  specificDateClosures_in?: InputMaybe<
-    Array<InputMaybe<Scalars['String']['input']>>
-  >;
-  specificDateClosures_not?: InputMaybe<Scalars['String']['input']>;
-  specificDateClosures_not_contains?: InputMaybe<Scalars['String']['input']>;
-  specificDateClosures_not_in?: InputMaybe<
-    Array<InputMaybe<Scalars['String']['input']>>
-  >;
   sys?: InputMaybe<SysFilter>;
 };
 
@@ -4737,7 +4793,7 @@ export type GetOutletsQuery = {
       __typename?: 'OutletContent';
       media?: {
         __typename?: 'Media';
-        mainPicture?: { __typename?: 'Asset'; url?: string | null } | null;
+        mainImage?: { __typename?: 'Asset'; url?: string | null } | null;
         mediaCollection?: {
           __typename?: 'AssetCollection';
           items: Array<{
@@ -4747,6 +4803,18 @@ export type GetOutletsQuery = {
         } | null;
       } | null;
     } | null;
+  } | null> | null;
+};
+
+export type GetOutletsCountQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type GetOutletsCountQuery = {
+  __typename?: 'Query';
+  getOutlets?: Array<{
+    __typename?: 'OutletListing';
+    id: string;
   } | null> | null;
 };
 
@@ -4761,6 +4829,18 @@ export type GetPartnerBrandsQuery = {
     id: string;
     name: string;
     outlets: Array<{ __typename?: 'Outlet'; id: string } | null>;
+  } | null> | null;
+};
+
+export type GetPartnerBrandsCountQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type GetPartnerBrandsCountQuery = {
+  __typename?: 'Query';
+  getPartnerBrands?: Array<{
+    __typename?: 'PartnerBrand';
+    id: string;
   } | null> | null;
 };
 
@@ -6638,7 +6718,7 @@ export const GetOutletsDocument = {
                           selections: [
                             {
                               kind: 'Field',
-                              name: { kind: 'Name', value: 'mainPicture' },
+                              name: { kind: 'Name', value: 'mainImage' },
                               selectionSet: {
                                 kind: 'SelectionSet',
                                 selections: [
@@ -6688,6 +6768,54 @@ export const GetOutletsDocument = {
     },
   ],
 } as unknown as DocumentNode<GetOutletsQuery, GetOutletsQueryVariables>;
+export const GetOutletsCountDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetOutletsCount' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'limit' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'getOutlets' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'limit' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'limit' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GetOutletsCountQuery,
+  GetOutletsCountQueryVariables
+>;
 export const GetPartnerBrandsDocument = {
   kind: 'Document',
   definitions: [
@@ -6746,6 +6874,54 @@ export const GetPartnerBrandsDocument = {
 } as unknown as DocumentNode<
   GetPartnerBrandsQuery,
   GetPartnerBrandsQueryVariables
+>;
+export const GetPartnerBrandsCountDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetPartnerBrandsCount' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'limit' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'getPartnerBrands' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'limit' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'limit' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GetPartnerBrandsCountQuery,
+  GetPartnerBrandsCountQueryVariables
 >;
 export const GetPartnerByIdDocument = {
   kind: 'Document',
