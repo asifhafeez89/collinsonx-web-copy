@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app';
 import { NextPage } from 'next';
-import { ComponentType, ReactElement } from 'react';
+import { ComponentType, ReactElement, useEffect } from 'react';
 import Head from 'next/head';
 import { frontendConfig } from '../config/frontendConfig';
 import SuperTokensReact, {
@@ -20,15 +20,12 @@ import '../styles.css';
 import { datadogLogs } from '@datadog/browser-logs';
 import { loggerInfo } from '@lib';
 
+// we only want to call this init function on the frontend, so
+// we check typeof window !== 'undefined'
+
 if (typeof window !== 'undefined') {
-  // we only want to call this init function on the frontend, so
-  // we check typeof window !== 'undefined'
-
   const windowObj: any = window;
-  windowObj.addEventListener('navigate', (event: any) => {
-    loggerInfo('_app.tsx', 'url change', event.destination.url);
-  });
-
+  loggerInfo('_app.tsx', 'url change', document.referrer);
   const isInIframe = window.parent === window ? false : true;
 
   SuperTokensReact.init(frontendConfig({ isInIframe }) as SuperTokensConfig);

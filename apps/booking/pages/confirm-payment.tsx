@@ -73,6 +73,7 @@ export default function ConfirmPayment() {
     (e) => {
       if (window && !referrerUrl) {
         e.preventDefault();
+        loggerAction(pageName, ANALYTICS_TAGS.ON_PAGE_CONFIRMED_BACK_BTN);
         const windowObj: any = window;
         sendMobileEvent(windowObj, MOBILE_ACTION_BACK);
       }
