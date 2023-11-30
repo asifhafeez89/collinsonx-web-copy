@@ -38,7 +38,7 @@ export interface CardOutletProps {
     IconComponent: any;
   }>;
   children?: ReactNode;
-  dataTestId?: string;
+  'data-testid'?: string;
   imageAlt?: string;
 }
 
@@ -57,12 +57,12 @@ function CardOutlet({
   workflowStage,
   onClick = () => {},
   productCategories = [],
-  dataTestId,
+  'data-testid': dataTestId,
   imageAlt,
 }: CardOutletProps) {
   return (
     <Card
-      dataTestId={dataTestId}
+      data-testid={dataTestId}
       imageUrl={imageUrl}
       imageCount={imageCount}
       status={status}
