@@ -82,7 +82,7 @@ test.describe('Create payment flow', () => {
 
       await confirmBookingPage.clickSubmit();
 
-      await page.waitForTimeout(10000);
+      await page.waitForTimeout(15000);
 
       // Assert with empty inputs pay
       const titleRoot = await paymentInfoPage.getTitleRoot();

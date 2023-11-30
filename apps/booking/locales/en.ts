@@ -116,7 +116,7 @@ export default {
       },
       numberInput: {
         label: 'Flight number',
-        placeholder: 'E.g. EZYI123',
+        placeholder: 'E.g. EZY123',
       },
       time: {
         label: 'Time of flight',
