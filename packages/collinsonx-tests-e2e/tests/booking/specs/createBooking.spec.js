@@ -26,7 +26,7 @@ async function loginAsExistingUser(page, id, membershipNumber, externalId) {
     language: 'en',
   };
   const jwt = await signJWT(payload, secret);
-  const lounge = 'MAN6';
+  const lounge = 'BHD1';
 
   await redirectToBaas(page, jwt, lounge);
 
@@ -53,7 +53,7 @@ test.describe('Create booking flow', () => {
       const id = 'alreadyregisteredconsumerwithlinkaccount4';
       const membershipNumber = '89760499';
       const externalId = '89760499';
-      const flightNumber = 'KL1070';
+      const flightNumber = 'BA1417';
 
       // Act
       await loginAsExistingUser(page, id, membershipNumber, externalId);
@@ -124,7 +124,7 @@ test.describe('Create booking flow', () => {
       const id = 'alreadyregisteredconsumerwithlinkaccount6';
       const membershipNumber = '15008';
       const externalId = '15008';
-      const flightNumber = 'KL1070';
+      const flightNumber = 'BA1417';
       await loginAsExistingUser(page, id, membershipNumber, externalId);
 
       // Arrange
@@ -149,7 +149,7 @@ test.describe('Create booking flow', () => {
       const id = 'alreadyregisteredconsumerwithlinkaccount7';
       const membershipNumber = '83425';
       const externalId = '83425';
-      const flightNumber = 'KL1070';
+      const flightNumber = 'BA1417';
 
       // Act
       await loginAsExistingUser(page, id, membershipNumber, externalId);
