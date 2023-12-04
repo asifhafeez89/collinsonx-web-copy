@@ -12,8 +12,11 @@ import {
   LinkedAccount,
 } from '@collinsonx/utils/generatedTypes/graphql';
 import { BridgePayload } from 'types/booking';
-import { datadogLogs } from '@datadog/browser-logs';
-import { datadogRum } from '@datadog/browser-rum';
+import {
+  loggerAction,
+  loggerDataError,
+  loggerInfo,
+} from '@collinsonx/utils/lib/analytics';
 
 export const getLoungeArrivalTime = (date: Date): string =>
   dayjsTz(date).subtract(LOUNGE_HOURS_OFFSET, 'hours').format('HH:mm');
@@ -69,7 +72,7 @@ export const getItem = (key: string) => {
   try {
     return sessionStorage.getItem(`${STORAGE_NAMESPACE}_${key}`);
   } catch (e) {
-    loggerDataError(e as Error, 'lib/index', 'get session storage', null);
+    logDataError(e as Error, 'lib/index', 'get session storage', null);
   }
 };
 
@@ -77,7 +80,7 @@ export const setItem = (key: string, value: string) => {
   try {
     return sessionStorage.setItem(`${STORAGE_NAMESPACE}_${key}`, value);
   } catch (e) {
-    loggerDataError(e as Error, 'lib/index', 'set session storage', null);
+    logDataError(e as Error, 'lib/index', 'set session storage', null);
   }
 };
 
@@ -85,7 +88,7 @@ export const removeItem = (key: string) => {
   try {
     return sessionStorage.removeItem(`${STORAGE_NAMESPACE}_${key}`);
   } catch (e) {
-    loggerDataError(e as Error, 'lib/index', 'remove session storage', null);
+    logDataError(e as Error, 'lib/index', 'remove session storage', null);
   }
 };
 
@@ -124,47 +127,29 @@ export const consumerIsValid = (consumer: Consumer) => {
   return consumer && firstName && lastName && dateOfBirth;
 };
 
-export const loggerDataError = (
+export const logDataError = (
   error: Error,
   file: string,
   action: string,
   data: unknown
 ) => {
-  const datadogenv: string | undefined = process.env.NEXT_PUBLIC_DATADOG_ENV;
-  if ((datadogenv?.length ?? 0) > 0) {
-    datadogLogs.logger.error(
-      'Frontend Error Occured',
-      {
-        file,
-        action,
-        data,
-      },
-      error
-    );
-  }
+  const hide = process.env.NEXT_PUBLIC_DATADOG_INFOLOGS_SWITCH
+    ? process.env.NEXT_PUBLIC_DATADOG_INFOLOGS_SWITCH.length > 0
+    : false;
+  loggerDataError(error, file, action, data, hide);
 };
 
-export const loggerInfo = (file: string, action: string, data: unknown) => {
-  const datadogenv: string | undefined =
-    process.env.NEXT_PUBLIC_DATADOG_INFOLOGS_SWITCH;
-  if ((datadogenv?.length ?? 0) > 0) {
-    if (typeof window !== 'undefined') {
-      datadogLogs.logger?.info('Frontend Info', {
-        file,
-        action,
-        data,
-      });
-    }
-  }
+export const logInfo = (file: string, action: string, data: unknown) => {
+  const hide = process.env.NEXT_PUBLIC_DATADOG_INFOLOGS_SWITCH
+    ? process.env.NEXT_PUBLIC_DATADOG_INFOLOGS_SWITCH.length > 0
+    : false;
+  loggerInfo(file, action, data, hide);
 };
 
-export const loggerAction = async (
+export const logAction = async (
   file: string,
   action: string,
   data?: unknown
 ) => {
-  await datadogRum.addAction(action, {
-    file: file,
-    data: data,
-  });
+  loggerAction(file, action, data);
 };

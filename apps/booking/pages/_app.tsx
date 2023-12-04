@@ -18,14 +18,14 @@ import Maintenance from 'pages/maintenance';
 
 import '../styles.css';
 import { datadogLogs } from '@datadog/browser-logs';
-import { loggerInfo } from '@lib';
+import { logInfo } from '@lib';
 
 // we only want to call this init function on the frontend, so
 // we check typeof window !== 'undefined'
 
 if (typeof window !== 'undefined') {
   const windowObj: any = window;
-  loggerInfo('_app.tsx', 'url change', document.referrer);
+  logInfo('_app.tsx', 'url change', document.referrer);
   const isInIframe = window.parent === window ? false : true;
 
   SuperTokensReact.init(frontendConfig({ isInIframe }) as SuperTokensConfig);

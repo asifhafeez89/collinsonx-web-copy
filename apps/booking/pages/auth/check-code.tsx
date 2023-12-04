@@ -35,10 +35,9 @@ import {
   accountIsEqual,
   consumerIsValid,
   log,
-  loggerAction,
-  loggerDataError,
+  logAction,
+  logDataError,
 } from '../../lib/index';
-import { datadogLogs } from '@datadog/browser-logs';
 import useLocale from 'hooks/useLocale';
 
 const { ERR_MEMBERSHIP_ALREADY_CONNECTED, ERR_TOKEN_INVALID_OR_EXPIRED } =
@@ -81,7 +80,7 @@ export default function CheckEmail() {
   const translations = useLocale();
 
   useEffect(() => {
-    loggerAction(pageName, ANALYTICS_TAGS.ON_CHECK_CODE_ENTER);
+    logAction(pageName, ANALYTICS_TAGS.ON_CHECK_CODE_ENTER);
   }, []);
 
   useEffect(() => {
@@ -159,7 +158,7 @@ export default function CheckEmail() {
 
       if (tokenError) {
         setTokenError('Sorry, service is not available');
-        loggerDataError(tokenError, 'checkcode', 'token error', jwt);
+        logDataError(tokenError, 'checkcode', 'token error', jwt);
       } else if (alreadyConnectedError) {
         log('[SIGN OUT]: membership already connected');
         return Session.signOut().then(() => {
@@ -180,7 +179,7 @@ export default function CheckEmail() {
   const handleClickConfirm = async () => {
     setCheckingCode(true);
 
-    loggerAction(pageName, ANALYTICS_TAGS.ON_CHECK_CODE_VERIFY);
+    logAction(pageName, ANALYTICS_TAGS.ON_CHECK_CODE_VERIFY);
 
     if (!code || code.length !== 6) {
       setPinError(true);
@@ -264,7 +263,7 @@ export default function CheckEmail() {
 
   const handleChange = (code: string) => {
     setCode(code);
-    loggerAction(pageName, ANALYTICS_TAGS.ON_CHECK_CODE_CHANGE);
+    logAction(pageName, ANALYTICS_TAGS.ON_CHECK_CODE_CHANGE);
   };
 
   return (

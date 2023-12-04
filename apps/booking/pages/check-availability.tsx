@@ -51,7 +51,7 @@ import Price from '@components/Price';
 import Notification from '@components/Notification';
 import { InfoPanel } from 'utils/PanelInfo';
 import { GuestCount } from '@components/guest-count/GuestCount';
-import { log, loggerAction, sendMobileEvent } from '../lib/index';
+import { log, logAction, sendMobileEvent } from '../lib/index';
 import { FlightContext } from 'context/flightContext';
 import getError from 'utils/getError';
 import { Clock, Warning } from '@collinsonx/design-system/assets/icons';
@@ -88,7 +88,7 @@ export default function CheckAvailability() {
   const [mutate, { loading: cbLoading }] = useMutation(createBooking);
 
   useEffect(() => {
-    loggerAction(pageName, ANALYTICS_TAGS.ON_SLOT_PG_ENTER);
+    logAction(pageName, ANALYTICS_TAGS.ON_SLOT_PG_ENTER);
   }, []);
 
   const findSelectedSlot = (slots: Slots[] | undefined, value: string) => {
@@ -104,7 +104,7 @@ export default function CheckAvailability() {
   const handleSubmit = () => {
     setMessage('');
 
-    loggerAction(pageName, ANALYTICS_TAGS.ON_SLOT_CONTINUE);
+    logAction(pageName, ANALYTICS_TAGS.ON_SLOT_CONTINUE);
 
     const availableSlots = slotsData?.getAvailableSlots.slots;
     const slot = findSelectedSlot(availableSlots, selectedslot);
@@ -238,8 +238,7 @@ export default function CheckAvailability() {
   );
 
   const handleSelectSlot = async (value: string) => {
-    await loggerAction(pageName, ANALYTICS_TAGS.ON_SLOT_CHANGE);
-    console.log(ANALYTICS_TAGS.ON_SLOT_CHANGE);
+    await logAction(pageName, ANALYTICS_TAGS.ON_SLOT_CHANGE);
     setSelectedslot(value);
   };
 

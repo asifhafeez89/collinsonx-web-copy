@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { Button, ButtonProps } from '@collinsonx/design-system/core';
-import { loggerAction, sendMobileEvent } from '@lib';
+import { logAction, sendMobileEvent } from '@lib';
 import usePayload from 'hooks/payload';
 import { ANALYTICS_TAGS, MOBILE_ACTION_BACK } from '../constants';
 
@@ -13,7 +13,7 @@ export default function BackButton({
 }: ButtonProps & BackButtonProps) {
   const { referrerUrl } = usePayload();
   const handleClick = useCallback(() => {
-    loggerAction('backbutton', props.analyticsTag ?? '');
+    logAction('backbutton', props.analyticsTag ?? '');
     if (top) {
       if (referrerUrl) {
         top.location.href = referrerUrl;

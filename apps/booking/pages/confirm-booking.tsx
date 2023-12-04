@@ -11,13 +11,10 @@ import { BookingContext } from 'context/bookingContext';
 import { getCheckoutSessionUrl } from 'services/payment';
 import colors from 'ui/colour-constants';
 import TopBarLinks from '@components/TopBarLinks';
-import Price from '@components/Price';
 import dayjs from 'dayjs';
 import StripeCheckout from '@components/stripe';
-import { InfoPanel } from 'utils/PanelInfo';
-import { GuestCount } from '@components/guest-count/GuestCount';
 import { FlightContext } from 'context/flightContext';
-import { log, loggerAction } from '@lib';
+import { log, logAction } from '@lib';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
 import EstimatedTimeArrival from '@components/EstimatedTimeArrival';
 import { FlightDetailsAndGuests } from '@components/FlightDetailsAndGuests';
@@ -30,7 +27,7 @@ export default function ConfirmBooking() {
   const { getFlight } = useContext(FlightContext);
 
   useEffect(() => {
-    loggerAction(pageName, ANALYTICS_TAGS.ON_PAYMENT_ENTER);
+    logAction(pageName, ANALYTICS_TAGS.ON_PAYMENT_ENTER);
   }, []);
 
   const { flightNumber, children, bookingId, adults, infants, arrival } =
@@ -45,7 +42,7 @@ export default function ConfirmBooking() {
   const totalQuantity: number = Number(adults + children);
 
   const handleSubmit = async () => {
-    loggerAction(pageName, ANALYTICS_TAGS.ON_PAYMENT_CONTINUE);
+    logAction(pageName, ANALYTICS_TAGS.ON_PAYMENT_CONTINUE);
     try {
       const paymentinput = {
         bookingID: bookingId ?? '',

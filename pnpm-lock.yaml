@@ -790,6 +790,12 @@ importers:
       '@babel/core':
         specifier: ^7.23.3
         version: 7.23.3
+      '@datadog/browser-logs':
+        specifier: ^5.2.0
+        version: 5.2.0(@datadog/browser-rum@5.2.0)
+      '@datadog/browser-rum':
+        specifier: ^5.2.0
+        version: 5.2.0(@datadog/browser-logs@5.2.0)
       '@graphql-codegen/cli':
         specifier: ^5.0.0
         version: 5.0.0(@types/node@20.9.0)(graphql@16.8.1)(typescript@5.2.2)
@@ -5193,7 +5199,6 @@ packages:
       {
         integrity: sha512-/4kgRCaSJQoOFJpIx7H+ope3bpBaS55rZzoLwXNwjQyZW5wBH1wzs4JZdIexbogNLfvj6BqiAEZ+oCDbQf1a/Q==,
       }
-    dev: false
 
   /@datadog/browser-logs@5.2.0(@datadog/browser-rum@5.2.0):
     resolution:
@@ -5208,7 +5213,6 @@ packages:
     dependencies:
       '@datadog/browser-core': 5.2.0
       '@datadog/browser-rum': 5.2.0(@datadog/browser-logs@5.2.0)
-    dev: false
 
   /@datadog/browser-rum-core@5.2.0:
     resolution:
@@ -5217,7 +5221,6 @@ packages:
       }
     dependencies:
       '@datadog/browser-core': 5.2.0
-    dev: false
 
   /@datadog/browser-rum@5.2.0(@datadog/browser-logs@5.2.0):
     resolution:
@@ -5233,7 +5236,6 @@ packages:
       '@datadog/browser-core': 5.2.0
       '@datadog/browser-logs': 5.2.0(@datadog/browser-rum@5.2.0)
       '@datadog/browser-rum-core': 5.2.0
-    dev: false
 
   /@datadog/native-appsec@3.2.0:
     resolution:

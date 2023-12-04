@@ -24,8 +24,7 @@ import TopBarLinks from '@components/TopBarLinks';
 import Notification from '@components/Notification';
 import { ANALYTICS_TAGS, BookingError } from '../../constants';
 import { BookingQueryParams } from '@collinsonx/constants/enums';
-import { log } from '@lib';
-import { loggerAction } from '@lib';
+import { log, logAction } from '@lib';
 import useLocale from 'hooks/useLocale';
 
 const { bookingId } = BookingQueryParams;
@@ -50,7 +49,7 @@ export default function Login() {
   const translations = useLocale();
 
   useEffect(() => {
-    loggerAction(pageName, ANALYTICS_TAGS.ON_PAGE_ENTER_EMAIL);
+    logAction(pageName, ANALYTICS_TAGS.ON_PAGE_ENTER_EMAIL);
   }, []);
 
   const form = useForm({
@@ -81,7 +80,7 @@ export default function Login() {
 
   const handleClickContinue = async ({ email }: FormValues) => {
     setLayoutError('');
-    await loggerAction(pageName, ANALYTICS_TAGS.ON_CONTINUE_CLICK, email);
+    await logAction(pageName, ANALYTICS_TAGS.ON_CONTINUE_CLICK, email);
 
     if (!validateEmail(email.trim())) {
       setLoginError('Invalid email');
@@ -166,7 +165,7 @@ export default function Login() {
                   {...form.getInputProps('email')}
                   data-testid="loginEmailAddress"
                   onClick={() =>
-                    loggerAction(
+                    logAction(
                       pageName,
                       ANALYTICS_TAGS.ON_CHANGE_EMAIL_ADDRESS,
                       form.getInputProps('email')
