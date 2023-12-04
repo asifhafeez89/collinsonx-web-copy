@@ -4818,6 +4818,47 @@ export type GetOutletsCountQuery = {
   } | null> | null;
 };
 
+export type GetPartnerBrandByIdQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+export type GetPartnerBrandByIdQuery = {
+  __typename?: 'Query';
+  getPartnerBrandByID?: {
+    __typename?: 'PartnerBrand';
+    id: string;
+    name: string;
+    outlets: Array<{
+      __typename?: 'Outlet';
+      id: string;
+      category: OutletCategory;
+      name: string;
+      legacyCode?: string | null;
+      status: OutletStatus;
+      tags: Array<string | null>;
+      location: {
+        __typename?: 'Location';
+        name?: string | null;
+        terminal?: string | null;
+      };
+      content?: {
+        __typename?: 'OutletContent';
+        media?: {
+          __typename?: 'Media';
+          mainImage?: { __typename?: 'Asset'; url?: string | null } | null;
+          mediaCollection?: {
+            __typename?: 'AssetCollection';
+            items: Array<{
+              __typename?: 'Asset';
+              contentType?: string | null;
+            } | null>;
+          } | null;
+        } | null;
+      } | null;
+    } | null>;
+  } | null;
+};
+
 export type GetPartnerBrandsQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']['input']>;
 }>;
@@ -6815,6 +6856,158 @@ export const GetOutletsCountDocument = {
 } as unknown as DocumentNode<
   GetOutletsCountQuery,
   GetOutletsCountQueryVariables
+>;
+export const GetPartnerBrandByIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetPartnerBrandByID' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'getPartnerBrandByID' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'outlets' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'category' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'legacyCode' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'status' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'location' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'terminal' },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'tags' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'content' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'media' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'mainImage' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'url' },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'mediaCollection',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'items',
+                                          },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'contentType',
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GetPartnerBrandByIdQuery,
+  GetPartnerBrandByIdQueryVariables
 >;
 export const GetPartnerBrandsDocument = {
   kind: 'Document',

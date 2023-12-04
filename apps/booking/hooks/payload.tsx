@@ -1,5 +1,6 @@
 import { MantineProvider, Flex } from '@collinsonx/design-system/core';
-import { log, hasRequired, loggerDataError } from '@lib';
+import { log, hasRequired } from '../lib/index';
+import { loggerDataError } from '@collinsonx/utils/lib/analytics';
 import { useRouter } from 'next/router';
 import {
   PropsWithChildren,

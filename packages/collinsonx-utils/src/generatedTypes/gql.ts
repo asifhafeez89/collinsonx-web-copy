@@ -57,6 +57,8 @@ const documents = {
     types.GetOutletsDocument,
   '\n  query GetOutletsCount($limit: Int) {\n    getOutlets(limit: $limit) {\n      id\n    }\n  }\n':
     types.GetOutletsCountDocument,
+  '\n  query GetPartnerBrandByID($id: ID!) {\n    getPartnerBrandByID(id: $id) {\n      id\n      name\n      outlets {\n        id\n        category\n        name\n        legacyCode\n        status\n        location {\n          name\n          terminal\n        }\n        tags\n        content {\n          media {\n            mainImage {\n              url\n            }\n            mediaCollection {\n              items {\n                contentType\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n':
+    types.GetPartnerBrandByIdDocument,
   '\n  query GetPartnerBrands($limit: Int) {\n    getPartnerBrands(limit: $limit) {\n      id\n      name\n      outlets {\n        id\n      }\n    }\n  }\n':
     types.GetPartnerBrandsDocument,
   '\n  query GetPartnerBrandsCount($limit: Int) {\n    getPartnerBrands(limit: $limit) {\n      id\n    }\n  }\n':
@@ -215,6 +217,12 @@ export function graphql(
 export function graphql(
   source: '\n  query GetOutletsCount($limit: Int) {\n    getOutlets(limit: $limit) {\n      id\n    }\n  }\n'
 ): (typeof documents)['\n  query GetOutletsCount($limit: Int) {\n    getOutlets(limit: $limit) {\n      id\n    }\n  }\n'];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  query GetPartnerBrandByID($id: ID!) {\n    getPartnerBrandByID(id: $id) {\n      id\n      name\n      outlets {\n        id\n        category\n        name\n        legacyCode\n        status\n        location {\n          name\n          terminal\n        }\n        tags\n        content {\n          media {\n            mainImage {\n              url\n            }\n            mediaCollection {\n              items {\n                contentType\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n'
+): (typeof documents)['\n  query GetPartnerBrandByID($id: ID!) {\n    getPartnerBrandByID(id: $id) {\n      id\n      name\n      outlets {\n        id\n        category\n        name\n        legacyCode\n        status\n        location {\n          name\n          terminal\n        }\n        tags\n        content {\n          media {\n            mainImage {\n              url\n            }\n            mediaCollection {\n              items {\n                contentType\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

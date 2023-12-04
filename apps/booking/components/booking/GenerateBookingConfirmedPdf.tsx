@@ -2,7 +2,7 @@ import colors from 'ui/colour-constants';
 import React, { useState } from 'react';
 import { PDFDownloadLink, BlobProvider } from '@react-pdf/renderer';
 import { Button } from '@collinsonx/design-system/core';
-import { loggerAction, loggerInfo, sendMobileEvent } from '@lib';
+import { logAction, logInfo, sendMobileEvent } from '@lib';
 import { MOBILE_ACTION_DATA_URI } from '../../constants';
 import { BookingConfirmedPdfProps } from './BookingConfirmationProps';
 import { BookingConfirmationPDF } from './BookingConfirmationPDF';
@@ -20,7 +20,7 @@ export const GenerateBookingConfirmedPdf = (
     const reader = new FileReader();
 
     setDataUriError(false);
-    loggerInfo(FILENAME, 'Creating Webview PDF Data URI', {});
+    logInfo(FILENAME, 'Creating Webview PDF Data URI', {});
 
     reader.onload = () => {
       const event = JSON.stringify({
@@ -28,13 +28,13 @@ export const GenerateBookingConfirmedPdf = (
         payload: reader.result,
       });
 
-      loggerInfo(FILENAME, 'Posting PDF Data URI to App', event);
+      logInfo(FILENAME, 'Posting PDF Data URI to App', event);
       sendMobileEvent(window, event);
     };
 
     reader.onerror = () => {
       setDataUriError(true);
-      loggerInfo(FILENAME, 'Create Webview PDF Data URI Failed', {});
+      logInfo(FILENAME, 'Create Webview PDF Data URI Failed', {});
     };
 
     reader.readAsDataURL(blob);
@@ -54,7 +54,7 @@ export const GenerateBookingConfirmedPdf = (
           <PDFDownloadLink
             document={pdf}
             fileName={`booking_confirmation_${props.reference}`}
-            onClick={() => loggerAction('downloadPdf', props.analyticsTag)}
+            onClick={() => logAction('downloadPdf', props.analyticsTag)}
             style={{
               borderRadius: 4,
               fontSize: 18,

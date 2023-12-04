@@ -36,7 +36,7 @@ import Price from '@components/Price';
 import { formatDate } from 'utils/DateFormatter';
 import { FlightContext } from 'context/flightContext';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
-import { loggerAction } from '@lib';
+import { logAction } from '@lib';
 
 interface DepartureFlightInfo {
   airport: { iata: string };
@@ -62,7 +62,7 @@ const Lounge = () => {
     getBooking();
 
   useEffect(() => {
-    loggerAction(pageName, ANALYTICS_TAGS.ON_PAGE_ENTER_CHECKAVAILABILITY);
+    logAction(pageName, ANALYTICS_TAGS.ON_PAGE_ENTER_CHECKAVAILABILITY);
   }, []);
 
   const form = useForm({
@@ -79,7 +79,7 @@ const Lounge = () => {
     }),
     validate: {
       departureDate: (value) => {
-        loggerAction(pageName, ANALYTICS_TAGS.ON_CHANGE_DATE_ERROR);
+        logAction(pageName, ANALYTICS_TAGS.ON_CHANGE_DATE_ERROR);
         return value !== null
           ? null
           : ValidationErrorResponses.INVALID_DATE.message;
@@ -94,7 +94,7 @@ const Lounge = () => {
 
         if (!validFlight) {
           error = ValidationErrorResponses.INVALID_FLIGHT.message;
-          loggerAction(pageName, ANALYTICS_TAGS.ON_CHANGE_FLIGHT_NUMBER_ERROR);
+          logAction(pageName, ANALYTICS_TAGS.ON_CHANGE_FLIGHT_NUMBER_ERROR);
         }
 
         return error;
@@ -116,7 +116,7 @@ const Lounge = () => {
           'flightNumber',
           ValidationErrorResponses.INVALID_DATEFlIGHT.message
         );
-        loggerAction(pageName, ANALYTICS_TAGS.ON_CHANGE_FLIGHT_NUMBER_ERROR);
+        logAction(pageName, ANALYTICS_TAGS.ON_CHANGE_FLIGHT_NUMBER_ERROR);
       } else {
         if (form.isValid()) {
           const upperCaseFlight = form.values.flightNumber.toUpperCase();
@@ -137,10 +137,10 @@ const Lounge = () => {
   });
 
   const handleClickCheckAvailability = async (values: FormValues) => {
-    loggerAction(pageName, ANALYTICS_TAGS.ON_CONTINUE_BUTTON_AVI);
+    logAction(pageName, ANALYTICS_TAGS.ON_CONTINUE_BUTTON_AVI);
     if (values.children + values.adults > MAX_GUESTS) {
       setGuestError(true);
-      loggerAction(pageName, ANALYTICS_TAGS.ON_CHANGE_ERROR_ATTENDEES_AVL);
+      logAction(pageName, ANALYTICS_TAGS.ON_CHANGE_ERROR_ATTENDEES_AVL);
       return false;
     } else {
       setGuestError(false);

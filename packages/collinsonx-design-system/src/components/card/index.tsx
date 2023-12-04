@@ -18,7 +18,7 @@ export interface CardProps {
   imageAlt?: string;
   children?: ReactNode;
   hasImagePadding?: boolean;
-  dataTestId?: string;
+  'data-testid'?: string;
 }
 
 const _StyledCard = styled(Box)`
@@ -53,7 +53,7 @@ function Card({
   hasImagePadding,
   width,
   imageAlt,
-  dataTestId,
+  'data-testid': dataTestId,
   onClick = () => {},
 }: CardProps) {
   return (

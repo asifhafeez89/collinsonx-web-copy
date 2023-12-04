@@ -3,6 +3,7 @@ import PartnerPortalDashboardPage from '../../pages/PartnerPortalDashboardPage';
 import LoginPage from '../../pages/LoginPage';
 import PartnersPage from 'e2e/tests/pages/PartnersPage';
 import CatalogueApi from 'e2e/tests/utils/CatalogueApi';
+import { CARDS_LIMIT } from 'config';
 
 test.beforeEach(async ({ page }) => {
   const loginPage = new LoginPage(page);
@@ -25,8 +26,7 @@ test.describe('partners page', () => {
     const partnerCard = partnersPage.partnerCard();
 
     await expect(title).toBeVisible();
-    // 10 partners expected to show
-    await expect(partnerCard).toHaveCount(10);
+    await expect(partnerCard).toHaveCount(CARDS_LIMIT);
   });
 
   test('partners display the correct outlet count', async ({ page }) => {

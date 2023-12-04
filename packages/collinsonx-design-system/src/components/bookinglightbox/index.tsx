@@ -1,7 +1,4 @@
 import { Modal, Button, Group, Flex, Box } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { ReactNode } from 'react';
-
 interface BookingLightboxProps {
   children: JSX.Element;
   open: boolean;

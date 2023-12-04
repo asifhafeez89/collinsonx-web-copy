@@ -6,7 +6,7 @@ export interface OverviewCardProps {
   title: string;
   children?: JSX.Element | string;
   icon?: ReactNode;
-  datatestid?: string;
+  'data-testid'?: string;
 }
 
 const Container = styled.div`
@@ -24,7 +24,7 @@ export default function OverviewCard({
   title,
   children,
   icon,
-  datatestid,
+  'data-testid': dataTestId,
 }: OverviewCardProps) {
   return (
     <Container style={{ minHeight: 267, width: '100%' }}>
@@ -40,7 +40,7 @@ export default function OverviewCard({
               {icon}
             </Box>
           ) : null}
-          <Title order={2} color="#25262B" size={20} data-testid={datatestid}>
+          <Title order={2} color="#25262B" size={20} data-testid={dataTestId}>
             {title}
           </Title>
         </Flex>

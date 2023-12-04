@@ -36,7 +36,7 @@ import { getBookingByID } from '@collinsonx/utils/queries';
 import { AlertIcon } from '@collinsonx/design-system/assets/icons';
 import TopBarLinks from '@components/TopBarLinks';
 import { ANALYTICS_TAGS, MOBILE_ACTION_BACK, POLLING_TIME } from '../constants';
-import { loggerAction, sendMobileEvent } from '@lib';
+import { logAction, sendMobileEvent } from '@lib';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import Price from '@components/Price';
 import { InfoPanel } from 'utils/PanelInfo';
@@ -66,13 +66,14 @@ export default function ConfirmPayment() {
   const pageName = 'BookingConfirmed';
 
   useEffect(() => {
-    loggerAction(pageName, ANALYTICS_TAGS.ON_PAGE_ENTER_CONFIRMED);
+    logAction(pageName, ANALYTICS_TAGS.ON_PAGE_ENTER_CONFIRMED);
   }, []);
 
   const handleClickBack: MouseEventHandler<HTMLAnchorElement> = useCallback(
     (e) => {
       if (window && !referrerUrl) {
         e.preventDefault();
+        logAction(pageName, ANALYTICS_TAGS.ON_PAGE_CONFIRMED_BACK_BTN);
         const windowObj: any = window;
         sendMobileEvent(windowObj, MOBILE_ACTION_BACK);
       }
@@ -164,7 +165,7 @@ export default function ConfirmPayment() {
           ctaAction=""
           onClose={() => {}}
           logAction={() =>
-            loggerAction(pageName, ANALYTICS_TAGS.ON_PAYMENT_PROCESSED)
+            logAction(pageName, ANALYTICS_TAGS.ON_PAYMENT_PROCESSED)
           }
         >
           <div>

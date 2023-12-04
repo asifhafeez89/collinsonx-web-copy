@@ -24,7 +24,7 @@ import colors from 'ui/colour-constants';
 import TopBarLinks from '@components/TopBarLinks';
 import { BookingQueryParams } from '@collinsonx/constants/enums';
 
-import { log, loggerAction } from '@lib';
+import { log, logAction } from '@lib';
 import { ANALYTICS_TAGS, VALIDATION_RULES } from '../../constants';
 
 const { bookingId } = BookingQueryParams;
@@ -37,7 +37,7 @@ export default function SignupUser() {
   const pageName = 'Upd_Dtl';
 
   useEffect(() => {
-    loggerAction(pageName, ANALYTICS_TAGS.ON_SIGNUP_PAGE_ENTER);
+    logAction(pageName, ANALYTICS_TAGS.ON_SIGNUP_PAGE_ENTER);
   }, []);
 
   const form = useForm({
@@ -78,7 +78,7 @@ export default function SignupUser() {
         pathname: '/cancel-booking',
         query: { [bookingId]: router.query[bookingId] },
       });
-      loggerAction(
+      logAction(
         pageName,
         ANALYTICS_TAGS.ON_SIGNUP_PAGE_CONFIRM,
         'redirected to cancel'
@@ -88,7 +88,7 @@ export default function SignupUser() {
       router.push({
         pathname: '/',
       });
-      loggerAction(
+      logAction(
         pageName,
         ANALYTICS_TAGS.ON_SIGNUP_PAGE_CONFIRM,
         'redirected to /'
@@ -171,7 +171,7 @@ export default function SignupUser() {
                 placeholder="First name"
                 data-testid="firstName"
                 onClick={() =>
-                  loggerAction(
+                  logAction(
                     pageName,
                     ANALYTICS_TAGS.ON_SIGNUP_PAGE_FIRSTNAME_UPDATE
                   )
@@ -193,7 +193,7 @@ export default function SignupUser() {
                 placeholder="Last name"
                 data-testid="lastName"
                 onClick={() =>
-                  loggerAction(
+                  logAction(
                     pageName,
                     ANALYTICS_TAGS.ON_SIGNUP_PAGE_LASTNAME_UPDATE
                   )
@@ -213,7 +213,7 @@ export default function SignupUser() {
               })}
               data-testid="marketingCheckbox"
               onClick={() =>
-                loggerAction(pageName, ANALYTICS_TAGS.ON_SIGNUP_PAGE_CONCENT)
+                logAction(pageName, ANALYTICS_TAGS.ON_SIGNUP_PAGE_CONCENT)
               }
             />
             <Button fullWidth type="submit" data-testid="loginAfterSignUp">

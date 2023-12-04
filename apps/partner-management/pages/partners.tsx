@@ -16,6 +16,7 @@ import { PartnerBrand } from '@collinsonx/utils';
 import Card, { Status } from '@collinsonx/design-system/components/card';
 import CardTitle from '@collinsonx/design-system/components/card/cardTitle';
 import colors from '@collinsonx/design-system/colour-constants-partner';
+import { CARDS_LIMIT } from 'config';
 
 export default function Partners() {
   const router = useRouter();
@@ -24,7 +25,7 @@ export default function Partners() {
     error: errorPartners,
     data: dataPartners,
   } = useQuery<{ getPartnerBrands: PartnerBrand[] }>(getPartnerBrands, {
-    variables: { limit: 10 },
+    variables: { limit: CARDS_LIMIT },
   });
 
   return (
@@ -39,47 +40,45 @@ export default function Partners() {
       >
         {!loadingPartners &&
           dataPartners &&
-          dataPartners.getPartnerBrands.map(({ name, outlets }, index) => (
-            <Card
-              dataTestId="partner-card"
-              key={index}
-              status={Status.Active}
-              hasImagePadding
-              onClick={() => {
-                router.push('#');
-              }}
-            >
-              <Stack spacing={24}>
-                <Stack spacing={6}>
-                  <Anchor
-                    sx={{ textDecoration: 'none' }}
-                    underline={false}
-                    component={Link}
-                    href="#"
-                  >
-                    <CardTitle>{name}</CardTitle>
-                  </Anchor>
-                  <Text
-                    size={16}
-                    color={colors['partner-text-grey']}
-                    data-testid={`outlet-count-${index}`}
-                  >
-                    {`${outlets.length} ${
-                      outlets.length > 1 ? 'outlets' : 'outlet'
-                    }`}
-                  </Text>
+          dataPartners.getPartnerBrands.map(({ name, outlets, id }, index) => {
+            const href = `/outlets/${id}`;
+            return (
+              <Card
+                key={index}
+                data-testid="partner-card"
+                status={Status.Active}
+                hasImagePadding
+                onClick={() => {
+                  router.push(href);
+                }}
+              >
+                <Stack spacing={24}>
+                  <Stack spacing={6}>
+                    <Anchor
+                      sx={{ textDecoration: 'none' }}
+                      underline={false}
+                      component={Link}
+                      href={href}
+                    >
+                      <CardTitle>{name}</CardTitle>
+                    </Anchor>
+                    <Text
+                      size={16}
+                      color={colors['partner-text-grey']}
+                      data-testid={`outlet-count-${index}`}
+                    >
+                      {`${outlets.length} ${
+                        outlets.length > 1 ? 'outlets' : 'outlet'
+                      }`}
+                    </Text>
+                  </Stack>
+                  <Button aria-hidden="true" variant="outline" tabIndex={-1}>
+                    View outlets
+                  </Button>
                 </Stack>
-                <Button
-                  aria-hidden="true"
-                  variant="outline"
-                  tabIndex={-1}
-                  data-testid={`view-outlets-button-${index}`}
-                >
-                  View outlets
-                </Button>
-              </Stack>
-            </Card>
-          ))}
+              </Card>
+            );
+          })}
       </SimpleGrid>
     </Stack>
   );

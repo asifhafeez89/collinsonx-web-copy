@@ -32,7 +32,7 @@ async function loginAsExistingUser(
     language: 'en',
   };
   const jwt = await signJWT(payload, secret);
-  const lounge = 'MAN6';
+  const lounge = 'BHD1';
 
   await redirectToBaas(page, jwt, lounge);
 
@@ -60,7 +60,7 @@ test.describe('Create payment flow', () => {
       const id = 'alreadyregisteredconsumerwithlinkaccount4';
       const membershipNumber = '89760499';
       const externalId = '89760499';
-      const flightNumber = 'KL1070';
+      const flightNumber = 'BA1417';
       const email = `${id}@${mailinatorAddress}`;
 
       // Act
@@ -82,7 +82,7 @@ test.describe('Create payment flow', () => {
 
       await confirmBookingPage.clickSubmit();
 
-      await page.waitForTimeout(10000);
+      await page.waitForTimeout(15000);
 
       // Assert with empty inputs pay
       const titleRoot = await paymentInfoPage.getTitleRoot();

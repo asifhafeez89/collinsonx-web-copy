@@ -2,6 +2,7 @@ import { test, expect } from '../../baseFixtures';
 import PartnerPortalDashboardPage from '../../pages/PartnerPortalDashboardPage';
 import LoginPage from '../../pages/LoginPage';
 import OutletsPage from '../../pages/OutletsPage';
+import { CARDS_LIMIT } from 'config';
 
 test.beforeEach(async ({ page }) => {
   const loginPage = new LoginPage(page);
@@ -22,7 +23,7 @@ test.describe('outlets page', () => {
     const outletCard = outletsPage.outletCard();
 
     await expect(title).toBeVisible();
-    // 10 outlets expected to show
-    await expect(outletCard).toHaveCount(10);
+    // {CARDS_LIMIT} outlets expected to show
+    await expect(outletCard).toHaveCount(CARDS_LIMIT);
   });
 });

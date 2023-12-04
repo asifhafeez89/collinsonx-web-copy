@@ -69,7 +69,7 @@ export default function Overview() {
       <OverviewCard
         title="Catalogue"
         icon={<CatalogueIcon />}
-        datatestid="catalogueOverviewCard"
+        data-testid="catalogueOverviewCard"
       >
         <>
           <Flex gap="xs" maw="27%">
@@ -77,7 +77,7 @@ export default function Overview() {
               loading={loadingOutlets}
               label="Outlets"
               value={dataOutlets?.getOutlets?.length || 0}
-              datatestid="outletsRequestsCount"
+              data-testid="outletsRequestsCount"
             >
               <Button
                 variant="default"
@@ -93,7 +93,7 @@ export default function Overview() {
               loading={loadingPartnerBrands}
               label="Partners"
               value={dataPartnerBrands?.getPartnerBrands?.length || 0}
-              datatestid="partnersRequestsCount"
+              data-testid="partnersRequestsCount"
             >
               <Button
                 variant="default"

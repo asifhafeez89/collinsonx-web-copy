@@ -5,7 +5,7 @@ export interface OverviewMetricProps {
   value: string | number | JSX.Element;
   children?: JSX.Element;
   loading?: boolean;
-  datatestid?: string;
+  'data-testid'?: string;
 }
 
 export default function OverviewMetric({
@@ -13,12 +13,12 @@ export default function OverviewMetric({
   value,
   children,
   loading,
-  datatestid,
+  'data-testid': dataTestId,
 }: OverviewMetricProps) {
   return (
     <Skeleton visible={loading}>
       <Stack spacing="0">
-        <Text color="dark.6" size={32} weight={600} data-testid={datatestid}>
+        <Text color="dark.6" size={32} weight={600} data-testid={dataTestId}>
           {value}
         </Text>
         <Text mb="lg" color="#9b9ca0" size={16} weight={400}>
