@@ -66,7 +66,7 @@ export const ExperienceProvider = (props: PropsWithChildren) => {
 
   return (
     <ExperienceContext.Provider value={{ experience, setExperience }}>
-      {loading ? (
+      {loading || session.loading ? (
         <Flex
           justify="center"
           align="center"
