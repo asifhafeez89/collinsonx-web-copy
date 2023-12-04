@@ -6,6 +6,10 @@ export default class PartnerPortalDashboardPage {
     this.page = page;
   }
 
+  goToURL() {
+    return this.page.goto('/', { waitUntil: 'networkidle' });
+  }
+
   title() {
     return this.page.getByRole('heading', {
       name: 'Partner Portal',

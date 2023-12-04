@@ -23,7 +23,10 @@ module.exports = defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: 'http://localhost:3000',
+    /* ENV variable is given by the package.json script. */
+    baseURL: `https://partner-local.${process.env.ENV}.cergea.com:4010`,
+    ...devices['Desktop Chrome'],
+    ignoreHTTPSErrors: true,
     headless: true,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -37,36 +40,20 @@ module.exports = defineConfig({
     {
       name: 'partner-chromium-test',
       testDir: './',
-      // ENV variable is given by the package.json script
-      use: {
-        ...devices['Desktop Chrome'],
-        baseURL: `https://partner-local.${process.env.ENV}.cergea.com:4010`,
-        ignoreHTTPSErrors: true,
-      },
       // Skip running the acessibility tests
       testIgnore: 'accessibility.spec.ts',
     },
     {
       name: 'partner-portal',
       testDir: './specs/portal',
-      // ENV variable is given by the package.json script
-      use: {
-        ...devices['Desktop Chrome'],
-        baseURL: `https://partner-local.${process.env.ENV}.cergea.com:4010`,
-        ignoreHTTPSErrors: true,
-      },
+      // Skip running the acessibility tests
+      testIgnore: 'accessibility.spec.ts',
     },
     {
-      name: 'accessibility-tests',
-      testDir: './tests/partner-management',
-      // ENV variable is given by the package.json script
-      use: {
-        ...devices['Desktop Chrome'],
-        baseURL: `https://partner-local.${process.env.ENV}.cergea.com:4010`,
-        ignoreHTTPSErrors: true,
-      },
-      // Only run the accessibility tests
+      name: 'partner-portal-accessibility-tests',
+      testDir: './specs/portal',
       testMatch: 'accessibility.spec.ts',
+      retries: 0,
     },
   ],
 });

@@ -34,7 +34,7 @@ export default class LoginPage {
   }
 
   goToURL() {
-    return this.page.goto('/');
+    return this.page.goto('/auth/login');
   }
 
   acceptCookieBanner() {
