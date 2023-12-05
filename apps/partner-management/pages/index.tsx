@@ -29,7 +29,7 @@ const OverviewHeading = () => {
   return (
     session.accessTokenPayload.userType === 'SUPER_USER' && (
       <Flex justify="space-between" align="center" mt={53} mb={53}>
-        <Title mb={8} size={48} data-testid="bookingOverviewTitle">
+        <Title mb={8} size={48} data-testid="overviewTitle">
           Partner Portal
         </Title>
         <Box>

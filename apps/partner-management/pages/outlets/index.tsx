@@ -8,14 +8,14 @@ import Error from '@components/Error';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import OutletGrid from '@components/OutletGrid';
-import { useParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { CARDS_LIMIT } from 'config';
 
 export default function Outlets() {
   const router = useRouter();
-  const params = useParams();
+  const searchParams = useSearchParams();
 
-  const partnerId = params.partnerId && params.partnerId[0];
+  const partnerId = searchParams.get('partner');
 
   const {
     loading: loadingOutlets,
@@ -36,18 +36,13 @@ export default function Outlets() {
   });
 
   const data = useMemo(() => {
-    if (dataOutlets && dataOutlets.getOutlets) {
-      return dataOutlets.getOutlets;
-    } else if (dataPartnerBrand && dataPartnerBrand.getPartnerBrandByID) {
-      return dataPartnerBrand.getPartnerBrandByID.outlets.filter(
-        (item) => item !== null
-      ) as Outlet[];
-    }
-  }, [dataOutlets, dataPartnerBrand]);
+    return partnerId
+      ? (dataPartnerBrand?.getPartnerBrandByID.outlets as Outlet[])
+      : dataOutlets?.getOutlets;
+  }, [partnerId, dataOutlets, dataPartnerBrand]);
 
   const handleClickOutlet = (id: string) => {
-    // TODO
-    router.push('#');
+    router.push(`/outlets/${id}`);
   };
 
   return (

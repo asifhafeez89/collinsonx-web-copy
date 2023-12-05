@@ -24,10 +24,10 @@ test.describe('partner-specific outlets page', () => {
 
     await partnersPage.clickFirstPartnerCardViewOutletsButton();
 
-    await page.waitForURL('**/outlets/*');
+    await page.waitForURL('**/outlets?partner=*');
 
     const currentUrl = page.url();
-    const partnerId = currentUrl.split('outlets/')[1];
+    const partnerId = currentUrl.split('outlets?partner=')[1];
     const partnerBrand = await catalogueApi.getPartnerBrandByID(partnerId);
     const title = partnerOutletsPage.title();
     const outletCard = partnerOutletsPage.outletCard();

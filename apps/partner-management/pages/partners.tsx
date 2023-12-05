@@ -41,7 +41,7 @@ export default function Partners() {
         {!loadingPartners &&
           dataPartners &&
           dataPartners.getPartnerBrands.map(({ name, outlets, id }, index) => {
-            const href = `/outlets/${id}`;
+            const href = `/outlets?partner=${id}`;
             return (
               <Card
                 key={index}
