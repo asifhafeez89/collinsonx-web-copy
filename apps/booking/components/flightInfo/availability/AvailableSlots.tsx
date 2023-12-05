@@ -4,6 +4,7 @@ import { TIME_FORMAT } from '../../../config/Constants';
 import { formatDate } from '../../../utils/DateFormatter';
 import { useMemo } from 'react';
 import colors from 'ui/colour-constants';
+import useLocale from 'hooks/useLocale';
 
 interface AvailableSlotsProps {
   availableSlots: Availability;
@@ -32,11 +33,13 @@ const AvailableSlots = ({
     [availableSlots]
   );
 
+  const translations = useLocale();
+
   return (
     <>
       <Select
         label=""
-        placeholder="Select time"
+        placeholder={translations.booking.availableSlots.placeholder}
         data={data}
         onChange={onSelectSlot}
         error={error}

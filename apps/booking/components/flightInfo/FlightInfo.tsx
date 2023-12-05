@@ -6,6 +6,7 @@ import colors from 'ui/colour-constants';
 import { InputLabel } from '@collinsonx/design-system';
 import { ANALYTICS_TAGS } from '../../constants';
 import { logAction } from '@lib';
+import useLocale from 'hooks/useLocale';
 
 interface FlightInfoProps {
   form?: UseFormReturnType<any, any>;
@@ -25,64 +26,72 @@ export const FlightInfo = ({
   loading,
   tags = [],
   page = '',
-}: FlightInfoProps) => (
-  <Box
-    sx={{
-      '@media (max-width: 768px)': {
-        backgroundColor: colors.white,
-        padding: '1.2rem 1.2rem',
-      },
-    }}
-  >
-    <Stack spacing={16}>
-      <Title order={3} size={18}>
-        My flight details
-      </Title>
-      <Flex
-        sx={{
-          flexDirection: 'row',
-          '@media (max-width: 768px)': {
-            flexDirection: 'column',
-          },
-        }}
-        justify="space-between"
-      >
-        <DatePickerInput
-          icon={<IconCalendar size="1.5rem" stroke={1.5} />}
-          label="Date"
-          placeholder="Flight date"
-          minDate={new Date()}
-          maw={400}
-          w={270}
-          disabled={loading}
-          withAsterisk
-          onClick={() => logAction(page, tags[0])}
+}: FlightInfoProps) => {
+  const translations = useLocale();
+
+  return (
+    <Box
+      sx={{
+        '@media (max-width: 768px)': {
+          backgroundColor: colors.white,
+          padding: '1.2rem 1.2rem',
+        },
+      }}
+    >
+      <Stack spacing={16}>
+        <Title order={3} size={18}>
+          {translations.booking.flightDetails.title}
+        </Title>
+        <Flex
           sx={{
+            flexDirection: 'row',
             '@media (max-width: 768px)': {
-              paddingBottom: '16px',
+              flexDirection: 'column',
             },
           }}
-          {...form?.getInputProps('departureDate')}
-          styles={{
-            day: {
-              '&[data-weekend]': {
-                color: colors.blue,
+          justify="space-between"
+        >
+          <DatePickerInput
+            icon={<IconCalendar size="1.5rem" stroke={1.5} />}
+            label={translations.booking.flightDetails.dateInput.label}
+            placeholder={
+              translations.booking.flightDetails.dateInput.placeholder
+            }
+            minDate={new Date()}
+            maw={400}
+            w={270}
+            disabled={loading}
+            withAsterisk
+            onClick={() => logAction(page, tags[0])}
+            sx={{
+              '@media (max-width: 768px)': {
+                paddingBottom: '16px',
               },
-            },
-          }}
-        />
-        <InputLabel
-          label="Flight number"
-          placeholder="E.g. EZY123"
-          withAsterisk
-          disabled={loading}
-          w={270}
-          error={'invalid flight number'}
-          {...form?.getInputProps('flightNumber')}
-          isCapitalLetters={true}
-          onClick={() => logAction(page, tags[1])}
-        />
-      </Flex>
-    </Stack>
-  </Box>
-);
+            }}
+            {...form?.getInputProps('departureDate')}
+            styles={{
+              day: {
+                '&[data-weekend]': {
+                  color: colors.blue,
+                },
+              },
+            }}
+          />
+          <InputLabel
+            label={translations.booking.flightDetails.numberInput.label}
+            placeholder={
+              translations.booking.flightDetails.numberInput.placeholder
+            }
+            withAsterisk
+            disabled={loading}
+            w={270}
+            error={'invalid flight number'}
+            {...form?.getInputProps('flightNumber')}
+            isCapitalLetters={true}
+            onClick={() => logAction(page, tags[1])}
+          />
+        </Flex>
+      </Stack>
+    </Box>
+  );
+};

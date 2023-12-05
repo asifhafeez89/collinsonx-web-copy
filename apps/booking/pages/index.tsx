@@ -36,6 +36,7 @@ import Price from '@components/Price';
 import { formatDate } from 'utils/DateFormatter';
 import { FlightContext } from 'context/flightContext';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
+import useLocale from 'hooks/useLocale';
 import { logAction } from '@lib';
 
 interface DepartureFlightInfo {
@@ -60,6 +61,7 @@ const Lounge = () => {
   const { setFlight } = useContext(FlightContext);
   const { flightNumber, departureDate, adults, children, infants } =
     getBooking();
+  const translations = useLocale();
 
   useEffect(() => {
     logAction(pageName, ANALYTICS_TAGS.ON_PAGE_ENTER_CHECKAVAILABILITY);
@@ -82,7 +84,7 @@ const Lounge = () => {
         logAction(pageName, ANALYTICS_TAGS.ON_CHANGE_DATE_ERROR);
         return value !== null
           ? null
-          : ValidationErrorResponses.INVALID_DATE.message;
+          : translations.booking.flightDetails.errors.invalid_date;
       },
       flightNumber: (value: string) => {
         let error = null;
@@ -93,7 +95,7 @@ const Lounge = () => {
           );
 
         if (!validFlight) {
-          error = ValidationErrorResponses.INVALID_FLIGHT.message;
+          error = translations.booking.flightDetails.errors.invalid_flight;
           logAction(pageName, ANALYTICS_TAGS.ON_CHANGE_FLIGHT_NUMBER_ERROR);
         }
 
@@ -114,7 +116,7 @@ const Lounge = () => {
       if (flightInfoData.getFlightDetails.length === 0) {
         form.setFieldError(
           'flightNumber',
-          ValidationErrorResponses.INVALID_DATEFlIGHT.message
+          translations.booking.flightDetails.errors.invalid_dateflight
         );
         logAction(pageName, ANALYTICS_TAGS.ON_CHANGE_FLIGHT_NUMBER_ERROR);
       } else {
@@ -214,7 +216,7 @@ const Lounge = () => {
                 }}
               >
                 <Heading as="h1" padding={0} margin={0} lineHeight={1}>
-                  Flight and guests entry
+                  {translations.booking.flightAndGuests.title}
                 </Heading>
               </Center>
               <LoungeInfo lounge={lounge} loading={!lounge} />
@@ -233,7 +235,11 @@ const Lounge = () => {
                 referreUrl={referrerUrl ?? '#'}
                 guestError={guestError}
               />
-              <EditableTitle title="Total price" as="h3" showBorder={false}>
+              <EditableTitle
+                title={translations.booking.availableSlots.totalPrice.title}
+                as="h3"
+                showBorder={false}
+              >
                 <Price
                   lounge={lounge}
                   guests={{
@@ -245,7 +251,7 @@ const Lounge = () => {
               </EditableTitle>
               <Center w="100%">
                 <Button disabled={!lounge} type="submit">
-                  CHECK AVAILABILITY
+                  {translations.booking.checkAvailability.btn}
                 </Button>
               </Center>
             </Stack>

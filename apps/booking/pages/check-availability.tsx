@@ -57,6 +57,7 @@ import getError from 'utils/getError';
 import { Clock, Warning } from '@collinsonx/design-system/assets/icons';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
 import { FlightDetailsAndGuests } from '@components/FlightDetailsAndGuests';
+import useLocale from 'hooks/useLocale';
 
 const { BAD_USER_INPUT } = BookingError;
 
@@ -86,6 +87,8 @@ export default function CheckAvailability() {
   setBooking(booking);
 
   const [mutate, { loading: cbLoading }] = useMutation(createBooking);
+
+  const translations = useLocale();
 
   useEffect(() => {
     logAction(pageName, ANALYTICS_TAGS.ON_SLOT_PG_ENTER);
@@ -269,22 +272,40 @@ export default function CheckAvailability() {
           onClose={handleClickBack}
         >
           <div>
-            {airportMismatch && <h1>Airports don&apos;t match</h1>}
-            {terminalMismatch && <h1>Terminals don&apos;t match</h1>}
+            {airportMismatch && (
+              <h1>
+                {
+                  translations.booking.availableSlots.errors.airportMismatch
+                    .title
+                }
+              </h1>
+            )}
+            {terminalMismatch && (
+              <h1>
+                {
+                  translations.booking.availableSlots.errors.terminalMismatch
+                    .title
+                }
+              </h1>
+            )}
             <div>
               {airportMismatch && (
                 <p>
-                  The lounge you are booking is not in the same airport your
-                  flight is scheduled to depart from.
+                  {
+                    translations.booking.availableSlots.errors.airportMismatch
+                      .description
+                  }
                 </p>
               )}
               {terminalMismatch && (
                 <p>
-                  The lounge you are booking is not in the same terminal your
-                  flight is scheduled to depart from.{' '}
+                  {
+                    translations.booking.availableSlots.errors.terminalMismatch
+                      .description
+                  }{' '}
                 </p>
               )}
-              <p>Do you still want to go ahead with this booking?</p>
+              <p>{translations.booking.availableSlots.errors.confirmation}</p>
             </div>
           </div>
         </BookingLightbox>
@@ -335,12 +356,14 @@ export default function CheckAvailability() {
               }}
             >
               <Heading as="h1" padding={0} margin={0} lineHeight={1}>
-                Arrival time selection
+                {translations.booking.checkAvailability.arrivalTitle}
               </Heading>
             </Center>
             <LoungeInfo lounge={lounge} loading={!lounge} />
             {!linkedAccountId && (
-              <Notification>Linked account ID could not be found</Notification>
+              <Notification>
+                {translations.booking.checkAvailability.notFoundError}
+              </Notification>
             )}
             <Flex
               direction={{ base: 'column', sm: 'row' }}
@@ -372,7 +395,7 @@ export default function CheckAvailability() {
                         lounge={lounge}
                       />
                       <EditableTitle
-                        title="Estimated time of arrival"
+                        title={translations.booking.availableSlots.title}
                         as="h2"
                         showBorder={true}
                       >
@@ -403,8 +426,7 @@ export default function CheckAvailability() {
                               paddingLeft: '10',
                             }}
                           >
-                            Timeslots are shown in the time zone of the lounge
-                            location
+                            {translations.booking.availableSlots.description}
                           </p>
                         </Flex>
                         {slotsData ? (
@@ -420,7 +442,10 @@ export default function CheckAvailability() {
                           airportMismatch={airportMismatch}
                         ></AvailableSlotsErrorHandling>
                         <div>
-                          This is the time you will arrive at the lounge.
+                          {
+                            translations.booking.availableSlots
+                              .arrivalDescription
+                          }
                         </div>
                         <Flex
                           align={'center'}
@@ -449,27 +474,41 @@ export default function CheckAvailability() {
                               paddingLeft: '10',
                             }}
                           >
-                            As your flight is at{' '}
-                            <strong>{flightTimeToDisplay}</strong>, your maximum
-                            stay is <strong>3 hours prior</strong>.
+                            {translations.booking.availableSlots.stayTime.line1}{' '}
+                            <strong>{flightTimeToDisplay}</strong>
+                            {
+                              translations.booking.availableSlots.stayTime.line2
+                            }{' '}
+                            <strong>
+                              {
+                                translations.booking.availableSlots.stayTime
+                                  .line3
+                              }
+                            </strong>
+                            .
                           </p>
                         </Flex>
                       </EditableTitle>
                       <EditableTitle
-                        title="Cancellation policy"
+                        title={
+                          translations.booking.availableSlots.cancellationPolicy
+                            .title
+                        }
                         as="h2"
                         showBorder={false}
                       >
                         <p style={{ padding: '0', margin: '0' }}>
-                          Cancel up to 48 hours before your booking to receive a
-                          full refund. Bookings cannot be cancelled within 48
-                          hours of booking arrival time, including new bookings
-                          made within that time range.
+                          {
+                            translations.booking.availableSlots
+                              .cancellationPolicy.descriptionLine1
+                          }{' '}
                         </p>
                         <div>
                           <p style={{ padding: '0', margin: '0' }}>
-                            Please confirm details are correct before making
-                            payment.
+                            {
+                              translations.booking.availableSlots
+                                .cancellationPolicy.descriptionLine2
+                            }
                           </p>
                         </div>
                       </EditableTitle>
@@ -499,7 +538,7 @@ export default function CheckAvailability() {
               },
             }}
           >
-            CONFIRM
+            {translations.booking.availableSlots.btn}
           </Button>
         </Center>
       </Stack>
