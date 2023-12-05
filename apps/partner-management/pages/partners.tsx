@@ -72,7 +72,12 @@ export default function Partners() {
                       }`}
                     </Text>
                   </Stack>
-                  <Button aria-hidden="true" variant="outline" tabIndex={-1}>
+                  <Button
+                    aria-hidden="true"
+                    variant="outline"
+                    tabIndex={-1}
+                    data-testid={`view-outlets-button-${index}`}
+                  >
                     View outlets
                   </Button>
                 </Stack>
