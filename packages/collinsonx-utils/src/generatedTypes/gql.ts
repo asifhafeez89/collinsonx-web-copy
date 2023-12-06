@@ -37,7 +37,7 @@ const documents = {
     types.GetAvailableSlotsDocument,
   '\n  query GetBookingById($getBookingById: ID!) {\n    getBookingByID(id: $getBookingById) {\n      actingAccount\n      bookedFrom\n      bookedTo\n      lastArrival\n      metadata\n      reference\n      price\n      price_currency\n      guestAdultCount\n      guestChildrenCount\n      guestInfantCount\n      status\n      id\n      consumer {\n        emailAddress\n        fullName\n        id\n      }\n      experience {\n        loungeName\n        openingHours\n        id\n        images {\n          altText\n          contentType\n          height\n          id\n          url\n          width\n        }\n        location {\n          airportName\n          terminal\n        }\n        pricing {\n          currency\n          reservationOnlyFee\n          reservationCost\n        }\n      }\n    }\n  }\n':
     types.GetBookingByIdDocument,
-  '\n  query GetBookings($status: BookingStatus, $experienceId: ID!) {\n    getBookings(status: $status, experienceID: $experienceId) {\n      bookedFrom\n      bookedTo\n      createdAt\n      type\n      metadata\n      id\n      reference\n      guestCount\n      status\n      createdAt\n      updatedAt\n      consumer {\n        emailAddress\n        firstName\n        fullName\n        id\n      }\n      experience {\n        id\n        loungeName\n      }\n    }\n  }\n':
+  '\n  query GetBookings($status: BookingStatus, $experienceId: ID!) {\n    getBookings(status: $status, experienceID: $experienceId) {\n      bookedFrom\n      bookedTo\n      createdAt\n      type\n      metadata\n      id\n      reference\n      guestAdultCount\n      guestChildrenCount\n      guestInfantCount\n      status\n      createdAt\n      updatedAt\n      consumer {\n        emailAddress\n        firstName\n        fullName\n        id\n      }\n      experience {\n        id\n        loungeName\n      }\n    }\n  }\n':
     types.GetBookingsDocument,
   '\n  query GetBookingsOverview($status: BookingStatus, $experienceId: ID!) {\n    getBookings(status: $status, experienceID: $experienceId) {\n      bookedFrom\n    }\n  }\n':
     types.GetBookingsOverviewDocument,
@@ -53,9 +53,19 @@ const documents = {
     types.GetFlightDetailsDocument,
   '\n  query GetInvitationByID($getInvitationById: ID!) {\n    getInvitationByID(id: $getInvitationById) {\n      createdAt\n      experience {\n        id\n      }\n      id\n      inviteeEmail\n      updatedAt\n    }\n  }\n':
     types.GetInvitationByIdDocument,
+  '\n  query GetOutlets($limit: Int) {\n    getOutlets(limit: $limit) {\n      category\n      id\n      name\n      legacyCode\n      status\n      location {\n        name\n        terminal\n      }\n      tags\n      content {\n        media {\n          mainImage {\n            url\n          }\n          mediaCollection {\n            items {\n              contentType\n            }\n          }\n        }\n      }\n    }\n  }\n':
+    types.GetOutletsDocument,
+  '\n  query GetOutletsCount($limit: Int) {\n    getOutlets(limit: $limit) {\n      id\n    }\n  }\n':
+    types.GetOutletsCountDocument,
+  '\n  query GetPartnerBrandByID($id: ID!) {\n    getPartnerBrandByID(id: $id) {\n      id\n      name\n      outlets {\n        id\n        category\n        name\n        legacyCode\n        status\n        location {\n          name\n          terminal\n        }\n        tags\n        content {\n          media {\n            mainImage {\n              url\n            }\n            mediaCollection {\n              items {\n                contentType\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n':
+    types.GetPartnerBrandByIdDocument,
+  '\n  query GetPartnerBrands($limit: Int) {\n    getPartnerBrands(limit: $limit) {\n      id\n      name\n      outlets {\n        id\n      }\n    }\n  }\n':
+    types.GetPartnerBrandsDocument,
+  '\n  query GetPartnerBrandsCount($limit: Int) {\n    getPartnerBrands(limit: $limit) {\n      id\n    }\n  }\n':
+    types.GetPartnerBrandsCountDocument,
   '\n  query GetPartnerByID($getPartnerById: ID!) {\n    getPartnerByID(id: $getPartnerById) {\n      experiences {\n        id\n        loungeName\n        location {\n          airportName\n          terminal\n        }\n      }\n      id\n      lastName\n      updatedAt\n      firstName\n      fullName\n      createdAt\n      emailAddress\n    }\n  }\n':
     types.GetPartnerByIdDocument,
-  '\n  query SearchExperiences($query: String, $searchFilter: SearchFilterInput) {\n    searchExperiences(query: $query, searchFilter: $searchFilter) {\n      id\n      loungeName\n      loungeCode\n      location {\n        airportName\n        airportCode\n        city\n        country\n        terminal\n      }\n      partnerIdProd\n      partnerIdTest\n      partnerIntegrationId\n      pricing {\n        pricingType\n        currency\n        reservationCost\n        lifestyleXReservationCharge\n        walkInCostCurrentPPRate\n        lifestyleXWalkInCharge\n        lifestyleXReservationCharge\n        vat\n        reservationOnlyFeeCost\n        reservationOnlyFee\n      }\n      facilities\n      openingHours\n      conditions\n      directions\n      images {\n        altText\n        url\n        height\n        width\n        id\n      }\n    }\n  }\n':
+  '\n  query SearchExperiences($query: String, $searchFilter: SearchFilterInput) {\n    searchExperiences(query: $query, searchFilter: $searchFilter) {\n      id\n      loungeName\n      loungeCode\n      location {\n        airportName\n        airportCode\n        city\n        country\n        terminal\n        timezone\n      }\n      partnerIdProd\n      partnerIdTest\n      partnerIntegrationId\n      pricing {\n        pricingType\n        currency\n        reservationCost\n        lifestyleXReservationCharge\n        walkInCostCurrentPPRate\n        lifestyleXWalkInCharge\n        lifestyleXReservationCharge\n        vat\n        reservationOnlyFeeCost\n        reservationOnlyFee\n      }\n      facilities\n      openingHours\n      conditions\n      directions\n      images {\n        altText\n        url\n        height\n        width\n        id\n      }\n    }\n  }\n':
     types.SearchExperiencesDocument,
   '\n  query IsInvitationTokenValid($inviteToken: String!) {\n    isInvitationTokenValid(inviteToken: $inviteToken)\n  }\n':
     types.IsInvitationTokenValidDocument,
@@ -151,8 +161,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  query GetBookings($status: BookingStatus, $experienceId: ID!) {\n    getBookings(status: $status, experienceID: $experienceId) {\n      bookedFrom\n      bookedTo\n      createdAt\n      type\n      metadata\n      id\n      reference\n      guestCount\n      status\n      createdAt\n      updatedAt\n      consumer {\n        emailAddress\n        firstName\n        fullName\n        id\n      }\n      experience {\n        id\n        loungeName\n      }\n    }\n  }\n'
-): (typeof documents)['\n  query GetBookings($status: BookingStatus, $experienceId: ID!) {\n    getBookings(status: $status, experienceID: $experienceId) {\n      bookedFrom\n      bookedTo\n      createdAt\n      type\n      metadata\n      id\n      reference\n      guestCount\n      status\n      createdAt\n      updatedAt\n      consumer {\n        emailAddress\n        firstName\n        fullName\n        id\n      }\n      experience {\n        id\n        loungeName\n      }\n    }\n  }\n'];
+  source: '\n  query GetBookings($status: BookingStatus, $experienceId: ID!) {\n    getBookings(status: $status, experienceID: $experienceId) {\n      bookedFrom\n      bookedTo\n      createdAt\n      type\n      metadata\n      id\n      reference\n      guestAdultCount\n      guestChildrenCount\n      guestInfantCount\n      status\n      createdAt\n      updatedAt\n      consumer {\n        emailAddress\n        firstName\n        fullName\n        id\n      }\n      experience {\n        id\n        loungeName\n      }\n    }\n  }\n'
+): (typeof documents)['\n  query GetBookings($status: BookingStatus, $experienceId: ID!) {\n    getBookings(status: $status, experienceID: $experienceId) {\n      bookedFrom\n      bookedTo\n      createdAt\n      type\n      metadata\n      id\n      reference\n      guestAdultCount\n      guestChildrenCount\n      guestInfantCount\n      status\n      createdAt\n      updatedAt\n      consumer {\n        emailAddress\n        firstName\n        fullName\n        id\n      }\n      experience {\n        id\n        loungeName\n      }\n    }\n  }\n'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -199,14 +209,44 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
+  source: '\n  query GetOutlets($limit: Int) {\n    getOutlets(limit: $limit) {\n      category\n      id\n      name\n      legacyCode\n      status\n      location {\n        name\n        terminal\n      }\n      tags\n      content {\n        media {\n          mainImage {\n            url\n          }\n          mediaCollection {\n            items {\n              contentType\n            }\n          }\n        }\n      }\n    }\n  }\n'
+): (typeof documents)['\n  query GetOutlets($limit: Int) {\n    getOutlets(limit: $limit) {\n      category\n      id\n      name\n      legacyCode\n      status\n      location {\n        name\n        terminal\n      }\n      tags\n      content {\n        media {\n          mainImage {\n            url\n          }\n          mediaCollection {\n            items {\n              contentType\n            }\n          }\n        }\n      }\n    }\n  }\n'];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  query GetOutletsCount($limit: Int) {\n    getOutlets(limit: $limit) {\n      id\n    }\n  }\n'
+): (typeof documents)['\n  query GetOutletsCount($limit: Int) {\n    getOutlets(limit: $limit) {\n      id\n    }\n  }\n'];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  query GetPartnerBrandByID($id: ID!) {\n    getPartnerBrandByID(id: $id) {\n      id\n      name\n      outlets {\n        id\n        category\n        name\n        legacyCode\n        status\n        location {\n          name\n          terminal\n        }\n        tags\n        content {\n          media {\n            mainImage {\n              url\n            }\n            mediaCollection {\n              items {\n                contentType\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n'
+): (typeof documents)['\n  query GetPartnerBrandByID($id: ID!) {\n    getPartnerBrandByID(id: $id) {\n      id\n      name\n      outlets {\n        id\n        category\n        name\n        legacyCode\n        status\n        location {\n          name\n          terminal\n        }\n        tags\n        content {\n          media {\n            mainImage {\n              url\n            }\n            mediaCollection {\n              items {\n                contentType\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n'];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  query GetPartnerBrands($limit: Int) {\n    getPartnerBrands(limit: $limit) {\n      id\n      name\n      outlets {\n        id\n      }\n    }\n  }\n'
+): (typeof documents)['\n  query GetPartnerBrands($limit: Int) {\n    getPartnerBrands(limit: $limit) {\n      id\n      name\n      outlets {\n        id\n      }\n    }\n  }\n'];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  query GetPartnerBrandsCount($limit: Int) {\n    getPartnerBrands(limit: $limit) {\n      id\n    }\n  }\n'
+): (typeof documents)['\n  query GetPartnerBrandsCount($limit: Int) {\n    getPartnerBrands(limit: $limit) {\n      id\n    }\n  }\n'];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
   source: '\n  query GetPartnerByID($getPartnerById: ID!) {\n    getPartnerByID(id: $getPartnerById) {\n      experiences {\n        id\n        loungeName\n        location {\n          airportName\n          terminal\n        }\n      }\n      id\n      lastName\n      updatedAt\n      firstName\n      fullName\n      createdAt\n      emailAddress\n    }\n  }\n'
 ): (typeof documents)['\n  query GetPartnerByID($getPartnerById: ID!) {\n    getPartnerByID(id: $getPartnerById) {\n      experiences {\n        id\n        loungeName\n        location {\n          airportName\n          terminal\n        }\n      }\n      id\n      lastName\n      updatedAt\n      firstName\n      fullName\n      createdAt\n      emailAddress\n    }\n  }\n'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  query SearchExperiences($query: String, $searchFilter: SearchFilterInput) {\n    searchExperiences(query: $query, searchFilter: $searchFilter) {\n      id\n      loungeName\n      loungeCode\n      location {\n        airportName\n        airportCode\n        city\n        country\n        terminal\n      }\n      partnerIdProd\n      partnerIdTest\n      partnerIntegrationId\n      pricing {\n        pricingType\n        currency\n        reservationCost\n        lifestyleXReservationCharge\n        walkInCostCurrentPPRate\n        lifestyleXWalkInCharge\n        lifestyleXReservationCharge\n        vat\n        reservationOnlyFeeCost\n        reservationOnlyFee\n      }\n      facilities\n      openingHours\n      conditions\n      directions\n      images {\n        altText\n        url\n        height\n        width\n        id\n      }\n    }\n  }\n'
-): (typeof documents)['\n  query SearchExperiences($query: String, $searchFilter: SearchFilterInput) {\n    searchExperiences(query: $query, searchFilter: $searchFilter) {\n      id\n      loungeName\n      loungeCode\n      location {\n        airportName\n        airportCode\n        city\n        country\n        terminal\n      }\n      partnerIdProd\n      partnerIdTest\n      partnerIntegrationId\n      pricing {\n        pricingType\n        currency\n        reservationCost\n        lifestyleXReservationCharge\n        walkInCostCurrentPPRate\n        lifestyleXWalkInCharge\n        lifestyleXReservationCharge\n        vat\n        reservationOnlyFeeCost\n        reservationOnlyFee\n      }\n      facilities\n      openingHours\n      conditions\n      directions\n      images {\n        altText\n        url\n        height\n        width\n        id\n      }\n    }\n  }\n'];
+  source: '\n  query SearchExperiences($query: String, $searchFilter: SearchFilterInput) {\n    searchExperiences(query: $query, searchFilter: $searchFilter) {\n      id\n      loungeName\n      loungeCode\n      location {\n        airportName\n        airportCode\n        city\n        country\n        terminal\n        timezone\n      }\n      partnerIdProd\n      partnerIdTest\n      partnerIntegrationId\n      pricing {\n        pricingType\n        currency\n        reservationCost\n        lifestyleXReservationCharge\n        walkInCostCurrentPPRate\n        lifestyleXWalkInCharge\n        lifestyleXReservationCharge\n        vat\n        reservationOnlyFeeCost\n        reservationOnlyFee\n      }\n      facilities\n      openingHours\n      conditions\n      directions\n      images {\n        altText\n        url\n        height\n        width\n        id\n      }\n    }\n  }\n'
+): (typeof documents)['\n  query SearchExperiences($query: String, $searchFilter: SearchFilterInput) {\n    searchExperiences(query: $query, searchFilter: $searchFilter) {\n      id\n      loungeName\n      loungeCode\n      location {\n        airportName\n        airportCode\n        city\n        country\n        terminal\n        timezone\n      }\n      partnerIdProd\n      partnerIdTest\n      partnerIntegrationId\n      pricing {\n        pricingType\n        currency\n        reservationCost\n        lifestyleXReservationCharge\n        walkInCostCurrentPPRate\n        lifestyleXWalkInCharge\n        lifestyleXReservationCharge\n        vat\n        reservationOnlyFeeCost\n        reservationOnlyFee\n      }\n      facilities\n      openingHours\n      conditions\n      directions\n      images {\n        altText\n        url\n        height\n        width\n        id\n      }\n    }\n  }\n'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

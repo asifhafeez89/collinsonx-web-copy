@@ -26,7 +26,7 @@ import linkAccount from '@collinsonx/utils/mutations/linkAccount';
 import Session from 'supertokens-auth-react/recipe/session';
 import TopBarLinks from '@components/TopBarLinks';
 import getError from 'utils/getError';
-import { BookingError } from '../../constants';
+import { ANALYTICS_TAGS, BookingError } from '../../constants';
 import { BookingQueryParams } from '@collinsonx/constants/enums';
 import { PinLockoutError } from '@collinsonx/constants/constants';
 import { getConsumerByID } from '@collinsonx/utils/queries';
@@ -35,9 +35,10 @@ import {
   accountIsEqual,
   consumerIsValid,
   log,
-  loggerDataError,
+  logAction,
+  logDataError,
 } from '../../lib/index';
-import { datadogLogs } from '@datadog/browser-logs';
+import useLocale from 'hooks/useLocale';
 
 const { ERR_MEMBERSHIP_ALREADY_CONNECTED, ERR_TOKEN_INVALID_OR_EXPIRED } =
   BookingError;
@@ -72,8 +73,15 @@ export default function CheckEmail() {
   ] = useMutation(linkAccount);
 
   let interval = useRef<NodeJS.Timeout>();
+  const pageName = 'Email_Code';
 
   const [fetchConsumer] = useLazyQuery(getConsumerByID);
+
+  const translations = useLocale();
+
+  useEffect(() => {
+    logAction(pageName, ANALYTICS_TAGS.ON_CHECK_CODE_ENTER);
+  }, []);
 
   useEffect(() => {
     interval.current = setInterval(() => {
@@ -150,7 +158,7 @@ export default function CheckEmail() {
 
       if (tokenError) {
         setTokenError('Sorry, service is not available');
-        loggerDataError(tokenError, 'checkcode', 'token error', jwt);
+        logDataError(tokenError, 'checkcode', 'token error', jwt);
       } else if (alreadyConnectedError) {
         log('[SIGN OUT]: membership already connected');
         return Session.signOut().then(() => {
@@ -170,6 +178,8 @@ export default function CheckEmail() {
 
   const handleClickConfirm = async () => {
     setCheckingCode(true);
+
+    logAction(pageName, ANALYTICS_TAGS.ON_CHECK_CODE_VERIFY);
 
     if (!code || code.length !== 6) {
       setPinError(true);
@@ -251,6 +261,11 @@ export default function CheckEmail() {
     });
   };
 
+  const handleChange = (code: string) => {
+    setCode(code);
+    logAction(pageName, ANALYTICS_TAGS.ON_CHECK_CODE_CHANGE);
+  };
+
   return (
     <>
       {loadingLinkAccount ? (
@@ -264,7 +279,7 @@ export default function CheckEmail() {
           ) : (
             <>
               <Skeleton visible={!lounge}>
-                <TopBarLinks />
+                <TopBarLinks page={pageName} />
               </Skeleton>
               <Stack
                 spacing={24}
@@ -279,10 +294,10 @@ export default function CheckEmail() {
                   },
                 }}
               >
-                <Title size="26">Check your email</Title>
+                <Title size="26">{translations.auth.checkCode.title}</Title>
                 <ErrorComponent error={errorLinkAccount} />
                 <Text size="18px" align="center">
-                  We have sent a unique code to
+                  {translations.auth.checkCode.description}
                   <Text weight={700}>
                     {email.length < 30
                       ? email
@@ -291,7 +306,7 @@ export default function CheckEmail() {
                 </Text>
                 <Box sx={{ textAlign: 'center' }}>
                   <Text align="center" size={16}>
-                    Wrong email?
+                    {translations.auth.checkCode.wrongEmailTitle}
                   </Text>
                   <Anchor
                     fw={700}
@@ -302,7 +317,7 @@ export default function CheckEmail() {
                     }}
                     onClick={handleClickReenter}
                   >
-                    Re-enter your email address
+                    {translations.auth.checkCode.reEnterEmailLabel}
                   </Anchor>
                 </Box>
                 <Box
@@ -314,10 +329,10 @@ export default function CheckEmail() {
                 />
                 <Box>
                   <Text fw={700} size={12}>
-                    One time passcode
+                    {translations.auth.checkCode.passcodeSubtitle}
                   </Text>
                   <PinInput
-                    onChange={(code) => setCode(code)}
+                    onChange={handleChange}
                     placeholder="-"
                     length={6}
                     size="xl"
@@ -339,9 +354,7 @@ export default function CheckEmail() {
                       align="center"
                       size={16}
                     >
-                      Passcode may be incorrect or expired.
-                      <br />
-                      Please try again.
+                      {translations.auth.checkCode.error.wrongCode}
                     </Text>
                   )}
                   <Flex
@@ -374,7 +387,7 @@ export default function CheckEmail() {
                         },
                       }}
                     >
-                      RESEND
+                      {translations.auth.checkCode.btn.resend}
                     </Button>
                     <Button
                       fullWidth
@@ -383,13 +396,13 @@ export default function CheckEmail() {
                       data-testid="verify"
                       disabled={checkingCode}
                     >
-                      VERIFY
+                      {translations.auth.checkCode.btn.verify}
                     </Button>
                   </Flex>
                 </Box>
                 {count > 0 && (
                   <Text size={14} fw={400} pb={10}>
-                    You can resend the unique code in {count} seconds
+                    {translations.auth.checkCode.uniqueCodeText(count)}
                   </Text>
                 )}
               </Stack>

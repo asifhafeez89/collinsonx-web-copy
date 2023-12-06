@@ -22,12 +22,13 @@ import usePayload from 'hooks/payload';
 import colors from 'ui/colour-constants';
 import TopBarLinks from '@components/TopBarLinks';
 import Notification from '@components/Notification';
-import { BookingError } from '../../constants';
+import { ANALYTICS_TAGS, BookingError } from '../../constants';
 import { BookingQueryParams } from '@collinsonx/constants/enums';
-import { log } from '@lib';
+import { log, logAction } from '@lib';
+import useLocale from 'hooks/useLocale';
 
 const { bookingId } = BookingQueryParams;
-
+const pageName = 'login';
 interface FormValues {
   email: string;
 }
@@ -45,13 +46,21 @@ export default function Login() {
 
   const ref = useRef(false);
 
+  const translations = useLocale();
+
+  useEffect(() => {
+    logAction(pageName, ANALYTICS_TAGS.ON_PAGE_ENTER_EMAIL);
+  }, []);
+
   const form = useForm({
     initialValues: {
       email: (payload ? payload.email : '') as string,
     },
     validate: {
       email: (value: string) =>
-        validateEmail(value) ? undefined : 'Wrong email format, try again',
+        validateEmail(value)
+          ? undefined
+          : translations.auth.login.error.emailFormat,
     },
   });
 
@@ -71,6 +80,8 @@ export default function Login() {
 
   const handleClickContinue = async ({ email }: FormValues) => {
     setLayoutError('');
+    await logAction(pageName, ANALYTICS_TAGS.ON_CONTINUE_CLICK, email);
+
     if (!validateEmail(email.trim())) {
       setLoginError('Invalid email');
     } else {
@@ -79,6 +90,7 @@ export default function Login() {
           email,
           userContext: { accountProvider: payload?.accountProvider },
         });
+
         router.push({
           pathname: '/auth/check-code',
           query: {
@@ -109,7 +121,7 @@ export default function Login() {
       ) : (
         <LayoutLogin>
           <Skeleton visible={!lounge}>
-            <TopBarLinks />
+            <TopBarLinks page="Enter_Email" />
           </Skeleton>
           <form onSubmit={form.onSubmit(handleClickContinue)}>
             <Stack
@@ -131,46 +143,39 @@ export default function Login() {
                   textAlign: 'center',
                 }}
               >
-                Enter your email
+                {translations.auth.login.email.title}
               </Title>
               {layoutError === ERR_MEMBERSHIP_ALREADY_CONNECTED && (
                 <Notification>
-                  Please enter the correct email address or{' '}
-                  <Anchor
-                    href="#"
-                    color={colors.blue}
-                    fw={600}
-                    sx={{ textDecoration: 'underline' }}
-                  >
-                    call support
-                  </Anchor>{' '}
-                  as this account is already linked to a different email address
+                  {translations.auth.login.error.emailError}
                 </Notification>
               )}
-              <Text>
-                Please provide an email address we will use to communicate with
-                you including all booking information.
-              </Text>
+              <Text>{translations.auth.login.email.input.description}</Text>
               <Stack spacing={10}>
                 <Text>
                   <Text span color={colors.red}>
                     *
                   </Text>
-                  Email address
+                  {translations.auth.login.email.input.label}
                 </Text>
                 <InputLabel
                   type="text"
                   autoFocus
-                  placeholder="youremail@gmail.com"
+                  placeholder={translations.auth.login.email.input.placeholder}
                   {...form.getInputProps('email')}
                   data-testid="loginEmailAddress"
+                  onClick={() =>
+                    logAction(
+                      pageName,
+                      ANALYTICS_TAGS.ON_CHANGE_EMAIL_ADDRESS,
+                      form.getInputProps('email')
+                    )
+                  }
                 />
-                <Text align="left">
-                  We will send you a one time passcode via email to proceed.
-                </Text>
+                <Text align="left">{translations.auth.login.passwordText}</Text>
               </Stack>
               <Button type="submit" data-testid="login">
-                CONTINUE
+                {translations.auth.login.btnLogin}
               </Button>
             </Stack>
           </form>

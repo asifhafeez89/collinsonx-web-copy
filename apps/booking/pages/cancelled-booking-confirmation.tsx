@@ -12,12 +12,17 @@ import { InfoGroup } from '@collinsonx/design-system/components/details';
 import { LoungeInfoPreBooked } from '@components/LoungeInfoPreBooked';
 import Price from '@components/Price';
 import { BookingStatus } from '@collinsonx/utils/generatedTypes/graphql';
-import priceToDisplay from 'utils/PriceToDisplay';
+import usePayload from 'hooks/payload';
 import colors from 'ui/colour-constants';
 import { InfoPanel } from 'utils/PanelInfo';
-import { GuestCount } from '@components/guests/GuestCount';
+import { GuestCount } from '@components/guest-count/GuestCount';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
+import { GetAccountProviderString } from 'utils/GetAccountProviderString';
+import { guestBooking } from 'utils/guestListFormatter';
+import EstimatedTimeArrival from '@components/EstimatedTimeArrival';
+import { arrivalTimeFormatter } from 'utils/ArrivalTimeFormatter';
+import { FlightDetailsAndGuests } from '@components/FlightDetailsAndGuests';
 
 export default function CancelBooking() {
   const router = useRouter();
@@ -25,7 +30,9 @@ export default function CancelBooking() {
   const { bookingId: emailBookingId } = router.query;
 
   const [createLoading, setCreateLoading] = useState(false);
+  const { payload, setPayload } = usePayload();
 
+  console.log(payload?.accountProvider);
   const { data: bookingDetails } = useQuery<{
     getBookingByID: Booking;
   }>(getBookingByID, {
@@ -33,10 +40,13 @@ export default function CancelBooking() {
     pollInterval: 300000,
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
-    onCompleted: (data) => {
-      console.log(data);
-    },
+    onCompleted: () => {},
   });
+
+  const arrival = arrivalTimeFormatter(
+    bookingDetails?.getBookingByID?.bookedFrom,
+    bookingDetails?.getBookingByID.lastArrival
+  );
 
   return (
     <Layout>
@@ -164,7 +174,6 @@ export default function CancelBooking() {
                                   '@media (max-width: 768px)': {
                                     paddingLeft: '1.25rem',
                                   },
-                                  padding: '1.25rem ',
                                 }}
                               >
                                 A confirmation email has been sent to{' '}
@@ -176,61 +185,42 @@ export default function CancelBooking() {
                                 </strong>
                               </Text>
                             )}
-                          </Box>
-                          <Box
-                            sx={{
-                              '@media (max-width: 768px)': {
-                                marginTop: '0.5rem',
-                                backgroundColor: colors.white,
-                                padding: '1.2rem',
-                              },
-                            }}
-                          >
-                            <EditableTitle
-                              title="Flight details"
-                              as="h3"
-                              showBorder={true}
+                            <Box
+                              sx={{
+                                '@media (max-width: 768px)': {
+                                  paddingLeft: '1.25rem',
+                                },
+                              }}
                             >
-                              <Details
-                                infos={
-                                  InfoPanel(
-                                    bookingDetails?.getBookingByID?.bookedTo,
-                                    bookingDetails?.getBookingByID?.metadata
-                                      ?.flightNumber
-                                  ) as InfoGroup[]
-                                }
-                                direction="row"
-                              />
-                            </EditableTitle>
+                              <Text fw={700} py={22}>
+                                Your payment for this booking will be refunded
+                                within 10 days.
+                              </Text>
+                              <Text>
+                                {`If you didn’t mean to cancel please re-book
+                                through ${GetAccountProviderString(
+                                  payload?.accountProvider
+                                )}. We hope to see you next
+                                time.`}
+                              </Text>
+                            </Box>
                           </Box>
-                          <Box
-                            sx={{
-                              '@media (max-width: 768px)': {
-                                marginTop: '0.5rem',
-                                backgroundColor: colors.white,
-                                padding: '1.2rem',
-                              },
-                            }}
-                          >
-                            <EditableTitle
-                              title="Who's coming?"
-                              as="h3"
-                              showBorder={false}
-                            >
-                              <GuestCount
-                                adults={
-                                  bookingDetails.getBookingByID.guestAdultCount
-                                }
-                                children={
-                                  bookingDetails.getBookingByID
-                                    .guestChildrenCount
-                                }
-                                infants={
-                                  bookingDetails.getBookingByID.guestInfantCount
-                                }
-                              />
-                            </EditableTitle>
-                          </Box>
+                          <FlightDetailsAndGuests
+                            departureTime={
+                              bookingDetails?.getBookingByID?.bookedTo
+                                ? bookingDetails?.getBookingByID?.bookedTo
+                                : ''
+                            }
+                            flightNumber={
+                              bookingDetails?.getBookingByID?.metadata
+                                ?.flightNumber
+                            }
+                            guestList={guestBooking(
+                              bookingDetails?.getBookingByID
+                            )}
+                            lounge={bookingDetails?.getBookingByID?.experience}
+                            noEdit={true}
+                          />
                           <Box
                             sx={{
                               width: 'initial',
@@ -277,33 +267,12 @@ export default function CancelBooking() {
                             <EditableTitle
                               title="Estimated time of arrival"
                               as="h3"
-                              showBorder={false}
+                              showBorder={true}
                             >
-                              <p style={{ padding: '0', margin: '0' }}>
-                                Timeslots are shown in the time zone of the
-                                lounge location
-                              </p>
-                              <Flex
-                                direction={{ base: 'column', sm: 'row' }}
-                                gap={10}
-                              >
-                                <p style={{ padding: '0', margin: '0' }}>
-                                  {' '}
-                                  {formatDate(
-                                    new Date(
-                                      `${bookingDetails?.getBookingByID.bookedFrom}`
-                                    ),
-                                    TIME_FORMAT
-                                  )}{' '}
-                                  -{' '}
-                                  {formatDate(
-                                    new Date(
-                                      `${bookingDetails?.getBookingByID.lastArrival}`
-                                    ),
-                                    TIME_FORMAT
-                                  )}
-                                </p>{' '}
-                              </Flex>
+                              {bookingDetails?.getBookingByID?.bookedFrom &&
+                                bookingDetails?.getBookingByID?.lastArrival && (
+                                  <EstimatedTimeArrival arrival={arrival} />
+                                )}
                             </EditableTitle>
                           </Box>
                         </Stack>

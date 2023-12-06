@@ -2,23 +2,22 @@ import Layout from '@components/Layout';
 import { Box, Center, Flex, Stack } from '@collinsonx/design-system/core';
 import { LoungeInfo } from '@components/LoungeInfo';
 import { Details, Button } from '@collinsonx/design-system';
-import { useContext, useRef, useState } from 'react';
+import { useContext, useRef, useState, useEffect } from 'react';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
-import { constants } from '../constants';
+import { ANALYTICS_TAGS, constants } from '../constants';
 import usePayload from 'hooks/payload';
 import { InfoGroup } from '@collinsonx/design-system/components/details';
 import { BookingContext } from 'context/bookingContext';
 import { getCheckoutSessionUrl } from 'services/payment';
 import colors from 'ui/colour-constants';
 import TopBarLinks from '@components/TopBarLinks';
-import Price from '@components/Price';
 import dayjs from 'dayjs';
 import StripeCheckout from '@components/stripe';
-import { InfoPanel } from 'utils/PanelInfo';
-import { GuestCount } from '@components/guests/GuestCount';
 import { FlightContext } from 'context/flightContext';
-import { log } from '@lib';
+import { log, logAction } from '@lib';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
+import EstimatedTimeArrival from '@components/EstimatedTimeArrival';
+import { FlightDetailsAndGuests } from '@components/FlightDetailsAndGuests';
 
 export default function ConfirmBooking() {
   const [clientSecret, setClientSecret] = useState('');
@@ -27,6 +26,10 @@ export default function ConfirmBooking() {
   const { getBooking } = useContext(BookingContext);
   const { getFlight } = useContext(FlightContext);
 
+  useEffect(() => {
+    logAction(pageName, ANALYTICS_TAGS.ON_PAYMENT_ENTER);
+  }, []);
+
   const { flightNumber, children, bookingId, adults, infants, arrival } =
     getBooking();
 
@@ -34,9 +37,12 @@ export default function ConfirmBooking() {
 
   const flightData = getFlight();
 
+  const pageName = 'G_T_Pmt';
+
   const totalQuantity: number = Number(adults + children);
 
   const handleSubmit = async () => {
+    logAction(pageName, ANALYTICS_TAGS.ON_PAYMENT_CONTINUE);
     try {
       const paymentinput = {
         bookingID: bookingId ?? '',
@@ -75,7 +81,7 @@ export default function ConfirmBooking() {
     <Layout ref={layoutRef}>
       <Stack spacing={16} sx={{ backgroundColor: colors.background }}>
         <Stack>
-          <TopBarLinks />
+          <TopBarLinks page={pageName} />
         </Stack>
         <Flex
           justify="center"
@@ -142,80 +148,18 @@ export default function ConfirmBooking() {
                 lounge && (
                   <Box>
                     <Stack spacing={8}>
-                      <EditableTitle title="Flight details" to="/" as="h2">
-                        {departureTime && (
-                          <Details
-                            infos={
-                              InfoPanel(
-                                departureTime,
-                                flightNumber
-                              ) as InfoGroup[]
-                            }
-                            direction="row"
-                          />
-                        )}
-                      </EditableTitle>
-
-                      <Flex
-                        direction={{ base: 'column', lg: 'row' }}
-                        justify={'space-between'}
-                        sx={{
-                          width: '100%',
-                          borderBottom: `1px solid ${colors.borderSection}`,
-
-                          '@media (max-width: 768px)': {
-                            width: '100%',
-                            border: 'none',
-                          },
-                        }}
-                      >
-                        <EditableTitle
-                          title="Who's coming?"
-                          as="h2"
-                          showBorder={false}
-                        >
-                          <GuestCount
-                            adults={adults}
-                            children={children}
-                            infants={infants}
-                          />
-                        </EditableTitle>
-                        <Box
-                          sx={{
-                            width: 'initial',
-
-                            '@media (max-width: 768px)': {
-                              marginTop: '0.5rem',
-                            },
-                          }}
-                        >
-                          <EditableTitle
-                            title="Total price"
-                            as="h2"
-                            showBorder={false}
-                          >
-                            <Price
-                              lounge={lounge}
-                              guests={{ adults, infants, children }}
-                            ></Price>
-                          </EditableTitle>
-                        </Box>
-                      </Flex>
+                      <FlightDetailsAndGuests
+                        departureTime={departureTime ? departureTime : ''}
+                        flightNumber={flightNumber}
+                        guestList={{ adults, infants, children }}
+                        lounge={lounge}
+                      />
                       <EditableTitle
                         title="Estimated time of arrival"
                         as="h2"
                         showBorder={true}
                       >
-                        <p style={{ padding: '0', margin: '0' }}>
-                          Timeslots are shown in the time zone of the lounge
-                          location
-                        </p>
-                        <Flex direction="row" gap={5}>
-                          <p style={{ padding: '0', margin: '0' }}>
-                            {' '}
-                            {arrival}
-                          </p>{' '}
-                        </Flex>
+                        {arrival && <EstimatedTimeArrival arrival={arrival} />}
                       </EditableTitle>
                       <EditableTitle title="Cancellation policy" as="h2">
                         <p style={{ padding: '0', margin: '0' }}>
@@ -251,5 +195,3 @@ export default function ConfirmBooking() {
     </Layout>
   );
 }
-
-ConfirmBooking.getLayout = (page: JSX.Element) => <>{page}</>;

@@ -6,6 +6,6 @@ export const CODE_ICAO = 'ICAO';
 export const DATE_FORMAT = 'YYYY-MM-DD';
 export const TIME_FORMAT = 'HH:mm';
 export const DATE_READABLE_FORMAT = 'ddd D MMMM YYYY';
-export const DATE_TIME_FORMAT = 'YYYY-MM-DDTHH:mm:ss.SSS[Z]';
+export const DATE_TIME_FORMAT = 'YYYY-MM-DDTHH:mm:ssZ';
 export const FAQ_PP = 'https://memberhelp.prioritypass.com/en/support/home';
 export const FAQ_LK = 'https://www.loungekey.com/en/contact-us';

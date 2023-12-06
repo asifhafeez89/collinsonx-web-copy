@@ -35,15 +35,17 @@ import { useLazyQuery } from '@collinsonx/utils/apollo';
 import { getBookingByID } from '@collinsonx/utils/queries';
 import { AlertIcon } from '@collinsonx/design-system/assets/icons';
 import TopBarLinks from '@components/TopBarLinks';
-import { MOBILE_ACTION_BACK, POLLING_TIME } from '../constants';
-import { sendMobileEvent } from '@lib';
+import { ANALYTICS_TAGS, MOBILE_ACTION_BACK, POLLING_TIME } from '../constants';
+import { logAction, sendMobileEvent } from '@lib';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import Price from '@components/Price';
 import { InfoPanel } from 'utils/PanelInfo';
 import { GenerateBookingConfirmedPdf } from '@components/booking/GenerateBookingConfirmedPdf';
-import { GuestCount } from '@components/guests/GuestCount';
+import { GuestCount } from '@components/guest-count/GuestCount';
 import BackButton from '@components/BackButton';
 import { FlightContext } from 'context/flightContext';
+import EstimatedTimeArrival from '@components/EstimatedTimeArrival';
+import { FlightDetailsAndGuests } from '@components/FlightDetailsAndGuests';
 
 export default function ConfirmPayment() {
   const router = useRouter();
@@ -51,12 +53,27 @@ export default function ConfirmPayment() {
 
   let interval = useRef<NodeJS.Timeout>();
 
-  const { lounge, referrerUrl, consumerData, platform } = usePayload();
+  const {
+    lounge,
+    loungeCode,
+    referrerUrl,
+    consumerData,
+    platform,
+    jwt,
+    payload,
+  } = usePayload();
+
+  const pageName = 'BookingConfirmed';
+
+  useEffect(() => {
+    logAction(pageName, ANALYTICS_TAGS.ON_PAGE_ENTER_CONFIRMED);
+  }, []);
 
   const handleClickBack: MouseEventHandler<HTMLAnchorElement> = useCallback(
     (e) => {
       if (window && !referrerUrl) {
         e.preventDefault();
+        logAction(pageName, ANALYTICS_TAGS.ON_PAGE_CONFIRMED_BACK_BTN);
         const windowObj: any = window;
         sendMobileEvent(windowObj, MOBILE_ACTION_BACK);
       }
@@ -80,10 +97,6 @@ export default function ConfirmPayment() {
 
     return () => clearInterval(interval.current);
   }, []);
-
-  const handleRedoQuery = () => {
-    fetchBookingDetails();
-  };
 
   const { flightNumber, children, bookingId, adults, arrival, infants } =
     getBooking();
@@ -149,9 +162,11 @@ export default function ConfirmPayment() {
         <LoaderLightBox
           open={open}
           title=""
-          onHandleClick={handleRedoQuery}
-          ctaAction="TRY AGAIN"
+          ctaAction=""
           onClose={() => {}}
+          logAction={() =>
+            logAction(pageName, ANALYTICS_TAGS.ON_PAYMENT_PROCESSED)
+          }
         >
           <div>
             <h2>Payment is being processed</h2>
@@ -276,7 +291,6 @@ export default function ConfirmPayment() {
                       </p>
                     </EditableTitle>
                   </Box>
-
                   {!!lounge && (
                     <Stack
                       sx={{
@@ -286,76 +300,13 @@ export default function ConfirmPayment() {
                       }}
                       spacing={8}
                     >
-                      <Box
-                        sx={{
-                          '@media (max-width: 768px)': {
-                            background: colors.white,
-                          },
-                        }}
-                      >
-                        <EditableTitle
-                          as="h2"
-                          title="Flight details"
-                          showBorder={true}
-                        >
-                          {departureTime && (
-                            <Details
-                              infos={
-                                InfoPanel(
-                                  departureTime,
-                                  flightNumber
-                                ) as InfoGroup[]
-                              }
-                              direction="row"
-                            />
-                          )}
-                        </EditableTitle>
-                      </Box>
-                      <Flex
-                        direction={{ base: 'column', lg: 'row' }}
-                        justify={'space-between'}
-                        sx={{
-                          width: '100%',
-                          borderBottom: `1px solid ${colors.borderSection}`,
-
-                          '@media (max-width: 768px)': {
-                            width: '100%',
-                            border: 'none',
-                          },
-                        }}
-                      >
-                        <EditableTitle
-                          title="Who's coming?"
-                          as="h2"
-                          showBorder={false}
-                        >
-                          <GuestCount
-                            adults={adults}
-                            children={children}
-                            infants={infants}
-                          />
-                        </EditableTitle>
-                        <Box
-                          sx={{
-                            width: 'initial',
-
-                            '@media (max-width: 768px)': {
-                              marginTop: '0.5rem',
-                            },
-                          }}
-                        >
-                          <EditableTitle
-                            title="Total price"
-                            as="h2"
-                            showBorder={false}
-                          >
-                            <Price
-                              lounge={lounge}
-                              guests={{ adults, infants, children }}
-                            ></Price>
-                          </EditableTitle>
-                        </Box>
-                      </Flex>
+                      <FlightDetailsAndGuests
+                        departureTime={departureTime ? departureTime : ''}
+                        flightNumber={flightNumber}
+                        guestList={{ adults, infants, children }}
+                        lounge={lounge}
+                        noEdit={true}
+                      />
 
                       <Box
                         sx={{
@@ -369,16 +320,9 @@ export default function ConfirmPayment() {
                           as="h2"
                           showBorder={true}
                         >
-                          <p style={{ padding: '0', margin: '0' }}>
-                            Timeslots are shown in the time zone of the lounge
-                            location
-                          </p>
-                          <Flex direction="row" gap={5}>
-                            <p style={{ padding: '0', margin: '0' }}>
-                              {' '}
-                              {arrival}
-                            </p>{' '}
-                          </Flex>
+                          {arrival && (
+                            <EstimatedTimeArrival arrival={arrival} />
+                          )}
                         </EditableTitle>
                       </Box>
 
@@ -394,6 +338,9 @@ export default function ConfirmPayment() {
                             number, boarding pass and photo ID along with your
                             Priority Pass membership card or eligible access
                             method for check in at the lounge.{' '}
+                          </li>
+                          <li>
+                            Maximum stay is 3 hours prior to your flight time.
                           </li>
                           <li>
                             Cancellation must be made at least 48 hours in
@@ -422,6 +369,15 @@ export default function ConfirmPayment() {
                         infants={infants}
                         lounge={lounge}
                         reference={dataBooking?.getBookingByID.reference}
+                        bookingId={dataBooking?.getBookingByID.id}
+                        loungeCode={loungeCode}
+                        linkAccountToken={jwt}
+                        accountProvider={payload?.accountProvider}
+                        membershipType={payload?.membershipType}
+                        platform={platform}
+                        analyticsTag={
+                          ANALYTICS_TAGS.ON_PAGE_CONFIRMED_BTN_DOWNLOAD
+                        }
                       />
                     )}
                     <Anchor
@@ -473,7 +429,13 @@ export default function ConfirmPayment() {
                         confirmed.
                       </Text>
                       <Box sx={{ padding: '1.25rem', textAlign: 'center' }}>
-                        <BackButton>GO TO LOUNGES</BackButton>
+                        <BackButton
+                          analyticsTag={
+                            ANALYTICS_TAGS.ON_PAGE_CONFIRMED_BACK_BTN
+                          }
+                        >
+                          GO TO LOUNGES
+                        </BackButton>
                       </Box>
                     </Box>
                   </Stack>

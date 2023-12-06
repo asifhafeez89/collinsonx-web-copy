@@ -1,137 +1,75 @@
 import styled from '@emotion/styled';
-import Button from '../button';
-import { Flex, Stack, Text, Box } from '@mantine/core';
-import { Clock, MapPin } from '../../assets/icons';
+import { Box, BoxProps, createPolymorphicComponent } from '@mantine/core';
+import colors from '../../colour-constants-partner';
+import CardImage from './cardImage';
+import { ReactNode } from 'react';
 
-const CardWrapper = styled.div`
-  width: 100%;
-  transition: 0.3s;
-  border-radius: 5px; /* 5px rounded corners */
-  background-color: #fff;
-  padding: 1rem;
-  margin-bottom: 1rem;
-
-  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
-
-  h3 {
-    padding-bottom: 0px;
-    margin-bottom: 0px;
-  }
-
-  p {
-    margin-top: 0px;
-  }
-
-  &:hover {
-    box-shadow: 10 8px 16px 10 rgba(0, 0, 0, 0.2);
-  }
-
-  .currency:not(:empty):before {
-    content: '£';
-    font-size: 14px;
-    vertical-align: 10px;
-  }
-`;
-
-const ContentWrapper = styled.div`
-  padding-bottom: 8px;
-  & h3 {
-    margin-top: 8px;
-  }
-`;
-
-type Maybe<T> = T | undefined | null;
+export enum Status {
+  'Active' = 'active',
+  'Inactive' = 'inactive',
+}
 
 export interface CardProps {
-  title: string;
-  subtitle: string;
-  ImageComponent?: JSX.Element;
-  openingHours?: string;
-  //price is mocked based on the format supplied by Ion
-  price: {
-    currency: string;
-    reservationCost: number;
-    lifestyleXReservationCharge: number;
-  };
-  handleClick: () => void;
+  onClick?: () => void;
+  imageUrl?: string;
+  status: Status;
+  width?: string;
+  imageCount?: number;
+  imageAlt?: string;
+  children?: ReactNode;
+  hasImagePadding?: boolean;
+  'data-testid'?: string;
 }
 
-/**
- * Primary UI component for user interaction
- */
-export default function Card({
-  title,
-  subtitle,
-  handleClick,
-  ImageComponent,
-  openingHours,
-  price,
+const _StyledCard = styled(Box)`
+  position: relative;
+  ${({ width }: CardProps) => (width ? 'width: ' + width + ';' : '')}
+  min-width: 350px;
+  cursor: pointer;
+  overflow: hidden;
+  border: 1px solid ${colors['partner-grey-border']};
+  background-color: #fff;
+  border-radius: 8px;
+  margin-bottom: auto;
+  &:hover {
+    box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.25);
+    transition: all 0.3s ease-in-out;
+    border: 1px solid ${colors['partner-text-grey']};
+    & > .card-image {
+      background-size: 105%;
+    }
+  }
+`;
+
+const StyledCard = createPolymorphicComponent<'div', BoxProps | CardProps>(
+  _StyledCard
+);
+
+function Card({
+  status = Status.Active,
+  children,
+  imageCount,
+  imageUrl,
+  hasImagePadding,
+  width,
+  imageAlt,
+  'data-testid': dataTestId,
+  onClick = () => {},
 }: CardProps) {
   return (
-    <CardWrapper>
-      {ImageComponent}
-      <ContentWrapper>
-        <h3>{title}</h3>
-      </ContentWrapper>
-      <Stack spacing={8} pb={16}>
-        <Flex align="center" gap={10}>
-          <Box miw={16}>
-            <MapPin width={16} color="#0C8599" />
-          </Box>
-          <Text fw={600}>{subtitle}</Text>
-        </Flex>
-        <Flex align="center" gap={10}>
-          <Box miw={16}>
-            <Clock width={16} color="#0C8599" />
-          </Box>
-          <Text
-            fw={600}
-            sx={{
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-            }}
-          >
-            {openingHours && openingHours.split('Note')[0]}
-          </Text>
-        </Flex>
-      </Stack>
-      <Stack
-        style={{
-          borderRadius: '5px 5px 0 0',
-          borderTop: '1px solid #c8c9ca',
-        }}
-      >
-        <Box>
-          {price.reservationCost !== undefined && (
-            <p
-              className="currency"
-              style={{
-                fontSize: '28px',
-                fontWeight: '700',
-                margin: '0',
-                marginBottom: '4px',
-                color: '#0C8599',
-              }}
-            >
-              {price.reservationCost.toFixed(2)}
-            </p>
-          )}
-        </Box>
-        <Flex justify={'center'} gap={8}>
-          <Button
-            fullWidth={true}
-            icon={null}
-            variant="outline"
-            style={{ color: 'black', border: '2px solid black' }}
-          >
-            Scan QR
-          </Button>
-          <Button fullWidth={true} handleClick={handleClick} icon={null}>
-            View Lounge
-          </Button>
-        </Flex>
-      </Stack>
-    </CardWrapper>
+    <StyledCard p={0} width={width} onClick={onClick} data-testid={dataTestId}>
+      <CardImage
+        src={imageUrl}
+        hasPadding={hasImagePadding}
+        status={status}
+        imageCount={imageCount}
+        alt={imageAlt}
+      />
+      <Box p={24} sx={{ width: '100%' }}>
+        {children}
+      </Box>
+    </StyledCard>
   );
 }
+
+export default Card;

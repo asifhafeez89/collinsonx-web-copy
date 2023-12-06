@@ -101,7 +101,7 @@ test.describe('Initial Redirect to BAAS page', () => {
       const enterEmailPage = new EnterEmailPage(page);
       const membershipNumber = uuidv4();
       const externalId = uuidv4();
-      const id = uuidv4() + process.env.ENV.toLowerCase();
+      const id = uuidv4() + (process.env.ENV || 'test').toLowerCase();
       const email = `${id}@${mailinatorAddress}`;
       // Arrange
       const payload = {
@@ -207,7 +207,7 @@ test.describe('Initial Redirect to BAAS page', () => {
       const jwt = await signJWT(payload, secret);
 
       // Act
-      const url = `/?linkAccountToken=${jwt}&loungeCode=${lounge}&extra=xyz`;
+      const url = `/?linkAccountToken=${jwt}&loungeCode=${lounge}&extra=xyz&ln=en`;
       await page.goto(url, {
         waitUntil: 'networkidle',
       });

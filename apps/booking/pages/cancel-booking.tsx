@@ -24,6 +24,12 @@ import { LoungeInfo } from '@components/LoungeInfo';
 
 import { BookingError } from '../constants';
 import BookingLightbox from '@collinsonx/design-system/components/bookinglightbox';
+import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
+import { GuestCount } from '@components/guest-count/GuestCount';
+import { guestBooking } from 'utils/guestListFormatter';
+import EstimatedTimeArrival from '@components/EstimatedTimeArrival';
+import { arrivalTimeFormatter } from 'utils/ArrivalTimeFormatter';
+import { FlightDetailsAndGuests } from '@components/FlightDetailsAndGuests';
 
 const {
   ERR_BOOKING_NOT_FOUND,
@@ -59,6 +65,7 @@ export default function CancelBooking() {
   const [opened, { open, close }] = useDisclosure(false);
   const [dateError, setDateError] = useState<Boolean>(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const { data: bookingDetails } = useQuery<{
     getBookingByID: Booking;
@@ -74,6 +81,7 @@ export default function CancelBooking() {
     useMutation(cancelBooking);
 
   const handleCancellation = () => {
+    setLoading(true);
     close();
     setErrorMessage('');
     if (
@@ -89,6 +97,7 @@ export default function CancelBooking() {
           const item = response.errors[0];
           const code = item?.extensions?.code;
           const message = cancellationMessages[code as string];
+          setLoading(false);
           if (message) {
             setErrorMessage(message);
           } else if (code === ERR_CANCELLATION_FAILED_WITH_SUCCESS) {
@@ -102,17 +111,24 @@ export default function CancelBooking() {
             pathname: '/cancelled-booking-confirmation',
             query: { bookingId: emailBookingId },
           });
+          setLoading(false);
         }
       });
     } else {
       setDateError(true);
       close();
+      setLoading(false);
     }
   };
 
+  const arrival = arrivalTimeFormatter(
+    bookingDetails?.getBookingByID?.bookedFrom,
+    bookingDetails?.getBookingByID.lastArrival
+  );
+
   return (
     <Layout>
-      {bookingDetails ? (
+      {bookingDetails && !loading ? (
         <Stack spacing={8} sx={{ width: '100%', marginTop: '100px' }}>
           <BookingLightbox
             open={opened}
@@ -243,83 +259,22 @@ export default function CancelBooking() {
                               {bookingDetails?.getBookingByID?.reference}
                             </EditableTitle>
                           </Box>
-                          <Box
-                            sx={{
-                              '@media (max-width: 768px)': {
-                                marginTop: '0.5rem',
-                                backgroundColor: colors.white,
-                                padding: '1.2rem',
-                              },
-                            }}
-                          >
-                            <EditableTitle
-                              title="Flight details"
-                              as="h3"
-                              showBorder={true}
-                            >
-                              <Details
-                                infos={
-                                  InfoPanel(
-                                    bookingDetails?.getBookingByID?.bookedTo,
-                                    bookingDetails?.getBookingByID?.metadata
-                                      ?.flightNumber
-                                  ) as InfoGroup[]
-                                }
-                                direction="row"
-                              />
-                            </EditableTitle>
-                          </Box>
-                          <Box
-                            sx={{
-                              '@media (max-width: 768px)': {
-                                marginTop: '0.5rem',
-                                backgroundColor: colors.white,
-                                padding: '1.2rem',
-                              },
-                            }}
-                          >
-                            <EditableTitle
-                              title="Who's coming?"
-                              as="h3"
-                              showBorder={false}
-                            >
-                              <Flex direction="row" gap={10}>
-                                <Flex sx={{ width: '60%' }} gap={10}>
-                                  <p style={{ padding: '0', margin: '0' }}>
-                                    {' '}
-                                    Adults{' '}
-                                    {
-                                      bookingDetails?.getBookingByID
-                                        ?.guestAdultCount
-                                    }
-                                  </p>{' '}
-                                  <p style={{ padding: '0', margin: '0' }}>
-                                    {' '}
-                                    Children{' '}
-                                    {
-                                      bookingDetails?.getBookingByID
-                                        ?.guestChildrenCount
-                                    }
-                                  </p>{' '}
-                                  {Number(
-                                    bookingDetails?.getBookingByID
-                                      ?.guestInfantCount
-                                  ) > 0 ? (
-                                    <>
-                                      <p style={{ padding: '0', margin: '0' }}>
-                                        {' '}
-                                        Infants{' '}
-                                        {
-                                          bookingDetails?.getBookingByID
-                                            ?.guestInfantCount
-                                        }
-                                      </p>
-                                    </>
-                                  ) : null}
-                                </Flex>
-                              </Flex>
-                            </EditableTitle>
-                          </Box>
+                          <FlightDetailsAndGuests
+                            departureTime={
+                              bookingDetails?.getBookingByID?.bookedTo
+                                ? bookingDetails?.getBookingByID?.bookedTo
+                                : ''
+                            }
+                            flightNumber={
+                              bookingDetails?.getBookingByID?.metadata
+                                ?.flightNumber
+                            }
+                            guestList={guestBooking(
+                              bookingDetails?.getBookingByID
+                            )}
+                            lounge={bookingDetails?.getBookingByID?.experience}
+                            noEdit={true}
+                          />
                           <Box
                             sx={{
                               width: 'initial',
@@ -368,34 +323,10 @@ export default function CancelBooking() {
                               as="h3"
                               showBorder={false}
                             >
-                              <p style={{ padding: '0', margin: '0' }}>
-                                Timeslots are shown in the time zone of the
-                                lounge location
-                              </p>
-                              <Flex
-                                direction={{ base: 'column', sm: 'row' }}
-                                gap={10}
-                                sx={{
-                                  border: 'none',
-                                }}
-                              >
-                                <p style={{ padding: '0', margin: '0' }}>
-                                  {' '}
-                                  {formatDate(
-                                    new Date(
-                                      `${bookingDetails?.getBookingByID?.bookedFrom}`
-                                    ),
-                                    TIME_FORMAT
-                                  )}{' '}
-                                  -{' '}
-                                  {formatDate(
-                                    new Date(
-                                      `${bookingDetails?.getBookingByID.lastArrival}`
-                                    ),
-                                    TIME_FORMAT
-                                  )}
-                                </p>{' '}
-                              </Flex>
+                              {bookingDetails?.getBookingByID?.bookedFrom &&
+                                bookingDetails?.getBookingByID?.lastArrival && (
+                                  <EstimatedTimeArrival arrival={arrival} />
+                                )}
                             </EditableTitle>
                           </Box>
                         </>
@@ -419,9 +350,9 @@ export default function CancelBooking() {
           </Flex>
         </Stack>
       ) : (
-        <Stack>
-          <Box>Loading...</Box>
-        </Stack>
+        <Flex justify="center" align="center" h="100%" gap={30}>
+          <LoaderLifestyleX />
+        </Flex>
       )}
     </Layout>
   );

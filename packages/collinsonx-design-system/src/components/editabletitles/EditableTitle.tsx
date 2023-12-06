@@ -3,7 +3,7 @@ import Heading from '../heading/Heading';
 import { Box, Flex, Stack } from '@mantine/core';
 import { Pencil } from '../../assets/icons';
 import Link from 'next/link';
-import colors from '../../colour-constants';
+import colors from '../../colour-constants-baas';
 
 interface EditableTitlesProps {
   title: string;
@@ -27,13 +27,11 @@ export default function EditableTitle({
         borderBottom: showBorder
           ? `1px solid ${colors.borderSection}`
           : 'initial',
-        paddingBottom: '20px',
 
         '@media (max-width: 768px)': {
           backgroundColor: '#fff',
           width: '100%',
           borderBottom: 'initial',
-          paddingBottom: '2rem',
         },
       }}
     >
