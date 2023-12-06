@@ -60,7 +60,6 @@ if ((datadogenv?.length ?? 0) > 0) {
     trackResources: true,
     trackLongTasks: true,
     defaultPrivacyLevel: 'mask-user-input',
-    actionNameAttribute: 'data-custom-name',
   });
   datadogRum.startSessionReplayRecording();
 }

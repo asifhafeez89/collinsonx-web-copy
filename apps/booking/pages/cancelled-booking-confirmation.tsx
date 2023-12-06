@@ -12,14 +12,12 @@ import { InfoGroup } from '@collinsonx/design-system/components/details';
 import { LoungeInfoPreBooked } from '@components/LoungeInfoPreBooked';
 import Price from '@components/Price';
 import { BookingStatus } from '@collinsonx/utils/generatedTypes/graphql';
-import usePayload from 'hooks/payload';
+import priceToDisplay from 'utils/PriceToDisplay';
 import colors from 'ui/colour-constants';
 import { InfoPanel } from 'utils/PanelInfo';
-import { GuestCount } from '@components/guest-count/GuestCount';
+import { GuestCount } from '@components/guests/GuestCount';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
-import { GetAccountProviderString } from 'utils/GetAccountProviderString';
-import { guestBooking } from 'utils/guestListFormatter';
 
 export default function CancelBooking() {
   const router = useRouter();
@@ -27,9 +25,7 @@ export default function CancelBooking() {
   const { bookingId: emailBookingId } = router.query;
 
   const [createLoading, setCreateLoading] = useState(false);
-  const { payload, setPayload } = usePayload();
 
-  console.log(payload?.accountProvider);
   const { data: bookingDetails } = useQuery<{
     getBookingByID: Booking;
   }>(getBookingByID, {
@@ -168,6 +164,7 @@ export default function CancelBooking() {
                                   '@media (max-width: 768px)': {
                                     paddingLeft: '1.25rem',
                                   },
+                                  padding: '1.25rem ',
                                 }}
                               >
                                 A confirmation email has been sent to{' '}
@@ -179,25 +176,6 @@ export default function CancelBooking() {
                                 </strong>
                               </Text>
                             )}
-                            <Box
-                              sx={{
-                                '@media (max-width: 768px)': {
-                                  paddingLeft: '1.25rem',
-                                },
-                              }}
-                            >
-                              <Text fw={700} py={22}>
-                                Your payment for this booking will be refunded
-                                within 10 days.
-                              </Text>
-                              <Text>
-                                {`If you didn’t mean to cancel please re-book
-                                through ${GetAccountProviderString(
-                                  payload?.accountProvider
-                                )}. We hope to see you next
-                                time.`}
-                              </Text>
-                            </Box>
                           </Box>
                           <Box
                             sx={{
@@ -240,9 +218,16 @@ export default function CancelBooking() {
                               showBorder={false}
                             >
                               <GuestCount
-                                guestList={guestBooking(
-                                  bookingDetails?.getBookingByID
-                                )}
+                                adults={
+                                  bookingDetails.getBookingByID.guestAdultCount
+                                }
+                                children={
+                                  bookingDetails.getBookingByID
+                                    .guestChildrenCount
+                                }
+                                infants={
+                                  bookingDetails.getBookingByID.guestInfantCount
+                                }
                               />
                             </EditableTitle>
                           </Box>

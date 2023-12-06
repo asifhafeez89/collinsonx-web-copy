@@ -18,7 +18,6 @@ import colors from 'ui/colour-constants';
 
 import { useForm, UseFormReturnType } from '@mantine/form';
 import { Labrada } from 'next/font/google';
-import Notification from '@components/Notification';
 
 import { MAX_GUESTS, MOBILE_ACTION_BACK } from '../constants';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
@@ -27,15 +26,9 @@ export interface GuestInfoProps {
   form: UseFormReturnType<any, any>;
   loading: boolean;
   referreUrl: string;
-  guestError: Boolean;
 }
 
-const GuestInfo = ({
-  form,
-  loading,
-  referreUrl,
-  guestError,
-}: GuestInfoProps) => {
+const GuestInfo = ({ form, loading, referreUrl }: GuestInfoProps) => {
   const handlers = [
     useRef<NumberInputHandlers>(),
     useRef<NumberInputHandlers>(),
@@ -68,34 +61,14 @@ const GuestInfo = ({
       }}
     >
       <EditableTitle title="Who's coming?" as="h3" showBorder={true}>
-        <Flex direction="column" align="top">
-          <Flex direction="row" align="top" gap={8}>
-            <Box pt={2}>
-              <Warning style={{ width: 16, height: 16 }} />
-            </Box>
-            <p style={{ marginTop: '0px' }}>
-              Maximum group size is 5, excluding infants. Please check
-              availability for lounge-specific restrictions on number of
-              infants.
-            </p>
-          </Flex>
-          {guestError ? (
-            <Box
-              sx={{
-                '@media (max-width: 768px)': {
-                  backgroundColor: colors.white,
-                  padding: '1.2rem 0',
-                },
-              }}
-            >
-              <Notification>
-                The maximum capacity of the lounge is a total of {MAX_GUESTS}{' '}
-                guests. Change number of guests.
-              </Notification>
-            </Box>
-          ) : (
-            ''
-          )}
+        <Flex direction="row" align="top" gap={8}>
+          <Box pt={2}>
+            <Warning style={{ width: 16, height: 16 }} />
+          </Box>
+          <p style={{ marginTop: '0px' }}>
+            Maximum group size is 5, excluding infants. Please check
+            availability for lounge-specific restrictions on number of infants.
+          </p>
         </Flex>
         <Grid>
           <Grid.Col lg={6}>

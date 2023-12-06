@@ -1,7 +1,7 @@
 import { Modal, Group, Grid } from '@mantine/core';
 import Button from '../button';
 import { ReactNode } from 'react';
-import colors from '../../colour-constants-baas';
+import colors from '../../colour-constants';
 
 interface LightboxProps {
   children: JSX.Element;
