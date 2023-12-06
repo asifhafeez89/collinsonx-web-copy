@@ -80,7 +80,7 @@ export default function Login() {
 
   const handleClickContinue = async ({ email }: FormValues) => {
     setLayoutError('');
-    await logAction(pageName, ANALYTICS_TAGS.ON_CONTINUE_CLICK, email);
+    await logAction(pageName, ANALYTICS_TAGS.ON_CONTINUE_CLICK);
 
     if (!validateEmail(email.trim())) {
       setLoginError('Invalid email');
@@ -165,11 +165,7 @@ export default function Login() {
                   {...form.getInputProps('email')}
                   data-testid="loginEmailAddress"
                   onClick={() =>
-                    logAction(
-                      pageName,
-                      ANALYTICS_TAGS.ON_CHANGE_EMAIL_ADDRESS,
-                      form.getInputProps('email')
-                    )
+                    logAction(pageName, ANALYTICS_TAGS.ON_CHANGE_EMAIL_ADDRESS)
                   }
                 />
                 <Text align="left">{translations.auth.login.passwordText}</Text>
