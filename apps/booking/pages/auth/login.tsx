@@ -22,13 +22,12 @@ import usePayload from 'hooks/payload';
 import colors from 'ui/colour-constants';
 import TopBarLinks from '@components/TopBarLinks';
 import Notification from '@components/Notification';
-import { ANALYTICS_TAGS, BookingError } from '../../constants';
+import { BookingError } from '../../constants';
 import { BookingQueryParams } from '@collinsonx/constants/enums';
 import { log } from '@lib';
-import { loggerAction } from '@lib';
 
 const { bookingId } = BookingQueryParams;
-const pageName = 'login';
+
 interface FormValues {
   email: string;
 }
@@ -45,10 +44,6 @@ export default function Login() {
   const [loginError, setLoginError] = useState('');
 
   const ref = useRef(false);
-
-  useEffect(() => {
-    loggerAction(pageName, ANALYTICS_TAGS.ON_PAGE_ENTER_EMAIL);
-  }, []);
 
   const form = useForm({
     initialValues: {
@@ -76,8 +71,6 @@ export default function Login() {
 
   const handleClickContinue = async ({ email }: FormValues) => {
     setLayoutError('');
-    await loggerAction(pageName, ANALYTICS_TAGS.ON_CONTINUE_CLICK, email);
-
     if (!validateEmail(email.trim())) {
       setLoginError('Invalid email');
     } else {
@@ -86,7 +79,6 @@ export default function Login() {
           email,
           userContext: { accountProvider: payload?.accountProvider },
         });
-
         router.push({
           pathname: '/auth/check-code',
           query: {
@@ -117,7 +109,7 @@ export default function Login() {
       ) : (
         <LayoutLogin>
           <Skeleton visible={!lounge}>
-            <TopBarLinks page="Email" />
+            <TopBarLinks />
           </Skeleton>
           <form onSubmit={form.onSubmit(handleClickContinue)}>
             <Stack
@@ -172,13 +164,6 @@ export default function Login() {
                   placeholder="youremail@gmail.com"
                   {...form.getInputProps('email')}
                   data-testid="loginEmailAddress"
-                  onClick={() =>
-                    loggerAction(
-                      pageName,
-                      ANALYTICS_TAGS.ON_CHANGE_EMAIL_ADDRESS,
-                      form.getInputProps('email')
-                    )
-                  }
                 />
                 <Text align="left">
                   We will send you a one time passcode via email to proceed.

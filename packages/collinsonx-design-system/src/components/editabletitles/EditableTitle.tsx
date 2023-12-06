@@ -3,7 +3,7 @@ import Heading from '../heading/Heading';
 import { Box, Flex, Stack } from '@mantine/core';
 import { Pencil } from '../../assets/icons';
 import Link from 'next/link';
-import colors from '../../colour-constants-baas';
+import colors from '../../colour-constants';
 
 interface EditableTitlesProps {
   title: string;
