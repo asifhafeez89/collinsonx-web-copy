@@ -223,14 +223,19 @@ export default {
     },
     payment: {
       btnGoPayment: 'Ir al pago',
+      title: 'Información del pago',
     },
     confirmationPayment: {
       title: 'Confirmación de reserva',
       processing: {
         beingProcessed: {
           title: 'El pago se está procesando',
-          description:
-            'Se está procesando su pago por el salón Onelondon Gatwick.Estos pueden tardar unos minutos/segundos en completarse. ',
+          description: {
+            line1: 'Su pago por',
+            line2: 'está siendo procesado.',
+            line3:
+              'No actualice la página, puede tardar unos minutos en completarse.',
+          },
         },
         unsuccessful: {
           title: 'El pago no tiene éxito',
@@ -244,6 +249,8 @@ export default {
           reference: {
             label: 'Referencia de reserva',
           },
+          emailConfirmationLabel:
+            'Se ha enviado un correo electrónico de confirmación a',
           description:
             'Nuestras disculpas, se produjeron error durante el proceso de pago y su pago no fue procesado.Le solicitamos amablemente que haga una nueva reserva o repita su pago.',
           importantNotes: {

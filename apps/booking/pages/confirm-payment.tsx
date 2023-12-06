@@ -46,6 +46,7 @@ import BackButton from '@components/BackButton';
 import { FlightContext } from 'context/flightContext';
 import EstimatedTimeArrival from '@components/EstimatedTimeArrival';
 import { FlightDetailsAndGuests } from '@components/FlightDetailsAndGuests';
+import useLocale from 'hooks/useLocale';
 
 export default function ConfirmPayment() {
   const router = useRouter();
@@ -86,6 +87,8 @@ export default function ConfirmPayment() {
 
   const [open, setOpen] = useState(true);
   const [alert, setAlert] = useState<boolean | null>(null);
+
+  const translations = useLocale();
 
   useEffect(() => {
     // Check if the booking state is incompleted and]
@@ -169,18 +172,31 @@ export default function ConfirmPayment() {
           }
         >
           <div>
-            <h2>Payment is being processed</h2>
+            <h2>
+              {
+                translations.booking.confirmationPayment.processing
+                  .beingProcessed.title
+              }
+            </h2>
             <p>
-              Your payment for{' '}
+              {
+                translations.booking.confirmationPayment.processing
+                  .beingProcessed.description.line1
+              }
               <strong>
                 {lounge?.loungeName} &nbsp;
                 {loungeLocation}
               </strong>{' '}
-              is being processed.
+              {
+                translations.booking.confirmationPayment.processing
+                  .beingProcessed.description.line2
+              }
               <br />
               <br />
-              Please don't refresh the page, it may take a few minutes to
-              complete.
+              {
+                translations.booking.confirmationPayment.processing
+                  .beingProcessed.description.line3
+              }
             </p>
           </div>
         </LoaderLightBox>
@@ -220,7 +236,7 @@ export default function ConfirmPayment() {
               }}
             >
               <Heading as="h1" padding={0} margin={0} lineHeight={1}>
-                Booking confirmation
+                {translations.booking.confirmationPayment.title}
               </Heading>
             </Center>
             <Box
@@ -273,18 +289,30 @@ export default function ConfirmPayment() {
                           },
                         }}
                       >
-                        Good news! Your booking has been confirmed
+                        {
+                          translations.booking.confirmationPayment.outcome
+                            .succesful.title
+                        }
                       </Box>
                     </Heading>
                     <EditableTitle
-                      title=" Booking reference"
+                      title={
+                        translations.booking.confirmationPayment.outcome
+                          .succesful.reference.label
+                      }
                       as="h3"
                       showBorder={true}
                     >
-                      Booking reference {''}{' '}
-                      {dataBooking?.getBookingByID.reference}
+                      {
+                        translations.booking.confirmationPayment.outcome
+                          .succesful.reference.label
+                      }{' '}
+                      {''} {dataBooking?.getBookingByID.reference}
                       <p>
-                        A confirmation email has been sent to{' '}
+                        {
+                          translations.booking.confirmationPayment.outcome
+                            .succesful.emailConfirmationLabel
+                        }{' '}
                         <span style={{ fontWeight: 700 }}>
                           {consumerData?.getConsumerByID.emailAddress}
                         </span>
@@ -316,7 +344,7 @@ export default function ConfirmPayment() {
                         }}
                       >
                         <EditableTitle
-                          title="Estimated time of arrival"
+                          title={translations.booking.availableSlots.title}
                           as="h2"
                           showBorder={true}
                         >
@@ -327,26 +355,19 @@ export default function ConfirmPayment() {
                       </Box>
 
                       <EditableTitle
-                        title="Important Notes"
+                        title={
+                          translations.booking.confirmationPayment.outcome
+                            .succesful.importantNotes.title
+                        }
                         as="h2"
                         showBorder={false}
                       >
                         <ul style={{ paddingLeft: '1em' }}>
-                          <li>
-                            {' '}
-                            Please remember to bring your booking reference
-                            number, boarding pass and photo ID along with your
-                            Priority Pass membership card or eligible access
-                            method for check in at the lounge.{' '}
-                          </li>
-                          <li>
-                            Maximum stay is 3 hours prior to your flight time.
-                          </li>
-                          <li>
-                            Cancellation must be made at least 48 hours in
-                            advance of your visit date & time to receive a
-                            refund. No refund will be issued after this time.
-                          </li>
+                          {translations.booking.confirmationPayment.outcome.succesful.importantNotes.notes.map(
+                            (note) => (
+                              <li>{note}</li>
+                            )
+                          )}
                         </ul>
                       </EditableTitle>
                     </Stack>
@@ -393,7 +414,10 @@ export default function ConfirmPayment() {
                         marginTop: '0.75rem',
                       }}
                     >
-                      Return to lounge page
+                      {
+                        translations.booking.confirmationPayment.outcome
+                          .succesful.btn.return
+                      }
                     </Anchor>
                   </Flex>
                 </Box>
@@ -420,13 +444,16 @@ export default function ConfirmPayment() {
                         <AlertIcon
                           style={{ width: '1.3rem', height: '1.3rem' }}
                         />{' '}
-                        Booking Confirmation delay
+                        {
+                          translations.booking.confirmationPayment.outcome.delay
+                            .title
+                        }
                       </Title>
-
                       <Text>
-                        We're sorry we're not able to confirm your booking right
-                        now. We will send an email as soon as your booking is
-                        confirmed.
+                        {
+                          translations.booking.confirmationPayment.outcome.delay
+                            .description
+                        }
                       </Text>
                       <Box sx={{ padding: '1.25rem', textAlign: 'center' }}>
                         <BackButton
@@ -434,7 +461,10 @@ export default function ConfirmPayment() {
                             ANALYTICS_TAGS.ON_PAGE_CONFIRMED_BACK_BTN
                           }
                         >
-                          GO TO LOUNGES
+                          {
+                            translations.booking.confirmationPayment.outcome
+                              .delay.btn
+                          }
                         </BackButton>
                       </Box>
                     </Box>

@@ -102,6 +102,7 @@ type bookingLang = {
   };
   payment: {
     btnGoPayment: string;
+    title: string;
   };
   confirmationPayment: ConfirmationPaymentProps;
   cancellation: CancellationProps;
@@ -200,7 +201,14 @@ type ScreenProps = {
 type ConfirmationPaymentProps = {
   title: string;
   processing: {
-    beingProcessed: ScreenProps;
+    beingProcessed: {
+      title: string;
+      description: {
+        line1: string;
+        line2: string;
+        line3: string;
+      };
+    };
     unsuccessful: ScreenProps;
   };
   outcome: {
@@ -209,6 +217,7 @@ type ConfirmationPaymentProps = {
       reference: {
         label: string;
       };
+      emailConfirmationLabel: string;
       description: string;
       importantNotes: {
         title: string;
@@ -227,7 +236,11 @@ type ConfirmationPaymentProps = {
         return: string;
       };
     };
-    delay: SmallScreenLang;
+    delay: {
+      title: string;
+      description?: string;
+      btn?: string;
+    };
     delayError: SmallScreenLang;
     declined: SmallScreenLang;
   };

@@ -221,14 +221,19 @@ export default {
     },
     payment: {
       btnGoPayment: 'Go to payment',
+      title: 'Payment information',
     },
     confirmationPayment: {
       title: 'Booking confirmation',
       processing: {
         beingProcessed: {
           title: 'Payment is being processed',
-          description:
-            'Your payment for the Lounge OneLondon Gatwick is being processed. These might take a few minutes/seconds to complete. ',
+          description: {
+            line1: 'Your payment for ',
+            line2: 'is being processed.',
+            line3:
+              "Please don't refresh the page, it may take a few minutes to complete.",
+          },
         },
         unsuccessful: {
           title: 'Payment is being unsuccessful',
@@ -242,6 +247,7 @@ export default {
           reference: {
             label: 'Booking Reference',
           },
+          emailConfirmationLabel: 'A confirmation email has been sent to',
           description:
             'Our apologies, error occurred during the payment process and your payment was not processed. We kindly request you to either make a new booking or repeat your payment.',
           importantNotes: {
