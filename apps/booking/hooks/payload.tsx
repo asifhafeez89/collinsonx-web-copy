@@ -44,6 +44,8 @@ import {
   REFERRER,
   PLATFORM,
   LANGUAGE,
+  VERSION,
+  PDF_VERSION_ACCEPTED,
 } from '../constants';
 import { Consumer } from 'types/consumer';
 
@@ -53,6 +55,7 @@ const {
   referrer: referrerParam,
   platform: platformParam,
   ln: ln,
+  version: version,
 } = BookingQueryParams;
 
 type PayloadState = {
@@ -118,7 +121,6 @@ export const PayloadProvider = (props: PropsWithChildren) => {
   const [tokenError, setTokenError] = useState<string>();
   const [payloadError, setPayloadError] = useState<boolean>(false);
   const [payloadErrorTitle, setPayloadErrorTitle] = useState<string>();
-  const [payloadErrorMessage, setPayloadErrorMessage] = useState<string>();
   const [linkedAccountId, setLinkedAccountId] = useState<string>();
   const [referrerUrl, setReferrerUrl] = useState<string>();
   const [platform, setPlatform] = useState<string>();
@@ -166,6 +168,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       const queryReferrer = router.query[referrerParam] as string;
       const queryPlatform = router.query[platformParam] as string;
       const queryLanguage = router.query[ln] as string;
+      const queryVersion = router.query[version] as string;
 
       const storageJWT = getItem(JWT);
       const storageLoungeCode = getItem(LOUNGE_CODE);
@@ -176,6 +179,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       let jwt: string = '';
       let loungeCode: string = '';
       let language: string = '';
+      let versionPDF: string = PDF_VERSION_ACCEPTED;
       let referrer: string = '';
       let platform: string = 'web';
 
@@ -187,12 +191,14 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         referrer = queryReferrer || '';
         platform = queryPlatform || 'web';
         language = queryLanguage || 'en';
+        versionPDF = queryVersion || PDF_VERSION_ACCEPTED;
       } else if (hasStoredData) {
         jwt = getItem(JWT)!;
         loungeCode = getItem(LOUNGE_CODE)!;
         referrer = getItem(REFERRER) || '';
         platform = getItem(PLATFORM) || 'web';
         language = getItem(LANGUAGE) || 'en';
+        versionPDF = getItem(VERSION) || PDF_VERSION_ACCEPTED;
         log(`Retrieved ${jwtParam} and ${lcParam} from storage`);
         log('referrer:', referrer);
         log('platform:', platform);
@@ -226,7 +232,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       setJWT(jwt);
       setReferrerUrl(referrer);
       setPlatform(platform);
-
+      setItem(VERSION, versionPDF);
       let payload: BridgePayload;
 
       try {

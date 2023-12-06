@@ -2,7 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { USER_ID, USER_TYPE, USER_META, SELECTED_LOUNGE } from 'config';
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import { getItem, setItem, removeItem } from '@lib';
-import { LOUNGE_CODE, JWT, REFERRER, PLATFORM, LANGUAGE } from '../constants';
+import {
+  LOUNGE_CODE,
+  JWT,
+  REFERRER,
+  PLATFORM,
+  LANGUAGE,
+  VERSION,
+  PDF_VERSION_ACCEPTED,
+} from '../constants';
 import { BookingQueryParams } from '@collinsonx/constants/enums';
 
 const {
@@ -11,6 +19,7 @@ const {
   referrer: referParam,
   platform: platParam,
   ln: ln,
+  version: version,
 } = BookingQueryParams;
 
 interface AuthWrapperProps {
@@ -45,12 +54,14 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
         const referrerParam = urlParams.get(referParam);
         const platformParam = urlParams.get(platParam);
         const platln = urlParams.get(ln);
+        const platVersion = urlParams.get(version);
 
         if (tokenParam && loungeParam) {
           setItem(LOUNGE_CODE, loungeParam);
           setItem(JWT, tokenParam);
           setItem(PLATFORM, platformParam ?? '');
           setItem(LANGUAGE, platln ?? 'en');
+          setItem(VERSION, platVersion ?? PDF_VERSION_ACCEPTED);
         }
 
         if (referrerParam) {

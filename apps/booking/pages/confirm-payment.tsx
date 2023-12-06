@@ -35,18 +35,23 @@ import { useLazyQuery } from '@collinsonx/utils/apollo';
 import { getBookingByID } from '@collinsonx/utils/queries';
 import { AlertIcon } from '@collinsonx/design-system/assets/icons';
 import TopBarLinks from '@components/TopBarLinks';
-import { ANALYTICS_TAGS, MOBILE_ACTION_BACK, POLLING_TIME } from '../constants';
-import { logAction, sendMobileEvent } from '@lib';
+import {
+  ANALYTICS_TAGS,
+  MOBILE_ACTION_BACK,
+  PDF_VERSION_ACCEPTED,
+  POLLING_TIME,
+  VERSION,
+} from '../constants';
+import { getItem, logAction, sendMobileEvent } from '@lib';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
-import Price from '@components/Price';
-import { InfoPanel } from 'utils/PanelInfo';
 import { GenerateBookingConfirmedPdf } from '@components/booking/GenerateBookingConfirmedPdf';
-import { GuestCount } from '@components/guest-count/GuestCount';
 import BackButton from '@components/BackButton';
 import { FlightContext } from 'context/flightContext';
 import EstimatedTimeArrival from '@components/EstimatedTimeArrival';
 import { FlightDetailsAndGuests } from '@components/FlightDetailsAndGuests';
+import ShowButtonByVersion from '@components/ShowDownloadButton';
 import useLocale from 'hooks/useLocale';
+
 
 export default function ConfirmPayment() {
   const router = useRouter();
@@ -105,6 +110,8 @@ export default function ConfirmPayment() {
     getBooking();
 
   const flightData = getFlight();
+
+  const version = getItem(VERSION);
 
   const loungeLocation = useMemo(
     () =>
@@ -378,28 +385,33 @@ export default function ConfirmPayment() {
                     align={'center'}
                   >
                     {platform === 'web' && (
-                      <GenerateBookingConfirmedPdf
-                        adults={adults}
-                        arrival={arrival}
-                        children={children}
-                        departureTime={departureTime}
-                        emailAddress={
-                          consumerData?.getConsumerByID.emailAddress
-                        }
-                        flightNumber={flightNumber}
-                        infants={infants}
-                        lounge={lounge}
-                        reference={dataBooking?.getBookingByID.reference}
-                        bookingId={dataBooking?.getBookingByID.id}
-                        loungeCode={loungeCode}
-                        linkAccountToken={jwt}
-                        accountProvider={payload?.accountProvider}
-                        membershipType={payload?.membershipType}
-                        platform={platform}
-                        analyticsTag={
-                          ANALYTICS_TAGS.ON_PAGE_CONFIRMED_BTN_DOWNLOAD
-                        }
-                      />
+                      <ShowButtonByVersion
+                        currentVersion={version ?? ''}
+                        minVersion={PDF_VERSION_ACCEPTED}
+                      >
+                        <GenerateBookingConfirmedPdf
+                          adults={adults}
+                          arrival={arrival}
+                          children={children}
+                          departureTime={departureTime}
+                          emailAddress={
+                            consumerData?.getConsumerByID.emailAddress
+                          }
+                          flightNumber={flightNumber}
+                          infants={infants}
+                          lounge={lounge}
+                          reference={dataBooking?.getBookingByID.reference}
+                          bookingId={dataBooking?.getBookingByID.id}
+                          loungeCode={loungeCode}
+                          linkAccountToken={jwt}
+                          accountProvider={payload?.accountProvider}
+                          membershipType={payload?.membershipType}
+                          platform={platform}
+                          analyticsTag={
+                            ANALYTICS_TAGS.ON_PAGE_CONFIRMED_BTN_DOWNLOAD
+                          }
+                        />
+                      </ShowButtonByVersion>
                     )}
                     <Anchor
                       target="_top"

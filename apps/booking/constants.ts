@@ -17,6 +17,7 @@ export const LANGUAGE = 'LANGUAGE';
 export const JWT = 'JWT';
 export const REFERRER = 'REFERRER';
 export const PLATFORM = 'PLATFORM';
+export const VERSION = 'VERSION';
 
 export const MOBILE_ACTION_BACK = 1;
 export const MOBILE_ACTION_DATA_URI = 'DATA_URI';
@@ -104,3 +105,5 @@ export const PRODUCTION_DOMAIN = 'booking.cergea.com';
 export const VALIDATION_RULES = {
   MAX_LENGTH: 255,
 };
+
+export const PDF_VERSION_ACCEPTED = '6.30.0';
