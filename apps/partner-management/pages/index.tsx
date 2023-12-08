@@ -1,7 +1,7 @@
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import { Box, Flex, Title } from '@collinsonx/design-system/core';
 import { LogoCollinson } from '@collinsonx/design-system/assets/logo';
-import LayoutHome from '@components/LayoutHome';
+import LayoutCatalogue from '@components/LayoutCatalogue';
 import OverviewDashboard from '@components/Pages/OverviewDashboard';
 import OverviewBookings from '@components/Pages/OverviewBookings';
 
@@ -41,5 +41,5 @@ const OverviewHeading = () => {
 };
 
 Overview.getLayout = (page: JSX.Element) => (
-  <LayoutHome heading={<OverviewHeading />}>{page}</LayoutHome>
+  <LayoutCatalogue heading={<OverviewHeading />}>{page}</LayoutCatalogue>
 );

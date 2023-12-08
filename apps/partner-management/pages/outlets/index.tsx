@@ -1,5 +1,5 @@
 import { Stack, Title } from '@collinsonx/design-system/core';
-import Layout from '@components/Layout';
+import LayoutCatalogue from '@components/LayoutCatalogue';
 import { Outlet, PartnerBrand } from '@collinsonx/utils';
 import getOutlets from '@collinsonx/utils/queries/getOutlets';
 import getPartnerBrandByID from '@collinsonx/utils/queries/getPartnerBrandByID';
@@ -57,4 +57,6 @@ export default function Outlets() {
   );
 }
 
-Outlets.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;
+Outlets.getLayout = (page: JSX.Element) => (
+  <LayoutCatalogue>{page}</LayoutCatalogue>
+);

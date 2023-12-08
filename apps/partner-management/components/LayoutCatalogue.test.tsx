@@ -1,13 +1,13 @@
-import LayoutHome from './LayoutHome';
+import LayoutCatalogue from './LayoutCatalogue';
 import '@testing-library/jest-dom/extend-expect';
 import { render } from '@testing-library/react';
 
-describe('<LayoutHome />', () => {
+describe('<LayoutCatalogue />', () => {
   it('should render', () => {
     const component = render(
-      <LayoutHome subHeader={<>header</>} heading={<>heading</>}>
+      <LayoutCatalogue subHeader={<>header</>} heading={<>heading</>}>
         <></>
-      </LayoutHome>
+      </LayoutCatalogue>
     );
 
     expect(component).toMatchSnapshot();

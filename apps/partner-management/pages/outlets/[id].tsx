@@ -4,7 +4,7 @@ import { useQuery } from '@collinsonx/utils/apollo';
 import getOutletByID from '@collinsonx/utils/queries/getOutletByID';
 import { Outlet } from '@collinsonx/utils';
 import Error from '@components/Error';
-import Layout from '@components/Layout';
+import LayoutCatalogue from '@components/LayoutCatalogue';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { ChevronLeft } from '@collinsonx/design-system/assets/icons';
@@ -110,4 +110,6 @@ export default function OutletDetail() {
   );
 }
 
-OutletDetail.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;
+OutletDetail.getLayout = (page: JSX.Element) => (
+  <LayoutCatalogue>{page}</LayoutCatalogue>
+);

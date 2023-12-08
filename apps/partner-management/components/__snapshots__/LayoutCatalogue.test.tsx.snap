@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<LayoutHome /> should render 1`] = `
+exports[`<LayoutCatalogue /> should render 1`] = `
 {
   "asFragment": [Function],
   "baseElement": @media print {
@@ -27,6 +27,18 @@ exports[`<LayoutHome /> should render 1`] = `
 .emotion-3 {
   position: absolute;
   right: 60px;
+}
+
+.emotion-4 {
+  padding: 24px;
+  background-color: #F8F9FA;
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .emotion-4 {
+    padding: 16px;
+  }
 }
 
 <body>
@@ -59,8 +71,12 @@ exports[`<LayoutHome /> should render 1`] = `
           heading
         </div>
         <main
-          style="padding: 64px; margin: 0px; background-color: rgb(248, 249, 250); height: 100%;"
-        />
+          style="height: 100%;"
+        >
+          <div
+            class="emotion-4"
+          />
+        </main>
       </div>
     </div>
   </body>,
@@ -88,6 +104,18 @@ exports[`<LayoutHome /> should render 1`] = `
 .emotion-3 {
   position: absolute;
   right: 60px;
+}
+
+.emotion-4 {
+  padding: 24px;
+  background-color: #F8F9FA;
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .emotion-4 {
+    padding: 16px;
+  }
 }
 
 <div>
@@ -119,8 +147,12 @@ exports[`<LayoutHome /> should render 1`] = `
         heading
       </div>
       <main
-        style="padding: 64px; margin: 0px; background-color: rgb(248, 249, 250); height: 100%;"
-      />
+        style="height: 100%;"
+      >
+        <div
+          class="emotion-4"
+        />
+      </main>
     </div>
   </div>,
   "debug": [Function],
