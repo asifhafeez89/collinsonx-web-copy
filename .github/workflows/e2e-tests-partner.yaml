@@ -9,7 +9,7 @@ on:
       - 'packages/**'
 
 jobs:
-  test:
+  e2e-test-partner:
     runs-on: e2e-test-runner
     container:
       image: mcr.microsoft.com/playwright:v1.37.0-focal

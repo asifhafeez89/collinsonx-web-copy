@@ -44,7 +44,7 @@ class PreBookPage {
   async inputFlightNumber(flightNumber) {
     await this.page.waitForLoadState('networkidle');
     const flightNumberInput = await this.page.waitForSelector(
-      '[placeholder="E.g. EZY123"]'
+      'input[data-testid="flightNumber"]'
     );
     await flightNumberInput.type(flightNumber, { delay: 200 });
   }

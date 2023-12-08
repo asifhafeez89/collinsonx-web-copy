@@ -82,6 +82,7 @@ export const FlightInfo = ({
             placeholder={
               translations.booking.flightDetails.numberInput.placeholder
             }
+            data-testid="flightNumber"
             withAsterisk
             disabled={loading}
             w={270}
