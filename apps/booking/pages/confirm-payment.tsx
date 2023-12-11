@@ -52,7 +52,6 @@ import { FlightDetailsAndGuests } from '@components/FlightDetailsAndGuests';
 import ShowButtonByVersion from '@components/ShowDownloadButton';
 import useLocale from 'hooks/useLocale';
 
-
 export default function ConfirmPayment() {
   const router = useRouter();
   const [timer, setTimer] = useState(0);
@@ -138,28 +137,30 @@ export default function ConfirmPayment() {
       onCompleted: (data) => {
         setTimer(timer + 1);
 
-        // 30s passed booking is still pending
-        if (
-          timer > 10 &&
-          data.getBookingByID.status === BookingStatus.Pending
-        ) {
-          clearInterval(interval.current);
-          setOpen(false);
-          setAlert(true);
-        }
-        if (
-          data.getBookingByID.status === BookingStatus.Declined ||
-          data.getBookingByID.status === BookingStatus.Confirmed
-        ) {
-          setOpen(false);
-          setAlert(false);
-          clearInterval(interval.current);
+        if (data.getBookingByID === null && timer > 30) {
+          router.push({
+            pathname: '/failure-booking',
+          });
+        } else if (data.getBookingByID.status === BookingStatus.Declined) {
+          router.push({
+            pathname: '/failure-booking',
+          });
+        } else if (data.getBookingByID.status === BookingStatus.Pending) {
+          if (timer > 10) {
+            clearInterval(interval.current);
+            setOpen(false);
+            setAlert(true);
+          }
 
-          if (data.getBookingByID.status === BookingStatus.Declined) {
+          if (timer > 30) {
             router.push({
               pathname: '/failure-booking',
             });
           }
+        } else if (data.getBookingByID.status === BookingStatus.Confirmed) {
+          setOpen(false);
+          setAlert(false);
+          clearInterval(interval.current);
         }
       },
     });
