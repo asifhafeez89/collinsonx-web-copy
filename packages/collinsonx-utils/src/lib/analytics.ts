@@ -9,15 +9,17 @@ export const loggerDataError = (
   shouldLog: boolean = false
 ) => {
   if (shouldLog) {
-    datadogLogs.logger.error(
-      'Frontend Error Occured',
-      {
-        file,
-        action,
-        data,
-      },
-      error
-    );
+    if (typeof document !== 'undefined') {
+      datadogLogs.logger.error(
+        'Frontend Error Occured',
+        {
+          file,
+          action,
+          data,
+        },
+        error
+      );
+    }
   }
 };
 
@@ -28,11 +30,13 @@ export const loggerInfo = (
   shouldLog: Boolean = false
 ) => {
   if (shouldLog) {
-    datadogLogs.logger?.info('Frontend Info', {
-      file,
-      action,
-      data,
-    });
+    if (typeof document !== 'undefined') {
+      datadogLogs.logger?.info('Frontend Info', {
+        file,
+        action,
+        data,
+      });
+    }
   }
 };
 
@@ -41,8 +45,10 @@ export const loggerAction = async (
   action: string,
   data?: unknown
 ) => {
-  await datadogRum.addAction(action, {
-    file: file,
-    data: data,
-  });
+  if (typeof document !== 'undefined') {
+    await datadogRum.addAction(action, {
+      file: file,
+      data: data,
+    });
+  }
 };

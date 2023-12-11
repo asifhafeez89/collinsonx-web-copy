@@ -26,6 +26,7 @@ import { logInfo } from '@lib';
 if (typeof window !== 'undefined') {
   const windowObj: any = window;
   logInfo('_app.tsx', 'url change', document.referrer);
+
   const isInIframe = window.parent === window ? false : true;
 
   SuperTokensReact.init(frontendConfig({ isInIframe }) as SuperTokensConfig);
@@ -76,8 +77,10 @@ type Props = AppProps & {
 export default function MyApp({ Component, pageProps }: Props) {
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page);
+
   const isMaintenanceMode =
     (process.env.NEXT_PUBLIC_MAINTENANCE_MODE as string) === 'ON';
+
   const apolloClient = useApollo(pageProps);
   return (
     <>

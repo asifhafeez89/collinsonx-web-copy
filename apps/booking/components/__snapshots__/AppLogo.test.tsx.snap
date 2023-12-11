@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AppLogo /> renders snapshot for HSBC 1`] = `
+.emotion-0 {
+  margin-top: 10px;
+  -webkit-transform: scale(0.70);
+  -moz-transform: scale(0.70);
+  -ms-transform: scale(0.70);
+  transform: scale(0.70);
+}
+
+@media (max-width: 768px) {
+  .emotion-0 {
+    -webkit-transform: scale(0.45);
+    -moz-transform: scale(0.45);
+    -ms-transform: scale(0.45);
+    transform: scale(0.45);
+  }
+}
+
+<div
+  className="emotion-0"
+>
+  <div>
+    HSBC
+  </div>
+</div>
+`;
+
+exports[`<AppLogo /> renders snapshot for None 1`] = `
+.emotion-0 {
+  -webkit-transform: scale(0.36);
+  -moz-transform: scale(0.36);
+  -ms-transform: scale(0.36);
+  transform: scale(0.36);
+}
+
+@media (max-width: 768px) {
+  .emotion-0 {
+    -webkit-transform: scale(0.18);
+    -moz-transform: scale(0.18);
+    -ms-transform: scale(0.18);
+    transform: scale(0.18);
+  }
+}
+
+<div
+  className="emotion-0"
+>
+  <div>
+    PP
+  </div>
+</div>
+`;
+
+exports[`<AppLogo /> renders snapshot for PP 1`] = `
+.emotion-0 {
+  -webkit-transform: scale(0.36);
+  -moz-transform: scale(0.36);
+  -ms-transform: scale(0.36);
+  transform: scale(0.36);
+}
+
+@media (max-width: 768px) {
+  .emotion-0 {
+    -webkit-transform: scale(0.18);
+    -moz-transform: scale(0.18);
+    -ms-transform: scale(0.18);
+    transform: scale(0.18);
+  }
+}
+
+<div
+  className="emotion-0"
+>
+  <div>
+    PP
+  </div>
+</div>
+`;

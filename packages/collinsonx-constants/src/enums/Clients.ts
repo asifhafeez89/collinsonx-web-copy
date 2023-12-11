@@ -1,4 +1,4 @@
-enum Client {
+export enum Client {
   Mastercard = 'MASTERCARD',
   None = 'NONE',
   Mastercard_HSBC = 'MASTERCARD_HSBC',

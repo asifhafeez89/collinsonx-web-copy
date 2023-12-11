@@ -12,7 +12,7 @@ jobs:
   e2e-test-partner:
     runs-on: e2e-test-runner
     container:
-      image: mcr.microsoft.com/playwright:v1.37.0-focal
+      image: mcr.microsoft.com/playwright:v1.40.1-focal
     steps:
       - uses: actions/checkout@v3
 

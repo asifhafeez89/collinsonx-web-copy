@@ -6,6 +6,7 @@ enum BookingQueryParams {
   platform = 'platform',
   bookingId = 'bookingId',
   version = 'version',
+  showLocal = 'showlocale',
 }
 
 export default BookingQueryParams;
