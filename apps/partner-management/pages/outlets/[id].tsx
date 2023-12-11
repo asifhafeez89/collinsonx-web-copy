@@ -1,4 +1,5 @@
-import { ActionIcon, Flex, Stack, Title } from '@collinsonx/design-system/core';
+import { ActionIcon, Flex, Stack } from '@collinsonx/design-system/core';
+import Title from '@collinsonx/design-system/components/title';
 import colors from '@collinsonx/design-system/colour-constants-partner';
 import { useQuery } from '@collinsonx/utils/apollo';
 import getOutletByID from '@collinsonx/utils/queries/getOutletByID';

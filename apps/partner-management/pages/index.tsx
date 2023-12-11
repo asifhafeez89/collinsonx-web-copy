@@ -1,5 +1,6 @@
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
-import { Box, Flex, Title } from '@collinsonx/design-system/core';
+import { Box, Flex } from '@collinsonx/design-system/core';
+import Title from '@collinsonx/design-system/components/title';
 import { LogoCollinson } from '@collinsonx/design-system/assets/logo';
 import LayoutCatalogue from '@components/LayoutCatalogue';
 import OverviewDashboard from '@components/Pages/OverviewDashboard';

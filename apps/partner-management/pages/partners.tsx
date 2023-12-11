@@ -3,9 +3,9 @@ import {
   Button,
   SimpleGrid,
   Stack,
-  Title,
   Text,
 } from '@collinsonx/design-system/core';
+import Title from '@collinsonx/design-system/components/title';
 import LayoutCatalogue from '@components/LayoutCatalogue';
 import { useQuery } from '@collinsonx/utils/apollo';
 import Error from '@components/Error';

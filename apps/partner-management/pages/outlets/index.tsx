@@ -1,4 +1,5 @@
-import { Stack, Title } from '@collinsonx/design-system/core';
+import { Stack } from '@collinsonx/design-system/core';
+import Title from '@collinsonx/design-system/components/title';
 import LayoutCatalogue from '@components/LayoutCatalogue';
 import { Outlet, PartnerBrand } from '@collinsonx/utils';
 import getOutlets from '@collinsonx/utils/queries/getOutlets';
