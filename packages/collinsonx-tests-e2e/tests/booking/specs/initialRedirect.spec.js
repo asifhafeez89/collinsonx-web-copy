@@ -73,7 +73,7 @@ test.describe('Initial Redirect to BAAS page', () => {
 
       // Assert
       const errorElement = await errorPage.serviceNotAvailableError();
-      await expect(errorElement).not.toBeNull();
+      await expect(errorElement).toBeVisible({ timeout: 20000 });
     });
   });
 
@@ -90,7 +90,7 @@ test.describe('Initial Redirect to BAAS page', () => {
 
       // Assert
       const errorElement = await errorPage.serviceNotAvailableError();
-      await expect(errorElement).not.toBeNull();
+      await expect(errorElement).toBeVisible({ timeout: 20000 });
     });
   });
 
@@ -162,7 +162,7 @@ test.describe('Initial Redirect to BAAS page', () => {
 
       // Assert
       const errorElement = await errorPage.serviceNotAvailableError();
-      await expect(errorElement).not.toBeNull();
+      await expect(errorElement).toBeVisible({ timeout: 20000 });
     });
   });
 
@@ -186,7 +186,7 @@ test.describe('Initial Redirect to BAAS page', () => {
 
       // Assert
       const errorElement = await errorPage.loungeNotAvailableError();
-      await expect(errorElement).not.toBeNull();
+      await expect(errorElement).toBeVisible({ timeout: 20000 });
     });
   });
 
@@ -240,7 +240,7 @@ test.describe('Initial Redirect to BAAS page', () => {
 
       // Assert
       const errorElement = await errorPage.serviceNotAvailableError();
-      await expect(errorElement).not.toBeNull();
+      await expect(errorElement).toBeVisible({ timeout: 20000 });
     });
   });
 
@@ -265,7 +265,7 @@ test.describe('Initial Redirect to BAAS page', () => {
 
       // Assert
       const errorElement = await errorPage.serviceNotAvailableError();
-      await expect(errorElement).not.toBeNull();
+      await expect(errorElement).toBeVisible({ timeout: 20000 });
     });
   });
 });

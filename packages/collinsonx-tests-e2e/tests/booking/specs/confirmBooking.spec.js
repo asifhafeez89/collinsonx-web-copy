@@ -9,6 +9,18 @@ import EnterEmailPage from '../pages/EnterEmailPage';
 import { loginAsExistingUser, getEmailAddress } from '../utils/loginUtils';
 import { getLinkFromEmail } from '../utils/emailUtils';
 
+async function fillStripeIframe(stripePaymentPage, id) {
+  await stripePaymentPage.inputEmail(getEmailAddress(id));
+  await stripePaymentPage.inputCardNumber('4242424242424242');
+  await stripePaymentPage.inputExpiry('0225');
+  await stripePaymentPage.inputCvc('444');
+  await stripePaymentPage.inputCardName('James Jimmy');
+  await stripePaymentPage.selectCountry('United Kingdom');
+  await stripePaymentPage.inputAddressLine('High Street');
+  await stripePaymentPage.inputAddressTown('Kingston');
+  await stripePaymentPage.inputAddressPostalCode('KT1 1HL');
+}
+
 test.describe('Confirm booking flow', () => {
   test.describe('PAY-001 - Confirm Booking Happy Path', () => {
     test('User should see payment confirmation message', async ({ page }) => {
@@ -37,7 +49,7 @@ test.describe('Confirm booking flow', () => {
       await selectLoungeTimePage.selectFirstLoungeTime();
       await selectLoungeTimePage.clickConfirmButton();
 
-      await page.waitForTimeout(5000);
+      await page.waitForTimeout(6000);
       await confirmBookingPage.clickGoToPayment();
 
       await page.waitForTimeout(5000);
@@ -48,16 +60,7 @@ test.describe('Confirm booking flow', () => {
       await expect(title).toEqual('Payment information');
 
       await stripePaymentPage.setStripeIframe();
-
-      await stripePaymentPage.inputEmail(getEmailAddress(id));
-      await stripePaymentPage.inputCardNumber('4242424242424242');
-      await stripePaymentPage.inputExpiry('0225');
-      await stripePaymentPage.inputCvc('444');
-      await stripePaymentPage.inputCardName('James Jimmy');
-      await stripePaymentPage.selectCountry('United Kingdom');
-      await stripePaymentPage.inputAddressLine('High Street');
-      await stripePaymentPage.inputAddressTown('Kingston');
-      await stripePaymentPage.inputAddressPostalCode('KT1 1HL');
+      await fillStripeIframe(stripePaymentPage, id);
 
       // Assert before pay: button is in 'complete' class
       const payButton = await stripePaymentPage.getPayButton();
