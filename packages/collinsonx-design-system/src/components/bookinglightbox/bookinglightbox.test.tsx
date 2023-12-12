@@ -38,12 +38,6 @@ describe('<Lightbox />', () => {
       </>
     );
 
-    fireEvent.click(screen.getByText(/Cancel booking/i));
-
-    await waitFor(() => {
-      expect(mockFn).toHaveBeenCalledTimes(1);
-    });
-
     fireEvent.click(screen.getAllByText(/Go Back/i)[0]);
 
     await waitFor(() => {

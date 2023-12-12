@@ -19,6 +19,7 @@ import type { ComponentProps } from './props';
 import { CapacityErrorMessage, Footer, UnknownMessage } from './components';
 
 import colors from 'ui/colour-constants';
+import useLocale from 'hooks/useLocale';
 
 export function capacityParser(slotsError: unknown) {
   const error = fetchGrahpQLErrorObject(slotsError);
@@ -80,6 +81,7 @@ const AvailableSlotsModal: FC<ComponentProps> = ({
   Message,
 }) => {
   const [opened, { close }] = useDisclosure(true);
+  const translations = useLocale();
 
   return (
     <Modal opened={opened} onClose={close} p="0" padding={0}>
@@ -92,7 +94,7 @@ const AvailableSlotsModal: FC<ComponentProps> = ({
                 textAlign: 'center',
               }}
             >
-              {setHeaderTitle(headerStyle)}
+              {setHeaderTitle(headerStyle, translations.lounge.errors)}
             </Title>
           </Box>
           <Stack style={{ padding: '1rem' }}>{Message}</Stack>

@@ -7,6 +7,7 @@ import { InfoPanel } from 'utils/PanelInfo';
 import { GuestCount } from './guest-count/GuestCount';
 import Price from './Price';
 import { Experience } from '@collinsonx/utils';
+import useLocale from 'hooks/useLocale';
 
 interface FlightDetailsAndGuestsProps {
   departureTime?: string;
@@ -27,12 +28,24 @@ export const FlightDetailsAndGuests = ({
   lounge,
   noEdit,
 }: FlightDetailsAndGuestsProps) => {
+  const translations = useLocale();
+
   return (
     <>
-      <EditableTitle title="Flight details" to={noEdit ? null : '/'} as="h2">
+      <EditableTitle
+        title={translations.booking.flightDetails.title}
+        to={noEdit ? null : '/'}
+        as="h2"
+      >
         {departureTime && (
           <Details
-            infos={InfoPanel(departureTime, flightNumber) as InfoGroup[]}
+            infos={
+              InfoPanel(
+                departureTime,
+                flightNumber,
+                translations.booking.availableSlots.panelInfoHeader
+              ) as InfoGroup[]
+            }
             direction="row"
           />
         )}
@@ -51,7 +64,11 @@ export const FlightDetailsAndGuests = ({
           },
         }}
       >
-        <EditableTitle title="Who's coming?" as="h2" showBorder={false}>
+        <EditableTitle
+          title={translations.booking.guestDetails.title}
+          as="h2"
+          showBorder={false}
+        >
           <GuestCount guestList={guestList} />
         </EditableTitle>
         <Box
@@ -63,7 +80,11 @@ export const FlightDetailsAndGuests = ({
             },
           }}
         >
-          <EditableTitle title="Total price" as="h2" showBorder={false}>
+          <EditableTitle
+            title={translations.booking.availableSlots.totalPrice.title}
+            as="h2"
+            showBorder={false}
+          >
             <Price lounge={lounge} guests={guestList}></Price>
           </EditableTitle>
         </Box>

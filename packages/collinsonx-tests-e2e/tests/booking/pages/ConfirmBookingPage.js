@@ -26,8 +26,12 @@ class ConfirmBookingPage {
     }, loungeTimeString);
   }
 
-  async clickSubmit() {
+  async clickGoToPayment() {
     const submitButtonSelector = 'button[type="submit"]';
+    await this.page.waitForSelector(submitButtonSelector, {
+      visible: true,
+      timeout: 15000,
+    });
     const submitButton = await this.page.$(submitButtonSelector);
     await submitButton.click();
   }

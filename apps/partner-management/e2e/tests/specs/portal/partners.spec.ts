@@ -36,7 +36,7 @@ test.describe('partners page', () => {
 
     await dashboardPage.clickViewAllPartnersButton();
 
-    const partnerBrands = await catalogueApi.getPartnerBrands();
+    const partnerBrands = await catalogueApi.getPartnerBrands(CARDS_LIMIT);
 
     // compare UI and API outlet counts
     for (let i = 0; i < partnerBrands.length; i++) {

@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 interface LayoutProps {
   subHeader?: JSX.Element;
-  heading: JSX.Element;
+  heading?: JSX.Element;
   children: JSX.Element;
 }
 
@@ -65,15 +65,19 @@ export default function Layout({ children, heading, subHeader }: LayoutProps) {
       >
         {heading}
       </div>
-      <main
-        style={{
-          padding: '64px',
-          margin: 0,
-          backgroundColor: '#F8F9FA',
-          height: '100%',
-        }}
-      >
-        {children}
+      <main style={{ height: '100%' }}>
+        <Box
+          sx={{
+            padding: 24,
+            '@media (max-width: 768px)': {
+              padding: 16,
+            },
+            backgroundColor: '#F8F9FA',
+            height: '100%',
+          }}
+        >
+          {children}
+        </Box>
       </main>
     </div>
   );

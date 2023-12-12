@@ -19,7 +19,6 @@ exports[`<EditableField /> renders Details 1`] = `
   justify-content: flex-start;
   gap: 1rem;
   border-bottom: 1px solid #b4b4b4;
-  padding-bottom: 20px;
   padding: 20px;
 }
 
@@ -28,7 +27,6 @@ exports[`<EditableField /> renders Details 1`] = `
     background-color: #fff;
     width: 100%;
     border-bottom: initial;
-    padding-bottom: 2rem;
   }
 }
 

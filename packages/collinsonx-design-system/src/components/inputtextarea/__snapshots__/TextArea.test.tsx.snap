@@ -200,8 +200,8 @@ exports[`<Textarea /> renders Textarea 1`] = `
 >
   <label
     className="emotion-3 emotion-4 emotion-5"
-    htmlFor="mantine-0ed3v49hm"
-    id="mantine-0ed3v49hm-label"
+    htmlFor="mantine-nmxrpjdib"
+    id="mantine-nmxrpjdib-label"
     onMouseDown={[Function]}
   >
     Your comment
@@ -218,7 +218,7 @@ exports[`<Textarea /> renders Textarea 1`] = `
     <textarea
       aria-invalid={false}
       className="emotion-12 emotion-13 emotion-14"
-      id="mantine-0ed3v49hm"
+      id="mantine-nmxrpjdib"
       placeholder="Your comment"
     />
   </div>

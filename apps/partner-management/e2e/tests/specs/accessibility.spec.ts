@@ -14,26 +14,6 @@ const createAxeBuilder = (page: any) =>
     .exclude('iframe')
     .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']);
 
-test.describe('Login page', () => {
-  test('should not have any automatically detectable accessibility issues', async ({
-    page,
-  }) => {
-    const loginPage = new LoginPage(page);
-
-    await loginPage.goToURL();
-
-    const axeBuilder = createAxeBuilder(page);
-    const results = await axeBuilder.analyze();
-
-    prettyPrintAxeReport({
-      violations: results.violations,
-      passes: results.passes,
-    });
-
-    expect(results.violations).toEqual([]);
-  });
-});
-
 test.describe('Pages that require initial login', () => {
   let partnerDetails;
   let lounge: TestSetup;

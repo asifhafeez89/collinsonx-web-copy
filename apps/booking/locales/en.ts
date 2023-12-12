@@ -130,7 +130,7 @@ export default {
       },
     },
     guestDetails: {
-      title: "Who's coming",
+      title: "Who's coming?",
       description: (guests: number) =>
         `Maximum group size is ${guests}, excluding infants. Please check availability for lounge-specific restrictions on number of infants.`,
       adultsInput: {
@@ -145,24 +145,54 @@ export default {
         label: 'Infants',
         description: 'Ages 0-2',
       },
-      loungeTerms: 'Refer to lounge conditions for age restrictions',
+      loungeTerms: {
+        line1: 'Refer to ',
+        link: 'lounge conditions',
+        line2: 'for age restrictions',
+      },
       errors: {
-        capacity:
-          'The maximum capacity of the lounge is a total of 5 guests. Change number of guests.',
+        capacity: (guests: number) =>
+          `The maximum capacity of the lounge is a total of ${guests} guests. Change number of guests.`,
       },
     },
     availableSlots: {
       title: 'Estimated time of arrival',
       description:
         'Timeslots are shown in the time zone of the lounge location',
+      placeholder: 'Select time',
       arrivalDescription: 'This is the time you will arrive at the lounge.',
-      stayTime: (flightTime: number) =>
-        `As your flight is at ${flightTime}, your maximum stay is 3 hours prior.`,
+      stayTime: {
+        line1: 'As your flight is at ',
+        line2: ', your maximum stay is ',
+        line3: '3 hours prior',
+      },
       totalPrice: {
         title: 'Total price',
       },
-      btn: 'confirm',
+      panelInfoHeader: {
+        date: 'Date',
+        flightTime: 'Time of flight',
+        flightNumber: 'Flight number',
+      },
+      cancellationPolicy: {
+        title: 'Cancellation policy',
+        descriptionLine1: `Cancel up to 48 hours before your booking to receive a full refund. Bookings cannot be cancelled within 48 hours of booking arrival time, including new bookings made within that time range.`,
+        descriptionLine2:
+          'Please confirm details are correct before making payment.',
+      },
+      btn: 'CONFIRM',
       errors: {
+        airportMismatch: {
+          title: `Airports don't match`,
+          description:
+            'The lounge you are booking is not in the same airport your flight is scheduled to depart from.',
+        },
+        terminalMismatch: {
+          title: `Terminals don't match`,
+          description:
+            'The lounge you are booking is not in the same terminal your flight is scheduled to depart from.',
+        },
+        confirmation: 'Do you still want to go ahead with this booking?',
         estimatedTime: 'Select estimated arrival time',
         availabilityUnknown: {
           title: 'Availability is unknown',
@@ -191,14 +221,19 @@ export default {
     },
     payment: {
       btnGoPayment: 'Go to payment',
+      title: 'Payment information',
     },
     confirmationPayment: {
       title: 'Booking confirmation',
       processing: {
         beingProcessed: {
           title: 'Payment is being processed',
-          description:
-            'Your payment for the Lounge OneLondon Gatwick is being processed. These might take a few minutes/seconds to complete. ',
+          description: {
+            line1: 'Your payment for ',
+            line2: 'is being processed.',
+            line3:
+              "Please don't refresh the page, it may take a few minutes to complete.",
+          },
         },
         unsuccessful: {
           title: 'Payment is being unsuccessful',
@@ -212,6 +247,7 @@ export default {
           reference: {
             label: 'Booking Reference',
           },
+          emailConfirmationLabel: 'A confirmation email has been sent to',
           description:
             'Our apologies, error occurred during the payment process and your payment was not processed. We kindly request you to either make a new booking or repeat your payment.',
           importantNotes: {
@@ -270,7 +306,9 @@ export default {
       btn: 'Confirm',
     },
     checkAvailability: {
-      btn: 'Check availability',
+      arrivalTitle: 'Arrival time selection',
+      notFoundError: 'Something went wrong, please try again',
+      btn: 'CHECK AVAILABILITY',
     },
   },
 };

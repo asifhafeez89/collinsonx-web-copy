@@ -5,6 +5,8 @@ enum BookingQueryParams {
   referrer = 'referrer',
   platform = 'platform',
   bookingId = 'bookingId',
+  version = 'version',
+  showLocal = 'showlocale',
 }
 
 export default BookingQueryParams;

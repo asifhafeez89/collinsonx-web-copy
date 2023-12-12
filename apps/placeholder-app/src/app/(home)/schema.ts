@@ -10,6 +10,7 @@ const schema = Joi.object({
     .message('Invalid email'),
   customFirstName: Joi.string().optional().allow(''),
   customLastName: Joi.string().optional().allow(''),
+  version: Joi.string().optional().allow(''),
 });
 
 export type SchemaType = {
@@ -18,6 +19,7 @@ export type SchemaType = {
   email: string;
   customFirstName: string;
   customLastName: string;
+  version: string;
 };
 
 export default schema;

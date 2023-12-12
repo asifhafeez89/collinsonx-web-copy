@@ -28,7 +28,7 @@ export const GenerateBookingConfirmedPdf = (
         payload: reader.result,
       });
 
-      logInfo(FILENAME, 'Posting PDF Data URI to App', event);
+      logInfo(FILENAME, 'Posting PDF Data URI to App', MOBILE_ACTION_DATA_URI);
       sendMobileEvent(window, event);
     };
 

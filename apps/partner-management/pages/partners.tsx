@@ -3,10 +3,10 @@ import {
   Button,
   SimpleGrid,
   Stack,
-  Title,
   Text,
 } from '@collinsonx/design-system/core';
-import Layout from '@components/Layout';
+import Title from '@collinsonx/design-system/components/title';
+import LayoutCatalogue from '@components/LayoutCatalogue';
 import { useQuery } from '@collinsonx/utils/apollo';
 import Error from '@components/Error';
 import Link from 'next/link';
@@ -41,7 +41,7 @@ export default function Partners() {
         {!loadingPartners &&
           dataPartners &&
           dataPartners.getPartnerBrands.map(({ name, outlets, id }, index) => {
-            const href = `/outlets/${id}`;
+            const href = `/outlets?partner=${id}`;
             return (
               <Card
                 key={index}
@@ -72,7 +72,12 @@ export default function Partners() {
                       }`}
                     </Text>
                   </Stack>
-                  <Button aria-hidden="true" variant="outline" tabIndex={-1}>
+                  <Button
+                    aria-hidden="true"
+                    variant="outline"
+                    tabIndex={-1}
+                    data-testid={`view-outlets-button-${index}`}
+                  >
                     View outlets
                   </Button>
                 </Stack>
@@ -84,4 +89,6 @@ export default function Partners() {
   );
 }
 
-Partners.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;
+Partners.getLayout = (page: JSX.Element) => (
+  <LayoutCatalogue>{page}</LayoutCatalogue>
+);
