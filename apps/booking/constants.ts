@@ -107,9 +107,12 @@ export const VALIDATION_RULES = {
   MAX_LENGTH: 255,
 };
 
-export const PDF_VERSION_ACCEPTED = '6.30.0';
+
+export const PDF_VERSION_ACCEPTED = '6.29.0';
+
 
 export enum SWITCHES {
   LOCAL_SWITCH_OFF = 'OFF',
   LOCAL_SWITCH_ON = 'ON',
 }
+
