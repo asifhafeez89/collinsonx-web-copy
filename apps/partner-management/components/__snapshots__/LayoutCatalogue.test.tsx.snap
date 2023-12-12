@@ -31,11 +31,11 @@ exports[`<LayoutCatalogue /> should render 1`] = `
 
 .emotion-4 {
   padding: 24px;
-  background-color: #F8F9FA;
+  background-color: #FBFBFB;
   height: 100%;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 61.9375em) {
   .emotion-4 {
     padding: 16px;
   }
@@ -108,11 +108,11 @@ exports[`<LayoutCatalogue /> should render 1`] = `
 
 .emotion-4 {
   padding: 24px;
-  background-color: #F8F9FA;
+  background-color: #FBFBFB;
   height: 100%;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 61.9375em) {
   .emotion-4 {
     padding: 16px;
   }

@@ -1,13 +1,20 @@
 import { Box, Flex, MediaQuery } from '@collinsonx/design-system/core';
 import Link from 'next/link';
+import ContentWrapper from './ContentWrapper';
 
 interface LayoutProps {
   subHeader?: JSX.Element;
   heading?: JSX.Element;
+  disableWrapper?: boolean;
   children: JSX.Element;
 }
 
-export default function Layout({ children, heading, subHeader }: LayoutProps) {
+export default function Layout({
+  children,
+  heading,
+  disableWrapper = false,
+  subHeader,
+}: LayoutProps) {
   return (
     <div
       style={{
@@ -55,29 +62,24 @@ export default function Layout({ children, heading, subHeader }: LayoutProps) {
         </MediaQuery>
       )}
 
-      <div
-        style={{
-          padding: '0 64px',
-          margin: 0,
-          backgroundColor: '#FFFFFF',
-          borderBottom: '1px solid #D5D5D5',
-        }}
-      >
-        {heading}
-      </div>
-      <main style={{ height: '100%' }}>
-        <Box
-          sx={{
-            padding: 24,
-            '@media (max-width: 768px)': {
-              padding: 16,
-            },
-            backgroundColor: '#F8F9FA',
-            height: '100%',
+      {heading && (
+        <div
+          style={{
+            padding: '0 64px',
+            margin: 0,
+            backgroundColor: '#FFFFFF',
+            borderBottom: '1px solid #D5D5D5',
           }}
         >
-          {children}
-        </Box>
+          {heading}
+        </div>
+      )}
+      <main style={{ height: '100%' }}>
+        {!disableWrapper ? (
+          <ContentWrapper>{children}</ContentWrapper>
+        ) : (
+          children
+        )}
       </main>
     </div>
   );
