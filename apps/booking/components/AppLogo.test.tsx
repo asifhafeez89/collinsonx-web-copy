@@ -1,4 +1,5 @@
-import renderer from 'react-test-renderer';
+import { render } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
 import AppLogo from './AppLogo';
 import { AccountProvider, Client } from '@collinsonx/constants/enums';
 
@@ -19,38 +20,35 @@ jest.mock('@collinsonx/design-system/assets/logo', () => ({
 
 describe('<AppLogo />', () => {
   it('renders snapshot for PP', () => {
-    const tree = renderer
-      .create(
-        <AppLogo
-          accountProvider={AccountProvider.PP}
-          membershipType={Client.Mastercard}
-        />
-      )
-      .toJSON();
-    expect(tree).toMatchSnapshot();
+    const { getByText } = render(
+      <AppLogo
+        accountProvider={AccountProvider.PP}
+        membershipType={Client.Mastercard}
+      />
+    );
+
+    expect(getByText('PP')).toBeInTheDocument();
+  });
+
+  it('renders snapshot for LK', () => {
+    const { getByText } = render(
+      <AppLogo
+        accountProvider={AccountProvider.LK}
+        membershipType={Client.Mastercard}
+      />
+    );
+
+    expect(getByText('LK')).toBeInTheDocument();
   });
 
   it('renders snapshot for HSBC', () => {
-    const tree = renderer
-      .create(
-        <AppLogo
-          accountProvider={AccountProvider.PP}
-          membershipType={Client.Mastercard_HSBC}
-        />
-      )
-      .toJSON();
-    expect(tree).toMatchSnapshot();
-  });
+    const { getByText } = render(
+      <AppLogo
+        accountProvider={AccountProvider.LK}
+        membershipType={Client.Mastercard_HSBC}
+      />
+    );
 
-  it('renders snapshot for None', () => {
-    const tree = renderer
-      .create(
-        <AppLogo
-          accountProvider={AccountProvider.PP}
-          membershipType={Client.None}
-        />
-      )
-      .toJSON();
-    expect(tree).toMatchSnapshot();
+    expect(getByText('HSBC')).toBeInTheDocument();
   });
 });

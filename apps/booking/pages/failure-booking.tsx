@@ -1,6 +1,13 @@
 import Layout from '@components/Layout';
 
-import { Box, Flex, Stack, Text, Title } from '@collinsonx/design-system/core';
+import {
+  Anchor,
+  Box,
+  Flex,
+  Stack,
+  Text,
+  Title,
+} from '@collinsonx/design-system/core';
 
 import { useRouter } from 'next/router';
 import { LoungeInfo } from '@components/LoungeInfo';
@@ -14,13 +21,33 @@ import colors from 'ui/colour-constants';
 import { BookingContext } from 'context/bookingContext';
 import TopBarLinks from '@components/TopBarLinks';
 
-import { useContext } from 'react';
+import { MouseEventHandler, useCallback, useContext, useEffect } from 'react';
 import { AlertIcon } from '@collinsonx/design-system/assets/icons';
+import { logAction, sendMobileEvent } from '@lib';
+import { ANALYTICS_TAGS, MOBILE_ACTION_BACK } from '../constants';
 
 export default function BookingFailure() {
   const router = useRouter();
-
+  const pageName = 'Slot_Mis';
   const { getBooking } = useContext(BookingContext);
+
+  const { referrerUrl, lounge } = usePayload();
+
+  useEffect(() => {
+    logAction(pageName, ANALYTICS_TAGS.ON_SLOT_MISSED);
+  }, []);
+
+  const handleClickBack: MouseEventHandler<HTMLAnchorElement> = useCallback(
+    (e) => {
+      if (window && !referrerUrl) {
+        e.preventDefault();
+        logAction(pageName, ANALYTICS_TAGS.ON_SLOT_SELECT_GO_TO_LOUNGE);
+        const windowObj: any = window;
+        sendMobileEvent(windowObj, MOBILE_ACTION_BACK);
+      }
+    },
+    [referrerUrl]
+  );
 
   const {
     children,
@@ -29,13 +56,11 @@ export default function BookingFailure() {
     infants,
   } = getBooking();
 
-  const { referrerUrl, lounge } = usePayload();
-
   return (
     <Layout>
       <Stack spacing={16} sx={{ backgroundColor: colors.background }}>
         <Stack sx={{ width: '100%' }}>
-          <TopBarLinks />
+          <TopBarLinks page={pageName} />
         </Stack>
         <Flex
           justify="center"
@@ -97,7 +122,7 @@ export default function BookingFailure() {
                         <AlertIcon
                           style={{ width: '1.3rem', height: '1.3rem' }}
                         />{' '}
-                        Your booking has been cancelled.
+                        Your booking has been declined.
                       </Title>
                       <Text>
                         We're sorry but during the payment process the capacity
@@ -113,38 +138,40 @@ export default function BookingFailure() {
                       </Box>
                     </Box>
                   </Stack>
-                  <Flex
-                    justify="center"
-                    direction={{ base: 'column', sm: 'row' }}
-                  >
+                  <Flex justify="center" align={'center'} direction={'column'}>
                     <Button
                       type="submit"
                       data-testid="submit"
                       spacing="1.25rem"
                       align="center"
-                      variant="outline"
                       handleClick={() => {
-                        if (window) {
-                          window.location.href = referrerUrl ?? '/';
-                        }
-                      }}
-                    >
-                      SEE OTHER LOUNGES
-                    </Button>
-
-                    <Button
-                      type="submit"
-                      data-testid="submit"
-                      spacing="1.25rem"
-                      align="center"
-                      handleClick={() =>
                         router.push({
                           pathname: '/',
-                        })
-                      }
+                        });
+                        logAction(
+                          pageName,
+                          ANALYTICS_TAGS.ON_SLOT_SELECT_ANOTHER
+                        );
+                      }}
                     >
                       SELECT ANOTHER TIME
                     </Button>
+
+                    <Anchor
+                      target="_top"
+                      href={referrerUrl ? referrerUrl : '#'}
+                      onClick={handleClickBack}
+                      style={{
+                        textDecoration: 'underline',
+                        color: colors.blue,
+                        fontSize: '1.125rem',
+                        lineHeight: '1.75rem',
+                        fontWeight: '600',
+                        marginTop: '0.75rem',
+                      }}
+                    >
+                      Return to lounges
+                    </Anchor>
                   </Flex>
                 </Box>
               )}

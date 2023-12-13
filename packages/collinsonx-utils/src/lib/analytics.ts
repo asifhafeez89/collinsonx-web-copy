@@ -1,12 +1,10 @@
-import { datadogLogs } from '@datadog/browser-logs';
-import { datadogRum } from '@datadog/browser-rum';
-
 export const loggerDataError = (
   error: Error,
   file: string,
   action: string,
   data: unknown,
-  shouldLog: boolean = false
+  shouldLog: boolean = false,
+  datadogLogs: any
 ) => {
   if (shouldLog) {
     if (typeof document !== 'undefined') {
@@ -27,7 +25,8 @@ export const loggerInfo = (
   file: string,
   action: string,
   data: unknown,
-  shouldLog: Boolean = false
+  shouldLog: Boolean = false,
+  datadogLogs: any
 ) => {
   if (shouldLog) {
     if (typeof document !== 'undefined') {
@@ -43,7 +42,8 @@ export const loggerInfo = (
 export const loggerAction = async (
   file: string,
   action: string,
-  data?: unknown
+  data?: unknown,
+  datadogRum?: any
 ) => {
   if (typeof document !== 'undefined') {
     await datadogRum.addAction(action, {
