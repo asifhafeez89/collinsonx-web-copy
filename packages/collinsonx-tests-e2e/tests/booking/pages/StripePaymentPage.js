@@ -5,14 +5,12 @@ class StripePaymentPage {
   }
 
   async getTitle() {
-    // const titleSelector = '[data-testid="paymentInformation"]';
-    // await this.page.waitForSelector(titleSelector, {
-    //   visible: true,
-    //   timeout: 5000,
-    // });
-    // const title = await this.page.$(titleSelector);
-    // return title.innerText();
-    const title = await this.page.getByTestId('paymentInformation');
+    const titleSelector = '[data-testid="paymentInformation"]';
+    await this.page.waitForSelector(titleSelector, {
+      visible: true,
+      timeout: 5000,
+    });
+    const title = await this.page.locator(titleSelector);
     return title.innerText();
   }
 

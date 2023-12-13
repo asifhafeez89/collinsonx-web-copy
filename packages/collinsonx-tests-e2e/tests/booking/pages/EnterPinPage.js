@@ -18,16 +18,12 @@ class EnterPinPage {
 
   async invalidCodeError() {
     const errorText = 'Passcode may be incorrect or expired.';
-    const errorSelector = `text=${errorText}`;
-    await this.page.waitForSelector(errorSelector);
-    return await this.page.$(errorSelector);
+    return await this.page.getByText(errorText);
   }
 
   async tooManyAttemptsError() {
     const errorText = 'Sorry, passcode not verified';
-    const errorSelector = `text=${errorText}`;
-    await this.page.waitForSelector(errorSelector);
-    return await this.page.$(errorSelector);
+    return await this.page.getByText(errorText);
   }
 
   async clickReEnterEmailLink() {

@@ -17,6 +17,8 @@ import {
   loggerDataError,
   loggerInfo,
 } from '@collinsonx/utils/lib/analytics';
+import { datadogLogs } from '@datadog/browser-logs';
+import { datadogRum } from '@datadog/browser-rum';
 
 export const getLoungeArrivalTime = (date: Date): string =>
   dayjsTz(date).subtract(LOUNGE_HOURS_OFFSET, 'hours').format('HH:mm');
@@ -136,14 +138,14 @@ export const logDataError = (
   const hide = process.env.NEXT_PUBLIC_DATADOG_INFOLOGS_SWITCH
     ? process.env.NEXT_PUBLIC_DATADOG_INFOLOGS_SWITCH.length > 0
     : false;
-  loggerDataError(error, file, action, data, hide);
+  loggerDataError(error, file, action, data, hide, datadogLogs);
 };
 
 export const logInfo = (file: string, action: string, data: unknown) => {
   const hide = process.env.NEXT_PUBLIC_DATADOG_INFOLOGS_SWITCH
     ? process.env.NEXT_PUBLIC_DATADOG_INFOLOGS_SWITCH.length > 0
     : false;
-  loggerInfo(file, action, data, hide);
+  loggerInfo(file, action, data, hide, datadogLogs);
 };
 
 export const logAction = async (
@@ -151,5 +153,6 @@ export const logAction = async (
   action: string,
   data?: unknown
 ) => {
-  loggerAction(file, action, data);
+  console.log(action);
+  loggerAction(file, action, data, datadogRum);
 };

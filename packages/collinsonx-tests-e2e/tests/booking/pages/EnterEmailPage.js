@@ -23,9 +23,7 @@ class EnterEmailPage {
   async incorrectEmailError() {
     const errorText =
       'Please enter the correct email address or call support as this account is already linked to a different email address';
-    const errorSelector = `text=${errorText}`;
-    await this.page.waitForSelector(errorSelector);
-    return await this.page.$(errorSelector);
+    return await this.page.getByText(errorText);
   }
 }
 

@@ -40,6 +40,7 @@ const AvailableSlots = ({
       <Select
         label=""
         placeholder={translations.booking.availableSlots.placeholder}
+        data-testid="availableSlots"
         data={data}
         onChange={onSelectSlot}
         error={error}

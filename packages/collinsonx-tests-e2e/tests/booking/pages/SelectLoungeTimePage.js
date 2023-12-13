@@ -5,7 +5,7 @@ class SelectLoungeTimePage {
 
   async openLoungeTimeDropdown() {
     await this.page.waitForLoadState('networkidle');
-    const timeSelector = '[placeholder="Select time"]';
+    const timeSelector = '[data-testid="availableSlots"]';
     const timeSelectorElement = await this.page.waitForSelector(timeSelector);
     await timeSelectorElement.scrollIntoViewIfNeeded();
     await timeSelectorElement.click();

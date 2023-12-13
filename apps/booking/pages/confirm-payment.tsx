@@ -168,7 +168,7 @@ export default function ConfirmPayment() {
   return (
     <Layout>
       <Stack spacing={16} sx={{ backgroundColor: colors.background }}>
-        <TopBarLinks />
+        <TopBarLinks page={pageName} />
 
         <LoaderLightBox
           open={open}
