@@ -9,6 +9,7 @@ import { FooterStyle } from '../enums';
 import BackButton from '@components/BackButton';
 
 import colors from 'ui/colour-constants';
+import useLocale from 'hooks/useLocale';
 
 const backButtonStyle = {
   root: {
@@ -44,14 +45,15 @@ function CapacityFooter() {
   const handleChangeGuestsOnClickHandler = () => {
     router.back();
   };
+  const translations = useLocale();
 
   return (
     <>
       <Button onClick={handleChangeGuestsOnClickHandler}>
-        {'Change guests'.toUpperCase()}
+        {translations.lounge.errors.capacity.btn.change}
       </Button>
       <BackButton styles={backButtonStyle}>
-        {'Return to lounges'.toUpperCase()}
+        {translations.lounge.errors.capacity.btn.return}
       </BackButton>
     </>
   );

@@ -13,13 +13,11 @@ class PreBookPage {
   }
 
   async airportAndTerminalElement(airportAndTerminal) {
-    const airportAndTerminalSelector = `text=${airportAndTerminal}`;
-    return await this.page.$(airportAndTerminalSelector);
+    return await this.page.getByText(airportAndTerminal);
   }
 
   async priceElement(price) {
-    const priceSelector = `text=${price}`;
-    return await this.page.$(priceSelector);
+    return await this.page.getByText(price);
   }
 
   async openDatePicker() {
@@ -44,7 +42,7 @@ class PreBookPage {
   async inputFlightNumber(flightNumber) {
     await this.page.waitForLoadState('networkidle');
     const flightNumberInput = await this.page.waitForSelector(
-      '[placeholder="E.g. EZY123"]'
+      'input[data-testid="flightNumber"]'
     );
     await flightNumberInput.type(flightNumber, { delay: 200 });
   }
@@ -66,21 +64,17 @@ class PreBookPage {
   async invalidFlightError() {
     const errorText =
       'Flight details not recognised. Please check and try again.';
-    const errorSelector = `text=${errorText}`;
-    return await this.page.waitForSelector(errorSelector);
+    return await this.page.getByText(errorText);
   }
 
   async flightDateError() {
     const errorText = 'Must provide date of flight.';
-    const errorSelector = `text=${errorText}`;
-
-    return await this.page.waitForSelector(errorSelector);
+    return await this.page.getByText(errorText);
   }
 
   async airportMismatchWarning() {
     const warningText = `Airports don't match`;
-    const warningSelector = `text=${warningText}`;
-    return await this.page.$(warningSelector);
+    return await this.page.getByText(warningText);
   }
 }
 

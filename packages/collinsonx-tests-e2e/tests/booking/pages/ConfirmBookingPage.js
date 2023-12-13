@@ -4,19 +4,15 @@ class ConfirmBookingPage {
   }
 
   async dateSelected(date) {
-    const dateSelectedSelector = `text=${date}`;
-    await this.page.waitForSelector(dateSelectedSelector);
-    return await this.page.$(dateSelectedSelector);
+    return await this.page.getByText(date);
   }
 
   async flightNumber(flightNumberString) {
-    const flightNumberSelector = `text=${flightNumberString}`;
-    return await this.page.$(flightNumberSelector);
+    return await this.page.getByText(flightNumberString);
   }
 
   async whosComing(whosComingString) {
-    const whosComingSelector = `text=${whosComingString}`;
-    return await this.page.$(whosComingSelector);
+    return await this.page.getByText(whosComingString);
   }
 
   async loungeTime(loungeTimeString) {
@@ -26,10 +22,16 @@ class ConfirmBookingPage {
     }, loungeTimeString);
   }
 
-  async clickSubmit() {
-    const submitButtonSelector = 'button[type="submit"]';
-    const submitButton = await this.page.$(submitButtonSelector);
-    await submitButton.click();
+  async clickGoToPayment() {
+    const goToPaymentButtonSelector = 'button[data-testid="submit"]';
+    await this.page.waitForSelector(goToPaymentButtonSelector, {
+      visible: true,
+      timeout: 5000,
+    });
+    const goToPaymentButton = await this.page.locator(
+      goToPaymentButtonSelector
+    );
+    await goToPaymentButton.click();
   }
 }
 

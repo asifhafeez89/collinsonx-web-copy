@@ -1,5 +1,10 @@
 import { render } from '@testing-library/react';
 import { GuestCount } from './GuestCount';
+import { Be_Vietnam_Pro } from 'next/font/google';
+
+jest.mock('next/font/google', () => ({
+  Be_Vietnam_Pro: () => {},
+}));
 
 describe(GuestCount, () => {
   it('display the correct number of guests', () => {

@@ -7,14 +7,16 @@ import type { CapacityProps } from '../props';
 import RetryOptions from './RetryOptions';
 
 import messages from '../messages';
+import useLocale from 'hooks/useLocale';
 
 const CapacityMessage: FC<CapacityProps> = ({
-  adults = 0,
+  adults = 1,
   child = 0,
   infants = 0,
 }) => {
+  const translations = useLocale();
   if (adults === 0) {
-    const message = messages.capacity;
+    const message = translations.lounge.errors.capacity.description.known;
 
     return (
       <>
@@ -27,8 +29,8 @@ const CapacityMessage: FC<CapacityProps> = ({
   return (
     <>
       <Box>
-        Our apologies, but capacity of the lounge for the time slot you selected
-        is {setAdultsPrefix(adults)}
+        {translations.lounge.errors.capacity.description.notKnown}{' '}
+        {setAdultsPrefix(adults)}
         {setChildPrefix(child, adults)}
         {setInfantPrefix(infants, adults, child)}
       </Box>

@@ -22,6 +22,7 @@ import Notification from '@components/Notification';
 
 import { MAX_GUESTS, MOBILE_ACTION_BACK } from '../constants';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
+import useLocale from 'hooks/useLocale';
 
 export interface GuestInfoProps {
   form: UseFormReturnType<any, any>;
@@ -42,6 +43,8 @@ const GuestInfo = ({
     useRef<NumberInputHandlers>(),
     useRef<NumberInputHandlers>(),
   ];
+
+  const translations = useLocale();
 
   const handleClick = useCallback(() => {
     if (top) {
@@ -67,16 +70,18 @@ const GuestInfo = ({
         },
       }}
     >
-      <EditableTitle title="Who's coming?" as="h3" showBorder={true}>
+      <EditableTitle
+        title={translations.booking.guestDetails.title}
+        as="h3"
+        showBorder={true}
+      >
         <Flex direction="column" align="top">
           <Flex direction="row" align="top" gap={8}>
             <Box pt={2}>
               <Warning style={{ width: 16, height: 16 }} />
             </Box>
             <p style={{ marginTop: '0px' }}>
-              Maximum group size is 5, excluding infants. Please check
-              availability for lounge-specific restrictions on number of
-              infants.
+              {translations.booking.guestDetails.description(MAX_GUESTS)}
             </p>
           </Flex>
           {guestError ? (
@@ -89,8 +94,7 @@ const GuestInfo = ({
               }}
             >
               <Notification>
-                The maximum capacity of the lounge is a total of {MAX_GUESTS}{' '}
-                guests. Change number of guests.
+                {translations.booking.guestDetails.errors.capacity(MAX_GUESTS)}
               </Notification>
             </Box>
           ) : (
@@ -102,7 +106,7 @@ const GuestInfo = ({
             <QuantityInput
               min={1}
               max={MAX_GUESTS}
-              label="Adults"
+              label={translations.booking.guestDetails.adultsInput.label}
               ageRange="12+"
               disabled={loading}
               handlers={handlers[0]}
@@ -114,7 +118,7 @@ const GuestInfo = ({
             <QuantityInput
               min={0}
               max={MAX_GUESTS}
-              label="Children"
+              label={translations.booking.guestDetails.childrenInput.label}
               ageRange="2-11"
               disabled={loading}
               handlers={handlers[1]}
@@ -125,7 +129,7 @@ const GuestInfo = ({
           <Grid.Col lg={6}>
             <QuantityInput
               max={MAX_GUESTS}
-              label="Infants"
+              label={translations.booking.guestDetails.infantsInput.label}
               ageRange="0-2"
               disabled={loading}
               handlers={handlers[2]}
@@ -134,11 +138,11 @@ const GuestInfo = ({
           </Grid.Col>
         </Grid>
         <Text size={14} pt={16}>
-          Refer to{' '}
+          {translations.booking.guestDetails.loungeTerms.line1}
           <Anchor color={colors.blue} onClick={handleClick}>
-            lounge conditions
+            {translations.booking.guestDetails.loungeTerms.link}
           </Anchor>{' '}
-          for age restrictions
+          {translations.booking.guestDetails.loungeTerms.line2}
         </Text>
       </EditableTitle>
     </Stack>

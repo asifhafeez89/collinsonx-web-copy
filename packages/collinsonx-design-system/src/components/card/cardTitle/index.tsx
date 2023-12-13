@@ -1,11 +1,11 @@
 import { ReactNode } from 'react';
-import { Text } from '@mantine/core';
 import colors from '../../../colour-constants-partner';
+import Title from '../../title';
 
 function CardTitle({ children }: { children: ReactNode }) {
   return (
-    <Text
-      component="h2"
+    <Title
+      order={2}
       my={0}
       weight={600}
       size={20}
@@ -13,7 +13,7 @@ function CardTitle({ children }: { children: ReactNode }) {
       sx={{ lineHeight: '25.3px' }}
     >
       {children}
-    </Text>
+    </Title>
   );
 }
 

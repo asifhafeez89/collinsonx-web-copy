@@ -35,17 +35,22 @@ import { useLazyQuery } from '@collinsonx/utils/apollo';
 import { getBookingByID } from '@collinsonx/utils/queries';
 import { AlertIcon } from '@collinsonx/design-system/assets/icons';
 import TopBarLinks from '@components/TopBarLinks';
-import { ANALYTICS_TAGS, MOBILE_ACTION_BACK, POLLING_TIME } from '../constants';
-import { logAction, sendMobileEvent } from '@lib';
+import {
+  ANALYTICS_TAGS,
+  MOBILE_ACTION_BACK,
+  PDF_VERSION_ACCEPTED,
+  POLLING_TIME,
+  VERSION,
+} from '../constants';
+import { getItem, logAction, sendMobileEvent } from '@lib';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
-import Price from '@components/Price';
-import { InfoPanel } from 'utils/PanelInfo';
 import { GenerateBookingConfirmedPdf } from '@components/booking/GenerateBookingConfirmedPdf';
-import { GuestCount } from '@components/guest-count/GuestCount';
 import BackButton from '@components/BackButton';
 import { FlightContext } from 'context/flightContext';
 import EstimatedTimeArrival from '@components/EstimatedTimeArrival';
 import { FlightDetailsAndGuests } from '@components/FlightDetailsAndGuests';
+import ShowButtonByVersion from '@components/ShowDownloadButton';
+import useLocale from 'hooks/useLocale';
 
 export default function ConfirmPayment() {
   const router = useRouter();
@@ -87,6 +92,8 @@ export default function ConfirmPayment() {
   const [open, setOpen] = useState(true);
   const [alert, setAlert] = useState<boolean | null>(null);
 
+  const translations = useLocale();
+
   useEffect(() => {
     // Check if the booking state is incompleted and]
 
@@ -102,6 +109,8 @@ export default function ConfirmPayment() {
     getBooking();
 
   const flightData = getFlight();
+
+  const version = getItem(VERSION);
 
   const loungeLocation = useMemo(
     () =>
@@ -128,28 +137,30 @@ export default function ConfirmPayment() {
       onCompleted: (data) => {
         setTimer(timer + 1);
 
-        // 30s passed booking is still pending
-        if (
-          timer > 10 &&
-          data.getBookingByID.status === BookingStatus.Pending
-        ) {
-          clearInterval(interval.current);
-          setOpen(false);
-          setAlert(true);
-        }
-        if (
-          data.getBookingByID.status === BookingStatus.Declined ||
-          data.getBookingByID.status === BookingStatus.Confirmed
-        ) {
-          setOpen(false);
-          setAlert(false);
-          clearInterval(interval.current);
+        if (data.getBookingByID === null && timer > 30) {
+          router.push({
+            pathname: '/failure-booking',
+          });
+        } else if (data.getBookingByID.status === BookingStatus.Declined) {
+          router.push({
+            pathname: '/failure-booking',
+          });
+        } else if (data.getBookingByID.status === BookingStatus.Pending) {
+          if (timer > 10) {
+            clearInterval(interval.current);
+            setOpen(false);
+            setAlert(true);
+          }
 
-          if (data.getBookingByID.status === BookingStatus.Declined) {
+          if (timer > 30) {
             router.push({
               pathname: '/failure-booking',
             });
           }
+        } else if (data.getBookingByID.status === BookingStatus.Confirmed) {
+          setOpen(false);
+          setAlert(false);
+          clearInterval(interval.current);
         }
       },
     });
@@ -157,7 +168,7 @@ export default function ConfirmPayment() {
   return (
     <Layout>
       <Stack spacing={16} sx={{ backgroundColor: colors.background }}>
-        <TopBarLinks />
+        <TopBarLinks page={pageName} />
 
         <LoaderLightBox
           open={open}
@@ -169,18 +180,31 @@ export default function ConfirmPayment() {
           }
         >
           <div>
-            <h2>Payment is being processed</h2>
+            <h2>
+              {
+                translations.booking.confirmationPayment.processing
+                  .beingProcessed.title
+              }
+            </h2>
             <p>
-              Your payment for{' '}
+              {
+                translations.booking.confirmationPayment.processing
+                  .beingProcessed.description.line1
+              }
               <strong>
                 {lounge?.loungeName} &nbsp;
                 {loungeLocation}
               </strong>{' '}
-              is being processed.
+              {
+                translations.booking.confirmationPayment.processing
+                  .beingProcessed.description.line2
+              }
               <br />
               <br />
-              Please don't refresh the page, it may take a few minutes to
-              complete.
+              {
+                translations.booking.confirmationPayment.processing
+                  .beingProcessed.description.line3
+              }
             </p>
           </div>
         </LoaderLightBox>
@@ -220,7 +244,7 @@ export default function ConfirmPayment() {
               }}
             >
               <Heading as="h1" padding={0} margin={0} lineHeight={1}>
-                Booking confirmation
+                {translations.booking.confirmationPayment.title}
               </Heading>
             </Center>
             <Box
@@ -273,18 +297,30 @@ export default function ConfirmPayment() {
                           },
                         }}
                       >
-                        Good news! Your booking has been confirmed
+                        {
+                          translations.booking.confirmationPayment.outcome
+                            .succesful.title
+                        }
                       </Box>
                     </Heading>
                     <EditableTitle
-                      title=" Booking reference"
+                      title={
+                        translations.booking.confirmationPayment.outcome
+                          .succesful.reference.label
+                      }
                       as="h3"
                       showBorder={true}
                     >
-                      Booking reference {''}{' '}
-                      {dataBooking?.getBookingByID.reference}
+                      {
+                        translations.booking.confirmationPayment.outcome
+                          .succesful.reference.label
+                      }{' '}
+                      {''} {dataBooking?.getBookingByID.reference}
                       <p>
-                        A confirmation email has been sent to{' '}
+                        {
+                          translations.booking.confirmationPayment.outcome
+                            .succesful.emailConfirmationLabel
+                        }{' '}
                         <span style={{ fontWeight: 700 }}>
                           {consumerData?.getConsumerByID.emailAddress}
                         </span>
@@ -316,7 +352,7 @@ export default function ConfirmPayment() {
                         }}
                       >
                         <EditableTitle
-                          title="Estimated time of arrival"
+                          title={translations.booking.availableSlots.title}
                           as="h2"
                           showBorder={true}
                         >
@@ -327,26 +363,19 @@ export default function ConfirmPayment() {
                       </Box>
 
                       <EditableTitle
-                        title="Important Notes"
+                        title={
+                          translations.booking.confirmationPayment.outcome
+                            .succesful.importantNotes.title
+                        }
                         as="h2"
                         showBorder={false}
                       >
                         <ul style={{ paddingLeft: '1em' }}>
-                          <li>
-                            {' '}
-                            Please remember to bring your booking reference
-                            number, boarding pass and photo ID along with your
-                            Priority Pass membership card or eligible access
-                            method for check in at the lounge.{' '}
-                          </li>
-                          <li>
-                            Maximum stay is 3 hours prior to your flight time.
-                          </li>
-                          <li>
-                            Cancellation must be made at least 48 hours in
-                            advance of your visit date & time to receive a
-                            refund. No refund will be issued after this time.
-                          </li>
+                          {translations.booking.confirmationPayment.outcome.succesful.importantNotes.notes.map(
+                            (note) => (
+                              <li>{note}</li>
+                            )
+                          )}
                         </ul>
                       </EditableTitle>
                     </Stack>
@@ -357,28 +386,33 @@ export default function ConfirmPayment() {
                     align={'center'}
                   >
                     {platform === 'web' && (
-                      <GenerateBookingConfirmedPdf
-                        adults={adults}
-                        arrival={arrival}
-                        children={children}
-                        departureTime={departureTime}
-                        emailAddress={
-                          consumerData?.getConsumerByID.emailAddress
-                        }
-                        flightNumber={flightNumber}
-                        infants={infants}
-                        lounge={lounge}
-                        reference={dataBooking?.getBookingByID.reference}
-                        bookingId={dataBooking?.getBookingByID.id}
-                        loungeCode={loungeCode}
-                        linkAccountToken={jwt}
-                        accountProvider={payload?.accountProvider}
-                        membershipType={payload?.membershipType}
-                        platform={platform}
-                        analyticsTag={
-                          ANALYTICS_TAGS.ON_PAGE_CONFIRMED_BTN_DOWNLOAD
-                        }
-                      />
+                      <ShowButtonByVersion
+                        currentVersion={version ?? ''}
+                        minVersion={PDF_VERSION_ACCEPTED}
+                      >
+                        <GenerateBookingConfirmedPdf
+                          adults={adults}
+                          arrival={arrival}
+                          children={children}
+                          departureTime={departureTime}
+                          emailAddress={
+                            consumerData?.getConsumerByID.emailAddress
+                          }
+                          flightNumber={flightNumber}
+                          infants={infants}
+                          lounge={lounge}
+                          reference={dataBooking?.getBookingByID.reference}
+                          bookingId={dataBooking?.getBookingByID.id}
+                          loungeCode={loungeCode}
+                          linkAccountToken={jwt}
+                          accountProvider={payload?.accountProvider}
+                          membershipType={payload?.membershipType}
+                          platform={platform}
+                          analyticsTag={
+                            ANALYTICS_TAGS.ON_PAGE_CONFIRMED_BTN_DOWNLOAD
+                          }
+                        />
+                      </ShowButtonByVersion>
                     )}
                     <Anchor
                       target="_top"
@@ -393,7 +427,10 @@ export default function ConfirmPayment() {
                         marginTop: '0.75rem',
                       }}
                     >
-                      Return to lounge page
+                      {
+                        translations.booking.confirmationPayment.outcome
+                          .succesful.btn.return
+                      }
                     </Anchor>
                   </Flex>
                 </Box>
@@ -420,13 +457,16 @@ export default function ConfirmPayment() {
                         <AlertIcon
                           style={{ width: '1.3rem', height: '1.3rem' }}
                         />{' '}
-                        Booking Confirmation delay
+                        {
+                          translations.booking.confirmationPayment.outcome.delay
+                            .title
+                        }
                       </Title>
-
                       <Text>
-                        We're sorry we're not able to confirm your booking right
-                        now. We will send an email as soon as your booking is
-                        confirmed.
+                        {
+                          translations.booking.confirmationPayment.outcome.delay
+                            .description
+                        }
                       </Text>
                       <Box sx={{ padding: '1.25rem', textAlign: 'center' }}>
                         <BackButton
@@ -434,7 +474,10 @@ export default function ConfirmPayment() {
                             ANALYTICS_TAGS.ON_PAGE_CONFIRMED_BACK_BTN
                           }
                         >
-                          GO TO LOUNGES
+                          {
+                            translations.booking.confirmationPayment.outcome
+                              .delay.btn
+                          }
                         </BackButton>
                       </Box>
                     </Box>

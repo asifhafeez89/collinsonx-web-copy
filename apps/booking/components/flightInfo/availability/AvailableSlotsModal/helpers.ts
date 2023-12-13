@@ -11,12 +11,15 @@ import { Metadata } from './types';
 
 import getError from 'utils/getError';
 
-export function setHeaderTitle(headerStyle: HeaderStyle): string {
+export function setHeaderTitle(
+  headerStyle: HeaderStyle,
+  translations: any
+): string {
   switch (headerStyle) {
     case HeaderStyle.CAPACITY:
-      return 'Lounge is at capacity';
+      return translations.capacity.title;
     case HeaderStyle.UNKNOWN:
-      return 'Availability is unknown';
+      return translations.unavailable.title;
   }
 }
 

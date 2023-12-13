@@ -1,13 +1,16 @@
 import { Box } from '@collinsonx/design-system/core';
+import useLocale from 'hooks/useLocale';
 
 function RetryOptions() {
+  const translations = useLocale();
+
   return (
     <Box>
-      You can:
+      {translations.lounge.errors.capacity.solutions.title}:
       <ul>
-        <li>change time slot</li>
-        <li>change number of guests</li>
-        <li>find another lounge</li>
+        {translations.lounge.errors.capacity.solutions.points.map((point) => (
+          <li>{point}</li>
+        ))}
       </ul>
     </Box>
   );

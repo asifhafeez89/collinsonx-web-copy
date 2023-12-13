@@ -1,5 +1,5 @@
 import { MantineProvider, Flex } from '@collinsonx/design-system/core';
-import { log, hasRequired } from '../lib/index';
+import { log, hasRequired, logDataError } from '../lib/index';
 import { loggerDataError } from '@collinsonx/utils/lib/analytics';
 import { useRouter } from 'next/router';
 import {
@@ -44,6 +44,9 @@ import {
   REFERRER,
   PLATFORM,
   LANGUAGE,
+  VERSION,
+  PDF_VERSION_ACCEPTED,
+  ALLOW_LOCAL,
 } from '../constants';
 import { Consumer } from 'types/consumer';
 
@@ -53,6 +56,8 @@ const {
   referrer: referrerParam,
   platform: platformParam,
   ln: ln,
+  version: version,
+  showLocal: showLocale,
 } = BookingQueryParams;
 
 type PayloadState = {
@@ -118,12 +123,14 @@ export const PayloadProvider = (props: PropsWithChildren) => {
   const [tokenError, setTokenError] = useState<string>();
   const [payloadError, setPayloadError] = useState<boolean>(false);
   const [payloadErrorTitle, setPayloadErrorTitle] = useState<string>();
-  const [payloadErrorMessage, setPayloadErrorMessage] = useState<string>();
   const [linkedAccountId, setLinkedAccountId] = useState<string>();
   const [referrerUrl, setReferrerUrl] = useState<string>();
   const [platform, setPlatform] = useState<string>();
   const [layoutError, setLayoutError] = useState<string>();
   const [consumerData, setConsumerData] = useState<Consumer>();
+
+  867; //Flag for language
+  //Todo: Remove this when we are completely ready
 
   const ErrorAppMsgApp =
     'There might be an error in the system. Please make sure to update to the latest version of the app.';
@@ -166,6 +173,8 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       const queryReferrer = router.query[referrerParam] as string;
       const queryPlatform = router.query[platformParam] as string;
       const queryLanguage = router.query[ln] as string;
+      const queryVersion = router.query[version] as string;
+      const queryLocalSwitch = router.query[showLocale] as string;
 
       const storageJWT = getItem(JWT);
       const storageLoungeCode = getItem(LOUNGE_CODE);
@@ -176,8 +185,10 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       let jwt: string = '';
       let loungeCode: string = '';
       let language: string = '';
+      let versionPDF: string = PDF_VERSION_ACCEPTED;
       let referrer: string = '';
       let platform: string = 'web';
+      let localSwitch: string = 'OFF';
 
       if (hasQueryParams) {
         log(`Param found: ${jwtParam}:${queryJWT}`);
@@ -187,12 +198,16 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         referrer = queryReferrer || '';
         platform = queryPlatform || 'web';
         language = queryLanguage || 'en';
+        versionPDF = queryVersion || PDF_VERSION_ACCEPTED;
+        localSwitch = queryLocalSwitch || 'OFF';
       } else if (hasStoredData) {
         jwt = getItem(JWT)!;
         loungeCode = getItem(LOUNGE_CODE)!;
         referrer = getItem(REFERRER) || '';
         platform = getItem(PLATFORM) || 'web';
         language = getItem(LANGUAGE) || 'en';
+        localSwitch = getItem(ALLOW_LOCAL) || 'OFF';
+        versionPDF = getItem(VERSION) || PDF_VERSION_ACCEPTED;
         log(`Retrieved ${jwtParam} and ${lcParam} from storage`);
         log('referrer:', referrer);
         log('platform:', platform);
@@ -204,7 +219,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         log(
           `Unable to retrieve ${jwtParam} or ${lcParam} from both query and storage`
         );
-        loggerDataError(
+        logDataError(
           new Error(
             `Unable to retrieve ${jwtParam} or ${lcParam} from both query and storage`
           ),
@@ -226,6 +241,8 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       setJWT(jwt);
       setReferrerUrl(referrer);
       setPlatform(platform);
+      setItem(VERSION, versionPDF);
+      setItem(ALLOW_LOCAL, localSwitch);
 
       let payload: BridgePayload;
 
@@ -234,7 +251,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       } catch (e) {
         log('Decode JWT error: ', e);
 
-        loggerDataError(
+        logDataError(
           new Error(
             `Unable to retrieve ${jwtParam} or ${lcParam} from both query and storage`
           ),
@@ -254,7 +271,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         setPayloadErrorTitle('Sorry, service is not available');
         setPayloadError(true);
 
-        loggerDataError(
+        logDataError(
           new Error('Validation Failed'),
           'payload',
           'if: token failed validation',

@@ -279,7 +279,7 @@ const Content = () => {
     const jwtToken = await signJWT(response, secret);
     setJWT(jwtToken);
 
-    const url = `${domain}?ln=${ln}&${lcParam}=${lounge}&${jwtParam}=${jwtToken}&${referrerParam}=${referrer}`;
+    const url = `${domain}?ln=${ln}&${lcParam}=${lounge}&${jwtParam}=${jwtToken}&${referrerParam}=${referrer}&version=${form.values.version}`;
 
     window.open(url);
   };
@@ -295,6 +295,7 @@ const Content = () => {
       email: '',
       customFirstName: '',
       customLastName: '',
+      version: '',
     },
   });
 
@@ -324,7 +325,6 @@ const Content = () => {
             />
           </Grid.Col>
         </Grid>
-
         <Grid>
           <Grid.Col span={6}>
             <TextInput
@@ -339,7 +339,6 @@ const Content = () => {
             />
           </Grid.Col>
         </Grid>
-
         <Grid>
           <Grid.Col span={6}>
             <TextInput
@@ -354,7 +353,6 @@ const Content = () => {
             />
           </Grid.Col>
         </Grid>
-
         <Grid>
           <Grid.Col span={6}>
             <TextInput
@@ -363,7 +361,6 @@ const Content = () => {
             />
           </Grid.Col>
         </Grid>
-
         <Grid>
           <Grid.Col span={6}>
             <Select
@@ -373,7 +370,14 @@ const Content = () => {
             />
           </Grid.Col>
         </Grid>
-
+        <Grid>
+          <Grid.Col span={6}>
+            <TextInput
+              {...form.getInputProps('version')}
+              placeholder="Please add a version for the PDF Download"
+            />
+          </Grid.Col>
+        </Grid>
         <Grid>
           <Grid.Col span={6}>
             <Select
@@ -389,7 +393,6 @@ const Content = () => {
             />
           </Grid.Col>
         </Grid>
-
         <Grid>
           <Grid.Col span={6}>
             <Select
@@ -405,7 +408,6 @@ const Content = () => {
             />
           </Grid.Col>
         </Grid>
-
         <Grid>
           <Grid.Col span={6}>
             <AccountProviderSelectBox setAccountProvider={setAccountProvider} />
@@ -444,7 +446,6 @@ const Content = () => {
             />
           </Grid.Col>
         </Grid>
-
         <Grid>
           <Grid.Col span={6}>
             <TextInput
@@ -454,7 +455,6 @@ const Content = () => {
             />
           </Grid.Col>
         </Grid>
-
         <Grid>
           <Grid.Col span={6}>
             {flight.length > 0 ? (
@@ -465,7 +465,6 @@ const Content = () => {
             ) : null}
           </Grid.Col>
         </Grid>
-
         <br />
         <Button type="submit">Pre-book</Button>
       </form>

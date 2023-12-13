@@ -4770,6 +4770,81 @@ export type GetInvitationByIdQuery = {
   } | null;
 };
 
+export type GetOutletByIdQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+export type GetOutletByIdQuery = {
+  __typename?: 'Query';
+  getOutletByID?: {
+    __typename?: 'Outlet';
+    id: string;
+    name: string;
+    category: OutletCategory;
+    code?: string | null;
+    legacyCode?: string | null;
+    hasDisabledAccess: boolean;
+    tier?: string | null;
+    tags: Array<string | null>;
+    status: OutletStatus;
+    salesforceID: string;
+    reservationEmail?: string | null;
+    location: {
+      __typename?: 'Location';
+      city?: string | null;
+      code?: string | null;
+      country: string;
+      isoCountryCode?: IsoCountryCode | null;
+      landside?: boolean | null;
+      name?: string | null;
+      terminal?: string | null;
+    };
+    openingTimes?: {
+      __typename?: 'OpeningTimes';
+      exceptions?: string | null;
+      schedules?: {
+        __typename?: 'DaySchedules';
+        MONDAY?: Array<{
+          __typename?: 'Schedule';
+          endTime: string;
+          startTime: string;
+        } | null> | null;
+        TUESDAY?: Array<{
+          __typename?: 'Schedule';
+          endTime: string;
+          startTime: string;
+        } | null> | null;
+        WEDNESDAY?: Array<{
+          __typename?: 'Schedule';
+          endTime: string;
+          startTime: string;
+        } | null> | null;
+        THURSDAY?: Array<{
+          __typename?: 'Schedule';
+          endTime: string;
+          startTime: string;
+        } | null> | null;
+        FRIDAY?: Array<{
+          __typename?: 'Schedule';
+          endTime: string;
+          startTime: string;
+        } | null> | null;
+        SATURDAY?: Array<{
+          __typename?: 'Schedule';
+          endTime: string;
+          startTime: string;
+        } | null> | null;
+        SUNDAY?: Array<{
+          __typename?: 'Schedule';
+          endTime: string;
+          startTime: string;
+        } | null> | null;
+      } | null;
+    } | null;
+    partnerBrand: { __typename?: 'PartnerBrand'; name: string };
+  } | null;
+};
+
 export type GetOutletsQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']['input']>;
 }>;
@@ -6689,6 +6764,249 @@ export const GetInvitationByIdDocument = {
   GetInvitationByIdQuery,
   GetInvitationByIdQueryVariables
 >;
+export const GetOutletByIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetOutletByID' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'getOutletByID' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'category' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'legacyCode' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'location' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'city' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'country' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isoCountryCode' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'landside' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'terminal' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'openingTimes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'exceptions' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'schedules' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'MONDAY' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'endTime' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'startTime' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'TUESDAY' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'endTime' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'startTime' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'WEDNESDAY' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'endTime' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'startTime' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'THURSDAY' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'endTime' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'startTime' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'FRIDAY' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'endTime' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'startTime' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'SATURDAY' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'endTime' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'startTime' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'SUNDAY' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'endTime' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'startTime' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'hasDisabledAccess' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'tier' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'tags' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'salesforceID' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'reservationEmail' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'partnerBrand' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetOutletByIdQuery, GetOutletByIdQueryVariables>;
 export const GetOutletsDocument = {
   kind: 'Document',
   definitions: [

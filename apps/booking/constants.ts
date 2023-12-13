@@ -17,6 +17,8 @@ export const LANGUAGE = 'LANGUAGE';
 export const JWT = 'JWT';
 export const REFERRER = 'REFERRER';
 export const PLATFORM = 'PLATFORM';
+export const VERSION = 'VERSION';
+export const ALLOW_LOCAL = 'ALLOW_LOCAL';
 
 export const MOBILE_ACTION_BACK = 1;
 export const MOBILE_ACTION_DATA_URI = 'DATA_URI';
@@ -97,6 +99,9 @@ export enum ANALYTICS_TAGS {
   ON_SIGNUP_PAGE_LASTNAME_UPDATE = 'CG_Last_Name_Upd_Dtl',
   ON_SIGNUP_PAGE_CONCENT = 'Tick_Consent_Upd_Dtl',
   ON_SIGNUP_PAGE_CONFIRM = 'CK_BTN_Confirm_Upd_Dtl',
+  ON_SLOT_MISSED = 'On_PG_Slot_Mis',
+  ON_SLOT_SELECT_ANOTHER = 'CK_BTN_Sel_Slot_Mis',
+  ON_SLOT_SELECT_GO_TO_LOUNGE = 'CK_BTN_GO_Slot_Mis',
 }
 
 export const PRODUCTION_DOMAIN = 'booking.cergea.com';
@@ -104,3 +109,10 @@ export const PRODUCTION_DOMAIN = 'booking.cergea.com';
 export const VALIDATION_RULES = {
   MAX_LENGTH: 255,
 };
+
+export const PDF_VERSION_ACCEPTED = '6.29.0';
+
+export enum SWITCHES {
+  LOCAL_SWITCH_OFF = 'OFF',
+  LOCAL_SWITCH_ON = 'ON',
+}

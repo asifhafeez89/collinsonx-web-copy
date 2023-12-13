@@ -5,6 +5,8 @@ type ThemeOptions = {
   fontFamily?: string;
 };
 
+const HEADING_LINE_HEIGHT = 1.25;
+
 const theme = (
   { fontFamily }: ThemeOptions = { fontFamily: 'Be Vietnam Pro' }
 ): MantineThemeOverride => ({
@@ -26,7 +28,7 @@ const theme = (
     xl: '48px',
   },
   fontFamily,
-  globalStyles: ({ colors }) => ({
+  globalStyles: ({ colors, ...theme }) => ({
     body: {
       height: '100%',
       color: colors.dark[4],
@@ -46,6 +48,13 @@ const theme = (
     sizes: {
       h1: {
         fontWeight: 300,
+        lineHeight: HEADING_LINE_HEIGHT,
+      },
+      h2: {
+        lineHeight: HEADING_LINE_HEIGHT,
+      },
+      h3: {
+        lineHeight: HEADING_LINE_HEIGHT,
       },
     },
   },

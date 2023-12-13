@@ -1,4 +1,8 @@
-import { MailinatorClient, GetInboxRequest, GetMessageRequest } from 'mailinator-client';
+import {
+  MailinatorClient,
+  GetInboxRequest,
+  GetMessageRequest,
+} from 'mailinator-client';
 import { mailinatorAddress } from '../config';
 
 /**
@@ -55,6 +59,55 @@ export async function getPinFromEmail(email) {
     const matchResult = regex.exec(latestMessageContents.result.parts[0].body);
     const pin = matchResult[1];
     return pin;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function getLinkFromEmail(email) {
+  const username = email.split('@')[0];
+
+  const mailinatorClient = new MailinatorClient(
+    process.env.MAILINATOR_API_TOKEN
+  );
+
+  try {
+    let latestMessage;
+    let count = 0;
+
+    while (latestMessage === undefined && count < 3) {
+      count > 0 && (await new Promise((resolve) => setTimeout(resolve, 5000)));
+
+      const inbox = await mailinatorClient.request(
+        new GetInboxRequest(mailinatorAddress)
+      );
+
+      latestMessage = await inbox.result.msgs.find(
+        (message) => message.to === username
+      );
+
+      count++;
+    }
+
+    if (latestMessage === undefined) {
+      throw new Error(
+        "Could not find the OTP email. Check the user's email is correct in relation to the Mailinator account being used."
+      );
+    }
+
+    const id = latestMessage.id;
+
+    const latestMessageContents = await mailinatorClient.request(
+      new GetMessageRequest(mailinatorAddress, username, id)
+    );
+
+    // const regex = /(\d+)<\/div>/;
+
+    // const matchResult = regex.exec(latestMessageContents.result.parts[0].body);
+    // const pin = matchResult[1];
+    // return pin;
+
+    return latestMessageContents.result.parts[0].body;
   } catch (err) {
     throw err;
   }

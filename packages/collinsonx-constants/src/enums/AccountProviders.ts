@@ -1,4 +1,4 @@
-enum AccountProvider {
+export enum AccountProvider {
   PP = 'PRIORITY_PASS',
   LK = 'LOUNGE_KEY',
 }

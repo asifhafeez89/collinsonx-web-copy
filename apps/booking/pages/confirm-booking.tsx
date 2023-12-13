@@ -18,6 +18,7 @@ import { log, logAction } from '@lib';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
 import EstimatedTimeArrival from '@components/EstimatedTimeArrival';
 import { FlightDetailsAndGuests } from '@components/FlightDetailsAndGuests';
+import useLocale from 'hooks/useLocale';
 
 export default function ConfirmBooking() {
   const [clientSecret, setClientSecret] = useState('');
@@ -29,6 +30,8 @@ export default function ConfirmBooking() {
   useEffect(() => {
     logAction(pageName, ANALYTICS_TAGS.ON_PAYMENT_ENTER);
   }, []);
+
+  const translations = useLocale();
 
   const { flightNumber, children, bookingId, adults, infants, arrival } =
     getBooking();
@@ -118,7 +121,7 @@ export default function ConfirmBooking() {
             >
               {!clientSecret && (
                 <Heading as="h1" padding={0} margin={0} lineHeight={1}>
-                  Booking summary
+                  {translations.booking.confirmBooking.title}
                 </Heading>
               )}
             </Center>
@@ -155,7 +158,7 @@ export default function ConfirmBooking() {
                         lounge={lounge}
                       />
                       <EditableTitle
-                        title="Estimated time of arrival"
+                        title={translations.booking.availableSlots.title}
                         as="h2"
                         showBorder={true}
                       >
@@ -163,15 +166,17 @@ export default function ConfirmBooking() {
                       </EditableTitle>
                       <EditableTitle title="Cancellation policy" as="h2">
                         <p style={{ padding: '0', margin: '0' }}>
-                          Cancel up to 48 hours before your booking to receive a
-                          full refund. Bookings cannot be cancelled within 48
-                          hours of booking arrival time, including new bookings
-                          made within that time range.
+                          {
+                            translations.booking.availableSlots
+                              .cancellationPolicy.descriptionLine1
+                          }{' '}
                         </p>
                         <div>
-                          <p>
-                            Please confirm details are correct before making
-                            payment.
+                          <p style={{ padding: '0', margin: '0' }}>
+                            {
+                              translations.booking.availableSlots
+                                .cancellationPolicy.descriptionLine2
+                            }
                           </p>
                         </div>
                       </EditableTitle>
@@ -183,7 +188,7 @@ export default function ConfirmBooking() {
                       align="center"
                       handleClick={handleSubmit}
                     >
-                      GO TO PAYMENT
+                      {translations.booking.payment.btnGoPayment}
                     </Button>
                   </Box>
                 )

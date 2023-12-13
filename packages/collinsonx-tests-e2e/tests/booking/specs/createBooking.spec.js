@@ -1,5 +1,3 @@
-import { signJWT } from '@collinsonx/jwt';
-import { redirectToBaas } from '../utils/redirectToBaas';
 import { getOneMonthFromTodayDate } from '../utils/dateUtils';
 import { getPinFromEmail } from '../utils/emailUtils';
 import EnterEmailPage from '../pages/EnterEmailPage';
@@ -10,35 +8,7 @@ import { mailinatorAddress } from '../config';
 import { test, expect } from '../../../baseFixtures';
 import SelectLoungeTimePage from '../pages/SelectLoungeTimePage';
 import ConfirmBookingPage from '../pages/ConfirmBookingPage';
-
-const secret = process.env.NEXT_PUBLIC_JWT_SECRET || '';
-
-async function loginAsExistingUser(page, id, membershipNumber, externalId) {
-  const email = `${id}@${mailinatorAddress}`;
-  const payload = {
-    membershipNumber,
-    externalId,
-    email,
-    firstName: 'Alice',
-    lastName: 'Smith',
-    membershipType: 'MASTERCARD_HSBC',
-    accountProvider: 'PRIORITY_PASS',
-    language: 'en',
-  };
-  const jwt = await signJWT(payload, secret);
-  const lounge = 'BHD1';
-
-  await redirectToBaas(page, jwt, lounge);
-
-  const enterEmailPage = new EnterEmailPage(page);
-  await enterEmailPage.clickContinue();
-  await page.waitForTimeout(5000);
-  const pin = await getPinFromEmail(email);
-
-  const enterPinPage = new EnterPinPage(page);
-  await enterPinPage.enterPin(pin);
-  await enterPinPage.clickVerify();
-}
+import { loginAsExistingUser } from '../utils/loginUtils';
 
 test.describe('Create booking flow', () => {
   test.describe('BKG-001 - Create Booking with all valid data', () => {
@@ -81,10 +51,9 @@ test.describe('Create booking flow', () => {
       const whosComing = await confirmBookingPage.whosComing('Adults 2');
       const loungeTime = await confirmBookingPage.loungeTime();
 
-      await expect(confirmedFlightNumber).not.toBeNull();
-      await expect(dateSelected).not.toBeNull();
-      await expect(whosComing).not.toBeNull();
-      await expect(loungeTime).not.toBeNull();
+      await expect(confirmedFlightNumber).toBeVisible();
+      await expect(dateSelected).toBeVisible();
+      await expect(whosComing).toBeVisible();
     });
   });
 
@@ -111,7 +80,7 @@ test.describe('Create booking flow', () => {
 
       // Assert
       const invalidFlightError = await preBookPage.invalidFlightError();
-      await expect(invalidFlightError).not.toBeNull();
+      await expect(invalidFlightError).toBeVisible();
     });
   });
 
@@ -134,7 +103,7 @@ test.describe('Create booking flow', () => {
 
       // Assert
       const flightDateError = await preBookPage.flightDateError();
-      await expect(flightDateError).not.toBeNull();
+      await expect(flightDateError).toBeVisible();
     });
   });
 
@@ -177,10 +146,9 @@ test.describe('Create booking flow', () => {
       const whosComing = await confirmBookingPage.whosComing('Adults 5');
       const loungeTime = await confirmBookingPage.loungeTime();
 
-      await expect(confirmedFlightNumber).not.toBeNull();
-      await expect(dateSelected).not.toBeNull();
-      await expect(whosComing).not.toBeNull();
-      await expect(loungeTime).not.toBeNull();
+      await expect(confirmedFlightNumber).toBeVisible();
+      await expect(dateSelected).toBeVisible();
+      await expect(whosComing).toBeVisible();
     });
   });
 
@@ -205,8 +173,8 @@ test.describe('Create booking flow', () => {
       await page.waitForTimeout(500);
 
       // Assert
-      const airportMismatchWarning = preBookPage.airportMismatchWarning();
-      await expect(airportMismatchWarning).not.toBeNull;
+      const airportMismatchWarning = await preBookPage.airportMismatchWarning();
+      await expect(airportMismatchWarning).toBeVisible();
     });
   });
 
@@ -233,7 +201,7 @@ test.describe('Create booking flow', () => {
 
       // Assert
       const invalidFlightError = await preBookPage.invalidFlightError();
-      expect(invalidFlightError).not.toBeNull();
+      expect(invalidFlightError).toBeVisible();
     });
   });
 });

@@ -3,18 +3,23 @@ import { formatDate } from '../utils/DateFormatter';
 
 export const InfoPanel = (
   departureDate: string | Date,
-  flightNumber: string
+  flightNumber: string,
+  translations: {
+    date: string;
+    flightTime: string;
+    flightNumber: string;
+  }
 ) => [
   {
-    header: 'Date',
+    header: translations.date,
     description: formatDate(new Date(`${departureDate}`), DATE_READABLE_FORMAT),
   },
   {
-    header: 'Time of flight',
+    header: translations.flightTime,
     description: formatDate(new Date(`${departureDate}`), TIME_FORMAT),
   },
   {
-    header: 'Flight number',
+    header: translations.flightNumber,
     description: flightNumber,
   },
 ];

@@ -57,7 +57,7 @@ test.describe('Onboarding flow', () => {
       // Arrange
       const { enterEmailPage, enterPinPage, registrationPage, preBookPage } =
         await getPageObjectModel(page);
-      const id = uuidv4() + process.env.ENV.toLowerCase();
+      const id = uuidv4() + (process.env.ENV || 'test').toLowerCase();
       const email = `${id}@${mailinatorAddress}`;
       const payload = {
         membershipNumber: uuidv4(),
@@ -97,7 +97,7 @@ test.describe('Onboarding flow', () => {
       // Arrange
       const { enterEmailPage, enterPinPage, registrationPage, preBookPage } =
         await getPageObjectModel(page);
-      const id = uuidv4() + process.env.ENV.toLowerCase();
+      const id = uuidv4() + (process.env.ENV || 'test').toLowerCase();
       const email = `${id}@${mailinatorAddress}`;
       const payload = {
         membershipNumber: uuidv4(),
@@ -133,7 +133,7 @@ test.describe('Onboarding flow', () => {
       // Arrange
       const { enterEmailPage, enterPinPage, registrationPage, preBookPage } =
         await getPageObjectModel(page);
-      const id = uuidv4() + process.env.ENV.toLowerCase();
+      const id = uuidv4() + (process.env.ENV || 'test').toLowerCase();
       const email = `${id}@${mailinatorAddress}`;
       const payload = {
         membershipNumber: uuidv4(),
@@ -234,7 +234,7 @@ test.describe('Onboarding flow', () => {
     }) => {
       // Arrange
       const { enterEmailPage, enterPinPage } = await getPageObjectModel(page);
-      const id = uuidv4() + process.env.ENV.toLowerCase();
+      const id = uuidv4() + (process.env.ENV || 'test').toLowerCase();
       const email = `${id}@${mailinatorAddress}`;
 
       const payload = {
@@ -255,7 +255,7 @@ test.describe('Onboarding flow', () => {
 
       // Assert
       const errorElement = await enterPinPage.invalidCodeError();
-      await expect(errorElement).not.toBeNull();
+      await expect(errorElement).toBeVisible();
     });
   });
 
@@ -265,7 +265,7 @@ test.describe('Onboarding flow', () => {
     }) => {
       // Arrange
       const { enterEmailPage, enterPinPage } = await getPageObjectModel(page);
-      const id = uuidv4() + process.env.ENV.toLowerCase();
+      const id = uuidv4() + (process.env.ENV || 'test').toLowerCase();
       const email = `${id}@${mailinatorAddress}`;
 
       const payload = {
@@ -289,7 +289,7 @@ test.describe('Onboarding flow', () => {
 
       // Assert
       const errorElement = await enterPinPage.tooManyAttemptsError();
-      await expect(errorElement).not.toBeNull();
+      await expect(errorElement).toBeVisible();
     });
   });
 
@@ -300,7 +300,7 @@ test.describe('Onboarding flow', () => {
       // Arrange
       const { enterEmailPage, enterPinPage, registrationPage, preBookPage } =
         await getPageObjectModel(page);
-      const id = uuidv4() + process.env.ENV.toLowerCase();
+      const id = uuidv4() + (process.env.ENV || 'test').toLowerCase();
       const email = `${id}@${mailinatorAddress}`;
 
       const payload = {
@@ -318,7 +318,7 @@ test.describe('Onboarding flow', () => {
       await redirectToBaas(page, jwt, lounge);
       await enterEmailPage.clickContinue();
       await enterPinPage.clickReEnterEmailLink();
-      const newId = uuidv4() + process.env.ENV.toLowerCase();
+      const newId = uuidv4() + (process.env.ENV || 'test').toLowerCase();
       const newEmail = `${newId}@${mailinatorAddress}`;
       await enterEmailPage.enterEmail(newEmail);
       await enterEmailPage.clickContinue();
@@ -347,7 +347,7 @@ test.describe('Onboarding flow', () => {
       // Arrange
       const { enterEmailPage, enterPinPage, registrationPage, preBookPage } =
         await getPageObjectModel(page);
-      const id = uuidv4() + process.env.ENV.toLowerCase();
+      const id = uuidv4() + (process.env.ENV || 'test').toLowerCase();
       const email = `${id}@${mailinatorAddress}`;
 
       const payload = {
@@ -378,8 +378,8 @@ test.describe('Onboarding flow', () => {
       const priceElement = await preBookPage.priceElement('£ 6.00');
 
       await expect(loungeTitle).toEqual('Aspire Lounge');
-      await expect(airportAndTerminalElement).not.toBeNull();
-      await expect(priceElement).not.toBeNull();
+      await expect(airportAndTerminalElement).toBeVisible();
+      await expect(priceElement).toBeVisible();
     });
   });
 
@@ -390,7 +390,7 @@ test.describe('Onboarding flow', () => {
       // Arrange
       const { enterEmailPage, enterPinPage, registrationPage } =
         await getPageObjectModel(page);
-      const id = uuidv4() + process.env.ENV.toLowerCase();
+      const id = uuidv4() + (process.env.ENV || 'test').toLowerCase();
       const email = `${id}@${mailinatorAddress}`;
       const payload = {
         membershipNumber: '98794810',
@@ -412,7 +412,7 @@ test.describe('Onboarding flow', () => {
 
       // Assert
       const errorElement = await enterEmailPage.incorrectEmailError();
-      await expect(errorElement).not.toBeNull();
+      await expect(errorElement).toBeVisible();
     });
   });
 
@@ -423,7 +423,7 @@ test.describe('Onboarding flow', () => {
       // Arrange
       const { enterEmailPage, enterPinPage, registrationPage } =
         await getPageObjectModel(page);
-      const id = uuidv4() + process.env.ENV.toLowerCase();
+      const id = uuidv4() + (process.env.ENV || 'test').toLowerCase();
       const email = `${id}@${mailinatorAddress}`;
 
       const payload = {
@@ -446,11 +446,11 @@ test.describe('Onboarding flow', () => {
 
       // Assert
       const errorElement = await enterEmailPage.incorrectEmailError();
-      await expect(errorElement).not.toBeNull();
+      await expect(errorElement).toBeVisible();
     });
   });
 
-  test.describe('Invalid JWT secret', () => {
+  test.describe('ONB-17 Invalid JWT secret', () => {
     test('should redirect to service not available page', async ({ page }) => {
       // Arrange
       const { enterEmailPage, enterPinPage, errorPage } =
@@ -458,7 +458,7 @@ test.describe('Onboarding flow', () => {
       const membershipNumber = uuidv4();
       const secret = 'invalid';
       const externalId = uuidv4();
-      const id = uuidv4() + process.env.ENV.toLowerCase();
+      const id = uuidv4() + (process.env.ENV || 'test').toLowerCase();
       const email = `${id}@${mailinatorAddress}`;
       const payload = {
         membershipNumber,
@@ -480,7 +480,7 @@ test.describe('Onboarding flow', () => {
 
       // Assert
       const errorElement = await errorPage.serviceNotAvailableError();
-      await expect(errorElement).not.toBeNull();
+      await expect(errorElement).toBeVisible();
     });
   });
 });

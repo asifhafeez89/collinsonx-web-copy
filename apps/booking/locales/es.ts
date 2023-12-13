@@ -132,7 +132,7 @@ export default {
       },
     },
     guestDetails: {
-      title: 'Quién esta viniendo',
+      title: '¿Quién esta viniendo?',
       description: (guests: number) =>
         `El tamaño máximo del grupo es de ${guests}, excluyendo bebés.Verifique la disponibilidad para restricciones específicas de salón en el número de bebés.`,
       adultsInput: {
@@ -147,25 +147,54 @@ export default {
         label: 'Bebés',
         description: 'Edades 0-2',
       },
-      loungeTerms:
-        'Consulte las condiciones del salón para las restricciones de edad',
+      loungeTerms: {
+        line1: 'Referirse a ',
+        link: 'Condiciones de salón',
+        line2: 'Para restricciones de edad',
+      },
       errors: {
-        capacity:
-          'La capacidad máxima del salón es un total de 5 invitados.Cambiar el número de invitados.',
+        capacity: (guests: number) =>
+          `La capacidad máxima del salón es un total de ${guests} invitados.Cambiar el número de invitados.`,
       },
     },
     availableSlots: {
       title: 'Tiempo estimado de llegada',
       description:
         'Los puntos de tiempo se muestran en la zona horaria de la ubicación del salón',
+      placeholder: 'Tiempo de selección',
       arrivalDescription: 'Este es el momento en que llegará al salón.',
-      stayTime: (flightTime: number) =>
-        `Como su vuelo es de ${flightTime}, su estadía máxima es 3 horas antes.`,
+      stayTime: {
+        line1: 'Como su vuelo está en',
+        line2: ', tu estadía máxima es',
+        line3: '3 horas antes',
+      },
       totalPrice: {
         title: 'Precio total',
       },
-      btn: 'confirmar',
+      panelInfoHeader: {
+        date: 'Fecha',
+        flightTime: 'Tiempo de vuelo',
+        flightNumber: 'Número de vuelo',
+      },
+      cancellationPolicy: {
+        title: 'Política de cancelación',
+        descriptionLine1: `Cancele hasta 48 horas antes de su reserva para recibir un reembolso completo.Las reservas no pueden cancelarse dentro de las 48 horas posteriores a la hora de llegada de reservas, incluidas las nuevas reservas realizadas dentro de ese rango de tiempo.`,
+        descriptionLine2:
+          'Confirme que los detalles son correctos antes de realizar el pago.',
+      },
+      btn: 'CONFIRMAR',
       errors: {
+        airportMismatch: {
+          title: `Los aeropuertos no coinciden`,
+          description:
+            'El salón que está reservando no está en el mismo aeropuerto de su vuelo está programado para partir.',
+        },
+        terminalMismatch: {
+          title: `Las terminales no coinciden`,
+          description:
+            'El salón que está reservando no está en la misma terminal de que su vuelo está programado para partir.',
+        },
+        confirmation: '¿Todavía quieres seguir adelante con esta reserva?',
         estimatedTime: 'Seleccione la hora de llegada estimada',
         availabilityUnknown: {
           title: 'La disponibilidad es desconocida',
@@ -194,14 +223,19 @@ export default {
     },
     payment: {
       btnGoPayment: 'Ir al pago',
+      title: 'Información del pago',
     },
     confirmationPayment: {
       title: 'Confirmación de reserva',
       processing: {
         beingProcessed: {
           title: 'El pago se está procesando',
-          description:
-            'Se está procesando su pago por el salón Onelondon Gatwick.Estos pueden tardar unos minutos/segundos en completarse. ',
+          description: {
+            line1: 'Su pago por',
+            line2: 'está siendo procesado.',
+            line3:
+              'No actualice la página, puede tardar unos minutos en completarse.',
+          },
         },
         unsuccessful: {
           title: 'El pago no tiene éxito',
@@ -215,6 +249,8 @@ export default {
           reference: {
             label: 'Referencia de reserva',
           },
+          emailConfirmationLabel:
+            'Se ha enviado un correo electrónico de confirmación a',
           description:
             'Nuestras disculpas, se produjeron error durante el proceso de pago y su pago no fue procesado.Le solicitamos amablemente que haga una nueva reserva o repita su pago.',
           importantNotes: {
@@ -273,6 +309,8 @@ export default {
       btn: 'Confirmar',
     },
     checkAvailability: {
+      arrivalTitle: 'Selección de tiempo de llegada',
+      notFoundError: 'Algo salió mal. Por favor, vuelva a intentarlo',
       btn: 'Verifique la disponibilidad',
     },
   },

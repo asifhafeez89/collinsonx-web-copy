@@ -1,4 +1,5 @@
-import { Box, Flex, Title } from '../../core';
+import { Box, Flex } from '../../core';
+import Title from '../title';
 import styled from '../../styled';
 import { ReactNode } from 'react';
 
