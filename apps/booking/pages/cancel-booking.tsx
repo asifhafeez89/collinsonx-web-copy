@@ -338,6 +338,7 @@ export default function CancelBooking() {
                           align="center"
                           type="submit"
                           mt={15}
+                          data-testid="cancelBooking"
                         >
                           CANCEL BOOKING
                         </Button>

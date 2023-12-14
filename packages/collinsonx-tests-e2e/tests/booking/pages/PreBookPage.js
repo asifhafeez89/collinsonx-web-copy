@@ -27,9 +27,17 @@ class PreBookPage {
     await datePicker.click();
   }
 
-  async clickNextMonth() {
-    const nextMonth = await this.page.waitForSelector('[data-next="true"]');
-    await nextMonth.click();
+  async clickNextMonth(nextMonthDate) {
+    const today = new Date();
+    const numberOfClicks =
+      12 * (nextMonthDate.getFullYear() - today.getFullYear()) +
+      (nextMonthDate.getMonth() - today.getMonth());
+
+    for (let i = 1; i <= numberOfClicks; i += 1) {
+      var nextMonth = await this.page.waitForSelector('[data-next="true"]');
+      await nextMonth.click();
+      await this.page.waitForTimeout(500);
+    }
   }
 
   async selectDate(dateString) {

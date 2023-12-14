@@ -9,6 +9,18 @@ export function getEmailAddress(id) {
   return `${id}@${mailinatorAddress}`;
 }
 
+export async function getAndEnterPin(page, email) {
+  const enterEmailPage = new EnterEmailPage(page);
+  await enterEmailPage.clickContinue();
+  await page.waitForTimeout(5000);
+
+  const pin = await getPinFromEmail(email);
+
+  const enterPinPage = new EnterPinPage(page);
+  await enterPinPage.enterPin(pin);
+  await enterPinPage.clickVerify();
+}
+
 export async function loginAsExistingUser(
   page,
   id,
@@ -31,12 +43,5 @@ export async function loginAsExistingUser(
 
   await redirectToBaas(page, jwt, lounge);
 
-  const enterEmailPage = new EnterEmailPage(page);
-  await enterEmailPage.clickContinue();
-  await page.waitForTimeout(5000);
-  const pin = await getPinFromEmail(email);
-
-  const enterPinPage = new EnterPinPage(page);
-  await enterPinPage.enterPin(pin);
-  await enterPinPage.clickVerify();
+  await getAndEnterPin(page, email);
 }

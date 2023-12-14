@@ -1,12 +1,18 @@
 import { test, expect } from '../../../baseFixtures';
-import { getOneMonthFromTodayDate } from '../utils/dateUtils';
+import { getOneMonthFromToday } from '../utils/dateUtils';
 import PreBookPage from '../pages/PreBookPage';
 import PaymentConfirmationPage from '../pages/PaymentConfirmationPage';
 import SelectLoungeTimePage from '../pages/SelectLoungeTimePage';
 import ConfirmBookingPage from '../pages/ConfirmBookingPage';
 import StripePaymentPage from '../pages/StripePaymentPage';
 import EnterEmailPage from '../pages/EnterEmailPage';
-import { loginAsExistingUser, getEmailAddress } from '../utils/loginUtils';
+import CancelBookingPage from '../pages/CancelBookingPage';
+import CancelledBookingConfirmationPage from '../pages/CancelledBookingConfirmationPage';
+import {
+  loginAsExistingUser,
+  getEmailAddress,
+  getAndEnterPin,
+} from '../utils/loginUtils';
 import { getLinkFromEmail } from '../utils/emailUtils';
 
 async function fillStripeIframe(stripePaymentPage, id) {
@@ -29,18 +35,18 @@ test.describe('Confirm booking flow', () => {
       const selectLoungeTimePage = new SelectLoungeTimePage(page);
       const confirmBookingPage = new ConfirmBookingPage(page);
 
-      const id = 'alreadyregisteredconsumerwithlinkaccount4';
-      const membershipNumber = '89760499';
-      const externalId = '89760499';
+      const id = 'alreadyregisteredconsumerwithlinkaccount1';
+      const membershipNumber = '888111356';
+      const externalId = '888111356';
       const flightNumber = 'BA1417';
 
       // Act
       await loginAsExistingUser(page, id, membershipNumber, externalId);
 
-      const oneMonthFromNowString = getOneMonthFromTodayDate();
+      const oneMonthFromNow = getOneMonthFromToday();
       await preBookPage.openDatePicker();
-      await preBookPage.clickNextMonth();
-      await preBookPage.selectDate(oneMonthFromNowString);
+      await preBookPage.clickNextMonth(oneMonthFromNow.Date);
+      await preBookPage.selectDate(oneMonthFromNow.String);
       await preBookPage.inputFlightNumber(flightNumber);
       await preBookPage.increaseAdultGuests();
       await preBookPage.clickSubmit();
@@ -49,10 +55,10 @@ test.describe('Confirm booking flow', () => {
       await selectLoungeTimePage.selectFirstLoungeTime();
       await selectLoungeTimePage.clickConfirmButton();
 
-      await page.waitForTimeout(6000);
+      await page.waitForTimeout(10000);
       await confirmBookingPage.clickGoToPayment();
 
-      await page.waitForTimeout(5000);
+      await page.waitForTimeout(6000);
 
       // fill Stripe iframe inputs
       const stripePaymentPage = new StripePaymentPage(page);
@@ -67,6 +73,37 @@ test.describe('Confirm booking flow', () => {
       await expect(payButton).toHaveClass(
         'SubmitButton SubmitButton--complete'
       );
+
+      await page.waitForTimeout(6000);
+      await stripePaymentPage.clickPay();
+
+      //Final payment page, assert confirmation message on the page
+      const paymentConfirmationPage = new PaymentConfirmationPage(page);
+      const paymentSuccessMessage =
+        await paymentConfirmationPage.paymentConfirmationMessage();
+      await expect(paymentSuccessMessage).toBeVisible();
+
+      //Get cancellation link from email
+      const linkToCancel = await getLinkFromEmail(getEmailAddress(id));
+
+      await expect(linkToCancel).toContain('cancel-booking');
+
+      // Navigate the cancellation page
+      await page.goto(linkToCancel);
+
+      // Email & Pin confirmation again
+      await getAndEnterPin(page, getEmailAddress(id));
+
+      const cancelBookingPage = new CancelBookingPage(page);
+      await cancelBookingPage.clickCancelBooking();
+      await cancelBookingPage.clickConfirmCancelBooking();
+
+      //Final payment page, assert cancellation confirmation message on the page
+      const cancelledBookingConfirmationPage =
+        new CancelledBookingConfirmationPage(page);
+      const cancelledBookingSuccessMessage =
+        await cancelledBookingConfirmationPage.cancelledBookingConfirmationMessage();
+      await expect(cancelledBookingSuccessMessage).toBeVisible();
     });
   });
 });

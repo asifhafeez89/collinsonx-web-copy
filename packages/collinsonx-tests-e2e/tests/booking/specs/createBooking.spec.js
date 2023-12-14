@@ -1,4 +1,4 @@
-import { getOneMonthFromTodayDate } from '../utils/dateUtils';
+import { getOneMonthFromToday } from '../utils/dateUtils';
 import { getPinFromEmail } from '../utils/emailUtils';
 import EnterEmailPage from '../pages/EnterEmailPage';
 import EnterPinPage from '../pages/EnterPinPage';
@@ -28,10 +28,10 @@ test.describe('Create booking flow', () => {
       // Act
       await loginAsExistingUser(page, id, membershipNumber, externalId);
 
-      const oneMonthFromNowString = getOneMonthFromTodayDate();
+      const oneMonthFromNow = getOneMonthFromToday();
       await preBookPage.openDatePicker();
-      await preBookPage.clickNextMonth();
-      await preBookPage.selectDate(oneMonthFromNowString);
+      await preBookPage.clickNextMonth(oneMonthFromNow.Date);
+      await preBookPage.selectDate(oneMonthFromNow.String);
       await preBookPage.inputFlightNumber(flightNumber);
       await preBookPage.increaseAdultGuests();
       await preBookPage.clickSubmit();
@@ -41,7 +41,7 @@ test.describe('Create booking flow', () => {
       await selectLoungeTimePage.clickConfirmButton();
 
       const dateSelected = await confirmBookingPage.dateSelected(
-        oneMonthFromNowString
+        oneMonthFromNow.String
       );
 
       // Assert
@@ -70,10 +70,10 @@ test.describe('Create booking flow', () => {
       await loginAsExistingUser(page, id, membershipNumber, externalId);
 
       // Act
-      const oneMonthFromNowString = getOneMonthFromTodayDate();
+      const oneMonthFromNow = getOneMonthFromToday();
       await preBookPage.openDatePicker();
-      await preBookPage.clickNextMonth();
-      await preBookPage.selectDate(oneMonthFromNowString);
+      await preBookPage.clickNextMonth(oneMonthFromNow.Date);
+      await preBookPage.selectDate(oneMonthFromNow.String);
       await preBookPage.inputFlightNumber(flightNumber);
       await preBookPage.increaseAdultGuests();
       await preBookPage.clickSubmit();
@@ -123,10 +123,10 @@ test.describe('Create booking flow', () => {
       // Act
       await loginAsExistingUser(page, id, membershipNumber, externalId);
 
-      const oneMonthFromNowString = getOneMonthFromTodayDate();
+      const oneMonthFromNow = getOneMonthFromToday();
       await preBookPage.openDatePicker();
-      await preBookPage.clickNextMonth();
-      await preBookPage.selectDate(oneMonthFromNowString);
+      await preBookPage.clickNextMonth(oneMonthFromNow.Date);
+      await preBookPage.selectDate(oneMonthFromNow.String);
       await preBookPage.inputFlightNumber(flightNumber);
       for (let i = 0; i < 4; i++) {
         await preBookPage.increaseAdultGuests();
@@ -138,7 +138,7 @@ test.describe('Create booking flow', () => {
 
       // Assert
       const dateSelected = await confirmBookingPage.dateSelected(
-        oneMonthFromNowString
+        oneMonthFromNow.String
       );
       const confirmedFlightNumber = await confirmBookingPage.flightNumber(
         flightNumber
@@ -163,10 +163,10 @@ test.describe('Create booking flow', () => {
 
       // Act
       await loginAsExistingUser(page, id, membershipNumber, externalId);
-      const oneMonthFromNowString = getOneMonthFromTodayDate();
+      const oneMonthFromNow = getOneMonthFromToday();
       await preBookPage.openDatePicker();
-      await preBookPage.clickNextMonth();
-      await preBookPage.selectDate(oneMonthFromNowString);
+      await preBookPage.clickNextMonth(oneMonthFromNow.Date);
+      await preBookPage.selectDate(oneMonthFromNow.String);
       await preBookPage.inputFlightNumber(flightNumber);
       await preBookPage.increaseAdultGuests();
       await preBookPage.clickSubmit();
@@ -191,10 +191,10 @@ test.describe('Create booking flow', () => {
 
       // Act
       await loginAsExistingUser(page, id, membershipNumber, externalId);
-      const oneMonthFromNowString = getOneMonthFromTodayDate();
+      const oneMonthFromNow = getOneMonthFromToday();
       await preBookPage.openDatePicker();
-      await preBookPage.clickNextMonth();
-      await preBookPage.selectDate(oneMonthFromNowString);
+      await preBookPage.clickNextMonth(oneMonthFromNow.Date);
+      await preBookPage.selectDate(oneMonthFromNow.String);
       await preBookPage.inputFlightNumber(flightNumber);
       await preBookPage.increaseAdultGuests();
       await preBookPage.clickSubmit();

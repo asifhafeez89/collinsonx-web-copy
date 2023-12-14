@@ -8,7 +8,7 @@ class StripePaymentPage {
     const titleSelector = '[data-testid="paymentInformation"]';
     await this.page.waitForSelector(titleSelector, {
       visible: true,
-      timeout: 5000,
+      timeout: 60000,
     });
     const title = await this.page.locator(titleSelector);
     return title.innerText();
