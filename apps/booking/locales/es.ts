@@ -48,9 +48,18 @@ export default {
         label: 'Apellido(s)',
         placeholder: 'Smith',
       },
+      emailInput: {
+        label: 'Dirección de correo electrónico',
+      },
       marketingAgreementText:
         'Acepto recibir correos electrónicos de marketing personalizados.',
-      signUpButton: 'Confirmar',
+      signUpButton: 'Acceso',
+      validationError: {
+        invalidEmail:
+          'Por favor, introduce una dirección de correo electrónico válida.',
+        maxLength: 'La longitud máxima es de 255 caracteres',
+        emptyName: 'El nombre no puede estar vacío',
+      },
       error: {
         signUpError: 'Ocurrió un error',
         attempts: {

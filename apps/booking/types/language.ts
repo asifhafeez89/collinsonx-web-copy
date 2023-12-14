@@ -50,8 +50,16 @@ type SignUpProps = {
     label: string;
     placeholder: string;
   };
+  emailInput: {
+    label: string;
+  };
   marketingAgreementText: string;
   signUpButton: string;
+  validationError: {
+    invalidEmail: string;
+    maxLength: string;
+    emptyName: string;
+  };
   error: {
     signUpError: string;
     attempts: {

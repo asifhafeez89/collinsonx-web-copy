@@ -26,6 +26,7 @@ import { BookingQueryParams } from '@collinsonx/constants/enums';
 
 import { log, logAction } from '@lib';
 import { ANALYTICS_TAGS, VALIDATION_RULES } from '../../constants';
+import useLocale from 'hooks/useLocale';
 
 const { bookingId } = BookingQueryParams;
 
@@ -35,6 +36,8 @@ export default function SignupUser() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const pageName = 'Upd_Dtl';
+
+  const translations = useLocale();
 
   useEffect(() => {
     logAction(pageName, ANALYTICS_TAGS.ON_SIGNUP_PAGE_ENTER);
@@ -50,20 +53,26 @@ export default function SignupUser() {
     },
     validate: {
       email: (value: string) =>
-        validateEmail(value) ? null : 'Please enter a valid email address.',
+        validateEmail(value)
+          ? null
+          : translations.auth.signUp.validationError.invalidEmail,
       firstname: function (value: string) {
         if (value.length > VALIDATION_RULES.MAX_LENGTH) {
-          return 'Max length is 255 characters';
+          return translations.auth.signUp.validationError.maxLength;
         }
 
-        return value?.trim().length > 0 ? null : "Name can't be empty";
+        return value?.trim().length > 0
+          ? null
+          : translations.auth.signUp.validationError.emptyName;
       },
       lastname: function (value: string) {
         if (value.length > VALIDATION_RULES.MAX_LENGTH) {
-          return 'Max length is 255 characters';
+          return translations.auth.signUp.validationError.maxLength;
         }
 
-        return value?.trim().length > 0 ? null : "Name can't be empty";
+        return value?.trim().length > 0
+          ? null
+          : translations.auth.signUp.validationError.emptyName;
       },
     },
   });
@@ -150,10 +159,10 @@ export default function SignupUser() {
             }}
           >
             <Text size={18} align="center">
-              You can update your details below
+              {translations.auth.signUp.subtitle}
             </Text>
             <Title order={1} size={24} align="center">
-              Update details
+              {translations.auth.signUp.title}
             </Title>
             <Error error={error} />
             <Stack spacing={8}>
@@ -161,14 +170,16 @@ export default function SignupUser() {
                 <Text span color={colors.red}>
                   *
                 </Text>
-                First name(s)
+                {translations.auth.signUp.firstNameInput.label}
               </Text>
               <InputLabel
                 autoFocus
                 type="text"
                 withAsterisk
                 {...form.getInputProps('firstname')}
-                placeholder="First name"
+                placeholder={
+                  translations.auth.signUp.firstNameInput.placeholder
+                }
                 data-testid="firstName"
                 onClick={() =>
                   logAction(
@@ -184,13 +195,13 @@ export default function SignupUser() {
                 <Text span color={colors.red}>
                   *
                 </Text>{' '}
-                Last name
+                {translations.auth.signUp.lastNameInput.label}
               </Text>
               <InputLabel
                 type="text"
                 withAsterisk
                 {...form.getInputProps('lastname')}
-                placeholder="Last name"
+                placeholder={translations.auth.signUp.lastNameInput.placeholder}
                 data-testid="lastName"
                 onClick={() =>
                   logAction(
@@ -204,10 +215,10 @@ export default function SignupUser() {
             <InputLabel
               disabled
               {...form.getInputProps('email')}
-              label="Email address"
+              label={translations.auth.signUp.emailInput.label}
             />
             <Checkbox
-              label="I agree to receive personalised marketing emails."
+              label={translations.auth.signUp.marketingAgreementText}
               {...form.getInputProps('marketingConsent', {
                 type: 'checkbox',
               })}
@@ -217,7 +228,7 @@ export default function SignupUser() {
               }
             />
             <Button fullWidth type="submit" data-testid="loginAfterSignUp">
-              Login
+              {translations.auth.signUp.signUpButton}
             </Button>
           </Stack>
         </Stack>

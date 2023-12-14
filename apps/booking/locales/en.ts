@@ -46,9 +46,17 @@ export default {
         label: 'Last name(s)',
         placeholder: 'Smith',
       },
+      emailInput: {
+        label: 'Email address',
+      },
       marketingAgreementText:
         'I agree to receive personalised marketing emails.',
-      signUpButton: 'Confirm',
+      signUpButton: 'Login',
+      validationError: {
+        invalidEmail: 'Please enter a valid email address.',
+        maxLength: 'Max length is 255 characters',
+        emptyName: "Name can't be empty",
+      },
       error: {
         signUpError: 'An error ocurred',
         attempts: {
