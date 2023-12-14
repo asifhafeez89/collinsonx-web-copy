@@ -39,6 +39,7 @@ export interface CardOutletProps {
   }>;
   children?: ReactNode;
   'data-testid'?: string;
+  index?: number;
   imageAlt?: string;
 }
 
@@ -58,6 +59,7 @@ function CardOutlet({
   onClick = () => {},
   productCategories = [],
   'data-testid': dataTestId,
+  index,
   imageAlt,
 }: CardOutletProps) {
   return (
@@ -85,7 +87,12 @@ function CardOutlet({
             )}
           </Flex>
           {locationName && (
-            <Text weight={400} size={16} color={colors['text-grey']}>
+            <Text
+              data-testid={`${dataTestId}-subtitle-${index}`}
+              weight={400}
+              size={16}
+              color={colors['text-grey']}
+            >
               {locationName}
               {terminal && ', ' + terminal}
             </Text>

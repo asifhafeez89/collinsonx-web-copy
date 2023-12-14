@@ -72,6 +72,7 @@ const OutletHeading = ({
           }}
         >
           <Title
+            data-testid="outlet-title"
             color={colors['text-default']}
             mt={2}
             fz={{ base: 24, lg: 32 }}
@@ -79,7 +80,12 @@ const OutletHeading = ({
           >
             {name}
           </Title>
-          <Text color={colors['text-grey']} size={18} weight={400}>
+          <Text
+            data-testid="outlet-subtitle"
+            color={colors['text-grey']}
+            size={18}
+            weight={400}
+          >
             {locationName}
             {terminal && `, ${terminal}`}
           </Text>
