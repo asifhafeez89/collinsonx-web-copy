@@ -2,6 +2,7 @@ import { Box, Flex } from '../../core';
 import Title from '../title';
 import styled from '../../styled';
 import { ReactNode } from 'react';
+import colors from '../../colour-constants-partner';
 
 export interface OverviewCardProps {
   title: string;
@@ -11,12 +12,12 @@ export interface OverviewCardProps {
 }
 
 const Container = styled.div`
-  border: 1px solid #d5d5d5;
+  border: 1px solid ${colors['grey-border']};
   border-radius: 4px;
   font-weight: 600;
   font-size: 16px;
-  color: #9b9ca0;
-  background-color: #ffffff;
+  color: ${colors['text-grey']};
+  background-color: ${colors.white};
 `;
 
 type Maybe<T> = T | undefined | null;

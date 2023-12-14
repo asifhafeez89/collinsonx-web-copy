@@ -77,7 +77,7 @@ function CardOutlet({
             {legacyCode && (
               <Text
                 size={16}
-                color={colors['partner-text-grey']}
+                color={colors['text-grey']}
                 sx={{ lineHeight: '20.24px' }}
               >
                 {legacyCode}
@@ -85,7 +85,7 @@ function CardOutlet({
             )}
           </Flex>
           {locationName && (
-            <Text weight={400} size={16} color={colors['partner-text-grey']}>
+            <Text weight={400} size={16} color={colors['text-grey']}>
               {locationName}
               {terminal && ', ' + terminal}
             </Text>
@@ -93,7 +93,7 @@ function CardOutlet({
           {rating && <Rating {...rating} />}
         </Stack>
 
-        <Divider color={colors['partner-grey-border']} />
+        <Divider color={colors['grey-border']} />
 
         <Stack spacing={24}>
           <Flex direction="row" gap={45}>
@@ -124,7 +124,7 @@ function CardOutlet({
             </CardList>
             {lastEdit && (
               <CardField label="Last edited">
-                <Text color={colors['partner-text-default']} size={14}>
+                <Text color={colors['text-default']} size={14}>
                   {lastEdit}
                 </Text>
               </CardField>
@@ -133,7 +133,7 @@ function CardOutlet({
         </Stack>
         {children && (
           <>
-            <Divider color={colors['partner-grey-border']} />
+            <Divider color={colors['grey-border']} />
             {children}
           </>
         )}

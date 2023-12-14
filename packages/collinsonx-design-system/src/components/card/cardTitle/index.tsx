@@ -9,7 +9,7 @@ function CardTitle({ children }: { children: ReactNode }) {
       my={0}
       weight={600}
       size={20}
-      color={colors['partner-text-default']}
+      color={colors['text-default']}
       sx={{ lineHeight: '25.3px' }}
     >
       {children}

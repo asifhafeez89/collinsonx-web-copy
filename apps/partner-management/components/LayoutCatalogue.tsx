@@ -1,3 +1,4 @@
+import colors from '@collinsonx/design-system/colour-constants-partner';
 import { Box, Flex, MediaQuery } from '@collinsonx/design-system/core';
 import Link from 'next/link';
 import ContentWrapper from './ContentWrapper';
@@ -30,8 +31,8 @@ export default function Layout({
       >
         <header
           style={{
-            backgroundColor: '#EFEFF1',
-            borderBottom: '1px solid #D5D5D5',
+            backgroundColor: colors['bg-surface-dark'],
+            borderBottom: `1px solid ${colors['grey-border']}`,
             width: '100%',
             padding: '2rem',
             textAlign: 'center',
@@ -67,8 +68,8 @@ export default function Layout({
           style={{
             padding: '0 64px',
             margin: 0,
-            backgroundColor: '#FFFFFF',
-            borderBottom: '1px solid #D5D5D5',
+            backgroundColor: colors.white,
+            borderBottom: `1px solid ${colors['grey-border']}`,
           }}
         >
           {heading}
