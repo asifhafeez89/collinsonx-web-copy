@@ -15,7 +15,7 @@ const ContentWrapper = ({ children, sx }: ContentWrapperProps) => {
         [theme.fn.smallerThan('md')]: {
           padding: 16,
         },
-        backgroundColor: colors['partner-bg-surface'],
+        backgroundColor: colors['bg-surface'],
         height: '100%',
         ...sx,
       })}

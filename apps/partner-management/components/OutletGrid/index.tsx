@@ -29,6 +29,7 @@ const OutletGrid = ({
           return (
             <CardOutlet
               data-testid="outlet-card"
+              index={index}
               key={index}
               imageCount={
                 content?.media?.mediaCollection?.items.filter((item) =>
@@ -46,7 +47,9 @@ const OutletGrid = ({
                   component={Link}
                   href={outletUrl}
                 >
-                  <CardTitle>{name}</CardTitle>
+                  <CardTitle data-testid={`outlet-card-title-${index}`}>
+                    {name}
+                  </CardTitle>
                 </Anchor>
               }
               workflowStage={{ type: 'draft', label: 'Draft' }}

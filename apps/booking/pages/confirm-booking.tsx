@@ -164,6 +164,29 @@ export default function ConfirmBooking() {
                       >
                         {arrival && <EstimatedTimeArrival arrival={arrival} />}
                       </EditableTitle>
+                      hsbcCancelationPolicy
+                      <EditableTitle
+                        title={
+                          translations.booking.availableSlots
+                            .hsbcCancelationPolicy.title
+                        }
+                        as="h2"
+                      >
+                        <p style={{ padding: '0', margin: '0' }}>
+                          {
+                            translations.booking.availableSlots
+                              .hsbcCancelationPolicy.descriptionLine1
+                          }{' '}
+                        </p>
+                        <div>
+                          <p style={{ padding: '0', margin: '0' }}>
+                            {
+                              translations.booking.availableSlots
+                                .hsbcCancelationPolicy.descriptionLine2
+                            }
+                          </p>
+                        </div>
+                      </EditableTitle>
                       <EditableTitle title="Cancellation policy" as="h2">
                         <p style={{ padding: '0', margin: '0' }}>
                           {

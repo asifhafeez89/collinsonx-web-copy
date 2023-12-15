@@ -1,6 +1,6 @@
 import { Page } from '@playwright/test';
 
-export default class PartnerOutletsPage {
+export default class OutletPage {
   private page: Page;
 
   constructor(page: Page) {
@@ -8,15 +8,15 @@ export default class PartnerOutletsPage {
   }
 
   title() {
-    return this.page.getByRole('heading', {
-      name: 'Outlets',
-    });
+    return this.page.getByTestId('outlet-title').innerText();
   }
 
-  goToURL(partnerBrandId: string) {
-    return this.page.goto(`/outlets/${partnerBrandId}`, {
-      waitUntil: 'networkidle',
-    });
+  subtitle() {
+    return this.page.getByTestId('outlet-subtitle').innerText();
+  }
+
+  goToURL(outletId: string) {
+    return this.page.goto(`/outlets/${outletId}`, { waitUntil: 'networkidle' });
   }
 
   clickFirstOutletCardViewDetailsButton() {

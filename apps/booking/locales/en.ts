@@ -46,9 +46,17 @@ export default {
         label: 'Last name(s)',
         placeholder: 'Smith',
       },
+      emailInput: {
+        label: 'Email address',
+      },
       marketingAgreementText:
         'I agree to receive personalised marketing emails.',
-      signUpButton: 'Confirm',
+      signUpButton: 'Login',
+      validationError: {
+        invalidEmail: 'Please enter a valid email address.',
+        maxLength: 'Max length is 255 characters',
+        emptyName: "Name can't be empty",
+      },
       error: {
         signUpError: 'An error ocurred',
         attempts: {
@@ -173,6 +181,12 @@ export default {
         date: 'Date',
         flightTime: 'Time of flight',
         flightNumber: 'Flight number',
+      },
+      hsbcCancelationPolicy: {
+        title: 'Please note a pre-booking fee applies for HSBC cardholders',
+        descriptionLine1: `For HSBC Premier cardholders, this pre-booking fee will be added on top of your and your guest(s)'s visit passes fees. When you arrive at the lounge you will still be required to pay £24 per visitor.`,
+        descriptionLine2:
+          'For HSBC Premier World Elite cardholders, please note whilst you do receive free visit passes for yourself and any additional cardholders (i.e., not your guests) - the pre-booking fee will act as a separate fee, and also apply to you and your guests. When you arrive at the lounge any guests who are not the primary or additional cardholder will be required to pay £24 per visitor.',
       },
       cancellationPolicy: {
         title: 'Cancellation policy',
