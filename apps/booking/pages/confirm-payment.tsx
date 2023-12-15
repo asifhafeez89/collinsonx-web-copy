@@ -372,8 +372,8 @@ export default function ConfirmPayment() {
                       >
                         <ul style={{ paddingLeft: '1em' }}>
                           {translations.booking.confirmationPayment.outcome.succesful.importantNotes.notes.map(
-                            (note) => (
-                              <li>{note}</li>
+                            (note, i) => (
+                              <li key="li">{note}</li>
                             )
                           )}
                         </ul>

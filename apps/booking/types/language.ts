@@ -167,6 +167,11 @@ type AvailableSlotsProps = {
     flightTime: string;
     flightNumber: string;
   };
+  hsbcCancelationPolicy: {
+    title: string;
+    descriptionLine1: string;
+    descriptionLine2: string;
+  };
   cancellationPolicy: {
     title: string;
     descriptionLine1: string;

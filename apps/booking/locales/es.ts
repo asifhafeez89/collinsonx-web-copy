@@ -191,6 +191,14 @@ export default {
         descriptionLine2:
           'Confirme que los detalles son correctos antes de realizar el pago.',
       },
+      hsbcCancelationPolicy: {
+        title:
+          'Tenga en cuenta que se aplica una tarifa de reserva previa a los titulares de tarjetas HSBC',
+        descriptionLine1:
+          'Para los titulares de tarjetas HSBC Premier, este cargo por reserva previa se agregará a los cargos por pases de visita suyos y de sus invitados. Cuando llegue a la sala VIP, deberá pagar £24 por visitante.',
+        descriptionLine2:
+          'Para los titulares de tarjetas HSBC Premier World Elite, tenga en cuenta que, si bien recibe pases de visita gratuitos para usted y cualquier titular de tarjeta adicional (es decir, no para sus invitados), la tarifa de reserva previa actuará como una tarifa separada y también se aplicará a usted y a sus invitados. . Cuando llegue a la sala VIP, los invitados que no sean el titular principal o adicional de la tarjeta deberán pagar £24 por visitante.',
+      },
       btn: 'CONFIRMAR',
       errors: {
         airportMismatch: {

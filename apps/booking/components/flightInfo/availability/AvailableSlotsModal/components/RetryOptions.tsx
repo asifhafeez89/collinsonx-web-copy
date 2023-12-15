@@ -8,9 +8,11 @@ function RetryOptions() {
     <Box>
       {translations.lounge.errors.capacity.solutions.title}:
       <ul>
-        {translations.lounge.errors.capacity.solutions.points.map((point) => (
-          <li>{point}</li>
-        ))}
+        {translations.lounge.errors.capacity.solutions.points.map(
+          (point, i) => (
+            <li key="i">{point}</li>
+          )
+        )}
       </ul>
     </Box>
   );
