@@ -75,6 +75,7 @@ type PayloadState = {
   setLinkedAccountId(linkedAccountId: string): void;
   setPayload(payload: BridgePayload): void;
   setTokenError: (err: string) => void;
+  membershipType?: string;
 };
 
 const PayloadContext = createContext<PayloadState | null>(null);
@@ -380,6 +381,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         setLinkedAccountId,
         setPayload,
         setTokenError,
+        membershipType: payload?.membershipType,
       }}
     >
       <MantineProvider
