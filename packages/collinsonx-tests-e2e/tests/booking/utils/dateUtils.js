@@ -1,13 +1,13 @@
-export function getOneMonthFromTodayDate() {
+export function getOneMonthFromToday() {
   // Get today's date
   var today = new Date();
 
-  // Add 1 month to the current date
+  // Add 1 month to the current date, and plus 0..2 additional months to decrease capacity issue risk
   var nextMonth = new Date(today);
-  nextMonth.setMonth(today.getMonth() + 1);
+  nextMonth.setMonth(today.getMonth() + 1 + Math.floor(Math.random() * 3));
 
   // Define months and their names
-  var months = [
+  const months = [
     'January',
     'February',
     'March',
@@ -30,5 +30,5 @@ export function getOneMonthFromTodayDate() {
   // Format the date string
   var formattedDate = day + ' ' + months[monthIndex] + ' ' + year;
 
-  return formattedDate;
+  return { Date: nextMonth, String: formattedDate };
 }

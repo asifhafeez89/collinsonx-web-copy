@@ -208,8 +208,8 @@ const theme = (
       variants: {
         outline: (theme) => ({
           root: {
-            color: colors['partner-text-default'],
-            border: `1px solid ${colors['partner-text-default']}`,
+            color: colors['text-default'],
+            border: `1px solid ${colors['text-default']}`,
             '&:hover': {
               backgroundColor: 'transparent',
             },

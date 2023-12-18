@@ -4,6 +4,7 @@ import {
   GetMessageRequest,
 } from 'mailinator-client';
 import { mailinatorAddress } from '../config';
+import axios from 'axios';
 
 /**
  * Retrieves a PIN from an email using the Mailinator API. This function polls the Mailinator inbox up
@@ -74,6 +75,9 @@ export async function getLinkFromEmail(email) {
   try {
     let latestMessage;
     let count = 0;
+    // find msg 'from' = 'Priority Pass Lounges'
+    // the 2nd option is to use subject 'Good news - your lounge booking is confirmed'
+    const fromPP = 'Priority Pass Lounges';
 
     while (latestMessage === undefined && count < 3) {
       count > 0 && (await new Promise((resolve) => setTimeout(resolve, 5000)));
@@ -83,7 +87,7 @@ export async function getLinkFromEmail(email) {
       );
 
       latestMessage = await inbox.result.msgs.find(
-        (message) => message.to === username
+        (message) => message.from === fromPP
       );
 
       count++;
@@ -101,13 +105,18 @@ export async function getLinkFromEmail(email) {
       new GetMessageRequest(mailinatorAddress, username, id)
     );
 
-    // const regex = /(\d+)<\/div>/;
+    const request = `https://mailinator.com/api/v2/domains/${mailinatorAddress}/inboxes/${username}/messages/${id}/links`;
 
-    // const matchResult = regex.exec(latestMessageContents.result.parts[0].body);
-    // const pin = matchResult[1];
-    // return pin;
+    const res = await axios.get(request, {
+      headers: { Authorization: process.env.MAILINATOR_API_TOKEN },
+    });
 
-    return latestMessageContents.result.parts[0].body;
+    // find cancel-booking link
+    const links = res.data.links;
+    const pattern = 'cancel-booking';
+    const linkToCancel = links.filter((name) => name.includes(pattern))[0];
+
+    return linkToCancel;
   } catch (err) {
     throw err;
   }

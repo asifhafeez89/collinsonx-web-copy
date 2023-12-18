@@ -50,8 +50,16 @@ type SignUpProps = {
     label: string;
     placeholder: string;
   };
+  emailInput: {
+    label: string;
+  };
   marketingAgreementText: string;
   signUpButton: string;
+  validationError: {
+    invalidEmail: string;
+    maxLength: string;
+    emptyName: string;
+  };
   error: {
     signUpError: string;
     attempts: {
@@ -158,6 +166,11 @@ type AvailableSlotsProps = {
     date: string;
     flightTime: string;
     flightNumber: string;
+  };
+  hsbcCancelationPolicy: {
+    title: string;
+    descriptionLine1: string;
+    descriptionLine2: string;
   };
   cancellationPolicy: {
     title: string;

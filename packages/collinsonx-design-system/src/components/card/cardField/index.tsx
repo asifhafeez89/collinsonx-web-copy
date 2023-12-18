@@ -10,7 +10,7 @@ export interface CardFieldProps {
 const CardField = ({ label, children }: CardFieldProps) => {
   return (
     <Flex gap={4} direction="column">
-      <Text color={colors['partner-text-grey']} size={12}>
+      <Text color={colors['text-grey']} size={12}>
         {label}
       </Text>
       {children}

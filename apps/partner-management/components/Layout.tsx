@@ -28,8 +28,8 @@ export default function Layout({
       >
         <header
           style={{
-            backgroundColor: '#EFEFF1',
-            borderBottom: '1px solid #D5D5D5',
+            backgroundColor: colors['bg-surface-dark'],
+            borderBottom: `1px solid ${colors['grey-border']}`,
             width: '100%',
             padding: '2rem',
             textAlign: 'center',
@@ -66,7 +66,7 @@ export default function Layout({
           height: 'auto',
           minHeight: 'calc(100% - 65px)',
           width: '100%',
-          backgroundColor: colors['partner-bg-surface'],
+          backgroundColor: colors['bg-surface'],
         }}
       >
         {children}

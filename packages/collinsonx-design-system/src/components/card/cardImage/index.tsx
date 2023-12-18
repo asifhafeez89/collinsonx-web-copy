@@ -24,7 +24,7 @@ const Container = styled.div`
         ${status === Status.Inactive ? `filter: grayscale(100%);` : ''}
     
     `}
-    background-color: ${colors['partner-grey-border']};
+    background-color: ${colors['grey-border']};
     position: relative;
     background-size: ${({ hasPadding }: CardImageProps) => `
       ${hasPadding ? 'cover' : '100%'};
@@ -39,7 +39,7 @@ const Container = styled.div`
 const _ImageCount = styled(Box)`
   border-radius: 8px;
   padding: 4px 8px 4px 8px;
-  color: ${colors['partner-text-default']};
+  color: ${colors['text-default']};
   font-size: 16px;
   position: absolute;
   bottom: 8px;
@@ -79,10 +79,7 @@ const CardImage = (props: CardImageProps) => {
     </Container>
   );
   return hasPadding ? (
-    <Box
-      p={24}
-      sx={{ borderBottom: `1px solid ${colors['partner-grey-border']}` }}
-    >
+    <Box p={24} sx={{ borderBottom: `1px solid ${colors['grey-border']}` }}>
       {image}
     </Box>
   ) : (

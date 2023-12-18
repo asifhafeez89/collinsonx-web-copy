@@ -60,11 +60,13 @@ export default function Partners() {
                       component={Link}
                       href={href}
                     >
-                      <CardTitle>{name}</CardTitle>
+                      <CardTitle data-testid={`partner-card-title-${index}`}>
+                        {name}
+                      </CardTitle>
                     </Anchor>
                     <Text
                       size={16}
-                      color={colors['partner-text-grey']}
+                      color={colors['text-grey']}
                       data-testid={`outlet-count-${index}`}
                     >
                       {`${outlets.length} ${

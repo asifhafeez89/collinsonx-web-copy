@@ -19,10 +19,11 @@ import Heading from '@collinsonx/design-system/components/heading/Heading';
 import EstimatedTimeArrival from '@components/EstimatedTimeArrival';
 import { FlightDetailsAndGuests } from '@components/FlightDetailsAndGuests';
 import useLocale from 'hooks/useLocale';
+import { Client } from '@collinsonx/constants/enums';
 
 export default function ConfirmBooking() {
   const [clientSecret, setClientSecret] = useState('');
-  const { lounge, consumerData } = usePayload();
+  const { lounge, consumerData, membershipType } = usePayload();
 
   const { getBooking } = useContext(BookingContext);
   const { getFlight } = useContext(FlightContext);
@@ -164,6 +165,31 @@ export default function ConfirmBooking() {
                       >
                         {arrival && <EstimatedTimeArrival arrival={arrival} />}
                       </EditableTitle>
+                      {membershipType === Client.Mastercard_HSBC && (
+                        <EditableTitle
+                          title={
+                            translations.booking.availableSlots
+                              .hsbcCancelationPolicy.title
+                          }
+                          as="h2"
+                        >
+                          <p style={{ padding: '0', margin: '0' }}>
+                            {
+                              translations.booking.availableSlots
+                                .hsbcCancelationPolicy.descriptionLine1
+                            }{' '}
+                          </p>
+                          <div>
+                            <p style={{ padding: '0', margin: '0' }}>
+                              {
+                                translations.booking.availableSlots
+                                  .hsbcCancelationPolicy.descriptionLine2
+                              }
+                            </p>
+                          </div>
+                        </EditableTitle>
+                      )}
+
                       <EditableTitle title="Cancellation policy" as="h2">
                         <p style={{ padding: '0', margin: '0' }}>
                           {

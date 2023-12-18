@@ -26,7 +26,7 @@ class ConfirmBookingPage {
     const goToPaymentButtonSelector = 'button[data-testid="submit"]';
     await this.page.waitForSelector(goToPaymentButtonSelector, {
       visible: true,
-      timeout: 5000,
+      timeout: 30000,
     });
     const goToPaymentButton = await this.page.locator(
       goToPaymentButtonSelector

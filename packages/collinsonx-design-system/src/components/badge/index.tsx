@@ -10,13 +10,13 @@ export interface BadgeProps {
 }
 
 const badgesColors = {
-  active: { bg: colors['bg-green'], text: colors['green'] },
-  draft: { bg: colors['bg-orange'], text: colors['orange'] },
-  review: { bg: colors['bg-blue'], text: colors['blue'] },
-  denied: { bg: colors['bg-red'], text: colors['red'] },
+  active: { bg: colors['bg-green'], text: colors['accent-green'] },
+  draft: { bg: colors['bg-amber'], text: colors['accent-amber'] },
+  review: { bg: colors['bg-blue'], text: colors['accent-blue'] },
+  denied: { bg: colors['bg-red'], text: colors['accent-red'] },
   inactive: {
-    bg: colors['partner-bg-surface-dark'],
-    text: colors['partner-text-grey'],
+    bg: colors['bg-surface-dark'],
+    text: colors['text-grey'],
   },
 };
 

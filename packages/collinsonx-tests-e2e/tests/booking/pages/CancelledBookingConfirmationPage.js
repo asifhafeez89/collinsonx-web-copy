@@ -1,10 +1,10 @@
-class PaymentConfirmationPage {
+class CancelledBookingConfirmationPage {
   constructor(page) {
     this.page = page;
   }
 
-  async paymentConfirmationMessage() {
-    const successText = 'Good news! Your booking has been confirmed';
+  async cancelledBookingConfirmationMessage() {
+    const successText = 'Your booking has been cancelled';
     await this.page.waitForSelector(`text=${successText}`, {
       state: 'visible',
       timeout: 60000,
@@ -13,4 +13,4 @@ class PaymentConfirmationPage {
   }
 }
 
-module.exports = PaymentConfirmationPage;
+module.exports = CancelledBookingConfirmationPage;

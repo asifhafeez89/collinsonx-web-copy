@@ -19,11 +19,7 @@ function Rating({ stars = 0, ratingCount }: RatingProps) {
         ))}
       </Flex>
       {ratingCount && (
-        <Text
-          aria-label="rating-count"
-          color={colors['partner-text-grey']}
-          size={12}
-        >
+        <Text aria-label="rating-count" color={colors['text-grey']} size={12}>
           {ratingCount}
         </Text>
       )}

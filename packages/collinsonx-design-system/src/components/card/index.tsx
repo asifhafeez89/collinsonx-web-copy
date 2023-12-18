@@ -27,14 +27,14 @@ const _StyledCard = styled(Box)`
   min-width: 350px;
   cursor: pointer;
   overflow: hidden;
-  border: 1px solid ${colors['partner-grey-border']};
+  border: 1px solid ${colors['grey-border']};
   background-color: #fff;
   border-radius: 8px;
   margin-bottom: auto;
   &:hover {
     box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.25);
     transition: all 0.3s ease-in-out;
-    border: 1px solid ${colors['partner-text-grey']};
+    border: 1px solid ${colors['text-grey']};
     & > .card-image {
       background-size: 105%;
     }
