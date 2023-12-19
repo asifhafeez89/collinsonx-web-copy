@@ -1,0 +1,87 @@
+name: Build and Deploy Partner App to Test and UAT environments
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/partner/**'
+      - 'packages/**'
+      - '.github/workflows/build-deploy-partner.yml'
+
+jobs:
+  build-deploy-to-test:
+    uses: ./.github/workflows/build-deploy.yml
+    with:
+      environment: 'test'
+      deployment-url: 'partner.test.cergea.com'
+    secrets:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.PARTNER_VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+  end-to-end-tests:
+    runs-on: e2e-test-runner
+    container:
+      image: mcr.microsoft.com/playwright:v1.40.1-focal
+    needs: build-deploy-to-test
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm i
+
+      - name: Run partner portal tests
+        run: |
+          cd apps/partner-management
+
+          attempt_counter=0
+          max_attempts=5
+
+          until $(curl --output /dev/null --silent --head --fail https://partner.test.cergea.com); do
+            if [ ${attempt_counter} -eq ${max_attempts} ];then
+              echo "Max attempts reached"
+              exit 1
+            fi
+
+            printf '.'
+            attempt_counter=$(($attempt_counter+1))
+            sleep 5
+          done
+
+          export DD_CIVISIBILITY_AGENTLESS_ENABLED=true
+          export DD_API_KEY=${{ secrets.DATADOG_API_KEY }}
+          export DD_SITE="datadoghq.eu"
+          export NODE_OPTIONS="-r dd-trace/ci/init"
+          export DD_ENV=ci
+          export DD_TAGS="test_type:browser"
+
+          echo "${{ secrets.ENV_TESTS_FILE_PARTNER }}" > .env.tests
+          pnpm e2e:ci-partner-portal
+
+      - name: Upload partner portal test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-report
+          path: apps/partner-management/playwright-report
+
+  build-deploy-to-uat:
+    needs: end-to-end-tests
+    uses: ./.github/workflows/build-deploy.yml
+    with:
+      environment: 'uat'
+      deployment-url: 'partner.uat.cergea.com'
+    secrets:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.PARTNER_VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}

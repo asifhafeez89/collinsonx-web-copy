@@ -1,0 +1,81 @@
+name: Build and Deploy Booking App to Test and UAT environments
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/booking/**'
+      - 'packages/**'
+      - '.github/workflows/build-deploy-booking.yml'
+
+jobs:
+  build-deploy-to-test:
+    uses: ./.github/workflows/build-deploy.yml
+    with:
+      environment: 'test'
+      deployment-url: 'booking.test.cergea.com'
+    secrets:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.BOOKING_VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+  end-to-end-tests:
+    runs-on: e2e-test-runner
+    container:
+      image: mcr.microsoft.com/playwright:v1.40.1-focal
+    needs: build-deploy-to-test
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm i
+
+      - name: Run Booking webapp tests
+        env:
+          STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}
+        run: |
+          attempt_counter=0
+          max_attempts=5
+
+          until $(curl --output /dev/null --silent --head --fail https://booking.test.cergea.com); do
+            if [ ${attempt_counter} -eq ${max_attempts} ];then
+              echo "Max attempts reached"
+              exit 1
+            fi
+
+            printf '.'
+            attempt_counter=$(($attempt_counter+1))
+            sleep 5
+          done
+
+          cd -
+          echo "${{ secrets.ENV_TESTS_FILE_BOOKING }}" > packages/collinsonx-tests-e2e/.env.tests
+          pnpm --filter "@collinsonx/tests-e2e" e2e:ci-booking
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-report
+          path: packages/collinsonx-tests-e2e/playwright-report
+
+  build-deploy-to-uat:
+    needs: end-to-end-tests
+    uses: ./.github/workflows/build-deploy.yml
+    with:
+      environment: 'uat'
+      deployment-url: 'booking.uat.cergea.com'
+    secrets:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.BOOKING_VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}

@@ -1,0 +1,11 @@
+{
+  "git": {
+    "deploymentEnabled": {
+      "main": false,
+      "test": false,
+      "uat": false
+    }
+  },
+  "buildCommand": "turbo run build",
+  "installCommand": "pnpm install"
+}

@@ -75,7 +75,7 @@ jobs:
           export DD_TAGS="test_type:browser"
 
           echo "${{ secrets.ENV_TESTS_FILE_PARTNER }}" > .env.tests
-          pnpm e2e:ci-partner-portal
+          pnpm e2e:ci-partner-portal-local
 
       - name: Upload partner portal test results
         if: always()

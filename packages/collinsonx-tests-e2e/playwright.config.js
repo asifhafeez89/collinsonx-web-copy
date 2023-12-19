@@ -22,7 +22,9 @@ module.exports = defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: 'http://localhost:3000',
+    baseURL: process.env.DEPLOYED
+      ? `https://booking.${process.env.ENV || 'test'}.cergea.com`
+      : `https://booking-local.${process.env.ENV || 'test'}.cergea.com:4011`,
     headless: true,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -39,9 +41,6 @@ module.exports = defineConfig({
       // ENV variable is given by the package.json script
       use: {
         ...devices['Desktop Chrome'],
-        baseURL: `https://booking-local.${
-          process.env.ENV || 'test'
-        }.cergea.com:4011`,
         ignoreHTTPSErrors: true,
       },
     },
@@ -50,9 +49,6 @@ module.exports = defineConfig({
       testDir: './tests/booking',
       use: {
         ...devices['Desktop Safari'],
-        baseURL: `https://booking-local.${
-          process.env.ENV || 'test'
-        }.cergea.com:4011`,
         ignoreHTTPSErrors: true,
       },
     },
@@ -61,9 +57,6 @@ module.exports = defineConfig({
       testDir: './tests/booking',
       use: {
         ...devices['iPhone 12'],
-        baseURL: `https://booking-local.${
-          process.env.ENV || 'test'
-        }.cergea.com:4011`,
         ignoreHTTPSErrors: true,
       },
     },

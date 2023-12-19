@@ -1,0 +1,21 @@
+name: Build and Deploy Placeholder App to Test environment
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/placeholder-app/**'
+      - 'packages/**'
+      - '.github/workflows/build-deploy-placeholder.yml'
+
+jobs:
+  build-deploy-to-test:
+    uses: ./.github/workflows/build-deploy.yml
+    with:
+      environment: 'test'
+      deployment-url: 'placeholder-app-tech-task.vercel.app'
+    secrets:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.PLACEHOLDER_VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}

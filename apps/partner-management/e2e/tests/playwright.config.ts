@@ -24,7 +24,9 @@ module.exports = defineConfig({
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     /* ENV variable is given by the package.json script. */
-    baseURL: `https://partner-local.${process.env.ENV}.cergea.com:4010`,
+    baseURL: process.env.DEPLOYED
+      ? `https://partner.${process.env.ENV || 'test'}.cergea.com`
+      : `https://partner-local.${process.env.ENV || 'test'}.cergea.com:4010`,
     ...devices['Desktop Chrome'],
     ignoreHTTPSErrors: true,
     headless: true,

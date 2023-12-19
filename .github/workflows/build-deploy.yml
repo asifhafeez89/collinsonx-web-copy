@@ -1,0 +1,58 @@
+name: Build and deploy
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: 'Environment for deployment'
+        required: true
+        type: string
+      deployment-url:
+        description: 'URL for deployment'
+        required: true
+        type: string
+      vercel-team-scope:
+        description: 'Vercel team scope'
+        default: 'collinson-x'
+        type: string
+    secrets:
+      VERCEL_ORG_ID:
+        required: true
+      VERCEL_PROJECT_ID:
+        required: true
+      VERCEL_TOKEN:
+        required: true
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Vercel Pull
+        run: vercel pull --yes --environment=preview --git-branch=${{ inputs.environment }} --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Vercel Build
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Vercel Deploy
+        run: |
+          url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"
+          vercel alias --token=${{ secrets.VERCEL_TOKEN }} set "$url" ${{ inputs.deployment-url }} --scope=${{ inputs.vercel-team-scope }}
