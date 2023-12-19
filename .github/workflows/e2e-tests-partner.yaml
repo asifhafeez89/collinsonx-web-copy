@@ -2,7 +2,7 @@ name: run e2e web tests - partner portal
 
 on:
   pull_request:
-    branches: ['dev']
+    branches: ['main']
     paths:
       - 'apps/partner-management/**'
       - '.github/workflows/e2e-tests-partner.yaml'
