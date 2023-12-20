@@ -13,7 +13,7 @@ jobs:
   build-deploy-to-test:
     uses: ./.github/workflows/build-deploy.yml
     with:
-      environment: 'test'
+      environment: 'dev'
       deployment-url: 'booking.test.cergea.com'
     secrets:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
