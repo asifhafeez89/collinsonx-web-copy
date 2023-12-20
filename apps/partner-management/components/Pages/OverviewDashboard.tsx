@@ -2,7 +2,7 @@ import { Text, Button, Flex, Box } from '@collinsonx/design-system/core';
 import OverviewCard from '@collinsonx/design-system/components/overviewCard';
 import OverviewMetric from '@collinsonx/design-system/components/overviewMetric';
 import { useQuery } from '@collinsonx/utils/apollo';
-import { PartnerBrand, Outlet } from '@collinsonx/utils';
+import { PartnerBrand } from '@collinsonx/utils';
 import getOutletsCount from '@collinsonx/utils/queries/getOutletsCount';
 import getPartnerBrandsCount from '@collinsonx/utils/queries/getPartnerBrandsCount';
 
@@ -27,11 +27,8 @@ export default function OverviewDashboard() {
     data: dataOutlets,
     error: errorOutlets,
   } = useQuery<{
-    getOutlets: Outlet[];
+    getOutlets: any;
   }>(getOutletsCount, {
-    variables: {
-      limit: 3000,
-    },
     pollInterval: 300000,
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
@@ -79,7 +76,7 @@ export default function OverviewDashboard() {
             <OverviewMetric
               loading={loadingOutlets}
               label="Outlets"
-              value={dataOutlets?.getOutlets?.length || 0}
+              value={dataOutlets?.getOutlets?.totalItemCount || 0}
               data-testid="outletsRequestsCount"
             >
               <Button

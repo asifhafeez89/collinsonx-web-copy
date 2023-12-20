@@ -3,12 +3,12 @@ import { Status } from '@collinsonx/design-system/components/card';
 import CardTitle from '@collinsonx/design-system/components/card/cardTitle';
 import CardOutlet from '@collinsonx/design-system/components/cardOutlet';
 import { Anchor, Button, SimpleGrid } from '@collinsonx/design-system/core';
-import { Outlet, OutletStatus } from '@collinsonx/utils';
+import { Maybe, Outlet, OutletStatus } from '@collinsonx/utils';
 import outletIcons from 'config/outletIcons';
 import Link from 'next/link';
 
 export interface OutletGridProps {
-  outlets: Outlet[];
+  outlets: Maybe<Outlet>[];
   onClickOutlet?: (id: string) => void;
 }
 const OutletGrid = ({
@@ -22,71 +22,73 @@ const OutletGrid = ({
         'grid-template-columns': 'repeat(auto-fill, minmax(350px, 1fr))',
       }}
     >
-      {outlets.map(
-        ({ id, name, legacyCode, status, location, tags, content }, index) => {
-          const outletUrl = `/outlets/${id}`;
+      {outlets.map((item, index) => {
+        const { id, name, legacyCode, status, location, tags, content } =
+          item || {};
+        const outletUrl = `/outlets/${id}`;
 
-          return (
-            <CardOutlet
-              data-testid="outlet-card"
-              index={index}
-              key={index}
-              imageCount={
-                content?.media?.mediaCollection?.items.filter((item) =>
-                  item?.contentType?.includes('image/')
-                ).length
-              }
-              imageUrl={content?.media?.mainImage?.url ?? undefined}
-              onClick={() => {
+        return (
+          <CardOutlet
+            data-testid="outlet-card"
+            index={index}
+            key={index}
+            imageCount={
+              content?.media?.mediaCollection?.items.filter((item) =>
+                item?.contentType?.includes('image/')
+              ).length
+            }
+            imageUrl={content?.media?.mainImage?.url ?? undefined}
+            onClick={() => {
+              if (id) {
                 onClickOutlet(id);
-              }}
-              title={
-                <Anchor
-                  sx={{ textDecoration: 'none' }}
-                  underline={false}
-                  component={Link}
-                  href={outletUrl}
-                >
-                  <CardTitle data-testid={`outlet-card-title-${index}`}>
-                    {name}
-                  </CardTitle>
-                </Anchor>
               }
-              workflowStage={{ type: 'draft', label: 'Draft' }}
-              legacyCode={legacyCode ?? undefined}
-              locationName={location.name ?? undefined}
-              terminal={location.terminal ?? undefined}
-              productCategories={
-                tags
-                  ? tags.map((tag) => {
-                      const Icon = outletIcons[tag!] ?? OutletLoungeIcon;
-                      return {
-                        label: tag!,
-                        IconComponent: (
-                          <Icon width={24} height={24} aria-hidden={true} />
-                        ),
-                      };
-                    })
-                  : []
-              }
-              status={
-                status === OutletStatus.Live ? Status.Active : Status.Inactive
-              }
-            >
-              <Button
-                aria-hidden="true"
-                variant="outline"
-                tabIndex={-1}
+            }}
+            title={
+              <Anchor
+                sx={{ textDecoration: 'none' }}
+                underline={false}
                 component={Link}
                 href={outletUrl}
-                data-testid={`view-details-button-${index}`}
               >
-                View details
-              </Button>
-            </CardOutlet>
-          );
-        }
-      )}
+                <CardTitle data-testid={`outlet-card-title-${index}`}>
+                  {name}
+                </CardTitle>
+              </Anchor>
+            }
+            workflowStage={{ type: 'draft', label: 'Draft' }}
+            legacyCode={legacyCode ?? undefined}
+            locationName={location?.name ?? undefined}
+            terminal={location?.terminal ?? undefined}
+            productCategories={
+              tags
+                ? tags.map((tag) => {
+                    const Icon = outletIcons[tag!] ?? OutletLoungeIcon;
+                    return {
+                      label: tag!,
+                      IconComponent: (
+                        <Icon width={24} height={24} aria-hidden={true} />
+                      ),
+                    };
+                  })
+                : []
+            }
+            status={
+              status === OutletStatus.Live ? Status.Active : Status.Inactive
+            }
+          >
+            <Button
+              aria-hidden="true"
+              variant="outline"
+              tabIndex={-1}
+              component={Link}
+              href={outletUrl}
+              data-testid={`view-details-button-${index}`}
+            >
+              View details
+            </Button>
+          </CardOutlet>
+        );
+      })}
     </SimpleGrid>
   );
 };

@@ -1,9 +1,9 @@
 import { gql } from '../apollo';
 
 const getOutletsCount = gql`
-  query GetOutletsCount($limit: Int) {
-    getOutlets(limit: $limit) {
-      id
+  query GetOutletsCount {
+    getOutlets {
+      totalItemCount
     }
   }
 `;

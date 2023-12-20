@@ -1,7 +1,7 @@
-import { Stack } from '@collinsonx/design-system/core';
+import { Stack, Pagination } from '@collinsonx/design-system/core';
 import Title from '@collinsonx/design-system/components/title';
 import LayoutCatalogue from '@components/LayoutCatalogue';
-import { Outlet, PartnerBrand } from '@collinsonx/utils';
+import { Outlet, PartnerBrand, PaginatedOutlets } from '@collinsonx/utils';
 import getOutlets from '@collinsonx/utils/queries/getOutlets';
 import getPartnerBrandByID from '@collinsonx/utils/queries/getPartnerBrandByID';
 import { useQuery } from '@collinsonx/utils/apollo';
@@ -11,19 +11,29 @@ import { useMemo } from 'react';
 import OutletGrid from '@components/OutletGrid';
 import { useSearchParams } from 'next/navigation';
 import { CARDS_LIMIT } from 'config';
+import { useState } from 'react';
 
 export default function Outlets() {
   const router = useRouter();
   const searchParams = useSearchParams();
-
   const partnerId = searchParams.get('partner');
+  const [activePage, setPage] = useState(
+    parseInt(searchParams.get('page') || '1')
+  );
+
+  const handlePaginationClick = (page: number) => {
+    setPage(page);
+    router.push({ query: { ...router.query, page: page } }, undefined, {
+      shallow: true,
+    });
+  };
 
   const {
     loading: loadingOutlets,
     error: errorOutlets,
     data: dataOutlets,
-  } = useQuery<{ getOutlets: Outlet[] }>(getOutlets, {
-    variables: { limit: CARDS_LIMIT },
+  } = useQuery<{ getOutlets: PaginatedOutlets }>(getOutlets, {
+    variables: { page: activePage, pageSize: CARDS_LIMIT },
     skip: !!partnerId,
   });
 
@@ -36,10 +46,14 @@ export default function Outlets() {
     skip: !partnerId,
   });
 
+  const totalPages = useMemo(() => {
+    return partnerId ? 1 : dataOutlets?.getOutlets?.pageInfo?.totalPages;
+  }, [partnerId, dataOutlets]);
+
   const data = useMemo(() => {
     return partnerId
       ? (dataPartnerBrand?.getPartnerBrandByID.outlets as Outlet[])
-      : dataOutlets?.getOutlets;
+      : dataOutlets?.getOutlets.items;
   }, [partnerId, dataOutlets, dataPartnerBrand]);
 
   const handleClickOutlet = (id: string) => {
@@ -54,6 +68,15 @@ export default function Outlets() {
       {data && data.length ? (
         <OutletGrid outlets={data} onClickOutlet={handleClickOutlet} />
       ) : null}
+      {!partnerId && (
+        <Pagination
+          total={totalPages || 1}
+          value={activePage}
+          onChange={handlePaginationClick}
+          mb="sm"
+          mt="sm"
+        />
+      )}
     </Stack>
   );
 }
