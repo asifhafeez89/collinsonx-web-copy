@@ -8,7 +8,13 @@ import { mailinatorAddress } from '../config';
 import { test, expect } from '../../../baseFixtures';
 import SelectLoungeTimePage from '../pages/SelectLoungeTimePage';
 import ConfirmBookingPage from '../pages/ConfirmBookingPage';
-import { loginAsExistingUser } from '../utils/loginUtils';
+import {
+  loginAsExistingUser,
+  getEmailAddress,
+  getAndEnterPin,
+} from '../utils/loginUtils';
+import { getLinkFromEmail, getCancelEmail } from '../utils/emailUtils';
+import { interceptGQLOperation, slotsGQLResponse } from '../utils/mockUtils';
 
 test.describe('Create booking flow', () => {
   test.describe('BKG-001 - Create Booking with all valid data', () => {
@@ -35,6 +41,14 @@ test.describe('Create booking flow', () => {
       await preBookPage.inputFlightNumber(flightNumber);
       await preBookPage.increaseAdultGuests();
       await preBookPage.clickSubmit();
+
+      // mock: gets through the available slots every time
+      await interceptGQLOperation(
+        page,
+        'GetAvailableSlots',
+        slotsGQLResponse,
+        '**/graphql'
+      );
 
       await selectLoungeTimePage.openLoungeTimeDropdown();
       await selectLoungeTimePage.selectFirstLoungeTime();
@@ -132,6 +146,15 @@ test.describe('Create booking flow', () => {
         await preBookPage.increaseAdultGuests();
       }
       await preBookPage.clickSubmit();
+
+      // mock: gets through the available slots every time
+      await interceptGQLOperation(
+        page,
+        'GetAvailableSlots',
+        slotsGQLResponse,
+        '**/graphql'
+      );
+
       await selectLoungeTimePage.openLoungeTimeDropdown();
       await selectLoungeTimePage.selectFirstLoungeTime();
       await selectLoungeTimePage.clickConfirmButton();

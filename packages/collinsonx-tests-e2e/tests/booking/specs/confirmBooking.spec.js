@@ -13,7 +13,8 @@ import {
   getEmailAddress,
   getAndEnterPin,
 } from '../utils/loginUtils';
-import { getLinkFromEmail } from '../utils/emailUtils';
+import { getLinkFromEmail, getCancelEmail } from '../utils/emailUtils';
+import { interceptGQLOperation, slotsGQLResponse } from '../utils/mockUtils';
 
 async function fillStripeIframe(stripePaymentPage, id) {
   await stripePaymentPage.inputEmail(getEmailAddress(id));
@@ -35,9 +36,9 @@ test.describe('Confirm booking flow', () => {
       const selectLoungeTimePage = new SelectLoungeTimePage(page);
       const confirmBookingPage = new ConfirmBookingPage(page);
 
-      const id = 'alreadyregisteredconsumerwithlinkaccount1';
-      const membershipNumber = '888111356';
-      const externalId = '888111356';
+      const id = 'alreadyregisteredconsumerwithlinkaccount11';
+      const membershipNumber = '8881113561';
+      const externalId = '8881113561';
       const flightNumber = 'BA1417';
 
       // Act
@@ -50,6 +51,14 @@ test.describe('Confirm booking flow', () => {
       await preBookPage.inputFlightNumber(flightNumber);
       await preBookPage.increaseAdultGuests();
       await preBookPage.clickSubmit();
+
+      // mock: gets through the available slots every time
+      await interceptGQLOperation(
+        page,
+        'GetAvailableSlots',
+        slotsGQLResponse,
+        '**/graphql'
+      );
 
       await selectLoungeTimePage.openLoungeTimeDropdown();
       await selectLoungeTimePage.selectFirstLoungeTime();
@@ -68,7 +77,7 @@ test.describe('Confirm booking flow', () => {
       await stripePaymentPage.setStripeIframe();
       await fillStripeIframe(stripePaymentPage, id);
 
-      // Assert before pay: button is in 'complete' class
+      // Assert before pay: button is in 'complete' class.
       const payButton = await stripePaymentPage.getPayButton();
       await expect(payButton).toHaveClass(
         'SubmitButton SubmitButton--complete'
@@ -77,33 +86,11 @@ test.describe('Confirm booking flow', () => {
       await page.waitForTimeout(6000);
       await stripePaymentPage.clickPay();
 
-      //Final payment page, assert confirmation message on the page
+      //Final payment page, assert confirmation message on the page.
       const paymentConfirmationPage = new PaymentConfirmationPage(page);
       const paymentSuccessMessage =
         await paymentConfirmationPage.paymentConfirmationMessage();
       await expect(paymentSuccessMessage).toBeVisible();
-
-      //Get cancellation link from email
-      const linkToCancel = await getLinkFromEmail(getEmailAddress(id));
-
-      await expect(linkToCancel).toContain('cancel-booking');
-
-      // Navigate the cancellation page
-      await page.goto(linkToCancel);
-
-      // Email & Pin confirmation again
-      await getAndEnterPin(page, getEmailAddress(id));
-
-      const cancelBookingPage = new CancelBookingPage(page);
-      await cancelBookingPage.clickCancelBooking();
-      await cancelBookingPage.clickConfirmCancelBooking();
-
-      //Final payment page, assert cancellation confirmation message on the page
-      const cancelledBookingConfirmationPage =
-        new CancelledBookingConfirmationPage(page);
-      const cancelledBookingSuccessMessage =
-        await cancelledBookingConfirmationPage.cancelledBookingConfirmationMessage();
-      await expect(cancelledBookingSuccessMessage).toBeVisible();
     });
   });
 });

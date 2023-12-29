@@ -4,6 +4,7 @@ import { redirectToBaas } from '../utils/redirectToBaas';
 import EnterEmailPage from '../pages/EnterEmailPage';
 import EnterPinPage from '../pages/EnterPinPage';
 import { getPinFromEmail } from '../utils/emailUtils';
+import UpdateDetailsPage from '../pages/UpdateDetailsPage';
 
 export function getEmailAddress(id) {
   return `${id}@${mailinatorAddress}`;
@@ -12,7 +13,7 @@ export function getEmailAddress(id) {
 export async function getAndEnterPin(page, email) {
   const enterEmailPage = new EnterEmailPage(page);
   await enterEmailPage.clickContinue();
-  await page.waitForTimeout(5000);
+  await page.waitForTimeout(10000);
 
   const pin = await getPinFromEmail(email);
 
@@ -44,4 +45,12 @@ export async function loginAsExistingUser(
   await redirectToBaas(page, jwt, lounge);
 
   await getAndEnterPin(page, email);
+
+  try {
+    const updateDetailsPage = new UpdateDetailsPage(page);
+    await updateDetailsPage.clickLogin();
+  } catch (err) {
+    // pass
+    console.log(err);
+  }
 }
