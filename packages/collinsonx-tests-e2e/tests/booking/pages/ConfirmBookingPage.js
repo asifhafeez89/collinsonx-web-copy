@@ -32,7 +32,6 @@ class ConfirmBookingPage {
       goToPaymentButtonSelector
     );
     await goToPaymentButton.click();
-    await goToPaymentButton.click();
   }
 }
 

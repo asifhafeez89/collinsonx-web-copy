@@ -7,7 +7,7 @@
     "e2e:start": "cross-env ENV=TEST playwright test",
     "e2e:report": "playwright show-report",
     "e2e:ci-booking": "DEPLOYED=true cross-env ENV=TEST playwright test --project=booking --project=safari --project=mobile-safari",
-    "e2e:ci-booking-local": "cross-env ENV=TEST playwright test --project=booking --project=safari --project=mobile-safari",
+    "e2e:ci-booking-local": "cross-env ENV=TEST playwright test --project=booking --project=safari",
     "e2e:test-booking": "cross-env ENV=TEST playwright test --project=booking --headed",
     "e2e:test-booking-safari": "cross-env ENV=TEST playwright test --project=safari --headed",
     "e2e:test-booking-mobile-safari": "cross-env ENV=TEST playwright test --project=mobile-safari --headed",

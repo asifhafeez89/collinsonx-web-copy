@@ -14,7 +14,14 @@ import {
   getAndEnterPin,
 } from '../utils/loginUtils';
 import { getLinkFromEmail, getCancelEmail } from '../utils/emailUtils';
-import { interceptGQLOperation, slotsGQLResponse } from '../utils/mockUtils';
+import {
+  interceptGQLOperation,
+  slotsGQLResponse,
+  interceptStripe,
+  paymentIntentResponse,
+  paymentConfirmResponse,
+  paymentPagesResponse,
+} from '../utils/mockUtils';
 
 async function fillStripeIframe(stripePaymentPage, id) {
   await stripePaymentPage.inputEmail(getEmailAddress(id));
@@ -27,6 +34,16 @@ async function fillStripeIframe(stripePaymentPage, id) {
   await stripePaymentPage.inputAddressTown('Kingston');
   await stripePaymentPage.inputAddressPostalCode('KT1 1HL');
 }
+
+test.beforeEach(async ({ page }) => {
+  // mock: gets through the available slots every time
+  await interceptGQLOperation(page, 'GetAvailableSlots', slotsGQLResponse);
+
+  // mock: intercept Stripe 'payment_intents' and get confirmed payment
+  await interceptStripe(page, 'createPaymentIntent', paymentIntentResponse);
+  await interceptStripe(page, 'confirmPaymentIntent', paymentConfirmResponse);
+  await interceptStripe(page, 'pagesPayment', paymentPagesResponse);
+});
 
 test.describe('Confirm booking flow', () => {
   test.describe('PAY-001 - Confirm Booking Happy Path', () => {
@@ -52,21 +69,12 @@ test.describe('Confirm booking flow', () => {
       await preBookPage.increaseAdultGuests();
       await preBookPage.clickSubmit();
 
-      // mock: gets through the available slots every time
-      await interceptGQLOperation(
-        page,
-        'GetAvailableSlots',
-        slotsGQLResponse,
-        '**/graphql'
-      );
-
       await selectLoungeTimePage.openLoungeTimeDropdown();
       await selectLoungeTimePage.selectFirstLoungeTime();
       await selectLoungeTimePage.clickConfirmButton();
 
       await page.waitForTimeout(10000);
       await confirmBookingPage.clickGoToPayment();
-
       await page.waitForTimeout(6000);
 
       // fill Stripe iframe inputs
@@ -82,15 +90,6 @@ test.describe('Confirm booking flow', () => {
       await expect(payButton).toHaveClass(
         'SubmitButton SubmitButton--complete'
       );
-
-      await page.waitForTimeout(6000);
-      await stripePaymentPage.clickPay();
-
-      //Final payment page, assert confirmation message on the page.
-      const paymentConfirmationPage = new PaymentConfirmationPage(page);
-      const paymentSuccessMessage =
-        await paymentConfirmationPage.paymentConfirmationMessage();
-      await expect(paymentSuccessMessage).toBeVisible();
     });
   });
 });

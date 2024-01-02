@@ -50,7 +50,6 @@ export async function loginAsExistingUser(
     const updateDetailsPage = new UpdateDetailsPage(page);
     await updateDetailsPage.clickLogin();
   } catch (err) {
-    // pass
-    console.log(err);
+    // pass to next page
   }
 }

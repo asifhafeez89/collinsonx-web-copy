@@ -16,6 +16,11 @@ import {
 import { getLinkFromEmail, getCancelEmail } from '../utils/emailUtils';
 import { interceptGQLOperation, slotsGQLResponse } from '../utils/mockUtils';
 
+test.beforeEach(async ({ page }) => {
+  // mock: gets through the available slots every time
+  await interceptGQLOperation(page, 'GetAvailableSlots', slotsGQLResponse);
+});
+
 test.describe('Create booking flow', () => {
   test.describe('BKG-001 - Create Booking with all valid data', () => {
     test('User should be navigated to the final details page with the correct flight details, time slot, number of adults/children/infants and time arrival selected', async ({
@@ -41,14 +46,6 @@ test.describe('Create booking flow', () => {
       await preBookPage.inputFlightNumber(flightNumber);
       await preBookPage.increaseAdultGuests();
       await preBookPage.clickSubmit();
-
-      // mock: gets through the available slots every time
-      await interceptGQLOperation(
-        page,
-        'GetAvailableSlots',
-        slotsGQLResponse,
-        '**/graphql'
-      );
 
       await selectLoungeTimePage.openLoungeTimeDropdown();
       await selectLoungeTimePage.selectFirstLoungeTime();
@@ -146,14 +143,6 @@ test.describe('Create booking flow', () => {
         await preBookPage.increaseAdultGuests();
       }
       await preBookPage.clickSubmit();
-
-      // mock: gets through the available slots every time
-      await interceptGQLOperation(
-        page,
-        'GetAvailableSlots',
-        slotsGQLResponse,
-        '**/graphql'
-      );
 
       await selectLoungeTimePage.openLoungeTimeDropdown();
       await selectLoungeTimePage.selectFirstLoungeTime();
