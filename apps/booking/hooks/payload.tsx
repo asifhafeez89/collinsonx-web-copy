@@ -1,15 +1,21 @@
 import { MantineProvider, Flex } from '@collinsonx/design-system/core';
-import { log, hasRequired, logDataError } from '../lib/index';
-import { loggerDataError } from '@collinsonx/utils/lib/analytics';
+import {
+  log,
+  hasRequired,
+  logDataError,
+  accountIsEqual,
+  consumerIsValid,
+} from '../lib/index';
 import { useRouter } from 'next/router';
 import {
   PropsWithChildren,
+  createContext,
+  useContext,
   useCallback,
   useEffect,
   useMemo,
   useState,
 } from 'react';
-import { createContext, useContext } from 'react';
 import { BridgePayload } from 'types/booking';
 import { decodeJWT } from '@collinsonx/jwt';
 import {
@@ -36,7 +42,6 @@ import {
 } from 'supertokens-auth-react/recipe/session';
 import LoungeError from '@components/LoungeError';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
-import { accountIsEqual, consumerIsValid } from '../lib/index';
 import {
   LOUNGE_CODE,
   JWT,
@@ -55,8 +60,8 @@ const {
   jwt: jwtParam,
   referrer: referrerParam,
   platform: platformParam,
-  ln: ln,
-  version: version,
+  ln,
+  version,
   showLocal: showLocale,
 } = BookingQueryParams;
 
@@ -65,6 +70,7 @@ type PayloadState = {
   jwt: string | undefined;
   layoutError: string | undefined;
   linkedAccountId: string | undefined;
+  locale: string;
   lounge: Experience | undefined;
   loungeCode: string | undefined;
   payload: BridgePayload | undefined;
@@ -129,6 +135,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
   const [platform, setPlatform] = useState<string>();
   const [layoutError, setLayoutError] = useState<string>();
   const [consumerData, setConsumerData] = useState<Consumer>();
+  const [language, setLanguage] = useState<string>('en');
 
   867; //Flag for language
   //Todo: Remove this when we are completely ready
@@ -185,7 +192,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
 
       let jwt: string = '';
       let loungeCode: string = '';
-      let language: string = '';
+      let language: string = 'en';
       let versionPDF: string = PDF_VERSION_ACCEPTED;
       let referrer: string = '';
       let platform: string = 'web';
@@ -244,6 +251,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       setPlatform(platform);
       setItem(VERSION, versionPDF);
       setItem(ALLOW_LOCAL, localSwitch);
+      setLanguage(language);
 
       let payload: BridgePayload;
 
@@ -371,6 +379,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         jwt,
         layoutError,
         linkedAccountId,
+        locale: language,
         lounge,
         loungeCode,
         payload,
@@ -402,18 +411,16 @@ export const PayloadProvider = (props: PropsWithChildren) => {
                 tokenError ||
                 (!loadingLounge && !lounge) ||
                 payloadError) ? (
-                <>
-                  <LayoutError
-                    payloadTheme={layoutErrorTheme()}
-                    payloadErrorTitle={payloadErrorTitle}
-                    payloadErrorMessage={
-                      platform === 'android' || platform === 'ios'
-                        ? ErrorAppMsgApp
-                        : ErrorWebTitle
-                    }
-                    payloadPlatform={platform ?? ''}
-                  />
-                </>
+                <LayoutError
+                  payloadTheme={layoutErrorTheme()}
+                  payloadErrorTitle={payloadErrorTitle}
+                  payloadErrorMessage={
+                    platform === 'android' || platform === 'ios'
+                      ? ErrorAppMsgApp
+                      : ErrorWebTitle
+                  }
+                  payloadPlatform={platform ?? ''}
+                />
               ) : (
                 payload && props.children
               )}

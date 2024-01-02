@@ -15,10 +15,8 @@ import {
 import { useRouter } from 'next/router';
 import { LoungeInfo } from '@components/LoungeInfo';
 import LoaderLightBox from '@collinsonx/design-system/components/loaderlightbox';
-import { Details } from '@collinsonx/design-system';
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
 import usePayload from 'hooks/payload';
-import { InfoGroup } from '@collinsonx/design-system/components/details';
 import colors from 'ui/colour-constants';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
 import { BookingContext } from 'context/bookingContext';
@@ -28,9 +26,9 @@ import {
   useContext,
   useEffect,
   useRef,
+  useState,
+  useMemo,
 } from 'react';
-import { useState } from 'react';
-import { useMemo } from 'react';
 import { useLazyQuery } from '@collinsonx/utils/apollo';
 import { getBookingByID } from '@collinsonx/utils/queries';
 import { AlertIcon } from '@collinsonx/design-system/assets/icons';
@@ -59,6 +57,7 @@ export default function ConfirmPayment() {
   let interval = useRef<NodeJS.Timeout>();
 
   const {
+    locale,
     lounge,
     loungeCode,
     referrerUrl,
@@ -400,6 +399,7 @@ export default function ConfirmPayment() {
                           }
                           flightNumber={flightNumber}
                           infants={infants}
+                          locale={locale}
                           lounge={lounge}
                           reference={dataBooking?.getBookingByID.reference}
                           bookingId={dataBooking?.getBookingByID.id}

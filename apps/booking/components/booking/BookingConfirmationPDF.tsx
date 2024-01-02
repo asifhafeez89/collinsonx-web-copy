@@ -101,13 +101,19 @@ const GuestCount = ({ label, count }: GuestCountProps) => (
 );
 
 export const BookingConfirmationPDF = (props: BookingConfirmedPdfProps) => {
-  const { loungeCode = '', bookingId = '', linkAccountToken = '' } = props;
+  const {
+    loungeCode = '',
+    bookingId = '',
+    linkAccountToken = '',
+    locale,
+  } = props;
   const cancelBookingUrl = new URL(window.location.origin);
 
   cancelBookingUrl.pathname = 'cancel-booking';
   cancelBookingUrl.searchParams.set('loungeCode', loungeCode);
   cancelBookingUrl.searchParams.set('bookingId', bookingId || '');
   cancelBookingUrl.searchParams.set('linkAccountToken', linkAccountToken);
+  cancelBookingUrl.searchParams.set('ln', locale);
 
   return (
     <Document>

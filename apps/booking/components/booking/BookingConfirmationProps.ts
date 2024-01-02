@@ -10,6 +10,7 @@ export interface BookingConfirmedPdfProps {
   emailAddress: string | undefined;
   flightNumber: string;
   infants: Booking['infants'];
+  locale: string;
   lounge: Experience;
   reference: string | undefined;
   platform: string | undefined;
