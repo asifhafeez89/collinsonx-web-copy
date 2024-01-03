@@ -78,7 +78,7 @@ jobs:
           pnpm e2e:ci-partner-portal-local
 
       - name: Upload partner portal test results
-        if: always()
+        if: failure()
         uses: actions/upload-artifact@v3
         with:
           name: playwright-report
