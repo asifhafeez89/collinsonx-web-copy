@@ -5,6 +5,7 @@ import { useCallback } from 'react';
 import { FAQLink } from 'utils/FAQLinks';
 import { ANALYTICS_TAGS, MOBILE_ACTION_BACK } from '../constants';
 import { logAction, sendMobileEvent } from '@lib';
+import useLocale from 'hooks/useLocale';
 
 interface TopBarLinksProps {
   page?: string;
@@ -17,6 +18,9 @@ function TopBarLinks({ page }: TopBarLinksProps) {
       sendMobileEvent(window, MOBILE_ACTION_BACK);
     }
   }, [referrerUrl]);
+
+  const translations = useLocale();
+
   return (
     <Flex justify="space-between">
       <Anchor
@@ -38,7 +42,11 @@ function TopBarLinks({ page }: TopBarLinksProps) {
         }}
       >
         <NavLink
-          label={`BACK TO ${(lounge?.loungeName || '').toUpperCase()}`}
+          label={
+            translations.lounge.topBarLinks.backToLounge +
+            ' ' +
+            (lounge?.loungeName || '').toUpperCase()
+          }
           icon={<ArrowLeft size="1rem" stroke={1.5} />}
           sx={{ color: '#827127' }}
           onClick={() =>
@@ -66,7 +74,7 @@ function TopBarLinks({ page }: TopBarLinksProps) {
           },
         }}
       >
-        <NavLink label="FAQs" />
+        <NavLink label={translations.lounge.topBarLinks.faqs} />
       </Anchor>
     </Flex>
   );

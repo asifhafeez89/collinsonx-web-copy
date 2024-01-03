@@ -111,6 +111,10 @@ export default {
         },
       },
     },
+    topBarLinks: {
+      backToLounge: 'BACK TO ',
+      faqs: 'FAQs',
+    },
   },
   booking: {
     flightAndGuests: {
@@ -273,7 +277,7 @@ export default {
             ],
           },
           btn: {
-            download: 'Download PDF Confiirmation',
+            download: 'DOWNLOAD BOOKING CONFIRMATION',
             return: 'Return to lounge',
           },
         },
@@ -323,6 +327,41 @@ export default {
       arrivalTitle: 'Arrival time selection',
       notFoundError: 'Something went wrong, please try again',
       btn: 'CHECK AVAILABILITY',
+    },
+    confirmationPDF: {
+      title: 'Booking Confirmation',
+      description: {
+        line1: 'Good news! Your booking for',
+        line2: 'at',
+        line3: 'has been confirmed.',
+      },
+      bookingDetails: {
+        title: 'Your booking details',
+        reference: 'Booking reference:',
+        date: 'Date:',
+        flightNumber: 'Flight number:',
+        timeOfArrival: 'Estimated time of arrival:',
+      },
+      guestDetails: {
+        title: "Who's coming?",
+        adults: 'Adults',
+        children: 'Children',
+        infants: 'Infants',
+      },
+      price: 'Total',
+      importantNotes: {
+        title: 'Important Notes',
+        notes: [
+          'Please remember to bring your booking reference number, boarding pass and photo ID along with your Priority Pass membership card or eligible access method for check in at the lounge.',
+          'Maximum stay is 3 hours prior to your flight time.',
+          ' Cancellation must be made at least 48 hours in advance of your visit date & time to receive a refund. No refund will be issued after this time.  ',
+        ],
+      },
+      cancelText: 'Click here to cancel your booking',
+      forwardText: 'We look forward to seeing you there!',
+      loadingText: 'Loading document...',
+      error:
+        'An error occurred while generating your booking confirmation! Please try again.',
     },
   },
 };

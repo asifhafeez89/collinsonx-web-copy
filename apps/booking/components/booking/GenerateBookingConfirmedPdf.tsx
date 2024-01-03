@@ -6,6 +6,7 @@ import { logAction, logInfo, sendMobileEvent } from '@lib';
 import { MOBILE_ACTION_DATA_URI } from '../../constants';
 import { BookingConfirmedPdfProps } from './BookingConfirmationProps';
 import { BookingConfirmationPDF } from './BookingConfirmationPDF';
+import useLocale from 'hooks/useLocale';
 
 const FILENAME = 'GenerateBookingConfirmation.tsx';
 
@@ -15,6 +16,8 @@ export const GenerateBookingConfirmedPdf = (
   const { platform } = props;
   const pdf = <BookingConfirmationPDF {...props} />;
   const [dataUriError, setDataUriError] = useState<boolean>(false);
+
+  const translations = useLocale();
 
   const sendDataUri = (blob: Blob) => {
     const reader = new FileReader();
@@ -71,7 +74,7 @@ export const GenerateBookingConfirmedPdf = (
           >
             {({ loading }) =>
               loading ? (
-                'Loading document...'
+                translations.booking.confirmationPDF.loadingText
               ) : (
                 <span
                   style={{
@@ -84,7 +87,10 @@ export const GenerateBookingConfirmedPdf = (
                     padding: '0.5rem 0',
                   }}
                 >
-                  DOWNLOAD BOOKING CONFIRMATION
+                  {
+                    translations.booking.confirmationPayment.outcome.succesful
+                      .btn.download
+                  }
                 </span>
               )
             }
@@ -93,7 +99,7 @@ export const GenerateBookingConfirmedPdf = (
           <BlobProvider document={pdf}>
             {({ loading, blob }) =>
               loading || !blob ? (
-                'Loading document...'
+                translations.booking.confirmationPDF.loadingText
               ) : (
                 <Button onClick={() => sendDataUri(blob)} data-testid="submit">
                   <span
@@ -107,7 +113,10 @@ export const GenerateBookingConfirmedPdf = (
                       padding: '0.5rem 0',
                     }}
                   >
-                    DOWNLOAD BOOKING CONFIRMATION
+                    {
+                      translations.booking.confirmationPayment.outcome.succesful
+                        .btn.download
+                    }
                   </span>
                 </Button>
               )
@@ -123,8 +132,7 @@ export const GenerateBookingConfirmedPdf = (
             marginTop: 0,
           }}
         >
-          An error occurred while generating your booking confirmation! Please
-          try again.
+          {translations.booking.confirmationPDF.error}
         </p>
       )}
     </div>

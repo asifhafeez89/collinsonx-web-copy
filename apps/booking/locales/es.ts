@@ -114,6 +114,10 @@ export default {
         },
       },
     },
+    topBarLinks: {
+      backToLounge: 'DE REGRESO',
+      faqs: 'Preguntas frecuentes',
+    },
   },
   booking: {
     flightAndGuests: {
@@ -279,7 +283,7 @@ export default {
             ],
           },
           btn: {
-            download: 'Descargar confirmación de PDF',
+            download: 'Descargar confirmación de reserva',
             return: 'regresoALaSalón',
           },
         },
@@ -329,6 +333,41 @@ export default {
       arrivalTitle: 'Selección de tiempo de llegada',
       notFoundError: 'Algo salió mal. Por favor, vuelva a intentarlo',
       btn: 'Verifique la disponibilidad',
+    },
+    confirmationPDF: {
+      title: 'Confirmación de reserva',
+      description: {
+        line1: '¡Buenas noticias!Tu reserva para',
+        line2: 'en',
+        line3: 'ha sido confirmado.',
+      },
+      bookingDetails: {
+        title: 'Tus detalles de la reserva',
+        reference: 'Referencia de reserva:',
+        date: 'Fecha:',
+        flightNumber: 'Número de vuelo:',
+        timeOfArrival: 'Tiempo estimado de llegada:',
+      },
+      guestDetails: {
+        title: '¿Quién esta viniendo?',
+        adults: 'Adulta',
+        children: 'Niñas',
+        infants: 'Bebés',
+      },
+      price: 'total',
+      importantNotes: {
+        title: 'Notas importantes',
+        notes: [
+          'Recuerde traer su número de referencia de reserva, pase de embarque e ID de foto junto con su tarjeta de membresía Priority Pass o método de acceso elegible para registrarse en el sala.',
+          'La estancia máxima es de 3 horas antes de su tiempo de vuelo.',
+          'La cancelación debe hacerse al menos 48 horas antes de la fecha y hora de su visita para recibir un reembolso. No se emitirá reembolso después de este tiempo. ',
+        ],
+      },
+      cancelText: 'Haga clic aquí para cancelar su reserva',
+      forwardText: 'Esperamos verlos allí!',
+      loadingText: 'Documento de carga ...',
+      error:
+        '¡Se produjo un error al generar su confirmación de reserva!Inténtalo de nuevo.',
     },
   },
 };

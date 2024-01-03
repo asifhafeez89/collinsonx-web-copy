@@ -94,6 +94,10 @@ type LoungeLang = {
     unavailable: SmallScreenLang;
     terminalsMismatch: SmallScreenLang;
   };
+  topBarLinks: {
+    backToLounge: string;
+    faqs: string;
+  };
 };
 
 type bookingLang = {
@@ -119,6 +123,38 @@ type bookingLang = {
     notFoundError: string;
     btn: string;
   };
+  confirmationPDF: confirmationPDFProps;
+};
+
+type confirmationPDFProps = {
+  title: string;
+  description: {
+    line1: string;
+    line2: string;
+    line3: string;
+  };
+  bookingDetails: {
+    title: string;
+    reference: string;
+    date: string;
+    flightNumber: string;
+    timeOfArrival: string;
+  };
+  guestDetails: {
+    title: string;
+    adults: string;
+    children: string;
+    infants: string;
+  };
+  price: string;
+  importantNotes: {
+    title: string;
+    notes: string[];
+  };
+  cancelText: string;
+  forwardText: string;
+  loadingText: string;
+  error: string;
 };
 
 type FlightDetailsProps = {

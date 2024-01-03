@@ -15,6 +15,7 @@ import { DATE_READABLE_FORMAT } from 'config/Constants';
 import { BookingConfirmedPdfProps } from './BookingConfirmationProps';
 import { getLogo } from './helpers/getLogo';
 import Price from '@components/Price';
+import useLocale from 'hooks/useLocale';
 
 Font.register({
   family: 'Open Sans Regular',
@@ -109,6 +110,8 @@ export const BookingConfirmationPDF = (props: BookingConfirmedPdfProps) => {
   } = props;
   const cancelBookingUrl = new URL(window.location.origin);
 
+  const translations = useLocale();
+
   cancelBookingUrl.pathname = 'cancel-booking';
   cancelBookingUrl.searchParams.set('loungeCode', loungeCode);
   cancelBookingUrl.searchParams.set('bookingId', bookingId || '');
@@ -120,33 +123,35 @@ export const BookingConfirmationPDF = (props: BookingConfirmedPdfProps) => {
       <Page size="A4">
         <View style={styles.view}>
           <Image src={getLogo(props)} style={styles.logo} />
-          <Text style={[styles.text, styles.h1]}>Booking Confirmation</Text>
+          <Text style={[styles.text, styles.h1]}>
+            {translations.booking.confirmationPDF.title}
+          </Text>
           <Text style={[styles.text, styles.marginTop, styles.padding]}>
-            Good news! Your booking for{' '}
+            {translations.booking.confirmationPDF.description.line1}{' '}
             <Text style={styles.strong}>
               {formatDate(
                 new Date(`${props.departureTime}`),
                 DATE_READABLE_FORMAT
               )}
             </Text>{' '}
-            at{' '}
+            {translations.booking.confirmationPDF.description.line2}{' '}
             <Text style={styles.strong}>
               {props.lounge.loungeName},{' '}
               {props.lounge.location?.terminal &&
                 props.lounge.location?.terminal + ', '}
               {props.lounge.location?.airportName}
             </Text>{' '}
-            has been confirmed.
+            {translations.booking.confirmationPDF.description.line3}
           </Text>
           <Text style={[styles.h3, styles.marginTop, styles.padding]}>
-            Your booking details
+            {translations.booking.confirmationPDF.bookingDetails.title}
           </Text>
           <Text style={[styles.text, styles.marginTop, styles.padding]}>
-            Booking reference:{' '}
+            {translations.booking.confirmationPDF.bookingDetails.reference}{' '}
             <Text style={styles.strong}>{props.reference}</Text>
           </Text>
           <Text style={[styles.text, styles.padding]}>
-            Date:{' '}
+            {translations.booking.confirmationPDF.bookingDetails.date}{' '}
             <Text style={styles.strong}>
               {formatDate(
                 new Date(`${props.departureTime}`),
@@ -155,32 +160,45 @@ export const BookingConfirmationPDF = (props: BookingConfirmedPdfProps) => {
             </Text>
           </Text>
           <Text style={[styles.text, styles.padding]}>
-            Flight number:{' '}
+            {translations.booking.confirmationPDF.bookingDetails.flightNumber}{' '}
             <Text style={styles.strong}>{props.flightNumber}</Text>
           </Text>
           <Text style={[styles.text, styles.padding]}>
-            Estimated time of arrival:{' '}
+            {translations.booking.confirmationPDF.bookingDetails.timeOfArrival}{' '}
             <Text style={styles.strong}>{props.arrival}</Text>
           </Text>
 
           <Text
             style={[styles.text, styles.h3, styles.marginTop, styles.padding]}
           >
-            Who's coming?
+            {translations.booking.confirmationPDF.guestDetails.title}
           </Text>
           <Text style={[styles.text, styles.padding]}>
-            <GuestCount label={'Adults'} count={props.adults} />
+            <GuestCount
+              label={translations.booking.confirmationPDF.guestDetails.adults}
+              count={props.adults}
+            />
             {props.children > 0 && (
-              <GuestCount label={'Children'} count={props.children} />
+              <GuestCount
+                label={
+                  translations.booking.confirmationPDF.guestDetails.children
+                }
+                count={props.children}
+              />
             )}{' '}
             {props.infants > 0 && (
-              <GuestCount label={'Infants'} count={props.infants} />
+              <GuestCount
+                label={
+                  translations.booking.confirmationPDF.guestDetails.infants
+                }
+                count={props.infants}
+              />
             )}
           </Text>
           <Text
             style={[styles.text, styles.h3, styles.marginTop, styles.padding]}
           >
-            Total
+            {translations.booking.confirmationPDF.price}
           </Text>
           <Text style={[styles.text, styles.padding]}>
             <Price
@@ -195,34 +213,23 @@ export const BookingConfirmationPDF = (props: BookingConfirmedPdfProps) => {
           <Text
             style={[styles.text, styles.h3, styles.marginTop, styles.padding]}
           >
-            Important Notes
+            {translations.booking.confirmationPDF.importantNotes.title}
           </Text>
           <View style={styles.flex}>
-            <ListItem>
-              Please remember to bring your booking reference number, boarding
-              pass and photo ID along with your Priority Pass membership card or
-              eligible access method for check in at the lounge.
-            </ListItem>
-            <ListItem>
-              Maximum stay is 3 hours prior to your flight time.
-            </ListItem>
-            <ListItem>
-              Cancellation must be made at least 48 hours in advance of your
-              visit date & time to receive a refund. No refund will be issued
-              after this time.{' '}
-              <Link
-                style={[styles.text, styles.link]}
-                // I think the types from @react-pdf/renderer are wrong because href works and is specified in the docs
-                // @ts-ignore
-                href={cancelBookingUrl.toString()}
-              >
-                Click here to cancel your booking
-              </Link>
-            </ListItem>
+            {translations.booking.confirmationPDF.importantNotes.notes &&
+              translations.booking.confirmationPDF.importantNotes.notes.map(
+                (note, i) => <ListItem key={i}>{note}</ListItem>
+              )}
+            <Link
+              style={[styles.text, styles.link]}
+              src={cancelBookingUrl.toString()}
+            >
+              {translations.booking.confirmationPDF.cancelText}
+            </Link>
           </View>
 
           <Text style={[styles.text, styles.padding]}>
-            We look forward to seeing you there!
+            {translations.booking.confirmationPDF.forwardText}
           </Text>
         </View>
       </Page>
