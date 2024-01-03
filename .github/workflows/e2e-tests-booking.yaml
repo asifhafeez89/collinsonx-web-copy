@@ -3,13 +3,33 @@ name: run e2e web tests - booking
 on:
   pull_request:
     branches: ['main']
-    paths:
-      - 'apps/booking/**'
-      - '.github/workflows/e2e-tests-booking.yaml'
-      - 'packages/**'
-
+  merge_group:
+      types: [checks_requested]
 jobs:
+  # Job to run change detection
+  changes:
+    name: Detect changes for Booking
+    runs-on: ubuntu-latest
+    # Required permissions
+    permissions:
+      pull-requests: read
+    # Set job outputs to values from filter step 
+    # this could be used to explicitily run tests for changed apps only
+    outputs:
+      apps: ${{ steps.filter.outputs.src }}
+    steps:
+    - uses: dorny/paths-filter@v2
+      id: filter
+      with:
+        filters: |
+          src:
+            - 'apps/booking/**'
+            - '.github/workflows/e2e-tests-booking.yaml'
+            - 'packages/**'
+
   e2e-test-booking:
+    needs: changes
+    if: ${{ needs.changes.outputs.apps == 'true' }}
     runs-on: e2e-test-runner
     container:
       image: mcr.microsoft.com/playwright:v1.40.1-focal
