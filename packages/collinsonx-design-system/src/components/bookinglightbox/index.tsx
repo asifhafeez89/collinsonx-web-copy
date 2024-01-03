@@ -23,10 +23,10 @@ function BookingLightbox({
         onClose={onClose}
         withCloseButton={false}
         padding={0}
-        sx={{ width: '590px' }}
+        style={{ width: '590px' }}
       >
         <Box
-          sx={{
+          style={{
             textAlign: 'center',
             padding: ' 0 2rem',
             lineHeight: '2rem',
@@ -38,7 +38,7 @@ function BookingLightbox({
 
         <Flex
           justify="center"
-          sx={{
+          style={{
             backgroundColor: '#F7F7F7',
             padding: '20px',
             borderTop: '1px solid #C8C9CA',
@@ -70,7 +70,7 @@ function BookingLightbox({
           <Button
             onClick={ctaForwardCall}
             variant="filled"
-            sx={{ fontSize: '16px' }}
+            style={{ fontSize: '16px' }}
           >
             {ctaForward}
           </Button>

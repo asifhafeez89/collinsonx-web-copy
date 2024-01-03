@@ -1,0 +1,12 @@
+input {
+  border-radius: 8px;
+  font-size: 16px;
+  &:focus {
+    height: 50px;
+    border-color: var(--mantine-color-grey-4);
+    background-color: #fff;
+    &::placeholder {
+      color: transparent;
+    }
+  }
+}

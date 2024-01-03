@@ -30,7 +30,7 @@ export default function InfoBox({
 
   return (
     <Wrapper>
-      <Grid grow gutter={2} gutterXs="md" gutterMd="xl" gutterXl={20}>
+      <Grid grow gutter={{ base: 2, xs: 'md', md: 'xl', xl: 20 }}>
         <Grid.Col span={7}>
           <Grid grow gutter={2}>
             <Grid.Col span={12}>{title}</Grid.Col>
@@ -50,7 +50,7 @@ export default function InfoBox({
           <ActionIcon
             color="dark.6"
             onClick={handleEditClick}
-            sx={{
+            style={{
               position: 'absolute',
               top: 50,
               right: 40,

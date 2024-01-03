@@ -7,6 +7,10 @@
   "jsc": {
     "target": "es5",
     "loose": true,
+    "baseUrl": "./",
+    "paths": {
+      "assets/*": ["./dist/assets/*"]
+    },
     "parser": {
       "syntax": "typescript",
       "tsx": true,

@@ -7,11 +7,6 @@ type ThemeOptions = {
 
 const theme = (
   { fontFamily }: ThemeOptions = { fontFamily: 'BentonSans Book' }
-): MantineThemeOverride =>
-  baseTheme({
-    themeOverrides: {
-      brandColor: '#827127',
-    },
-  });
+): MantineThemeOverride => baseTheme({ fontFamily });
 
 export default theme;

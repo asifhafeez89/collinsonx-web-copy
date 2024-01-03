@@ -59,6 +59,8 @@ import Heading from '@collinsonx/design-system/components/heading/Heading';
 import { FlightDetailsAndGuests } from '@components/FlightDetailsAndGuests';
 import useLocale from 'hooks/useLocale';
 
+import classes from '../styles/CheckAvailability.module.css';
+
 const { BAD_USER_INPUT } = BookingError;
 
 const availabilityMessagess: Record<string, string> = {
@@ -240,9 +242,9 @@ export default function CheckAvailability() {
     constants.TIME_FORMAT_DISPLAY
   );
 
-  const handleSelectSlot = async (value: string) => {
+  const handleSelectSlot = async (value: string | null) => {
     await logAction(pageName, ANALYTICS_TAGS.ON_SLOT_CHANGE);
-    setSelectedslot(value);
+    setSelectedslot(value || '');
   };
 
   const showAlert = airportMismatch || terminalMismatch;
@@ -310,51 +312,13 @@ export default function CheckAvailability() {
           </div>
         </BookingLightbox>
       )}
-      <Stack
-        spacing={16}
-        sx={{
-          background: colors.background,
-
-          '@media (max-width: 768px)': {
-            width: '100%',
-            backgroundColor: colors.background,
-          },
-        }}
-      >
-        <Stack sx={{ width: '100%' }}>
+      <Stack gap={16} className={classes.container}>
+        <Stack w="100%">
           <TopBarLinks page={pageName} />
         </Stack>
-        <Flex
-          direction="column"
-          sx={{
-            width: '100%',
-
-            '@media (max-width: 768px)': {
-              width: '100%',
-            },
-          }}
-        >
-          <Stack
-            spacing={10}
-            sx={{
-              width: '591px',
-              margin: '0 auto',
-              '@media (max-width: 768px)': {
-                width: '100%',
-                margin: '0',
-              },
-            }}
-          >
-            <Center
-              sx={{
-                padding: '0',
-                margin: '10 0px',
-
-                '@media (min-width: 768px)': {
-                  display: 'none',
-                },
-              }}
-            >
+        <Flex direction="column" w="100%">
+          <Stack gap={10} className={classes.outerContainer}>
+            <Center className={classes.titleWrapper}>
               <Heading as="h1" padding={0} margin={0} lineHeight={1}>
                 {translations.booking.checkAvailability.arrivalTitle}
               </Heading>
@@ -367,27 +331,13 @@ export default function CheckAvailability() {
             )}
             <Flex
               direction={{ base: 'column', sm: 'row' }}
-              sx={{
-                justifyContent: 'center',
-
-                '@media (max-width: 768px)': {
-                  justifyContent: 'initial',
-                  backgroundColor: colors.background,
-                  width: '100%',
-                },
-              }}
+              className={classes.bookingFormContainer}
             >
               {!lounge && <BookingFormSkeleton />}
               {lounge && (
-                <Box
-                  sx={{
-                    '@media (max-width: 768px)': {
-                      width: '100%',
-                    },
-                  }}
-                >
+                <Box className={classes.fullWidthMobile}>
                   {lounge && (
-                    <Stack spacing={8}>
+                    <Stack gap={8}>
                       <FlightDetailsAndGuests
                         departureTime={departureTime ? departureTime : ''}
                         flightNumber={flightNumber}
@@ -402,23 +352,9 @@ export default function CheckAvailability() {
                         <Flex
                           align={'center'}
                           gap={'xs'}
-                          sx={{
-                            '@media (max-width: 768px)': {
-                              alignItems: 'flex-start',
-                            },
-                          }}
+                          className={classes.flexMobile}
                         >
-                          <ActionIcon
-                            sx={{
-                              color: '#000',
-                              svg: {
-                                width: 20,
-                                height: 20,
-                              },
-                            }}
-                          >
-                            <Warning />
-                          </ActionIcon>
+                          <Warning style={{ width: '20px', height: '20px' }} />
                           <p
                             style={{
                               padding: '0',
@@ -450,23 +386,9 @@ export default function CheckAvailability() {
                         <Flex
                           align={'center'}
                           gap={'xs'}
-                          sx={{
-                            '@media (max-width: 768px)': {
-                              alignItems: 'flex-start',
-                            },
-                          }}
+                          className={classes.flexMobile}
                         >
-                          <ActionIcon
-                            sx={{
-                              color: '#000',
-                              svg: {
-                                width: 20,
-                                height: 20,
-                              },
-                            }}
-                          >
-                            <Clock />
-                          </ActionIcon>
+                          <Clock style={{ width: '20px', height: '20px' }} />
                           <p
                             style={{
                               padding: '0',
@@ -532,11 +454,7 @@ export default function CheckAvailability() {
             type="submit"
             data-testid="submit"
             onClick={handleSubmit}
-            sx={{
-              '@media (max-width: 768px)': {
-                marginTop: '10px',
-              },
-            }}
+            className={classes.availableSlotsButton}
           >
             {translations.booking.availableSlots.btn}
           </Button>

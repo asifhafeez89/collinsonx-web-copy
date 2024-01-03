@@ -29,12 +29,12 @@ export default function Partners() {
   });
 
   return (
-    <Stack spacing={32} pb={24}>
+    <Stack gap={32} pb={24}>
       <Title>Partners</Title>
       <Error error={errorPartners} />
       <SimpleGrid
         spacing={24}
-        sx={{
+        style={{
           'grid-template-columns': 'repeat(auto-fill, minmax(350px, 1fr))',
         }}
       >
@@ -52,11 +52,10 @@ export default function Partners() {
                   router.push(href);
                 }}
               >
-                <Stack spacing={24}>
-                  <Stack spacing={6}>
+                <Stack gap={24}>
+                  <Stack gap={6}>
                     <Anchor
-                      sx={{ textDecoration: 'none' }}
-                      underline={false}
+                      style={{ textDecoration: 'none' }}
                       component={Link}
                       href={href}
                     >
@@ -65,7 +64,7 @@ export default function Partners() {
                       </CardTitle>
                     </Anchor>
                     <Text
-                      size={16}
+                      size="md"
                       color={colors['text-grey']}
                       data-testid={`outlet-count-${index}`}
                     >

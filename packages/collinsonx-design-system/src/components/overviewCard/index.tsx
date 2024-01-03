@@ -31,7 +31,7 @@ export default function OverviewCard({
   return (
     <Container style={{ minHeight: 267, width: '100%' }}>
       <Box
-        sx={{
+        style={{
           padding: '16px 32px',
           backgroundColor: '#6d4bf633',
         }}
@@ -42,12 +42,17 @@ export default function OverviewCard({
               {icon}
             </Box>
           ) : null}
-          <Title order={2} color="#25262B" size={20} data-testid={dataTestId}>
+          <Title
+            order={2}
+            style={{ color: '#25262B' }}
+            size={20}
+            data-testid={dataTestId}
+          >
             {title}
           </Title>
         </Flex>
       </Box>
-      <Box sx={{ padding: '32px', minHeight: '150px' }}>{children}</Box>
+      <Box style={{ padding: '32px', minHeight: '150px' }}>{children}</Box>
     </Container>
   );
 }

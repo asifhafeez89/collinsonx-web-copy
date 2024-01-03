@@ -1,0 +1,20 @@
+.icon {
+  padding-left: rem(14px);
+}
+.rightSection {
+  & button {
+    color: var(--mantine-color-dark-6);
+  }
+}
+.input {
+  border-radius: rem(4px);
+  padding-left: rem(56px);
+  &[data-with-icon='true'] {
+    padding-left: rem(56px);
+  }
+}
+.day {
+  &[data-weekend='true'] {
+    color: var(--mantine-color-red-7);
+  }
+}

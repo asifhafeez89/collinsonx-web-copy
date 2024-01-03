@@ -1,7 +1,7 @@
-import { render } from '@testing-library/react';
+import { render } from '@collinsonx/design-system/test-utils';
 import '@testing-library/jest-dom/extend-expect';
 import ShowDownloadButton from './ShowDownloadButton';
-import { Button } from '@mantine/core';
+import { Button } from '@collinsonx/design-system/core';
 
 describe('<ShowDownloadButton/>', () => {
   it('render with higher version', () => {

@@ -20,6 +20,16 @@ import '../styles.css';
 import { datadogLogs } from '@datadog/browser-logs';
 import { logInfo } from '@lib';
 
+import '../node_modules/@collinsonx/design-system/dist/assets/dates.styles.css';
+import '../node_modules/@collinsonx/design-system/dist/assets/styles.css';
+import '../globalStyles.css';
+import { MantineProvider } from '@collinsonx/design-system/core';
+import priorityPass from '@collinsonx/design-system/themes/priorityPass';
+
+import baseTheme, {
+  resolver,
+} from '@collinsonx/design-system/themes/baseTheme';
+
 // we only want to call this init function on the frontend, so
 // we check typeof window !== 'undefined'
 
@@ -92,6 +102,7 @@ export default function MyApp({ Component, pageProps }: Props) {
         />
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </Head>
+
       <UserProvider>
         <SuperTokensWrapper>
           <ApolloProvider client={apolloClient}>

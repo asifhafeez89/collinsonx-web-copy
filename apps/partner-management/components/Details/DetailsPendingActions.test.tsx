@@ -1,8 +1,8 @@
 import DetailsPendingActions, {
   DetailsPendingActionsProps,
 } from './DetailsPendingActions';
-import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
+import { render, fireEvent } from '@collinsonx/design-system/test-utils';
 
 describe('<DetailsPendingActions />', () => {
   let props: DetailsPendingActionsProps;

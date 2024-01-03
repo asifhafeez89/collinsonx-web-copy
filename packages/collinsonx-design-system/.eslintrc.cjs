@@ -1,4 +1,4 @@
 module.exports = {
   root: true,
-  extends: ['collinsonx', 'next/babel', 'next/core-web-vitals'],
+  extends: ['mantine', 'next/babel', 'next/core-web-vitals'],
 };

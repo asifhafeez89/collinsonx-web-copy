@@ -1,51 +1,115 @@
-import { MantineThemeOverride } from '@mantine/core';
-import { rem } from '@mantine/core';
+import {
+  rem,
+  Anchor,
+  Button,
+  CSSVariablesResolver,
+  Checkbox,
+  Input,
+  InputWrapper,
+  MantineThemeOverride,
+  NavLink,
+  Select,
+  TextInput,
+  Modal,
+} from '@mantine/core';
+
+import classesAnchor from 'assets/baseTheme/Anchor.module.css';
+import classesSelect from 'assets/baseTheme/Select.module.css';
+import classesInput from 'assets/baseTheme/Input.module.css';
+
+import classesButton from 'assets/baseTheme/Button.module.css';
+import classesTextInput from 'assets/baseTheme/TextInput.module.css';
+import classesCheckbox from 'assets/baseTheme/Checkbox.module.css';
+import classesDatePickerInput from 'assets/baseTheme/DatePickerInput.module.css';
+
+import { generateColors } from '@mantine/colors-generator';
+import { prefixCSSVars } from '../lib';
 import colors from '../colour-constants-baas';
+
+declare module '@mantine/core' {
+  export interface MantineThemeOther {
+    headerNavBg: string;
+    headerNavColor: string;
+    mainColor: string;
+    brandColor: string;
+    splashColor: string;
+    brandCollinsons: string;
+  }
+}
 
 type ThemeOptions = {
   fontFamily?: string;
   themeOverrides?: Record<string, string | undefined>;
 };
 
+export const resolver: CSSVariablesResolver = ({
+  other: { headerNavBg, headerNavColor, mainColor, brandColor, splashColor },
+}) => ({
+  variables: {
+    '--header-nav-bg': headerNavBg,
+    '--header-nav-color': headerNavColor,
+    '--main-color': mainColor,
+    '--brand-color': brandColor,
+    '--splash-color': splashColor,
+    ...prefixCSSVars(colors),
+  },
+  dark: {},
+  light: {},
+});
+
+const BRAND_COLOR = '#827127';
+
 const baseTheme = ({
   fontFamily,
   themeOverrides,
 }: ThemeOptions): MantineThemeOverride => {
+  const brandPrimaryColor = themeOverrides?.brandColor || BRAND_COLOR;
   return {
-    colors: {
-      headerNavBg: [themeOverrides?.headerNavBg || '#D3DAE1'],
-      headerNavColor: [themeOverrides?.headerNavColor || '#000'],
-      mainColor: [themeOverrides?.mainColor || '#FFF'],
-      brandColor: [themeOverrides?.brandColor || '#D3DAE1'],
-      splashColor: [themeOverrides?.splashColor || '#858B91'],
+    other: {
+      headerNavBg: themeOverrides?.headerNavBg || '#D3DAE1',
+      headerNavColor: themeOverrides?.headerNavColor || '#000',
+      mainColor: themeOverrides?.mainColor || '#FFF',
+      brandColor: themeOverrides?.brandColor || '#D3DAE1',
+      splashColor: themeOverrides?.splashColor || '#858B91',
 
-      brandCollinsons: [themeOverrides?.brandColor || '#827127'],
+      brandCollinsons: brandPrimaryColor,
     },
+
+    colors: {
+      brandCollinsons: generateColors(
+        themeOverrides?.brandColor || BRAND_COLOR
+      ),
+    },
+
     primaryColor: 'brandCollinsons',
 
-    primaryShade: 0,
+    primaryShade: 9,
     defaultRadius: 4,
     fontFamily,
-    globalStyles: ({ colors }) => ({
-      body: {
-        height: '100%',
-        color: colors.black,
-        fontWeight: 400,
-        backgroundColor: '#F3F2F3',
-      },
-      html: {
-        height: '100%',
-      },
-      '#__next': {
-        height: '100%',
-      },
-    }),
+    fontFamilyMonospace: fontFamily,
     headings: {
       fontFamily,
-      fontWeight: 600,
     },
+
+    lineHeights: {
+      xs: '1.4',
+      sm: '1.45',
+      md: '1.55',
+      lg: '1.6',
+      xl: '1.65',
+    },
+
+    fontSizes: {
+      xs: rem(12),
+      sm: rem(14),
+      md: rem(16),
+      lg: rem(18),
+      xl: rem(20),
+      xxl: rem(32),
+    },
+
     components: {
-      InputWrapper: {
+      InputWrapper: InputWrapper.extend({
         styles: ({ colors }) => ({
           label: {
             fontSize: '18px',
@@ -58,138 +122,73 @@ const baseTheme = ({
             color: colors.red[6],
           },
         }),
-      },
-      Anchor: {
-        styles: ({ colors }) => ({
-          ':focus': {
-            backgroundColor: 'transparent',
-            textDecoration: 'none',
-          },
-          ':hover': {
-            backgroundColor: 'transparent',
-            textDecoration: 'none',
-          },
+      }),
+      Anchor: Anchor.extend({
+        classNames: () => ({
+          root: classesAnchor.root,
         }),
-      },
-      Select: {
+      }),
+      Modal: Modal.extend({
         styles: ({ colors }) => ({
-          input: {
-            fontSize: '1.2rem',
-            ':focus': {
-              color: '#827127',
-            },
-          },
-        }),
-      },
-      Input: {
-        styles: ({ colors }) => ({
-          input: {
-            backgroundColor: 'white',
-            height: '50px',
-            borderRadius: 0,
-            borderColor: colors.gray[4],
+          close: {
             color: colors.dark[6],
-            '::placeholder': {
-              color: colors.gray[5],
-            },
           },
-          label: {
-            fontFamily,
-            fontWeight: 600,
+          header: {
+            minHeight: 'auto',
           },
-          invalid: {
-            borderColor: colors.red[6],
-            borderWidth: 2,
-            color: colors.dark[6],
-            '::placeholder': {
-              color: colors.gray[5],
-            },
+          content: {
+            minHeight: 'auto',
           },
         }),
-      },
-      Button: {
-        styles: (theme) => ({
+      }),
+      Select: Select.extend({
+        classNames: () => ({
+          input: classesSelect.input,
+        }),
+      }),
+      Input: Input.extend({
+        classNames: () => ({
+          input: classesInput.input,
+          label: classesInput.label,
+          invalid: classesInput.invalid,
+        }),
+        vars: () => ({
+          wrapper: {
+            '--input-height': rem(50),
+            '--input-fz': '1.2rem',
+          },
+        }),
+      }),
+      Button: Button.extend({
+        classNames: classesButton,
+        vars: () => ({
           root: {
-            borderRadius: 4,
-            fontSize: 18,
-            height: 44,
-
-            '&:hover': {
-              filter: 'brightness(85%)',
-            },
+            '--button-height': rem(44),
           },
         }),
-      },
-      TextInput: {
-        styles: ({ colors }) => ({
-          input: {
-            padding: '11px 16px',
-            fontSize: rem(18),
-            height: '50px',
-            backgroundColor: colors.white,
-            borderRadius: 4,
-            borderColor: colors.gray[4],
-            color: colors.dark[6],
-            '::placeholder': {
-              color: colors.gray[6],
-              textTransform: 'capitalize',
-            },
-            ':focus': {
-              color: colors.dark[6],
-              borderColor: colors.theme,
-            },
-            '&[data-invalid]': {
-              borderColor: colors.red[6],
-              color: colors.dark[6],
-              '::placeholder': {
-                color: colors.red[4],
-              },
-            },
-          },
-          label: {
-            fontWeight: 400,
-            fontSize: rem(18),
-            fontFamily,
-            color: colors.dark[6],
-          },
+      }),
+      TextInput: TextInput.extend({
+        classNames: () => ({
+          input: classesTextInput.input,
+          label: classesTextInput.label,
         }),
-      },
-      NavLink: {
+      }),
+      NavLink: NavLink.extend({
         styles: () => ({
           label: {
-            color: '#827127',
+            color: brandPrimaryColor,
           },
         }),
-      },
-      Checkbox: {
-        styles: ({ colors }) => ({
-          input: {
-            borderColor: colors.brandColor,
-            borderWidth: 2,
-            '&:checked': {
-              backgroundColor: colors.brandColor,
-              borderColor: colors.brandColor,
-            },
-          },
+      }),
+      Checkbox: Checkbox.extend({
+        classNames: () => ({
+          input: classesCheckbox.input,
         }),
-      },
+      }),
       DatePickerInput: {
-        styles: ({ colors }) => ({
-          label: {
-            fontWeight: 400,
-            padding: '0 0 .5rem 0',
-          },
-          input: {
-            borderRadius: rem(4),
-            fontSize: '1.2rem',
-            '&[data-invalid]': {
-              borderColor: colors.red[6],
-              color: colors.red[4],
-              '::placeholder': {
-                color: colors.red[4],
-              },
-            },
-          },
+        classNames: () => ({
+          label: classesDatePickerInput.label,
+          input: classesDatePickerInput.input,
         }),
       },
     },

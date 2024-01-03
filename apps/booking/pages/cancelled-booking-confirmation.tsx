@@ -24,6 +24,8 @@ import EstimatedTimeArrival from '@components/EstimatedTimeArrival';
 import { arrivalTimeFormatter } from 'utils/ArrivalTimeFormatter';
 import { FlightDetailsAndGuests } from '@components/FlightDetailsAndGuests';
 
+import classes from '../styles/CancelBooking.module.css';
+
 export default function CancelBooking() {
   const router = useRouter();
 
@@ -51,44 +53,15 @@ export default function CancelBooking() {
   return (
     <Layout>
       {bookingDetails ? (
-        <Stack spacing={16} sx={{ width: '100%' }}>
+        <Stack gap={16} w="100%">
           <Flex
             justify="center"
             align="center"
             direction="column"
-            sx={{
-              justifyContent: 'center',
-
-              '@media (max-width: 768px)': {
-                width: '100%',
-                justifyContent: 'initial',
-
-                backgroundColor: colors.background,
-              },
-            }}
+            className={classes.containerL1}
           >
-            <Stack
-              spacing={8}
-              sx={{
-                width: '591px',
-                marginTop: '1rem',
-
-                '@media (max-width: 768px)': {
-                  width: '100%',
-                  margin: '0',
-                  marginTop: '1rem',
-                },
-              }}
-            >
-              <Center
-                sx={{
-                  padding: '10px',
-                  margin: '0',
-                  '@media (min-width: 768px)': {
-                    display: 'none',
-                  },
-                }}
-              >
+            <Stack gap={8} className={classes.confirmCancelContainer}>
+              <Center className={classes.headingWrapper}>
                 <Heading as="h1" padding={0} margin={0} lineHeight={1}>
                   Booking Cancellation
                 </Heading>
@@ -108,37 +81,12 @@ export default function CancelBooking() {
                   justify={{ sm: 'center' }}
                 ></Flex>
               ) : (
-                <Flex
-                  sx={{
-                    width: '100%',
-                    flexDirection: 'row',
-
-                    '@media (max-width: 768px)': {
-                      flexDirection: 'column',
-                    },
-                  }}
-                >
+                <Flex className={classes.detailsContainer}>
                   {
-                    <Box
-                      sx={{
-                        width: '100%',
-                        '@media (max-width: 768px)': {
-                          width: '100%',
-                          gap: '0px',
-                          border: 'none',
-                        },
-                      }}
-                    >
+                    <Box className={classes.detailsContainerL2}>
                       {bookingDetails.getBookingByID.experience && (
-                        <Stack spacing={0}>
-                          <Box
-                            sx={{
-                              '@media (max-width: 768px)': {
-                                backgroundColor: colors.white,
-                                padding: '0 1.2rem',
-                              },
-                            }}
-                          >
+                        <Stack gap={0}>
+                          <Box className={classes.titleContainerCancelConfirm}>
                             <EditableTitle title="" as="h3" showBorder={false}>
                               <h2>
                                 {' '}
@@ -152,15 +100,7 @@ export default function CancelBooking() {
                               </h2>
                             </EditableTitle>
                           </Box>
-                          <Box
-                            sx={{
-                              '@media (max-width: 768px)': {
-                                marginTop: '0.5rem',
-                                backgroundColor: colors.white,
-                                padding: '1.2rem',
-                              },
-                            }}
-                          >
+                          <Box className={classes.titleContainer}>
                             <EditableTitle
                               title="Booking Reference:"
                               as="h3"
@@ -169,13 +109,7 @@ export default function CancelBooking() {
                               {bookingDetails?.getBookingByID?.reference}
                             </EditableTitle>
                             {bookingDetails?.getBookingByID?.consumer && (
-                              <Text
-                                sx={{
-                                  '@media (max-width: 768px)': {
-                                    paddingLeft: '1.25rem',
-                                  },
-                                }}
-                              >
+                              <Text className={classes.descriptionText}>
                                 A confirmation email has been sent to{' '}
                                 <strong>
                                   {
@@ -185,13 +119,7 @@ export default function CancelBooking() {
                                 </strong>
                               </Text>
                             )}
-                            <Box
-                              sx={{
-                                '@media (max-width: 768px)': {
-                                  paddingLeft: '1.25rem',
-                                },
-                              }}
-                            >
+                            <Box className={classes.descriptionText}>
                               <Text fw={700} py={22}>
                                 Your payment for this booking will be refunded
                                 within 10 days.
@@ -221,17 +149,7 @@ export default function CancelBooking() {
                             lounge={bookingDetails?.getBookingByID?.experience}
                             noEdit={true}
                           />
-                          <Box
-                            sx={{
-                              width: 'initial',
-
-                              '@media (max-width: 768px)': {
-                                margin: '0.5rem 0',
-                                backgroundColor: colors.white,
-                                padding: '1.2rem',
-                              },
-                            }}
-                          >
+                          <Box w="initial" className={classes.titleContainer}>
                             <EditableTitle
                               title="Total price"
                               as="h3"
@@ -255,15 +173,7 @@ export default function CancelBooking() {
                               ></Price>
                             </EditableTitle>
                           </Box>
-                          <Box
-                            sx={{
-                              '@media (max-width: 768px)': {
-                                marginTop: '0.5rem',
-                                backgroundColor: colors.white,
-                                padding: '1.2rem',
-                              },
-                            }}
-                          >
+                          <Box className={classes.titleContainer}>
                             <EditableTitle
                               title="Estimated time of arrival"
                               as="h3"

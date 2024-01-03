@@ -1,0 +1,8 @@
+.input {
+  border-color: #d3dae1;
+  border-width: 2px;
+  &:checked {
+    background-color: #d3dae1;
+    border-color: #d3dae1;
+  }
+}

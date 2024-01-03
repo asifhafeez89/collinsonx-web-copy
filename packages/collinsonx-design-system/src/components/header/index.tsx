@@ -1,16 +1,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
-import {
-  Burger,
-  Drawer,
-  List,
-  Box,
-  Anchor,
-  Text,
-  useMantineTheme,
-} from '@mantine/core';
+import { Burger, Drawer, List, Box, Anchor, Text } from '@mantine/core';
 import { Search, ChevronRight, Logout } from '../../assets/icons/index';
-import { useStyles } from './styles';
+import classes from 'assets/components/header.module.css';
 
 export type HeaderItem = {
   label: string;
@@ -25,10 +17,6 @@ interface HeaderProps {
 }
 
 const Header = ({ items, logo, onClickSignout }: HeaderProps) => {
-  const { classes } = useStyles();
-
-  const theme = useMantineTheme();
-
   const [menuOpened, setMenuOpened] = useState(false);
   const title = menuOpened ? 'Close navigation' : 'Open navigation';
 
@@ -49,7 +37,6 @@ const Header = ({ items, logo, onClickSignout }: HeaderProps) => {
             <Search />
           </Anchor>
           <Burger
-            color={theme.colors?.headerNavColor[0]}
             opened={menuOpened}
             onClick={() => setMenuOpened(true)}
             title={title}
@@ -106,7 +93,7 @@ const Header = ({ items, logo, onClickSignout }: HeaderProps) => {
           )}
         </div>
         <Box
-          sx={{
+          style={{
             width: '100%',
             display: 'flex',
             justifyContent: 'stretch',
@@ -119,7 +106,7 @@ const Header = ({ items, logo, onClickSignout }: HeaderProps) => {
             onClick={onClickSignout}
             className="logout"
             role="button"
-            sx={{
+            style={{
               width: '100%',
               display: 'flex',
               justifyContent: 'flex-start',
@@ -128,7 +115,7 @@ const Header = ({ items, logo, onClickSignout }: HeaderProps) => {
           >
             <Logout color={'#112132'} />
             <Text
-              sx={{
+              style={{
                 color: '#112132',
                 marginLeft: '1rem',
                 marginRight: '0.5rem',

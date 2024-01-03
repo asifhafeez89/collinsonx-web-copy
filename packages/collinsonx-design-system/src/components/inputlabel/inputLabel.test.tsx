@@ -1,20 +1,17 @@
-import * as React from 'react';
 import renderer from 'react-test-renderer';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, Provider } from 'test-utils';
 import userEvent from '@testing-library/user-event';
 import InputLabel from '.';
 
 const mockFn = jest.fn();
 
 describe('<InputLabel />', () => {
-  beforeEach(() => {
-    jest.resetAllMocks();
-  });
-
   it('renders textinput', () => {
     const tree = renderer
       .create(
-        <InputLabel placeholder="Your name" label="Full name" withAsterisk />
+        <Provider>
+          <InputLabel placeholder="Your name" label="Full name" withAsterisk />
+        </Provider>
       )
       .toJSON();
     expect(tree).toMatchSnapshot();

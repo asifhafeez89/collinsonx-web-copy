@@ -33,7 +33,7 @@ export default function LoungeImageTitle({
           align="center"
           direction="row"
           wrap="wrap"
-          sx={{
+          style={{
             alignItems: 'center',
           }}
         >

@@ -34,7 +34,9 @@ class PreBookPage {
       (nextMonthDate.getMonth() - today.getMonth());
 
     for (let i = 1; i <= numberOfClicks; i += 1) {
-      var nextMonth = await this.page.waitForSelector('[data-next="true"]');
+      var nextMonth = await this.page.waitForSelector(
+        '[data-direction="next"]'
+      );
       await nextMonth.click();
       await this.page.waitForTimeout(500);
     }

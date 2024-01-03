@@ -21,12 +21,12 @@ export default function Lounge({
       {image && <Image src={image} alt={airport} />}
       {loungeName && <Text color={'#000000'}>{loungeName}</Text>}
       <SimpleGrid cols={2}>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box style={{ display: 'flex', alignItems: 'center' }}>
           <MapPin width={24} color={'#000000'} />
-          <Box sx={{ paddingLeft: '5px' }}>
+          <Box style={{ paddingLeft: '5px' }}>
             <Text
               color={'#000000'}
-              sx={{
+              style={{
                 width: '130px',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
@@ -37,16 +37,16 @@ export default function Lounge({
             </Text>
           </Box>
         </Box>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Clock color={'#000000'} />
+        <Box style={{ display: 'flex', alignItems: 'center' }}>
+          <Clock color={'#000000'} width={24} />
           <Box
-            sx={{
+            style={{
               paddingLeft: '5px',
             }}
           >
             <Text
               color={'#000000'}
-              sx={{
+              style={{
                 width: '130px',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',

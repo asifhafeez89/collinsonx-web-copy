@@ -1,15 +1,9 @@
-import renderer from 'react-test-renderer';
 import BookingLightbox from '.';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, screen, fireEvent, waitFor } from 'test-utils';
 
 const mockFn = jest.fn();
 const mockOpen = jest.fn();
 describe('<Lightbox />', () => {
-  beforeEach(() => {
-    jest.resetAllMocks();
-  });
-
   it('gets clicked once ', async () => {
     render(
       <>

@@ -1,4 +1,4 @@
-import { dirname, join } from 'path';
+import path, { dirname, join } from 'path';
 module.exports = {
   stories: ['../../collinsonx-design-system/src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
@@ -13,6 +13,13 @@ module.exports = {
   },
   staticDirs: ['../public'],
   webpackFinal: async (config, { configType }) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      assets: path.resolve(
+        __dirname,
+        '../../collinsonx-design-system/src/assets'
+      ),
+    };
     config.module.rules = [
       ...config.module.rules.map((rule) => {
         if (/svg/.test(rule.test)) {

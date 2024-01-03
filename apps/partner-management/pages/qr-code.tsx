@@ -1,13 +1,16 @@
 import React from 'react';
-import { Button, Stack, MediaQuery, Box } from '@collinsonx/design-system/core';
+import { Button, Stack, Box } from '@collinsonx/design-system/core';
 import Link from 'next/link';
 import { QRCodeSVG } from 'qrcode.react';
 import useExperience from 'hooks/experience';
 import { LogoCergea } from '@collinsonx/design-system/assets/logo';
 import PageTitle from '@components/PageTitle';
+import { useMediaQuery } from '@collinsonx/design-system/hooks';
 
 export default function QRCode() {
   const { experience, setExperience } = useExperience();
+
+  const isPrint = useMediaQuery('print');
 
   const print = () => {
     window.print();
@@ -25,19 +28,14 @@ export default function QRCode() {
           size={400}
           data-testid="QRcode"
         />
-        <Stack p={0} align="center" mt={32} spacing={0}>
+        <Stack p={0} align="center" mt={32} gap={0}>
           <p style={{ width: '100%' }}>
             Please ensure you scan the code using the Scan QR button{' '}
             <span style={{ fontWeight: 'bold' }}>in the app</span>.
           </p>
         </Stack>
-        <MediaQuery
-          query="print"
-          styles={{
-            display: 'none',
-          }}
-        >
-          <Stack p={0} align="center" mt={64} spacing={0}>
+        {isPrint && (
+          <Stack p={0} align="center" mt={64} gap={0}>
             <Button onClick={print} w="50%" data-testid="printQRcode">
               Print
             </Button>
@@ -51,7 +49,7 @@ export default function QRCode() {
               </Button>
             </Link>
           </Stack>
-        </MediaQuery>
+        )}
       </Stack>
     </>
   ) : (

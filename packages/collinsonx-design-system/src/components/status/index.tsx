@@ -22,7 +22,7 @@ export default function Status({ status }: StatusProps) {
   let button: JSX.Element;
   button = (
     <Text
-      sx={{
+      style={{
         ...styles,
         backgroundColor: '#FAB005',
         color: '#000000',
@@ -34,7 +34,7 @@ export default function Status({ status }: StatusProps) {
   if (status === Confirmed || status === CheckedIn) {
     button = (
       <Text
-        sx={{
+        style={{
           ...styles,
           backgroundColor: '#15AABF',
           color: '#000000',
@@ -47,7 +47,7 @@ export default function Status({ status }: StatusProps) {
   if (status === Declined) {
     button = (
       <Text
-        sx={{
+        style={{
           ...styles,
           backgroundColor: '#F03E3E',
           color: '#ffffff',

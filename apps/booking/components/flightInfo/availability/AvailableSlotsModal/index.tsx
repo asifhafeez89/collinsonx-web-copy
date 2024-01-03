@@ -86,7 +86,7 @@ const AvailableSlotsModal: FC<ComponentProps> = ({
   return (
     <Modal opened={opened} onClose={close} p="0" padding={0}>
       <Center>
-        <Stack sx={{ gap: '0px' }}>
+        <Stack gap={0}>
           <Box>
             <Title
               size="h3"

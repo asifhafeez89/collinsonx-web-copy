@@ -3,12 +3,12 @@ import { Select } from '@collinsonx/design-system/core';
 import { TIME_FORMAT } from '../../../config/Constants';
 import { formatDate } from '../../../utils/DateFormatter';
 import { useMemo } from 'react';
-import colors from 'ui/colour-constants';
 import useLocale from 'hooks/useLocale';
+import classes from './AvailableSlots.module.css';
 
 interface AvailableSlotsProps {
   availableSlots: Availability;
-  onSelectSlot: (value: string) => void;
+  onSelectSlot: (value: string | null) => void;
   error?: string;
 }
 const AvailableSlots = ({
@@ -44,17 +44,7 @@ const AvailableSlots = ({
         data={data}
         onChange={onSelectSlot}
         error={error}
-        styles={{
-          input: {
-            borderRadius: 4,
-            '&[data-invalid]': {
-              borderColor: colors.red,
-              '::placeholder': {
-                color: colors.errorPlaceholder,
-              },
-            },
-          },
-        }}
+        classNames={classes}
       />
     </>
   );

@@ -1,4 +1,5 @@
 import renderer from 'react-test-renderer';
+import { Provider } from 'test-utils';
 import Details from '.';
 import { MapPin, Clock } from '../../assets/icons';
 
@@ -18,7 +19,11 @@ describe('<Details />', () => {
     ];
 
     const tree = renderer
-      .create(<Details title="This is a title" direction="row" infos={infos} />)
+      .create(
+        <Provider>
+          <Details title="This is a title" direction="row" infos={infos} />
+        </Provider>
+      )
       .toJSON();
     expect(tree).toMatchSnapshot();
   });

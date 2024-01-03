@@ -1,5 +1,4 @@
-import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { render, screen } from '../../test-utils';
 import Card, { CardProps } from './';
 import { Status } from './';
 
@@ -8,7 +7,7 @@ describe('<CardList />', () => {
     status: Status.Active,
   };
   it('should render', () => {
-    render(<Card {...props}>foobar</Card>);
-    expect(screen.getByText('foobar')).toBeInTheDocument();
+    render(<Card {...props}>foobar123</Card>);
+    expect(screen.getByText('foobar123')).toBeInTheDocument();
   });
 });

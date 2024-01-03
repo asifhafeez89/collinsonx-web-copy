@@ -1,0 +1,16 @@
+.loungeTitle {
+  font-size: 18px;
+}
+.container {
+  width: 300px;
+}
+.fitContent {
+  width: fit-content;
+}
+.lastUpdated {
+  font-size: 10px;
+}
+.textQR {
+  font-weight: 600;
+  color: #9b9ca0;
+}

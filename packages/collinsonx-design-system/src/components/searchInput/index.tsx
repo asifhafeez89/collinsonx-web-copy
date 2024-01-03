@@ -1,53 +1,35 @@
-import {
-  ActionIcon,
-  TextInput,
-  TextInputProps,
-  createStyles,
-} from '@mantine/core';
+import { ActionIcon, TextInput, TextInputProps } from '@mantine/core';
 import { Close } from '../../assets/icons';
+
+import styles from './searchInput.module.css';
 
 export interface SearchInputProps extends TextInputProps {
   onClickClear: () => void;
 }
-
-const useStyles = createStyles(
-  ({ colors }, { value }: { value: TextInputProps['value'] }) => ({
-    input: {
-      borderRadius: '8px',
-      height: value ? '50px' : '42px',
-      fontSize: '16px',
-      backgroundColor: value ? '#FFF' : colors.gray[1],
-      borderColor: value ? colors.gray[4] : '#9D9D9F',
-      '&:focus': {
-        height: '50px',
-        borderColor: colors.gray[4],
-        backgroundColor: '#FFF',
-        '&::placeholder': {
-          color: 'transparent',
-        },
-      },
-    },
-  })
-);
 
 export default function SearchInput({
   onClickClear,
   value,
   ...props
 }: SearchInputProps) {
-  const { classes } = useStyles({ value });
-
   return (
     <TextInput
       {...props}
       value={value}
-      classNames={{ input: classes.input }}
+      classNames={styles}
+      styles={({ colors }) => ({
+        input: {
+          backgroundcolor: value ? '#fff' : colors.gray[1],
+          bordercolor: value ? colors.gray[4] : '#9d9d9f',
+          height: value ? '50px' : '42px',
+        },
+      })}
       rightSection={
         value && (
           <ActionIcon
             aria-label="Clear"
             onClick={onClickClear}
-            sx={{ color: '#000' }}
+            style={{ color: '#000' }}
           >
             <Close />
           </ActionIcon>

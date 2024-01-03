@@ -1,0 +1,18 @@
+.container {
+  padding: 16px;
+  maxwidth: 440px;
+  overflow: hidden;
+  background-color: var(--mantine-color-white);
+  margin: 0 auto;
+  @media (max-width: 768px) : {
+    width: 90%;
+  }
+}
+.center {
+  text-align: center;
+}
+.contactLink {
+  color: var(--blue);
+  background-color: transparent;
+  text-decoration: underline;
+}

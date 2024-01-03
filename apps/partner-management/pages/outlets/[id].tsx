@@ -30,7 +30,10 @@ export default function OutletDetail() {
   const { name, location } = dataOutlet.getOutletByID;
 
   return (
-    <Stack spacing={12} sx={{ backgroundColor: colors['bg-surface'] }}>
+    <Stack
+      gap={12}
+      styles={{ root: { backgroundColor: colors['bg-surface'] } }}
+    >
       <OutletHeading
         name={name}
         locationName={location.name}

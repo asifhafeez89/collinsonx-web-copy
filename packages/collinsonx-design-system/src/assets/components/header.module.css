@@ -1,0 +1,65 @@
+/* header.module.css */
+
+.drawerHeader {
+  background-color: #ffffff;
+  padding: 15;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.header {
+  background-color: var(--header-nav-bg);
+  display: flex;
+  justify-content: space-between;
+  padding: 15;
+  align-items: center;
+  position: relative;
+}
+.logo {
+  display: inline-block;
+  color: #ffffff;
+  text-decoration: none;
+}
+.nav {
+  display: flex;
+  align-items: center;
+  color: var(--header-nav-color);
+
+  button {
+    margin-left: 15;
+  }
+}
+.itemWrapper {
+  width: 100%;
+  border-bottom: 1px solid #cccccc;
+  padding: 15px 0;
+}
+.itemIcon {
+  width: 24;
+  height: 24;
+}
+.root {
+  background-color: #ffffff;
+  padding: 0 !important;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+.drawerList {
+  padding: 0 15px 0 15px !important;
+}
+.close {
+  color: #112132;
+}
+.drawerBody {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0;
+}
+.inner {
+  z-index: 9999;
+}

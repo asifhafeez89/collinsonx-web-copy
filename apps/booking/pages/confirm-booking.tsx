@@ -21,6 +21,9 @@ import { FlightDetailsAndGuests } from '@components/FlightDetailsAndGuests';
 import useLocale from 'hooks/useLocale';
 import { Client } from '@collinsonx/constants/enums';
 
+import classes from '../styles/ConfirmBooking.module.css';
+import confirmBooking from '../../../packages/collinsonx-utils/src/mutations/confirmBooking';
+
 export default function ConfirmBooking() {
   const [clientSecret, setClientSecret] = useState('');
   const { lounge, consumerData, membershipType } = usePayload();
@@ -83,7 +86,7 @@ export default function ConfirmBooking() {
 
   return (
     <Layout ref={layoutRef}>
-      <Stack spacing={16} sx={{ backgroundColor: colors.background }}>
+      <Stack gap={16} className={classes.container}>
         <Stack>
           <TopBarLinks page={pageName} />
         </Stack>
@@ -91,35 +94,10 @@ export default function ConfirmBooking() {
           justify="center"
           align="center"
           direction="column"
-          sx={{
-            justifyContent: 'center',
-            '@media (max-width: 768px)': {
-              width: '100%',
-              justifyContent: 'initial',
-              backgroundColor: colors.background,
-            },
-          }}
+          className={classes.flexContainer}
         >
-          <Stack
-            spacing={8}
-            sx={{
-              width: '591px',
-              '@media (max-width: 768px)': {
-                width: '100%',
-                margin: '0',
-              },
-            }}
-          >
-            <Center
-              sx={{
-                padding: '10px',
-                margin: '0',
-
-                '@media (min-width: 768px)': {
-                  display: 'none',
-                },
-              }}
-            >
+          <Stack gap={8} className={classes.containerInner}>
+            <Center className={classes.headingContainer}>
               {!clientSecret && (
                 <Heading as="h1" padding={0} margin={0} lineHeight={1}>
                   {translations.booking.confirmBooking.title}
@@ -136,22 +114,15 @@ export default function ConfirmBooking() {
             />
             <Flex
               gap={{ base: 'sm', sm: 'lg' }}
-              sx={{
-                flexDirection: 'row',
-                '@media (max-width: 768px)': {
-                  flexDirection: 'column',
-                },
-                width: '100%',
-                margin: clientSecret ? '0 auto' : 'initial',
-                height: '1000px',
-              }}
+              style={{ margin: clientSecret ? '0 auto' : 'initial' }}
+              className={classes.loungeContainer}
             >
               {clientSecret ? (
                 <StripeCheckout clientSecret={clientSecret} />
               ) : (
                 lounge && (
                   <Box>
-                    <Stack spacing={8}>
+                    <Stack gap={8}>
                       <FlightDetailsAndGuests
                         departureTime={departureTime ? departureTime : ''}
                         flightNumber={flightNumber}

@@ -72,15 +72,15 @@ function CardOutlet({
       imageAlt={imageAlt}
       onClick={onClick}
     >
-      <Stack spacing={24}>
-        <Stack spacing={6}>
+      <Stack gap={24}>
+        <Stack gap={6}>
           <Flex gap={6} align="baseline">
             {typeof title !== 'string' ? title : <CardTitle>{title}</CardTitle>}
             {legacyCode && (
               <Text
-                size={16}
+                size="md"
                 color={colors['text-grey']}
-                sx={{ lineHeight: '20.24px' }}
+                style={{ lineHeight: '20.24px' }}
               >
                 {legacyCode}
               </Text>
@@ -88,10 +88,9 @@ function CardOutlet({
           </Flex>
           {locationName && (
             <Text
-              data-testid={`${dataTestId}-subtitle-${index}`}
-              weight={400}
-              size={16}
-              color={colors['text-grey']}
+              data-testid={`outlet-card-subtitle-${index}`}
+              size="md"
+              style={{ color: colors['text-grey'], fontWeight: 600 }}
             >
               {locationName}
               {terminal && ', ' + terminal}
@@ -102,7 +101,7 @@ function CardOutlet({
 
         <Divider color={colors['grey-border']} />
 
-        <Stack spacing={24}>
+        <Stack gap={24}>
           <Flex direction="row" gap={45}>
             {workflowStage && (
               <CardField label="Workflow stage">
@@ -119,7 +118,7 @@ function CardOutlet({
               </CardField>
             )}
           </Flex>
-          <Flex gap={24} wrap="wrap" sx={{ rowGap: 10 }}>
+          <Flex gap={24} wrap="wrap" style={{ rowGap: 10 }}>
             <CardList listStyleType="none" aria-label="Experiences">
               {productCategories.map(({ label, IconComponent }, index) => (
                 <List.Item key={index}>
@@ -131,7 +130,7 @@ function CardOutlet({
             </CardList>
             {lastEdit && (
               <CardField label="Last edited">
-                <Text color={colors['text-default']} size={14}>
+                <Text color={colors['text-default']} size="sm">
                   {lastEdit}
                 </Text>
               </CardField>

@@ -1,0 +1,24 @@
+.base {
+  padding: 8px 16px;
+  border-radius: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10;
+  height: 44;
+  font-size: 14;
+  font-weight: 500;
+  color: #000000;
+}
+.statusPending {
+  background: #fef3da;
+  border: 2px solid #fab005;
+}
+.statusConfirmed {
+  background: #eef9e7;
+  border: 2px solid #54c50d;
+}
+.statusDeclined {
+  background: #fdecec;
+  border: 2px solid #f03e3e;
+}

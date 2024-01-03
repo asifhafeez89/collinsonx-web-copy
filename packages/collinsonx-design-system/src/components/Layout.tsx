@@ -10,7 +10,7 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <Container
       px={0}
-      sx={{
+      style={{
         maxWidth: '375px',
         height: '100%',
         backgroundColor: '#ffffff',

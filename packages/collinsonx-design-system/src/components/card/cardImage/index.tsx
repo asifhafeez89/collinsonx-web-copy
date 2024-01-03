@@ -1,11 +1,6 @@
 import styled from '@emotion/styled';
 import { Status } from '../index';
-import {
-  Box,
-  BoxProps,
-  Tooltip,
-  createPolymorphicComponent,
-} from '@mantine/core';
+import { Box, Tooltip, rgba } from '@mantine/core';
 import colors from '../../../colour-constants-partner';
 
 export interface CardImageProps {
@@ -36,10 +31,11 @@ const Container = styled.div`
   }
 `;
 
-const _ImageCount = styled(Box)`
+const ImageCount = styled.div`
   border-radius: 8px;
   padding: 4px 8px 4px 8px;
   color: ${colors['text-default']};
+  background-color: ${rgba('#FFF', 0.7)};
   font-size: 16px;
   position: absolute;
   bottom: 8px;
@@ -49,11 +45,6 @@ const _ImageCount = styled(Box)`
   display: flex;
   justify-content: center;
 `;
-
-const ImageCount: React.FC<BoxProps> = createPolymorphicComponent<
-  'div',
-  BoxProps
->(_ImageCount);
 
 const CardImage = (props: CardImageProps) => {
   const { imageCount, alt, hasPadding } = props;
@@ -66,11 +57,7 @@ const CardImage = (props: CardImageProps) => {
       withinPortal
       withArrow
     >
-      <ImageCount
-        sx={(theme) => ({ backgroundColor: theme.fn.rgba(colors.white, 0.7) })}
-      >
-        {imageCount}
-      </ImageCount>
+      <ImageCount>{imageCount}</ImageCount>
     </Tooltip>
   );
   const image = (
@@ -79,7 +66,7 @@ const CardImage = (props: CardImageProps) => {
     </Container>
   );
   return hasPadding ? (
-    <Box p={24} sx={{ borderBottom: `1px solid ${colors['grey-border']}` }}>
+    <Box p={24} style={{ borderBottom: `1px solid ${colors['grey-border']}` }}>
       {image}
     </Box>
   ) : (

@@ -17,7 +17,9 @@
     "incremental": true,
     "jsx": "react-jsx",
     "paths": {
-      "react": ["./node_modules/@types/react"]
+      "react": ["./node_modules/@types/react"],
+      "test-utils": ["./src/test-utils"],
+      "assets": ["./src/assets"]
     }
   },
   "include": ["src"],

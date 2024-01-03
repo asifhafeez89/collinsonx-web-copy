@@ -1,0 +1,79 @@
+.containerL1 {
+  justify-content: center;
+  @media (max-width: 768px) : {
+    width: 100%;
+    justify-content: initial;
+    background-color: var(--background);
+  }
+}
+.containerL2 {
+  width: 591px;
+  padding-top: 0rem;
+  margin-top: 1.2rem;
+
+  @media (max-width: 768px) {
+    gap: 0rem;
+    width: 100%;
+    margin: 0;
+  }
+}
+.headingWrapper {
+  padding: 10px;
+  margin: 0;
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
+.toaContainer {
+  @media (max-width: 768px) {
+    margin-top: 0.5rem;
+    background-color: var(--white);
+    padding: 1.2rem;
+  }
+}
+
+.detailsContainer {
+  width: 100%;
+  flex-direction: row;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+.titleContainer {
+  @media (max-width: 768px) {
+    margin: 0.5rem 0;
+    background-color: var(--white);
+    padding: 1.2rem;
+  }
+}
+.confirmCancelContainer {
+  width: 591px;
+  margin-top: 1rem;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin: 0;
+    margin-top: 1rem;
+  }
+}
+.descriptionText {
+  @media (max-width: 768px) {
+    padding-left: 1.25rem;
+  }
+}
+.detailsContainerL2 {
+  width: 100%;
+  @media (max-width: 768px) {
+    width: 100%;
+    gap: 0px;
+    border: none;
+  }
+}
+.titleContainerCancelConfirm {
+  @media (max-width: 768px) {
+    background-color: var(--white);
+    padding: 0 1.2rem;
+  }
+}

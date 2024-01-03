@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render } from '@collinsonx/design-system/test-utils';
 import { GuestCount } from './GuestCount';
 import { Be_Vietnam_Pro } from 'next/font/google';
 

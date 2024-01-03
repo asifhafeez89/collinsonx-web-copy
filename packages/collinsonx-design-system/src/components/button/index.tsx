@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ButtonHTMLAttributes } from 'react';
 import {
   Button as MantineButton,
   ButtonProps as MantineBProps,
@@ -8,6 +8,7 @@ interface ButtonProps extends MantineBProps {
   handleClick?: () => void;
   icon?: React.ReactNode;
   spacing?: string;
+  type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
   align?: 'left' | 'center' | 'right';
 }
 
@@ -23,7 +24,11 @@ export default function Button({
 }: ButtonProps) {
   return (
     <div style={{ padding: spacing, textAlign: align }}>
-      <MantineButton {...props} leftIcon={icon && icon} onClick={handleClick} />
+      <MantineButton
+        {...props}
+        leftSection={icon && icon}
+        onClick={handleClick}
+      />
     </div>
   );
 }

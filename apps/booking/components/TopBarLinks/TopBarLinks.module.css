@@ -1,0 +1,16 @@
+.anchor {
+  width: fit-content;
+  textdecoration: none;
+  background: transparent;
+  &:hover {
+    background-color: transparent !important;
+    text-decoration: none;
+  }
+  & button {
+    background-color: transparent !important;
+  }
+}
+
+.navLink {
+  color: var(--theme);
+}

@@ -7,6 +7,7 @@ const config = require('@collinsonx/config/jest.config');
 module.exports = {
   ...config,
   rootDir: '.',
+  setupFilesAfterEnv: [fromRoot('./setupJest.js')],
   coveragePathIgnorePatterns: ['./logo/index.ts'],
   testEnvironment: 'jsdom',
   transform: {

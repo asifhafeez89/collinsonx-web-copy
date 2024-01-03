@@ -1,0 +1,22 @@
+.input {
+  backgroundcolor: white;
+  height: rem(50px);
+  border-radius: 0;
+  border-color: var(--mantine-color-gray-4);
+  color: var(--mandine-color-dark-6);
+  &::placeholder {
+    color: colors.gray[5];
+    color: var(--mantine-color-gray-5);
+  }
+}
+.label {
+  fontweight: 400;
+}
+.invalid {
+  border-color: var(--mantine-color-red-6);
+  border-width: rem(2px);
+  color: var(--mantine-color-dark-6);
+  &::placeholder {
+    color: var(--mantine-color-gray-5);
+  }
+}

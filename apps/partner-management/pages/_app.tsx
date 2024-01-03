@@ -10,11 +10,17 @@ import { frontendConfig } from 'config/frontendConfig';
 import { datadogRum } from '@datadog/browser-rum';
 
 import AuthWrapper from '@components/AuthWrapper';
-import theme from '../theme';
 import { ExperienceProvider } from 'hooks/experience';
 import CookieBanner from '@components/CookieBanner';
+import parnerTheme, {
+  resolver,
+} from '@collinsonx/design-system/themes/partnerTheme';
 
 import getConfig from 'next/config';
+
+import '../node_modules/@collinsonx/design-system/dist/assets/dates.styles.css';
+import '../node_modules/@collinsonx/design-system/dist/assets/styles.css';
+import '../globalStyles.css';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -23,6 +29,8 @@ export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
+
+const theme = parnerTheme({ fontFamily: 'Be Vietnam Pro' });
 
 if (typeof window !== 'undefined') {
   // we only want to call this init function on the frontend, so
@@ -76,7 +84,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const apolloClient = useApollo(pageProps);
 
   return (
-    <>
+    <MantineProvider theme={theme} cssVariablesResolver={resolver}>
       <Head>
         <title>Cergea</title>
         <meta
@@ -89,26 +97,24 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <SuperTokensWrapper>
           <AuthWrapper>
             <ExperienceProvider>
-              <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
-                {envLabel !== '' && (
-                  <div
-                    style={{
-                      position: 'fixed',
-                      background: 'yellow',
-                      zIndex: 999,
-                    }}
-                  >
-                    {envLabel}
-                  </div>
-                )}
-                {getLayout(<Component {...pageProps} />)}
-                <CookieBanner />
-                <Analytics />
-              </MantineProvider>
+              {envLabel !== '' && (
+                <div
+                  style={{
+                    position: 'fixed',
+                    background: 'yellow',
+                    zIndex: 999,
+                  }}
+                >
+                  {envLabel}
+                </div>
+              )}
+              {getLayout(<Component {...pageProps} />)}
+              <CookieBanner />
+              <Analytics />
             </ExperienceProvider>
           </AuthWrapper>
         </SuperTokensWrapper>
       </ApolloProvider>
-    </>
+    </MantineProvider>
   );
 }

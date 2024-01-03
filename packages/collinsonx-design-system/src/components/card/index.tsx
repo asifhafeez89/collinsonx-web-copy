@@ -65,7 +65,7 @@ function Card({
         imageCount={imageCount}
         alt={imageAlt}
       />
-      <Box p={24} sx={{ width: '100%' }}>
+      <Box p={24} style={{ width: '100%' }}>
         {children}
       </Box>
     </StyledCard>

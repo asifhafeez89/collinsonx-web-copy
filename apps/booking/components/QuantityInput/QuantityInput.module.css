@@ -1,0 +1,35 @@
+.icon {
+  font-size: 24px;
+}
+.iconLeft {
+  border-right: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.iconRight {
+  border-left: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.iconDisabled {
+  border-color: #ced4da;
+  background-color: #fff;
+}
+.numberInput {
+  font-size: 18px;
+  &:focus {
+    border-color: #ced4da;
+  }
+  text-align: center;
+  border-left: none;
+  border-right: none;
+  height: 50px;
+  border-radius: 0;
+}
+.numberInputRoot {
+  border-left: none;
+  border-right: none;
+}
+.navLink {
+  color: var(--theme);
+}

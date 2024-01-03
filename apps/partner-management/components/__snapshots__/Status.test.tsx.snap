@@ -3,114 +3,38 @@
 exports[`renders Type component with danger type 1`] = `
 {
   "asFragment": [Function],
-  "baseElement": .emotion-0 {
-  padding: 8px 16px;
-  border-radius: 4px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  gap: 10px;
-  height: 44px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #000000;
-  background: #FDECEC;
-  border: 2px solid #F03E3E;
-}
-
-.emotion-2 {
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
-  -webkit-tap-highlight-color: transparent;
-  color: inherit;
-  font-size: inherit;
-  line-height: 1.55;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.emotion-2:focus {
-  outline-offset: 0.125rem;
-  outline: 0.125rem solid #339af0;
-}
-
-.emotion-2:focus:not(:focus-visible) {
-  outline: none;
-}
-
-<body>
+  "baseElement": <body>
     <div>
-      <div
-        class="emotion-0"
+      <style
+        data-mantine-styles="classes"
       >
-        <div
-          class="emotion-1 emotion-2"
+        @media (max-width: 35.99375em) {.mantine-visible-from-xs {display: none !important;}}@media (min-width: 36em) {.mantine-hidden-from-xs {display: none !important;}}@media (max-width: 47.99375em) {.mantine-visible-from-sm {display: none !important;}}@media (min-width: 48em) {.mantine-hidden-from-sm {display: none !important;}}@media (max-width: 61.99375em) {.mantine-visible-from-md {display: none !important;}}@media (min-width: 62em) {.mantine-hidden-from-md {display: none !important;}}@media (max-width: 74.99375em) {.mantine-visible-from-lg {display: none !important;}}@media (min-width: 75em) {.mantine-hidden-from-lg {display: none !important;}}@media (max-width: 87.99375em) {.mantine-visible-from-xl {display: none !important;}}@media (min-width: 88em) {.mantine-hidden-from-xl {display: none !important;}}
+      </style>
+      <div
+        class="base statusDeclined"
+      >
+        <p
+          class="mantine-focus-auto m-b6d8b162 mantine-Text-root"
         >
           danger
-        </div>
+        </p>
       </div>
     </div>
   </body>,
-  "container": .emotion-0 {
-  padding: 8px 16px;
-  border-radius: 4px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  gap: 10px;
-  height: 44px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #000000;
-  background: #FDECEC;
-  border: 2px solid #F03E3E;
-}
-
-.emotion-2 {
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
-  -webkit-tap-highlight-color: transparent;
-  color: inherit;
-  font-size: inherit;
-  line-height: 1.55;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.emotion-2:focus {
-  outline-offset: 0.125rem;
-  outline: 0.125rem solid #339af0;
-}
-
-.emotion-2:focus:not(:focus-visible) {
-  outline: none;
-}
-
-<div>
-    <div
-      class="emotion-0"
+  "container": <div>
+    <style
+      data-mantine-styles="classes"
     >
-      <div
-        class="emotion-1 emotion-2"
+      @media (max-width: 35.99375em) {.mantine-visible-from-xs {display: none !important;}}@media (min-width: 36em) {.mantine-hidden-from-xs {display: none !important;}}@media (max-width: 47.99375em) {.mantine-visible-from-sm {display: none !important;}}@media (min-width: 48em) {.mantine-hidden-from-sm {display: none !important;}}@media (max-width: 61.99375em) {.mantine-visible-from-md {display: none !important;}}@media (min-width: 62em) {.mantine-hidden-from-md {display: none !important;}}@media (max-width: 74.99375em) {.mantine-visible-from-lg {display: none !important;}}@media (min-width: 75em) {.mantine-hidden-from-lg {display: none !important;}}@media (max-width: 87.99375em) {.mantine-visible-from-xl {display: none !important;}}@media (min-width: 88em) {.mantine-hidden-from-xl {display: none !important;}}
+    </style>
+    <div
+      class="base statusDeclined"
+    >
+      <p
+        class="mantine-focus-auto m-b6d8b162 mantine-Text-root"
       >
         danger
-      </div>
+      </p>
     </div>
   </div>,
   "debug": [Function],
@@ -170,114 +94,38 @@ exports[`renders Type component with danger type 1`] = `
 exports[`renders Type component with success type 1`] = `
 {
   "asFragment": [Function],
-  "baseElement": .emotion-0 {
-  padding: 8px 16px;
-  border-radius: 4px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  gap: 10px;
-  height: 44px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #000000;
-  background: #EEF9E7;
-  border: 2px solid #54C50D;
-}
-
-.emotion-2 {
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
-  -webkit-tap-highlight-color: transparent;
-  color: inherit;
-  font-size: inherit;
-  line-height: 1.55;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.emotion-2:focus {
-  outline-offset: 0.125rem;
-  outline: 0.125rem solid #339af0;
-}
-
-.emotion-2:focus:not(:focus-visible) {
-  outline: none;
-}
-
-<body>
+  "baseElement": <body>
     <div>
-      <div
-        class="emotion-0"
+      <style
+        data-mantine-styles="classes"
       >
-        <div
-          class="emotion-1 emotion-2"
+        @media (max-width: 35.99375em) {.mantine-visible-from-xs {display: none !important;}}@media (min-width: 36em) {.mantine-hidden-from-xs {display: none !important;}}@media (max-width: 47.99375em) {.mantine-visible-from-sm {display: none !important;}}@media (min-width: 48em) {.mantine-hidden-from-sm {display: none !important;}}@media (max-width: 61.99375em) {.mantine-visible-from-md {display: none !important;}}@media (min-width: 62em) {.mantine-hidden-from-md {display: none !important;}}@media (max-width: 74.99375em) {.mantine-visible-from-lg {display: none !important;}}@media (min-width: 75em) {.mantine-hidden-from-lg {display: none !important;}}@media (max-width: 87.99375em) {.mantine-visible-from-xl {display: none !important;}}@media (min-width: 88em) {.mantine-hidden-from-xl {display: none !important;}}
+      </style>
+      <div
+        class="base statusConfirmed"
+      >
+        <p
+          class="mantine-focus-auto m-b6d8b162 mantine-Text-root"
         >
           success
-        </div>
+        </p>
       </div>
     </div>
   </body>,
-  "container": .emotion-0 {
-  padding: 8px 16px;
-  border-radius: 4px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  gap: 10px;
-  height: 44px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #000000;
-  background: #EEF9E7;
-  border: 2px solid #54C50D;
-}
-
-.emotion-2 {
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
-  -webkit-tap-highlight-color: transparent;
-  color: inherit;
-  font-size: inherit;
-  line-height: 1.55;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.emotion-2:focus {
-  outline-offset: 0.125rem;
-  outline: 0.125rem solid #339af0;
-}
-
-.emotion-2:focus:not(:focus-visible) {
-  outline: none;
-}
-
-<div>
-    <div
-      class="emotion-0"
+  "container": <div>
+    <style
+      data-mantine-styles="classes"
     >
-      <div
-        class="emotion-1 emotion-2"
+      @media (max-width: 35.99375em) {.mantine-visible-from-xs {display: none !important;}}@media (min-width: 36em) {.mantine-hidden-from-xs {display: none !important;}}@media (max-width: 47.99375em) {.mantine-visible-from-sm {display: none !important;}}@media (min-width: 48em) {.mantine-hidden-from-sm {display: none !important;}}@media (max-width: 61.99375em) {.mantine-visible-from-md {display: none !important;}}@media (min-width: 62em) {.mantine-hidden-from-md {display: none !important;}}@media (max-width: 74.99375em) {.mantine-visible-from-lg {display: none !important;}}@media (min-width: 75em) {.mantine-hidden-from-lg {display: none !important;}}@media (max-width: 87.99375em) {.mantine-visible-from-xl {display: none !important;}}@media (min-width: 88em) {.mantine-hidden-from-xl {display: none !important;}}
+    </style>
+    <div
+      class="base statusConfirmed"
+    >
+      <p
+        class="mantine-focus-auto m-b6d8b162 mantine-Text-root"
       >
         success
-      </div>
+      </p>
     </div>
   </div>,
   "debug": [Function],
@@ -337,114 +185,38 @@ exports[`renders Type component with success type 1`] = `
 exports[`renders Type component with warning type 1`] = `
 {
   "asFragment": [Function],
-  "baseElement": .emotion-0 {
-  padding: 8px 16px;
-  border-radius: 4px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  gap: 10px;
-  height: 44px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #000000;
-  background: #FEF3DA;
-  border: 2px solid #FAB005;
-}
-
-.emotion-2 {
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
-  -webkit-tap-highlight-color: transparent;
-  color: inherit;
-  font-size: inherit;
-  line-height: 1.55;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.emotion-2:focus {
-  outline-offset: 0.125rem;
-  outline: 0.125rem solid #339af0;
-}
-
-.emotion-2:focus:not(:focus-visible) {
-  outline: none;
-}
-
-<body>
+  "baseElement": <body>
     <div>
-      <div
-        class="emotion-0"
+      <style
+        data-mantine-styles="classes"
       >
-        <div
-          class="emotion-1 emotion-2"
+        @media (max-width: 35.99375em) {.mantine-visible-from-xs {display: none !important;}}@media (min-width: 36em) {.mantine-hidden-from-xs {display: none !important;}}@media (max-width: 47.99375em) {.mantine-visible-from-sm {display: none !important;}}@media (min-width: 48em) {.mantine-hidden-from-sm {display: none !important;}}@media (max-width: 61.99375em) {.mantine-visible-from-md {display: none !important;}}@media (min-width: 62em) {.mantine-hidden-from-md {display: none !important;}}@media (max-width: 74.99375em) {.mantine-visible-from-lg {display: none !important;}}@media (min-width: 75em) {.mantine-hidden-from-lg {display: none !important;}}@media (max-width: 87.99375em) {.mantine-visible-from-xl {display: none !important;}}@media (min-width: 88em) {.mantine-hidden-from-xl {display: none !important;}}
+      </style>
+      <div
+        class="base statusPending"
+      >
+        <p
+          class="mantine-focus-auto m-b6d8b162 mantine-Text-root"
         >
           warning
-        </div>
+        </p>
       </div>
     </div>
   </body>,
-  "container": .emotion-0 {
-  padding: 8px 16px;
-  border-radius: 4px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  gap: 10px;
-  height: 44px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #000000;
-  background: #FEF3DA;
-  border: 2px solid #FAB005;
-}
-
-.emotion-2 {
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
-  -webkit-tap-highlight-color: transparent;
-  color: inherit;
-  font-size: inherit;
-  line-height: 1.55;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.emotion-2:focus {
-  outline-offset: 0.125rem;
-  outline: 0.125rem solid #339af0;
-}
-
-.emotion-2:focus:not(:focus-visible) {
-  outline: none;
-}
-
-<div>
-    <div
-      class="emotion-0"
+  "container": <div>
+    <style
+      data-mantine-styles="classes"
     >
-      <div
-        class="emotion-1 emotion-2"
+      @media (max-width: 35.99375em) {.mantine-visible-from-xs {display: none !important;}}@media (min-width: 36em) {.mantine-hidden-from-xs {display: none !important;}}@media (max-width: 47.99375em) {.mantine-visible-from-sm {display: none !important;}}@media (min-width: 48em) {.mantine-hidden-from-sm {display: none !important;}}@media (max-width: 61.99375em) {.mantine-visible-from-md {display: none !important;}}@media (min-width: 62em) {.mantine-hidden-from-md {display: none !important;}}@media (max-width: 74.99375em) {.mantine-visible-from-lg {display: none !important;}}@media (min-width: 75em) {.mantine-hidden-from-lg {display: none !important;}}@media (max-width: 87.99375em) {.mantine-visible-from-xl {display: none !important;}}@media (min-width: 88em) {.mantine-hidden-from-xl {display: none !important;}}
+    </style>
+    <div
+      class="base statusPending"
+    >
+      <p
+        class="mantine-focus-auto m-b6d8b162 mantine-Text-root"
       >
         warning
-      </div>
+      </p>
     </div>
   </div>,
   "debug": [Function],

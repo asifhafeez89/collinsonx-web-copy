@@ -1,7 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<AuthInput /> renders AuthInput 1`] = `
-.emotion-0 input {
+[
+  <style
+    dangerouslySetInnerHTML={
+      {
+        "__html": "@media (max-width: 35.99375em) {.mantine-visible-from-xs {display: none !important;}}@media (min-width: 36em) {.mantine-hidden-from-xs {display: none !important;}}@media (max-width: 47.99375em) {.mantine-visible-from-sm {display: none !important;}}@media (min-width: 48em) {.mantine-hidden-from-sm {display: none !important;}}@media (max-width: 61.99375em) {.mantine-visible-from-md {display: none !important;}}@media (min-width: 62em) {.mantine-hidden-from-md {display: none !important;}}@media (max-width: 74.99375em) {.mantine-visible-from-lg {display: none !important;}}@media (min-width: 75em) {.mantine-hidden-from-lg {display: none !important;}}@media (max-width: 87.99375em) {.mantine-visible-from-xl {display: none !important;}}@media (min-width: 88em) {.mantine-hidden-from-xl {display: none !important;}}",
+      }
+    }
+    data-mantine-styles="classes"
+  />,
+  .emotion-0 input {
   font-weight: 600;
   font-size: 18px;
   width: 48px;
@@ -24,87 +33,88 @@ exports[`<AuthInput /> renders AuthInput 1`] = `
 }
 
 <div
-  className="emotion-0"
->
-  <div>
-    <input
-      aria-label="Character 1."
-      autoComplete="one-time-code"
-      inputMode="text"
-      maxLength={1}
-      onChange={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onPaste={[Function]}
-      pattern="[a-zA-Z0-9]{1}"
-      placeholder="-"
-      type="text"
-    />
-    <input
-      aria-label="Character 2."
-      autoComplete="off"
-      inputMode="text"
-      maxLength={1}
-      onChange={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onPaste={[Function]}
-      pattern="[a-zA-Z0-9]{1}"
-      placeholder="-"
-      type="text"
-    />
-    <input
-      aria-label="Character 3."
-      autoComplete="off"
-      inputMode="text"
-      maxLength={1}
-      onChange={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onPaste={[Function]}
-      pattern="[a-zA-Z0-9]{1}"
-      placeholder="-"
-      type="text"
-    />
-    <input
-      aria-label="Character 4."
-      autoComplete="off"
-      inputMode="text"
-      maxLength={1}
-      onChange={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onPaste={[Function]}
-      pattern="[a-zA-Z0-9]{1}"
-      placeholder="-"
-      type="text"
-    />
-    <input
-      aria-label="Character 5."
-      autoComplete="off"
-      inputMode="text"
-      maxLength={1}
-      onChange={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onPaste={[Function]}
-      pattern="[a-zA-Z0-9]{1}"
-      placeholder="-"
-      type="text"
-    />
-    <input
-      aria-label="Character 6."
-      autoComplete="off"
-      inputMode="text"
-      maxLength={1}
-      onChange={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onPaste={[Function]}
-      pattern="[a-zA-Z0-9]{1}"
-      placeholder="-"
-      type="text"
-    />
-  </div>
-</div>
+    className="emotion-0"
+  >
+    <div>
+      <input
+        aria-label="Character 1."
+        autoComplete="one-time-code"
+        inputMode="text"
+        maxLength={1}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onPaste={[Function]}
+        pattern="[a-zA-Z0-9]{1}"
+        placeholder="-"
+        type="text"
+      />
+      <input
+        aria-label="Character 2."
+        autoComplete="off"
+        inputMode="text"
+        maxLength={1}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onPaste={[Function]}
+        pattern="[a-zA-Z0-9]{1}"
+        placeholder="-"
+        type="text"
+      />
+      <input
+        aria-label="Character 3."
+        autoComplete="off"
+        inputMode="text"
+        maxLength={1}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onPaste={[Function]}
+        pattern="[a-zA-Z0-9]{1}"
+        placeholder="-"
+        type="text"
+      />
+      <input
+        aria-label="Character 4."
+        autoComplete="off"
+        inputMode="text"
+        maxLength={1}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onPaste={[Function]}
+        pattern="[a-zA-Z0-9]{1}"
+        placeholder="-"
+        type="text"
+      />
+      <input
+        aria-label="Character 5."
+        autoComplete="off"
+        inputMode="text"
+        maxLength={1}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onPaste={[Function]}
+        pattern="[a-zA-Z0-9]{1}"
+        placeholder="-"
+        type="text"
+      />
+      <input
+        aria-label="Character 6."
+        autoComplete="off"
+        inputMode="text"
+        maxLength={1}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onPaste={[Function]}
+        pattern="[a-zA-Z0-9]{1}"
+        placeholder="-"
+        type="text"
+      />
+    </div>
+  </div>,
+]
 `;

@@ -1,6 +1,4 @@
 import * as React from 'react';
-import Heading from '@collinsonx/design-system/components/heading/Heading';
-import { Box, Text } from '@mantine/core';
 import {
   AppleStoreIcon,
   GoogleStoreIcon,

@@ -1,5 +1,5 @@
 import OutletHeading from './index';
-import { render } from '@testing-library/react';
+import { render } from '@collinsonx/design-system/test-utils';
 import '@testing-library/jest-dom/extend-expect';
 
 jest.mock('@collinsonx/design-system/assets/icons', () => {

@@ -1,0 +1,9 @@
+.outletTitle {
+  color: var(--text-default);
+  font-weight: 700;
+}
+.outletSubtitle {
+  color: var(--text-gray);
+  font-size: rem(18px);
+  font-weight: 400;
+}

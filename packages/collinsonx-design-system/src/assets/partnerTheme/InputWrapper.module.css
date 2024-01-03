@@ -1,0 +1,10 @@
+.label {
+  fontsize: rem(18px);
+  color: 'black';
+}
+.required {
+  color: var(--mantine-color-red-6);
+}
+.error {
+  color: var(--mantine-color-red-6);
+}

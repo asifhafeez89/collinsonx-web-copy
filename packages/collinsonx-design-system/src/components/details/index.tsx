@@ -28,7 +28,7 @@ export default function LoungeDetails({
     <div>
       <Flex
         direction={{ base: 'column', lg: 'row' }}
-        sx={{
+        style={{
           gap: '1.5rem',
         }}
       >

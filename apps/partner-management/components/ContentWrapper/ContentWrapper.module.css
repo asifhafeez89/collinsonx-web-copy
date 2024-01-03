@@ -1,0 +1,8 @@
+.contentWrapper {
+  padding: rem(24px);
+  @media (max-width: $mantine-breakpoint-md) {
+    padding: rem(16px);
+  }
+  background-color: var(--bg-surface);
+  height: 100%;
+}

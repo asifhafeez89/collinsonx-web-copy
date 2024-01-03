@@ -1,0 +1,41 @@
+.showMobile {
+  @media (min-width: 768px) {
+    display: none;
+  }
+
+  @media (max-width: 767px) {
+    display: block;
+  }
+}
+
+.showDesktop {
+  @media (max-width: 768px) {
+    display: none;
+  }
+
+  @media (min-width: 767px) {
+    display: block;
+  }
+}
+
+.lk {
+  transform: scale(1.3);
+  @media (max-width: 768px) {
+    transform: scale(0.7);
+  }
+}
+
+.pp {
+  transform: scale(0.36);
+  @media (max-width: 768px) {
+    transform: scale(0.18);
+  }
+}
+
+.mastercardHsbc {
+  margintop: 10px;
+  transform: scale(0.7);
+  @media (max-width: 768px) {
+    transform: scale(0.45);
+  }
+}

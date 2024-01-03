@@ -43,7 +43,7 @@ const LoadExperiences = ({
               },
             }}
             data={experiencesFiltered ?? []}
-            onChange={async (id: string) => {
+            onChange={(id: string | null) => {
               const newExperience = data?.searchExperiences.filter(
                 (item: Experience) => item.id === id
               )[0]! as Experience;

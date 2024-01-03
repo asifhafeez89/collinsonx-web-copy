@@ -26,6 +26,8 @@ import isInvitationTokenValid from '@collinsonx/utils/queries/isInvitationTokenV
 import { signIn } from 'supertokens-auth-react/recipe/emailpassword';
 import { getUserId } from 'supertokens-auth-react/recipe/session';
 
+import classes from './signup.module.css';
+
 export interface FormValues {
   email: string;
   password: string;
@@ -187,16 +189,16 @@ export default function Signup() {
   ) : (
     <>
       <PageTitle title="Signup" />
-      <Stack justify="center" align="center" spacing={32}>
-        <Stack justify="center" align="center" spacing={8}>
-          <Text size={22} fw={600} color="cyan.8">
+      <Stack justify="center" align="center" gap={32}>
+        <Stack justify="center" align="center" gap={8}>
+          <Text className={classes.title}>
             {payload?.userType !== 'SUPER_USER' ? 'Welcome to' : 'Welcome'}
           </Text>
           <Box>
-            <Text align="center" size={32} fw={700}>
+            <Text className={classes.center} size="xxl" fw={700}>
               {loungeData?.getExperienceByID?.loungeName}
             </Text>
-            <Text size={32} align="center">
+            <Text className={classes.center} size="xxl">
               {loungeData?.getExperienceByID?.location?.airportName}
               {loungeData?.getExperienceByID?.location?.terminal
                 ? ' - ' + loungeData?.getExperienceByID?.location?.terminal
@@ -208,7 +210,7 @@ export default function Signup() {
         <Error error={tokenIsValidError} />
         <Error error={acceptInvitationError} />
         <FormContainer>
-          <Text align="center" size={18} fw={600}>
+          <Text className={classes.center} size="lg" fw={600}>
             Create an account
           </Text>
           <form onSubmit={form.onSubmit(handleSignup)}>

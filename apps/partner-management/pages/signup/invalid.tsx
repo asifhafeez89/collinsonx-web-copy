@@ -10,6 +10,8 @@ import FormContainer from '@components/FormContainer';
 import PageTitle from '@components/PageTitle';
 import Link from 'next/link';
 
+import classes from './signup.module.css';
+
 export interface FormValues {
   email: string;
   password: string;
@@ -19,27 +21,21 @@ export default function Invalid() {
   return (
     <>
       <PageTitle title="Your link invalid" />
-      <Stack justify="center" align="center" spacing={32}>
-        <Stack justify="center" align="center" spacing={8}>
-          <Title color="cyan.8" size={22}>
-            Your link is invalid
-          </Title>
+      <Stack justify="center" align="center" gap={32}>
+        <Stack justify="center" align="center" gap={8}>
+          <Title className={classes.title}>Your link is invalid</Title>
         </Stack>
         <FormContainer>
-          <Stack spacing={32}>
-            <Text align="center" size={18}>
+          <Stack gap={32}>
+            <Text className={classes.center} size="lg">
               To protect your account, you will need to request a new link.
             </Text>
-            <Text align="center" size={18}>
+            <Text className={classes.center} size="lg">
               Any issues, please contact support at{' '}
               <Anchor
                 component={Link}
                 href="mailto:partner-cergea@collinsongroup.com"
-                sx={({ colors }) => ({
-                  color: colors.dark[6],
-                  textDecoration: 'none',
-                  fontWeight: 400,
-                })}
+                className={classes.anchor}
               >
                 partner-cergea@collinsongroup.com
               </Anchor>

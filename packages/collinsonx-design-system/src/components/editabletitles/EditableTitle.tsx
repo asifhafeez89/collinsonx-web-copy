@@ -3,7 +3,10 @@ import Heading from '../heading/Heading';
 import { Box, Flex, Stack } from '@mantine/core';
 import { Pencil } from '../../assets/icons';
 import Link from 'next/link';
+import clsx from 'clsx';
 import colors from '../../colour-constants-baas';
+
+import classes from '../../assets/components/editableTitles.module.css';
 
 interface EditableTitlesProps {
   title: string;
@@ -23,17 +26,10 @@ export default function EditableTitle({
   return (
     <Stack
       p={{ base: '20px', lg: '10px 0', xl: '10px 0' }}
-      sx={{
-        borderBottom: showBorder
-          ? `1px solid ${colors.borderSection}`
-          : 'initial',
-
-        '@media (max-width: 768px)': {
-          backgroundColor: '#fff',
-          width: '100%',
-          borderBottom: 'initial',
-        },
-      }}
+      className={clsx([
+        classes.container,
+        { [classes.showBorder]: showBorder },
+      ])}
     >
       <Flex direction="row" justify="space-between" align="center">
         <Heading as={as} margin={0} padding={0}>

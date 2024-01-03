@@ -1,0 +1,12 @@
+.title {
+  color: var(--mantine-color-cyan-8);
+  font-size: 22px;
+}
+.center {
+  text-align: center;
+}
+.anchor {
+  color: var(--mantine-color-dark-6);
+  text-decoration: none;
+  font-weight: 400;
+}

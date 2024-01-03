@@ -1,0 +1,67 @@
+.container {
+  background-color: var(--background);
+}
+.containerOuter {
+  justify-content: center;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: initial;
+
+    background-color: var(--background);
+  }
+}
+.titleContainer {
+  padding: 10px;
+  margin: 0;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+.loungeInfo {
+  @media (max-width: 480px) {
+    display: none;
+  }
+}
+.flexContainer {
+  width: 100%;
+  flexdirection: row;
+
+  @media (max-width: 768px) {
+    flexdirection: column;
+  }
+}
+.headingContainer {
+  @media (max-width: 768px) {
+    background: var(--white);
+  }
+}
+.successfulTitle {
+  @media (max-width: 768px) {
+    padding: 20px;
+  }
+}
+.containerInner {
+  width: 591px;
+  gap: 0.5rem;
+  @media (max-width: 768px) : {
+    width: 100%;
+  }
+}
+.details {
+  @media (max-width: 768px) {
+    margintop: 10px;
+  }
+}
+.slotsTitle {
+  @media (max-width: 768px) {
+    background: var(--white);
+  }
+}
+.confirmation {
+  @media (max-width: 768px) {
+    background: var(--white);
+    padding: 20px;
+  }
+}

@@ -1,7 +1,7 @@
-import { Modal, Group, Grid } from '@mantine/core';
+import { Modal, Grid } from '@mantine/core';
 import Button from '../button';
-import { ReactNode } from 'react';
 import colors from '../../colour-constants-baas';
+import styles from './lightbox.module.css';
 
 interface LightboxProps {
   children: JSX.Element;
@@ -36,24 +36,24 @@ function Lightbox({
         <div>
           {children}
           <Grid justify="flex-end">
-            <Grid.Col sm={12} md={6}>
+            <Grid.Col span={{ sm: 6, xs: 12 }}>
               {cancelModal ? (
                 <Button
                   py={8}
                   variant="outline"
                   handleClick={onClose}
                   align="center"
+                  classNames={{
+                    root: styles.buttonHover,
+                  }}
                   styles={{
                     root: {
                       border: 'solid',
                       width: '100%',
                       backgroundColor: 'transparent',
-                      borderColor: colors.buttonBlack,
                       borderWidth: 2,
+                      borderColor: colors.buttonBlack,
                       color: colors.buttonBlack,
-                      ':hover': {
-                        backgroundColor: 'lightgray',
-                      },
                     },
                     label: {
                       color: colors.buttonBlack,
@@ -68,24 +68,24 @@ function Lightbox({
                 </Button>
               )}
             </Grid.Col>
-            <Grid.Col sm={12} md={6}>
+            <Grid.Col span={{ sm: 6, xs: 12 }}>
               {cancelModal ? (
                 <Button
                   py={8}
                   variant="outline"
                   handleClick={ctaForwardCall}
                   align="center"
+                  classNames={{
+                    root: styles.buttonHover,
+                  }}
                   styles={{
                     root: {
                       border: 'solid',
                       backgroundColor: 'transparent',
-                      borderColor: colors.red,
                       borderWidth: 2,
                       width: '100%',
+                      borderColor: colors.red,
                       color: colors.red,
-                      ':hover': {
-                        backgroundColor: 'lightgray',
-                      },
                     },
                     label: {
                       color: colors.red,

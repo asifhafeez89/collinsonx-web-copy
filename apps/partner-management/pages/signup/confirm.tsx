@@ -3,6 +3,7 @@ import LayoutLogin from '@components/LayoutLogin';
 import FormContainer from '@components/FormContainer';
 import PageTitle from '@components/PageTitle';
 import { useRouter } from 'next/router';
+import classes from './signup.module.css';
 
 export interface FormValues {
   email: string;
@@ -15,19 +16,19 @@ export default function Confirm() {
   return (
     <>
       <PageTitle title="Confirm your email" />
-      <Stack justify="center" align="center" spacing={32}>
-        <Stack justify="center" align="center" spacing={8}>
-          <Title color="cyan.8" size={22}>
+      <Stack justify="center" align="center" gap={32}>
+        <Stack justify="center" align="center" gap={8}>
+          <Title className={classes.title}>
             Confirm your email address to get started
           </Title>
         </Stack>
 
         <FormContainer>
-          <Stack spacing={32}>
-            <Text align="center" size={18}>
+          <Stack gap={32}>
+            <Text className={classes.center} size="lg">
               We have sent you an email to <strong>{email}</strong>
             </Text>
-            <Text align="center" size={18}>
+            <Text className={classes.center} size="lg">
               Check your inbox or spam folders to confirm your email address.
             </Text>
           </Stack>

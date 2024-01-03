@@ -2,6 +2,7 @@ import { Box, Flex, Title } from '@collinsonx/design-system/core';
 import styled from '@collinsonx/design-system/styled';
 import { bookingPageConfig, PageType } from 'config/booking';
 import { ReactNode } from 'react';
+import classes from './OverviewCard.module.css';
 
 export interface OverviewCardProps {
   title: string;
@@ -29,8 +30,8 @@ const OverviewCard = ({
   return (
     <Container style={{ minHeight: 267 }}>
       <Box
-        sx={{
-          padding: '16px 40px',
+        className={classes.container}
+        style={{
           backgroundColor: bookingPageConfig[variant].color,
         }}
       >
@@ -40,12 +41,12 @@ const OverviewCard = ({
               {icon}
             </Box>
           ) : null}
-          <Title color="#25262B" size={20} w={600} data-testid={datatestid}>
+          <Title className={classes.title} data-testid={datatestid}>
             {title}
           </Title>
         </Flex>
       </Box>
-      <Box sx={{ padding: '32px 40px', minHeight: '150px' }}>{children}</Box>
+      <Box className={classes.childrenContainer}>{children}</Box>
     </Container>
   );
 };

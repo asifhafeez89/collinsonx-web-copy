@@ -36,7 +36,11 @@ function LoaderLightbox({
       >
         <Box>
           <Box
-            sx={{ textAlign: 'center', padding: ' 0 2rem', lineHeight: '2rem' }}
+            style={{
+              textAlign: 'center',
+              padding: ' 0 2rem',
+              lineHeight: '2rem',
+            }}
           >
             {children}
           </Box>
@@ -46,14 +50,14 @@ function LoaderLightbox({
           {ctaAction && ctaAction.length > 0 && (
             <Flex
               justify="center"
-              sx={{ backgroundColor: '#F7F7F7', padding: '20px' }}
+              style={{ backgroundColor: '#F7F7F7', padding: '20px' }}
             >
               <Button
                 color="dark"
                 variant="outline"
                 pl={40}
                 pr={40}
-                sx={{
+                style={{
                   borderColor: '#000',
                   color: '#000',
                 }}

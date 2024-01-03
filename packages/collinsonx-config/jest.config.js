@@ -16,6 +16,7 @@ module.exports = {
   modulePaths: ['<rootDir>'],
   snapshotSerializers: ['@emotion/jest/serializer'],
   moduleNameMapper: {
+    '\\.(css|less)$': 'identity-obj-proxy',
     // '\\.(css|less)$': '<rootDir>/tests/jest/__mocks__/styleMock.js',
     '@lib': '<rootDir>/lib/index.ts',
     '@components/(.*)$': '<rootDir>/components/$1',
@@ -33,6 +34,8 @@ module.exports = {
       '<rootDir>/__mocks__/graphics',
     '@collinsonx/utils/queries': '<rootDir>/__mocks__/queries',
     '@collinsonx/utils/apollo': '<rootDir>/__mocks__/apollo',
+    '@collinsonx/design-system/test-utils':
+      '@collinsonx/design-system/test-utils/index',
   },
   coverageDirectory: 'coverage',
   collectCoverage: true,

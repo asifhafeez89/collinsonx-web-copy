@@ -40,6 +40,8 @@ import {
 } from '../../lib/index';
 import useLocale from 'hooks/useLocale';
 
+import classes from '../../styles/CheckCode.module.css';
+
 const { ERR_MEMBERSHIP_ALREADY_CONNECTED, ERR_TOKEN_INVALID_OR_EXPIRED } =
   BookingError;
 const { tooManyAttempts, expiredJwt } = PinLockoutError;
@@ -281,54 +283,32 @@ export default function CheckEmail() {
               <Skeleton visible={!lounge}>
                 <TopBarLinks page={pageName} />
               </Skeleton>
-              <Stack
-                spacing={24}
-                align="center"
-                sx={{
-                  height: '100%',
-                  width: '440px',
-                  margin: '0 auto',
-                  '@media (max-width: 768px)': {
-                    width: '100%',
-                    padding: '1rem 1.5rem 0 1.5rem',
-                  },
-                }}
-              >
+              <Stack gap={24} align="center" className={classes.container}>
                 <Title size="26">{translations.auth.checkCode.title}</Title>
                 <ErrorComponent error={errorLinkAccount} />
-                <Text size="18px" align="center">
+                <Text size="18px" className={classes.center}>
                   {translations.auth.checkCode.description}
-                  <Text weight={700}>
+                  <Text w={700} component="span">
                     {email.length < 30
                       ? email
                       : `${email.substring(0, 30)} ...`}
                   </Text>
                 </Text>
-                <Box sx={{ textAlign: 'center' }}>
-                  <Text align="center" size={16}>
+                <Box className={classes.center}>
+                  <Text className={classes.center} size="md">
                     {translations.auth.checkCode.wrongEmailTitle}
                   </Text>
                   <Anchor
                     fw={700}
-                    sx={{
-                      color: colors.blue,
-                      backgroundColor: 'transparent',
-                      textDecoration: 'underline',
-                    }}
+                    className={classes.reenter}
                     onClick={handleClickReenter}
                   >
                     {translations.auth.checkCode.reEnterEmailLabel}
                   </Anchor>
                 </Box>
-                <Box
-                  sx={{
-                    backgroundColor: colors.dividerGrey,
-                    height: '1px',
-                    width: '100%',
-                  }}
-                />
+                <Box className={classes.divider} />
                 <Box>
-                  <Text fw={700} size={12}>
+                  <Text fw={700} size="xs">
                     {translations.auth.checkCode.passcodeSubtitle}
                   </Text>
                   <PinInput
@@ -336,24 +316,13 @@ export default function CheckEmail() {
                     placeholder="-"
                     length={6}
                     size="xl"
-                    spacing="8px"
-                    sx={{
-                      padding: '0.5rem 0 0.5rem 0',
-                      input: {
-                        borderRadius: 8,
-                        fontSize: 18,
-                        fontWeight: 'bold',
-                      },
-                    }}
+                    gap="8px"
+                    className={classes.pinInput}
                     inputMode="numeric"
                     data-testid="pinInput"
                   />
                   {pinError && !checkingCode && (
-                    <Text
-                      sx={{ color: colors.errorRed }}
-                      align="center"
-                      size={16}
-                    >
+                    <Text className={classes.wrongCode} size="md">
                       {translations.auth.checkCode.error.wrongCode}
                     </Text>
                   )}
@@ -363,7 +332,7 @@ export default function CheckEmail() {
                     w="100%"
                     gap={16}
                     mt={8}
-                    sx={{ padding: '1.5rem 0 0 0' }}
+                    style={{ padding: '1.5rem 0 0 0' }}
                   >
                     <Button
                       py={8}
@@ -371,20 +340,9 @@ export default function CheckEmail() {
                       variant="outline"
                       disabled={count > 0}
                       onClick={handleClickResend}
-                      styles={{
-                        root: {
-                          border: 'solid',
-                          backgroundColor: 'transparent',
-                          borderColor: colors.buttonBlack,
-                          borderWidth: 2,
-                          color: colors.buttonBlack,
-                          ':hover': {
-                            backgroundColor: 'lightgray',
-                          },
-                        },
-                        label: {
-                          color: colors.buttonBlack,
-                        },
+                      classNames={{
+                        root: classes.buttonRoot,
+                        label: classes.buttonLabel,
                       }}
                     >
                       {translations.auth.checkCode.btn.resend}
@@ -401,7 +359,7 @@ export default function CheckEmail() {
                   </Flex>
                 </Box>
                 {count > 0 && (
-                  <Text size={14} fw={400} pb={10}>
+                  <Text size="sm" fw={400} pb={10}>
                     {translations.auth.checkCode.uniqueCodeText(count)}
                   </Text>
                 )}

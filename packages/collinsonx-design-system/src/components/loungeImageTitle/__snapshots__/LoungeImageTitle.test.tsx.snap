@@ -1,136 +1,84 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<LoungeImageTitle /> renders LoungeImageTitle 1`] = `
-.emotion-0 {
+[
+  <style
+    dangerouslySetInnerHTML={
+      {
+        "__html": "@media (max-width: 35.99375em) {.mantine-visible-from-xs {display: none !important;}}@media (min-width: 36em) {.mantine-hidden-from-xs {display: none !important;}}@media (max-width: 47.99375em) {.mantine-visible-from-sm {display: none !important;}}@media (min-width: 48em) {.mantine-hidden-from-sm {display: none !important;}}@media (max-width: 61.99375em) {.mantine-visible-from-md {display: none !important;}}@media (min-width: 62em) {.mantine-hidden-from-md {display: none !important;}}@media (max-width: 74.99375em) {.mantine-visible-from-lg {display: none !important;}}@media (min-width: 75em) {.mantine-hidden-from-lg {display: none !important;}}@media (max-width: 87.99375em) {.mantine-visible-from-xl {display: none !important;}}@media (min-width: 88em) {.mantine-hidden-from-xl {display: none !important;}}",
+      }
+    }
+    data-mantine-styles="classes"
+  />,
+  .emotion-0 {
   background: #fff;
 }
 
-.emotion-1 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  gap: 1.5rem;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-}
-
-.emotion-4 {
-  margin: 0;
-}
-
-.emotion-6 {
-  position: relative;
-}
-
-.emotion-8 {
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
-  display: block;
-  width: 100%;
-  height: 100%;
-  border: 0;
-  border-radius: 0.25rem;
-}
-
-.emotion-10 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  gap: 1rem;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  -webkit-box-flex-wrap: wrap;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-
-.emotion-11 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-}
-
 <div
-  className="emotion-0"
->
-  <div
-    className="emotion-1"
+    className="emotion-0"
   >
     <div
-      className="emotion-2 emotion-3"
+      className="m-8bffd616 mantine-Flex-root __m__-r0"
       style={
         {
-          "width": "7.5rem",
+          "flexDirection": "row",
+          "gap": "calc(1.5rem * var(--mantine-scale))",
         }
       }
     >
-      <figure
-        className="emotion-4 emotion-5"
+      <img
+        alt="LoungeX"
+        className="m-9e117634 mantine-Image-root"
+        height={80}
+        onError={[Function]}
+        src="image.png"
+        style={
+          {
+            "--image-radius": "var(--mantine-radius-sm)",
+          }
+        }
+        width={120}
+      />
+      <div
+        className="m-8bffd616 mantine-Flex-root __m__-r3"
+        style={
+          {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "flexWrap": "wrap",
+            "gap": "var(--mantine-spacing-md)",
+            "justifyContent": "center",
+          }
+        }
       >
         <div
-          className="emotion-6 emotion-7"
-        >
-          <img
-            alt="LoungeX"
-            className="emotion-8 emotion-9"
-            onError={[Function]}
-            src="image.png"
-            style={
-              {
-                "height": "5rem",
-                "objectFit": "cover",
-                "width": "7.5rem",
-              }
-            }
-          />
-        </div>
-      </figure>
-    </div>
-    <div
-      className="emotion-10"
-    >
-      <div
-        className="emotion-11"
-      >
-        <h2
+          className="m-8bffd616 mantine-Flex-root __m__-r5"
           style={
             {
-              "fontSize": "12px",
-              "margin": "0",
-              "padding": "0",
+              "flexDirection": "column",
             }
           }
         >
-          LoungeX
-        </h2>
-        <strong>
-          Athens, Greece
-        </strong>
-        <strong>
-          80
-        </strong>
+          <h2
+            style={
+              {
+                "fontSize": "12px",
+                "margin": "0",
+                "padding": "0",
+              }
+            }
+          >
+            LoungeX
+          </h2>
+          <strong>
+            Athens, Greece
+          </strong>
+          <strong>
+            80
+          </strong>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+  </div>,
+]
 `;

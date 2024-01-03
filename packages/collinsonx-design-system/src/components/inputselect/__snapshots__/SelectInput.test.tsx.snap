@@ -1,284 +1,275 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<SelectInput /> renders SelectInput 1`] = `
-.emotion-2 {
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
-  line-height: 1.55;
-  color: #000!important;
-}
-
-.emotion-2 label {
-  color: #000000;
-  font-weight: 400;
-  margin-bottom: 8px;
-}
-
-.emotion-2 input[data-invalid] {
-  border-color: red;
-}
-
-.emotion-5 {
-  display: inline-block;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #212529;
-  word-break: break-word;
-  cursor: default;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.emotion-8 {
-  position: relative;
-}
-
-.emotion-8:has(input:disabled) .emotion-13 {
-  display: none;
-}
-
-.emotion-11 {
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
-  height: 2.25rem;
-  -webkit-tap-highlight-color: transparent;
-  line-height: calc(2.25rem - 0.125rem);
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  appearance: none;
-  resize: none;
-  box-sizing: border-box;
-  font-size: 0.875rem;
-  width: 100%;
-  color: #000;
-  display: block;
-  text-align: left;
-  border: 0.0625rem solid #ced4da;
-  background-color: #fff;
-  -webkit-transition: border-color 100ms ease;
-  transition: border-color 100ms ease;
-  min-height: 2.25rem;
-  padding-left: calc(2.25rem  / 3);
-  padding-right: 2.25rem;
-  border-radius: 0.25rem;
-}
-
-.emotion-11:focus,
-.emotion-11:focus-within {
-  outline: none;
-  border-color: #228be6;
-}
-
-.emotion-11:disabled,
-.emotion-11[data-disabled] {
-  background-color: #f1f3f5;
-  color: #909296;
-  opacity: 0.6;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-.emotion-11:disabled::-webkit-input-placeholder {
-  color: #909296;
-}
-
-.emotion-11:disabled::-moz-placeholder {
-  color: #909296;
-}
-
-.emotion-11:disabled:-ms-input-placeholder {
-  color: #909296;
-}
-
-.emotion-11[data-disabled]::-webkit-input-placeholder {
-  color: #909296;
-}
-
-.emotion-11[data-disabled]::-moz-placeholder {
-  color: #909296;
-}
-
-.emotion-11[data-disabled]:-ms-input-placeholder {
-  color: #909296;
-}
-
-.emotion-11:disabled::placeholder,
-.emotion-11[data-disabled]::placeholder {
-  color: #909296;
-}
-
-.emotion-11[data-invalid] {
-  color: #fa5252;
-  border-color: #fa5252;
-}
-
-.emotion-11[data-invalid]::-webkit-input-placeholder {
-  opacity: 1;
-  color: #fa5252;
-}
-
-.emotion-11[data-invalid]::-moz-placeholder {
-  opacity: 1;
-  color: #fa5252;
-}
-
-.emotion-11[data-invalid]:-ms-input-placeholder {
-  opacity: 1;
-  color: #fa5252;
-}
-
-.emotion-11[data-invalid]::placeholder {
-  opacity: 1;
-  color: #fa5252;
-}
-
-.emotion-11[data-with-icon] {
-  padding-left: 2.25rem;
-}
-
-.emotion-11::-webkit-input-placeholder {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  color: #adb5bd;
-  opacity: 1;
-}
-
-.emotion-11::-moz-placeholder {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  color: #adb5bd;
-  opacity: 1;
-}
-
-.emotion-11:-ms-input-placeholder {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  color: #adb5bd;
-  opacity: 1;
-}
-
-.emotion-11::placeholder {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  color: #adb5bd;
-  opacity: 1;
-}
-
-.emotion-11::-webkit-inner-spin-button,
-.emotion-11::-webkit-outer-spin-button,
-.emotion-11::-webkit-search-decoration,
-.emotion-11::-webkit-search-cancel-button,
-.emotion-11::-webkit-search-results-button,
-.emotion-11::-webkit-search-results-decoration {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  appearance: none;
-}
-
-.emotion-11[type=number] {
-  -moz-appearance: textfield;
-}
-
-.emotion-11:not(:disabled) {
-  cursor: pointer;
-}
-
-.emotion-11:not(:disabled)::selection {
-  background-color: transparent;
-}
-
-.emotion-12 {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  width: 2.25rem;
-}
-
-.mantine-1surk1h:has(input:disabled) .emotion-13 {
-  display: none;
-}
-
-.mantine-1e6nbp3:has(input:disabled) .emotion-13 {
-  display: none;
-}
-
-<div
-  className="emotion-0 emotion-1 emotion-2"
->
-  <label
-    className="emotion-3 emotion-4 emotion-5"
-    htmlFor="mantine-sxlsyq9ak"
-    id="mantine-sxlsyq9ak-label"
-    onMouseDown={[Function]}
-  >
-    Your favorite framework/library
-  </label>
+[
+  <style
+    dangerouslySetInnerHTML={
+      {
+        "__html": "@media (max-width: 35.99375em) {.mantine-visible-from-xs {display: none !important;}}@media (min-width: 36em) {.mantine-hidden-from-xs {display: none !important;}}@media (max-width: 47.99375em) {.mantine-visible-from-sm {display: none !important;}}@media (min-width: 48em) {.mantine-hidden-from-sm {display: none !important;}}@media (max-width: 61.99375em) {.mantine-visible-from-md {display: none !important;}}@media (min-width: 62em) {.mantine-hidden-from-md {display: none !important;}}@media (max-width: 74.99375em) {.mantine-visible-from-lg {display: none !important;}}@media (min-width: 75em) {.mantine-hidden-from-lg {display: none !important;}}@media (max-width: 87.99375em) {.mantine-visible-from-xl {display: none !important;}}@media (min-width: 88em) {.mantine-hidden-from-xl {display: none !important;}}",
+      }
+    }
+    data-mantine-styles="classes"
+  />,
   <div
-    aria-controls="mantine-sxlsyq9ak"
-    aria-expanded={false}
-    aria-haspopup="listbox"
-    aria-owns={null}
-    onMouseLeave={[Function]}
-    role="combobox"
-    tabIndex={-1}
+    className="m-46b77525 mantine-InputWrapper-root mantine-Select-root"
+    style={
+      {
+        "color": "#000 !important",
+        "input": {
+          "&[data-invalid]": {
+            "borderColor": "red",
+          },
+        },
+        "item": {
+          "&[data-hovered]": {
+            "&, &:hover": {
+              "backgroundColor": "#e2ccff",
+              "color": "#000000",
+            },
+          },
+          "&[data-selected]": {
+            "&, &:hover": {
+              "backgroundColor": "#e2ccff",
+              "color": "#000000",
+            },
+          },
+        },
+        "label": {
+          "color": "#000000",
+          "fontWeight": 400,
+          "marginBottom": 8,
+        },
+      }
+    }
   >
-    <input
-      disabled={false}
-      type="hidden"
-      value=""
-    />
+    <label
+      className="m-8fdc1311 mantine-InputWrapper-label mantine-Select-label"
+      htmlFor="mantine-"
+      id="mantine--label"
+      onMouseDown={[Function]}
+      style={{}}
+    >
+      Your favorite framework/library
+    </label>
     <div
-      className="emotion-6 emotion-7 emotion-8"
+      className="m-6c018570 mantine-Input-wrapper mantine-Select-wrapper"
+      data-pointer={true}
+      data-variant="default"
+      data-with-right-section={true}
+      style={
+        {
+          "--input-right-section-pointer-events": "none",
+        }
+      }
     >
       <input
-        aria-activedescendant={null}
-        aria-autocomplete="list"
-        aria-controls={null}
+        aria-controls="mantine-r9"
+        aria-haspopup="listbox"
         aria-invalid={false}
         autoComplete="off"
-        className="emotion-9 emotion-10 emotion-11"
-        data-mantine-stop-propagation={false}
-        disabled={false}
-        id="mantine-sxlsyq9ak"
-        name={null}
+        className="m-8fb7ebe7 mantine-Input-input mantine-Select-input"
+        data-variant="default"
+        id="mantine-"
         onBlur={[Function]}
         onChange={[Function]}
+        onClick={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
-        onMouseDown={[Function]}
         placeholder="Pick one"
         readOnly={true}
-        required={false}
         role="none"
-        type="search"
+        style={{}}
         value=""
       />
       <div
-        className="emotion-12 emotion-13 emotion-14"
+        className="m-82577fc2 mantine-Input-section mantine-Select-section"
+        data-position="right"
+        style={{}}
       >
         <test-file-stub />
       </div>
     </div>
-  </div>
-</div>
+  </div>,
+  <div
+    className="m-38a85659 mantine-Popover-dropdown m-88b62a41 mantine-Select-dropdown"
+    data-position="bottom"
+    onKeyDownCapture={[Function]}
+    role="presentation"
+    style={
+      {
+        "display": "none",
+        "left": 0,
+        "top": 0,
+        "width": undefined,
+        "zIndex": 300,
+      }
+    }
+  >
+    <div
+      aria-labelledby="mantine--label"
+      className="m-b2821a6e mantine-Select-options"
+      id="mantine-"
+      onMouseDown={[Function]}
+      role="listbox"
+      style={{}}
+    >
+      <div
+        className="m-71d052f9"
+        style={
+          {
+            "display": "flex",
+            "maxHeight": "calc(13.75rem * var(--mantine-scale))",
+          }
+        }
+      >
+        <div
+          style={
+            {
+              "display": "flex",
+              "flex": 1,
+              "flexDirection": "column",
+            }
+          }
+        >
+          <div
+            className="m-d57069b5 mantine-ScrollArea-root"
+            style={
+              {
+                "--sa-corner-height": "0px",
+                "--sa-corner-width": "0px",
+                "--scrollarea-scrollbar-size": "var(--_combobox-padding)",
+              }
+            }
+          >
+            <div
+              className="m-c0783ff9 mantine-ScrollArea-viewport"
+              data-offset-scrollbars="y"
+              data-scrollbars="xy"
+              style={
+                {
+                  "overflowX": "scroll",
+                  "overflowY": "scroll",
+                }
+              }
+            >
+              <div
+                style={
+                  {
+                    "display": "table",
+                    "minWidth": "100%",
+                  }
+                }
+              >
+                <div
+                  aria-selected={false}
+                  className="m-92253aa5 mantine-Select-option m-390b5f4"
+                  data-combobox-option={true}
+                  id=":rf:"
+                  onClick={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseOver={[Function]}
+                  role="option"
+                  style={{}}
+                  value="react"
+                >
+                  <span>
+                    React
+                  </span>
+                </div>
+                <div
+                  aria-selected={false}
+                  className="m-92253aa5 mantine-Select-option m-390b5f4"
+                  data-combobox-option={true}
+                  id=":rh:"
+                  onClick={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseOver={[Function]}
+                  role="option"
+                  style={{}}
+                  value="ng"
+                >
+                  <span>
+                    Angular
+                  </span>
+                </div>
+                <div
+                  aria-selected={false}
+                  className="m-92253aa5 mantine-Select-option m-390b5f4"
+                  data-combobox-option={true}
+                  id=":rj:"
+                  onClick={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseOver={[Function]}
+                  role="option"
+                  style={{}}
+                  value="svelte"
+                >
+                  <span>
+                    Svelte
+                  </span>
+                </div>
+                <div
+                  aria-selected={false}
+                  className="m-92253aa5 mantine-Select-option m-390b5f4"
+                  data-combobox-option={true}
+                  id=":rl:"
+                  onClick={[Function]}
+                  onMouseDown={[Function]}
+                  onMouseOver={[Function]}
+                  role="option"
+                  style={{}}
+                  value="vue"
+                >
+                  <span>
+                    Vue
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div
+              className="m-c44ba933 mantine-ScrollArea-scrollbar"
+              data-orientation="horizontal"
+              data-state="hidden"
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              onPointerDown={[Function]}
+              onPointerEnter={[Function]}
+              onPointerLeave={[Function]}
+              onPointerMove={[Function]}
+              onPointerUp={[Function]}
+              style={
+                {
+                  "--sa-thumb-width": "18px",
+                  "position": "absolute",
+                }
+              }
+            />
+            <div
+              className="m-c44ba933 mantine-ScrollArea-scrollbar"
+              data-orientation="vertical"
+              data-state="hidden"
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              onPointerDown={[Function]}
+              onPointerEnter={[Function]}
+              onPointerLeave={[Function]}
+              onPointerMove={[Function]}
+              onPointerUp={[Function]}
+              style={
+                {
+                  "--sa-thumb-height": "18px",
+                  "position": "absolute",
+                }
+              }
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  <input
+    type="hidden"
+    value=""
+  />,
+]
 `;

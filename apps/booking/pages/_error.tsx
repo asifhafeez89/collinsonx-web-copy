@@ -32,7 +32,7 @@ const errorMap = {
 
 export default function GenericError({ statusCode }: GenericErrorProps) {
   return (
-    <Flex justify="center" align="center" sx={{ height: '100%' }}>
+    <Flex justify="center" align="center" h="100%">
       <Text>
         {statusCode
           ? `${statusCode} | ${

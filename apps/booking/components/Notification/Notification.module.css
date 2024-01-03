@@ -1,0 +1,23 @@
+.container {
+  background-color: rgba(212, 42, 84, 0.1);
+  border: 2px solid #d42a54;
+  border-radius: 8;
+  @media (max-width: 768px) {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+}
+.fullHeight {
+  height: 100%;
+}
+.iconContainer {
+  @media (max-width: 768px) {
+    paddingtop: 0.2rem;
+  }
+}
+.text {
+  text-align: left;
+  word-wrap: break-word;
+  fontsize: 0.875rem;
+  margintop: 0.3rem;
+}

@@ -27,6 +27,8 @@ import { BookingQueryParams } from '@collinsonx/constants/enums';
 import { log, logAction } from '@lib';
 import useLocale from 'hooks/useLocale';
 
+import classes from '../../styles/auth.module.css';
+
 const { bookingId } = BookingQueryParams;
 const pageName = 'login';
 interface FormValues {
@@ -124,25 +126,8 @@ export default function Login() {
             <TopBarLinks page="Enter_Email" />
           </Skeleton>
           <form onSubmit={form.onSubmit(handleClickContinue)}>
-            <Stack
-              spacing={24}
-              sx={{
-                height: '100%',
-                width: '440px',
-                margin: '0 auto',
-                '@media (max-width: 768px)': {
-                  width: '100%',
-                  padding: '1rem 1.5rem 0 1.5rem',
-                },
-              }}
-            >
-              <Title
-                order={1}
-                size={20}
-                sx={{
-                  textAlign: 'center',
-                }}
-              >
+            <Stack gap={24} className={classes.loginContainer}>
+              <Title order={1} size={20} ta="center">
                 {translations.auth.login.email.title}
               </Title>
               {layoutError === ERR_MEMBERSHIP_ALREADY_CONNECTED && (
@@ -151,7 +136,7 @@ export default function Login() {
                 </Notification>
               )}
               <Text>{translations.auth.login.email.input.description}</Text>
-              <Stack spacing={10}>
+              <Stack gap={10}>
                 <Text>
                   <Text span color={colors.red}>
                     *
@@ -168,7 +153,7 @@ export default function Login() {
                     logAction(pageName, ANALYTICS_TAGS.ON_CHANGE_EMAIL_ADDRESS)
                   }
                 />
-                <Text align="left">{translations.auth.login.passwordText}</Text>
+                <Text ta="left">{translations.auth.login.passwordText}</Text>
               </Stack>
               <Button type="submit" data-testid="login">
                 {translations.auth.login.btnLogin}

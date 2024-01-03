@@ -2,234 +2,63 @@
 
 exports[`<Datepicker /> renders datepicker 1`] = `
 [
-  .emotion-2 {
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
-  line-height: 1.55;
-}
-
-.emotion-5 {
-  display: inline-block;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #212529;
-  word-break: break-word;
-  cursor: default;
-  -webkit-tap-highlight-color: transparent;
-  color: black;
-  font-weight: 600;
-}
-
-.emotion-6 {
-  color: #fa5252;
-}
-
-.emotion-11 {
-  position: relative;
-}
-
-.emotion-11:has(input:disabled) .mantine-Input-rightSection {
-  display: none;
-}
-
-.emotion-15 {
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
-  height: auto;
-  -webkit-tap-highlight-color: transparent;
-  line-height: 1.55;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  appearance: none;
-  resize: none;
-  box-sizing: border-box;
-  font-size: 0.875rem;
-  width: 100%;
-  color: #000;
-  display: block;
-  text-align: left;
-  border: 0.0625rem solid #ced4da;
-  background-color: #fff;
-  -webkit-transition: border-color 100ms ease;
-  transition: border-color 100ms ease;
-  min-height: 2.25rem;
-  padding-left: calc(2.25rem  / 3);
-  padding-right: calc(2.25rem  / 3);
-  border-radius: 0.25rem;
-  cursor: pointer;
-  line-height: unset;
-}
-
-.emotion-15:focus,
-.emotion-15:focus-within {
-  outline: none;
-  border-color: #228be6;
-}
-
-.emotion-15:disabled,
-.emotion-15[data-disabled] {
-  background-color: #f1f3f5;
-  color: #909296;
-  opacity: 0.6;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-.emotion-15:disabled::-webkit-input-placeholder {
-  color: #909296;
-}
-
-.emotion-15:disabled::-moz-placeholder {
-  color: #909296;
-}
-
-.emotion-15:disabled:-ms-input-placeholder {
-  color: #909296;
-}
-
-.emotion-15[data-disabled]::-webkit-input-placeholder {
-  color: #909296;
-}
-
-.emotion-15[data-disabled]::-moz-placeholder {
-  color: #909296;
-}
-
-.emotion-15[data-disabled]:-ms-input-placeholder {
-  color: #909296;
-}
-
-.emotion-15:disabled::placeholder,
-.emotion-15[data-disabled]::placeholder {
-  color: #909296;
-}
-
-.emotion-15[data-invalid] {
-  color: #fa5252;
-  border-color: #fa5252;
-}
-
-.emotion-15[data-invalid]::-webkit-input-placeholder {
-  opacity: 1;
-  color: #fa5252;
-}
-
-.emotion-15[data-invalid]::-moz-placeholder {
-  opacity: 1;
-  color: #fa5252;
-}
-
-.emotion-15[data-invalid]:-ms-input-placeholder {
-  opacity: 1;
-  color: #fa5252;
-}
-
-.emotion-15[data-invalid]::placeholder {
-  opacity: 1;
-  color: #fa5252;
-}
-
-.emotion-15[data-with-icon] {
-  padding-left: 2.25rem;
-}
-
-.emotion-15::-webkit-input-placeholder {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  color: #adb5bd;
-  opacity: 1;
-}
-
-.emotion-15::-moz-placeholder {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  color: #adb5bd;
-  opacity: 1;
-}
-
-.emotion-15:-ms-input-placeholder {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  color: #adb5bd;
-  opacity: 1;
-}
-
-.emotion-15::placeholder {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  color: #adb5bd;
-  opacity: 1;
-}
-
-.emotion-15::-webkit-inner-spin-button,
-.emotion-15::-webkit-outer-spin-button,
-.emotion-15::-webkit-search-decoration,
-.emotion-15::-webkit-search-cancel-button,
-.emotion-15::-webkit-search-results-button,
-.emotion-15::-webkit-search-results-decoration {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  appearance: none;
-}
-
-.emotion-15[type=number] {
-  -moz-appearance: textfield;
-}
-
-.emotion-15[data-read-only] {
-  cursor: default;
-}
-
-.emotion-17 {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  color: #adb5bd;
-}
-
-<div
-    className="emotion-0 emotion-1 emotion-2"
+  <style
+    dangerouslySetInnerHTML={
+      {
+        "__html": "@media (max-width: 35.99375em) {.mantine-visible-from-xs {display: none !important;}}@media (min-width: 36em) {.mantine-hidden-from-xs {display: none !important;}}@media (max-width: 47.99375em) {.mantine-visible-from-sm {display: none !important;}}@media (min-width: 48em) {.mantine-hidden-from-sm {display: none !important;}}@media (max-width: 61.99375em) {.mantine-visible-from-md {display: none !important;}}@media (min-width: 62em) {.mantine-hidden-from-md {display: none !important;}}@media (max-width: 74.99375em) {.mantine-visible-from-lg {display: none !important;}}@media (min-width: 75em) {.mantine-hidden-from-lg {display: none !important;}}@media (max-width: 87.99375em) {.mantine-visible-from-xl {display: none !important;}}@media (min-width: 88em) {.mantine-hidden-from-xl {display: none !important;}}",
+      }
+    }
+    data-mantine-styles="classes"
+  />,
+  <div
+    className="m-46b77525 mantine-InputWrapper-root mantine-DatePickerInput-root"
+    style={{}}
   >
     <label
-      className="emotion-3 emotion-4 emotion-5"
-      htmlFor="mantine-73or434ov"
-      id="mantine-73or434ov-label"
+      className="m-8fdc1311 mantine-InputWrapper-label mantine-DatePickerInput-label"
+      data-required={true}
+      htmlFor="mantine-"
+      id="mantine--label"
       onMouseDown={[Function]}
+      style={
+        {
+          "color": "black",
+          "fontWeight": 600,
+        }
+      }
     >
       Date
       <span
         aria-hidden={true}
-        className="emotion-6 emotion-7 emotion-8"
+        className="m-78a94662 mantine-InputWrapper-required mantine-DatePickerInput-required"
+        style={{}}
       >
          *
       </span>
     </label>
     <div
-      className="emotion-9 emotion-10 emotion-11"
+      className="m-6c018570 mantine-Input-wrapper mantine-DatePickerInput-wrapper"
+      data-multiline={true}
+      data-variant="default"
+      style={{}}
     >
       <button
-        aria-controls="mantine-5vvjk8o5h-dropdown"
+        aria-controls="mantine--dropdown"
         aria-expanded={false}
         aria-haspopup="dialog"
         aria-invalid={false}
-        aria-label=""
-        className="emotion-12 emotion-13 emotion-12 emotion-15"
+        aria-label="Pick date"
+        className="m-6fa5e2aa m-8fb7ebe7 mantine-Input-input mantine-DatePickerInput-input"
         data-dates-input={true}
-        id="mantine-73or434ov"
+        data-variant="default"
+        id="mantine-"
         onClick={[Function]}
+        style={{}}
         type="button"
       >
         <span
-          className="emotion-16 emotion-17"
+          className="m-88bacfd0 mantine-InputPlaceholder-placeholder"
+          style={{}}
         >
           Pick date
         </span>

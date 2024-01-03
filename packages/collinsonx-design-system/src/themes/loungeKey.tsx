@@ -6,9 +6,13 @@ type ThemeOptions = {
 };
 
 const theme = (
-  { fontFamily }: ThemeOptions = { fontFamily: 'BentonSans Book' }
+  { fontFamily }: ThemeOptions = {
+    fontFamily:
+      '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"',
+  }
 ): MantineThemeOverride =>
   baseTheme({
+    fontFamily,
     themeOverrides: {
       headerNavBg: '#000',
       headerNavColor: '#FFF',

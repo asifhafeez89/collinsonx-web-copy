@@ -11,6 +11,8 @@ import PageTitle from '@components/PageTitle';
 
 import { submitNewPassword } from 'supertokens-auth-react/recipe/emailpassword';
 
+import classes from './auth.module.css';
+
 export interface FormValues {
   password: string;
   passwordConfirm: string;
@@ -75,9 +77,9 @@ export default function ResetPassword() {
   return (
     <>
       <PageTitle title="Create new password" />
-      <Stack justify="center" align="center" spacing={32}>
+      <Stack justify="center" align="center" gap={32}>
         <FormContainer>
-          <Text align="center" size={18} fw={600} mb={40}>
+          <Text className={classes.createNewPassword} fw={600} mb={40}>
             Create new password
           </Text>
           <form onSubmit={form.onSubmit(handleSubmit)}>

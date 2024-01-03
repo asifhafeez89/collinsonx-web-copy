@@ -1,0 +1,14 @@
+.container {
+  @media (max-width: 768px) {
+    background-color: #fff;
+    width: 100%;
+  }
+}
+.showBorder {
+  @media (min-width: 768px) {
+    border-bottom: 1px solid var(--borderSection);
+  }
+  @media (max-width: 768px) {
+    border-bottom: initial;
+  }
+}

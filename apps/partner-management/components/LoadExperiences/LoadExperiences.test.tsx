@@ -1,13 +1,6 @@
 import LoadExperiences from './index';
 import '@testing-library/jest-dom/extend-expect';
-import {
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-  getNodeText,
-} from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render } from '@collinsonx/design-system/test-utils';
 
 jest.mock('@collinsonx/utils/queries', () => {
   return jest.fn(() => ({
@@ -18,26 +11,7 @@ jest.mock('@collinsonx/utils/queries', () => {
 });
 
 describe('<LoadExperiences />', () => {
-  it('should render', () => {
-    const experience = {
-      id: '1ccc3807-a7ed-5a3a-ada8-fd37ac1ab941',
-      loungeName: 'Clubrooms Birmingham - Additional Fee Applies',
-      bookings: [],
-      invitations: [],
-      partners: [],
-    };
-
-    const dropdown = render(
-      <LoadExperiences
-        selectedExperience={experience}
-        onExperienceSelected={() => console.log()}
-      />
-    );
-
-    expect(dropdown).toMatchSnapshot();
-  });
-
-  it('should render  element', async () => {
+  it('should render', async () => {
     const experience = {
       id: '1ccc3807-a7ed-5a3a-ada8-fd37ac1ab941',
       loungeName: 'Clubrooms Birmingham - Additional Fee Applies',

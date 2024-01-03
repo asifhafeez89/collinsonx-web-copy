@@ -1,0 +1,22 @@
+.container {
+  @media (max-width: 768px) {
+    background-color: var(--white);
+    padding: 1.2rem 1.2rem;
+  }
+}
+.containerFlex {
+  flex-direction: row;
+  @media (max-width: 768px) {
+    flexdirection: column;
+  }
+}
+.datePickerInput {
+  @media (max-width: 768px) {
+    paddingbottom: 16px;
+  }
+}
+.day {
+  &[data-weekend] {
+    colors: var(--blue);
+  }
+}

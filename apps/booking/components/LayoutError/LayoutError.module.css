@@ -1,0 +1,38 @@
+.container {
+  max-width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--background);
+}
+.logoWrapper {
+  width: 100%;
+  background-color: var(--white);
+  boxshadow: 4px 4px 4px 4px var(--shadow);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  height: 100px;
+  @media (max-width: 768px) {
+    height: 50px;
+  }
+  z-index: 200;
+}
+.containerContent {
+  background-color: var(--white);
+  max-width: 440px;
+  position: fixed;
+  z-index: 200;
+  @media (max-width: 768px) {
+    width: 90%;
+  }
+}
+.center {
+  text-align: center;
+}
+.errorContainer {
+  justify-items: center;
+  align-items: center;
+}

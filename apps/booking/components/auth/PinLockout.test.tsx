@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom/extend-expect';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render } from '@collinsonx/design-system/test-utils';
 import { useRouter } from 'next/router';
 
 import PinLockout from './PinLockout';

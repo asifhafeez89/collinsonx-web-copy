@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render } from '@collinsonx/design-system/test-utils';
 import '@testing-library/jest-dom/extend-expect';
 import AppLogo from './AppLogo';
 import { AccountProvider, Client } from '@collinsonx/constants/enums';

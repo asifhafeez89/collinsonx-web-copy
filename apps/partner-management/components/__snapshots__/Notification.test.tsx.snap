@@ -3,115 +3,49 @@
 exports[`<Notification /> should render 1`] = `
 {
   "asFragment": [Function],
-  "baseElement": .emotion-0 {
-  padding-right: 2.5rem;
-  padding-left: 2.5rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  background: #FFF3BF;
-  width: 100%;
-}
-
-.emotion-1 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  gap: 0.5rem;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-
-.emotion-3 {
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
-  -webkit-tap-highlight-color: transparent;
-  color: inherit;
-  font-size: inherit;
-  line-height: 1.55;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.emotion-3:focus {
-  outline-offset: 0.125rem;
-  outline: 0.125rem solid #339af0;
-}
-
-.emotion-3:focus:not(:focus-visible) {
-  outline: none;
-}
-
-<body>
+  "baseElement": <body>
     <div>
+      <style
+        data-mantine-styles="classes"
+      >
+        @media (max-width: 35.99375em) {.mantine-visible-from-xs {display: none !important;}}@media (min-width: 36em) {.mantine-hidden-from-xs {display: none !important;}}@media (max-width: 47.99375em) {.mantine-visible-from-sm {display: none !important;}}@media (min-width: 48em) {.mantine-hidden-from-sm {display: none !important;}}@media (max-width: 61.99375em) {.mantine-visible-from-md {display: none !important;}}@media (min-width: 62em) {.mantine-hidden-from-md {display: none !important;}}@media (max-width: 74.99375em) {.mantine-visible-from-lg {display: none !important;}}@media (min-width: 75em) {.mantine-hidden-from-lg {display: none !important;}}@media (max-width: 87.99375em) {.mantine-visible-from-xl {display: none !important;}}@media (min-width: 88em) {.mantine-hidden-from-xl {display: none !important;}}
+      </style>
       <div
-        class="emotion-0"
+        class=""
+        style="background: rgb(255, 243, 191); width: 100%;"
       >
         <div
-          class="emotion-1"
+          class="m-8bffd616 mantine-Flex-root __m__-r1"
+          style="gap: calc(0.5rem * var(--mantine-scale)); align-items: center;"
         >
-          <div
-            class="emotion-2 emotion-3"
+          <p
+            class="mantine-focus-auto m-b6d8b162 mantine-Text-root"
           >
             a
-          </div>
+          </p>
         </div>
       </div>
     </div>
   </body>,
-  "container": .emotion-0 {
-  padding-right: 2.5rem;
-  padding-left: 2.5rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  background: #FFF3BF;
-  width: 100%;
-}
-
-.emotion-1 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  gap: 0.5rem;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-
-.emotion-3 {
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
-  -webkit-tap-highlight-color: transparent;
-  color: inherit;
-  font-size: inherit;
-  line-height: 1.55;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.emotion-3:focus {
-  outline-offset: 0.125rem;
-  outline: 0.125rem solid #339af0;
-}
-
-.emotion-3:focus:not(:focus-visible) {
-  outline: none;
-}
-
-<div>
+  "container": <div>
+    <style
+      data-mantine-styles="classes"
+    >
+      @media (max-width: 35.99375em) {.mantine-visible-from-xs {display: none !important;}}@media (min-width: 36em) {.mantine-hidden-from-xs {display: none !important;}}@media (max-width: 47.99375em) {.mantine-visible-from-sm {display: none !important;}}@media (min-width: 48em) {.mantine-hidden-from-sm {display: none !important;}}@media (max-width: 61.99375em) {.mantine-visible-from-md {display: none !important;}}@media (min-width: 62em) {.mantine-hidden-from-md {display: none !important;}}@media (max-width: 74.99375em) {.mantine-visible-from-lg {display: none !important;}}@media (min-width: 75em) {.mantine-hidden-from-lg {display: none !important;}}@media (max-width: 87.99375em) {.mantine-visible-from-xl {display: none !important;}}@media (min-width: 88em) {.mantine-hidden-from-xl {display: none !important;}}
+    </style>
     <div
-      class="emotion-0"
+      class=""
+      style="background: rgb(255, 243, 191); width: 100%;"
     >
       <div
-        class="emotion-1"
+        class="m-8bffd616 mantine-Flex-root __m__-r1"
+        style="gap: calc(0.5rem * var(--mantine-scale)); align-items: center;"
       >
-        <div
-          class="emotion-2 emotion-3"
+        <p
+          class="mantine-focus-auto m-b6d8b162 mantine-Text-root"
         >
           a
-        </div>
+        </p>
       </div>
     </div>
   </div>,

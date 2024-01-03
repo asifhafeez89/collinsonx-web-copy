@@ -1,0 +1,10 @@
+.root {
+  &:focus {
+    background-color: transparent;
+    text-decoration: none;
+  }
+  &:hover {
+    background-color: transparent;
+    text-decoration: none;
+  }
+}

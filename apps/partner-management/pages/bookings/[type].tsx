@@ -56,6 +56,8 @@ import PageTitle from '@components/PageTitle';
 import { attemptRefreshingSession } from 'supertokens-auth-react/recipe/session';
 import dayjs from 'dayjs';
 
+import classes from './bookings.module.css';
+
 const columnHelper = createColumnHelper<Partial<Booking>>();
 
 const titleMap = {
@@ -259,10 +261,7 @@ export default function Bookings({ type }: BookingsProps) {
       (booking) => booking.type !== BookingType.ReservationFeeOnly
     );
 
-    return getBookingsByType(
-      filteredBookings,
-      types
-    ) as Booking[];
+    return getBookingsByType(filteredBookings, types) as Booking[];
   }, [filteredData, type]);
 
   const [
@@ -407,7 +406,7 @@ export default function Bookings({ type }: BookingsProps) {
       columnHelper.accessor('type', {
         header: 'Type',
         id: 'type',
-        cell: (props) => bookingTypeMap[props.getValue() as BookingType] || '-'
+        cell: (props) => bookingTypeMap[props.getValue() as BookingType] || '-',
       }),
       columnHelper.accessor('arrivalDate', {
         header: 'Arrival date',
@@ -517,11 +516,6 @@ export default function Bookings({ type }: BookingsProps) {
         closeButtonProps={{ title: 'Close' }}
         opened={bookingId !== null}
         onClose={handleCloseModal}
-        sx={{
-          '.mantine-Modal-content': {
-            flex: 'none',
-          },
-        }}
         styles={{
           close: {
             color: '#000',
@@ -539,41 +533,32 @@ export default function Bookings({ type }: BookingsProps) {
           />
         </Details>
       </Modal>
-      <Stack spacing={32}>
-        <Box sx={{ borderBottom: '1px solid #E1E1E1' }}>
+      <Stack gap={32}>
+        <Box style={{ borderBottom: '1px solid #E1E1E1' }}>
           <Flex gap={16} align="center" mb={8}>
             <Link href="/">
-              <ActionIcon
-                aria-label="Back"
-                sx={{
-                  svg: {
-                    width: 20,
-                    height: 37,
-                  },
-                }}
-              >
-                <BackArrow />
+              <ActionIcon aria-label="Back" variant="transparent">
+                <BackArrow width={20} height={37} />
               </ActionIcon>
             </Link>
             <Title size={32}>{title}</Title>
           </Flex>
-          <Text mb={33} pl={44} size={18}>
+          <Text mb={33} pl={44} className={classes.sizeMd}>
             {getLoungeTitle(experience)}
           </Text>
         </Box>
         <Flex justify="space-between" align="center">
           <Box>
-            <Title size={24} weight={400} pb={8}>
+            <Title size={24} fw={400} pb={8}>
               {tableTitle}
             </Title>
-            <Text size={14} weight={600} color="#9B9CA0">
+            <Text className={classes.sizeSm} fw={600} color="#9B9CA0">
               {bookings.length ? `${bookings.length} bookings` : null}{' '}
             </Text>
             {lastUpdate && (
               <Text
-                size={14}
-                weight={600}
-                color="#9B9CA0"
+                className={classes.lastUpdated}
+                fw={600}
               >{`Last updated ${lastUpdate}`}</Text>
             )}
           </Box>
@@ -583,16 +568,18 @@ export default function Bookings({ type }: BookingsProps) {
               value={search}
               onChange={handleChangeName}
               styles={{
-                rightSection: {},
+                section: {},
               }}
               rightSection={<Magglass />}
               placeholder="Search for Customer or Booking reference"
             />
             <DatePicker
-              icon={<Calendar />}
-              sx={({ colors }) => ({
-                width: 224,
-              })}
+              leftSection={<Calendar width={24} height={24} />}
+              styles={{
+                root: {
+                  width: 224,
+                },
+              }}
               placeholder="Pick a date"
               clearable
               valueFormat={DATE_FORMAT}

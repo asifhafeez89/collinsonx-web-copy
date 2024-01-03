@@ -1,0 +1,35 @@
+.container {
+  background-color: var(--background);
+}
+.flexContent {
+  width: 100%;
+  flex-direction: row;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+.flexOuter {
+  justify-content: center;
+
+  @media (max-width: 768px) : {
+    width: 100%;
+    justify-content: initial;
+
+    background-color: var(--background);
+  }
+}
+.flexInner {
+  width: 591px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin: 0;
+  }
+}
+.description {
+  @media (max-width: 768px) {
+    background: colors.white;
+    padding: 20px;
+  }
+}

@@ -61,7 +61,7 @@ export default function Outlets() {
   };
 
   return (
-    <Stack spacing={32}>
+    <Stack gap={32}>
       <Title>Outlets</Title>
       <Error error={errorOutlets} />
       <Error error={errorPartnerBrand} />

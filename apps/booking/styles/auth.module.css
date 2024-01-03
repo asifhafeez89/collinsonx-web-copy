@@ -1,0 +1,19 @@
+.loginContainer {
+  height: 100%;
+  width: 440px;
+  margin: 0 auto;
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 1rem 1.5rem 0 1.5rem;
+  }
+}
+.signupContainer {
+  height: 100%;
+  width: 440px;
+  margin: 0 auto;
+  @media (max-width: 768px) {
+    padding: 1rem 1.5rem 0 1.5rem;
+    width: 100%;
+    marginbottom: 150px;
+  }
+}

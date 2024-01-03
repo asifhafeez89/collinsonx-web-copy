@@ -19,6 +19,8 @@ import { useRouter } from 'next/router';
 import { sendPasswordResetEmail } from 'supertokens-auth-react/recipe/emailpassword';
 import Link from 'next/link';
 
+import classes from './auth.module.css';
+
 export interface FormValues {
   email: string;
 }
@@ -80,27 +82,24 @@ export default function ResetRequest() {
   return (
     <>
       <PageTitle title="Reset your password" />
-      <Stack justify="center" align="center" spacing={32}>
-        <Title color="cyan.8" size={22}>
-          Forgotten your password?
-        </Title>
+      <Stack justify="center" align="center" gap={32}>
+        <Title className={classes.logintTitle}>Forgotten your password?</Title>
         {!success ? (
           <FormContainer>
             <form onSubmit={form.onSubmit(handleSubmit)}>
-              <Stack spacing={40}>
-                <Text size={18}>
+              <Stack gap={40}>
+                <Text className={classes.descriptionText}>
                   Enter the email address you use to login and we&apos;ll send
                   you a link to reset your password.
                 </Text>
                 <TextInput label="Email" {...form.getInputProps('email')} />
                 <Button type="submit">Next</Button>
-                <Text sx={{ fontSize: 18 }}>
+                <Text className={classes.descriptionText}>
                   If you have forgotten your email, please contact our support
                   team using the chat on the partner portal or email{' '}
                   <Anchor
-                    size={18}
                     fw={400}
-                    style={{ textDecoration: 'none' }}
+                    style={{ fontSize: '18px', textDecoration: 'none' }}
                     href="mailto:partner-cergea@collinsongroup.com"
                     component={Link}
                   >
@@ -113,7 +112,7 @@ export default function ResetRequest() {
           </FormContainer>
         ) : (
           <FormContainer>
-            <Stack spacing={32}>
+            <Stack gap={32}>
               <Text>
                 We&apos;ve sent you an email with a link to reset your password.
                 Please check your inbox and junk folders.

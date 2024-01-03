@@ -222,7 +222,7 @@ const TableX = () => {
   });
 
   return (
-    <Stack spacing={24}>
+    <Stack gap={24}>
       <Flex direction="row" justify="space-between">
         <Flex align="center" gap={32}>
           <Checkbox
@@ -239,7 +239,7 @@ const TableX = () => {
         </Flex>
         <Input
           styles={{ input: { borderRadius: 4 } }}
-          sx={{ minWidth: 239 }}
+          style={{ minWidth: 239 }}
           placeholder="Search by partner or by UID"
           value={globalFilter ?? ''}
           onChange={(value) => setGlobalFilter(String(value.target.value))}

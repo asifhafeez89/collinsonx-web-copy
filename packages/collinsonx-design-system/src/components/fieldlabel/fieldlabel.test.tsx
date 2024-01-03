@@ -1,23 +1,22 @@
 import renderer from 'react-test-renderer';
-import  FieldLabel  from '.';
+import { Provider } from 'test-utils';
+import FieldLabel from '.';
 
 const mockFn = jest.fn();
 
 describe('<FieldLabel />', () => {
-    beforeEach(() => {
-        jest.resetAllMocks();
-    });
-
-    it('renders fieldlabel', () => {
-        const tree = renderer
-            .create(
-                <FieldLabel
-                    title="Time of arrival"
-                    value={"test"}
-                    handleClick={mockFn}
-                />
-            )
-            .toJSON();
-        expect(tree).toMatchSnapshot();
-    });
-})
+  it('renders fieldlabel', () => {
+    const tree = renderer
+      .create(
+        <Provider>
+          <FieldLabel
+            title="Time of arrival"
+            value={'test'}
+            handleClick={mockFn}
+          />
+        </Provider>
+      )
+      .toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+});

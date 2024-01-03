@@ -1,0 +1,18 @@
+.container {
+  padding: 16px;
+  maxwidth: 440px;
+  overflow: hidden;
+  background-color: colors.white;
+  margin: 0 auto;
+  @media (max-width: 768px) {
+    width: 90%;
+  }
+}
+.innerContainer {
+  background-color: var(--white);
+}
+.contact {
+  color: var(--blue);
+  background-color: transparent;
+  textdecoration: underline;
+}

@@ -1,0 +1,7 @@
+.rootOutline {
+  color: var(--text-default);
+  border: 1px solid var(--text-default);
+  &:hover {
+    background-color: transparent;
+  }
+}

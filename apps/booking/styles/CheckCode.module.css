@@ -1,0 +1,48 @@
+.container {
+  height: 100%;
+  width: 440px;
+  margin: 0 auto;
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 1rem 1.5rem 0 1.5rem;
+  }
+}
+.center {
+  text-align: center;
+}
+.pinInput {
+  padding: 0.5rem 0 0.5rem 0;
+  & input {
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+}
+.buttonRoot {
+  border: solid;
+  background-color: transparent;
+  border-color: var(--buttonBlack);
+  border-width: 2px;
+  color: var(--buttonBlack);
+  &:hover {
+    background-color: lightgray;
+  }
+}
+.buttonLabel {
+  color: var(--buttonBlack);
+}
+
+.reenter {
+  color: var(--blue);
+  background-color: transparent;
+  text-decoration: underline;
+}
+.divider {
+  background-color: var(--dividerGrey);
+  height: 1px;
+  width: 100%;
+}
+.wrongCode {
+  color: var(--errorRed);
+  text-align: center;
+}

@@ -7,7 +7,7 @@ import {
   Button,
   Center,
 } from '@collinsonx/design-system/core';
-import { useForm } from '@mantine/form';
+import { useForm } from '@collinsonx/design-system/form';
 import { LoungeInfo } from '@components/LoungeInfo';
 import { FlightInfo } from '../components/flightInfo/FlightInfo';
 import GuestInfo from '@components/GuestInfo';
@@ -38,6 +38,8 @@ import { FlightContext } from 'context/flightContext';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
 import useLocale from 'hooks/useLocale';
 import { logAction } from '@lib';
+
+import classes from '../styles/Home.module.css';
 
 interface DepartureFlightInfo {
   airport: { iata: string };
@@ -176,45 +178,14 @@ const Lounge = () => {
   return (
     <Layout>
       <form onSubmit={form.onSubmit(handleClickCheckAvailability)}>
-        <Stack spacing={16}>
-          <Stack sx={{ width: '100%' }}>
+        <Stack gap={16}>
+          <Stack w="100%">
             <TopBarLinks page={pageName} />
           </Stack>
-          <Flex
-            align="center"
-            sx={{
-              justifyContent: 'center',
-
-              '@media (max-width: 768px)': {
-                backgroundColor: colors.background,
-                width: '100%',
-                margin: '0',
-                padding: '0',
-                justifyContent: 'initial',
-              },
-            }}
-          >
-            <Stack
-              spacing={12}
-              sx={{
-                maxWidth: '591px',
-
-                '@media (max-width: 768px)': {
-                  maxWidth: '100%',
-                },
-              }}
-            >
+          <Flex align="center" className={classes.container}>
+            <Stack gap={12} className={classes.stack}>
               {' '}
-              <Center
-                sx={{
-                  padding: '0px',
-                  margin: '0',
-
-                  '@media (min-width: 768px)': {
-                    display: 'none',
-                  },
-                }}
-              >
+              <Center className={classes.titleWrapper}>
                 <Heading as="h1" padding={0} margin={0} lineHeight={1}>
                   {translations.booking.flightAndGuests.title}
                 </Heading>

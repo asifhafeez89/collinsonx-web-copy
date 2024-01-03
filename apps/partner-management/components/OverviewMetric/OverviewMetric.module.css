@@ -1,0 +1,8 @@
+.label {
+  color: #9b9ca0;
+  font-weight: 600;
+}
+.value {
+  color: var(--mantine-color-dark-6);
+  font-weight: 400;
+}

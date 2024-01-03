@@ -5,7 +5,7 @@ const InputSelect = ({ ...props }: SelectProps) => {
   return (
     <Select
       {...props}
-      sx={{
+      style={{
         color: '#000 !important',
         label: { color: '#000000', fontWeight: 400, marginBottom: 8 },
         input: {
@@ -13,10 +13,6 @@ const InputSelect = ({ ...props }: SelectProps) => {
             borderColor: 'red',
           },
         },
-      }}
-      role="none"
-      rightSection={<ArrowDown />}
-      styles={(theme) => ({
         item: {
           // applies styles to selected item
           '&[data-selected]': {
@@ -34,8 +30,10 @@ const InputSelect = ({ ...props }: SelectProps) => {
             },
           },
         },
-        ...(props.styles ? props.styles : {}),
-      })}
+      }}
+      role="none"
+      styles={{ ...(props.styles ? props.styles : {}) }}
+      rightSection={<ArrowDown />}
     />
   );
 };

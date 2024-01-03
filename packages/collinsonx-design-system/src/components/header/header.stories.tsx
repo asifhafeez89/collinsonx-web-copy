@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { Box } from '@mantine/core';
 
 import Header from './index';
-import { LogoCergea, LogoDinersClub, LogoAmex } from '../../assets/logo';
+import { LogoCergea } from '../../assets/logo';
 
 export default {
   title: 'Components/Header',
@@ -18,14 +18,11 @@ const Template: ComponentStory<typeof Header> = (args, context) => {
 
   const componentMap = {
     experienceX: LogoCergea,
-    dinersClub: LogoDinersClub,
-    amexBlack: LogoAmex,
-    amexPlatinum: LogoAmex,
   };
   const Component = componentMap[context.globals.theme];
 
   return (
-    <Box sx={{ padding: 0 }}>
+    <Box>
       <Header logo={<Component />} />
     </Box>
   );

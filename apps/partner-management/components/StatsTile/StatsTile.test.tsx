@@ -1,6 +1,6 @@
 import StatsTile, { StatsTileProps } from '.';
 
-import { render } from '@testing-library/react';
+import { render } from '@collinsonx/design-system/test-utils';
 import '@testing-library/jest-dom/extend-expect';
 
 describe('<StatsTile />', () => {

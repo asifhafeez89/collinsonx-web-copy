@@ -26,6 +26,8 @@ import { AlertIcon } from '@collinsonx/design-system/assets/icons';
 import { logAction, sendMobileEvent } from '@lib';
 import { ANALYTICS_TAGS, MOBILE_ACTION_BACK } from '../constants';
 
+import classes from '../styles/FailureBooking.module.css';
+
 export default function BookingFailure() {
   const router = useRouter();
   const pageName = 'Slot_Mis';
@@ -58,60 +60,27 @@ export default function BookingFailure() {
 
   return (
     <Layout>
-      <Stack spacing={16} sx={{ backgroundColor: colors.background }}>
-        <Stack sx={{ width: '100%' }}>
+      <Stack gap={16} className={classes.container}>
+        <Stack w="100%">
           <TopBarLinks page={pageName} />
         </Stack>
         <Flex
           justify="center"
           align="center"
           direction="column"
-          sx={{
-            justifyContent: 'center',
-
-            '@media (max-width: 768px)': {
-              width: '100%',
-              justifyContent: 'initial',
-
-              backgroundColor: colors.background,
-            },
-          }}
+          className={classes.flexOuter}
         >
-          <Stack
-            spacing={24}
-            sx={{
-              width: '591px',
-
-              '@media (max-width: 768px)': {
-                width: '100%',
-                margin: '0',
-              },
-            }}
-          >
+          <Stack gap={24} className={classes.flexInner}>
             <LoungeInfo lounge={lounge} loading={!lounge} />
             <Flex
               gap={{ base: 'sm', sm: 'lg' }}
-              sx={{
-                width: '100%',
-                flexDirection: 'row',
-
-                '@media (max-width: 768px)': {
-                  flexDirection: 'column',
-                },
-              }}
+              className={classes.flexContent}
             >
               {!lounge && <BookingFormSkeleton />}
               {lounge && (
                 <Box>
                   <Stack>
-                    <Box
-                      sx={{
-                        '@media (max-width: 768px)': {
-                          background: colors.white,
-                          padding: '20px',
-                        },
-                      }}
-                    >
+                    <Box className={classes.description}>
                       <Title
                         style={{
                           fontSize: '1.5rem',
@@ -130,7 +99,7 @@ export default function BookingFailure() {
                         confirm your booking. You will be refunded any payment
                         made.
                       </Text>
-                      <Box sx={{ marginTop: '1.5rem' }}>
+                      <Box mt="1.5rem">
                         <Text>
                           Please consider booking another time slot, or check to
                           see if another lounge is available.

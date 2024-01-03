@@ -1,0 +1,9 @@
+.root {
+  height: 44px;
+  &:hover {
+    filter: brightness(85%);
+  }
+}
+.label {
+  font-size: rem(18px);
+}

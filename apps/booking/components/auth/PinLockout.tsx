@@ -12,7 +12,8 @@ import { useViewportSize } from '@collinsonx/design-system/hooks';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { BridgePayload } from 'types/booking';
-import colors from 'ui/colour-constants';
+
+import classes from './PinLockout.module.css';
 
 const { LK, PP } = AccountProvider;
 const { Mastercard_HSBC } = Client;
@@ -80,23 +81,16 @@ const PinLockout = ({
   return (
     !loading && (
       <Center h={`${height / 2 + 116}px`}>
-        <Container
-          sx={{
-            padding: '16px',
-            maxWidth: '440px',
-            overflow: 'hidden',
-            backgroundColor: colors.white,
-            margin: '0 auto',
-            '@media (max-width: 768px)': {
-              width: '90%',
-            },
-          }}
-        >
+        <Container className={classes.container}>
           <Stack align="center" data-testid="attempts-header">
-            <Text fw={700} size={20}>
+            <Text fw={700} size="xl">
               {errTitle}
             </Text>
-            <Text align="center" size={18} data-testid="attempts-body">
+            <Text
+              className={classes.center}
+              size="lg"
+              data-testid="attempts-body"
+            >
               {errDesc}
             </Text>
             <Button fw={600} onClick={handleClickReenter}>
@@ -104,12 +98,8 @@ const PinLockout = ({
             </Button>
             <Anchor
               fw={600}
-              size={18}
-              sx={{
-                color: colors.blue,
-                backgroundColor: 'transparent',
-                textDecoration: 'underline',
-              }}
+              size="lg"
+              className={classes.contactLink}
               onClick={handleSupportClick}
               data-testid="link-call-support"
             >

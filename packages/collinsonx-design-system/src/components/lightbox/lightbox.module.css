@@ -1,0 +1,5 @@
+.buttonHover {
+  &:hover {
+    background: lightgray;
+  }
+}

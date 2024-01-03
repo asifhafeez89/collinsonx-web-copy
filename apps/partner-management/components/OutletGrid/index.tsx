@@ -7,6 +7,8 @@ import { Maybe, Outlet, OutletStatus } from '@collinsonx/utils';
 import outletIcons from 'config/outletIcons';
 import Link from 'next/link';
 
+import classes from './OutletGrid.module.css';
+
 export interface OutletGridProps {
   outlets: Maybe<Outlet>[];
   onClickOutlet?: (id: string) => void;
@@ -16,12 +18,7 @@ const OutletGrid = ({
   onClickOutlet = (id: string) => {},
 }: OutletGridProps) => {
   return (
-    <SimpleGrid
-      spacing={24}
-      sx={{
-        'grid-template-columns': 'repeat(auto-fill, minmax(350px, 1fr))',
-      }}
-    >
+    <SimpleGrid spacing={24} className={classes.grid}>
       {outlets.map((item, index) => {
         const { id, name, legacyCode, status, location, tags, content } =
           item || {};
@@ -45,8 +42,7 @@ const OutletGrid = ({
             }}
             title={
               <Anchor
-                sx={{ textDecoration: 'none' }}
-                underline={false}
+                className={classes.titleAnchor}
                 component={Link}
                 href={outletUrl}
               >

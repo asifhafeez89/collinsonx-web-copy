@@ -1,361 +1,61 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<SearchInput /> renders SearchInput 1`] = `
-.emotion-2 {
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
-  line-height: 1.55;
-}
-
-.emotion-5 {
-  position: relative;
-}
-
-.emotion-5:has(input:disabled) .emotion-10 {
-  display: none;
-}
-
-.emotion-8 {
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
-  height: 2.25rem;
-  -webkit-tap-highlight-color: transparent;
-  line-height: calc(2.25rem - 0.125rem);
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  appearance: none;
-  resize: none;
-  box-sizing: border-box;
-  font-size: 0.875rem;
-  width: 100%;
-  color: #000;
-  display: block;
-  text-align: left;
-  border: 0.0625rem solid #ced4da;
-  background-color: #fff;
-  -webkit-transition: border-color 100ms ease;
-  transition: border-color 100ms ease;
-  min-height: 2.25rem;
-  padding-left: calc(2.25rem  / 3);
-  padding-right: 2.25rem;
-  border-radius: 0.25rem;
-  border-radius: 8px;
-  height: 50px;
-  font-size: 16px;
-  background-color: #FFF;
-  border-color: #ced4da;
-}
-
-.emotion-8:focus,
-.emotion-8:focus-within {
-  outline: none;
-  border-color: #228be6;
-}
-
-.emotion-8:disabled,
-.emotion-8[data-disabled] {
-  background-color: #f1f3f5;
-  color: #909296;
-  opacity: 0.6;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-.emotion-8:disabled::-webkit-input-placeholder {
-  color: #909296;
-}
-
-.emotion-8:disabled::-moz-placeholder {
-  color: #909296;
-}
-
-.emotion-8:disabled:-ms-input-placeholder {
-  color: #909296;
-}
-
-.emotion-8[data-disabled]::-webkit-input-placeholder {
-  color: #909296;
-}
-
-.emotion-8[data-disabled]::-moz-placeholder {
-  color: #909296;
-}
-
-.emotion-8[data-disabled]:-ms-input-placeholder {
-  color: #909296;
-}
-
-.emotion-8:disabled::placeholder,
-.emotion-8[data-disabled]::placeholder {
-  color: #909296;
-}
-
-.emotion-8[data-invalid] {
-  color: #fa5252;
-  border-color: #fa5252;
-}
-
-.emotion-8[data-invalid]::-webkit-input-placeholder {
-  opacity: 1;
-  color: #fa5252;
-}
-
-.emotion-8[data-invalid]::-moz-placeholder {
-  opacity: 1;
-  color: #fa5252;
-}
-
-.emotion-8[data-invalid]:-ms-input-placeholder {
-  opacity: 1;
-  color: #fa5252;
-}
-
-.emotion-8[data-invalid]::placeholder {
-  opacity: 1;
-  color: #fa5252;
-}
-
-.emotion-8[data-with-icon] {
-  padding-left: 2.25rem;
-}
-
-.emotion-8::-webkit-input-placeholder {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  color: #adb5bd;
-  opacity: 1;
-}
-
-.emotion-8::-moz-placeholder {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  color: #adb5bd;
-  opacity: 1;
-}
-
-.emotion-8:-ms-input-placeholder {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  color: #adb5bd;
-  opacity: 1;
-}
-
-.emotion-8::placeholder {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  color: #adb5bd;
-  opacity: 1;
-}
-
-.emotion-8::-webkit-inner-spin-button,
-.emotion-8::-webkit-outer-spin-button,
-.emotion-8::-webkit-search-decoration,
-.emotion-8::-webkit-search-cancel-button,
-.emotion-8::-webkit-search-results-button,
-.emotion-8::-webkit-search-results-decoration {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  appearance: none;
-}
-
-.emotion-8[type=number] {
-  -moz-appearance: textfield;
-}
-
-.emotion-8:focus {
-  height: 50px;
-  border-color: #ced4da;
-  background-color: #FFF;
-}
-
-.emotion-8:focus::-webkit-input-placeholder {
-  color: transparent;
-}
-
-.emotion-8:focus::-moz-placeholder {
-  color: transparent;
-}
-
-.emotion-8:focus:-ms-input-placeholder {
-  color: transparent;
-}
-
-.emotion-8:focus::placeholder {
-  color: transparent;
-}
-
-.emotion-9 {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  width: 2.25rem;
-}
-
-.mantine-1surk1h:has(input:disabled) .emotion-10 {
-  display: none;
-}
-
-.mantine-1e6nbp3:has(input:disabled) .emotion-10 {
-  display: none;
-}
-
-.emotion-14 {
-  -webkit-tap-highlight-color: transparent;
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
-  cursor: pointer;
-  border: 0;
-  padding: 0;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  appearance: none;
-  font-size: 1rem;
-  background-color: transparent;
-  text-align: left;
-  color: #000;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  box-sizing: border-box;
-  position: relative;
-  border-radius: 0.25rem;
-  padding: 0;
-  line-height: 1;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  height: 1.75rem;
-  min-height: 1.75rem;
-  width: 1.75rem;
-  min-width: 1.75rem;
-  border: 0.0625rem solid transparent;
-  background-color: transparent;
-  color: #868e96;
-  color: #000;
-}
-
-.emotion-14:focus {
-  outline-offset: 0.125rem;
-  outline: 0.125rem solid #339af0;
-}
-
-.emotion-14:focus:not(:focus-visible) {
-  outline: none;
-}
-
-@media (hover: hover) {
-  .emotion-14:hover {
-    background-color: rgba(248, 249, 250, 1);
-  }
-}
-
-@media (hover: none) {
-  .emotion-14:active {
-    background-color: rgba(248, 249, 250, 1);
-  }
-}
-
-.emotion-14:active {
-  -webkit-transform: translateY(0.0625rem);
-  -moz-transform: translateY(0.0625rem);
-  -ms-transform: translateY(0.0625rem);
-  transform: translateY(0.0625rem);
-}
-
-.emotion-14 [data-action-icon-loader] {
-  max-width: 70%;
-}
-
-.emotion-14:disabled,
-.emotion-14[data-disabled] {
-  color: #ced4da;
-  cursor: not-allowed;
-  background-color: #f1f3f5;
-  border-color: #f1f3f5;
-  background-image: none;
-  pointer-events: none;
-}
-
-.emotion-14:disabled:active,
-.emotion-14[data-disabled]:active {
-  -webkit-transform: none;
-  -moz-transform: none;
-  -ms-transform: none;
-  transform: none;
-}
-
-.emotion-14[data-loading] {
-  pointer-events: none;
-}
-
-.emotion-14[data-loading]::before {
-  content: "";
-  position: absolute;
-  top: -0.0625rem;
-  right: -0.0625rem;
-  left: -0.0625rem;
-  bottom: -0.0625rem;
-  background-color: rgba(255, 255, 255, .5);
-  border-radius: 0.25rem;
-  cursor: not-allowed;
-}
-
-<div
-  className="emotion-0 emotion-1 emotion-2"
->
+[
+  <style
+    dangerouslySetInnerHTML={
+      {
+        "__html": "@media (max-width: 35.99375em) {.mantine-visible-from-xs {display: none !important;}}@media (min-width: 36em) {.mantine-hidden-from-xs {display: none !important;}}@media (max-width: 47.99375em) {.mantine-visible-from-sm {display: none !important;}}@media (min-width: 48em) {.mantine-hidden-from-sm {display: none !important;}}@media (max-width: 61.99375em) {.mantine-visible-from-md {display: none !important;}}@media (min-width: 62em) {.mantine-hidden-from-md {display: none !important;}}@media (max-width: 74.99375em) {.mantine-visible-from-lg {display: none !important;}}@media (min-width: 75em) {.mantine-hidden-from-lg {display: none !important;}}@media (max-width: 87.99375em) {.mantine-visible-from-xl {display: none !important;}}@media (min-width: 88em) {.mantine-hidden-from-xl {display: none !important;}}",
+      }
+    }
+    data-mantine-styles="classes"
+  />,
   <div
-    className="emotion-3 emotion-4 emotion-5"
+    className="m-46b77525 mantine-InputWrapper-root mantine-TextInput-root"
+    style={{}}
   >
-    <input
-      aria-invalid={false}
-      className="emotion-6 emotion-7 emotion-8"
-      id="mantine-486rh4cs4"
-      onChange={[MockFunction]}
-      placeholder="Search for airport or lounge"
-      type="text"
-      value="Hello"
-    />
     <div
-      className="emotion-9 emotion-10 emotion-11"
+      className="m-6c018570 mantine-Input-wrapper mantine-TextInput-wrapper"
+      data-variant="default"
+      data-with-right-section={true}
+      style={{}}
     >
-      <button
-        aria-label="Clear"
-        className="emotion-12 emotion-13 emotion-14"
-        onClick={[MockFunction]}
-        type="button"
+      <input
+        aria-invalid={false}
+        className="m-8fb7ebe7 mantine-Input-input mantine-TextInput-input"
+        data-variant="default"
+        id="mantine-"
+        onChange={[MockFunction]}
+        placeholder="Search for airport or lounge"
+        style={
+          {
+            "backgroundcolor": "#fff",
+            "bordercolor": "#ced4da",
+            "height": "50px",
+          }
+        }
+        value="Hello"
+      />
+      <div
+        className="m-82577fc2 mantine-Input-section mantine-TextInput-section"
+        data-position="right"
+        style={{}}
       >
-        <test-file-stub />
-      </button>
+        <button
+          aria-label="Clear"
+          className="mantine-focus-auto mantine-active m-8d3f4000 mantine-ActionIcon-root m-87cf2631 mantine-UnstyledButton-root"
+          onClick={[MockFunction]}
+          style={
+            {
+              "color": "#000",
+            }
+          }
+          type="button"
+        >
+          <test-file-stub />
+        </button>
+      </div>
     </div>
-  </div>
-</div>
+  </div>,
+]
 `;

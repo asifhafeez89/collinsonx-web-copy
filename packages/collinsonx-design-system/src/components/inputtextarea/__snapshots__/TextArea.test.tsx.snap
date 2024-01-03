@@ -1,226 +1,65 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Textarea /> renders Textarea 1`] = `
-.emotion-2 {
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
-  line-height: 1.55;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-}
-
-.emotion-5 {
-  display: inline-block;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #212529;
-  word-break: break-word;
-  cursor: default;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-order: -2;
-  -ms-flex-order: -2;
-  order: -2;
-  color: #000000;
-}
-
-.emotion-6 {
-  color: #fa5252;
-}
-
-.emotion-11 {
-  position: relative;
-}
-
-.emotion-11:has(input:disabled) .mantine-Input-rightSection {
-  display: none;
-}
-
-.emotion-14 {
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
-  height: auto;
-  -webkit-tap-highlight-color: transparent;
-  line-height: 1.55;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  appearance: none;
-  resize: none;
-  box-sizing: border-box;
-  font-size: 0.875rem;
-  width: 100%;
-  color: #000;
-  display: block;
-  text-align: left;
-  border: 0.0625rem solid #ced4da;
-  background-color: #fff;
-  -webkit-transition: border-color 100ms ease;
-  transition: border-color 100ms ease;
-  min-height: 2.25rem;
-  padding-left: calc(2.25rem  / 3);
-  padding-right: calc(2.25rem  / 3);
-  border-radius: 0.25rem;
-  -webkit-order: -1;
-  -ms-flex-order: -1;
-  order: -1;
-  padding-top: 0.625rem;
-  padding-bottom: 0.625rem;
-}
-
-.emotion-14:focus,
-.emotion-14:focus-within {
-  outline: none;
-  border-color: #228be6;
-}
-
-.emotion-14:disabled,
-.emotion-14[data-disabled] {
-  background-color: #f1f3f5;
-  color: #909296;
-  opacity: 0.6;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-.emotion-14:disabled::-webkit-input-placeholder {
-  color: #909296;
-}
-
-.emotion-14:disabled::-moz-placeholder {
-  color: #909296;
-}
-
-.emotion-14:disabled:-ms-input-placeholder {
-  color: #909296;
-}
-
-.emotion-14[data-disabled]::-webkit-input-placeholder {
-  color: #909296;
-}
-
-.emotion-14[data-disabled]::-moz-placeholder {
-  color: #909296;
-}
-
-.emotion-14[data-disabled]:-ms-input-placeholder {
-  color: #909296;
-}
-
-.emotion-14:disabled::placeholder,
-.emotion-14[data-disabled]::placeholder {
-  color: #909296;
-}
-
-.emotion-14[data-invalid] {
-  color: #fa5252;
-  border-color: #fa5252;
-}
-
-.emotion-14[data-invalid]::-webkit-input-placeholder {
-  opacity: 1;
-  color: #fa5252;
-}
-
-.emotion-14[data-invalid]::-moz-placeholder {
-  opacity: 1;
-  color: #fa5252;
-}
-
-.emotion-14[data-invalid]:-ms-input-placeholder {
-  opacity: 1;
-  color: #fa5252;
-}
-
-.emotion-14[data-invalid]::placeholder {
-  opacity: 1;
-  color: #fa5252;
-}
-
-.emotion-14[data-with-icon] {
-  padding-left: 2.25rem;
-}
-
-.emotion-14::-webkit-input-placeholder {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  color: #adb5bd;
-  opacity: 1;
-}
-
-.emotion-14::-moz-placeholder {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  color: #adb5bd;
-  opacity: 1;
-}
-
-.emotion-14:-ms-input-placeholder {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  color: #adb5bd;
-  opacity: 1;
-}
-
-.emotion-14::placeholder {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  color: #adb5bd;
-  opacity: 1;
-}
-
-.emotion-14::-webkit-inner-spin-button,
-.emotion-14::-webkit-outer-spin-button,
-.emotion-14::-webkit-search-decoration,
-.emotion-14::-webkit-search-cancel-button,
-.emotion-14::-webkit-search-results-button,
-.emotion-14::-webkit-search-results-decoration {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  appearance: none;
-}
-
-.emotion-14[type=number] {
-  -moz-appearance: textfield;
-}
-
-<div
-  className="emotion-0 emotion-1 emotion-2"
->
-  <label
-    className="emotion-3 emotion-4 emotion-5"
-    htmlFor="mantine-nmxrpjdib"
-    id="mantine-nmxrpjdib-label"
-    onMouseDown={[Function]}
-  >
-    Your comment
-    <span
-      aria-hidden={true}
-      className="emotion-6 emotion-7 emotion-8"
-    >
-       *
-    </span>
-  </label>
+[
+  <style
+    dangerouslySetInnerHTML={
+      {
+        "__html": "@media (max-width: 35.99375em) {.mantine-visible-from-xs {display: none !important;}}@media (min-width: 36em) {.mantine-hidden-from-xs {display: none !important;}}@media (max-width: 47.99375em) {.mantine-visible-from-sm {display: none !important;}}@media (min-width: 48em) {.mantine-hidden-from-sm {display: none !important;}}@media (max-width: 61.99375em) {.mantine-visible-from-md {display: none !important;}}@media (min-width: 62em) {.mantine-hidden-from-md {display: none !important;}}@media (max-width: 74.99375em) {.mantine-visible-from-lg {display: none !important;}}@media (min-width: 75em) {.mantine-hidden-from-lg {display: none !important;}}@media (max-width: 87.99375em) {.mantine-visible-from-xl {display: none !important;}}@media (min-width: 88em) {.mantine-hidden-from-xl {display: none !important;}}",
+      }
+    }
+    data-mantine-styles="classes"
+  />,
   <div
-    className="emotion-9 emotion-10 emotion-11"
+    className="m-46b77525 mantine-InputWrapper-root mantine-Textarea-root"
+    style={
+      {
+        "display": "flex",
+        "flexDirection": "column",
+      }
+    }
   >
-    <textarea
-      aria-invalid={false}
-      className="emotion-12 emotion-13 emotion-14"
-      id="mantine-nmxrpjdib"
-      placeholder="Your comment"
-    />
-  </div>
-</div>
+    <label
+      className="m-8fdc1311 mantine-InputWrapper-label mantine-Textarea-label"
+      data-required={true}
+      htmlFor="mantine-"
+      id="mantine--label"
+      onMouseDown={[Function]}
+      style={
+        {
+          "color": "#000000",
+          "order": -2,
+        }
+      }
+    >
+      Your comment
+      <span
+        aria-hidden={true}
+        className="m-78a94662 mantine-InputWrapper-required mantine-Textarea-required"
+        style={{}}
+      >
+         *
+      </span>
+    </label>
+    <div
+      className="m-6c018570 mantine-Input-wrapper mantine-Textarea-wrapper"
+      data-multiline={true}
+      data-variant="default"
+      style={{}}
+    >
+      <textarea
+        aria-invalid={false}
+        className="m-8fb7ebe7 mantine-Input-input mantine-Textarea-input"
+        data-variant="default"
+        id="mantine-"
+        placeholder="Your comment"
+        style={
+          {
+            "order": -1,
+          }
+        }
+      />
+    </div>
+  </div>,
+]
 `;

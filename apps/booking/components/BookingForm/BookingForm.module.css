@@ -1,0 +1,12 @@
+.root {
+  border-radius: 8px;
+  background: var(--mantine-color-white);
+  color: var(--mantine-color-black);
+  padding: 12px 24px;
+  width: 30%;
+  textalign: center;
+  fontsize: 18px;
+  margintop: 20px;
+  marginleft: 40px;
+  border: 1px solid black;
+}

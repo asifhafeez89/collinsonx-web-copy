@@ -1,6 +1,8 @@
 import { Flex } from '@collinsonx/design-system/core';
 import useLocale from 'hooks/useLocale';
 
+import classes from './GuestCount.module.css';
+
 interface guestProps {
   guestList: {
     adults: number;
@@ -16,7 +18,7 @@ export const GuestCount = ({
 
   return (
     <Flex direction="row" gap={10}>
-      <Flex sx={{ width: '60%' }} gap={10}>
+      <Flex className={classes.container} gap={10}>
         <p style={{ padding: '0', margin: '0' }}>
           {' '}
           {translations.booking.guestDetails.adultsInput.label}{' '}

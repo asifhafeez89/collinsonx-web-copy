@@ -1,0 +1,11 @@
+body {
+  height: 100%;
+  color: var(--mantine-color-dark-4);
+  font-weight: 400;
+}
+html {
+  height: 100%;
+}
+#__next {
+  height: 100%;
+}

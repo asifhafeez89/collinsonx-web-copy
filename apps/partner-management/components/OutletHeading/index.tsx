@@ -3,6 +3,7 @@ import colors from '@collinsonx/design-system/colour-constants-partner';
 import { ActionIcon, Flex, Text, Title } from '@collinsonx/design-system/core';
 import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
+import classes from './OutletHeading.module.css';
 
 export interface OutletHeadingProps {
   name: string;
@@ -73,18 +74,15 @@ const OutletHeading = ({
         >
           <Title
             data-testid="outlet-title"
-            color={colors['text-default']}
+            className={classes.outletTitle}
             mt={2}
             fz={{ base: 24, lg: 32 }}
-            weight={700}
           >
             {name}
           </Title>
           <Text
             data-testid="outlet-subtitle"
-            color={colors['text-grey']}
-            size={18}
-            weight={400}
+            className={classes.outletSubtitle}
           >
             {locationName}
             {terminal && `, ${terminal}`}

@@ -19,7 +19,7 @@ const Details = ({ children, booking, loading = false }: DetailsProps) => {
   );
 
   return (
-    <Stack spacing={40}>
+    <Stack gap={40}>
       <DetailsSection label="Passenger details">
         <DetailsKeyValue label="Name" loading={loading}>
           {booking?.consumer?.fullName ?? '-'}

@@ -15,6 +15,7 @@ import PageTitle from '@components/PageTitle';
 import Link from 'next/link';
 import { signIn } from 'supertokens-auth-react/recipe/emailpassword';
 import { useRouter } from 'next/router';
+import classes from './auth.module.css';
 
 export interface FormValues {
   email: string;
@@ -85,36 +86,42 @@ export default function Login() {
   return (
     <>
       <PageTitle title="Login" />
-      <Stack justify="center" align="center" spacing={32}>
-        <Stack justify="center" align="center" spacing={8}>
-          <Title color="cyan.8" size={22}>
-            Login
-          </Title>
+      <Stack justify="center" align="center" gap={32}>
+        <Stack justify="center" align="center" gap={8}>
+          <Title className={classes.loginTitle}>Login</Title>
         </Stack>
         <FormContainer>
           <form onSubmit={form.onSubmit(handleLogin)}>
-            <TextInput label="Email" {...form.getInputProps('email')} data-testid="email" />
+            <TextInput
+              label="Email"
+              {...form.getInputProps('email')}
+              data-testid="email"
+            />
             <PasswordInput
               label="Password"
               mt={32}
               {...form.getInputProps('password')}
               data-testid="password"
             />
-            <Checkbox label="Save my password" mt={16} data-testid="saveMyPassword" />
+            <Checkbox
+              label="Save my password"
+              mt={16}
+              data-testid="saveMyPassword"
+            />
             <Button type="submit" mt={40} fullWidth data-testid="login">
               Login
             </Button>
             <Anchor
               component={Link}
               href="/auth/reset-request"
-              sx={{ marginTop: 24, display: 'block' }}
+              className={classes.forgotPassword}
             >
               Forgotten password?
             </Anchor>
             <Anchor
               component={Link}
               href="/auth/forgot-email"
-              sx={{ marginTop: 16, display: 'block' }}
+              className={classes.forgotEmailLogin}
             >
               Forgotten email?
             </Anchor>

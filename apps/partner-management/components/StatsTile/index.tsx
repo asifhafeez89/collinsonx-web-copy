@@ -17,7 +17,7 @@ const StatsTile = ({ label, value }: StatsTileProps) => {
     <Tile>
       <Flex color="dark.6" direction="column">
         <Text>{label}</Text>
-        <Text size={48} fw={600}>
+        <Text size="xl" fw={600}>
           {value}
         </Text>
       </Flex>

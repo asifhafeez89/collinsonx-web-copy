@@ -1,0 +1,44 @@
+.container {
+  max-width: 100%;
+  overflow: hidden;
+  background-color: var(--background);
+}
+.container2 {
+  border-bottom: 1px solid var(--boxBorder);
+  background-color: var(--white);
+  width: 100%;
+  position: fixed;
+  z-index: 200;
+}
+.container3 {
+  width: 100%;
+  background-color: var(--white);
+  box-shadow: 4px 4px 4px 0px var(--shadow);
+  position: fixed;
+  z-index: 200;
+}
+.logoWrapper {
+  width: 100%;
+  background-color: var(--white);
+  box-shadow: 4px 4px 4px 4px var(--shadow);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  height: 100px;
+  @media (max-width: 768px) {
+    height: 50px;
+  }
+  z-index: 200;
+}
+
+.contentWrapper {
+  padding-bottom: 1.3rem;
+  margin-top: 6.5rem;
+  @media (max-width: 768px) {
+    margin-top: 3.3rem;
+    padding: 0;
+  }
+}

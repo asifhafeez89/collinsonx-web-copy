@@ -28,6 +28,8 @@ import { log, logAction } from '@lib';
 import { ANALYTICS_TAGS, VALIDATION_RULES } from '../../constants';
 import useLocale from 'hooks/useLocale';
 
+import classes from '../../styles/auth.module.css';
+
 const { bookingId } = BookingQueryParams;
 
 export default function SignupUser() {
@@ -118,7 +120,7 @@ export default function SignupUser() {
           ))}
         </Notification>
       )}
-      <Stack sx={{ width: '100%' }}>
+      <Stack w="100%">
         <Skeleton visible={!lounge}>
           <TopBarLinks page={pageName} />
         </Skeleton>
@@ -144,28 +146,16 @@ export default function SignupUser() {
           });
         })}
       >
-        <Stack spacing={50}>
-          <Stack
-            spacing={24}
-            sx={{
-              height: '100%',
-              width: '440px',
-              margin: '0 auto',
-              '@media (max-width: 768px)': {
-                padding: '1rem 1.5rem 0 1.5rem',
-                width: '100%',
-                marginBottom: '150px',
-              },
-            }}
-          >
-            <Text size={18} align="center">
+        <Stack gap={50}>
+          <Stack gap={24} className={classes.signupContainer}>
+            <Text size="lg" ta="center">
               {translations.auth.signUp.subtitle}
             </Text>
-            <Title order={1} size={24} align="center">
+            <Title order={1} size={24} ta="center">
               {translations.auth.signUp.title}
             </Title>
             <Error error={error} />
-            <Stack spacing={8}>
+            <Stack gap={8}>
               <Text>
                 <Text span color={colors.red}>
                   *
@@ -190,7 +180,7 @@ export default function SignupUser() {
                 maxLength={VALIDATION_RULES.MAX_LENGTH}
               />
             </Stack>
-            <Stack spacing={8}>
+            <Stack gap={8}>
               <Text>
                 <Text span color={colors.red}>
                   *

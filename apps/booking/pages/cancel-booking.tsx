@@ -31,6 +31,8 @@ import EstimatedTimeArrival from '@components/EstimatedTimeArrival';
 import { arrivalTimeFormatter } from 'utils/ArrivalTimeFormatter';
 import { FlightDetailsAndGuests } from '@components/FlightDetailsAndGuests';
 
+import classes from '../styles/CancelBooking.module.css';
+
 const {
   ERR_BOOKING_NOT_FOUND,
   ERR_BOOKING_ALREADY_CANCELLED,
@@ -123,13 +125,13 @@ export default function CancelBooking() {
 
   const arrival = arrivalTimeFormatter(
     bookingDetails?.getBookingByID?.bookedFrom,
-    bookingDetails?.getBookingByID.lastArrival
+    bookingDetails?.getBookingByID?.lastArrival
   );
 
   return (
     <Layout>
       {bookingDetails && !loading ? (
-        <Stack spacing={8} sx={{ width: '100%', marginTop: '100px' }}>
+        <Stack gap={8} w="100%" mt="100px">
           <BookingLightbox
             open={opened}
             ctaForwardCall={handleCancellation}
@@ -137,12 +139,7 @@ export default function CancelBooking() {
             ctaCancel={'CLOSE'}
             onClose={close}
           >
-            <Flex
-              align="center"
-              justify="center"
-              wrap="wrap"
-              sx={{ padding: '10px 0' }}
-            >
+            <Flex align="center" justify="center" wrap="wrap" p="10px 0">
               <Heading
                 as="h2"
                 margin={0}
@@ -152,7 +149,7 @@ export default function CancelBooking() {
               >
                 Booking Cancellation
               </Heading>
-              <Text size={20} m={'10px 0 10px 0'} sx={{ textAlign: 'center' }}>
+              <Text size="xl" m="10px 0 10px 0" ta="center">
                 You are about to cancel the booking, are you sure?{' '}
               </Text>
             </Flex>
@@ -162,39 +159,10 @@ export default function CancelBooking() {
             justify="center"
             align="center"
             direction="column"
-            sx={{
-              justifyContent: 'center',
-
-              '@media (max-width: 768px)': {
-                width: '100%',
-                justifyContent: 'initial',
-
-                backgroundColor: colors.background,
-              },
-            }}
+            className={classes.containerL1}
           >
-            <Stack
-              sx={{
-                width: '591px',
-                paddingTop: '0rem',
-                marginTop: '1.2rem',
-
-                '@media (max-width: 768px)': {
-                  gap: '0rem',
-                  width: '100%',
-                  margin: '0',
-                },
-              }}
-            >
-              <Center
-                sx={{
-                  padding: '10px',
-                  margin: '0',
-                  '@media (min-width: 768px)': {
-                    display: 'none',
-                  },
-                }}
-              >
+            <Stack className={classes.containerL2}>
+              <Center className={classes.headingWrapper}>
                 <Heading as="h1" padding={0} margin={0} lineHeight={1}>
                   Booking Cancellation
                 </Heading>
@@ -222,35 +190,16 @@ export default function CancelBooking() {
               ) : (
                 <Flex
                   gap={{ base: 'sm', sm: 'lg' }}
-                  sx={{
-                    width: '100%',
-                    flexDirection: 'row',
-
-                    '@media (max-width: 768px)': {
-                      flexDirection: 'column',
-                    },
-                  }}
+                  className={classes.detailsContainer}
                 >
                   {
-                    <Box
-                      sx={{
-                        width: '100%',
-                      }}
-                    >
+                    <Box w="100%">
                       {errorMessage && (
                         <Notification>{errorMessage}</Notification>
                       )}
                       {bookingDetails?.getBookingByID?.experience && (
                         <>
-                          <Box
-                            sx={{
-                              '@media (max-width: 768px)': {
-                                marginTop: '0.5rem',
-                                backgroundColor: colors.white,
-                                padding: '1.2rem',
-                              },
-                            }}
-                          >
+                          <Box className={classes.titleContainer}>
                             <EditableTitle
                               title="Booking Reference:"
                               as="h3"
@@ -275,17 +224,7 @@ export default function CancelBooking() {
                             lounge={bookingDetails?.getBookingByID?.experience}
                             noEdit={true}
                           />
-                          <Box
-                            sx={{
-                              width: 'initial',
-
-                              '@media (max-width: 768px)': {
-                                margin: '0.5rem 0',
-                                backgroundColor: colors.white,
-                                padding: '1.2rem',
-                              },
-                            }}
-                          >
+                          <Box w="initial" className={classes.titleContainer}>
                             <EditableTitle
                               title="Total price"
                               as="h3"
@@ -309,15 +248,7 @@ export default function CancelBooking() {
                               ></Price>
                             </EditableTitle>
                           </Box>
-                          <Box
-                            sx={{
-                              '@media (max-width: 768px)': {
-                                marginTop: '0.5rem',
-                                backgroundColor: colors.white,
-                                padding: '1.2rem',
-                              },
-                            }}
-                          >
+                          <Box className={classes.toaContainer}>
                             <EditableTitle
                               title="Estimated time of arrival"
                               as="h3"

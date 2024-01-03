@@ -1,6 +1,6 @@
-const shouldInstrumentCode = 'INSTRUMENT_CODE' in process.env
+const shouldInstrumentCode = 'INSTRUMENT_CODE' in process.env;
 
 module.exports = {
-  "presets": ["next/babel"],
-  "plugins": shouldInstrumentCode ? ["istanbul"] : []
-}
+  presets: ['next/babel'],
+  plugins: shouldInstrumentCode ? ['istanbul'] : [],
+};

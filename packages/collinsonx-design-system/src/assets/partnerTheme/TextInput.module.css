@@ -1,0 +1,28 @@
+.input {
+  padding: rem(11px) rem(16px);
+  fontsize: rem(18px);
+  height: rem(50px);
+  background-color: var(--white);
+  border-radius: rem(4px);
+  color: var(--mantine-color-dark-6);
+  &::placeholder {
+    color: var(--mantine-color-gray-6);
+  }
+  &:focus {
+    color: var(--mantine-color-dark-6);
+  }
+  &[data-invalid] {
+    border-color: var(--mantine-color-red-6);
+    color: var(--mantine-color-dark-6);
+    &::placeholder {
+      color: var(--mantine-color-gray-5);
+    }
+  }
+}
+.label {
+  color: var(--mantine-color-dark-6);
+  fontweight: 400;
+}
+.error {
+  color: var(--mantine-color-red-6);
+}

@@ -1,0 +1,27 @@
+.forgotEmail {
+  color: var(--mantine-color-cyan-8);
+  font-size: 22px;
+}
+.returnToLogin {
+  margin-top: 40px;
+  display: block;
+}
+.loginTitle {
+  color: var(--mantine-color-cyan-8);
+  fontsize: 22px;
+}
+.forgotEmailLogin {
+  margin-top: 16px;
+  display: block;
+}
+.forgotPassword {
+  margin-top: 24px;
+  display: block;
+}
+.createNewPassword {
+  text-align: center;
+  font-size: 18px;
+}
+.descriptionText {
+  font-size: 18px;
+}

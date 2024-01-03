@@ -50,6 +50,8 @@ import { FlightDetailsAndGuests } from '@components/FlightDetailsAndGuests';
 import ShowButtonByVersion from '@components/ShowDownloadButton';
 import useLocale from 'hooks/useLocale';
 
+import classes from '../styles/ConfirmPayment.module.css';
+
 export default function ConfirmPayment() {
   const router = useRouter();
   const [timer, setTimer] = useState(0);
@@ -166,7 +168,7 @@ export default function ConfirmPayment() {
 
   return (
     <Layout>
-      <Stack spacing={16} sx={{ backgroundColor: colors.background }}>
+      <Stack gap={16} className={classes.container}>
         <TopBarLinks page={pageName} />
 
         <LoaderLightBox
@@ -212,72 +214,24 @@ export default function ConfirmPayment() {
           justify="center"
           align="center"
           direction="column"
-          sx={{
-            justifyContent: 'center',
-
-            '@media (max-width: 768px)': {
-              width: '100%',
-              justifyContent: 'initial',
-
-              backgroundColor: colors.background,
-            },
-          }}
+          className={classes.containerOuter}
         >
-          <Stack
-            sx={{
-              width: '591px',
-              gap: '0.5rem',
-              '@media (max-width: 768px)': {
-                width: '100%',
-              },
-            }}
-          >
-            <Center
-              sx={{
-                padding: '10px',
-                margin: '0',
-
-                '@media (min-width: 768px)': {
-                  display: 'none',
-                },
-              }}
-            >
+          <Stack className={classes.containerInner}>
+            <Center className={classes.titleContainer}>
               <Heading as="h1" padding={0} margin={0} lineHeight={1}>
                 {translations.booking.confirmationPayment.title}
               </Heading>
             </Center>
-            <Box
-              sx={{
-                '@media (max-width: 480px)': {
-                  display: 'none',
-                },
-              }}
-            >
+            <Box className={classes.loungeInfo}>
               <LoungeInfo lounge={lounge} loading={!lounge} hideImageMobile />
             </Box>
 
-            <Flex
-              gap={0}
-              sx={{
-                width: '100%',
-                flexDirection: 'row',
-
-                '@media (max-width: 768px)': {
-                  flexDirection: 'column',
-                },
-              }}
-            >
+            <Flex gap={0} className={classes.flexContainer}>
               {(!lounge || loadingBooking) && <BookingFormSkeleton />}
 
               {lounge && alert === false && (
                 <Box p={0}>
-                  <Box
-                    sx={{
-                      '@media (max-width: 768px)': {
-                        background: colors.white,
-                      },
-                    }}
-                  >
+                  <Box className={classes.headingContainer}>
                     <Heading
                       style={{
                         fontSize: '1.5rem',
@@ -289,13 +243,7 @@ export default function ConfirmPayment() {
                       margin={0}
                       lineHeight={1.3}
                     >
-                      <Box
-                        sx={{
-                          '@media (max-width: 768px)': {
-                            padding: '20px',
-                          },
-                        }}
-                      >
+                      <Box className={classes.successfulTitle}>
                         {
                           translations.booking.confirmationPayment.outcome
                             .succesful.title
@@ -327,14 +275,7 @@ export default function ConfirmPayment() {
                     </EditableTitle>
                   </Box>
                   {!!lounge && (
-                    <Stack
-                      sx={{
-                        '@media (max-width: 768px)': {
-                          marginTop: '10px',
-                        },
-                      }}
-                      spacing={8}
-                    >
+                    <Stack className={classes.details} gap={8}>
                       <FlightDetailsAndGuests
                         departureTime={departureTime ? departureTime : ''}
                         flightNumber={flightNumber}
@@ -343,13 +284,7 @@ export default function ConfirmPayment() {
                         noEdit={true}
                       />
 
-                      <Box
-                        sx={{
-                          '@media (max-width: 768px)': {
-                            background: colors.white,
-                          },
-                        }}
-                      >
+                      <Box className={classes.slotsTitle}>
                         <EditableTitle
                           title={translations.booking.availableSlots.title}
                           as="h2"
@@ -439,14 +374,7 @@ export default function ConfirmPayment() {
               {!!lounge && alert === true && (
                 <Box>
                   <Stack>
-                    <Box
-                      sx={{
-                        '@media (max-width: 768px)': {
-                          background: colors.white,
-                          padding: '20px',
-                        },
-                      }}
-                    >
+                    <Box className={classes.confirmation}>
                       <Title
                         style={{
                           fontSize: '1.5rem',
@@ -468,7 +396,7 @@ export default function ConfirmPayment() {
                             .description
                         }
                       </Text>
-                      <Box sx={{ padding: '1.25rem', textAlign: 'center' }}>
+                      <Box p="1.25rem" ta="center">
                         <BackButton
                           analyticsTag={
                             ANALYTICS_TAGS.ON_PAGE_CONFIRMED_BACK_BTN

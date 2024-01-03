@@ -122,22 +122,22 @@ export default function Details({ id }: DetailsProps) {
         <Error error={fetchError} />
       ) : (
         <Box py={40} px={32}>
-          <Stack spacing={32}>
+          <Stack gap={32}>
             <Box>
               <Title mb={8} size={32}>
                 Customer booking details{' '}
               </Title>
-              <Text size={18}>{getLoungeTitle(experience)}</Text>
+              <Text size="lg">{getLoungeTitle(experience)}</Text>
               {lastUpdate && `Last updated ${lastUpdate}`}
             </Box>
             <Error error={declineError} />
             <Error error={confirmError} />
             <Grid>
-              <Grid.Col lg={8} md={8}>
+              <Grid.Col span={{ lg: 8, md: 8 }}>
                 <Box
                   maw={712}
                   p={40}
-                  sx={{ borderRadius: 4, border: '1px solid #DDDDDD' }}
+                  style={{ borderRadius: 4, border: '1px solid #DDDDDD' }}
                 >
                   <DetailsView booking={booking} loading={loading}>
                     {status === Pending ? (

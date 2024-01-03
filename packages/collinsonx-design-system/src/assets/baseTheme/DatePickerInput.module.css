@@ -1,0 +1,15 @@
+.label {
+  font-weight: 400;
+  padding: 0 0 0.5rem 0;
+}
+.input {
+  border-radius: rem(4);
+  font-size: 1.2rem;
+  &[data-invalid] {
+    border-color: var(--mantine-color-red-6);
+    color: var(--mantine-color-red-4);
+    ::placeholder {
+      color: var(--mantine-color-red-4);
+    }
+  }
+}

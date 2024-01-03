@@ -1,13 +1,6 @@
 import LayoutLogin from './LayoutLogin';
 import '@testing-library/jest-dom/extend-expect';
-import {
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-  getNodeText,
-} from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render } from '@collinsonx/design-system/test-utils';
 
 describe('<LayoutLogin />', () => {
   it('should render', () => {

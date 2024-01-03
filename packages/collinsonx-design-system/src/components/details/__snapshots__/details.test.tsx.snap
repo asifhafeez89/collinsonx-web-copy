@@ -1,57 +1,65 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Details /> renders Details 1`] = `
-.emotion-0 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-@media (min-width: 75em) {
-  .emotion-0 {
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
-  }
-}
-
-.emotion-1 {
-  font-weight: 600;
-}
-
-<div>
-  <div
-    className="emotion-0"
-  >
-    <div>
-      <div
-        className="emotion-1"
-      >
-        Heathrow
+[
+  <style
+    dangerouslySetInnerHTML={
+      {
+        "__html": "@media (max-width: 35.99375em) {.mantine-visible-from-xs {display: none !important;}}@media (min-width: 36em) {.mantine-hidden-from-xs {display: none !important;}}@media (max-width: 47.99375em) {.mantine-visible-from-sm {display: none !important;}}@media (min-width: 48em) {.mantine-hidden-from-sm {display: none !important;}}@media (max-width: 61.99375em) {.mantine-visible-from-md {display: none !important;}}@media (min-width: 62em) {.mantine-hidden-from-md {display: none !important;}}@media (max-width: 74.99375em) {.mantine-visible-from-lg {display: none !important;}}@media (min-width: 75em) {.mantine-hidden-from-lg {display: none !important;}}@media (max-width: 87.99375em) {.mantine-visible-from-xl {display: none !important;}}@media (min-width: 88em) {.mantine-hidden-from-xl {display: none !important;}}",
+      }
+    }
+    data-mantine-styles="classes"
+  />,
+  <div>
+    <style
+      dangerouslySetInnerHTML={
+        {
+          "__html": ".__m__-r0{flex-direction:column;}@media(min-width: 75em){.__m__-r0{flex-direction:row;}}",
+        }
+      }
+      data-mantine-styles="inline"
+    />
+    <div
+      className="m-8bffd616 mantine-Flex-root __m__-r0"
+      style={
+        {
+          "gap": "1.5rem",
+        }
+      }
+    >
+      <div>
+        <div
+          style={
+            {
+              "fontWeight": 600,
+            }
+          }
+        >
+          Heathrow
+        </div>
+        <div
+          style={{}}
+        >
+          Terminal 5
+        </div>
       </div>
-      <div
-        className="emotion-2"
-      >
-        Terminal 5
+      <div>
+        <div
+          style={
+            {
+              "fontWeight": 600,
+            }
+          }
+        >
+          Mon - Sun | 05:00 - 22:00
+        </div>
+        <div
+          style={{}}
+        >
+          Walk-in available
+        </div>
       </div>
     </div>
-    <div>
-      <div
-        className="emotion-1"
-      >
-        Mon - Sun | 05:00 - 22:00
-      </div>
-      <div
-        className="emotion-2"
-      >
-        Walk-in available
-      </div>
-    </div>
-  </div>
-</div>
+  </div>,
+]
 `;

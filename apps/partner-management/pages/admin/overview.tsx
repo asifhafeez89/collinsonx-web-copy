@@ -5,7 +5,7 @@ import StatsTile from '@components/StatsTile';
 
 const Overview = () => {
   return (
-    <Stack spacing={24}>
+    <Stack gap={24}>
       <Title size={28}>Global Partnership view</Title>
       <Flex gap={24}>
         <StatsTile label="Invites sent" value={96} />

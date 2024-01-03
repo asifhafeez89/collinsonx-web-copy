@@ -1,5 +1,4 @@
 import { Title, Box } from '@mantine/core';
-import Link from 'next/link';
 import { ChevronLeft } from '../../assets/icons/index';
 
 interface IPageTitle {
@@ -18,7 +17,7 @@ export default function PageTitle({
   return (
     <Box
       component="header"
-      sx={{
+      style={{
         display: 'flex',
         paddingTop: '5px',
         alignItems: 'center',
@@ -28,7 +27,7 @@ export default function PageTitle({
     >
       <Box
         onClick={onClickBack}
-        sx={{
+        style={{
           background: `${fullwhite ? '#FFFFFF' : 'transparent'}`,
           borderRadius: 8,
           width: 40,
@@ -43,8 +42,11 @@ export default function PageTitle({
       </Box>
       <Title
         size={14}
-        color={variant === 'white' ? '#FFFFF' : '#000000'}
-        sx={{ width: '200px', margin: '0 auto' }}
+        style={{
+          width: '200px',
+          margin: '0 auto',
+          color: variant === 'white' ? '#FFFFF' : '#000000',
+        }}
       >
         {title}
       </Title>

@@ -1,56 +1,35 @@
-import * as React from 'react';
-import renderer from 'react-test-renderer';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from 'test-utils';
 import { Cart, Chat, Home } from '../../assets/icons';
 import { LogoCergea } from '../../assets/logo';
-import { MantineProvider, MantineThemeOverride } from '../../core';
 import Header from '.';
-import userEvent from '@testing-library/user-event';
 
 const mockFn = jest.fn();
 
 describe('<Header />', () => {
-  beforeEach(() => {
-    jest.resetAllMocks();
-  });
-
   it('renders header', async () => {
     const { container } = render(
       <>
-        <MantineProvider
-          theme={{
-            colors: {
-              headerNavBg: ['#FFF'],
-              headerNavColor: ['#000'],
-              brandColor: ['#034E98'],
-              splashColor: ['#044F99'],
+        <Header
+          onClickSignout={mockFn}
+          logo={<LogoCergea />}
+          items={[
+            {
+              label: 'Home',
+              link: '/lounge',
+              icon: <Home color="#112132" />,
             },
-          }}
-          withGlobalStyles
-          withNormalizeCSS
-        >
-          <Header
-            onClickSignout={mockFn}
-            logo={<LogoCergea />}
-            items={[
-              {
-                label: 'Home',
-                link: '/lounge',
-                icon: <Home color="#112132" />,
-              },
-              {
-                label: 'My trips',
-                link: '/lounge/bookings',
-                icon: <Cart color="#112132" />,
-              },
-              {
-                label: 'AI Travel companion',
-                link: '/companion',
-                icon: <Chat color="#112132" />,
-              },
-            ]}
-          />
-        </MantineProvider>
+            {
+              label: 'My trips',
+              link: '/lounge/bookings',
+              icon: <Cart color="#112132" />,
+            },
+            {
+              label: 'AI Travel companion',
+              link: '/companion',
+              icon: <Chat color="#112132" />,
+            },
+          ]}
+        />
       </>
     );
 

@@ -1,5 +1,5 @@
 import { Skeleton, Stack, Text } from '@collinsonx/design-system/core';
-import { ReactNode } from 'react';
+import classes from './OverviewMetric.module.css';
 
 export interface OverviewMetricProps {
   label: string;
@@ -13,15 +13,15 @@ const OverviewMetric = ({
   value,
   children,
   loading,
-  datatestid
+  datatestid,
 }: OverviewMetricProps) => {
   return (
     <Skeleton visible={loading}>
-      <Stack spacing={16}>
-        <Text color="#9b9ca0" size={16} weight={600}>
+      <Stack gap={16}>
+        <Text className={classes.label} size="sm">
           {label}
         </Text>
-        <Text color="dark.6" size={32} weight={400} data-testid={datatestid}>
+        <Text className={classes.value} size="lg" data-testid={datatestid}>
           {value}
         </Text>
         {children}

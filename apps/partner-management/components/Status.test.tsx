@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render } from '@collinsonx/design-system/test-utils';
 import Status from './Status';
 jest.mock('@collinsonx/design-system/assets/icons', () => {
   return {

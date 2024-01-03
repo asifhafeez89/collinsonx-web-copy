@@ -1,4 +1,4 @@
-import { Skeleton, Stack, Text } from '../../core';
+import { Flex, Skeleton, Stack, Text } from '../../core';
 
 export interface OverviewMetricProps {
   label: string;
@@ -17,15 +17,20 @@ export default function OverviewMetric({
 }: OverviewMetricProps) {
   return (
     <Skeleton visible={loading}>
-      <Stack spacing="0">
-        <Text color="dark.6" size={32} weight={600} data-testid={dataTestId}>
+      <Flex direction="column">
+        <Text
+          color="dark.6"
+          size="xxl"
+          style={{ fontWeight: 600 }}
+          data-testid={dataTestId}
+        >
           {value}
         </Text>
-        <Text mb="lg" color="#9b9ca0" size={16} weight={400}>
+        <Text mb="lg" color="#9b9ca0" size="md">
           {label}
         </Text>
         {children}
-      </Stack>
+      </Flex>
     </Skeleton>
   );
 }

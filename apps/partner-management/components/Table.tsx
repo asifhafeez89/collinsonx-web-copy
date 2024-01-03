@@ -2,7 +2,7 @@ import {
   TriangleDown,
   TriangleUp,
 } from '@collinsonx/design-system/components/table/index';
-import { Box, Table as MantineTable } from '@collinsonx/design-system/core';
+import { Box, Table as MTable } from '@collinsonx/design-system/core';
 import styled from '@collinsonx/design-system/styled';
 import { Table as ReactTable, flexRender } from '@tanstack/react-table';
 import { PageType, bookingPageConfig } from 'config/booking';
@@ -13,7 +13,7 @@ const CustomTable = ({
 }: {
   headerBg: string;
   children: JSX.Element[];
-}) => <MantineTable {...props} />;
+}) => <MTable {...props} />;
 
 const StyledTable = styled(CustomTable)`
   color: #333333;
@@ -60,11 +60,11 @@ function Table<T extends unknown>({
     <StyledTable
       headerBg={bookingPageConfig[type as keyof typeof bookingPageConfig].color}
     >
-      <thead>
+      <MTable.Thead>
         {table.getHeaderGroups().map((headerGroup) => (
-          <tr key={headerGroup.id}>
+          <MTable.Tr key={headerGroup.id}>
             {headerGroup.headers.map((header) => (
-              <th
+              <MTable.Th
                 key={header.id}
                 style={{
                   width:
@@ -74,7 +74,7 @@ function Table<T extends unknown>({
               >
                 <Box
                   {...{
-                    sx: {
+                    style: {
                       cursor: header.column.getCanSort() ? 'pointer' : 'auto',
                     },
                     onClick: header.column.getToggleSortingHandler(),
@@ -92,22 +92,22 @@ function Table<T extends unknown>({
                     }[header.column.getIsSorted() as string] ?? null}
                   </span>
                 </Box>
-              </th>
+              </MTable.Th>
             ))}
-          </tr>
+          </MTable.Tr>
         ))}
-      </thead>
-      <tbody>
+      </MTable.Thead>
+      <MTable.Tbody>
         {table.getRowModel().rows.map((row) => (
-          <tr key={row.id}>
+          <MTable.Tr key={row.id}>
             {row.getVisibleCells().map((cell) => (
-              <td key={cell.id}>
+              <MTable.Td key={cell.id}>
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </td>
+              </MTable.Td>
             ))}
-          </tr>
+          </MTable.Tr>
         ))}
-      </tbody>
+      </MTable.Tbody>
     </StyledTable>
   );
 }

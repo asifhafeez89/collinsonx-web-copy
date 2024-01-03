@@ -14,10 +14,12 @@ function CardTitle({ children, 'data-testid': dataTestId }: CardTitleProps) {
       data-testid={dataTestId}
       order={2}
       my={0}
-      weight={600}
       size={20}
-      color={colors['text-default']}
-      sx={{ lineHeight: '25.3px' }}
+      style={{
+        lineHeight: '25.3px',
+        fontWeight: 600,
+        color: colors['text-default'],
+      }}
     >
       {children}
     </Title>

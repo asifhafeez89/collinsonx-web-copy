@@ -3,20 +3,19 @@ import LayoutLogin from '@components/LayoutLogin';
 import FormContainer from '@components/FormContainer';
 import PageTitle from '@components/PageTitle';
 import Link from 'next/link';
+import classes from './auth.module.css';
 
 export default function Expired() {
   return (
     <>
       <PageTitle title="Forgotten your email?" />
-      <Stack justify="center" align="center" spacing={32}>
-        <Stack justify="center" align="center" spacing={8}>
-          <Title color="cyan.8" size={22}>
-            Forgotten your email?
-          </Title>
+      <Stack justify="center" align="center" gap={32}>
+        <Stack justify="center" align="center" gap={8}>
+          <Title className={classes.forgotEmail}>Forgotten your email?</Title>
         </Stack>
         <FormContainer>
-          <Stack spacing={32}>
-            <Text size={18}>
+          <Stack gap={32}>
+            <Text size="lg">
               If you have forgotten your email, please contact our support team
               using the chat on the partner portal or email{' '}
               <Anchor
@@ -32,7 +31,7 @@ export default function Expired() {
           <Anchor
             component={Link}
             href="/auth/login"
-            sx={{ marginTop: 40, display: 'block' }}
+            className={classes.returnToLogin}
           >
             Return to login
           </Anchor>

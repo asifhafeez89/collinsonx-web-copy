@@ -54,6 +54,9 @@ import {
   ALLOW_LOCAL,
 } from '../constants';
 import { Consumer } from 'types/consumer';
+import baseTheme, {
+  resolver,
+} from '@collinsonx/design-system/themes/baseTheme';
 
 const {
   loungeCode: lcParam,
@@ -395,8 +398,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
     >
       <MantineProvider
         theme={callThemeFunction(providerTheme())}
-        withGlobalStyles
-        withNormalizeCSS
+        cssVariablesResolver={resolver}
       >
         <LoungeError error={fetchConsumerError} />
         {!session.loading &&

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 
-import { useForm, joiResolver } from '@mantine/form';
+import { useForm, joiResolver } from '@collinsonx/design-system/form';
 import {
   Select,
   Button,
@@ -12,7 +12,7 @@ import {
   Grid,
   Notification,
   Text,
-} from '@mantine/core';
+} from '@collinsonx/design-system/core';
 
 import {
   AccountProvider,

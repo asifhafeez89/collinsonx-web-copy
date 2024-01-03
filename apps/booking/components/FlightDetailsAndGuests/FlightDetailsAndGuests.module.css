@@ -1,0 +1,17 @@
+.guestsContainer {
+  width: 100%;
+  border-bottom: 1px solid var(--borderColor);
+
+  @media (max-width: 768px) {
+    width: 100%;
+    border: none;
+    padding: 0px;
+  }
+}
+.priceContainer {
+  width: initial;
+
+  @media (max-width: 768px) {
+    margin-top: 0.5rem;
+  }
+}

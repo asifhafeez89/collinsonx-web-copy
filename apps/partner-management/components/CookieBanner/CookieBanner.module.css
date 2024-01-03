@@ -1,0 +1,9 @@
+.learnMoreLink {
+  font-weight: 400;
+  color: #000;
+}
+.acceptBtn {
+  background: #6d4bf6;
+  font-size: rem(18px);
+  height: rem(48px);
+}

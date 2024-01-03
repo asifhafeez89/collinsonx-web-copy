@@ -1,4 +1,13 @@
-import { MantineProvider } from '@mantine/core';
+import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css';
+
+import {
+  MantineProvider,
+  createTheme,
+} from '../../collinsonx-design-system/src/core';
+
+import { resolver } from '../../collinsonx-design-system/src/themes/baseTheme';
+
 import {
   experienceX,
   dinersClub,
@@ -10,17 +19,14 @@ import '../style.css';
 
 const themes = {
   experienceX,
-  dinersClub,
-  amexBlack,
-  amexPlatinum,
 };
 
 const withTheme = (StoryFn, context) => {
   const themeName = context.parameters.theme || context.globals.theme;
-  const storyTheme = themes[themeName] ?? experienceX;
+  const storyTheme = createTheme(themes[themeName]() ?? experienceX());
 
   return (
-    <MantineProvider theme={storyTheme()} withGlobalStyles withNormalizeCSS>
+    <MantineProvider theme={storyTheme} cssVariablesResolver={resolver}>
       <StoryFn />
     </MantineProvider>
   );
@@ -36,12 +42,7 @@ export const globalTypes = {
       //icon: 'circlehollow',
       title: 'Theme',
       // Array of options
-      items: [
-        { title: 'Experience X', value: 'experienceX' },
-        { title: 'Diners Club', value: 'dinersClub' },
-        { title: 'AMEX Black', value: 'amexBlack' },
-        { title: 'AMEX Platinum', value: 'amexPlatinum' },
-      ],
+      items: [{ title: 'Experience X', value: 'experienceX' }],
       dynamicTitle: true,
     },
   },
