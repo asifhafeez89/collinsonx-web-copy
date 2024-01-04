@@ -9,6 +9,7 @@ const colors = {
   'brand-cergea': '#6D4BF6',
   'bg-cergea': '#F0EDFE',
   'bg-cergea-darker': '#E2DBFD',
+  'bg-active-pagination-button': '#7349FF',
   'brand-collinson': '#CE0058',
   'bg-collinson': '#FAE5EE',
   'bg-collinson-darker': '#F5CCDE',

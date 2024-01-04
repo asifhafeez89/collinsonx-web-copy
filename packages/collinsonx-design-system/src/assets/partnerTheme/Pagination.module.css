@@ -1,0 +1,8 @@
+.control {
+  &[data-active] {
+    background-color: var(--bg-active-pagination-button);
+    &:hover {
+      background-color: var(--bg-active-pagination-button);
+    }
+  }
+}
