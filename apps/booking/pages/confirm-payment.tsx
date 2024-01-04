@@ -319,36 +319,34 @@ export default function ConfirmPayment() {
                     direction={'column'}
                     align={'center'}
                   >
-                    {platform === 'web' && (
-                      <ShowButtonByVersion
-                        currentVersion={version ?? ''}
-                        minVersion={PDF_VERSION_ACCEPTED}
-                      >
-                        <GenerateBookingConfirmedPdf
-                          adults={adults}
-                          arrival={arrival}
-                          children={children}
-                          departureTime={departureTime}
-                          emailAddress={
-                            consumerData?.getConsumerByID.emailAddress
-                          }
-                          flightNumber={flightNumber}
-                          infants={infants}
-                          locale={locale}
-                          lounge={lounge}
-                          reference={dataBooking?.getBookingByID.reference}
-                          bookingId={dataBooking?.getBookingByID.id}
-                          loungeCode={loungeCode}
-                          linkAccountToken={jwt}
-                          accountProvider={payload?.accountProvider}
-                          membershipType={payload?.membershipType}
-                          platform={platform}
-                          analyticsTag={
-                            ANALYTICS_TAGS.ON_PAGE_CONFIRMED_BTN_DOWNLOAD
-                          }
-                        />
-                      </ShowButtonByVersion>
-                    )}
+                    <ShowButtonByVersion
+                      currentVersion={version ?? ''}
+                      minVersion={PDF_VERSION_ACCEPTED}
+                    >
+                      <GenerateBookingConfirmedPdf
+                        adults={adults}
+                        arrival={arrival}
+                        children={children}
+                        departureTime={departureTime}
+                        emailAddress={
+                          consumerData?.getConsumerByID.emailAddress
+                        }
+                        flightNumber={flightNumber}
+                        infants={infants}
+                        lounge={lounge}
+                        locale={locale}
+                        reference={dataBooking?.getBookingByID.reference}
+                        bookingId={dataBooking?.getBookingByID.id}
+                        loungeCode={loungeCode}
+                        linkAccountToken={jwt}
+                        accountProvider={payload?.accountProvider}
+                        membershipType={payload?.membershipType}
+                        platform={platform}
+                        analyticsTag={
+                          ANALYTICS_TAGS.ON_PAGE_CONFIRMED_BTN_DOWNLOAD
+                        }
+                      />
+                    </ShowButtonByVersion>
                     <Anchor
                       target="_top"
                       href={referrerUrl ? referrerUrl : '#'}
