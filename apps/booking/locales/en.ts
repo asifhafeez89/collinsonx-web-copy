@@ -70,6 +70,24 @@ export default {
         },
       },
     },
+    maintenance: {
+      title: 'Maintenance underway',
+      description:
+        "We're sorry, the booking service is temporarily unavailable as a system update is being performed. Please check back later or Contact support.",
+      note: 'Please return later or',
+      btn: {
+        support: 'Contact support',
+      },
+    },
+    notFound: {
+      title: '404 - Page not found',
+      description:
+        'The page you are looking for might have been removed or is temporarily unavailable.',
+      btn: {
+        returnToLounge: 'RETURN TO LOUNGE',
+        support: 'Contact support',
+      },
+    },
   },
   lounge: {
     perPerson: 'per person',
@@ -327,6 +345,18 @@ export default {
       arrivalTitle: 'Arrival time selection',
       notFoundError: 'Something went wrong, please try again',
       btn: 'CHECK AVAILABILITY',
+    },
+    failureBooking: {
+      declined: {
+        title: 'Your booking has been declined.',
+        description:
+          "We're sorry but during the payment process the capacity for the lounge changed and we are no longer able to confirm your booking. You will be refunded any payment made.",
+        note: 'Please consider booking another time slot, or check to see if another lounge is available.',
+        btn: {
+          selectAnotherTime: 'SELECT ANOTHER TIME',
+          returnToLounge: 'Return to lounges',
+        },
+      },
     },
     confirmationPDF: {
       title: 'Booking Confirmation',

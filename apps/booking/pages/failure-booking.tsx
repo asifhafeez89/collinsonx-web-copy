@@ -27,6 +27,7 @@ import { logAction, sendMobileEvent } from '@lib';
 import { ANALYTICS_TAGS, MOBILE_ACTION_BACK } from '../constants';
 
 import classes from '../styles/FailureBooking.module.css';
+import useLocale from 'hooks/useLocale';
 
 export default function BookingFailure() {
   const router = useRouter();
@@ -34,6 +35,7 @@ export default function BookingFailure() {
   const { getBooking } = useContext(BookingContext);
 
   const { referrerUrl, lounge } = usePayload();
+  const translations = useLocale();
 
   useEffect(() => {
     logAction(pageName, ANALYTICS_TAGS.ON_SLOT_MISSED);
@@ -91,18 +93,17 @@ export default function BookingFailure() {
                         <AlertIcon
                           style={{ width: '1.3rem', height: '1.3rem' }}
                         />{' '}
-                        Your booking has been declined.
+                        {translations.booking.failureBooking.declined.title}
                       </Title>
                       <Text>
-                        We're sorry but during the payment process the capacity
-                        for the lounge changed and we are no longer able to
-                        confirm your booking. You will be refunded any payment
-                        made.
+                        {
+                          translations.booking.failureBooking.declined
+                            .description
+                        }
                       </Text>
                       <Box mt="1.5rem">
                         <Text>
-                          Please consider booking another time slot, or check to
-                          see if another lounge is available.
+                          {translations.booking.failureBooking.declined.note}
                         </Text>
                       </Box>
                     </Box>
@@ -123,7 +124,10 @@ export default function BookingFailure() {
                         );
                       }}
                     >
-                      SELECT ANOTHER TIME
+                      {
+                        translations.booking.failureBooking.declined.btn
+                          .selectAnotherTime
+                      }
                     </Button>
 
                     <Anchor
@@ -139,7 +143,10 @@ export default function BookingFailure() {
                         marginTop: '0.75rem',
                       }}
                     >
-                      Return to lounges
+                      {
+                        translations.booking.failureBooking.declined.btn
+                          .returnToLounge
+                      }
                     </Anchor>
                   </Flex>
                 </Box>

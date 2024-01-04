@@ -16,6 +16,7 @@ import { verifyAccountProvider } from '../utils/VerifyAccountProvider';
 import BackButton from '@components/BackButton';
 
 import classes from '../styles/404.module.css';
+import useLocale from 'hooks/useLocale';
 
 export default function Error404() {
   const router = useRouter();
@@ -28,6 +29,8 @@ export default function Error404() {
   };
 
   const { height } = useViewportSize();
+  const translations = useLocale();
+
   return (
     <LayoutLogin>
       <Center h={`${height / 2 + 116}px`}>
@@ -35,14 +38,15 @@ export default function Error404() {
           <Box p={20} style={{ backgroundColor: colors.white }}>
             <Stack gap={10} align="center">
               <Text className={classes.center} size="xl" fw={700}>
-                404 - Page not found{' '}
+                {translations.auth.notFound.title}{' '}
               </Text>{' '}
               <Text className={classes.center}>
-                The page you are looking for might have been removed or is
-                temporarily unavailable.
+                {translations.auth.notFound.description}
               </Text>
               <Center>
-                <BackButton>{`Return to lounge`.toUpperCase()}</BackButton>
+                <BackButton>
+                  {translations.auth.notFound.btn.returnToLounge}
+                </BackButton>
               </Center>
               <Center>
                 <Anchor
@@ -52,7 +56,7 @@ export default function Error404() {
                   onClick={handleSupportClick}
                   data-testid="link-call-support"
                 >
-                  Contact support
+                  {translations.auth.notFound.btn.support}
                 </Anchor>
               </Center>
             </Stack>

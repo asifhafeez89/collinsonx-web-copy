@@ -8,6 +8,22 @@ type AuthLang = {
   login: LoginProps;
   checkCode: CheckCodeProps;
   signUp: SignUpProps;
+  maintenance: {
+    title: string;
+    description: string;
+    note: string;
+    btn: {
+      support: string;
+    };
+  };
+  notFound: {
+    title: string;
+    description: string;
+    btn: {
+      returnToLounge: string;
+      support: string;
+    };
+  };
 };
 
 type LoginProps = {
@@ -122,6 +138,17 @@ type bookingLang = {
     arrivalTitle: string;
     notFoundError: string;
     btn: string;
+  };
+  failureBooking: {
+    declined: {
+      title: string;
+      description: string;
+      note: string;
+      btn: {
+        selectAnotherTime: string;
+        returnToLounge: string;
+      };
+    };
   };
   confirmationPDF: confirmationPDFProps;
 };

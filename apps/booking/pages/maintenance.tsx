@@ -18,6 +18,7 @@ import { AccountProvider } from '@collinsonx/constants/enums';
 import { verifyAccountProvider } from '../utils/VerifyAccountProvider';
 
 import classes from '../styles/Maintenance.module.css';
+import useLocale from 'hooks/useLocale';
 
 const Maintenance = () => {
   const router = useRouter();
@@ -28,6 +29,7 @@ const Maintenance = () => {
     );
   };
   const { height } = useViewportSize();
+  const translations = useLocale();
 
   return (
     <LayoutLogin>
@@ -38,16 +40,14 @@ const Maintenance = () => {
               <Flex gap="xs" direction="row" align="center" justify="center">
                 <MaintenanceIcon />
                 <Text ta="center" size="xl" fw={700}>
-                  Maintenance underway{' '}
+                  {translations.auth.maintenance.title}{' '}
                 </Text>
               </Flex>
               <Text ta="center">
-                We're sorry, the booking service is temporarily unavailable as a
-                system update is being performed. Please check back later or
-                Contact support.
+                {translations.auth.maintenance.description}
               </Text>
               <Flex gap="xs" direction="row" align="center" justify="center">
-                <Text>Please return later or</Text>
+                <Text>{translations.auth.maintenance.note}</Text>
 
                 <Center>
                   <Anchor
@@ -57,7 +57,7 @@ const Maintenance = () => {
                     onClick={handleSupportClick}
                     data-testid="link-call-support"
                   >
-                    Contact support
+                    {translations.auth.maintenance.btn.support}
                   </Anchor>
                 </Center>
               </Flex>

@@ -73,6 +73,24 @@ export default {
         },
       },
     },
+    maintenance: {
+      title: 'Mantenimiento en curso',
+      description:
+        'Lo sentimos, el servicio de reserva no está disponible temporalmente a medida que se realiza una actualización del sistema.Vuelva a consultar más tarde o comuníquese con el soporte.',
+      note: 'Por favor regrese más tarde o',
+      btn: {
+        support: 'Soporte de contacto',
+      },
+    },
+    notFound: {
+      title: '404 Pagina no encontrada',
+      description:
+        'La página que está buscando podría haber sido eliminada o no está disponible temporalmente.',
+      btn: {
+        returnToLounge: 'Regresar a la salón',
+        support: 'Soporte de contacto',
+      },
+    },
   },
   lounge: {
     perPerson: 'por persona',
@@ -333,6 +351,18 @@ export default {
       arrivalTitle: 'Selección de tiempo de llegada',
       notFoundError: 'Algo salió mal. Por favor, vuelva a intentarlo',
       btn: 'Verifique la disponibilidad',
+    },
+    failureBooking: {
+      declined: {
+        title: 'Tu reserva ha sido rechazada.',
+        description:
+          'Lo sentimos, pero durante el proceso de pago cambió la capacidad del salón y ya no podemos confirmar su reserva.Se le reembolsará cualquier pago realizado.',
+        note: 'Considere reservar otro espacio de tiempo o verificar si hay otro salón disponible.',
+        btn: {
+          selectAnotherTime: 'Seleccione otro momento',
+          returnToLounge: 'Regresar a los salones',
+        },
+      },
     },
     confirmationPDF: {
       title: 'Confirmación de reserva',
