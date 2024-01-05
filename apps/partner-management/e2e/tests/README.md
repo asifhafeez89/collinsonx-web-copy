@@ -12,7 +12,7 @@ A spec is a test script that uses the pages and utils to perform a specific test
 
 ### Setup env.tests file
 
-1. 'env.tests' should be created under collinsonx-web/packages/collinsonx-tests-e2e/.env.tests
+1. 'env.tests' should be created under apps/partner-management/.env.tests (see section 'Notes for testers')
 2. Copy and paste secrets into this file (obtain secrets from David Woods until further notice)
 
 ### Setup CORS access
@@ -64,17 +64,17 @@ $ npm install pm2@latest -g
 9. cd apps/partner-management
 10. pm2 start "pnpm dev:test" --name dev-server
 
+Only run one pm2 server for any given app at a time.
+
+Run "pm2 kill" to kill all running pm2 servers.
+
 UI will be accessible in the following links:
 https://partner-local.test.cergea.com:4010 or http://localhost:3010
 
 ### Run Partner web app e2e tests
 
-11. pnpm --filter "@collinsonx/tests-e2e" e2e:test-partner
-
-## Running tests for TEST/UAT environments (partner web app)
-
-1. pnpm i (may need to run pnpm clean beforehand if receiving errors)
-2. pnpm --filter "@collinsonx/tests-e2e" e2e:<ENVIRONMENT>-partner
+11. In the apps/partner-management directory run "pnpm e2e:partner-portal"
+12. To run an individual test run "pnpm e2e:partner-portal --ui". This will bring up a simple to use GUI where you can easily select which tests to run
 
 ## Pipeline
 
