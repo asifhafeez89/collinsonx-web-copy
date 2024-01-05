@@ -13,6 +13,10 @@ export default class OutletsPage {
     });
   }
 
+  pagination() {
+    return this.page.getByTestId('outlets-pagination');
+  }
+
   goToURL() {
     return this.page.goto('/outlets', { waitUntil: 'networkidle' });
   }

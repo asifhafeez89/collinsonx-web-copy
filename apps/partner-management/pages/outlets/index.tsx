@@ -76,6 +76,7 @@ export default function Outlets() {
             onChange={handlePaginationClick}
             mb="sm"
             mt="sm"
+            data-testid="outlets-pagination"
           />
         </Center>
       )}

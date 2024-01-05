@@ -23,6 +23,10 @@ test.describe('outlets page', () => {
     const outletCard = outletsPage.outletCard();
 
     await expect(title).toBeVisible();
+
+    const pagination = outletsPage.pagination();
+    await expect(pagination).toBeVisible();
+
     // {CARDS_LIMIT} outlets expected to show
     await expect(outletCard).toHaveCount(CARDS_LIMIT);
   });
