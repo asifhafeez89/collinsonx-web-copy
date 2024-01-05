@@ -107,30 +107,6 @@ export const paymentConfirmResponse = {
   transfer_group: null,
 };
 
-export const paymentPagesResponse = {
-  id: 'ppage_1OU5OoAO9eMKNhYJmmqF6cbS',
-  account_settings: {
-    account_id: 'acct_1N9RBaAO9eMKNhYJ',
-  },
-  completion_behavior: {
-    custom_message: null,
-    redirect_url: null,
-    type: 'confirmation_page',
-  },
-  intent_status: 'succeeded',
-  invoice_receipt_url: null,
-  invoice_url: null,
-  livemode: false,
-  locale: null,
-  mode: 'payment',
-  return_url: 'https://booking-local.test.cergea.com:4011/confirm-payment',
-  session_id:
-    'cs_test_a1y5uYURz3n85qYsBPlkQ0n6jXlRSPFxjNgz64z6EBiXExwIjzLht0MBXI',
-  state: 'succeeded',
-  success_url: null,
-  ui_mode: 'embedded',
-};
-
 export async function interceptGQLOperation(
   page,
   operationName,
@@ -142,9 +118,6 @@ export async function interceptGQLOperation(
     if (body.operationName !== operationName) {
       return route.fallback();
     }
-
-    console.log('GraphQL API request was intercepted and mocked');
-
     return route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -159,8 +132,6 @@ export async function interceptStripeOperation(
   responseOverride
 ) {
   await page.route(routeToIntercept, (route) => {
-    console.log('Stripe API request was intercepted and mocked');
-
     return route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -172,17 +143,18 @@ export async function interceptStripeOperation(
 export async function interceptStripe(page, operationName, responseOverride) {
   switch (operationName) {
     case 'createPaymentIntent':
-      interceptStripeOperation(page, '**/v1/payment_intents', responseOverride);
+      interceptStripeOperation(
+        page,
+        'https://api.stripe.com/v1/payment_intents*',
+        responseOverride
+      );
       break;
     case 'confirmPaymentIntent':
       interceptStripeOperation(
         page,
-        '**/v1/payment_intents/*/confirm',
+        'https://api.stripe.com/v1/payment_intents/*/confirm*',
         responseOverride
       );
-      break;
-    case 'pagesPayment':
-      interceptStripeOperation(page, '**/v1/payment_pages', responseOverride);
       break;
     default:
       console.log(`Stripe operation does not supported`);

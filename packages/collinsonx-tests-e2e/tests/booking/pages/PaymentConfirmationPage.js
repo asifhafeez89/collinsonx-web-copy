@@ -4,7 +4,7 @@ class PaymentConfirmationPage {
   }
 
   async checkPaymentStatus(message) {
-    await this.page.waitForSelector(`text=${message}`, {
+    await this.page.getByText(`text=${message}`, {
       state: 'visible',
       timeout: 60000,
     });
@@ -12,13 +12,8 @@ class PaymentConfirmationPage {
   }
 
   async paymentConfirmationMessage() {
-    try {
-      const successText = 'Good news! Your booking has been confirmed';
-      return this.checkPaymentStatus(successText);
-    } catch (err) {
-      const confirmationDelayText = 'Booking confirmation delay';
-      return this.checkPaymentStatus(confirmationDelayText);
-    }
+    const successText = 'Good news! Your booking has been confirmed';
+    return this.checkPaymentStatus(successText);
   }
 }
 

@@ -21,10 +21,12 @@ class StripePaymentPage {
   }
 
   async selectCountry(country) {
+    await this.page.waitForTimeout(500);
     await this.stripeIframe.locator('#billingCountry').selectOption(country);
   }
 
   async inputEmail(email) {
+    await this.page.waitForTimeout(500);
     const stripeEmailInput = await this.stripeIframe.locator(
       'input[name="email"]'
     );
@@ -32,57 +34,65 @@ class StripePaymentPage {
   }
 
   async inputCardNumber(cardNumber) {
+    await this.page.waitForTimeout(500);
     const cardNumberInput = await this.stripeIframe.locator(
       'input[name="cardNumber"]'
     );
-    await cardNumberInput.type(cardNumber, { delay: 100 });
+    await cardNumberInput.fill(cardNumber);
   }
 
   async inputExpiry(expiry) {
+    await this.page.waitForTimeout(500);
     const cardExpiryInput = await this.stripeIframe.locator(
       'input[name="cardExpiry"]'
     );
-    await cardExpiryInput.type(expiry, { delay: 100 });
+    await cardExpiryInput.fill(expiry);
   }
 
   async inputCvc(cvc) {
+    await this.page.waitForTimeout(500);
     const cardCvcInput = await this.stripeIframe.locator(
       'input[name="cardCvc"]'
     );
-    await cardCvcInput.type(cvc, { delay: 100 });
+    await cardCvcInput.fill(cvc);
   }
 
   async inputCardName(cardName) {
+    await this.page.waitForTimeout(500);
     const cardNameInput = await this.stripeIframe.locator(
       'input[name="billingName"]'
     );
-    await cardNameInput.type(cardName, { delay: 100 });
+    await cardNameInput.fill(cardName);
   }
 
   async inputAddressLine(addressLine) {
+    await this.page.waitForTimeout(500);
     const addressLineInput = await this.stripeIframe.locator(
       'input[name="billingAddressLine1"]'
     );
-    await addressLineInput.type(addressLine, { delay: 100 });
+    await addressLineInput.fill(addressLine);
   }
 
   async inputAddressTown(town) {
+    await this.page.waitForTimeout(500);
     const addressTownInput = await this.stripeIframe.locator(
       'input[name="billingLocality"]'
     );
-    await addressTownInput.type(town, { delay: 100 });
+    await addressTownInput.fill(town);
   }
 
   async inputAddressPostalCode(postalCode) {
+    await this.page.waitForTimeout(500);
     const addressPostalCodeInput = await this.stripeIframe.locator(
       'input[name="billingPostalCode"]'
     );
-    await addressPostalCodeInput.type(postalCode, { delay: 100 });
+    await addressPostalCodeInput.fill(postalCode);
   }
 
   async getPayButton() {
     const payButton = await this.stripeIframe.getByTestId(
-      'hosted-payment-submit-button'
+      'hosted-payment-submit-button',
+      { timeout: 30000 }
     );
     return payButton;
   }

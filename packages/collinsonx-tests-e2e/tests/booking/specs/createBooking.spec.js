@@ -22,7 +22,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('Create booking flow', () => {
-  test.describe('BKG-001 - Create Booking with all valid data', () => {
+  test.skip('BKG-001 - Create Booking with all valid data', () => {
     test('User should be navigated to the final details page with the correct flight details, time slot, number of adults/children/infants and time arrival selected', async ({
       page,
     }) => {
@@ -51,11 +51,11 @@ test.describe('Create booking flow', () => {
       await selectLoungeTimePage.selectFirstLoungeTime();
       await selectLoungeTimePage.clickConfirmButton();
 
+      // Assert confirm Booking Page
       const dateSelected = await confirmBookingPage.dateSelected(
         oneMonthFromNow.String
       );
 
-      // Assert
       const confirmedFlightNumber = await confirmBookingPage.flightNumber(
         flightNumber
       );

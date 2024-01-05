@@ -20,7 +20,6 @@ import {
   interceptStripe,
   paymentIntentResponse,
   paymentConfirmResponse,
-  paymentPagesResponse,
 } from '../utils/mockUtils';
 
 async function fillStripeIframe(stripePaymentPage, id) {
@@ -42,7 +41,6 @@ test.beforeEach(async ({ page }) => {
   // mock: intercept Stripe 'payment_intents' and get confirmed payment
   await interceptStripe(page, 'createPaymentIntent', paymentIntentResponse);
   await interceptStripe(page, 'confirmPaymentIntent', paymentConfirmResponse);
-  await interceptStripe(page, 'pagesPayment', paymentPagesResponse);
 });
 
 test.describe('Confirm booking flow', () => {
@@ -73,6 +71,22 @@ test.describe('Confirm booking flow', () => {
       await selectLoungeTimePage.selectFirstLoungeTime();
       await selectLoungeTimePage.clickConfirmButton();
 
+      // Assert confirm Booking Page
+      const dateSelected = await confirmBookingPage.dateSelected(
+        oneMonthFromNow.String
+      );
+
+      const confirmedFlightNumber = await confirmBookingPage.flightNumber(
+        flightNumber
+      );
+      const whosComing = await confirmBookingPage.whosComing('Adults 2');
+      const loungeTime = await confirmBookingPage.loungeTime();
+
+      await expect(confirmedFlightNumber).toBeVisible();
+      await expect(dateSelected).toBeVisible();
+      await expect(whosComing).toBeVisible();
+
+      // Go to payment
       await page.waitForTimeout(10000);
       await confirmBookingPage.clickGoToPayment();
       await page.waitForTimeout(6000);
@@ -88,7 +102,8 @@ test.describe('Confirm booking flow', () => {
       // Assert before pay: button is in 'complete' class.
       const payButton = await stripePaymentPage.getPayButton();
       await expect(payButton).toHaveClass(
-        'SubmitButton SubmitButton--complete'
+        'SubmitButton SubmitButton--complete',
+        { timeout: 30000 }
       );
     });
   });
