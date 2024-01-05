@@ -108,7 +108,9 @@ export const BookingConfirmationPDF = (props: BookingConfirmedPdfProps) => {
     linkAccountToken = '',
     locale,
   } = props;
-  const cancelBookingUrl = new URL(window.location.origin);
+  const cancelBookingUrl = new URL(
+    process.env.NEXT_PUBLIC_PRIORITY_PASS_ENDPOINT
+  );
 
   const translations = useLocale();
 

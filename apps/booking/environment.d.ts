@@ -13,6 +13,7 @@ declare global {
       NEXT_PUBLIC_SNAPLOGIC_PARTNER_KEY: string;
       NEXT_PUBLIC_JWT_SECRET: string;
       NEXT_PUBLIC_SESSION_SCOPE: string;
+      NEXT_PUBLIC_PRIORITY_PASS_ENDPOINT: string;
       SITE_DOMAIN_URL: string;
       API_SECRET_KEY: string;
       NEXT_PUBLIC_API_SECRET_KEY: string;
