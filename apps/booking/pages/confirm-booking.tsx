@@ -1,12 +1,17 @@
 import Layout from '@components/Layout';
 import { Box, Center, Flex, Stack } from '@collinsonx/design-system/core';
 import { LoungeInfo } from '@components/LoungeInfo';
-import { Details, Button } from '@collinsonx/design-system';
+import { Button } from '@collinsonx/design-system';
 import { useContext, useRef, useState, useEffect } from 'react';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
-import { ANALYTICS_TAGS, constants } from '../constants';
+import {
+  ANALYTICS_TAGS,
+  BOOKING_MODE,
+  BOKING_MODE_STATE,
+  constants,
+  PAGENAMES,
+} from '../constants';
 import usePayload from 'hooks/payload';
-import { InfoGroup } from '@collinsonx/design-system/components/details';
 import { BookingContext } from 'context/bookingContext';
 import { getCheckoutSessionUrl } from 'services/payment';
 import colors from 'ui/colour-constants';
@@ -14,7 +19,7 @@ import TopBarLinks from '@components/TopBarLinks';
 import dayjs from 'dayjs';
 import StripeCheckout from '@components/stripe';
 import { FlightContext } from 'context/flightContext';
-import { log, logAction } from '@lib';
+import { getItem, log, logAction } from '@lib';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
 import EstimatedTimeArrival from '@components/EstimatedTimeArrival';
 import { FlightDetailsAndGuests } from '@components/FlightDetailsAndGuests';
@@ -30,9 +35,15 @@ export default function ConfirmBooking() {
 
   const { getBooking } = useContext(BookingContext);
   const { getFlight } = useContext(FlightContext);
+  const Mode = getItem(BOKING_MODE_STATE);
 
   useEffect(() => {
-    logAction(pageName, ANALYTICS_TAGS.ON_PAYMENT_ENTER);
+    logAction(
+      pageName,
+      Mode === BOOKING_MODE.EDIT
+        ? ANALYTICS_TAGS.ON_CONFIRM_AMEND_PG
+        : ANALYTICS_TAGS.ON_PAYMENT_ENTER
+    );
   }, []);
 
   const translations = useLocale();
@@ -44,12 +55,20 @@ export default function ConfirmBooking() {
 
   const flightData = getFlight();
 
-  const pageName = 'G_T_Pmt';
+  const pageName =
+    Mode === BOOKING_MODE.EDIT
+      ? PAGENAMES.CONFIRM_AMEND
+      : PAGENAMES.CONFIRM_CREATE;
 
   const totalQuantity: number = Number(adults + children);
 
   const handleSubmit = async () => {
-    logAction(pageName, ANALYTICS_TAGS.ON_PAYMENT_CONTINUE);
+    logAction(
+      pageName,
+      Mode === BOOKING_MODE.EDIT
+        ? ANALYTICS_TAGS.ON_CONFIRM_AMEND_SAVE
+        : ANALYTICS_TAGS.ON_PAYMENT_CONTINUE
+    );
     try {
       const paymentinput = {
         bookingID: bookingId ?? '',
@@ -100,7 +119,9 @@ export default function ConfirmBooking() {
             <Center className={classes.headingContainer}>
               {!clientSecret && (
                 <Heading as="h1" padding={0} margin={0} lineHeight={1}>
-                  {translations.booking.confirmBooking.title}
+                  {Mode === BOOKING_MODE.EDIT
+                    ? translations.booking.confirmBooking.title
+                    : translations.booking.confirmBooking.amendTitle}
                 </Heading>
               )}
             </Center>

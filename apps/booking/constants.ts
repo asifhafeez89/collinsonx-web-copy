@@ -19,6 +19,8 @@ export const REFERRER = 'REFERRER';
 export const PLATFORM = 'PLATFORM';
 export const VERSION = 'VERSION';
 export const ALLOW_LOCAL = 'ALLOW_LOCAL';
+export const PATH_NAME = 'PATH_NAME';
+export const BOKING_MODE_STATE = 'MODE';
 
 export const MOBILE_ACTION_BACK = 1;
 export const MOBILE_ACTION_DATA_URI = 'DATA_URI';
@@ -78,13 +80,20 @@ export enum ANALYTICS_TAGS {
   ON_PAGE_CONFIRMED_BTN_DOWNLOAD = 'CK_BTN__Bk_Cfnd',
   ON_PAGE_CONFIRMED_BACK_BTN = 'Ck_BTN_Back_Bk_Cfnd',
   ON_PAGE_ENTER_CHECKAVAILABILITY = 'On_PG_Chk_Avl',
+  ON_PAGE_ENTER_CHECKAVAILABILITY_EDIT = 'On_PG_Chk_Avl_Amnd',
   ON_PAGE_CHANGE_FLIGHT = 'CG_Flight_Date_Chk_Avl',
   ON_CHANGE_DATE = 'CG_Flight_Date_Chk_Avl',
+  ON_CONTINUE_BUTTON_AVI_EDIT = 'CK_BTN_Chk_Avl_Amnd',
+  ON_CHANGE_FLIGHT_NUMBER_ERROR_EDIT = 'ERR_Flight_Number_Chk_Avl_Amnd',
+  ON_CHANGE_DATE_EDIT = 'CG_Flight_Date_Chk_Avl_Amnd',
   ON_CHANGE_DATE_ERROR = 'ERR_Flight_Date_Chk_Avl',
+  ON_CHANGE_DATE_ERROR_EDIT = 'ERR_Flight_Date_Chk_Avl_Amnd',
   ON_CHANGE_FLIGHT_NUMBER = 'CG_Flight_Number_Chk_Avl',
+  ON_CHANGE_FLIGHT_NUMBER_EDIT = 'CG_Flight_Number_Chk_Avl_Amnd',
   ON_CHANGE_FLIGHT_NUMBER_ERROR = 'ERR_Flight_Number_Chk_Avl',
   ON_CONTINUE_BUTTON_AVI = 'CK_BTN_Chk_Avl',
   ON_CHANGE_ERROR_ATTENDEES_AVL = 'ERR_Number_Chk_Avl',
+  ON_CHANGE_ERROR_ATTENDEES_AVL_EDIT = 'ERR_Number_Chk_Avl_Amnd',
   ON_SLOT_PG_ENTER = 'On_PG_Pick_Slot',
   ON_SLOT_CHANGE = 'CHG_Time_Slot_Pick_Slot ',
   ON_SLOT_CONTINUE = 'CK_BTN_Confirm_Pick_Slot',
@@ -102,7 +111,23 @@ export enum ANALYTICS_TAGS {
   ON_SLOT_MISSED = 'On_PG_Slot_Mis',
   ON_SLOT_SELECT_ANOTHER = 'CK_BTN_Sel_Slot_Mis',
   ON_SLOT_SELECT_GO_TO_LOUNGE = 'CK_BTN_GO_Slot_Mis',
+  ON_SLOT_AMEND_ENTER = 'On_PG_Pick_Slot_Amnd',
+  ON_SLOT_CHANGED_AMEND = 'CHG_Time_Slot_Pick_Slot_Amnd',
+  ON_SLOT_AMEND_CONFIRMED = 'CK_BTN_Confirm_Pick_Slot_Amnd',
+  ON_CONFIRM_AMEND_PG = 'On_PG_Sv_Chng_Amnd',
+  ON_CONFIRM_AMEND_SAVE = 'CK_BTN_Sv_Chng_Amnd',
 }
+
+export const PAGENAMES = {
+  INDEX: 'Chk_Avl',
+  SLOTAMEND: 'Slot_Amnd',
+  PICK_SLOT: 'Pick_Slot',
+  BOOKING_CONFIRMED: 'BookingConfirmed',
+  FAULURE_BOOKING: 'Slot_Mis',
+  BOOKING_AMEND: 'Chk_Avl_Amnd',
+  CONFIRM_AMEND: 'Sv_Chng_Amnd',
+  CONFIRM_CREATE: 'G_T_Pmt',
+};
 
 export const PRODUCTION_DOMAIN = 'booking.cergea.com';
 
@@ -115,4 +140,9 @@ export const PDF_VERSION_ACCEPTED = '6.30.0';
 export enum SWITCHES {
   LOCAL_SWITCH_OFF = 'OFF',
   LOCAL_SWITCH_ON = 'ON',
+}
+
+export enum BOOKING_MODE {
+  EDIT = 'EDIT',
+  CREATE = 'CREATE',
 }

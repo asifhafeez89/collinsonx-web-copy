@@ -10,8 +10,10 @@ import {
   LANGUAGE,
   VERSION,
   PDF_VERSION_ACCEPTED,
+  PATH_NAME,
 } from '../constants';
 import { BookingQueryParams } from '@collinsonx/constants/enums';
+import { useRouter } from 'next/router';
 
 const {
   loungeCode: lcParam,
@@ -31,6 +33,7 @@ const checkIsAllowed = (pathname: string) => {
 
 const SysAuth = ({ children }: AuthWrapperProps) => {
   const [show, setShow] = useState(false);
+  const router = useRouter();
 
   const session: any = useSessionContext();
   useEffect(() => {
@@ -62,6 +65,7 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
           setItem(PLATFORM, platformParam ?? '');
           setItem(LANGUAGE, platln ?? 'en');
           setItem(VERSION, platVersion ?? PDF_VERSION_ACCEPTED);
+          setItem(PATH_NAME, JSON.stringify(router));
         }
 
         if (referrerParam) {

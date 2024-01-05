@@ -201,6 +201,7 @@ export default {
       },
       totalPrice: {
         title: 'Precio total',
+        samePrice: 'No se requiere tarifa adicional',
       },
       panelInfoHeader: {
         date: 'Fecha',
@@ -257,6 +258,7 @@ export default {
     },
     confirmBooking: {
       title: 'Resumen de reservas',
+      amendTitle: 'Resumen de reserva',
       text: 'Confirme que los detalles son correctos antes de realizar el pago.',
       btn: 'Ir al pago',
     },
@@ -349,6 +351,7 @@ export default {
     },
     checkAvailability: {
       arrivalTitle: 'Selección de tiempo de llegada',
+      amendTitle: 'Modificaciones de reserva',
       notFoundError: 'Algo salió mal. Por favor, vuelva a intentarlo',
       btn: 'Verifique la disponibilidad',
     },

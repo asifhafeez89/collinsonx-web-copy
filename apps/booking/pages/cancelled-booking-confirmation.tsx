@@ -34,7 +34,6 @@ export default function CancelBooking() {
   const [createLoading, setCreateLoading] = useState(false);
   const { payload, setPayload } = usePayload();
 
-  console.log(payload?.accountProvider);
   const { data: bookingDetails } = useQuery<{
     getBookingByID: Booking;
   }>(getBookingByID, {

@@ -1,8 +1,4 @@
-import {
-  ApolloError,
-  useLazyQuery,
-  useMutation,
-} from '@collinsonx/utils/apollo';
+import { useLazyQuery, useMutation } from '@collinsonx/utils/apollo';
 import Layout from '@components/Layout';
 import {
   Box,
@@ -10,7 +6,6 @@ import {
   Stack,
   Button,
   Center,
-  ActionIcon,
 } from '@collinsonx/design-system/core';
 import {
   BookingType,
@@ -18,7 +13,6 @@ import {
 } from '@collinsonx/utils/generatedTypes/graphql';
 import { useRouter } from 'next/router';
 import { LoungeInfo } from '@components/LoungeInfo';
-import { Details } from '@collinsonx/design-system';
 import createBooking from '@collinsonx/utils/mutations/createBooking';
 import { useState, useContext, useEffect, useCallback, FC } from 'react';
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
@@ -35,23 +29,22 @@ import { Slots } from '@collinsonx/utils';
 import { TIME_FORMAT, TRAVEL_TYPE } from '../config/Constants';
 import { formatDate, formatTimezone } from '../utils/DateFormatter';
 import usePayload from 'hooks/payload';
-import { InfoGroup } from '@collinsonx/design-system/components/details';
 import { BookingContext } from 'context/bookingContext';
 import dayjs from 'dayjs';
 import {
   ANALYTICS_TAGS,
   BookingError,
   MOBILE_ACTION_BACK,
+  BOOKING_MODE,
+  BOKING_MODE_STATE,
   constants,
+  PAGENAMES,
 } from '../constants';
 import colors from 'ui/colour-constants';
 import TopBarLinks from '@components/TopBarLinks';
 import BookingLightbox from '@collinsonx/design-system/components/bookinglightbox';
-import Price from '@components/Price';
 import Notification from '@components/Notification';
-import { InfoPanel } from 'utils/PanelInfo';
-import { GuestCount } from '@components/guest-count/GuestCount';
-import { log, logAction, sendMobileEvent } from '../lib/index';
+import { getItem, log, logAction, sendMobileEvent } from '../lib/index';
 import { FlightContext } from 'context/flightContext';
 import getError from 'utils/getError';
 import { Clock, Warning } from '@collinsonx/design-system/assets/icons';
@@ -81,7 +74,11 @@ export default function CheckAvailability() {
 
   const booking = getBooking();
   const flightData = getFlight();
-  const pageName = 'Pick_Slot';
+  const Booking_Mode = getItem(BOKING_MODE_STATE);
+  const pageName =
+    Booking_Mode === BOOKING_MODE.EDIT
+      ? PAGENAMES.SLOTAMEND
+      : PAGENAMES.PICK_SLOT;
 
   const { flightNumber, children, adults, infants } = booking;
 
@@ -93,7 +90,12 @@ export default function CheckAvailability() {
   const translations = useLocale();
 
   useEffect(() => {
-    logAction(pageName, ANALYTICS_TAGS.ON_SLOT_PG_ENTER);
+    logAction(
+      pageName,
+      Booking_Mode === BOOKING_MODE.EDIT
+        ? ANALYTICS_TAGS.ON_SLOT_AMEND_ENTER
+        : ANALYTICS_TAGS.ON_SLOT_PG_ENTER
+    );
   }, []);
 
   const findSelectedSlot = (slots: Slots[] | undefined, value: string) => {
@@ -109,7 +111,12 @@ export default function CheckAvailability() {
   const handleSubmit = () => {
     setMessage('');
 
-    logAction(pageName, ANALYTICS_TAGS.ON_SLOT_CONTINUE);
+    logAction(
+      pageName,
+      Booking_Mode == BOOKING_MODE.EDIT
+        ? ANALYTICS_TAGS.ON_SLOT_AMEND_CONFIRMED
+        : ANALYTICS_TAGS.ON_SLOT_CONTINUE
+    );
 
     const availableSlots = slotsData?.getAvailableSlots.slots;
     const slot = findSelectedSlot(availableSlots, selectedslot);
@@ -158,24 +165,28 @@ export default function CheckAvailability() {
       bookingInput.actingAccount
     );
 
-    mutate({ variables: { bookingInput } }).then((response: any) => {
-      log(
-        '[createBooking] createBooking response: ',
-        JSON.stringify(response || null)
-      );
-      const badUserInputError = getError(response, BAD_USER_INPUT);
-      if (badUserInputError) {
-        return setMessage(availabilityMessagess[BAD_USER_INPUT]);
-      } else if (response.data?.createBooking) {
-        booking.bookingId = response.data.createBooking.id;
+    if (Booking_Mode === BOOKING_MODE.EDIT) {
+      //Add code the Edit mutation
+    } else {
+      mutate({ variables: { bookingInput } }).then((response: any) => {
+        log(
+          '[createBooking] createBooking response: ',
+          JSON.stringify(response || null)
+        );
+        const badUserInputError = getError(response, BAD_USER_INPUT);
+        if (badUserInputError) {
+          return setMessage(availabilityMessagess[BAD_USER_INPUT]);
+        } else if (response.data?.createBooking) {
+          booking.bookingId = response.data.createBooking.id;
 
-        setBooking(booking);
+          setBooking(booking);
 
-        router.push({
-          pathname: '/confirm-booking',
-        });
-      }
-    });
+          router.push({
+            pathname: '/confirm-booking',
+          });
+        }
+      });
+    }
   };
 
   const [
@@ -243,8 +254,13 @@ export default function CheckAvailability() {
   );
 
   const handleSelectSlot = async (value: string | null) => {
-    await logAction(pageName, ANALYTICS_TAGS.ON_SLOT_CHANGE);
-    setSelectedslot(value || '');
+    await logAction(
+      pageName,
+      Booking_Mode == BOOKING_MODE.EDIT
+        ? ANALYTICS_TAGS.ON_SLOT_CHANGED_AMEND
+        : ANALYTICS_TAGS.ON_SLOT_CHANGE
+    );
+    setSelectedslot(value ?? '');
   };
 
   const showAlert = airportMismatch || terminalMismatch;
@@ -320,7 +336,9 @@ export default function CheckAvailability() {
           <Stack gap={10} className={classes.outerContainer}>
             <Center className={classes.titleWrapper}>
               <Heading as="h1" padding={0} margin={0} lineHeight={1}>
-                {translations.booking.checkAvailability.arrivalTitle}
+                {Booking_Mode === BOOKING_MODE.EDIT
+                  ? translations.booking.checkAvailability.arrivalTitle
+                  : translations.booking.checkAvailability.amendTitle}
               </Heading>
             </Center>
             <LoungeInfo lounge={lounge} loading={!lounge} />

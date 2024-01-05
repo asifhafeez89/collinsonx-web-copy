@@ -125,6 +125,7 @@ type bookingLang = {
   availableSlots: AvailableSlotsProps;
   confirmBooking: {
     title: string;
+    amendTitle: string;
     text: string;
     btn: string;
   };
@@ -136,6 +137,7 @@ type bookingLang = {
   cancellation: CancellationProps;
   checkAvailability: {
     arrivalTitle: string;
+    amendTitle: string;
     notFoundError: string;
     btn: string;
   };
@@ -223,6 +225,7 @@ type AvailableSlotsProps = {
     line3: string;
   };
   totalPrice: {
+    samePrice: string;
     title: string;
   };
   panelInfoHeader: {

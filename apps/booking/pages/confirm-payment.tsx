@@ -36,6 +36,7 @@ import TopBarLinks from '@components/TopBarLinks';
 import {
   ANALYTICS_TAGS,
   MOBILE_ACTION_BACK,
+  PAGENAMES,
   PDF_VERSION_ACCEPTED,
   POLLING_TIME,
   VERSION,
@@ -69,7 +70,7 @@ export default function ConfirmPayment() {
     payload,
   } = usePayload();
 
-  const pageName = 'BookingConfirmed';
+  const pageName = PAGENAMES.BOOKING_CONFIRMED;
 
   useEffect(() => {
     logAction(pageName, ANALYTICS_TAGS.ON_PAGE_ENTER_CONFIRMED);

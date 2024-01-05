@@ -1,4 +1,5 @@
 import { Experience } from '@collinsonx/utils';
+import useLocale from 'hooks/useLocale';
 import { useMemo } from 'react';
 
 interface PriceProps {
@@ -8,12 +9,16 @@ interface PriceProps {
     infants: number;
   };
   lounge?: Experience;
+  currentPrice?: number;
+  title?: string;
 }
 
-const Price = ({ lounge, guests }: PriceProps) => {
+const Price = ({ lounge, guests, currentPrice, title }: PriceProps) => {
   const currencyMap: Record<string, string> = {
     GBP: String.fromCharCode(163),
   };
+
+  const translations = useLocale();
 
   const getCurrencySymbol = (currency: string) =>
     currencyMap[currency] || currency;
@@ -40,7 +45,14 @@ const Price = ({ lounge, guests }: PriceProps) => {
     }
   }, [lounge, guests]);
 
-  return <>{loungePrice}</>;
+  return (
+    <>
+      {title && currentPrice !== loungePrice && <h3>{title}</h3>}
+      {currentPrice === loungePrice
+        ? translations.booking.availableSlots.totalPrice.samePrice
+        : loungePrice}
+    </>
+  );
 };
 
 export default Price;

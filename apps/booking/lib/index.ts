@@ -2,7 +2,11 @@ import { experienceX } from '@collinsonx/design-system/themes';
 
 import { Be_Vietnam_Pro } from 'next/font/google';
 import { MantineThemeOverride } from '@collinsonx/design-system/core';
-import { PRODUCTION_DOMAIN, STORAGE_NAMESPACE } from '../constants';
+import {
+  BOOKING_MODE,
+  PRODUCTION_DOMAIN,
+  STORAGE_NAMESPACE,
+} from '../constants';
 
 import { LOUNGE_HOURS_OFFSET } from 'config/lounge';
 import dayjsTz from '@collinsonx/utils/lib/dayjsTz';
@@ -156,3 +160,7 @@ export const logAction = async (
   console.log(action);
   loggerAction(file, action, data, datadogRum);
 };
+
+export function analyticsTag(mode: BOOKING_MODE, tag: string) {
+  return mode === BOOKING_MODE.CREATE ? tag + '_EDIT' : tag;
+}

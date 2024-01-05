@@ -198,6 +198,7 @@ export default {
       },
       totalPrice: {
         title: 'Total price',
+        samePrice: 'No additional fee required',
       },
       panelInfoHeader: {
         date: 'Date',
@@ -252,6 +253,7 @@ export default {
     },
     confirmBooking: {
       title: 'Booking summary',
+      amendTitle: 'Booking amendment summary',
       text: 'Please confirm details are correct before making payment.',
       btn: 'Go to payment',
     },
@@ -343,6 +345,7 @@ export default {
     },
     checkAvailability: {
       arrivalTitle: 'Arrival time selection',
+      amendTitle: 'Booking amendments',
       notFoundError: 'Something went wrong, please try again',
       btn: 'CHECK AVAILABILITY',
     },

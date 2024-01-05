@@ -24,14 +24,14 @@ import TopBarLinks from '@components/TopBarLinks';
 import { MouseEventHandler, useCallback, useContext, useEffect } from 'react';
 import { AlertIcon } from '@collinsonx/design-system/assets/icons';
 import { logAction, sendMobileEvent } from '@lib';
-import { ANALYTICS_TAGS, MOBILE_ACTION_BACK } from '../constants';
+import { ANALYTICS_TAGS, MOBILE_ACTION_BACK, PAGENAMES } from '../constants';
 
 import classes from '../styles/FailureBooking.module.css';
 import useLocale from 'hooks/useLocale';
 
 export default function BookingFailure() {
   const router = useRouter();
-  const pageName = 'Slot_Mis';
+  const pageName = PAGENAMES.FAULURE_BOOKING;
   const { getBooking } = useContext(BookingContext);
 
   const { referrerUrl, lounge } = usePayload();

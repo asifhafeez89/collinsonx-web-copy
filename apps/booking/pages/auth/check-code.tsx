@@ -26,7 +26,7 @@ import linkAccount from '@collinsonx/utils/mutations/linkAccount';
 import Session from 'supertokens-auth-react/recipe/session';
 import TopBarLinks from '@components/TopBarLinks';
 import getError from 'utils/getError';
-import { ANALYTICS_TAGS, BookingError } from '../../constants';
+import { ANALYTICS_TAGS, BookingError, PATH_NAME } from '../../constants';
 import { BookingQueryParams } from '@collinsonx/constants/enums';
 import { PinLockoutError } from '@collinsonx/constants/constants';
 import { getConsumerByID } from '@collinsonx/utils/queries';
@@ -39,6 +39,7 @@ import {
   logDataError,
 } from '../../lib/index';
 import useLocale from 'hooks/useLocale';
+import { getItem } from '@lib';
 
 import classes from '../../styles/CheckCode.module.css';
 
@@ -127,9 +128,12 @@ export default function CheckEmail() {
           },
         });
       }
-      if (router.query.bookingId) {
+
+      const { pathname } = JSON.parse(getItem(PATH_NAME) as string);
+
+      if (pathname === '/amend-booking' || pathname === '/cancel-booking') {
         router.push({
-          pathname: '/cancel-booking',
+          pathname,
           query: {
             [bookingId]: router.query[bookingId] as string,
           },
