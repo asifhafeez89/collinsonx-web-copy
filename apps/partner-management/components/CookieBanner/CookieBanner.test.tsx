@@ -5,12 +5,14 @@ import { fireEvent, render } from '@collinsonx/design-system/test-utils';
 describe('<CookieBanner />', () => {
   it('should render', () => {
     const component = render(<CookieBanner />);
+    const btn = component.getByRole('button');
 
-    expect(component).toMatchSnapshot();
+    expect(btn).toBeInTheDocument();
   });
-  it('button click', () => {
+  it('should close banner when button has been clicked', () => {
     const component = render(<CookieBanner />);
     const btn = component.getByRole('button');
     fireEvent.click(btn);
+    expect(btn).not.toBeInTheDocument();
   });
 });

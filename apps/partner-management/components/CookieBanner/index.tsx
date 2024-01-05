@@ -1,28 +1,16 @@
 import {
+  Box,
   Button,
   Flex,
   Text,
   Portal,
   Anchor,
 } from '@collinsonx/design-system/core';
-import styled from '@collinsonx/design-system/styled';
 import { CONSENT } from 'config';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import classes from './CookieBanner.module.css';
 
-const Container = styled.div`
-  height: 92px;
-  background-color: #f4f4f4;
-  color: #000;
-  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.25);
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-
-  /* freshchat widget zIndex = 2147483600 */
-  z-index: 2147483601;
-`;
 const CookieBanner = () => {
   const [show, setShow] = useState(false);
   useEffect(() => {
@@ -34,7 +22,7 @@ const CookieBanner = () => {
   };
   return show ? (
     <Portal>
-      <Container>
+      <Box className={classes.container}>
         <Flex h="100%" gap={48} align="center" justify="center">
           <Text style={{ fontSize: 18 }}>
             This website uses cookies to ensure you get the best experience.{' '}
@@ -55,7 +43,7 @@ const CookieBanner = () => {
             Accept and close
           </Button>
         </Flex>
-      </Container>
+      </Box>
     </Portal>
   ) : null;
 };

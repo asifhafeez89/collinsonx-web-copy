@@ -16,49 +16,52 @@ function hexToRgb(hex: string) {
 }
 
 describe('<OverviewCard />', () => {
+  const title = 'Test';
+  const content = 'Foobar';
+
   it('should render', () => {
-    const card = render(<OverviewCard title="Test" variant="confirmed" />);
+    const card = render(<OverviewCard title={title} variant="confirmed" />);
 
     expect(card.getByText('Test')).toBeInTheDocument();
   });
   it('should render children elements', () => {
     const card = render(
-      <OverviewCard title="Test" variant="confirmed">
-        Foobar
+      <OverviewCard title={title} variant="confirmed">
+        {content}
       </OverviewCard>
     );
-    expect(card.getByText('Foobar')).toBeInTheDocument();
+    expect(card.getByText(content)).toBeInTheDocument();
   });
   it('should have corresponding background color for pending', () => {
     const variant = 'pending';
     const card = render(
-      <OverviewCard title="Test" variant={variant}>
-        Foobar
+      <OverviewCard title={title} variant={variant}>
+        {content}
       </OverviewCard>
     );
-    expect(card.getByText('Test').parentNode).toHaveStyle(
+    expect(card.getByText(title).parentNode).toHaveStyle(
       `background-color: ${hexToRgb(bookingPageConfig[variant].color)}`
     );
   });
   it('should have corresponding background color for confirmed', () => {
     const variant = 'confirmed';
     const card = render(
-      <OverviewCard title="Test" variant={variant}>
-        Foobar
+      <OverviewCard title={title} variant={variant}>
+        {content}
       </OverviewCard>
     );
-    expect(card.getByText('Test').parentNode).toHaveStyle(
+    expect(card.getByText(title).parentNode).toHaveStyle(
       `background-color: ${hexToRgb(bookingPageConfig[variant].color)}`
     );
   });
   it('should have corresponding background color for declined', () => {
     const variant = 'declined';
     const card = render(
-      <OverviewCard title="Test" variant={variant}>
-        Foobar
+      <OverviewCard title={title} variant={variant}>
+        {content}
       </OverviewCard>
     );
-    expect(card.getByText('Test').parentNode).toHaveStyle(
+    expect(card.getByText(title).parentNode).toHaveStyle(
       `background-color: ${hexToRgb(bookingPageConfig[variant].color)}`
     );
   });

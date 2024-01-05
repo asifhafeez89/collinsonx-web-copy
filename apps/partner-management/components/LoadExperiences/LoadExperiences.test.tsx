@@ -11,10 +11,11 @@ jest.mock('@collinsonx/utils/queries', () => {
 });
 
 describe('<LoadExperiences />', () => {
+  const loungeName = 'Clubrooms Birmingham - Additional Fee Applies';
   it('should render', async () => {
     const experience = {
       id: '1ccc3807-a7ed-5a3a-ada8-fd37ac1ab941',
-      loungeName: 'Clubrooms Birmingham - Additional Fee Applies',
+      loungeName,
       bookings: [],
       invitations: [],
       partners: [],
@@ -27,10 +28,6 @@ describe('<LoadExperiences />', () => {
       />
     );
 
-    expect(
-      dropdown.getByDisplayValue(
-        'Clubrooms Birmingham - Additional Fee Applies'
-      )
-    ).toBeInTheDocument();
+    expect(dropdown.getByDisplayValue(loungeName)).toBeInTheDocument();
   });
 });

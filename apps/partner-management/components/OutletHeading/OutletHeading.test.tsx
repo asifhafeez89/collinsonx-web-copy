@@ -9,18 +9,20 @@ jest.mock('@collinsonx/design-system/assets/icons', () => {
 });
 
 describe('<OutletHeading />', () => {
+  const locationName = 'Location name';
+  const terminalName = 'Terminal name';
   it('should render with all props', () => {
     const outletHeading = render(
       <OutletHeading
         name="Outlet name"
-        locationName="Location name"
-        terminal="Terminal name"
+        locationName={locationName}
+        terminal={terminalName}
       />
     );
 
     expect(outletHeading.getByText('Outlet name')).toBeInTheDocument();
     expect(
-      outletHeading.getByText('Location name, Terminal name')
+      outletHeading.getByText(`${locationName}, ${terminalName}`)
     ).toBeInTheDocument();
   });
 });

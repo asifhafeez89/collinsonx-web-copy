@@ -3,10 +3,11 @@ import '@testing-library/jest-dom/extend-expect';
 import { render } from '@collinsonx/design-system/test-utils';
 
 describe('<Error />', () => {
-  it('should render', () => {
-    const component = render(<Error />);
+  const title = 'An error occurred';
+  it('should not render without error', () => {
+    const component = render(<Error title={title} />);
 
-    expect(component).toMatchSnapshot();
+    expect(component.queryByText(title)).not.toBeInTheDocument();
   });
   it('should render with error', () => {
     let err = {
@@ -18,8 +19,8 @@ describe('<Error />', () => {
       networkError: null,
       extraInfo: '',
     };
-    const component = render(<Error error={err} />);
+    const component = render(<Error error={err} title={title} />);
 
-    expect(component).toMatchSnapshot();
+    expect(component.queryByText(title)).toBeInTheDocument();
   });
 });

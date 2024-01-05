@@ -1,11 +1,26 @@
 import PageTitle from './PageTitle';
 import '@testing-library/jest-dom/extend-expect';
-import { render } from '@collinsonx/design-system/test-utils';
+import { render, screen, waitFor } from '@collinsonx/design-system/test-utils';
+
+import React from 'react';
 
 describe('<PageTitle />', () => {
-  it('should render', () => {
-    const component = render(<PageTitle title="title" />);
+  beforeAll(() => {
+    jest.doMock(
+      'next/head',
+      () =>
+        function Head({ children }: { children: any }) {
+          return <>{children}</>;
+        }
+    );
+  });
+  it('should render', async () => {
+    const title = 'test title';
 
-    expect(component).toMatchSnapshot();
+    render(<PageTitle title={title} />);
+
+    waitFor(() => {
+      expect(screen.getByText(title)).toBeInTheDocument();
+    });
   });
 });

@@ -12,6 +12,7 @@ interface BookingModalProps {
 function BookingModal({ booking, onClickClose, children }: BookingModalProps) {
   return (
     <Modal
+      data-testid="modal"
       opened={booking !== null}
       withCloseButton={false}
       onClose={onClickClose}

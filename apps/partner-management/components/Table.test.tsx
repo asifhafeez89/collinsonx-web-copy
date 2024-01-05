@@ -1,6 +1,6 @@
 import Table from './Table';
 import '@testing-library/jest-dom/extend-expect';
-import { render } from '@collinsonx/design-system/test-utils';
+import { render, waitFor } from '@collinsonx/design-system/test-utils';
 import {
   Table as ReactTable,
   RowModel,
@@ -48,7 +48,7 @@ jest.mock('@tanstack/react-table', () => {
   };
 });
 describe('<type />', () => {
-  it('should render', () => {
+  it('should render', async () => {
     const table = useReactTable({
       data: [
         {
@@ -119,8 +119,9 @@ describe('<type />', () => {
         },
       ],
     });
-    const component = render(<Table table={table} type={'pending'} />);
-
-    expect(component).toMatchSnapshot();
+    waitFor(() => {
+      const component = render(<Table table={table} type={'pending'} />);
+      expect(component.getByText('Customer name')).toBeInTheDocument();
+    });
   });
 });

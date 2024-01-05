@@ -8,6 +8,6 @@ describe('<BookingModal />', () => {
       <BookingModal onClickClose={() => {}} booking={null} />
     );
 
-    expect(component).toMatchSnapshot();
+    expect(component.getByTestId('modal')).toBeInTheDocument();
   });
 });

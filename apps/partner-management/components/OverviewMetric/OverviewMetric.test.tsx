@@ -3,20 +3,24 @@ import { render } from '@collinsonx/design-system/test-utils';
 import '@testing-library/jest-dom/extend-expect';
 
 describe('<OverviewMetric />', () => {
+  const label = 'Test';
+
   it('should render', () => {
-    const component = render(<OverviewMetric label="Test" value={20} />);
-    expect(component.getByText('Test')).toBeInTheDocument();
+    const component = render(<OverviewMetric label={label} value={20} />);
+    expect(component.getByText(label)).toBeInTheDocument();
   });
   it('should show metric value', () => {
-    const component = render(<OverviewMetric label="Test" value={1337} />);
-    expect(component.getByText('1337')).toBeInTheDocument();
+    const content = 1337;
+    const component = render(<OverviewMetric label={label} value={content} />);
+    expect(component.getByText(content)).toBeInTheDocument();
   });
   it('should render children', () => {
+    const content = 'foobar';
     const component = render(
-      <OverviewMetric label="Test" value={1337}>
-        <span>foobar</span>
+      <OverviewMetric label={label} value={1337}>
+        <span>{content}</span>
       </OverviewMetric>
     );
-    expect(component.getByText('foobar')).toBeInTheDocument();
+    expect(component.getByText(content)).toBeInTheDocument();
   });
 });
