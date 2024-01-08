@@ -17,11 +17,14 @@ export default class PartnersPage {
     return this.page.goto('/partners', { waitUntil: 'networkidle' });
   }
 
-  clickFirstPartnerCardViewOutletsButton() {
-    return this.page.getByTestId('view-outlets-button-0').click();
+  clickFirstPartnerRowViewOutletsButton() {
+    return this.page
+      .getByTestId('partner-row-action-0')
+      .getByRole('button')
+      .click();
   }
 
-  partnerCard() {
-    return this.page.getByTestId('partner-card');
+  partnerRow() {
+    return this.page.getByTestId('partner-row');
   }
 }

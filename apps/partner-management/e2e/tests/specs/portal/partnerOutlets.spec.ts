@@ -22,7 +22,7 @@ test.describe('partner-specific outlets page', () => {
 
     await partnersPage.goToURL();
 
-    await partnersPage.clickFirstPartnerCardViewOutletsButton();
+    await partnersPage.clickFirstPartnerRowViewOutletsButton();
 
     await page.waitForURL('**/outlets?partner=*');
 

@@ -140,6 +140,17 @@ const theme = (
           }
           return {};
         },
+        vars: (theme, props) => {
+          if (props.variant === 'outline') {
+            return {
+              root: {
+                '--button-color': colors['text-default'],
+                '--button-bd': `1px solid ${colors['text-default']}`,
+              },
+            };
+          }
+          return { root: {} };
+        },
       }),
       Pagination: Pagination.extend({
         classNames: classesPagination,

@@ -23,10 +23,10 @@ test.describe('partners page', () => {
     await dashboardPage.clickViewAllPartnersButton();
 
     const title = partnersPage.title();
-    const partnerCard = partnersPage.partnerCard();
+    const partnerRow = partnersPage.partnerRow();
 
     await expect(title).toBeVisible();
-    await expect(partnerCard).toHaveCount(CARDS_LIMIT);
+    await expect(partnerRow).toHaveCount(CARDS_LIMIT);
   });
 
   test('partners display the correct outlet count', async ({ page }) => {
@@ -41,7 +41,7 @@ test.describe('partners page', () => {
     // compare UI and API outlet counts
     for (let i = 0; i < partnerBrands.length; i++) {
       const outletCountUI = +(
-        await page.getByTestId(`outlet-count-${[i]}`).innerText()
+        await page.getByTestId(`partner-row-outlets-${[i]}`).innerText()
       ).split(' ')[0];
       const outletCountAPI = partnerBrands[i].outlets.length;
 
