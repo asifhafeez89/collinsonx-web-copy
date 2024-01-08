@@ -4,7 +4,7 @@ import { redirectToBaas } from '../utils/redirectToBaas';
 import EnterEmailPage from '../pages/EnterEmailPage';
 import EnterPinPage from '../pages/EnterPinPage';
 import { getPinFromEmail } from '../utils/emailUtils';
-import UpdateDetailsPage from '../pages/UpdateDetailsPage';
+import RegistrationPage from '../pages/RegistrationPage';
 
 export function getEmailAddress(id) {
   return `${id}@${mailinatorAddress}`;
@@ -45,11 +45,27 @@ export async function loginAsExistingUser(
   await redirectToBaas(page, jwt, lounge);
 
   await getAndEnterPin(page, email);
+}
 
-  try {
-    const updateDetailsPage = new UpdateDetailsPage(page);
-    await updateDetailsPage.clickLogin();
-  } catch (err) {
-    // pass to next page
-  }
+export async function loginAsNewUser(page, id, membershipNumber, externalId) {
+  const secret = process.env.NEXT_PUBLIC_JWT_SECRET || '';
+  const email = getEmailAddress(id);
+  const payload = {
+    membershipNumber,
+    externalId,
+    email,
+    firstName: 'Alice',
+    lastName: 'Smith',
+    membershipType: 'MASTERCARD_HSBC',
+    accountProvider: 'PRIORITY_PASS',
+  };
+  const jwt = await signJWT(payload, secret);
+  const lounge = 'BHD1';
+
+  await redirectToBaas(page, jwt, lounge);
+
+  await getAndEnterPin(page, email);
+
+  const registrationPage = new RegistrationPage(page);
+  await registrationPage.clickLogin();
 }

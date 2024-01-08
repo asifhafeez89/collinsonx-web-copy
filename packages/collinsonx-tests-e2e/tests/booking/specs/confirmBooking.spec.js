@@ -10,6 +10,7 @@ import CancelBookingPage from '../pages/CancelBookingPage';
 import CancelledBookingConfirmationPage from '../pages/CancelledBookingConfirmationPage';
 import {
   loginAsExistingUser,
+  loginAsNewUser,
   getEmailAddress,
   getAndEnterPin,
 } from '../utils/loginUtils';
@@ -21,6 +22,7 @@ import {
   paymentIntentResponse,
   paymentConfirmResponse,
 } from '../utils/mockUtils';
+import { v4 as uuidv4 } from 'uuid';
 
 async function fillStripeIframe(stripePaymentPage, id) {
   await stripePaymentPage.inputEmail(getEmailAddress(id));
@@ -51,13 +53,13 @@ test.describe('Confirm booking flow', () => {
       const selectLoungeTimePage = new SelectLoungeTimePage(page);
       const confirmBookingPage = new ConfirmBookingPage(page);
 
-      const id = 'alreadyregisteredconsumerwithlinkaccount11';
-      const membershipNumber = '8881113561';
-      const externalId = '8881113561';
+      const id = uuidv4();
+      const membershipNumber = uuidv4();
+      const externalId = uuidv4();
       const flightNumber = 'BA1417';
 
       // Act
-      await loginAsExistingUser(page, id, membershipNumber, externalId);
+      await loginAsNewUser(page, id, membershipNumber, externalId);
 
       const oneMonthFromNow = getOneMonthFromToday();
       await preBookPage.openDatePicker();

@@ -82,7 +82,7 @@ test.describe('Onboarding flow', () => {
         lastName,
         email
       );
-      await registrationPage.clickConfirm();
+      await registrationPage.clickLogin();
 
       // Assert
       const loungeTitle = await preBookPage.loungeTitle();
@@ -118,7 +118,7 @@ test.describe('Onboarding flow', () => {
       await assertRegistrationPageDetails(registrationPage, null, null, email);
       await (await registrationPage.firstNameInput()).type(firstName);
       await (await registrationPage.lastNameInput()).type(lastName);
-      await registrationPage.clickConfirm();
+      await registrationPage.clickLogin();
 
       // Assert
       const loungeTitle = await preBookPage.loungeTitle();
@@ -153,7 +153,7 @@ test.describe('Onboarding flow', () => {
       await assertRegistrationPageDetails(registrationPage, null, null, email);
       await (await registrationPage.firstNameInput()).type(firstName);
       await (await registrationPage.lastNameInput()).type(lastName);
-      await registrationPage.clickConfirm();
+      await registrationPage.clickLogin();
 
       // Assert
       const loungeTitle = await preBookPage.loungeTitle();
@@ -332,7 +332,7 @@ test.describe('Onboarding flow', () => {
         lastName,
         newEmail
       );
-      await registrationPage.clickConfirm();
+      await registrationPage.clickLogin();
 
       // Assert
       const loungeTitle = await preBookPage.loungeTitle();
@@ -367,7 +367,7 @@ test.describe('Onboarding flow', () => {
       const pin = await getPinFromEmail(email);
       await enterPinPage.enterPin(pin);
       await enterPinPage.clickVerify();
-      await registrationPage.clickConfirm();
+      await registrationPage.clickLogin();
 
       // Assert
       const loungeTitle = await preBookPage.loungeTitle();
@@ -450,7 +450,7 @@ test.describe('Onboarding flow', () => {
     });
   });
 
-  test.describe('ONB-17 Invalid JWT secret', () => {
+  test.describe('ONB-017 Invalid JWT secret', () => {
     test('should redirect to service not available page', async ({ page }) => {
       // Arrange
       const { enterEmailPage, enterPinPage, errorPage } =

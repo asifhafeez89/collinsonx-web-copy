@@ -26,9 +26,10 @@ class RegistrationPage {
     return await emailInput.getAttribute('value');
   }
 
-  async clickConfirm() {
-    const confirmButton = await this.page.getByTestId('loginAfterSignUp');
-    return await confirmButton.click();
+  async clickLogin() {
+    const loginButtonSelector = 'button[data-testid="loginAfterSignUp"]';
+    const loginButton = await this.page.locator(loginButtonSelector);
+    await loginButton.click();
   }
 }
 
