@@ -2,11 +2,16 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import { DATE_TIME_FORMAT } from 'config/Constants';
+import 'dayjs/locale/es';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-export function formatDate(dateval: Date, formattype: string): string {
-  dayjs.locale('en');
+export function formatDate(
+  dateval: Date,
+  formattype: string,
+  locale?: string
+): string {
+  dayjs.locale(locale ? locale : 'en');
   return dayjs(dateval).format(formattype);
 }
 

@@ -45,7 +45,8 @@ export const FlightDetailsAndGuests = ({
               InfoPanel(
                 departureTime,
                 flightNumber,
-                translations.booking.availableSlots.panelInfoHeader
+                translations.booking.availableSlots.panelInfoHeader,
+                translations.booking.flightDetails.localeValue
               ) as InfoGroup[]
             }
             direction="row"

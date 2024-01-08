@@ -140,6 +140,7 @@ export default {
     },
     flightDetails: {
       title: 'My flight details',
+      localeValue: 'en',
       dateInput: {
         label: 'Date',
         placeholder: 'Flight date',

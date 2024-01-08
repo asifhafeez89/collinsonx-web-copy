@@ -133,7 +133,8 @@ export const BookingConfirmationPDF = (props: BookingConfirmedPdfProps) => {
             <Text style={styles.strong}>
               {formatDate(
                 new Date(`${props.departureTime}`),
-                DATE_READABLE_FORMAT
+                DATE_READABLE_FORMAT,
+                translations.booking.flightDetails.localeValue
               )}
             </Text>{' '}
             {translations.booking.confirmationPDF.description.line2}{' '}
@@ -157,7 +158,8 @@ export const BookingConfirmationPDF = (props: BookingConfirmedPdfProps) => {
             <Text style={styles.strong}>
               {formatDate(
                 new Date(`${props.departureTime}`),
-                DATE_READABLE_FORMAT
+                DATE_READABLE_FORMAT,
+                translations.booking.flightDetails.localeValue
               )}
             </Text>
           </Text>

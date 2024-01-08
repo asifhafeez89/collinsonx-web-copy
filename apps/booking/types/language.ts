@@ -188,6 +188,7 @@ type confirmationPDFProps = {
 
 type FlightDetailsProps = {
   title: string;
+  localeValue: string;
   dateInput: InputLang;
   numberInput: InputLang;
   time: InputLang;

@@ -6,6 +6,7 @@ import { InputLabel } from '@collinsonx/design-system';
 import { ANALYTICS_TAGS } from '../../../constants';
 import { logAction } from '@lib';
 import useLocale from 'hooks/useLocale';
+import 'dayjs/locale/es';
 
 import classes from './FlightInfo.module.css';
 
@@ -38,6 +39,7 @@ export const FlightInfo = ({
         </Title>
         <Flex className={classes.containerFlex} justify="space-between">
           <DatePickerInput
+            locale={translations.booking.flightDetails.localeValue}
             leftSection={<IconCalendar size="1.5rem" stroke={1.5} />}
             label={translations.booking.flightDetails.dateInput.label}
             placeholder={

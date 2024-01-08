@@ -8,11 +8,16 @@ export const InfoPanel = (
     date: string;
     flightTime: string;
     flightNumber: string;
-  }
+  },
+  locale?: string
 ) => [
   {
     header: translations.date,
-    description: formatDate(new Date(`${departureDate}`), DATE_READABLE_FORMAT),
+    description: formatDate(
+      new Date(`${departureDate}`),
+      DATE_READABLE_FORMAT,
+      locale
+    ),
   },
   {
     header: translations.flightTime,
