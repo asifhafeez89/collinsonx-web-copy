@@ -2,13 +2,12 @@ import { Text, Stack, Flex, Divider, List } from '@mantine/core';
 import colors from '../../colour-constants-partner';
 import Rating, { RatingProps } from '../rating/index';
 import Badge from '../badge';
-import FieldIcon from '../fieldIcon';
 import { BadgeProps } from '../badge';
 import { ReactNode } from 'react';
 import Card from '../card';
-import CardList from '../card/cardList';
 import CardField from '../card/cardField';
 import CardTitle from '../card/cardTitle';
+import ProductCategoriesList from '../outletTypes';
 
 export enum Status {
   'Active' = 'active',
@@ -119,18 +118,10 @@ function CardOutlet({
             )}
           </Flex>
           <Flex gap={24} wrap="wrap" style={{ rowGap: 10 }}>
-            <CardList listStyleType="none" aria-label="Experiences">
-              {productCategories.map(({ label, IconComponent }, index) => (
-                <List.Item key={index}>
-                  <FieldIcon text={label} textPosition="bottom">
-                    {IconComponent}
-                  </FieldIcon>
-                </List.Item>
-              ))}
-            </CardList>
+            <ProductCategoriesList productCategories={productCategories} />
             {lastEdit && (
               <CardField label="Last edited">
-                <Text color={colors['text-default']} size="sm">
+                <Text c={colors['text-default']} size="sm">
                   {lastEdit}
                 </Text>
               </CardField>

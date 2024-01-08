@@ -17,6 +17,20 @@ const getOutletByID = gql`
         name
         terminal
       }
+      meta {
+        editor {
+          lastName
+          firstName
+          organisation
+        }
+        lastEdited
+      }
+      products {
+        id
+        name
+        category
+        status
+      }
       openingTimes {
         exceptions
         schedules {

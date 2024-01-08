@@ -1,7 +1,39 @@
+.outletHeadingContainer {
+  align-items: center;
+  position: sticky;
+  top: 0;
+  background-color: var(--white);
+  z-index: 1;
+  border-bottom: 1px solid var(--grey-border);
+  margin-bottom: 53px;
+  padding: 24px;
+  gap: 16px;
+}
+
+.actionIcon {
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+}
+
+.titleContainer {
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 8px;
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
 .outletTitle {
   color: var(--text-default);
   font-weight: 700;
+  margin-top: 2px;
 }
+
 .outletSubtitle {
   color: var(--text-gray);
   font-size: rem(18px);

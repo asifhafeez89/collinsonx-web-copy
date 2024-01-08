@@ -4,7 +4,7 @@ import CardTitle from '@collinsonx/design-system/components/card/cardTitle';
 import CardOutlet from '@collinsonx/design-system/components/cardOutlet';
 import { Anchor, Button, SimpleGrid } from '@collinsonx/design-system/core';
 import { Maybe, Outlet, OutletStatus } from '@collinsonx/utils';
-import outletIcons from 'config/outletIcons';
+import outletIcons, { ValidTag } from 'config/outletIcons';
 import Link from 'next/link';
 
 import classes from './OutletGrid.module.css';
@@ -57,15 +57,17 @@ const OutletGrid = ({
             terminal={location?.terminal ?? undefined}
             productCategories={
               tags
-                ? tags.map((tag) => {
-                    const Icon = outletIcons[tag!] ?? OutletLoungeIcon;
-                    return {
-                      label: tag!,
-                      IconComponent: (
-                        <Icon width={24} height={24} aria-hidden={true} />
-                      ),
-                    };
-                  })
+                ? tags
+                    .filter((tag): tag is ValidTag => tag !== null)
+                    .map((tag) => {
+                      const Icon = outletIcons[tag] ?? OutletLoungeIcon;
+                      return {
+                        label: tag,
+                        IconComponent: (
+                          <Icon width={24} height={24} aria-hidden={true} />
+                        ),
+                      };
+                    })
                 : []
             }
             status={

@@ -1,0 +1,12 @@
+@media (min-width: $mantine-breakpoint-sm) {
+  .label {
+    text-align: right;
+  }
+}
+
+.value {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  margin-left: 0;
+}
