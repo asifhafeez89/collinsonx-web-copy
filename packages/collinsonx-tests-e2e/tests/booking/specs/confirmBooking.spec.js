@@ -9,9 +9,9 @@ import EnterEmailPage from '../pages/EnterEmailPage';
 import CancelBookingPage from '../pages/CancelBookingPage';
 import CancelledBookingConfirmationPage from '../pages/CancelledBookingConfirmationPage';
 import {
-  loginAsExistingUser,
   loginAsNewUser,
   getEmailAddress,
+  getIdWithPrefix,
   getAndEnterPin,
 } from '../utils/loginUtils';
 import { getLinkFromEmail, getCancelEmail } from '../utils/emailUtils';
@@ -22,7 +22,6 @@ import {
   paymentIntentResponse,
   paymentConfirmResponse,
 } from '../utils/mockUtils';
-import { v4 as uuidv4 } from 'uuid';
 
 async function fillStripeIframe(stripePaymentPage, id) {
   await stripePaymentPage.inputEmail(getEmailAddress(id));
@@ -53,9 +52,9 @@ test.describe('Confirm booking flow', () => {
       const selectLoungeTimePage = new SelectLoungeTimePage(page);
       const confirmBookingPage = new ConfirmBookingPage(page);
 
-      const id = uuidv4();
-      const membershipNumber = uuidv4();
-      const externalId = uuidv4();
+      const id = getIdWithPrefix();
+      const membershipNumber = getIdWithPrefix();
+      const externalId = getIdWithPrefix();
       const flightNumber = 'BA1417';
 
       // Act

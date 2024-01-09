@@ -3,8 +3,7 @@ import { signJWT } from '@collinsonx/jwt';
 import { redirectToBaas } from '../utils/redirectToBaas';
 import EnterEmailPage from '../pages/EnterEmailPage';
 import ErrorPage from '../pages/ErrorPage';
-import { v4 as uuidv4 } from 'uuid';
-import { mailinatorAddress } from '../config';
+import { getEmailAddress, getIdWithPrefix } from '../utils/loginUtils';
 
 const secret = process.env.NEXT_PUBLIC_JWT_SECRET || '';
 const lounge = 'MAN6';
@@ -16,8 +15,8 @@ test.describe('Initial Redirect to BAAS page', () => {
       // Arrange
       const enterEmailPage = new EnterEmailPage(page);
 
-      const membershipNumber = uuidv4();
-      const externalId = uuidv4();
+      const membershipNumber = getIdWithPrefix();
+      const externalId = getIdWithPrefix();
       const payload = {
         membershipNumber,
         externalId,
@@ -38,7 +37,7 @@ test.describe('Initial Redirect to BAAS page', () => {
     test('should redirect successfully', async ({ page }) => {
       // Arrange
       const enterEmailPage = new EnterEmailPage(page);
-      const externalId = uuidv4();
+      const externalId = getIdWithPrefix();
 
       const payload = {
         externalId,
@@ -60,8 +59,8 @@ test.describe('Initial Redirect to BAAS page', () => {
     test('should redirect to service not available page', async ({ page }) => {
       // Arrange
       const errorPage = new ErrorPage(page);
-      const membershipNumber = uuidv4();
-      const externalId = uuidv4();
+      const membershipNumber = getIdWithPrefix();
+      const externalId = getIdWithPrefix();
       const payload = {
         membershipNumber,
         externalId,
@@ -81,7 +80,7 @@ test.describe('Initial Redirect to BAAS page', () => {
     test('should redirect to service not available page', async ({ page }) => {
       // Arrange
       const errorPage = new ErrorPage(page);
-      const membershipNumber = uuidv4();
+      const membershipNumber = getIdWithPrefix();
       const payload = { membershipNumber, accountProvider };
       const jwt = await signJWT(payload, secret);
 
@@ -99,10 +98,10 @@ test.describe('Initial Redirect to BAAS page', () => {
       page,
     }) => {
       const enterEmailPage = new EnterEmailPage(page);
-      const membershipNumber = uuidv4();
-      const externalId = uuidv4();
-      const id = uuidv4() + (process.env.ENV || 'test').toLowerCase();
-      const email = `${id}@${mailinatorAddress}`;
+      const membershipNumber = getIdWithPrefix();
+      const externalId = getIdWithPrefix();
+      const id = getIdWithPrefix();
+      const email = getEmailAddress();
       // Arrange
       const payload = {
         externalId,
@@ -127,8 +126,8 @@ test.describe('Initial Redirect to BAAS page', () => {
     test('should redirect successfully', async ({ page }) => {
       // Arrange
       const enterEmailPage = new EnterEmailPage(page);
-      const membershipNumber = uuidv4();
-      const externalId = uuidv4();
+      const membershipNumber = getIdWithPrefix();
+      const externalId = getIdWithPrefix();
       const firstName = 'Mac';
       const lastName = 'Mohan';
 
@@ -171,8 +170,8 @@ test.describe('Initial Redirect to BAAS page', () => {
       page,
     }) => {
       const errorPage = new ErrorPage(page);
-      const membershipNumber = uuidv4();
-      const externalId = uuidv4();
+      const membershipNumber = getIdWithPrefix();
+      const externalId = getIdWithPrefix();
       const payload = {
         membershipNumber,
         externalId,
@@ -196,8 +195,8 @@ test.describe('Initial Redirect to BAAS page', () => {
     }) => {
       // Arrange
       const enterEmailPage = new EnterEmailPage(page);
-      const membershipNumber = uuidv4();
-      const externalId = uuidv4();
+      const membershipNumber = getIdWithPrefix();
+      const externalId = getIdWithPrefix();
 
       const payload = {
         externalId,
@@ -224,8 +223,8 @@ test.describe('Initial Redirect to BAAS page', () => {
     }) => {
       // Arrange
       const errorPage = new ErrorPage(page);
-      const membershipNumber = uuidv4();
-      const externalId = uuidv4();
+      const membershipNumber = getIdWithPrefix();
+      const externalId = getIdWithPrefix();
       const invalidAccountProvider = 'INVALID';
 
       const payload = {
@@ -248,8 +247,8 @@ test.describe('Initial Redirect to BAAS page', () => {
     test('should redirect to service not available page', async ({ page }) => {
       // Arrange
       const errorPage = new ErrorPage(page);
-      const membershipNumber = uuidv4();
-      const externalId = uuidv4();
+      const membershipNumber = getIdWithPrefix();
+      const externalId = getIdWithPrefix();
 
       const payload = {
         externalId,

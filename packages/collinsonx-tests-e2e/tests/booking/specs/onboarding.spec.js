@@ -7,9 +7,8 @@ import EnterPinPage from '../pages/EnterPinPage';
 import RegistrationPage from '../pages/RegistrationPage';
 import PreBookPage from '../pages/PreBookPage';
 import ErrorPage from '../pages/ErrorPage';
-
-import { mailinatorAddress } from '../config';
 import { test, expect } from '../../../baseFixtures';
+import { getEmailAddress, getIdWithPrefix } from '../utils/loginUtils';
 
 const secret = process.env.NEXT_PUBLIC_JWT_SECRET || '';
 
@@ -57,11 +56,11 @@ test.describe('Onboarding flow', () => {
       // Arrange
       const { enterEmailPage, enterPinPage, registrationPage, preBookPage } =
         await getPageObjectModel(page);
-      const id = uuidv4() + (process.env.ENV || 'test').toLowerCase();
-      const email = `${id}@${mailinatorAddress}`;
+      const id = getIdWithPrefix();
+      const email = getEmailAddress(id);
       const payload = {
-        membershipNumber: uuidv4(),
-        externalId: uuidv4(),
+        membershipNumber: getIdWithPrefix(),
+        externalId: getIdWithPrefix(),
         email,
         firstName,
         lastName,
@@ -97,11 +96,11 @@ test.describe('Onboarding flow', () => {
       // Arrange
       const { enterEmailPage, enterPinPage, registrationPage, preBookPage } =
         await getPageObjectModel(page);
-      const id = uuidv4() + (process.env.ENV || 'test').toLowerCase();
-      const email = `${id}@${mailinatorAddress}`;
+      const id = getIdWithPrefix();
+      const email = getEmailAddress(id);
       const payload = {
-        membershipNumber: uuidv4(),
-        externalId: uuidv4(),
+        membershipNumber: getIdWithPrefix(),
+        externalId: getIdWithPrefix(),
         email,
         membershipType,
         accountProvider,
@@ -133,11 +132,11 @@ test.describe('Onboarding flow', () => {
       // Arrange
       const { enterEmailPage, enterPinPage, registrationPage, preBookPage } =
         await getPageObjectModel(page);
-      const id = uuidv4() + (process.env.ENV || 'test').toLowerCase();
-      const email = `${id}@${mailinatorAddress}`;
+      const id = getIdWithPrefix();
+      const email = getEmailAddress(id);
       const payload = {
-        membershipNumber: uuidv4(),
-        externalId: uuidv4(),
+        membershipNumber: getIdWithPrefix(),
+        externalId: getIdWithPrefix(),
         membershipType,
         accountProvider,
       };
@@ -169,7 +168,7 @@ test.describe('Onboarding flow', () => {
       const { enterEmailPage, enterPinPage, preBookPage } =
         await getPageObjectModel(page);
       const id = 'alreadyregisteredconsumerwithlinkaccount1';
-      const email = `${id}@${mailinatorAddress}`;
+      const email = getEmailAddress(id);
 
       const payload = {
         membershipNumber: '888111356',
@@ -204,7 +203,7 @@ test.describe('Onboarding flow', () => {
       const { enterEmailPage, enterPinPage, preBookPage } =
         await getPageObjectModel(page);
       const id = 'alreadyregisteredconsumerwithlinkaccount55';
-      const email = `${id}@${mailinatorAddress}`;
+      const email = getEmailAddress(id);
 
       const payload = {
         externalId: '127643578',
@@ -234,12 +233,12 @@ test.describe('Onboarding flow', () => {
     }) => {
       // Arrange
       const { enterEmailPage, enterPinPage } = await getPageObjectModel(page);
-      const id = uuidv4() + (process.env.ENV || 'test').toLowerCase();
-      const email = `${id}@${mailinatorAddress}`;
+      const id = getIdWithPrefix();
+      const email = getEmailAddress(id);
 
       const payload = {
-        membershipNumber: uuidv4(),
-        externalId: uuidv4(),
+        membershipNumber: getIdWithPrefix(),
+        externalId: getIdWithPrefix(),
         membershipType,
         accountProvider,
       };
@@ -265,12 +264,12 @@ test.describe('Onboarding flow', () => {
     }) => {
       // Arrange
       const { enterEmailPage, enterPinPage } = await getPageObjectModel(page);
-      const id = uuidv4() + (process.env.ENV || 'test').toLowerCase();
-      const email = `${id}@${mailinatorAddress}`;
+      const id = getIdWithPrefix();
+      const email = getEmailAddress(id);
 
       const payload = {
-        membershipNumber: uuidv4(),
-        externalId: uuidv4(),
+        membershipNumber: getIdWithPrefix(),
+        externalId: getIdWithPrefix(),
         membershipType,
         accountProvider,
       };
@@ -300,12 +299,12 @@ test.describe('Onboarding flow', () => {
       // Arrange
       const { enterEmailPage, enterPinPage, registrationPage, preBookPage } =
         await getPageObjectModel(page);
-      const id = uuidv4() + (process.env.ENV || 'test').toLowerCase();
-      const email = `${id}@${mailinatorAddress}`;
+      const id = getIdWithPrefix();
+      const email = getEmailAddress(id);
 
       const payload = {
-        membershipNumber: uuidv4(),
-        externalId: uuidv4(),
+        membershipNumber: getIdWithPrefix(),
+        externalId: getIdWithPrefix(),
         email,
         firstName,
         lastName,
@@ -318,8 +317,8 @@ test.describe('Onboarding flow', () => {
       await redirectToBaas(page, jwt, lounge);
       await enterEmailPage.clickContinue();
       await enterPinPage.clickReEnterEmailLink();
-      const newId = uuidv4() + (process.env.ENV || 'test').toLowerCase();
-      const newEmail = `${newId}@${mailinatorAddress}`;
+      const newId = getIdWithPrefix();
+      const newEmail = getEmailAddress(newId);
       await enterEmailPage.enterEmail(newEmail);
       await enterEmailPage.clickContinue();
       const pin = await getPinFromEmail(newEmail);
@@ -347,12 +346,12 @@ test.describe('Onboarding flow', () => {
       // Arrange
       const { enterEmailPage, enterPinPage, registrationPage, preBookPage } =
         await getPageObjectModel(page);
-      const id = uuidv4() + (process.env.ENV || 'test').toLowerCase();
-      const email = `${id}@${mailinatorAddress}`;
+      const id = getIdWithPrefix();
+      const email = getEmailAddress(id);
 
       const payload = {
-        membershipNumber: uuidv4(),
-        externalId: uuidv4(),
+        membershipNumber: getIdWithPrefix(),
+        externalId: getIdWithPrefix(),
         email,
         firstName,
         lastName,
@@ -390,11 +389,11 @@ test.describe('Onboarding flow', () => {
       // Arrange
       const { enterEmailPage, enterPinPage, registrationPage } =
         await getPageObjectModel(page);
-      const id = uuidv4() + (process.env.ENV || 'test').toLowerCase();
-      const email = `${id}@${mailinatorAddress}`;
+      const id = getIdWithPrefix();
+      const email = getEmailAddress(id);
       const payload = {
         membershipNumber: '98794810',
-        externalId: uuidv4(),
+        externalId: getIdWithPrefix(),
         email,
         firstName,
         lastName,
@@ -423,11 +422,11 @@ test.describe('Onboarding flow', () => {
       // Arrange
       const { enterEmailPage, enterPinPage, registrationPage } =
         await getPageObjectModel(page);
-      const id = uuidv4() + (process.env.ENV || 'test').toLowerCase();
-      const email = `${id}@${mailinatorAddress}`;
+      const id = getIdWithPrefix();
+      const email = getEmailAddress(id);
 
       const payload = {
-        membershipNumber: uuidv4(),
+        membershipNumber: getIdWithPrefix(),
         externalId: '071189',
         email,
         firstName,
@@ -455,11 +454,11 @@ test.describe('Onboarding flow', () => {
       // Arrange
       const { enterEmailPage, enterPinPage, errorPage } =
         await getPageObjectModel(page);
-      const membershipNumber = uuidv4();
+      const membershipNumber = getIdWithPrefix();
       const secret = 'invalid';
-      const externalId = uuidv4();
-      const id = uuidv4() + (process.env.ENV || 'test').toLowerCase();
-      const email = `${id}@${mailinatorAddress}`;
+      const externalId = getIdWithPrefix();
+      const id = getIdWithPrefix();
+      const email = getEmailAddress(id);
       const payload = {
         membershipNumber,
         externalId,

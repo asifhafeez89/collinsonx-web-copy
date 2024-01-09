@@ -5,6 +5,11 @@ import EnterEmailPage from '../pages/EnterEmailPage';
 import EnterPinPage from '../pages/EnterPinPage';
 import { getPinFromEmail } from '../utils/emailUtils';
 import RegistrationPage from '../pages/RegistrationPage';
+import { v4 as uuidv4 } from 'uuid';
+
+export function getIdWithPrefix() {
+  return 'e2e-' + (process.env.ENV || 'test').toLowerCase() + '-' + uuidv4();
+}
 
 export function getEmailAddress(id) {
   return `${id}@${mailinatorAddress}`;
