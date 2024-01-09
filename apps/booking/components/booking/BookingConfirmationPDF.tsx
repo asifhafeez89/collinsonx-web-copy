@@ -109,12 +109,11 @@ export const BookingConfirmationPDF = (props: BookingConfirmedPdfProps) => {
     locale,
   } = props;
   const cancelBookingUrl = new URL(
-    process.env.NEXT_PUBLIC_PRIORITY_PASS_ENDPOINT
+    process.env.NEXT_PUBLIC_PRIORITY_PASS_ENDPOINT + '/cancel-booking'
   );
 
   const translations = useLocale();
 
-  cancelBookingUrl.pathname = 'cancel-booking';
   cancelBookingUrl.searchParams.set('loungeCode', loungeCode);
   cancelBookingUrl.searchParams.set('bookingId', bookingId || '');
   cancelBookingUrl.searchParams.set('linkAccountToken', linkAccountToken);
