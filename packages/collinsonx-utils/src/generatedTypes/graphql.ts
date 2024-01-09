@@ -395,7 +395,6 @@ export type BookingInput = {
   guestInfantCount?: Scalars['Int']['input'];
   invoice?: InputMaybe<Scalars['String']['input']>;
   lastArrival?: InputMaybe<Scalars['Date']['input']>;
-  locale?: InputMaybe<Scalars['String']['input']>;
   metadata?: InputMaybe<Scalars['JSONObject']['input']>;
   stripePaymentID?: InputMaybe<Scalars['String']['input']>;
   type: BookingType;
@@ -620,6 +619,8 @@ export type Consumer = {
   id: Scalars['ID']['output'];
   lastName?: Maybe<Scalars['String']['output']>;
   linkedAccounts: Array<LinkedAccount>;
+  /** Consumers preferred langauge */
+  locale?: Maybe<Scalars['String']['output']>;
   phone?: Maybe<Scalars['String']['output']>;
   updatedAt: Scalars['Date']['output'];
 };
@@ -629,6 +630,7 @@ export type ConsumerInput = {
   emailAddress: Scalars['String']['input'];
   firstName?: InputMaybe<Scalars['String']['input']>;
   lastName?: InputMaybe<Scalars['String']['input']>;
+  locale?: InputMaybe<Scalars['String']['input']>;
   marketingConsent?: InputMaybe<Scalars['Boolean']['input']>;
   phone?: InputMaybe<Scalars['String']['input']>;
 };
@@ -2561,6 +2563,8 @@ export type ProductCost = {
   programme: Programme;
   /** The cost to the partner when pricing type is variable */
   projectedCost?: Maybe<Scalars['Float']['output']>;
+  /** The cost of a reservation part only */
+  reservationCost: Scalars['Float']['output'];
   /** The cost type either flat or tiered */
   type: ProductCostType;
 };
@@ -2576,6 +2580,8 @@ export type ProductCostInput = {
   programme: Programme;
   /** The cost to the partner when pricing type is variable */
   projectedCost?: InputMaybe<Scalars['Float']['input']>;
+  /** The cost of a reservation part only */
+  reservationCost: Scalars['Float']['input'];
   /** The cost type either flat or tiered */
   type: ProductCostType;
 };

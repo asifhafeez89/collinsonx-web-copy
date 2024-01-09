@@ -33,8 +33,7 @@ import classes from '../../styles/auth.module.css';
 const { bookingId } = BookingQueryParams;
 
 export default function SignupUser() {
-  const { payload, lounge, jwt, setLinkedAccountId, setLayoutError } =
-    usePayload();
+  const { payload, lounge, locale } = usePayload();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const pageName = 'Upd_Dtl';
@@ -133,6 +132,7 @@ export default function SignupUser() {
             lastName: values.lastname,
             marketingConsent: values.marketingConsent,
             emailAddress: values.email,
+            locale,
           };
           setLoading(true);
           updateConsumerCall({

@@ -6,6 +6,7 @@ export interface ReqBody {
   internalProductId: string;
   returnUrl: string;
   quantity: number;
+  locale: string;
 }
 
 export const getCheckoutSessionUrl = async ({
@@ -14,13 +15,15 @@ export const getCheckoutSessionUrl = async ({
   internalProductId,
   returnUrl,
   quantity,
-}: ReqBody) => {
-  return axios.post(
+  locale,
+}: ReqBody) =>
+  axios.post(
     `${process.env.NEXT_PUBLIC_STRIPE_URL}`,
     {
       bookingID,
       consumerID,
       internalProductId,
+      locale,
       quantity,
       returnUrl,
     },
@@ -31,4 +34,3 @@ export const getCheckoutSessionUrl = async ({
       },
     }
   );
-};

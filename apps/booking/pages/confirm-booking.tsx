@@ -8,15 +8,12 @@ import {
   ANALYTICS_TAGS,
   BOOKING_MODE,
   BOKING_MODE_STATE,
-  constants,
   PAGENAMES,
 } from '../constants';
 import usePayload from 'hooks/payload';
 import { BookingContext } from 'context/bookingContext';
 import { getCheckoutSessionUrl } from 'services/payment';
-import colors from 'ui/colour-constants';
 import TopBarLinks from '@components/TopBarLinks';
-import dayjs from 'dayjs';
 import StripeCheckout from '@components/stripe';
 import { FlightContext } from 'context/flightContext';
 import { getItem, log, logAction } from '@lib';
@@ -27,11 +24,10 @@ import useLocale from 'hooks/useLocale';
 import { Client } from '@collinsonx/constants/enums';
 
 import classes from '../styles/ConfirmBooking.module.css';
-import confirmBooking from '../../../packages/collinsonx-utils/src/mutations/confirmBooking';
 
 export default function ConfirmBooking() {
   const [clientSecret, setClientSecret] = useState('');
-  const { lounge, consumerData, membershipType } = usePayload();
+  const { lounge, consumerData, membershipType, locale } = usePayload();
 
   const { getBooking } = useContext(BookingContext);
   const { getFlight } = useContext(FlightContext);
@@ -76,6 +72,7 @@ export default function ConfirmBooking() {
         internalProductId: lounge?.id ?? '',
         returnUrl: `${process.env.NEXT_PUBLIC_URL}/confirm-payment`,
         quantity: totalQuantity,
+        locale,
       };
 
       const getSessionUrl = await getCheckoutSessionUrl(paymentinput);
@@ -94,14 +91,6 @@ export default function ConfirmBooking() {
   };
 
   const departureTime = flightData?.departure?.dateTime?.local;
-
-  const dayjsDepartureTime = dayjs(departureTime, {
-    format: 'YYYY-MM-DD HH:mm',
-  });
-
-  const flightTimeToDisplay = dayjsDepartureTime.format(
-    constants.TIME_FORMAT_DISPLAY
-  );
 
   return (
     <Layout ref={layoutRef}>
