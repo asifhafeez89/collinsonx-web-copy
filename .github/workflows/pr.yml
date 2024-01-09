@@ -14,14 +14,18 @@ jobs:
     # Required permissions
     permissions:
       pull-requests: read
+      contents: read
     # Set job outputs to values from filter step 
     # this could be used to explicitily run tests for changed apps only
     outputs:
       apps: ${{ steps.filter.outputs.src }}
     steps:
+    - uses: actions/checkout@v2
     - uses: dorny/paths-filter@v2
       id: filter
       with:
+        base: ${{ github.event.pull_request.base.ref || github.event.merge_group.base_ref }}
+        ref: ${{ github.event.pull_request.head.ref || github.event.merge_group.head_ref }}
         filters: |
           src:
             - 'apps/booking/**'
