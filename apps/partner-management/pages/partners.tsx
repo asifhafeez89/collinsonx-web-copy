@@ -41,13 +41,23 @@ export default function Partners() {
       columnHelper.accessor('outlets', {
         id: 'outlets',
         header: 'Number of outlets',
-        cell: (props) => props.getValue()?.length || 0,
+        cell: (props) => {
+          const count = props.getValue()?.length || 0;
+          const text = count === 1 ? 'outlet' : 'outlets';
+
+          return `${count} ${text}`;
+        },
       }),
       columnHelper.display({
         id: 'action',
         header: 'Action',
         cell: (props) => {
-          const { id } = props.row.original;
+          const { id, outlets } = props.row.original;
+
+          if (outlets?.length === 0) {
+            return null;
+          }
+
           const handleOnClick = () => router.push(`/outlets?partner=${id}`);
 
           return (
