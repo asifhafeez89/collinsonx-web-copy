@@ -48,7 +48,8 @@ const StyledBox = createPolymorphicComponent<'div', BoxProps | FieldIconProps>(
 const _StyledText = styled(Text, { shouldForwardProp })`
   color: ${colors['text-default']};
   ${({ textPosition }: FieldIconProps) => `
-    text-transform: ${textPosition === 'right' ? 'uppercase' : 'capitalize'}
+    text-transform: ${textPosition === 'right' ? 'uppercase' : 'capitalize'};
+    font-size: ${textPosition === 'right' ? '18px' : '12px'}
   `}
 `;
 

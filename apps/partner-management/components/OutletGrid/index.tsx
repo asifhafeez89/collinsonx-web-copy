@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { OutletLoungeIcon } from '@collinsonx/design-system/assets/icons';
 import { Status } from '@collinsonx/design-system/components/card';
 import CardTitle from '@collinsonx/design-system/components/card/cardTitle';
@@ -5,7 +6,7 @@ import CardOutlet from '@collinsonx/design-system/components/cardOutlet';
 import { Anchor, Button, SimpleGrid } from '@collinsonx/design-system/core';
 import { Maybe, Outlet, OutletStatus } from '@collinsonx/utils';
 import outletIcons, { ValidTag } from 'config/outletIcons';
-import Link from 'next/link';
+import { toTitleCase } from 'utils/textUtils';
 
 import classes from './OutletGrid.module.css';
 
@@ -62,7 +63,7 @@ const OutletGrid = ({
                     .map((tag) => {
                       const Icon = outletIcons[tag] ?? OutletLoungeIcon;
                       return {
-                        label: tag,
+                        label: toTitleCase(tag),
                         IconComponent: (
                           <Icon width={24} height={24} aria-hidden={true} />
                         ),

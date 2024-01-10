@@ -1,7 +1,13 @@
-@media (min-width: $mantine-breakpoint-sm) {
-  .label {
+.label {
+  color: var(--text-grey);
+
+  @media (min-width: $mantine-breakpoint-sm) {
     text-align: right;
   }
+}
+
+.labelText {
+  line-height: 26px;
 }
 
 .value {
@@ -9,4 +15,5 @@
   align-items: center;
   text-align: left;
   margin-left: 0;
+  color: var(--text-default);
 }

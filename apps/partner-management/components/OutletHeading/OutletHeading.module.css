@@ -35,7 +35,7 @@
 }
 
 .outletSubtitle {
-  color: var(--text-gray);
+  color: var(--text-grey);
   font-size: rem(18px);
   font-weight: 400;
 }

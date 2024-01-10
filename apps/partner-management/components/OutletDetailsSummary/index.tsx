@@ -3,11 +3,9 @@ import {
   Flex,
   Box,
   VisuallyHidden,
+  Title,
 } from '@collinsonx/design-system/core';
-import {
-  HelpOutlineIcon,
-  OutletLoungeIcon,
-} from '@collinsonx/design-system/assets/icons';
+import { HelpOutlineIcon } from '@collinsonx/design-system/assets/icons';
 
 import { toTitleCase } from 'utils/textUtils';
 import Badge from '@collinsonx/design-system/components/badge/index';
@@ -95,9 +93,7 @@ const OutletDetailsSummary = ({
   return (
     <Box p="md">
       <VisuallyHidden>
-        <Text fw={500} size="lg">
-          Summary
-        </Text>
+        <Title order={2}>Summary</Title>
       </VisuallyHidden>
       <Box component="dl" className={classes.boxContainer}>
         <SummaryItem label="Location type" value={toTitleCase(locationType)} />
@@ -128,7 +124,7 @@ const OutletDetailsSummary = ({
                 <Text size="lg">{outletCode}</Text>
                 <TooltipIcon
                   icon={<HelpOutlineIcon aria-label="Help" />}
-                  tooltipText="This is the outlet code for the outlet"
+                  tooltipText="This is a short unique code for referencing this outlet."
                   size="md"
                   tooltipProps={{ multiline: true, w: 260 }}
                   iconProps={{ style: { marginLeft: 8 } }}
@@ -141,7 +137,7 @@ const OutletDetailsSummary = ({
         />
 
         <SummaryItem
-          label="Outlet type"
+          label="Categories"
           value={
             productCategories.length > 0 ? (
               <ProductCategoriesList
@@ -160,7 +156,7 @@ const OutletDetailsSummary = ({
             <Flex align="center">
               <Badge
                 type={`${status === 'ACTIVE' ? 'active' : 'inactive'}`}
-                size="small"
+                size="large"
               >
                 {status}
               </Badge>
