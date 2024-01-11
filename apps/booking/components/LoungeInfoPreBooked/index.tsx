@@ -11,6 +11,7 @@ import {
 import { Experience } from '@collinsonx/utils';
 
 import classes from './LoungeInfoPreBooked.module.css';
+import useLocale from 'hooks/useLocale';
 
 interface LoungeInfoProps {
   lounge: Experience;
@@ -42,6 +43,8 @@ export const LoungeInfoPreBooked = ({
         : '-',
     [lounge]
   );
+
+  const translation = useLocale();
 
   if (!loading && !lounge) {
     return null;
@@ -91,7 +94,7 @@ export const LoungeInfoPreBooked = ({
               {currencySymbol}
               {price}{' '}
               <span style={{ fontSize: '1.25rem', fontWeight: 400 }}>
-                per person
+                {translation.lounge.perPerson}
               </span>
             </Text>
           ) : null}

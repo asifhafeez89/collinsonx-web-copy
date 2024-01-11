@@ -32,6 +32,7 @@ import { arrivalTimeFormatter } from 'utils/ArrivalTimeFormatter';
 import { FlightDetailsAndGuests } from '@components/FlightDetailsAndGuests';
 
 import classes from '../styles/CancelBooking.module.css';
+import useLocale from 'hooks/useLocale';
 
 const {
   ERR_BOOKING_NOT_FOUND,
@@ -45,19 +46,6 @@ const {
 
 const { bookingId } = BookingQueryParams;
 
-const cancellationMessages: Record<string, string> = {
-  [ERR_BOOKING_NOT_FOUND]: 'The booking cannot be found',
-  [ERR_BOOKING_ALREADY_CANCELLED]: 'The booking has been already cancelled',
-  [ERR_BOOKING_NOT_OWNED]:
-    'Sorry, something went wrong with your booking, please try again later or contact support',
-  [ERR_CANCELLATION_FAILED]:
-    'Sorry, something went wrong with your booking, please try again later or contact support',
-  [ERR_CANCELATION_NOT_ALLOWED]:
-    "We're sorry, this booking cannot be cancelled within 48 hours of booking arrival time.",
-  [ERR_SOMETHING_WENT_WRONG]:
-    'Sorry, something went wrong with your booking, please try again later or contact support',
-};
-
 export default function CancelBooking() {
   const router = useRouter();
 
@@ -68,6 +56,18 @@ export default function CancelBooking() {
   const [dateError, setDateError] = useState<Boolean>(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const translation = useLocale();
+
+  const cancellationMessages: Record<string, string> = {
+    [ERR_BOOKING_NOT_FOUND]: translation.booking.cancellation.errors.notFound,
+    [ERR_BOOKING_ALREADY_CANCELLED]:
+      translation.booking.cancellation.errors.alreadyCancelled,
+    [ERR_BOOKING_NOT_OWNED]: translation.booking.cancellation.errors.notOwned,
+    [ERR_CANCELLATION_FAILED]: translation.booking.cancellation.errors.failed,
+    [ERR_CANCELATION_NOT_ALLOWED]:
+      translation.booking.cancellation.errors.notAllowed,
+    [ERR_SOMETHING_WENT_WRONG]: translation.booking.cancellation.errors.wrong,
+  };
 
   const { data: bookingDetails } = useQuery<{
     getBookingByID: Booking;
@@ -135,8 +135,8 @@ export default function CancelBooking() {
           <BookingLightbox
             open={opened}
             ctaForwardCall={handleCancellation}
-            ctaForward="CANCEL BOOKING"
-            ctaCancel={'CLOSE'}
+            ctaForward={translation.booking.cancellation.btnCancel}
+            ctaCancel={translation.booking.cancellation.btnClose}
             onClose={close}
           >
             <Flex align="center" justify="center" wrap="wrap" p="10px 0">
@@ -147,10 +147,10 @@ export default function CancelBooking() {
                 style={{ textAlign: 'center' }}
                 lineHeight={1.2}
               >
-                Booking Cancellation
+                {translation.booking.cancellation.title}
               </Heading>
               <Text size="xl" m="10px 0 10px 0" ta="center">
-                You are about to cancel the booking, are you sure?{' '}
+                {translation.booking.cancellation.description}{' '}
               </Text>
             </Flex>
           </BookingLightbox>
@@ -164,7 +164,7 @@ export default function CancelBooking() {
             <Stack className={classes.containerL2}>
               <Center className={classes.headingWrapper}>
                 <Heading as="h1" padding={0} margin={0} lineHeight={1}>
-                  Booking Cancellation
+                  {translation.booking.cancellation.title}
                 </Heading>
               </Center>
               <LoungeInfo
@@ -201,7 +201,7 @@ export default function CancelBooking() {
                         <>
                           <Box className={classes.titleContainer}>
                             <EditableTitle
-                              title="Booking Reference:"
+                              title={translation.booking.cancellation.reference}
                               as="h3"
                               showBorder={true}
                             >
@@ -226,7 +226,10 @@ export default function CancelBooking() {
                           />
                           <Box w="initial" className={classes.titleContainer}>
                             <EditableTitle
-                              title="Total price"
+                              title={
+                                translation.booking.availableSlots.totalPrice
+                                  .title
+                              }
                               as="h3"
                               showBorder={false}
                             >
@@ -250,7 +253,7 @@ export default function CancelBooking() {
                           </Box>
                           <Box className={classes.toaContainer}>
                             <EditableTitle
-                              title="Estimated time of arrival"
+                              title={translation.booking.availableSlots.title}
                               as="h3"
                               showBorder={false}
                             >
@@ -271,7 +274,7 @@ export default function CancelBooking() {
                           mt={15}
                           data-testid="cancelBooking"
                         >
-                          CANCEL BOOKING
+                          {translation.booking.cancellation.btnCancel}
                         </Button>
                       </Center>
                     </Box>

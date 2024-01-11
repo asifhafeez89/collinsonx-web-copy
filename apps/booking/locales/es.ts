@@ -341,6 +341,11 @@ export default {
       },
     },
     cancellation: {
+      title: 'Cancelación de reserva',
+      description: 'Estás a punto de cancelar la reserva, ¿estás seguro?',
+      reference: 'Referencia de reserva:',
+      btnCancel: 'Cancelar la reserva',
+      btnClose: 'CERCA',
       policy: {
         title: 'Política de cancelación',
         description:
@@ -349,6 +354,35 @@ export default {
       unsuccesful:
         'Lo sentimos, esta reserva no se puede cancelar dentro de las 48 horas posteriores a la hora de llegar a la reserva',
       btn: 'Confirmar',
+      errors: {
+        notFound: 'La reserva no se puede encontrar',
+        alreadyCancelled: 'La reserva ya ha sido cancelada',
+        notOwned:
+          'Lo siento, algo salió mal con su reserva, intente nuevamente más tarde o comuníquese con el soporte',
+        failed:
+          'Lo siento, algo salió mal con su reserva, intente nuevamente más tarde o comuníquese con el soporte',
+        notAllowed:
+          'Lo sentimos, esta reserva no se puede cancelar dentro de las 48 horas posteriores a la hora de la llegada de la reserva.',
+        wrong:
+          'Lo siento, algo salió mal con su reserva, intente nuevamente más tarde o contacte a los soportes',
+      },
+      confirmation: {
+        title: {
+          Cancel: 'Tu reserva ha sido cancelada',
+          Failed:
+            'Su cancelación de reserva ha fallado, comuníquese con nuestro equipo',
+          NotCancel:
+            'Su reserva no podría cancelarse, comuníquese con nuestro equipo',
+        },
+        email: 'Se ha enviado un correo electrónico de confirmación a',
+        refund:
+          ' Su pago por esta reserva se reembolsará dentro de los 10 días.',
+        reBook: {
+          line1: 'Si no quise cancelar cancelar, vuelva a reservar ',
+          line2: '. Esperamos verte la próxima vez.',
+        },
+        loading: 'Cargando',
+      },
     },
     checkAvailability: {
       arrivalTitle: 'Selección de tiempo de llegada',

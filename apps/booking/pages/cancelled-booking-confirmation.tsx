@@ -23,6 +23,7 @@ import { guestBooking } from 'utils/guestListFormatter';
 import EstimatedTimeArrival from '@components/EstimatedTimeArrival';
 import { arrivalTimeFormatter } from 'utils/ArrivalTimeFormatter';
 import { FlightDetailsAndGuests } from '@components/FlightDetailsAndGuests';
+import useLocale from 'hooks/useLocale';
 
 import classes from '../styles/CancelBooking.module.css';
 
@@ -33,6 +34,7 @@ export default function CancelBooking() {
 
   const [createLoading, setCreateLoading] = useState(false);
   const { payload, setPayload } = usePayload();
+  const translations = useLocale();
 
   const { data: bookingDetails } = useQuery<{
     getBookingByID: Booking;
@@ -62,7 +64,7 @@ export default function CancelBooking() {
             <Stack gap={8} className={classes.confirmCancelContainer}>
               <Center className={classes.headingWrapper}>
                 <Heading as="h1" padding={0} margin={0} lineHeight={1}>
-                  Booking Cancellation
+                  {translations.booking.cancellation.title}
                 </Heading>
               </Center>
               {bookingDetails?.getBookingByID?.price &&
@@ -91,17 +93,22 @@ export default function CancelBooking() {
                                 {' '}
                                 {bookingDetails.getBookingByID.status ===
                                 BookingStatus.Cancelled
-                                  ? ' Your booking has been cancelled'
+                                  ? translations.booking.cancellation
+                                      .confirmation.title.Cancel
                                   : bookingDetails.getBookingByID.status ===
                                     BookingStatus.CancelationFailed
-                                  ? 'Your booking cancellation has failed, please contact our team'
-                                  : 'Your booking could not be cancelled, please contact our team'}
+                                  ? translations.booking.cancellation
+                                      .confirmation.title.Failed
+                                  : translations.booking.cancellation
+                                      .confirmation.title.NotCancel}
                               </h2>
                             </EditableTitle>
                           </Box>
                           <Box className={classes.titleContainer}>
                             <EditableTitle
-                              title="Booking Reference:"
+                              title={
+                                translations.booking.cancellation.reference
+                              }
                               as="h3"
                               showBorder={false}
                             >
@@ -109,7 +116,10 @@ export default function CancelBooking() {
                             </EditableTitle>
                             {bookingDetails?.getBookingByID?.consumer && (
                               <Text className={classes.descriptionText}>
-                                A confirmation email has been sent to{' '}
+                                {
+                                  translations.booking.cancellation.confirmation
+                                    .email
+                                }{' '}
                                 <strong>
                                   {
                                     bookingDetails?.getBookingByID?.consumer
@@ -120,15 +130,23 @@ export default function CancelBooking() {
                             )}
                             <Box className={classes.descriptionText}>
                               <Text fw={700} py={22}>
-                                Your payment for this booking will be refunded
-                                within 10 days.
+                                {
+                                  translations.booking.cancellation.confirmation
+                                    .refund
+                                }
                               </Text>
                               <Text>
-                                {`If you didn’t mean to cancel please re-book
-                                through ${GetAccountProviderString(
+                                {
+                                  translations.booking.cancellation.confirmation
+                                    .reBook.line1
+                                }
+                                {GetAccountProviderString(
                                   payload?.accountProvider
-                                )}. We hope to see you next
-                                time.`}
+                                )}
+                                {
+                                  translations.booking.cancellation.confirmation
+                                    .reBook.line2
+                                }
                               </Text>
                             </Box>
                           </Box>
@@ -150,7 +168,10 @@ export default function CancelBooking() {
                           />
                           <Box w="initial" className={classes.titleContainer}>
                             <EditableTitle
-                              title="Total price"
+                              title={
+                                translations.booking.availableSlots.totalPrice
+                                  .title
+                              }
                               as="h3"
                               showBorder={false}
                             >
@@ -174,7 +195,7 @@ export default function CancelBooking() {
                           </Box>
                           <Box className={classes.titleContainer}>
                             <EditableTitle
-                              title="Estimated time of arrival"
+                              title={translations.booking.availableSlots.title}
                               as="h3"
                               showBorder={true}
                             >
@@ -195,7 +216,7 @@ export default function CancelBooking() {
         </Stack>
       ) : (
         <Stack>
-          <Box>Loading...</Box>
+          <Box>{translations.booking.cancellation.confirmation.loading}...</Box>
         </Stack>
       )}
     </Layout>

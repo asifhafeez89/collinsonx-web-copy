@@ -335,6 +335,11 @@ export default {
       },
     },
     cancellation: {
+      title: 'Booking Cancellation',
+      description: 'You are about to cancel the booking, are you sure?',
+      reference: 'Booking Reference:',
+      btnCancel: 'CANCEL BOOKING',
+      btnClose: 'CLOSE',
       policy: {
         title: 'Cancellation policy',
         description:
@@ -343,6 +348,35 @@ export default {
       unsuccesful:
         "We're sorry, this booking cannot be cancelled within 48 hours of booking arrival time",
       btn: 'Confirm',
+      errors: {
+        notFound: 'The booking cannot be found',
+        alreadyCancelled: 'The booking has been already cancelled',
+        notOwned:
+          'Sorry, something went wrong with your booking, please try again later or contact support',
+        failed:
+          'Sorry, something went wrong with your booking, please try again later or contact support',
+        notAllowed:
+          "We're sorry, this booking cannot be cancelled within 48 hours of booking arrival time.",
+        wrong:
+          'Sorry, something went wrong with your booking, please try again later or contact supports',
+      },
+      confirmation: {
+        title: {
+          Cancel: 'Your booking has been cancelled',
+          Failed:
+            'Your booking cancellation has failed, please contact our team',
+          NotCancel:
+            'Your booking could not be cancelled, please contact our team',
+        },
+        email: 'A confirmation email has been sent to',
+        refund:
+          ' Your payment for this booking will be refunded within 10 days',
+        reBook: {
+          line1: 'If you didn’t mean to cancel please re-book through ',
+          line2: '. We hope to see you next time.',
+        },
+        loading: 'Loading',
+      },
     },
     checkAvailability: {
       arrivalTitle: 'Arrival time selection',

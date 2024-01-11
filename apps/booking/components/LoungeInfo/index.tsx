@@ -10,6 +10,7 @@ import { Experience } from '@collinsonx/utils';
 import { getCurrencySymbol } from 'utils/currencysymbol';
 
 import classes from './LoungeInfo.module.css';
+import useLocale from 'hooks/useLocale';
 
 interface LoungeInfoProps {
   lounge?: Experience;
@@ -36,6 +37,8 @@ export const LoungeInfo = ({
         : '-',
     [lounge]
   );
+
+  const translation = useLocale();
 
   if (!loading && !lounge) {
     return null;
@@ -88,7 +91,7 @@ export const LoungeInfo = ({
                 ).toFixed(2)}
               </Text>
               <Text size="xl" style={{ lineHeight: '50px' }}>
-                per person
+                {translation.lounge.perPerson}
               </Text>
             </Flex>
           )}

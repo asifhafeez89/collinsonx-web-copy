@@ -3,6 +3,13 @@ import { render } from '@collinsonx/design-system/test-utils';
 import { LoungeInfo } from '.';
 import { Experience } from '@collinsonx/utils';
 
+const mockTranslation = {
+  lounge: {
+    perPerson: 'per person',
+  },
+};
+jest.mock('hooks/useLocale', () => jest.fn(() => mockTranslation));
+
 const mockLounge: Experience = {
   id: '123',
   loungeName: 'Mock Lounge Name',

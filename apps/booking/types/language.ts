@@ -267,9 +267,40 @@ type AvailableSlotsProps = {
 };
 
 type CancellationProps = {
+  title: string;
+  description?: string;
+  reference: string;
+  btnCancel: string;
+  btnClose: string;
   policy: ScreenProps;
   unsuccesful: string;
   btn: string;
+  errors: CancellationErrosProps;
+  confirmation: CancelConfirmationProps;
+};
+
+type CancelConfirmationProps = {
+  title: {
+    Cancel: string;
+    Failed: string;
+    NotCancel: string;
+  };
+  email: string;
+  refund: string;
+  reBook: {
+    line1: string;
+    line2: string;
+  };
+  loading: string;
+};
+
+type CancellationErrosProps = {
+  notFound: string;
+  alreadyCancelled: string;
+  notOwned: string;
+  failed: string;
+  notAllowed: string;
+  wrong: string;
 };
 
 type ScreenProps = {
