@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
+}
+.buttonPrev {
+  padding: 2px 4px;
+}
+.buttonNext {
+  padding: 2px 4px;
+}
