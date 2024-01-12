@@ -102,6 +102,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
                   style={{
                     position: 'fixed',
                     background: 'yellow',
+                    top: '60px',
                     zIndex: 999,
                   }}
                 >
