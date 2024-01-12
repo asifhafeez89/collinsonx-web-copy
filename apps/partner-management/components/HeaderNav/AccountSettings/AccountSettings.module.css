@@ -1,0 +1,53 @@
+.dropdown {
+  display: flex;
+  width: 236px;
+  padding: 8px 4px;
+  color: var(--text-default);
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  border-radius: 8px;
+  border: 1px solid var(--grey-border);
+  background: var(--white);
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.25);
+}
+.iconLarge {
+  width: 32px;
+  height: 32px;
+}
+.iconSmall {
+  width: 24px;
+  height: 24px;
+}
+.buttonRoot {
+  padding-left: 0;
+  padding-right: 0;
+  height: 100%;
+}
+.buttonSection {
+  &[data-position='left'] {
+    margin-right: 4px;
+  }
+  &[data-position='right'] {
+    margin-left: 4px;
+    margin-right: 0;
+  }
+}
+.buttonLabel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0 4px;
+}
+.role {
+  font-size: rem(14px);
+  color: var(--text-grey);
+}
+.logout {
+  color: var(--text-default);
+  display: flex;
+  align-items: center;
+  padding: 10px 24px;
+  font-size: rem(18px);
+  gap: 8px;
+}

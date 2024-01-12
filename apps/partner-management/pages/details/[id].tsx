@@ -172,5 +172,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 Details.getLayout = (page: JSX.Element) => {
-  return <Layout hasPadding={false}>{page}</Layout>;
+  return (
+    <Layout headerNavProps={{ section: 'booking' }} hasPadding={false}>
+      {page}
+    </Layout>
+  );
 };

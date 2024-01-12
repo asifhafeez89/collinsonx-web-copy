@@ -17,6 +17,8 @@ const Overview = () => {
   );
 };
 
-Overview.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;
+Overview.getLayout = (page: JSX.Element) => (
+  <Layout headerNavProps={{ section: 'booking' }}>{page}</Layout>
+);
 
 export default Overview;

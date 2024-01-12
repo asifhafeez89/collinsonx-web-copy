@@ -14,3 +14,6 @@ export const OutletRestIcon = () => 'icon';
 export const OutletServicesIcon = () => 'icon';
 export const OutletUnwindIcon = () => 'icon';
 export const OutletRefreshIcon = () => 'icon';
+export const AccountCircleIcon = () => 'icon';
+export const KeyboardArrowDownIcon = () => 'icon';
+export const MenuIcon = () => 'icon';

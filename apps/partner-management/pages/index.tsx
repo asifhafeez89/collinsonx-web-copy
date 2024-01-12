@@ -5,6 +5,10 @@ import { LogoCollinson } from '@collinsonx/design-system/assets/logo';
 import LayoutCatalogue from '@components/LayoutCatalogue';
 import OverviewDashboard from '@components/Pages/OverviewDashboard';
 import OverviewBookings from '@components/Pages/OverviewBookings';
+import Layout from '@components/Layout';
+import { InvitationUserType } from '@collinsonx/utils/generatedTypes/graphql';
+
+const { SuperUser, Partner } = InvitationUserType;
 
 export default function Overview() {
   const session: any = useSessionContext();
@@ -15,10 +19,17 @@ export default function Overview() {
 
   return (
     <>
-      {session.accessTokenPayload.userType === 'SUPER_USER' ? (
-        <OverviewDashboard />
+      {session.accessTokenPayload.userType === SuperUser ? (
+        <LayoutCatalogue
+          headerNavProps={{ section: 'partner' }}
+          heading={<OverviewHeading />}
+        >
+          <OverviewDashboard />
+        </LayoutCatalogue>
       ) : (
-        <OverviewBookings />
+        <LayoutCatalogue headerNavProps={{ section: 'booking' }}>
+          <OverviewBookings />
+        </LayoutCatalogue>
       )}
     </>
   );
@@ -28,7 +39,7 @@ const OverviewHeading = () => {
   const session: any = useSessionContext();
 
   return (
-    session.accessTokenPayload.userType === 'SUPER_USER' && (
+    session.accessTokenPayload.userType === SuperUser && (
       <Flex justify="space-between" align="center" mt={53} mb={53}>
         <Title mb={8} size={48} data-testid="overviewTitle">
           Partner Portal
@@ -40,7 +51,3 @@ const OverviewHeading = () => {
     )
   );
 };
-
-Overview.getLayout = (page: JSX.Element) => (
-  <LayoutCatalogue heading={<OverviewHeading />}>{page}</LayoutCatalogue>
-);

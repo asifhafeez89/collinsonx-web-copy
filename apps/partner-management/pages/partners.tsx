@@ -101,5 +101,7 @@ export default function Partners() {
 }
 
 Partners.getLayout = (page: JSX.Element) => (
-  <LayoutCatalogue>{page}</LayoutCatalogue>
+  <LayoutCatalogue headerNavProps={{ section: 'catalogue' }}>
+    {page}
+  </LayoutCatalogue>
 );

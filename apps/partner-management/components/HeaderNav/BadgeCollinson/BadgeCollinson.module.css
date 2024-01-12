@@ -1,0 +1,10 @@
+.badgeCollinson {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 16px;
+  border-radius: 8px;
+  font-size: rem(18px);
+  font-weight: 600;
+  color: var(--white);
+  background-color: var(--brand-collinson);
+}

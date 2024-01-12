@@ -34,7 +34,7 @@ export default function QRCode() {
             <span style={{ fontWeight: 'bold' }}>in the app</span>.
           </p>
         </Stack>
-        {isPrint && (
+        {!isPrint && (
           <Stack p={0} align="center" mt={64} gap={0}>
             <Button onClick={print} w="50%" data-testid="printQRcode">
               Print

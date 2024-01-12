@@ -85,5 +85,7 @@ export default function Outlets() {
 }
 
 Outlets.getLayout = (page: JSX.Element) => (
-  <LayoutCatalogue>{page}</LayoutCatalogue>
+  <LayoutCatalogue headerNavProps={{ section: 'catalogue' }}>
+    {page}
+  </LayoutCatalogue>
 );

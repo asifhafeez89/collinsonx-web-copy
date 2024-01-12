@@ -1,14 +1,12 @@
 import colors from '@collinsonx/design-system/colour-constants-partner';
-import classes from './LayoutCatalogue.module.css';
-import { Box, Flex } from '@collinsonx/design-system/core';
-import { useMediaQuery } from '@collinsonx/design-system/hooks';
-import Link from 'next/link';
 import ContentWrapper from '../ContentWrapper';
+import HeaderNav, { HeaderNavProps } from '../HeaderNav';
 
 interface LayoutProps {
   subHeader?: JSX.Element;
   heading?: JSX.Element;
   disableWrapper?: boolean;
+  headerNavProps: HeaderNavProps;
   children: JSX.Element;
 }
 
@@ -16,9 +14,8 @@ export default function Layout({
   children,
   heading,
   disableWrapper = false,
-  subHeader,
+  headerNavProps,
 }: LayoutProps) {
-  const print = useMediaQuery('print');
   return (
     <div
       style={{
@@ -26,29 +23,7 @@ export default function Layout({
         height: '100%',
       }}
     >
-      {print && (
-        <>
-          <header
-            style={{
-              backgroundColor: colors['bg-surface-dark'],
-              borderBottom: `1px solid ${colors['grey-border']}`,
-              width: '100%',
-              padding: '2rem',
-              textAlign: 'center',
-              position: 'relative',
-              margin: 0,
-            }}
-          >
-            <Flex justify="center" align="center">
-              <Box className={classes.headerInner}>
-                <Link href="/auth/signout">Logout</Link>
-              </Box>
-            </Flex>
-          </header>
-          {subHeader}
-        </>
-      )}
-
+      <HeaderNav {...headerNavProps} />
       {heading && (
         <div
           style={{

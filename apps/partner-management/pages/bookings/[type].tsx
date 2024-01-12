@@ -622,4 +622,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   };
 };
 
-Bookings.getLayout = (page: JSX.Element) => <Layout>{page}</Layout>;
+Bookings.getLayout = (page: JSX.Element) => (
+  <Layout headerNavProps={{ section: 'booking' }}>{page}</Layout>
+);

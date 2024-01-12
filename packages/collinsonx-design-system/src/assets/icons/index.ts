@@ -43,5 +43,8 @@ export { default as OutletRestIcon } from './bedtime.svg';
 export { default as OutletServicesIcon } from './room_service.svg';
 export { default as OutletUnwindIcon } from './self_improvement.svg';
 export { default as OutletRefreshIcon } from './spa.svg';
+export { default as AccountCircleIcon } from './account_circle.svg';
+export { default as MenuIcon } from './menu.svg';
+export { default as KeyboardArrowDownIcon } from './keyboard_arrow_down.svg';
 export { default as ChairIcon } from './chair.svg';
 export { default as HelpOutlineIcon } from './help_outline.svg';

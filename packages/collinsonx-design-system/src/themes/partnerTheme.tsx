@@ -148,6 +148,12 @@ const theme = (
                 '--button-bd': `1px solid ${colors['text-default']}`,
               },
             };
+          } else if (props.variant === 'transparent') {
+            return {
+              root: {
+                '--button-color': colors['text-default'],
+              },
+            };
           }
           return { root: {} };
         },

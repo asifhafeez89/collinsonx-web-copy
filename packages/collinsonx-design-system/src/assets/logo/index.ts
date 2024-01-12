@@ -3,3 +3,4 @@ export { default as LogoHSBC } from './logo-hsbc.svg';
 export { default as LogoPP } from './logo-prioritypass.svg';
 export { default as LogoLK } from './logo-loungekey.svg';
 export { default as LogoCollinson } from './logo-collinson.svg';
+export { default as LogoHeaderCollinson } from './logo-header-collinson.svg';

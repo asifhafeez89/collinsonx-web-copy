@@ -1,0 +1,32 @@
+.root {
+  background-color: var(--bg-surface-dark);
+  border-bottom: 1px solid var(--grey-border);
+  height: 60px;
+  padding: 8px 24px 8px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.infoContainer {
+  color: var(--text-default);
+  font-size: rem(18px);
+}
+.section {
+  font-size: rem(18px);
+}
+.separator {
+  font-size: rem(18px);
+  color: var(--grey-border);
+}
+.client {
+  font-weight: 700;
+}
+.logo {
+  display: inline-flex;
+  align-items: center;
+}
+.nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 28px;
+}

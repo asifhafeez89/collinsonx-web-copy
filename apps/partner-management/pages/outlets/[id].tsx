@@ -103,5 +103,7 @@ export default function OutletDetail() {
 }
 
 OutletDetail.getLayout = (page: JSX.Element) => (
-  <LayoutCatalogue disableWrapper>{page}</LayoutCatalogue>
+  <LayoutCatalogue disableWrapper headerNavProps={{ section: 'catalogue' }}>
+    {page}
+  </LayoutCatalogue>
 );

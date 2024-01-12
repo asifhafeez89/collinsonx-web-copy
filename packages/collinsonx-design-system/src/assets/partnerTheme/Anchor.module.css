@@ -1,5 +1,5 @@
 .root {
-  color: var(--brand-color);
+  color: var(--text-default);
   text-decoration: underline;
   font-weight: 600;
   font-size: 18px;
