@@ -24,7 +24,7 @@ import {
   priorityPass,
 } from '@collinsonx/design-system/themes';
 import LayoutError from '@components/LayoutError';
-import { useLazyQuery, useQuery } from '@collinsonx/utils/apollo';
+import { useLazyQuery, useMutation, useQuery } from '@collinsonx/utils/apollo';
 import { Experience, LinkedAccount } from '@collinsonx/utils';
 import {
   getConsumerByID,
@@ -54,9 +54,9 @@ import {
   ALLOW_LOCAL,
 } from '../constants';
 import { Consumer } from 'types/consumer';
-import baseTheme, {
-  resolver,
-} from '@collinsonx/design-system/themes/baseTheme';
+import { resolver } from '@collinsonx/design-system/themes/baseTheme';
+import updateConsumer from '@collinsonx/utils/mutations/updateConsumer';
+import useLocale from './useLocale';
 
 const {
   loungeCode: lcParam,
@@ -126,6 +126,7 @@ function callThemeFunction(name: AccountProvider | Client) {
 export const PayloadProvider = (props: PropsWithChildren) => {
   const router = useRouter();
   const session = useSessionContext();
+  const translation = useLocale();
 
   const [payload, setPayload] = useState<BridgePayload>();
   const [loungeCode, setLoungeCode] = useState<string>();
@@ -140,22 +141,18 @@ export const PayloadProvider = (props: PropsWithChildren) => {
   const [consumerData, setConsumerData] = useState<Consumer>();
   const [language, setLanguage] = useState<string>('en');
 
+  const ErrorAppMsgApp = translation.generic.error.latestAppVersion;
+  const ErrorWebTitle = translation.generic.error.webTitle;
+
   867; //Flag for language
   //Todo: Remove this when we are completely ready
 
-  const ErrorAppMsgApp =
-    'There might be an error in the system. Please make sure to update to the latest version of the app.';
-  const ErrorWebTitle =
-    'There might be an error in the system. Please try again or browse other options.';
-
   const [
     fetchConsumer,
-    {
-      loading: fetchConsumerLoading,
-      error: fetchConsumerError,
-      data: fetchConsumerData,
-    },
+    { loading: fetchConsumerLoading, error: fetchConsumerError },
   ] = useLazyQuery(getConsumerByID);
+
+  const [updateConsumerCall] = useMutation(updateConsumer);
 
   const {
     loading: loadingLounge,
@@ -324,6 +321,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       const { userId } = session;
       if (userId) {
         log('[payload hook] fetchConsumer ID: ', userId);
+
         fetchConsumer({
           variables: {
             getConsumerById: userId,
@@ -333,12 +331,27 @@ export const PayloadProvider = (props: PropsWithChildren) => {
             '[payload hook] fetchConsumer response: ',
             JSON.stringify(data || null)
           );
+
           const consumer = data.getConsumerByID;
+
+          if (language !== consumer.locale) {
+            updateConsumerCall({
+              variables: {
+                consumerInput: {
+                  emailAddress: consumer.emailAddress,
+                  locale: language,
+                },
+              },
+            });
+          }
+
           if (consumerIsValid(consumer)) {
             setConsumerData(data);
+
             const accountMatched = findLinkedAccount(
               data.getConsumerByID.linkedAccounts
             );
+
             if (accountMatched) {
               setLinkedAccountId(accountMatched?.id);
             } else {
@@ -346,6 +359,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
             }
           } else {
             log('[payload hook] consumer is not valid');
+
             signOut();
           }
         });

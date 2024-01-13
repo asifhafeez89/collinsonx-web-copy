@@ -1,8 +1,16 @@
 export interface LangObj {
   auth: AuthLang;
   lounge: LoungeLang;
-  booking: bookingLang;
+  booking: BookingLang;
+  generic: GenericLang;
 }
+
+type GenericLang = {
+  error: {
+    latestAppVersion: string;
+    webTitle: string;
+  };
+};
 
 type AuthLang = {
   login: LoginProps;
@@ -116,7 +124,7 @@ type LoungeLang = {
   };
 };
 
-type bookingLang = {
+type BookingLang = {
   flightAndGuests: {
     title: string;
   };

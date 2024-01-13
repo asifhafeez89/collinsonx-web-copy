@@ -438,4 +438,12 @@ export default {
         '¡Se produjo un error al generar su confirmación de reserva!Inténtalo de nuevo.',
     },
   },
+  generic: {
+    error: {
+      latestAppVersion:
+        'Puede haber un error en el sistema. Asegúrese de actualizar a la última versión de la aplicación.',
+      webTitle:
+        'Puede haber un error en el sistema. Inténtalo de nuevo o explora otras opciones.',
+    },
+  },
 };

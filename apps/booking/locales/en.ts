@@ -432,4 +432,12 @@ export default {
         'An error occurred while generating your booking confirmation! Please try again.',
     },
   },
+  generic: {
+    error: {
+      latestAppVersion:
+        'There might be an error in the system. Please make sure to update to the latest version of the app.',
+      webTitle:
+        'There might be an error in the system. Please try again or browse other options.',
+    },
+  },
 };

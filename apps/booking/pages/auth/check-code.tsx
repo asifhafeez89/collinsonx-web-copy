@@ -20,7 +20,6 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLazyQuery, useMutation } from '@collinsonx/utils/apollo';
 import { default as ErrorComponent } from '@components/Error';
 import usePayload from 'hooks/payload';
-import colors from 'ui/colour-constants';
 import PinLockout from '@components/auth/PinLockout';
 import linkAccount from '@collinsonx/utils/mutations/linkAccount';
 import Session from 'supertokens-auth-react/recipe/session';
@@ -42,6 +41,7 @@ import useLocale from 'hooks/useLocale';
 import { getItem } from '@lib';
 
 import classes from '../../styles/CheckCode.module.css';
+import updateConsumer from '@collinsonx/utils/mutations/updateConsumer';
 
 const { ERR_MEMBERSHIP_ALREADY_CONNECTED, ERR_TOKEN_INVALID_OR_EXPIRED } =
   BookingError;
@@ -57,7 +57,7 @@ export default function CheckEmail() {
     setLayoutError,
     setConsumerData,
     setTokenError,
-    platform,
+    locale,
   } = usePayload();
   const router = useRouter();
   const email = router.query?.email as string;
@@ -79,6 +79,7 @@ export default function CheckEmail() {
   const pageName = 'Email_Code';
 
   const [fetchConsumer] = useLazyQuery(getConsumerByID);
+  const [updateConsumerCall] = useMutation(updateConsumer);
 
   const translations = useLocale();
 
@@ -242,11 +243,22 @@ export default function CheckEmail() {
         '[check-code] fetchConsumer response: ',
         JSON.stringify(data || null)
       );
+
       const consumer = data.getConsumerByID || {};
       const { linkedAccounts } = consumer;
       const matchedAccount = findLinkedAccount(linkedAccounts || []);
-
       const isUserNew = !consumerIsValid(consumer);
+
+      if (locale !== consumer.locale) {
+        updateConsumerCall({
+          variables: {
+            consumerInput: {
+              emailAddress: consumer.emailAddress,
+              locale,
+            },
+          },
+        });
+      }
 
       setConsumerData(data);
       if (!matchedAccount) {

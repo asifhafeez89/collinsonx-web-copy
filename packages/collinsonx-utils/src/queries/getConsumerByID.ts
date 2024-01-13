@@ -27,6 +27,7 @@ const getConsumerByID = gql`
       emailAddress
       id
       updatedAt
+      locale
     }
   }
 `;

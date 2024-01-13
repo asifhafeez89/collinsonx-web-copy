@@ -3604,6 +3604,7 @@ export type GetConsumerByIdQuery = {
     emailAddress: string;
     id: string;
     updatedAt: any;
+    locale?: string | null;
     linkedAccounts: Array<{
       __typename?: 'LinkedAccount';
       membershipID?: string | null;
@@ -5430,6 +5431,7 @@ export const GetConsumerByIdDocument = {
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'locale' } },
               ],
             },
           },
