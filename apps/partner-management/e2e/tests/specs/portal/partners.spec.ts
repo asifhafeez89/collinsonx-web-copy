@@ -14,7 +14,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('partners page', () => {
-  test('super user can view a list of unfiltered partners', async ({
+  test('super user can view an unfiltered table that lists partners', async ({
     page,
   }) => {
     const dashboardPage = new PartnerPortalDashboardPage(page);
@@ -23,9 +23,19 @@ test.describe('partners page', () => {
     await dashboardPage.clickViewAllPartnersButton();
 
     const title = partnersPage.title();
-    const partnerRow = partnersPage.partnerRow();
+    const partnerRow = partnersPage.partnerTableRow();
+    const tableHeaderRow = partnersPage.partnerTableHeaderRow();
+    const expectedHeaderCount = 3;
+    const partnerColumn = partnersPage.partnerTableHeader('Partner');
+    const numberOfOutletsColumn =
+      partnersPage.partnerTableHeader('Number of outlets');
+    const actionColumn = partnersPage.partnerTableHeader('Action');
 
     await expect(title).toBeVisible();
+    await expect(tableHeaderRow).toHaveCount(expectedHeaderCount);
+    await expect(partnerColumn).toBeVisible();
+    await expect(numberOfOutletsColumn).toBeVisible();
+    await expect(actionColumn).toBeVisible();
     await expect(partnerRow).toHaveCount(CARDS_LIMIT);
   });
 

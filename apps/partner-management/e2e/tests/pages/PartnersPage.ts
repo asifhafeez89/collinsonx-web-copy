@@ -24,7 +24,20 @@ export default class PartnersPage {
       .click();
   }
 
-  partnerRow() {
+  partnerTableHeaderRow() {
+    return this.partnerTable().locator('thead > tr > th');
+  }
+
+  partnerTableHeader(headerName: string) {
+    return this.partnerTable().getByRole('cell', { name: headerName });
+  }
+
+  partnerTableRow() {
     return this.page.getByTestId('partner-row');
+  }
+
+  partnerTable() {
+    // should only be one table displayed on the page
+    return this.page.getByRole('table');
   }
 }
