@@ -55,12 +55,13 @@ function BookingLightbox({
                 border: 'solid',
                 backgroundColor: 'transparent',
                 borderColor: '#000',
-                fontSize: '16px',
+                fontSize: '1em',
                 borderWidth: 2,
                 color: '#fff',
               },
               label: {
                 color: '#000',
+                fontSize: '0.895em',
               },
             }}
           >
@@ -70,7 +71,10 @@ function BookingLightbox({
           <Button
             onClick={ctaForwardCall}
             variant="filled"
-            style={{ fontSize: '16px' }}
+            style={{
+              root: { fontSize: '1em' },
+              label: { fontSize: '0.895em' },
+            }}
           >
             {ctaForward}
           </Button>
