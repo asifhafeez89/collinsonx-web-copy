@@ -3,10 +3,8 @@
   border-bottom: 1px solid var(--grey-border);
   height: 60px;
   padding: 8px 24px 8px 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
+
 .infoContainer {
   color: var(--text-default);
   font-size: rem(18px);
@@ -24,9 +22,18 @@
 .logo {
   display: inline-flex;
   align-items: center;
+  height: 44px;
+  width: 44px;
 }
 .nav {
   display: inline-flex;
   align-items: center;
   gap: 28px;
+}
+.skipLink {
+  width: 0px;
+  height: 0px;
+  &:focus {
+    outline: none;
+  }
 }

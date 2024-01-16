@@ -43,47 +43,51 @@ function HeaderNav({ children, section, skipLink = '#' }: HeaderNavProps) {
   const handleClickMenu = () => {};
   return (
     <header role="banner" className={classes.root}>
-      <Flex align="center" gap={16} className={classes.infoContainer}>
-        <Flex align="center" p={10} hiddenFrom="sm">
-          <ActionIcon variant="transparent" onClick={handleClickMenu}>
-            <MenuIcon />
-          </ActionIcon>
-        </Flex>
-        <Anchor
-          href={skipLink}
-          component={Link}
-          className={classes.logo}
-          td="none"
-        >
-          <LogoHeaderCollinson />
-        </Anchor>
-        <Flex align="center" gap={8}>
-          <Text visibleFrom="sm" component="span" className={classes.section}>
-            {sections[section]}
-          </Text>
-          {client && <Separator />}
-          {client === 'collinson' && (
-            <Box datatest-id="nav-client" visibleFrom="xs">
-              <BadgeCollinson />
+      <Anchor className={classes.skipLink} href={skipLink} component={Link} />
+      <Flex justify="space-between" align="center">
+        <Anchor td="none" component={Link} href="/">
+          <Flex align="center" gap={16} className={classes.infoContainer}>
+            <Flex align="center" p={10} hiddenFrom="sm" display="none">
+              <ActionIcon variant="transparent" onClick={handleClickMenu}>
+                <MenuIcon />
+              </ActionIcon>
+            </Flex>
+            <Box className={classes.logo}>
+              <LogoHeaderCollinson />
             </Box>
-          )}
-          {client && client !== 'collinson' && (
-            <Text
-              datatest-id="nav-client"
-              component="span"
-              visibleFrom="xs"
-              className={classes.client}
-            >
-              {client}
-            </Text>
-          )}
-        </Flex>
-      </Flex>
+            <Flex align="center" gap={8}>
+              <Text
+                visibleFrom="sm"
+                component="span"
+                className={classes.section}
+              >
+                {sections[section]}
+              </Text>
+              {client && <Separator />}
+              {client === 'collinson' && (
+                <Box datatest-id="nav-client" visibleFrom="xs">
+                  <BadgeCollinson />
+                </Box>
+              )}
+              {client && client !== 'collinson' && (
+                <Text
+                  datatest-id="nav-client"
+                  component="span"
+                  visibleFrom="xs"
+                  className={classes.client}
+                >
+                  {client}
+                </Text>
+              )}
+            </Flex>
+          </Flex>
+        </Anchor>
 
-      <nav aria-label="Header" className={classes.nav}>
-        {children}
-        <AccountSettings fullName={fullName} role={role} />
-      </nav>
+        <nav aria-label="Header" className={classes.nav}>
+          {children}
+          <AccountSettings fullName={fullName} role={role} />
+        </nav>
+      </Flex>
     </header>
   );
 }
