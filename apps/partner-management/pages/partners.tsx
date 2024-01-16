@@ -16,6 +16,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { useMemo } from 'react';
+import Spinner from '@components/Spinner';
 
 const columnHelper = createColumnHelper<Partial<PartnerBrand>>();
 
@@ -81,20 +82,26 @@ export default function Partners() {
   return (
     <Stack gap={32} pb={24}>
       <Title>Partners</Title>
-      <Text style={{ fontSize: 18, color: colors['text-grey'] }}>
-        {`${partnersCount} ${
-          partnersCount === 1 ? 'partner brand' : 'partner brands'
-        }`}
-      </Text>
-      <Error error={errorPartners} />
-      {!loadingPartners && dataPartners && (
-        <Table
-          table={table}
-          columnsAlignment={{
-            outlets: 'right',
-            action: 'center',
-          }}
-        />
+      {loadingPartners ? (
+        <Spinner />
+      ) : (
+        <>
+          <Text style={{ fontSize: 18, color: colors['text-grey'] }}>
+            {`${partnersCount} ${
+              partnersCount === 1 ? 'partner brand' : 'partner brands'
+            }`}
+          </Text>
+          <Error error={errorPartners} />
+          {!loadingPartners && dataPartners && (
+            <Table
+              table={table}
+              columnsAlignment={{
+                outlets: 'right',
+                action: 'center',
+              }}
+            />
+          )}
+        </>
       )}
     </Stack>
   );

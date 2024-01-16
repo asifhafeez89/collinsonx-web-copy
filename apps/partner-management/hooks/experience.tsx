@@ -16,6 +16,7 @@ import suExperiences from '../data/experiences.json';
 
 import ErrorComponent from '@components/Error';
 import { getItem, setItem } from '@collinsonx/utils/lib';
+import Spinner from '@components/Spinner';
 
 type UserDetails = Pick<
   PartnerData,
@@ -97,15 +98,7 @@ export const ExperienceProvider = (props: PropsWithChildren) => {
       value={{ experience, setExperience, userDetails, client }}
     >
       {loading || session.loading ? (
-        <Flex
-          justify="center"
-          align="center"
-          h="100%"
-          w="100%"
-          style={{ position: 'absolute', top: 0, bottom: 0 }}
-        >
-          <LoaderLifestyleX />
-        </Flex>
+        <Spinner />
       ) : (
         <>
           <ErrorComponent error={error} />

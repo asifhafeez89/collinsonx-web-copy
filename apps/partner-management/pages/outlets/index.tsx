@@ -1,4 +1,10 @@
-import { Stack, Pagination, Center } from '@collinsonx/design-system/core';
+import {
+  Stack,
+  Pagination,
+  Center,
+  Box,
+  Flex,
+} from '@collinsonx/design-system/core';
 import Title from '@collinsonx/design-system/components/title';
 import LayoutCatalogue from '@components/LayoutCatalogue';
 import { Outlet, PartnerBrand, PaginatedOutlets } from '@collinsonx/utils';
@@ -7,11 +13,12 @@ import getPartnerBrandByID from '@collinsonx/utils/queries/getPartnerBrandByID';
 import { useQuery } from '@collinsonx/utils/apollo';
 import Error from '@components/Error';
 import { useRouter } from 'next/router';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import OutletGrid from '@components/OutletGrid';
 import { useSearchParams } from 'next/navigation';
 import { CARDS_LIMIT } from 'config';
 import { useState } from 'react';
+import Spinner from '@components/Spinner';
 
 export default function Outlets() {
   const router = useRouter();
@@ -60,11 +67,16 @@ export default function Outlets() {
     router.push(`/outlets/${id}`);
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [data]);
+
   return (
     <Stack gap={32}>
       <Title>Outlets</Title>
       <Error error={errorOutlets} />
       <Error error={errorPartnerBrand} />
+      {(loadingOutlets || loadingPartnerBrand) && <Spinner />}
       {data && data.length ? (
         <OutletGrid outlets={data} onClickOutlet={handleClickOutlet} />
       ) : null}

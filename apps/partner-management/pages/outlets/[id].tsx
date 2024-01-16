@@ -10,6 +10,7 @@ import ContentWrapper from '@components/ContentWrapper';
 import colors from '@collinsonx/design-system/colour-constants-partner';
 import OutletDetailsSummary from '@components/OutletDetailsSummary';
 import { ValidTag } from 'config/outletIcons';
+import Spinner from '@components/Spinner';
 
 const capitalizedCategoryMap: { [key in ProductCategory]: string } = {
   [ProductCategory.Eat]: 'Eat',
@@ -43,7 +44,7 @@ export default function OutletDetail() {
   });
 
   if (loadingOutlet) {
-    return <div>Loading...</div>;
+    return <Spinner />;
   }
   if (!dataOutlet?.getOutletByID) {
     return <div>Outlet not found</div>;
