@@ -3,6 +3,7 @@ const colors = {
   'text-default': '#202020',
   'text-grey': '#6B6B6B',
   'bg-surface': '#FBFBFB',
+  'bg-surface-mid': '#F7F7F7',
   'bg-surface-dark': '#EFEFF1',
   'bg-th': '#EFEFF1',
   'grey-border': '#D5D5D5',

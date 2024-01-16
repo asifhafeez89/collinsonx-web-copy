@@ -19,13 +19,13 @@ function Table({
   return (
     <MantineTable>
       <table className={classes.table}>
-        <thead style={{ background: colors['bg-blue'] }}>
+        <thead className={classes.thead}>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <th
                   key={header.id}
-                  align={alignColumns[header.id]}
+                  align={alignColumns[header.column.id]}
                   className={classes.th}
                 >
                   {flexRender(
@@ -39,13 +39,7 @@ function Table({
         </thead>
         <tbody>
           {table.getRowModel().rows.map((row, index) => (
-            <tr
-              key={row.id}
-              data-testid="partner-row"
-              style={{
-                background: index % 2 ? colors['bg-surface'] : colors['white'],
-              }}
-            >
+            <tr key={row.id} data-testid="partner-row" className={classes.tr}>
               {row.getVisibleCells().map((cell) => (
                 <td
                   key={cell.id}

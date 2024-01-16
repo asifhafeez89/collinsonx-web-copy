@@ -1,6 +1,7 @@
 import colors from '@collinsonx/design-system/colour-constants-partner';
 import ContentWrapper from '../ContentWrapper';
 import HeaderNav, { HeaderNavProps } from '../HeaderNav';
+import classes from './LayoutCatalogue.module.css';
 
 interface LayoutProps {
   subHeader?: JSX.Element;
@@ -36,7 +37,7 @@ export default function Layout({
           {heading}
         </div>
       )}
-      <main style={{ height: '100%' }}>
+      <main className={classes.content}>
         {!disableWrapper ? (
           <ContentWrapper>{children}</ContentWrapper>
         ) : (
