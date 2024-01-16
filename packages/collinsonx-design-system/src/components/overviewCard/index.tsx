@@ -29,7 +29,7 @@ export default function OverviewCard({
   'data-testid': dataTestId,
 }: OverviewCardProps) {
   return (
-    <Container style={{ minHeight: 267, width: '100%' }}>
+    <Container style={{ minHeight: 267, width: '100%', overflow: 'hidden' }}>
       <Box
         style={{
           padding: '16px 32px',

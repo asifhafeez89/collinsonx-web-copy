@@ -1,8 +1,10 @@
 .root {
+  position: relative;
   background-color: var(--bg-surface-dark);
   border-bottom: 1px solid var(--grey-border);
   height: 60px;
   padding: 8px 24px 8px 12px;
+  z-index: 999;
 }
 
 .infoContainer {

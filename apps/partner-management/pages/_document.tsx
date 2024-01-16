@@ -26,13 +26,6 @@ export default class _Document extends Document {
         <body>
           <Main />
           <NextScript />
-          <Script id="freshChat">
-            {`
-              window.fcWidgetMessengerConfig = {
-              tags: ["private", "partnerportal"],
-            }`}
-          </Script>
-          <script src="//fw-cdn.com/9259437/3396273.js" />
         </body>
       </Html>
     );
