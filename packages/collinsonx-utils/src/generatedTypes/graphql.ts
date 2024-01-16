@@ -56,7 +56,7 @@ export type Amendment = {
   actingAccount?: Maybe<Scalars['String']['output']>;
   bookedFrom: Scalars['String']['output'];
   bookedTo: Scalars['String']['output'];
-  booking: Booking;
+  booking?: Maybe<Booking>;
   createdAt: Scalars['Date']['output'];
   guestAdultCount: Scalars['Int']['output'];
   guestChildrenCount: Scalars['Int']['output'];
@@ -3789,6 +3789,27 @@ export type GetOutletByIdQuery = {
         } | null> | null;
       } | null;
     } | null;
+    content?: {
+      __typename?: 'OutletContent';
+      media?: {
+        __typename?: 'Media';
+        mainImage?: {
+          __typename?: 'Asset';
+          url?: string | null;
+          description?: string | null;
+          title?: string | null;
+        } | null;
+        mediaCollection?: {
+          __typename?: 'AssetCollection';
+          items: Array<{
+            __typename?: 'Asset';
+            url?: string | null;
+            description?: string | null;
+            title?: string | null;
+          } | null>;
+        } | null;
+      } | null;
+    } | null;
     partnerBrand: { __typename?: 'PartnerBrand'; name: string };
   } | null;
 };
@@ -5992,6 +6013,84 @@ export const GetOutletByIdDocument = {
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'tier' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'tags' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'content' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'media' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'mainImage' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'url' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'description',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'title' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'mediaCollection' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'items' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'url' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'description',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'title',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
                 { kind: 'Field', name: { kind: 'Name', value: 'status' } },
                 {
                   kind: 'Field',

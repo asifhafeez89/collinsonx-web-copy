@@ -1,0 +1,37 @@
+.thumbnailList {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  padding: 0;
+  margin: 0;
+}
+
+.listItem {
+  margin-right: 8px;
+  outline: none;
+}
+
+.listItem:last-child {
+  margin-right: 0;
+}
+
+.thumbnail {
+  width: 80px;
+  height: 45px;
+  cursor: pointer;
+  border-radius: 4px;
+  opacity: 0.5;
+  box-sizing: border-box;
+}
+
+.thumbnail:hover,
+.thumbnail:focus {
+  border: 2px solid var(--text-default);
+  opacity: 1;
+}
+
+.thumbnail[data-active='true'] {
+  border: 2px solid var(--brand-collinson);
+  opacity: 1;
+}

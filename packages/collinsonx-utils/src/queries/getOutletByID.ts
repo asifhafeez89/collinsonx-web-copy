@@ -67,6 +67,22 @@ const getOutletByID = gql`
       hasDisabledAccess
       tier
       tags
+      content {
+        media {
+          mainImage {
+            url
+            description
+            title
+          }
+          mediaCollection {
+            items {
+              url
+              description
+              title
+            }
+          }
+        }
+      }
       status
       salesforceID
       reservationEmail

@@ -1,7 +1,7 @@
-import { Flex, Stack } from '@collinsonx/design-system/core';
+import { Box, SimpleGrid, Stack } from '@collinsonx/design-system/core';
 import { useQuery } from '@collinsonx/utils/apollo';
 import getOutletByID from '@collinsonx/utils/queries/getOutletByID';
-import { Outlet, ProductCategory } from '@collinsonx/utils';
+import { Outlet, OutletStatus, ProductCategory } from '@collinsonx/utils';
 import Error from '@components/Error';
 import LayoutCatalogue from '@components/LayoutCatalogue';
 import { useRouter } from 'next/router';
@@ -10,6 +10,7 @@ import ContentWrapper from '@components/ContentWrapper';
 import colors from '@collinsonx/design-system/colour-constants-partner';
 import OutletDetailsSummary from '@components/OutletDetailsSummary';
 import { ValidTag } from 'config/outletIcons';
+import OutletImages from '@components/OutletImages';
 import Spinner from '@components/Spinner';
 
 const capitalizedCategoryMap: { [key in ProductCategory]: string } = {
@@ -62,6 +63,7 @@ export default function OutletDetail() {
     hasDisabledAccess,
     reservationEmail,
     meta,
+    content,
   } = dataOutlet.getOutletByID;
 
   const primaryProducts = products.map((product) => {
@@ -84,12 +86,12 @@ export default function OutletDetail() {
       />
       <Error error={errorOutlet} />
       <ContentWrapper>
-        <Flex gap={10} mb={400}>
+        <SimpleGrid verticalSpacing="lg" cols={{ xs: 1, sm: 2 }}>
           <OutletDetailsSummary
             locationType={category}
             legacyCode={legacyCode}
             code={code}
-            status={status === 'LIVE' ? 'ACTIVE' : 'INACTIVE'}
+            status={status === OutletStatus.Live ? 'ACTIVE' : 'INACTIVE'}
             tags={filteredTags}
             primaryProducts={primaryProducts}
             disabledAccess={hasDisabledAccess}
@@ -97,7 +99,12 @@ export default function OutletDetail() {
             lastEditedDate={meta?.lastEdited}
             editor={meta?.editor}
           />
-        </Flex>
+          <Box style={{ maxWidth: '768px', minWidth: '320px' }}>
+            <OutletImages
+              mediaCollection={content?.media?.mediaCollection?.items}
+            />
+          </Box>
+        </SimpleGrid>
       </ContentWrapper>
     </Stack>
   );
