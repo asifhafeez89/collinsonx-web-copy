@@ -49,6 +49,7 @@ export const FlightInfo = ({
             maw={400}
             w={270}
             disabled={loading}
+            data-testid="flightDate"
             withAsterisk
             onClick={() => logAction(page, tags[0])}
             classNames={{ root: classes.datePickerInput, day: classes.day }}
