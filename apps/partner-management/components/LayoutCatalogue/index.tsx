@@ -17,6 +17,8 @@ export default function Layout({
   disableWrapper = false,
   headerNavProps,
 }: LayoutProps) {
+  const content = <div className={classes.content}>{children}</div>;
+
   return (
     <div
       style={{
@@ -37,12 +39,8 @@ export default function Layout({
           {heading}
         </div>
       )}
-      <main className={classes.content}>
-        {!disableWrapper ? (
-          <ContentWrapper>{children}</ContentWrapper>
-        ) : (
-          children
-        )}
+      <main>
+        {!disableWrapper ? <ContentWrapper>{content}</ContentWrapper> : content}
       </main>
     </div>
   );
