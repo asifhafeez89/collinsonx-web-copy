@@ -328,14 +328,14 @@ export default function CheckAvailability() {
           </div>
         </BookingLightbox>
       )}
-      <Stack gap={16} className={classes.container}>
+      <Stack gap={8} className={classes.container}>
         <Stack w="100%">
           <TopBarLinks page={pageName} />
         </Stack>
         <Flex direction="column" w="100%">
           <Stack gap={10} className={classes.outerContainer}>
             <Center className={classes.titleWrapper}>
-              <Heading as="h1" padding={0} margin={0} lineHeight={1}>
+              <Heading as="h3" padding={0} margin={0} lineHeight={1}>
                 {Booking_Mode === BOOKING_MODE.EDIT
                   ? translations.booking.checkAvailability.arrivalTitle
                   : translations.booking.checkAvailability.amendTitle}

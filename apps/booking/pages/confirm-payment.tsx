@@ -169,7 +169,7 @@ export default function ConfirmPayment() {
 
   return (
     <Layout>
-      <Stack gap={16} className={classes.container}>
+      <Stack gap={8} className={classes.container}>
         <TopBarLinks page={pageName} />
 
         <LoaderLightBox
@@ -182,12 +182,12 @@ export default function ConfirmPayment() {
           }
         >
           <div>
-            <h2>
+            <h3>
               {
                 translations.booking.confirmationPayment.processing
                   .beingProcessed.title
               }
-            </h2>
+            </h3>
             <p>
               {
                 translations.booking.confirmationPayment.processing

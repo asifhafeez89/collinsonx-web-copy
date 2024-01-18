@@ -305,7 +305,7 @@ export default {
           },
           btn: {
             download: 'Descargar confirmación de reserva',
-            return: 'regresoALaSalón',
+            return: 'Regreso a la salón',
           },
         },
         notConfirmed: {

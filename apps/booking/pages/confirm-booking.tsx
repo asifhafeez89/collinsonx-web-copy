@@ -94,7 +94,7 @@ export default function ConfirmBooking() {
 
   return (
     <Layout ref={layoutRef}>
-      <Stack gap={16} className={classes.container}>
+      <Stack gap={8} className={classes.container}>
         <Stack>
           <TopBarLinks page={pageName} />
         </Stack>
@@ -107,7 +107,7 @@ export default function ConfirmBooking() {
           <Stack gap={8} className={classes.containerInner}>
             <Center className={classes.headingContainer}>
               {!clientSecret && (
-                <Heading as="h1" padding={0} margin={0} lineHeight={1}>
+                <Heading as="h3" padding={0} margin={0} lineHeight={1}>
                   {Mode === BOOKING_MODE.EDIT
                     ? translations.booking.confirmBooking.title
                     : translations.booking.confirmBooking.amendTitle}

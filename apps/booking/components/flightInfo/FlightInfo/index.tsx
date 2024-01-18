@@ -51,6 +51,7 @@ export const FlightInfo = ({
             disabled={loading}
             data-testid="flightDate"
             withAsterisk
+            style={{ textWrap: 'nowrap' }}
             onClick={() => logAction(page, tags[0])}
             classNames={{ root: classes.datePickerInput, day: classes.day }}
             {...form?.getInputProps('departureDate')}

@@ -62,7 +62,7 @@ export default function BookingFailure() {
 
   return (
     <Layout>
-      <Stack gap={16} className={classes.container}>
+      <Stack gap={8} className={classes.container}>
         <Stack w="100%">
           <TopBarLinks page={pageName} />
         </Stack>

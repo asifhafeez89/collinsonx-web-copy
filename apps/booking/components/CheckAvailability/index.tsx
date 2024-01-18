@@ -213,7 +213,7 @@ const CheckAvailability = ({
   return (
     <Layout>
       <form onSubmit={form.onSubmit(handleClickCheckAvailability)}>
-        <Stack gap={16}>
+        <Stack gap={8}>
           <Stack w="100%">
             <TopBarLinks page={trackingPageName} />
           </Stack>
@@ -221,7 +221,7 @@ const CheckAvailability = ({
             <Stack gap={12} className={classes.stack}>
               {' '}
               <Center className={classes.titleWrapper}>
-                <Heading as="h1" padding={0} margin={0} lineHeight={1}>
+                <Heading as="h3" padding={0} margin={0} lineHeight={1}>
                   {translations.booking.flightAndGuests.title}
                 </Heading>
               </Center>
