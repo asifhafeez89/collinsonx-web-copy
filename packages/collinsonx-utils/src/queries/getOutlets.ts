@@ -13,7 +13,7 @@ const getOutlets = gql`
           name
           terminal
         }
-        tags
+        productCategories
         content {
           media {
             mainImage {

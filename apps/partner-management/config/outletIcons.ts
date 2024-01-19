@@ -7,7 +7,7 @@ import {
   OutletUnwindIcon,
 } from '@collinsonx/design-system/assets/icons';
 
-export type ValidTag =
+export type ValidProductCategory =
   | 'EAT'
   | 'LOUNGE'
   | 'REST'
@@ -15,7 +15,7 @@ export type ValidTag =
   | 'UNWIND'
   | 'REFRESH';
 
-const iconMap: Record<ValidTag, any> = {
+const iconMap: Record<ValidProductCategory, any> = {
   EAT: OutletRestaurantIcon,
   LOUNGE: OutletLoungeIcon,
   REST: OutletRestIcon,

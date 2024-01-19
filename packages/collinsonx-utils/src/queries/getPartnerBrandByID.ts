@@ -15,7 +15,7 @@ const getPartnerBrandByID = gql`
           name
           terminal
         }
-        tags
+        productCategories
         content {
           media {
             mainImage {

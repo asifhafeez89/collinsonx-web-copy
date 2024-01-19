@@ -9,9 +9,9 @@ import OutletHeading from '@components/OutletHeading';
 import ContentWrapper from '@components/ContentWrapper';
 import colors from '@collinsonx/design-system/colour-constants-partner';
 import OutletDetailsSummary from '@components/OutletDetailsSummary';
-import { ValidTag } from 'config/outletIcons';
 import OutletImages from '@components/OutletImages';
 import Spinner from '@components/Spinner';
+import { ValidProductCategory } from 'config/outletIcons';
 
 const capitalizedCategoryMap: { [key in ProductCategory]: string } = {
   [ProductCategory.Eat]: 'Eat',
@@ -21,8 +21,10 @@ const capitalizedCategoryMap: { [key in ProductCategory]: string } = {
   [ProductCategory.Unwind]: 'Unwind',
 };
 
-function isValidTag(tag: string | null): tag is ValidTag {
-  const validTags: ValidTag[] = [
+function isValidProductCategory(
+  productCategory: string | null
+): productCategory is ValidProductCategory {
+  const validProductCategories: ValidProductCategory[] = [
     'EAT',
     'LOUNGE',
     'REST',
@@ -30,7 +32,9 @@ function isValidTag(tag: string | null): tag is ValidTag {
     'UNWIND',
     'REFRESH',
   ];
-  return validTags.includes(tag as ValidTag);
+  return validProductCategories.includes(
+    productCategory as ValidProductCategory
+  );
 }
 
 export default function OutletDetail() {
@@ -59,7 +63,7 @@ export default function OutletDetail() {
     legacyCode,
     code,
     products,
-    tags,
+    productCategories,
     hasDisabledAccess,
     reservationEmail,
     meta,
@@ -72,7 +76,9 @@ export default function OutletDetail() {
       : '';
   });
 
-  const filteredTags = tags.filter(isValidTag);
+  const filteredProductCategories = productCategories.filter(
+    isValidProductCategory
+  );
 
   return (
     <Stack
@@ -92,7 +98,7 @@ export default function OutletDetail() {
             legacyCode={legacyCode}
             code={code}
             status={status === OutletStatus.Live ? 'ACTIVE' : 'INACTIVE'}
-            tags={filteredTags}
+            productCategories={filteredProductCategories}
             primaryProducts={primaryProducts}
             disabledAccess={hasDisabledAccess}
             email={reservationEmail}

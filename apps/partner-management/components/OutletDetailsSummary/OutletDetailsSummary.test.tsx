@@ -7,7 +7,7 @@ describe('OutletDetailsSummary', () => {
     locationType: 'Type',
     legacyCode: 'Code',
     code: 'Outlet',
-    tags: ['EAT', 'LOUNGE'],
+    productCategories: ['EAT', 'LOUNGE'],
     status: 'ACTIVE',
     primaryProducts: ['Product 1', 'Product 2'],
     disabledAccess: true,

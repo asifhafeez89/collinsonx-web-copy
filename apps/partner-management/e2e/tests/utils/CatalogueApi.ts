@@ -57,7 +57,7 @@ export default class CatalogueApi {
             name
             terminal
           }
-          tags
+          productCategories
         }
       }
     }`;

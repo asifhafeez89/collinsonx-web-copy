@@ -12,7 +12,7 @@ import Badge from '@collinsonx/design-system/components/badge/index';
 import SummaryItem from './SummaryItem';
 import TooltipIcon from '../../components/TooltipIcon';
 import { formatDateString } from 'utils/dateUtils';
-import outletIcons, { ValidTag } from 'config/outletIcons';
+import outletIcons, { ValidProductCategory } from 'config/outletIcons';
 import ProductCategoriesList from '@collinsonx/design-system/components/outletTypes/index';
 import classes from './OutletDetailsSummary.module.css';
 
@@ -26,7 +26,7 @@ export interface OutletDetailsSummaryProps {
   locationType: string;
   legacyCode?: string | null;
   code?: string | null;
-  tags: Array<ValidTag | null>;
+  productCategories: Array<ValidProductCategory | null>;
   status: 'ACTIVE' | 'INACTIVE';
   primaryProducts: string[];
   disabledAccess: boolean;
@@ -39,7 +39,7 @@ const OutletDetailsSummary = ({
   locationType,
   legacyCode,
   code: outletCode,
-  tags,
+  productCategories: categories,
   status,
   primaryProducts,
   disabledAccess,
@@ -80,12 +80,12 @@ const OutletDetailsSummary = ({
     );
   };
 
-  const productCategories = tags
-    .filter((tag): tag is ValidTag => tag !== null)
-    .map((tag) => {
-      const Icon = outletIcons[tag];
+  const productCategories = categories
+    .filter((category): category is ValidProductCategory => category !== null)
+    .map((category) => {
+      const Icon = outletIcons[category];
       return {
-        label: tag,
+        label: category,
         IconComponent: <Icon width={24} height={24} aria-hidden={true} />,
       };
     });

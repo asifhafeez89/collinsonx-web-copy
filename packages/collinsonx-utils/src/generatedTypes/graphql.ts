@@ -63,6 +63,8 @@ export type Amendment = {
   guestInfantCount: Scalars['Int']['output'];
   id: Scalars['ID']['output'];
   lastArrival: Scalars['String']['output'];
+  paymentOption: PaymentOption;
+  price: Scalars['Int']['output'];
   reference: Scalars['String']['output'];
   status: AmendmentStatus;
   updatedAt: Scalars['Date']['output'];
@@ -112,6 +114,27 @@ export enum AmendmentStatus {
   RefundFailed = 'REFUND_FAILED',
   SnaplogicAmendmentFailed = 'SNAPLOGIC_AMENDMENT_FAILED',
 }
+
+export type AncillaryProduct = {
+  __typename?: 'AncillaryProduct';
+  /** A list of costs for the product by programme */
+  costs: Array<Maybe<ProductCost>>;
+  id: Scalars['ID']['output'];
+  /** The product name */
+  name: Scalars['String']['output'];
+  /** The outlet associated with the product */
+  outlet?: Maybe<Outlet>;
+  /** The Stripe ID of the product */
+  ppStripeID?: Maybe<Scalars['String']['output']>;
+  /** A list of sale prices for the product by programme */
+  salePrices: Array<Maybe<ProductSalePrice>>;
+  /** The relevant Salesforce ID of the product */
+  salesforceID: Scalars['String']['output'];
+  /** The status of the product */
+  status: ProductStatus;
+  /** The product tier for example Gold or Black */
+  tier?: Maybe<Scalars['String']['output']>;
+};
 
 export type Arrival = {
   __typename?: 'Arrival';
@@ -1285,13 +1308,20 @@ export type Guests = {
 };
 
 export enum IsoCountryCode {
+  Abw = 'ABW',
   Afg = 'AFG',
   Ago = 'AGO',
+  Aia = 'AIA',
+  Ala = 'ALA',
   Alb = 'ALB',
   And = 'AND',
+  Ant = 'ANT',
   Are = 'ARE',
   Arg = 'ARG',
   Arm = 'ARM',
+  Asm = 'ASM',
+  Ata = 'ATA',
+  Atf = 'ATF',
   Atg = 'ATG',
   Aus = 'AUS',
   Aut = 'AUT',
@@ -1299,22 +1329,27 @@ export enum IsoCountryCode {
   Bdi = 'BDI',
   Bel = 'BEL',
   Ben = 'BEN',
+  Bes = 'BES',
   Bfa = 'BFA',
   Bgd = 'BGD',
   Bgr = 'BGR',
   Bhr = 'BHR',
   Bhs = 'BHS',
   Bih = 'BIH',
+  Blm = 'BLM',
   Blr = 'BLR',
   Blz = 'BLZ',
+  Bmu = 'BMU',
   Bol = 'BOL',
   Bra = 'BRA',
   Brb = 'BRB',
   Brn = 'BRN',
   Btn = 'BTN',
+  Bvt = 'BVT',
   Bwa = 'BWA',
   Caf = 'CAF',
   Can = 'CAN',
+  Cck = 'CCK',
   Che = 'CHE',
   Chl = 'CHL',
   Chn = 'CHN',
@@ -1322,11 +1357,15 @@ export enum IsoCountryCode {
   Cmr = 'CMR',
   Cod = 'COD',
   Cog = 'COG',
+  Cok = 'COK',
   Col = 'COL',
   Com = 'COM',
   Cpv = 'CPV',
   Cri = 'CRI',
   Cub = 'CUB',
+  Cuw = 'CUW',
+  Cxr = 'CXR',
+  Cym = 'CYM',
   Cyp = 'CYP',
   Cze = 'CZE',
   Deu = 'DEU',
@@ -1338,31 +1377,44 @@ export enum IsoCountryCode {
   Ecu = 'ECU',
   Egy = 'EGY',
   Eri = 'ERI',
+  Esh = 'ESH',
   Esp = 'ESP',
   Est = 'EST',
   Eth = 'ETH',
   Fin = 'FIN',
   Fji = 'FJI',
+  Flk = 'FLK',
   Fra = 'FRA',
+  Fro = 'FRO',
   Fsm = 'FSM',
   Gab = 'GAB',
   Gbr = 'GBR',
   Geo = 'GEO',
+  Ggy = 'GGY',
   Gha = 'GHA',
+  Gib = 'GIB',
   Gin = 'GIN',
+  Glp = 'GLP',
   Gmb = 'GMB',
   Gnb = 'GNB',
   Gnq = 'GNQ',
   Grc = 'GRC',
   Grd = 'GRD',
+  Grl = 'GRL',
   Gtm = 'GTM',
+  Guf = 'GUF',
+  Gum = 'GUM',
   Guy = 'GUY',
+  Hkg = 'HKG',
+  Hmd = 'HMD',
   Hnd = 'HND',
   Hrv = 'HRV',
   Hti = 'HTI',
   Hun = 'HUN',
   Idn = 'IDN',
+  Imn = 'IMN',
   Ind = 'IND',
+  Iot = 'IOT',
   Irl = 'IRL',
   Irn = 'IRN',
   Irq = 'IRQ',
@@ -1370,6 +1422,7 @@ export enum IsoCountryCode {
   Isr = 'ISR',
   Ita = 'ITA',
   Jam = 'JAM',
+  Jey = 'JEY',
   Jor = 'JOR',
   Jpn = 'JPN',
   Kaz = 'KAZ',
@@ -1391,6 +1444,8 @@ export enum IsoCountryCode {
   Ltu = 'LTU',
   Lux = 'LUX',
   Lva = 'LVA',
+  Mac = 'MAC',
+  Maf = 'MAF',
   Mar = 'MAR',
   Mco = 'MCO',
   Mda = 'MDA',
@@ -1404,15 +1459,22 @@ export enum IsoCountryCode {
   Mmr = 'MMR',
   Mne = 'MNE',
   Mng = 'MNG',
+  Mnp = 'MNP',
   Moz = 'MOZ',
   Mrt = 'MRT',
+  Msr = 'MSR',
+  Mtq = 'MTQ',
   Mus = 'MUS',
   Mwi = 'MWI',
   Mys = 'MYS',
+  Myt = 'MYT',
   Nam = 'NAM',
+  Ncl = 'NCL',
   Ner = 'NER',
+  Nfk = 'NFK',
   Nga = 'NGA',
   Nic = 'NIC',
+  Niu = 'NIU',
   Nld = 'NLD',
   Nor = 'NOR',
   Npl = 'NPL',
@@ -1421,16 +1483,20 @@ export enum IsoCountryCode {
   Omn = 'OMN',
   Pak = 'PAK',
   Pan = 'PAN',
+  Pcn = 'PCN',
   Per = 'PER',
   Phl = 'PHL',
   Plw = 'PLW',
   Png = 'PNG',
   Pol = 'POL',
+  Pri = 'PRI',
   Prk = 'PRK',
   Prt = 'PRT',
   Pry = 'PRY',
   Pse = 'PSE',
+  Pyf = 'PYF',
   Qat = 'QAT',
+  Reu = 'REU',
   Rou = 'ROU',
   Rus = 'RUS',
   Rwa = 'RWA',
@@ -1438,11 +1504,15 @@ export enum IsoCountryCode {
   Sdn = 'SDN',
   Sen = 'SEN',
   Sgp = 'SGP',
+  Sgs = 'SGS',
+  Shn = 'SHN',
+  Sjm = 'SJM',
   Slb = 'SLB',
   Sle = 'SLE',
   Slv = 'SLV',
   Smr = 'SMR',
   Som = 'SOM',
+  Spm = 'SPM',
   Srb = 'SRB',
   Ssd = 'SSD',
   Stp = 'STP',
@@ -1451,12 +1521,15 @@ export enum IsoCountryCode {
   Svn = 'SVN',
   Swe = 'SWE',
   Swz = 'SWZ',
+  Sxm = 'SXM',
   Syc = 'SYC',
   Syr = 'SYR',
+  Tca = 'TCA',
   Tcd = 'TCD',
   Tgo = 'TGO',
   Tha = 'THA',
   Tjk = 'TJK',
+  Tkl = 'TKL',
   Tkm = 'TKM',
   Tls = 'TLS',
   Ton = 'TON',
@@ -1468,14 +1541,18 @@ export enum IsoCountryCode {
   Tza = 'TZA',
   Uga = 'UGA',
   Ukr = 'UKR',
+  Umi = 'UMI',
   Ury = 'URY',
   Usa = 'USA',
   Uzb = 'UZB',
   Vat = 'VAT',
   Vct = 'VCT',
   Ven = 'VEN',
+  Vgb = 'VGB',
+  Vir = 'VIR',
   Vnm = 'VNM',
   Vut = 'VUT',
+  Wlf = 'WLF',
   Wsm = 'WSM',
   Yem = 'YEM',
   Zaf = 'ZAF',
@@ -1955,7 +2032,7 @@ export type MetaInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   acceptInvitation?: Maybe<Invitation>;
-  addTagToOutlet?: Maybe<Outlet>;
+  addProductCategoryToOutlet?: Maybe<Outlet>;
   cancelBooking?: Maybe<Booking>;
   cancelInvitation?: Maybe<Invitation>;
   checkinBooking?: Maybe<Booking>;
@@ -2001,9 +2078,9 @@ export type MutationAcceptInvitationArgs = {
   acceptInvitationInput: AcceptInvitationInput;
 };
 
-export type MutationAddTagToOutletArgs = {
+export type MutationAddProductCategoryToOutletArgs = {
+  category: ProductCategory;
   id: Scalars['ID']['input'];
-  tag: Scalars['String']['input'];
 };
 
 export type MutationCancelBookingArgs = {
@@ -2170,6 +2247,8 @@ export type Operator = {
 
 export type Outlet = {
   __typename?: 'Outlet';
+  /** A list of ancillary products available at the outlet */
+  ancillaryProducts: Array<Maybe<AncillaryProduct>>;
   /** The category of outlet eg AIRPORT, FERRY_STATION, RAILWAY_STATION */
   category: OutletCategory;
   /** The code of the outlet */
@@ -2191,6 +2270,8 @@ export type Outlet = {
   openingTimes?: Maybe<OpeningTimes>;
   /** The partner brand of the outlet */
   partnerBrand: PartnerBrand;
+  /** Categories of the products associated with the outlet. These are used for filtering */
+  productCategories: Array<Maybe<ProductCategory>>;
   /** A list of products available at the outlet */
   products: Array<Maybe<Product>>;
   /** The email address for reservations */
@@ -2199,10 +2280,8 @@ export type Outlet = {
   salesforceID: Scalars['String']['output'];
   /** The status of the outlet whether it is active or not */
   status: OutletStatus;
-  /** The tags associated with the outlet. These are used for filtering */
-  tags: Array<Maybe<Scalars['String']['output']>>;
   /** The tier of the outlet for example Gold or Black */
-  tier?: Maybe<Scalars['String']['output']>;
+  tier?: Maybe<Tier>;
 };
 
 export enum OutletCategory {
@@ -2349,31 +2428,40 @@ export type OutletInput = {
   openingTimes?: InputMaybe<OpeningTimesInput>;
   /** The partner brand of the outlet */
   partnerBrand: PartnerBrandKey;
+  /** Categories of the products associated with the outlet. These are used for filtering */
+  productCategories: Array<InputMaybe<ProductCategory>>;
   /** The email address for reservations */
   reservationEmail?: InputMaybe<Scalars['String']['input']>;
   /** The Salesforce ID of the outlet */
   salesforceID: Scalars['String']['input'];
   /** The status of the outlet whether it is active or not */
   status: OutletStatus;
-  /** The tags associated with the outlet. These are used for filtering */
-  tags: Array<InputMaybe<Scalars['String']['input']>>;
   /** The tier of the outlet for example Gold or Black */
-  tier?: InputMaybe<Scalars['String']['input']>;
+  tier?: InputMaybe<Tier>;
 };
 
 export type OutletKey = {
   id: Scalars['ID']['input'];
 };
 
-export enum OutletProductAccessType {
-  Reservation = 'RESERVATION',
-  ReservationFeeOnly = 'RESERVATION_FEE_ONLY',
-  WalkUp = 'WALK_UP',
+export enum OutletRegion {
+  Apac = 'APAC',
+  Americas = 'Americas',
+  Emea = 'EMEA',
+  Global = 'GLOBAL',
 }
 
 export enum OutletStatus {
   Live = 'LIVE',
 }
+
+export type OutletTags = {
+  __typename?: 'OutletTags';
+  category?: Maybe<Array<Maybe<OutletCategory>>>;
+  isoCountryCode?: Maybe<Array<Maybe<IsoCountryCode>>>;
+  region?: Maybe<Array<Maybe<OutletRegion>>>;
+  tier?: Maybe<Array<Maybe<Tier>>>;
+};
 
 export type PageInfo = {
   __typename?: 'PageInfo';
@@ -2514,10 +2602,23 @@ export type PaymentInput = {
   stripePaymentID?: InputMaybe<Scalars['String']['input']>;
 };
 
+/** The lifecycle of payment options */
+export enum PaymentOption {
+  Charge = 'Charge',
+  NoPaymentRequired = 'NoPaymentRequired',
+  Refund = 'Refund',
+}
+
+export enum PrimaryProductAccessType {
+  Reservation = 'RESERVATION',
+  ReservationFeeOnly = 'RESERVATION_FEE_ONLY',
+  WalkUp = 'WALK_UP',
+}
+
 export type Product = {
   __typename?: 'Product';
   /** The access type of the product */
-  accessType: OutletProductAccessType;
+  accessType: PrimaryProductAccessType;
   /** The product category */
   category: ProductCategory;
   /** A list of costs for the product by programme */
@@ -2535,12 +2636,10 @@ export type Product = {
   salesforceID: Scalars['String']['output'];
   /** The stage of the product based on Saleforce stage */
   stage: ProductStage;
-  /** The status of the product whether it is active or not */
+  /** The status of the product */
   status: ProductStatus;
-  /** The tags associated with the product. These are used for filtering */
-  tags: Array<Maybe<Scalars['String']['output']>>;
   /** The product tier for example Gold or Black */
-  tier?: Maybe<Scalars['String']['output']>;
+  tier?: Maybe<Tier>;
 };
 
 export enum ProductCategory {
@@ -2593,7 +2692,7 @@ export enum ProductCostType {
 
 export type ProductInput = {
   /** The access type of the product */
-  accessType: OutletProductAccessType;
+  accessType: PrimaryProductAccessType;
   /** The product category */
   category: ProductCategory;
   /** A list of costs for the product by programme */
@@ -2610,12 +2709,10 @@ export type ProductInput = {
   salesforceID: Scalars['String']['input'];
   /** The stage of the product based on Saleforce stage */
   stage: ProductStage;
-  /** The status of the product whether it is active or not */
+  /** The status of the product */
   status: ProductStatus;
-  /** The tags associated with the product. These are used for filtering */
-  tags: Array<InputMaybe<Scalars['String']['input']>>;
   /** The product tier for example Gold or Black */
-  tier?: InputMaybe<Scalars['String']['input']>;
+  tier?: InputMaybe<Tier>;
 };
 
 export type ProductKey = {
@@ -2655,8 +2752,16 @@ export enum ProductStage {
 
 export enum ProductStatus {
   Active = 'ACTIVE',
-  Disabled = 'DISABLED',
+  Inactive = 'INACTIVE',
+  StopSale = 'STOP_SALE',
 }
+
+export type ProductTags = {
+  __typename?: 'ProductTags';
+  accessType?: Maybe<Array<Maybe<PrimaryProductAccessType>>>;
+  category?: Maybe<Array<Maybe<ProductCategory>>>;
+  tier?: Maybe<Array<Maybe<Tier>>>;
+};
 
 export enum ProductType {
   Lounge = 'Lounge',
@@ -2692,6 +2797,7 @@ export type Query = {
   getInvitations: Array<Invitation>;
   getOutletByID?: Maybe<Outlet>;
   getOutletBySalesforceID?: Maybe<Outlet>;
+  getOutletTags?: Maybe<OutletTags>;
   getOutlets?: Maybe<PaginatedOutlets>;
   getPartner?: Maybe<Partner>;
   getPartnerBrandByID?: Maybe<PartnerBrand>;
@@ -2701,6 +2807,7 @@ export type Query = {
   getPartnerByID?: Maybe<Partner>;
   getProductByID?: Maybe<Product>;
   getProductBySalesforceID?: Maybe<Product>;
+  getProductTags?: Maybe<ProductTags>;
   isInvitationTokenValid?: Maybe<Scalars['Boolean']['output']>;
   locationSummary?: Maybe<LocationSummary>;
   locationSummaryCollection?: Maybe<LocationSummaryCollection>;
@@ -3041,6 +3148,13 @@ export type SysFilter = {
     Array<InputMaybe<Scalars['Float']['input']>>
   >;
 };
+
+export enum Tier {
+  Black = 'BLACK',
+  Gold = 'GOLD',
+  LowCost = 'LOW_COST',
+  Private = 'PRIVATE',
+}
 
 export enum TimezoneType {
   Local = 'LOCAL',
@@ -3715,8 +3829,8 @@ export type GetOutletByIdQuery = {
     code?: string | null;
     legacyCode?: string | null;
     hasDisabledAccess: boolean;
-    tier?: string | null;
-    tags: Array<string | null>;
+    tier?: Tier | null;
+    productCategories: Array<ProductCategory | null>;
     status: OutletStatus;
     salesforceID: string;
     reservationEmail?: string | null;
@@ -3831,7 +3945,7 @@ export type GetOutletsQuery = {
       name: string;
       legacyCode?: string | null;
       status: OutletStatus;
-      tags: Array<string | null>;
+      productCategories: Array<ProductCategory | null>;
       location: {
         __typename?: 'Location';
         name?: string | null;
@@ -3889,7 +4003,7 @@ export type GetPartnerBrandByIdQuery = {
       name: string;
       legacyCode?: string | null;
       status: OutletStatus;
-      tags: Array<string | null>;
+      productCategories: Array<ProductCategory | null>;
       location: {
         __typename?: 'Location';
         name?: string | null;
@@ -6012,7 +6126,10 @@ export const GetOutletByIdDocument = {
                   name: { kind: 'Name', value: 'hasDisabledAccess' },
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'tier' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'tags' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'productCategories' },
+                },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'content' },
@@ -6204,7 +6321,10 @@ export const GetOutletsDocument = {
                           ],
                         },
                       },
-                      { kind: 'Field', name: { kind: 'Name', value: 'tags' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'productCategories' },
+                      },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'content' },
@@ -6413,7 +6533,10 @@ export const GetPartnerBrandByIdDocument = {
                           ],
                         },
                       },
-                      { kind: 'Field', name: { kind: 'Name', value: 'tags' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'productCategories' },
+                      },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'content' },

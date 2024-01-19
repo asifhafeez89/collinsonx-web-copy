@@ -4,8 +4,13 @@ import { Status } from '@collinsonx/design-system/components/card';
 import CardTitle from '@collinsonx/design-system/components/card/cardTitle';
 import CardOutlet from '@collinsonx/design-system/components/cardOutlet';
 import { Anchor, Button, SimpleGrid } from '@collinsonx/design-system/core';
-import { Maybe, Outlet, OutletStatus } from '@collinsonx/utils';
-import outletIcons, { ValidTag } from 'config/outletIcons';
+import {
+  Maybe,
+  Outlet,
+  OutletStatus,
+  ProductCategory,
+} from '@collinsonx/utils';
+import outletIcons, { ValidProductCategory } from 'config/outletIcons';
 import { toTitleCase } from 'utils/textUtils';
 
 import classes from './OutletGrid.module.css';
@@ -21,8 +26,15 @@ const OutletGrid = ({
   return (
     <SimpleGrid spacing={24} className={classes.grid}>
       {outlets.map((item, index) => {
-        const { id, name, legacyCode, status, location, tags, content } =
-          item || {};
+        const {
+          id,
+          name,
+          legacyCode,
+          status,
+          location,
+          productCategories,
+          content,
+        } = item || {};
         const outletUrl = `/outlets/${id}`;
 
         return (
@@ -55,13 +67,20 @@ const OutletGrid = ({
             locationName={location?.name ?? undefined}
             terminal={location?.terminal ?? undefined}
             productCategories={
-              tags
-                ? tags
-                    .filter((tag): tag is ValidTag => tag !== null)
-                    .map((tag) => {
-                      const Icon = outletIcons[tag] ?? OutletLoungeIcon;
+              productCategories
+                ? productCategories
+                    .filter(
+                      (
+                        productCategory: ValidProductCategory | null
+                      ): productCategory is ValidProductCategory =>
+                        productCategory !== null
+                    )
+                    .map((productCategory) => {
+                      const Icon =
+                        outletIcons[productCategory as ProductCategory] ??
+                        OutletLoungeIcon;
                       return {
-                        label: toTitleCase(tag),
+                        label: toTitleCase(productCategory as ProductCategory),
                         IconComponent: (
                           <Icon width={24} height={24} aria-hidden={true} />
                         ),

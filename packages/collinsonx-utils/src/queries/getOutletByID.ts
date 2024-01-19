@@ -66,7 +66,7 @@ const getOutletByID = gql`
       }
       hasDisabledAccess
       tier
-      tags
+      productCategories
       content {
         media {
           mainImage {
