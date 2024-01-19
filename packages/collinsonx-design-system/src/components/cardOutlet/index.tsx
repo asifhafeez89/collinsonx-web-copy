@@ -87,7 +87,7 @@ function CardOutlet({
           </Flex>
           {locationName && (
             <Text
-              data-testid={`outlet-card-subtitle-${index}`}
+              data-testid={'outlet-card-subtitle'}
               size="md"
               style={{ color: colors['text-grey'], fontWeight: 600 }}
             >

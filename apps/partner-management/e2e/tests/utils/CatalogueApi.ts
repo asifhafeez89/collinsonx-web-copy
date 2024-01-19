@@ -77,4 +77,76 @@ export default class CatalogueApi {
 
     return response.data.data.getPartnerBrandByID;
   }
+
+  async getOutletsCount(page?: number, pageSize?: number) {
+    const pageQueryTypes =
+      page && pageSize ? '($page: Int, $pageSize: Int)' : '';
+    const pageQueryArgs =
+      page && pageSize ? '(page: $page, pageSize: $pageSize)' : '';
+
+    const query = `query GetOutlets${pageQueryTypes} {
+      getOutlets${pageQueryArgs} {
+        totalItemCount
+      }
+    }`;
+
+    const variables =
+      page && pageSize
+        ? {
+            page,
+            pageSize,
+          }
+        : {};
+
+    const request = {
+      query,
+      variables,
+    };
+
+    const headers = await this.getSuperUserHeaders();
+
+    const response = await axios.post(apiURL, request, { headers });
+
+    return response.data.data.getOutlets.totalItemCount;
+  }
+
+  async getOutlets(page?: number, pageSize?: number) {
+    const pageQueryTypes =
+      page && pageSize ? '($page: Int, $pageSize: Int)' : '';
+    const pageQueryArgs =
+      page && pageSize ? '(page: $page, pageSize: $pageSize)' : '';
+
+    const query = `query GetOutlets${pageQueryTypes} {
+      getOutlets${pageQueryArgs} {
+        items {
+          id
+          name
+          legacyCode
+          location {
+            terminal
+            name
+          }
+        }
+      }
+    }`;
+
+    const variables =
+      page && pageSize
+        ? {
+            page,
+            pageSize,
+          }
+        : {};
+
+    const request = {
+      query,
+      variables,
+    };
+
+    const headers = await this.getSuperUserHeaders();
+
+    const response = await axios.post(apiURL, request, { headers });
+
+    return response.data.data.getOutlets.items;
+  }
 }

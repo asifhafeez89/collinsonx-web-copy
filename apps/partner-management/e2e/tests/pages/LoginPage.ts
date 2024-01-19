@@ -46,6 +46,6 @@ export default class LoginPage {
   }
 
   waitToBeLoggedIn() {
-    return this.page.waitForLoadState('networkidle');
+    return this.page.waitForURL('/');
   }
 }

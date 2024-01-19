@@ -30,10 +30,9 @@ test.describe('partner-specific outlets page', () => {
     const partnerId = currentUrl.split('outlets?partner=')[1];
     const partnerBrand = await catalogueApi.getPartnerBrandByID(partnerId);
     const title = outletsPage.title();
-    const outletCard = outletsPage.outletCard();
     const outletCountAPI = partnerBrand.outlets.length;
 
     await expect(title).toBeVisible();
-    await expect(outletCard).toHaveCount(outletCountAPI);
+    await outletsPage.assertCorrectNumberOfOutletsAreDisplayed(outletCountAPI);
   });
 });

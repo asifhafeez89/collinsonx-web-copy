@@ -47,9 +47,7 @@ const OutletGrid = ({
                 component={Link}
                 href={outletUrl}
               >
-                <CardTitle data-testid={`outlet-card-title-${index}`}>
-                  {name}
-                </CardTitle>
+                <CardTitle data-testid={'outlet-card-title'}>{name}</CardTitle>
               </Anchor>
             }
             workflowStage={{ type: 'draft', label: 'Draft' }}
@@ -81,7 +79,7 @@ const OutletGrid = ({
               tabIndex={-1}
               component={Link}
               href={outletUrl}
-              data-testid={`view-details-button-${index}`}
+              data-testid={'view-details-button'}
             >
               View details
             </Button>
