@@ -5,3 +5,4 @@ export const USER_TYPE = 'USER_TYPE';
 export const USER_META = 'USER_META';
 export const CONSENT = 'PARTNER_PORTAL_CONSENT';
 export const CARDS_LIMIT = 50;
+export const SECTION_ID = 'main';

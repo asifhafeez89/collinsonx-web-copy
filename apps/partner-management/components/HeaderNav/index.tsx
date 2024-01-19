@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { MouseEventHandler, ReactNode } from 'react';
 import { LogoHeaderCollinson } from '@collinsonx/design-system/assets/logo';
 import classes from './HeaderNav.module.css';
 import {
@@ -7,6 +7,7 @@ import {
   Anchor,
   Box,
   ActionIcon,
+  Button,
 } from '@collinsonx/design-system/core';
 import BadgeCollinson from './BadgeCollinson';
 import Link from 'next/link';
@@ -15,11 +16,13 @@ import { MenuIcon } from '@collinsonx/design-system/assets/icons';
 
 import AccountSettings from './AccountSettings';
 import useExperience from 'hooks/experience';
+import colors from '@collinsonx/design-system/colour-constants-partner';
+import { SECTION_ID } from 'config';
 
 export interface HeaderNavProps {
   children?: ReactNode;
   section: Section;
-  skipLink?: string;
+  titleID?: string;
 }
 
 const Separator = () => (
@@ -33,17 +36,31 @@ const Separator = () => (
   </Text>
 );
 
-function HeaderNav({ children, section, skipLink = '#' }: HeaderNavProps) {
+function HeaderNav({
+  children,
+  section,
+  titleID = SECTION_ID,
+}: HeaderNavProps) {
   const { userDetails, client } = useExperience();
 
   const fullName = userDetails?.fullName ?? undefined;
 
   const role = client === 'collinson' ? 'Content Team' : 'Partner';
-
+  const handleClickSkipLink: MouseEventHandler<HTMLAnchorElement> = (e) => {
+    e.currentTarget.blur();
+  };
   const handleClickMenu = () => {};
   return (
     <header role="banner" className={classes.root}>
-      <Anchor className={classes.skipLink} href={skipLink} component={Link} />
+      <Button
+        variant="outline"
+        component={Link}
+        href={`#${titleID}`}
+        onClick={handleClickSkipLink}
+        className={classes.skipLinkButton}
+      >
+        Skip to main content
+      </Button>
       <Flex justify="space-between" align="center">
         <Anchor td="none" component={Link} href="/">
           <Flex align="center" gap={16} className={classes.infoContainer}>
@@ -52,9 +69,7 @@ function HeaderNav({ children, section, skipLink = '#' }: HeaderNavProps) {
                 <MenuIcon />
               </ActionIcon>
             </Flex>
-            <Box className={classes.logo}>
-              <LogoHeaderCollinson />
-            </Box>
+            <LogoHeaderCollinson aria-hidden="true" className={classes.logo} />
             <Flex align="center" gap={8}>
               <Text
                 visibleFrom="sm"

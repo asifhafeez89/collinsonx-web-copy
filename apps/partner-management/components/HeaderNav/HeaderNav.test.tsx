@@ -51,4 +51,12 @@ describe('<HeaderNav />', () => {
     const component = render(<HeaderNav {...mockData} />);
     expect(component.queryByTestId('nav-separator')).not.toBeInTheDocument();
   });
+  it('should render skip link', () => {
+    (useExperience as jest.Mock).mockReturnValue({
+      userDatails: {},
+      client: null,
+    });
+    const component = render(<HeaderNav {...mockData} />);
+    expect(component.getByText('Skip to main content')).toBeInTheDocument();
+  });
 });

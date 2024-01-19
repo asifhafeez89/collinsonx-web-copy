@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import { getPartnerBrands } from '@collinsonx/utils/queries';
 import { PartnerBrand } from '@collinsonx/utils';
 import colors from '@collinsonx/design-system/colour-constants-partner';
-import { CARDS_LIMIT } from 'config';
+import { CARDS_LIMIT, SECTION_ID } from 'config';
 import Table from '@components/PartnersTable';
 import {
   ColumnDef,
@@ -17,7 +17,6 @@ import {
 } from '@tanstack/react-table';
 import { useMemo } from 'react';
 import Spinner from '@components/Spinner';
-import classes from './partner.module.css';
 
 const columnHelper = createColumnHelper<Partial<PartnerBrand>>();
 
@@ -84,13 +83,13 @@ export default function Partners() {
     <Stack gap={24} pb={24}>
       {loadingPartners ? (
         <>
-          <Title>Partners</Title>
+          <Title id={SECTION_ID}>Partners</Title>
           <Spinner />
         </>
       ) : (
         <>
           <Stack gap={16}>
-            <Title>Partners</Title>
+            <Title id={SECTION_ID}>Partners</Title>
             <Text style={{ fontSize: 18, color: colors['text-grey'] }}>
               {`${partnersCount} ${
                 partnersCount === 1 ? 'partner brand' : 'partner brands'

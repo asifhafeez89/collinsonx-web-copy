@@ -10,18 +10,19 @@ import LayoutCatalogue from '@components/LayoutCatalogue';
 import { Outlet, PartnerBrand, PaginatedOutlets } from '@collinsonx/utils';
 import getOutlets from '@collinsonx/utils/queries/getOutlets';
 import getPartnerBrandByID from '@collinsonx/utils/queries/getPartnerBrandByID';
-import { useQuery } from '@collinsonx/utils/apollo';
+import { useLazyQuery, useQuery } from '@collinsonx/utils/apollo';
 import Error from '@components/Error';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo } from 'react';
 import OutletGrid from '@components/OutletGrid';
 import { useSearchParams } from 'next/navigation';
-import { CARDS_LIMIT } from 'config';
+import { CARDS_LIMIT, SECTION_ID } from 'config';
 import { useState } from 'react';
 import Spinner from '@components/Spinner';
 
 export default function Outlets() {
   const router = useRouter();
+  const { isReady } = router;
   const searchParams = useSearchParams();
   const partnerId = searchParams.get('partner');
   const [activePage, setPage] = useState(
@@ -35,23 +36,34 @@ export default function Outlets() {
     });
   };
 
-  const {
-    loading: loadingOutlets,
-    error: errorOutlets,
-    data: dataOutlets,
-  } = useQuery<{ getOutlets: PaginatedOutlets }>(getOutlets, {
-    variables: { page: activePage, pageSize: CARDS_LIMIT },
-    skip: !!partnerId,
-  });
+  const [
+    fetchOutlets,
+    { loading: loadingOutlets, error: errorOutlets, data: dataOutlets },
+  ] = useLazyQuery<{ getOutlets: PaginatedOutlets }>(getOutlets);
 
-  const {
-    loading: loadingPartnerBrand,
-    error: errorPartnerBrand,
-    data: dataPartnerBrand,
-  } = useQuery<{ getPartnerBrandByID: PartnerBrand }>(getPartnerBrandByID, {
-    variables: { limit: CARDS_LIMIT, id: partnerId },
-    skip: !partnerId,
-  });
+  const [
+    fetchPartnerBrands,
+    {
+      loading: loadingPartnerBrand,
+      error: errorPartnerBrand,
+      data: dataPartnerBrand,
+    },
+  ] = useLazyQuery<{ getPartnerBrandByID: PartnerBrand }>(getPartnerBrandByID);
+
+  useEffect(() => {
+    if (isReady && window) {
+      window.scrollTo(0, 0);
+      if (partnerId) {
+        fetchPartnerBrands({
+          variables: { limit: CARDS_LIMIT, id: partnerId },
+        });
+      } else {
+        fetchOutlets({
+          variables: { page: activePage, pageSize: CARDS_LIMIT },
+        });
+      }
+    }
+  }, [isReady, activePage, partnerId]);
 
   const totalPages = useMemo(() => {
     return partnerId ? 1 : dataOutlets?.getOutlets?.pageInfo?.totalPages;
@@ -67,16 +79,14 @@ export default function Outlets() {
     router.push(`/outlets/${id}`);
   };
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [data]);
-
   return (
     <Stack gap={32}>
-      <Title>Outlets</Title>
+      <Title id={SECTION_ID}>Outlets</Title>
       <Error error={errorOutlets} />
       <Error error={errorPartnerBrand} />
-      {(loadingOutlets || loadingPartnerBrand) && <Spinner />}
+      {(loadingOutlets || loadingPartnerBrand || !router.isReady) && (
+        <Spinner />
+      )}
       {data && data.length ? (
         <OutletGrid outlets={data} onClickOutlet={handleClickOutlet} />
       ) : null}

@@ -11,6 +11,7 @@ import colors from '@collinsonx/design-system/colour-constants-partner';
 import OutletDetailsSummary from '@components/OutletDetailsSummary';
 import OutletImages from '@components/OutletImages';
 import Spinner from '@components/Spinner';
+import { SECTION_ID } from 'config';
 import { ValidProductCategory } from 'config/outletIcons';
 
 const capitalizedCategoryMap: { [key in ProductCategory]: string } = {
@@ -86,6 +87,7 @@ export default function OutletDetail() {
       styles={{ root: { backgroundColor: colors['bg-surface'] } }}
     >
       <OutletHeading
+        id={SECTION_ID}
         name={name}
         locationName={location.name}
         terminal={location.terminal}

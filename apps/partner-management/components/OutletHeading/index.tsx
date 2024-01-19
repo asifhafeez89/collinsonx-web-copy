@@ -5,11 +5,13 @@ import classes from './OutletHeading.module.css';
 
 export interface OutletHeadingProps {
   name: string;
+  id?: string;
   locationName?: string | null;
   terminal?: string | null;
 }
 
 const OutletHeading = ({
+  id,
   name,
   locationName,
   terminal,
@@ -28,6 +30,7 @@ const OutletHeading = ({
       </ActionIcon>
       <Flex className={classes.titleContainer}>
         <Title
+          id={id}
           data-testid="outlet-title"
           className={classes.outletTitle}
           fz={{ base: 24, lg: 32 }}
