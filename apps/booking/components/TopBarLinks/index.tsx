@@ -45,7 +45,10 @@ function TopBarLinks({ page }: TopBarLinksProps) {
         className={clsx([classes.navLink, classes.anchor])}
       />
       <NavLink
-        href={FAQLink(payload?.accountProvider)}
+        href={FAQLink(
+          payload?.accountProvider,
+          translations.booking.flightDetails.localeValue
+        )}
         label={translations.lounge.topBarLinks.faqs}
         target="_blank"
         className={classes.anchor}
