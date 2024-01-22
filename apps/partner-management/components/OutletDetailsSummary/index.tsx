@@ -91,7 +91,7 @@ const OutletDetailsSummary = ({
     });
 
   return (
-    <Box p="md">
+    <Box p="md" data-testid="outlet-summary-section">
       <VisuallyHidden>
         <Title order={2}>Summary</Title>
       </VisuallyHidden>

@@ -7,7 +7,11 @@ const SummaryItem: React.FC<{ label: string; value: ReactNode | string }> = ({
   value,
 }) => {
   return (
-    <SimpleGrid verticalSpacing={16} cols={{ xs: 1, sm: 2 }}>
+    <SimpleGrid
+      data-testid="outlet-summary-row"
+      verticalSpacing={16}
+      cols={{ xs: 1, sm: 2 }}
+    >
       <dt className={classes.label}>
         <Text className={classes.labelText}>{label}</Text>
       </dt>

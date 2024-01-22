@@ -149,4 +149,48 @@ export default class CatalogueApi {
 
     return response.data.data.getOutlets.items;
   }
+
+  async getOutletByID(Id: string) {
+    const query = `query Query($getOutletByIdId: ID!) {
+      getOutletByID(id: $getOutletByIdId) {
+        category
+        code
+        status
+        legacyCode
+        meta {
+          editor {
+            firstName
+            lastName
+            organisation
+          }
+          lastEdited
+        }
+        hasDisabledAccess
+        reservationEmail
+        products {
+          category
+          name
+        }
+        productCategories
+      }
+    }`;
+
+    const variables = {
+      getOutletByIdId: Id,
+    };
+
+    const request = {
+      query,
+      variables,
+    };
+
+    const headers = await this.getSuperUserHeaders();
+
+    try {
+      const response = await axios.post(apiURL, request, { headers });
+      return response.data.data.getOutletByID;
+    } catch (err: any) {
+      console.error(err.response.data);
+    }
+  }
 }

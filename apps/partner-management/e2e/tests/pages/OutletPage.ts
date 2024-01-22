@@ -26,4 +26,26 @@ export default class OutletPage {
   outletCard() {
     return this.page.getByTestId('outlet-card');
   }
+
+  summarySection() {
+    return this.page.getByTestId('outlet-summary-section');
+  }
+  /**
+   *
+   * @returns The outlet's summary section as an object
+   */
+  async summarySectionInfo() {
+    const summaryRows = await this.page.getByTestId('outlet-summary-row').all();
+
+    const summarySection: { [key: string]: any } = {};
+
+    for (const row of summaryRows) {
+      let property = await row.locator('dt').innerText();
+      let value = await row.locator('dd').innerText();
+
+      summarySection[property] = value;
+    }
+
+    return summarySection;
+  }
 }
