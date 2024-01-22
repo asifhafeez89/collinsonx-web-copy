@@ -375,8 +375,12 @@ export default {
             'Su reserva no podría cancelarse, comuníquese con nuestro equipo',
         },
         email: 'Se ha enviado un correo electrónico de confirmación a',
-        refund:
-          ' Su pago por esta reserva se reembolsará dentro de los 10 días.',
+        refund: {
+          failed:
+            'El intento de reembolso no tuvo éxito. Comuníquese con su banco o emisor de su tarjeta para obtener ayuda.',
+          successful:
+            ' Su pago por esta reserva se reembolsará dentro de los 10 días.',
+        },
         reBook: {
           line1: 'Si no quise cancelar cancelar, vuelva a reservar ',
           line2: '. Esperamos verte la próxima vez.',

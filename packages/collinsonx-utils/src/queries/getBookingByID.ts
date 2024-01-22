@@ -43,6 +43,7 @@ const getBookingByID = gql`
           reservationCost
         }
       }
+      refundStatus
     }
   }
 `;

@@ -294,7 +294,10 @@ type CancelConfirmationProps = {
     NotCancel: string;
   };
   email: string;
-  refund: string;
+  refund: {
+    failed: string;
+    successful: string;
+  };
   reBook: {
     line1: string;
     line2: string;

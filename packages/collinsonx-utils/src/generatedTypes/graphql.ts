@@ -3588,6 +3588,7 @@ export type GetBookingByIdQuery = {
     guestInfantCount: number;
     status: BookingStatus;
     id: string;
+    refundStatus?: string | null;
     consumer?: {
       __typename?: 'Consumer';
       emailAddress: string;
@@ -5119,6 +5120,10 @@ export const GetBookingByIdDocument = {
                       },
                     ],
                   },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'refundStatus' },
                 },
               ],
             },

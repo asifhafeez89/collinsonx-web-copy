@@ -369,8 +369,12 @@ export default {
             'Your booking could not be cancelled, please contact our team',
         },
         email: 'A confirmation email has been sent to',
-        refund:
-          ' Your payment for this booking will be refunded within 10 days',
+        refund: {
+          failed:
+            'Refund attempt unsuccessful. Please contact your bank or card issuer for assistance.',
+          successful:
+            ' Your payment for this booking will be refunded within 10 days',
+        },
         reBook: {
           line1: 'If you didn’t mean to cancel please re-book through ',
           line2: '. We hope to see you next time.',

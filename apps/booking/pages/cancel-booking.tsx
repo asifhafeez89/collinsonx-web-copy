@@ -5,28 +5,19 @@ import { Booking } from '@collinsonx/utils/generatedTypes/graphql';
 import cancellationDateValidation from '@collinsonx/utils/lib/validateDateCancellation';
 import { useRouter } from 'next/router';
 import { getBookingByID } from '@collinsonx/utils/queries';
-import { Details, Button } from '@collinsonx/design-system';
-import colors from 'ui/colour-constants';
+import { Button } from '@collinsonx/design-system';
 import { cancelBooking } from '@collinsonx/utils/mutations';
 import { useState } from 'react';
-import { TIME_FORMAT } from '../config/Constants';
-import { formatDate } from '../utils/DateFormatter';
-import { InfoGroup } from '@collinsonx/design-system/components/details';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
-import Lightbox from '@collinsonx/design-system/components/lightbox';
 import { useDisclosure } from '@collinsonx/design-system/hooks';
 import { BookingQueryParams } from '@collinsonx/constants/enums';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
-import Price from '@components/Price';
 import Notification from '@components/Notification';
-import { InfoPanel } from 'utils/PanelInfo';
 import { LoungeInfo } from '@components/LoungeInfo';
 
 import { BookingError } from '../constants';
 import BookingLightbox from '@collinsonx/design-system/components/bookinglightbox';
 import LoaderLifestyleX from '@collinsonx/design-system/components/loaderLifestyleX';
-import { GuestCount } from '@components/guest-count/GuestCount';
-import { guestBooking } from 'utils/guestListFormatter';
 import EstimatedTimeArrival from '@components/EstimatedTimeArrival';
 import { arrivalTimeFormatter } from 'utils/ArrivalTimeFormatter';
 import { FlightDetailsAndGuests } from '@components/FlightDetailsAndGuests';
@@ -48,14 +39,13 @@ const { bookingId } = BookingQueryParams;
 
 export default function CancelBooking() {
   const router = useRouter();
-
   const { [bookingId]: emailBookingId } = router.query;
 
-  const [createLoading] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
   const [dateError, setDateError] = useState<Boolean>(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
+
   const translation = useLocale();
 
   const cancellationMessages: Record<string, string> = {
@@ -79,20 +69,37 @@ export default function CancelBooking() {
     onCompleted: () => {},
   });
 
-  const [mutate, { loading: cbLoading, error: cbError }] =
-    useMutation(cancelBooking);
+  const [cancelBookingMutation] = useMutation(cancelBooking);
+
+  if (!bookingDetails || loading) {
+    return (
+      <Layout>
+        <Flex justify="center" align="center" h="100%" gap={30}>
+          <LoaderLifestyleX />
+        </Flex>
+      </Layout>
+    );
+  }
+
+  const {
+    experience,
+    bookedTo,
+    bookedFrom,
+    reference,
+    metadata,
+    guestAdultCount,
+    guestChildrenCount,
+    guestInfantCount,
+    lastArrival,
+  } = bookingDetails.getBookingByID;
 
   const handleCancellation = () => {
     setLoading(true);
     close();
     setErrorMessage('');
-    if (
-      bookingDetails &&
-      cancellationDateValidation(
-        new Date(bookingDetails.getBookingByID.bookedFrom)
-      ).isValid
-    ) {
-      mutate({
+
+    if (cancellationDateValidation(new Date(bookedFrom)).isValid) {
+      cancelBookingMutation({
         variables: { cancelBookingId: emailBookingId },
       }).then((response) => {
         if (response && response.errors) {
@@ -100,6 +107,7 @@ export default function CancelBooking() {
           const code = item?.extensions?.code;
           const message = cancellationMessages[code as string];
           setLoading(false);
+
           if (message) {
             setErrorMessage(message);
           } else if (code === ERR_CANCELLATION_FAILED_WITH_SUCCESS) {
@@ -113,6 +121,7 @@ export default function CancelBooking() {
             pathname: '/cancelled-booking-confirmation',
             query: { bookingId: emailBookingId },
           });
+
           setLoading(false);
         }
       });
@@ -123,172 +132,114 @@ export default function CancelBooking() {
     }
   };
 
-  const arrival = arrivalTimeFormatter(
-    bookingDetails?.getBookingByID?.bookedFrom,
-    bookingDetails?.getBookingByID?.lastArrival
-  );
+  const arrival = arrivalTimeFormatter(bookedFrom, lastArrival);
 
   return (
     <Layout>
-      {bookingDetails && !loading ? (
-        <Stack gap={8} w="100%" mt="100px">
-          <BookingLightbox
-            open={opened}
-            ctaForwardCall={handleCancellation}
-            ctaForward={translation.booking.cancellation.btnCancel}
-            ctaCancel={translation.booking.cancellation.btnClose}
-            onClose={close}
-          >
-            <Flex align="center" justify="center" wrap="wrap" p="10px 0">
-              <Heading
-                as="h2"
-                margin={0}
-                padding={0}
-                style={{ textAlign: 'center' }}
-                lineHeight={1.2}
-              >
+      <Stack gap={8} w="100%" mt="100px">
+        <BookingLightbox
+          open={opened}
+          ctaForwardCall={handleCancellation}
+          ctaForward={translation.booking.cancellation.btnCancel}
+          ctaCancel={translation.booking.cancellation.btnClose}
+          onClose={close}
+        >
+          <Flex align="center" justify="center" wrap="wrap" p="10px 0">
+            <Heading
+              as="h2"
+              margin={0}
+              padding={0}
+              style={{ textAlign: 'center' }}
+              lineHeight={1.2}
+            >
+              {translation.booking.cancellation.title}
+            </Heading>
+            <Text size="xl" m="10px 0 10px 0" ta="center">
+              {translation.booking.cancellation.description}{' '}
+            </Text>
+          </Flex>
+        </BookingLightbox>
+
+        <Flex
+          justify="center"
+          align="center"
+          direction="column"
+          className={classes.containerL1}
+        >
+          <Stack className={classes.containerL2}>
+            <Center className={classes.headingWrapper}>
+              <Heading as="h1" padding={0} margin={0} lineHeight={1}>
                 {translation.booking.cancellation.title}
               </Heading>
-              <Text size="xl" m="10px 0 10px 0" ta="center">
-                {translation.booking.cancellation.description}{' '}
-              </Text>
-            </Flex>
-          </BookingLightbox>
-
-          <Flex
-            justify="center"
-            align="center"
-            direction="column"
-            className={classes.containerL1}
-          >
-            <Stack className={classes.containerL2}>
-              <Center className={classes.headingWrapper}>
-                <Heading as="h1" padding={0} margin={0} lineHeight={1}>
-                  {translation.booking.cancellation.title}
-                </Heading>
-              </Center>
-              <LoungeInfo
-                hideImageMobile
-                lounge={bookingDetails?.getBookingByID?.experience ?? undefined}
-                loading={!bookingDetails?.getBookingByID?.experience}
-              />
-              {dateError && bookingDetails && (
-                <Notification>
-                  {
-                    cancellationDateValidation(
-                      new Date(bookingDetails.getBookingByID.bookedFrom)
-                    ).error
-                  }
-                </Notification>
-              )}
-              {createLoading ? (
-                <Flex
-                  direction={{ base: 'column', sm: 'row' }}
-                  gap={{ base: 'sm', sm: 'lg' }}
-                  justify={{ sm: 'center' }}
-                ></Flex>
-              ) : (
-                <Flex
-                  gap={{ base: 'sm', sm: 'lg' }}
-                  className={classes.detailsContainer}
-                >
-                  {
-                    <Box w="100%">
-                      {errorMessage && (
-                        <Notification>{errorMessage}</Notification>
-                      )}
-                      {bookingDetails?.getBookingByID?.experience && (
-                        <>
-                          <Box className={classes.titleContainer}>
-                            <EditableTitle
-                              title={translation.booking.cancellation.reference}
-                              as="h3"
-                              showBorder={true}
-                            >
-                              {bookingDetails?.getBookingByID?.reference}
-                            </EditableTitle>
-                          </Box>
-                          <FlightDetailsAndGuests
-                            departureTime={
-                              bookingDetails?.getBookingByID?.bookedTo
-                                ? bookingDetails?.getBookingByID?.bookedTo
-                                : ''
-                            }
-                            flightNumber={
-                              bookingDetails?.getBookingByID?.metadata
-                                ?.flightNumber
-                            }
-                            guestList={guestBooking(
-                              bookingDetails?.getBookingByID
-                            )}
-                            lounge={bookingDetails?.getBookingByID?.experience}
-                            noEdit={true}
-                          />
-                          <Box w="initial" className={classes.titleContainer}>
-                            <EditableTitle
-                              title={
-                                translation.booking.availableSlots.totalPrice
-                                  .title
-                              }
-                              as="h3"
-                              showBorder={false}
-                            >
-                              <Price
-                                lounge={
-                                  bookingDetails?.getBookingByID?.experience
-                                }
-                                guests={{
-                                  adults:
-                                    bookingDetails?.getBookingByID
-                                      ?.guestAdultCount,
-                                  infants:
-                                    bookingDetails?.getBookingByID
-                                      ?.guestInfantCount,
-                                  children:
-                                    bookingDetails?.getBookingByID
-                                      ?.guestChildrenCount,
-                                }}
-                              ></Price>
-                            </EditableTitle>
-                          </Box>
-                          <Box className={classes.toaContainer}>
-                            <EditableTitle
-                              title={translation.booking.availableSlots.title}
-                              as="h3"
-                              showBorder={false}
-                            >
-                              {bookingDetails?.getBookingByID?.bookedFrom &&
-                                bookingDetails?.getBookingByID?.lastArrival && (
-                                  <EstimatedTimeArrival arrival={arrival} />
-                                )}
-                            </EditableTitle>
-                          </Box>
-                        </>
-                      )}
-                      <Center>
-                        <Button
-                          py={8}
-                          handleClick={open}
-                          align="center"
-                          type="submit"
-                          mt={15}
-                          data-testid="cancelBooking"
-                        >
-                          {translation.booking.cancellation.btnCancel}
-                        </Button>
-                      </Center>
+            </Center>
+            <LoungeInfo
+              hideImageMobile
+              lounge={experience ?? undefined}
+              loading={!experience}
+            />
+            {dateError && bookingDetails && (
+              <Notification>
+                {cancellationDateValidation(new Date(bookedFrom)).error}
+              </Notification>
+            )}
+            <Flex
+              gap={{ base: 'sm', sm: 'lg' }}
+              className={classes.detailsContainer}
+            >
+              <Box w="100%">
+                {errorMessage && <Notification>{errorMessage}</Notification>}
+                {experience && (
+                  <>
+                    <Box className={classes.titleContainer}>
+                      <EditableTitle
+                        title={translation.booking.cancellation.reference}
+                        as="h3"
+                        showBorder={true}
+                      >
+                        {reference}
+                      </EditableTitle>
                     </Box>
-                  }
-                </Flex>
-              )}
-            </Stack>
-          </Flex>
-        </Stack>
-      ) : (
-        <Flex justify="center" align="center" h="100%" gap={30}>
-          <LoaderLifestyleX />
+                    <FlightDetailsAndGuests
+                      departureTime={bookedTo ?? ''}
+                      flightNumber={metadata?.flightNumber}
+                      guestList={{
+                        adults: guestAdultCount,
+                        infants: guestInfantCount,
+                        children: guestChildrenCount,
+                      }}
+                      lounge={experience}
+                      noEdit={true}
+                    />
+                    <Box className={classes.toaContainer}>
+                      <EditableTitle
+                        title={translation.booking.availableSlots.title}
+                        as="h3"
+                        showBorder={false}
+                      >
+                        {bookedFrom && lastArrival && (
+                          <EstimatedTimeArrival arrival={arrival} />
+                        )}
+                      </EditableTitle>
+                    </Box>
+                  </>
+                )}
+                <Center>
+                  <Button
+                    py={8}
+                    handleClick={open}
+                    align="center"
+                    type="submit"
+                    mt={15}
+                    data-testid="cancelBooking"
+                  >
+                    {translation.booking.cancellation.btnCancel}
+                  </Button>
+                </Center>
+              </Box>
+            </Flex>
+          </Stack>
         </Flex>
-      )}
+      </Stack>
     </Layout>
   );
 }
