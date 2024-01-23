@@ -1,8 +1,6 @@
-class EnterPinPage {
-  constructor(page) {
-    this.page = page;
-  }
+import BasePage from './BasePage';
 
+class EnterPinPage extends BasePage {
   async enterPin(code) {
     const selector = `[data-testid="pinInput"] >> div:first-child > input:first-child`;
     await this.page.waitForSelector(selector);

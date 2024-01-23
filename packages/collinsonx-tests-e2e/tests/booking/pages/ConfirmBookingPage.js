@@ -1,8 +1,6 @@
-class ConfirmBookingPage {
-  constructor(page) {
-    this.page = page;
-  }
+import BasePage from './BasePage';
 
+class ConfirmBookingPage extends BasePage {
   async dateSelected(date) {
     return await this.page.getByText(date);
   }

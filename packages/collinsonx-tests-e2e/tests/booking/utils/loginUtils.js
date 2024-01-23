@@ -18,7 +18,12 @@ export function getEmailAddress(id) {
 export async function getAndEnterPin(page, email) {
   const enterEmailPage = new EnterEmailPage(page);
   await enterEmailPage.clickContinue();
-  await page.waitForTimeout(10000);
+
+  try {
+    await page.waitForTimeout(10000);
+  } catch {
+    await page.mainFrame().waitForTimeout(10000);
+  }
 
   const pin = await getPinFromEmail(email);
 

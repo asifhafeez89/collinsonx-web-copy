@@ -1,8 +1,6 @@
-class ErrorPage {
-  constructor(page) {
-    this.page = page;
-  }
+import BasePage from './BasePage';
 
+class ErrorPage extends BasePage {
   async serviceNotAvailableError() {
     const errorText = 'Sorry, service is not available';
     return await this.page.getByText(errorText);

@@ -1,16 +1,9 @@
 import { getOneMonthFromToday } from '../utils/dateUtils';
-import EnterEmailPage from '../pages/EnterEmailPage';
-import EnterPinPage from '../pages/EnterPinPage';
 import PreBookPage from '../pages/PreBookPage';
 import { test, expect } from '../../../baseFixtures';
 import SelectLoungeTimePage from '../pages/SelectLoungeTimePage';
 import ConfirmBookingPage from '../pages/ConfirmBookingPage';
 import { loginAsExistingUser, getAndEnterPin } from '../utils/loginUtils';
-import {
-  getPinFromEmail,
-  getLinkFromEmail,
-  getCancelEmail,
-} from '../utils/emailUtils';
 import { interceptGQLOperation, slotsGQLResponse } from '../utils/mockUtils';
 
 test.beforeEach(async ({ page }) => {

@@ -1,8 +1,6 @@
-class RegistrationPage {
-  constructor(page) {
-    this.page = page;
-  }
+import BasePage from './BasePage';
 
+class RegistrationPage extends BasePage {
   async firstNameInput() {
     return await this.page.getByTestId('firstName');
   }

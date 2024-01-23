@@ -1,6 +1,8 @@
-class StripePaymentPage {
+import BasePage from './BasePage';
+
+class StripePaymentPage extends BasePage {
   constructor(page) {
-    this.page = page;
+    super(page);
     this.stripeIframe = null;
   }
 
@@ -8,7 +10,7 @@ class StripePaymentPage {
     const titleSelector = '[data-testid="paymentInformation"]';
     await this.page.waitForSelector(titleSelector, {
       visible: true,
-      timeout: 60000,
+      timeout: 10000,
     });
     const title = await this.page.locator(titleSelector);
     return title.innerText();

@@ -1,8 +1,6 @@
-class CancelBookingPage {
-  constructor(page) {
-    this.page = page;
-  }
+import BasePage from './BasePage';
 
+class CancelBookingPage extends BasePage {
   async clickCancelBooking() {
     const selector = 'button[type="submit"]';
     await this.page.waitForSelector(selector, {

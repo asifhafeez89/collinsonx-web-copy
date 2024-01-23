@@ -1,8 +1,6 @@
-class PreBookPage {
-  constructor(page) {
-    this.page = page;
-  }
+import BasePage from './BasePage';
 
+class PreBookPage extends BasePage {
   async loungeTitle() {
     await this.page.waitForTimeout(1000);
     const loungeNameElement = await this.page.waitForSelector(
@@ -21,9 +19,7 @@ class PreBookPage {
   }
 
   async openDatePicker() {
-    const datePicker = await this.page.waitForSelector(
-      '.mantine-DatePickerInput-input'
-    );
+    const datePicker = await this.page.getByTestId('flightDate');
     await datePicker.click();
   }
 

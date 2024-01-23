@@ -77,7 +77,7 @@ export async function getLinkFromEmail(email) {
     let count = 0;
     // find msg 'from' = 'Priority Pass Lounges'
     // the 2nd option is to use subject 'Good news - your lounge booking is confirmed'
-    const fromPP = 'Priority Pass Lounges';
+    const subject = 'Good news - your lounge booking is confirmed';
 
     while (latestMessage === undefined && count < 3) {
       count > 0 && (await new Promise((resolve) => setTimeout(resolve, 5000)));
@@ -87,7 +87,7 @@ export async function getLinkFromEmail(email) {
       );
 
       latestMessage = await inbox.result.msgs.find(
-        (message) => message.from === fromPP
+        (message) => message.to === username && message.subject === subject
       );
 
       count++;
@@ -95,17 +95,14 @@ export async function getLinkFromEmail(email) {
 
     if (latestMessage === undefined) {
       throw new Error(
-        "Could not find the OTP email. Check the user's email is correct in relation to the Mailinator account being used."
+        `Could not find the OTP email for user ${username}. Check the user's email is correct in relation to the Mailinator account being used.`
       );
     }
 
-    const id = latestMessage.id;
+    const latestMessageId = latestMessage.id;
 
-    const latestMessageContents = await mailinatorClient.request(
-      new GetMessageRequest(mailinatorAddress, username, id)
-    );
-
-    const request = `https://mailinator.com/api/v2/domains/${mailinatorAddress}/inboxes/${username}/messages/${id}/links`;
+    const request = `https://mailinator.com/api/v2/domains/${mailinatorAddress}/inboxes/${username}/messages/${latestMessageId}/links`;
+    console.log('Sending GET request to receive links: ', request);
 
     const res = await axios.get(request, {
       headers: { Authorization: process.env.MAILINATOR_API_TOKEN },

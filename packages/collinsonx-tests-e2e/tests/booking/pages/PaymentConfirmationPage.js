@@ -1,8 +1,6 @@
-class PaymentConfirmationPage {
-  constructor(page) {
-    this.page = page;
-  }
+import BasePage from './BasePage';
 
+class PaymentConfirmationPage extends BasePage {
   async checkPaymentStatus(message) {
     await this.page.getByText(`text=${message}`, {
       state: 'visible',

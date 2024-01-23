@@ -5,7 +5,6 @@ import PaymentConfirmationPage from '../pages/PaymentConfirmationPage';
 import SelectLoungeTimePage from '../pages/SelectLoungeTimePage';
 import ConfirmBookingPage from '../pages/ConfirmBookingPage';
 import StripePaymentPage from '../pages/StripePaymentPage';
-import EnterEmailPage from '../pages/EnterEmailPage';
 import CancelBookingPage from '../pages/CancelBookingPage';
 import CancelledBookingConfirmationPage from '../pages/CancelledBookingConfirmationPage';
 import {
@@ -14,10 +13,11 @@ import {
   getIdWithPrefix,
   getAndEnterPin,
 } from '../utils/loginUtils';
-import { getLinkFromEmail, getCancelEmail } from '../utils/emailUtils';
+import { getLinkFromEmail } from '../utils/emailUtils';
 import {
-  interceptGQLOperation,
   slotsGQLResponse,
+  bookingGQLResponse,
+  interceptGQLOperation,
   interceptStripe,
   paymentIntentResponse,
   paymentConfirmResponse,
@@ -38,6 +38,7 @@ async function fillStripeIframe(stripePaymentPage, id) {
 test.beforeEach(async ({ page }) => {
   // mock: gets through the available slots every time
   await interceptGQLOperation(page, 'GetAvailableSlots', slotsGQLResponse);
+  await interceptGQLOperation(page, 'GetBookingById', bookingGQLResponse);
 
   // mock: intercept Stripe 'payment_intents' and get confirmed payment
   await interceptStripe(page, 'createPaymentIntent', paymentIntentResponse);
@@ -76,12 +77,10 @@ test.describe('Confirm booking flow', () => {
       const dateSelected = await confirmBookingPage.dateSelected(
         oneMonthFromNow.String
       );
-
       const confirmedFlightNumber = await confirmBookingPage.flightNumber(
         flightNumber
       );
       const whosComing = await confirmBookingPage.whosComing('Adults 2');
-      const loungeTime = await confirmBookingPage.loungeTime();
 
       await expect(confirmedFlightNumber).toBeVisible();
       await expect(dateSelected).toBeVisible();
@@ -90,22 +89,66 @@ test.describe('Confirm booking flow', () => {
       // Go to payment
       await page.waitForTimeout(10000);
       await confirmBookingPage.clickGoToPayment();
-      await page.waitForTimeout(6000);
 
       // fill Stripe iframe inputs
       const stripePaymentPage = new StripePaymentPage(page);
       const title = await stripePaymentPage.getTitle();
-      await expect(title).toEqual('Payment information');
+      expect(title).toEqual('Payment information');
 
       await stripePaymentPage.setStripeIframe();
       await fillStripeIframe(stripePaymentPage, id);
 
-      // Assert before pay: button is in 'complete' class.
+      // Assert before pay: button is in 'complete' class
       const payButton = await stripePaymentPage.getPayButton();
       await expect(payButton).toHaveClass(
         'SubmitButton SubmitButton--complete',
-        { timeout: 30000 }
+        { timeout: 10000 }
       );
+
+      // Stripe payment intent and confirm
+      await stripePaymentPage.clickPay();
+
+      // Final payment page, assert confirmation message on the page.
+      const paymentConfirmationPage = new PaymentConfirmationPage(page);
+
+      await page.waitForURL('**/confirm-payment');
+
+      const paymentSuccessMessage =
+        await paymentConfirmationPage.paymentConfirmationMessage();
+      await expect(paymentSuccessMessage).toBeVisible({ timeout: 10000 });
+
+      // The next section will be run on local testing only to decrese dependency from external application
+      if (!process.env.GITHUB_ACTIONS) {
+        // Wait for payment confirmation message and then get cancellation link from email
+        await page.waitForTimeout(10000);
+        const linkToCancel = await getLinkFromEmail(getEmailAddress(id));
+
+        expect(linkToCancel).toContain('cancel-booking');
+
+        // Navigate the cancellation page
+        await page.goto(linkToCancel);
+
+        // set iFrame
+        const iframeHandle = await page.waitForSelector(
+          'iframe[id="loungebookingfeature"]'
+        );
+        const iframe = await iframeHandle.contentFrame();
+
+        // Email & Pin confirmation again, wait for email
+        await page.waitForTimeout(30000);
+        await getAndEnterPin(iframe, getEmailAddress(id));
+
+        const cancelBookingPage = new CancelBookingPage(iframe);
+        await cancelBookingPage.clickCancelBooking();
+        await cancelBookingPage.clickConfirmCancelBooking();
+
+        //Final payment page, assert cancellation confirmation message on the page
+        const cancelledBookingConfirmationPage =
+          new CancelledBookingConfirmationPage(iframe);
+        const cancelledBookingSuccessMessage =
+          await cancelledBookingConfirmationPage.cancelledBookingConfirmationMessage();
+        await expect(cancelledBookingSuccessMessage).toBeVisible();
+      }
     });
   });
 });

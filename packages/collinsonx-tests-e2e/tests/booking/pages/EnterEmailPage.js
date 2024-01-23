@@ -1,8 +1,6 @@
-class EnterEmailPage {
-  constructor(page) {
-    this.page = page;
-  }
+import BasePage from './BasePage';
 
+class EnterEmailPage extends BasePage {
   async title() {
     return await this.page.innerText('h1');
   }

@@ -1,8 +1,6 @@
-class SelectLoungeTimePage {
-  constructor(page) {
-    this.page = page;
-  }
+import BasePage from './BasePage';
 
+class SelectLoungeTimePage extends BasePage {
   async openLoungeTimeDropdown() {
     await this.page.waitForLoadState('networkidle');
     const timeSelector = '[data-testid="availableSlots"]';

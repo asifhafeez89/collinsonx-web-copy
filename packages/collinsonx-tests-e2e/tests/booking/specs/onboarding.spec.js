@@ -1,5 +1,4 @@
 import { signJWT } from '@collinsonx/jwt';
-import { v4 as uuidv4 } from 'uuid';
 import { redirectToBaas } from '../utils/redirectToBaas';
 import { getPinFromEmail } from '../utils/emailUtils';
 import EnterEmailPage from '../pages/EnterEmailPage';
@@ -11,7 +10,6 @@ import { test, expect } from '../../../baseFixtures';
 import { getEmailAddress, getIdWithPrefix } from '../utils/loginUtils';
 
 const secret = process.env.NEXT_PUBLIC_JWT_SECRET || '';
-
 const lounge = 'MAN6';
 const membershipType = 'MASTERCARD_HSBC';
 const accountProvider = 'PRIORITY_PASS';
@@ -19,17 +17,12 @@ const firstName = 'Alice';
 const lastName = 'Smith';
 
 async function getPageObjectModel(page) {
-  const enterEmailPage = new EnterEmailPage(page);
-  const enterPinPage = new EnterPinPage(page);
-  const registrationPage = new RegistrationPage(page);
-  const preBookPage = new PreBookPage(page);
-  const errorPage = new ErrorPage(page);
   return {
-    enterEmailPage,
-    enterPinPage,
-    registrationPage,
-    preBookPage,
-    errorPage,
+    enterEmailPage: new EnterEmailPage(page),
+    enterPinPage: new EnterPinPage(page),
+    registrationPage: new RegistrationPage(page),
+    preBookPage: new PreBookPage(page),
+    errorPage: new ErrorPage(page),
   };
 }
 
