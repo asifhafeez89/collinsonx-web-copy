@@ -10,28 +10,59 @@
 .listItem {
   margin-right: 8px;
   outline: none;
+  position: relative;
+  cursor: pointer;
 }
-
 .listItem:last-child {
   margin-right: 0;
+}
+
+.warningIcon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 2px;
+  width: 24px;
+  height: 24px;
+  background-color: var(--white);
+  opacity: 0.9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.warningIcon svg {
+  scale: 0.8;
+}
+
+.thumbnailContainer {
+  position: relative;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  opacity: 0.5;
+  transition: border 0.3s ease, opacity 0.3s ease;
+}
+
+.thumbnailContainer:hover,
+.thumbnailContainer:focus-within,
+.thumbnailContainer[data-active='true'] {
+  opacity: 1;
+}
+
+.thumbnailContainer:hover,
+.thumbnailContainer:focus-within {
+  border: 2px solid var(--text-default);
+}
+
+.thumbnailContainer[data-active='true'] {
+  border: 2px solid var(--brand-collinson);
 }
 
 .thumbnail {
   width: 80px;
   height: 45px;
-  cursor: pointer;
-  border-radius: 4px;
-  opacity: 0.5;
+  border-radius: 2px;
+  opacity: 1;
   box-sizing: border-box;
-}
-
-.thumbnail:hover,
-.thumbnail:focus {
-  border: 2px solid var(--text-default);
-  opacity: 1;
-}
-
-.thumbnail[data-active='true'] {
-  border: 2px solid var(--brand-collinson);
-  opacity: 1;
 }

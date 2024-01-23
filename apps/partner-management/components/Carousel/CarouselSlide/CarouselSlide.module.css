@@ -2,3 +2,26 @@
   position: relative;
   flex: 0 0 100%;
 }
+
+.warningIcon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 16px;
+  width: 34px;
+  height: 34px;
+  background-color: var(--white);
+  opacity: 0.75;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.warningTooltip {
+  width: 260px;
+  padding: 0;
+}
+
+.warningTooltipArrow {
+  background-color: var(--bg-surface-dark);
+}

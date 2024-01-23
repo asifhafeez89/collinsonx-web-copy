@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  color: var(--text-default);
+  border: 1px solid var(--grey-border);
+  border-radius: 4px;
+}
+
+.title {
+  font-weight: 500;
+  background-color: var(--bg-surface-dark);
+  padding: 8px 24px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.body {
+  background-color: var(--white);
+  padding: 8px 16px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}

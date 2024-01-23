@@ -1,10 +1,28 @@
 .embla {
   overflow: hidden;
+  position: relative;
 }
+
 .emblaContainer {
   display: flex;
+  margin-bottom: 8px;
 }
+
 .emblaSlide {
   flex: 0 0 100%;
   min-width: 0;
+}
+
+.fullscreenButton {
+  background-color: var(--white);
+  padding: 8px 10px;
+  position: absolute;
+  right: 10px;
+  bottom: 20px;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.hidden {
+  opacity: 0;
+  visibility: hidden;
 }

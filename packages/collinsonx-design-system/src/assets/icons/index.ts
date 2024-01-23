@@ -48,3 +48,5 @@ export { default as MenuIcon } from './menu.svg';
 export { default as KeyboardArrowDownIcon } from './keyboard_arrow_down.svg';
 export { default as ChairIcon } from './chair.svg';
 export { default as HelpOutlineIcon } from './help_outline.svg';
+export { default as FitScreen } from './fit_screen.svg';
+export { default as WarningAmber } from './warning_amber.svg';

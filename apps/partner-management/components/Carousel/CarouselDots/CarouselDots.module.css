@@ -1,6 +1,15 @@
-.unselected {
-  opacity: 0.5;
+.container {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  margin-bottom: 16px;
 }
+
 .dot {
   height: 8px;
   width: 8px;
@@ -8,11 +17,9 @@
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 300ms;
-  background-color: var(--mantine-color-blue-8);
+  background-color: var(--text-grey);
 }
 
-.container {
-  display: flex;
-  gap: 4px;
-  justify-content: center;
+.dot.active {
+  background-color: var(--white);
 }

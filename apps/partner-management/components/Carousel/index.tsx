@@ -1,38 +1,39 @@
 import useEmblaCarousel, { EmblaOptionsType } from 'embla-carousel-react';
+import clsx from 'clsx';
 import {
   PropsWithChildren,
   useEffect,
   useCallback,
-  useState,
   Children,
+  useState,
 } from 'react';
-import { Box } from '@collinsonx/design-system/core';
+import { Box, Button } from '@collinsonx/design-system/core';
+import CarouselControls from './CarouselControls/index';
+import CarouselDots from './CarouselDots/index';
+import { FitScreen } from '@collinsonx/design-system/assets/icons/index';
 import classes from './Carousel.module.css';
-import CarouselControls from './CarouselControls';
-import CarouselDots from './CarouselDots';
 
-export { default as CarouselSlide } from './CarouselSlide';
+export { default as CarouselSlide } from './CarouselSlide/index';
 
-export type CarouselProps = PropsWithChildren & EmblaOptionsType;
+type CustomCarouselOptions = {
+  activeIndex: number;
+  activeImgUrl?: string | null;
+  onSlideChange: (index: number) => void;
+};
 
-export default function Carousel({ children, ...options }: CarouselProps) {
+export type CarouselProps = PropsWithChildren<CustomCarouselOptions> &
+  EmblaOptionsType;
+
+export default function Carousel({
+  activeIndex,
+  activeImgUrl,
+  onSlideChange,
+  children,
+  ...options
+}: CarouselProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false, ...options });
+  const [isHovered, setIsHovered] = useState(false);
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
-
-  useEffect(() => {
-    function selectHandler() {
-      const index = emblaApi?.selectedScrollSnap();
-      setSelectedIndex(index || 0);
-    }
-    emblaApi?.on('select', selectHandler);
-
-    return () => {
-      emblaApi?.off('select', selectHandler);
-    };
-  }, [emblaApi]);
-
-  // support for imperative actions
   const scrollPrev = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
   }, [emblaApi]);
@@ -41,19 +42,58 @@ export default function Carousel({ children, ...options }: CarouselProps) {
     if (emblaApi) emblaApi.scrollNext();
   }, [emblaApi]);
 
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    const index = emblaApi.selectedScrollSnap();
+    onSlideChange(index);
+  }, [emblaApi, onSlideChange]);
+
+  useEffect(() => {
+    if (emblaApi) {
+      emblaApi.on('select', onSelect);
+    }
+
+    return () => {
+      emblaApi?.off('select', onSelect);
+    };
+  }, [emblaApi, onSelect]);
+
+  useEffect(() => {
+    if (emblaApi && typeof activeIndex === 'number') {
+      emblaApi.scrollTo(activeIndex);
+    }
+  }, [activeIndex, emblaApi]);
+
   const length = Children.count(children);
   const canScrollNext = !!emblaApi?.canScrollNext();
   const canScrollPrev = !!emblaApi?.canScrollPrev();
 
   return (
-    <Box className={classes.embla} ref={emblaRef}>
+    <Box
+      className={classes.embla}
+      ref={emblaRef}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      aria-roledescription="carousel"
+      role="region"
+    >
       <Box className={classes.emblaContainer}>{children}</Box>
-      <CarouselDots itemsLength={length} selectedIndex={selectedIndex} />
+      <Button
+        className={clsx(classes.fullscreenButton, {
+          [classes.hidden]: !isHovered,
+        })}
+        aria-label="Enlarge image"
+        visibleFrom="sm"
+      >
+        <FitScreen />
+      </Button>
+      <CarouselDots itemsLength={length} selectedIndex={activeIndex} />
       <CarouselControls
         canScrollNext={canScrollNext}
         canScrollPrev={canScrollPrev}
-        onNext={() => emblaApi?.scrollNext()}
-        onPrev={() => emblaApi?.scrollPrev()}
+        onNext={scrollNext}
+        onPrev={scrollPrev}
+        isHovered={isHovered}
       />
     </Box>
   );

@@ -5,3 +5,8 @@
 .subtitle {
   color: var(--text-grey);
 }
+
+.carouselImage {
+  border-radius: 8px;
+  border: 1px solid var(--grey-border);
+}

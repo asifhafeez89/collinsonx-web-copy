@@ -1,11 +1,36 @@
 .container {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
   display: flex;
-  justify-content: flex-end;
-  gap: 4px;
+  justify-content: space-between;
+  width: 100%;
+  transition: opacity 0.3s ease;
 }
-.buttonPrev {
-  padding: 2px 4px;
+
+.hidden {
+  opacity: 0;
+  visibility: hidden;
 }
+
+.buttonPrev,
 .buttonNext {
-  padding: 2px 4px;
+  padding: 8px 10px;
+  background-color: var(--white);
+  border: 1px solid var(--text-default);
+}
+
+.buttonPrev[disabled],
+.buttonNext[disabled] {
+  opacity: 0.5;
+}
+
+.buttonPrev {
+  margin-left: 16px;
+}
+
+.buttonNext {
+  margin-right: 16px;
 }

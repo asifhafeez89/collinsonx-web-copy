@@ -1,37 +1,42 @@
 import clsx from 'clsx';
 import classes from './CarouselControls.module.css';
 import { Box, Button } from '@collinsonx/design-system/core';
+import {
+  ChevronLeft,
+  ChevronRight,
+} from '@collinsonx/design-system/assets/icons';
+import colors from '@collinsonx/design-system/colour-constants-partner';
 
 type Props = {
   canScrollPrev: boolean;
   canScrollNext: boolean;
   onPrev(): void;
   onNext(): void;
+  isHovered: boolean;
 };
 const CarouselControls = (props: Props) => {
+  const { canScrollNext, canScrollPrev, isHovered, onNext, onPrev } = props;
+
   return (
-    <Box className={classes.container}>
+    <Box
+      className={clsx(classes.container, { [classes.hidden]: !isHovered })}
+      visibleFrom="sm"
+    >
       <Button
-        onClick={() => {
-          if (props.canScrollPrev) {
-            props.onPrev();
-          }
-        }}
-        disabled={!props.canScrollPrev}
+        onClick={onPrev}
+        disabled={!canScrollPrev}
         className={classes.buttonPrev}
+        aria-label="Previous image"
       >
-        Prev
+        <ChevronLeft color={colors['text-default']} />
       </Button>
       <Button
-        onClick={() => {
-          if (props.canScrollNext) {
-            props.onNext();
-          }
-        }}
-        disabled={!props.canScrollNext}
+        onClick={onNext}
+        disabled={!canScrollNext}
         className={classes.buttonNext}
+        aria-label="Next image"
       >
-        Next
+        <ChevronRight color={colors['text-default']} />
       </Button>
     </Box>
   );

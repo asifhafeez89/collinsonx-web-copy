@@ -13,6 +13,10 @@ const mockThumbnails = [
 ];
 
 describe('ThumbnailList', () => {
+  beforeAll(() => {
+    window.HTMLElement.prototype.scrollIntoView = jest.fn();
+  });
+
   it('renders the correct number of thumbnails', () => {
     render(
       <ThumbnailList
@@ -47,7 +51,7 @@ describe('ThumbnailList', () => {
         activeIndex={1}
       />
     );
-    const activeThumbnail = screen.getAllByRole('img')[1];
+    const activeThumbnail = screen.getByTestId('thumbnail-1');
     expect(activeThumbnail).toHaveAttribute('data-active', 'true');
   });
 
