@@ -6,13 +6,12 @@ import Error from '@components/Error';
 import LayoutCatalogue from '@components/LayoutCatalogue';
 import { useRouter } from 'next/router';
 import OutletHeading from '@components/OutletHeading';
-import ContentWrapper from '@components/ContentWrapper';
 import colors from '@collinsonx/design-system/colour-constants-partner';
 import OutletDetailsSummary from '@components/OutletDetailsSummary';
 import OutletImages from '@components/OutletImages';
 import Spinner from '@components/Spinner';
-import { SECTION_ID } from 'config';
 import { ValidProductCategory } from 'config/outletIcons';
+import Section from '@components/Section';
 
 const capitalizedCategoryMap: { [key in ProductCategory]: string } = {
   [ProductCategory.Eat]: 'Eat',
@@ -83,17 +82,17 @@ export default function OutletDetail() {
 
   return (
     <Stack
+      id="outlet-container"
       gap={12}
       styles={{ root: { backgroundColor: colors['bg-surface'] } }}
     >
       <OutletHeading
-        id={SECTION_ID}
         name={name}
         locationName={location.name}
         terminal={location.terminal}
       />
       <Error error={errorOutlet} />
-      <ContentWrapper>
+      <Section>
         <SimpleGrid verticalSpacing="lg" cols={{ xs: 1, sm: 2 }}>
           <OutletDetailsSummary
             locationType={category}
@@ -113,13 +112,13 @@ export default function OutletDetail() {
             />
           </Box>
         </SimpleGrid>
-      </ContentWrapper>
+      </Section>
     </Stack>
   );
 }
 
 OutletDetail.getLayout = (page: JSX.Element) => (
-  <LayoutCatalogue disableWrapper headerNavProps={{ section: 'catalogue' }}>
+  <LayoutCatalogue headerNavProps={{ section: 'catalogue' }}>
     {page}
   </LayoutCatalogue>
 );

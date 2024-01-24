@@ -17,6 +17,7 @@ import {
 import PageTitle from '@components/PageTitle';
 import { CatalogueIcon } from '@collinsonx/design-system/assets/icons';
 import classes from './OverviewDashboard.module.css';
+import Section from '@components/Section';
 
 export default function OverviewDashboard() {
   const session: any = useSessionContext();
@@ -63,7 +64,7 @@ export default function OverviewDashboard() {
   });
 
   return (
-    <>
+    <Section>
       <PageTitle title="Partner Portal" />
       <Error error={errorOutlets} />
       <Error error={errorPartnerBrands} />
@@ -113,6 +114,6 @@ export default function OverviewDashboard() {
       <Text mb={33} mt={33} className={classes.lastUpdated}>
         {lastUpdate && `Last updated ${lastUpdate}`}
       </Text>
-    </>
+    </Section>
   );
 }

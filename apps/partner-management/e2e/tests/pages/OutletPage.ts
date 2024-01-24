@@ -27,7 +27,8 @@ export default class OutletPage {
     return this.page.getByTestId('outlet-card');
   }
 
-  summarySection() {
+  async summarySection() {
+    await this.page.waitForSelector('#outlet-container');
     return this.page.getByTestId('outlet-summary-section');
   }
   /**
@@ -35,6 +36,7 @@ export default class OutletPage {
    * @returns The outlet's summary section as an object
    */
   async summarySectionInfo() {
+    await this.page.waitForSelector('#outlet-container');
     const summaryRows = await this.page.getByTestId('outlet-summary-row').all();
 
     const summarySection: { [key: string]: any } = {};

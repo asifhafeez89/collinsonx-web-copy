@@ -1,14 +1,12 @@
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
-import { Box, Flex } from '@collinsonx/design-system/core';
-import Title from '@collinsonx/design-system/components/title';
-import { LogoCollinson } from '@collinsonx/design-system/assets/logo';
 import LayoutCatalogue from '@components/LayoutCatalogue';
 import OverviewDashboard from '@components/Pages/OverviewDashboard';
 import OverviewBookings from '@components/Pages/OverviewBookings';
 import { InvitationUserType } from '@collinsonx/utils/generatedTypes/graphql';
-import { SECTION_ID } from 'config';
+import HeaderHome from '@components/HeaderHome';
+import Layout from '@components/Layout';
 
-const { SuperUser, Partner } = InvitationUserType;
+const { SuperUser } = InvitationUserType;
 
 export default function Overview() {
   const session: any = useSessionContext();
@@ -22,32 +20,15 @@ export default function Overview() {
       {session.accessTokenPayload.userType === SuperUser ? (
         <LayoutCatalogue
           headerNavProps={{ section: 'partner' }}
-          heading={<OverviewHeading />}
+          heading={<HeaderHome />}
         >
           <OverviewDashboard />
         </LayoutCatalogue>
       ) : (
-        <LayoutCatalogue headerNavProps={{ section: 'booking' }}>
+        <Layout headerNavProps={{ section: 'booking' }}>
           <OverviewBookings />
-        </LayoutCatalogue>
+        </Layout>
       )}
     </>
   );
 }
-
-const OverviewHeading = () => {
-  const session: any = useSessionContext();
-
-  return (
-    session.accessTokenPayload.userType === SuperUser && (
-      <Flex justify="space-between" align="center" mt={53} mb={53}>
-        <Title mb={8} size={48} id={SECTION_ID} data-testid="overviewTitle">
-          Partner Portal
-        </Title>
-        <Box>
-          <LogoCollinson />
-        </Box>
-      </Flex>
-    )
-  );
-};

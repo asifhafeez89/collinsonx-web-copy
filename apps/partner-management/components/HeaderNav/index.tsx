@@ -16,7 +16,6 @@ import { MenuIcon } from '@collinsonx/design-system/assets/icons';
 
 import AccountSettings from './AccountSettings';
 import useExperience from 'hooks/experience';
-import colors from '@collinsonx/design-system/colour-constants-partner';
 import { SECTION_ID } from 'config';
 
 export interface HeaderNavProps {

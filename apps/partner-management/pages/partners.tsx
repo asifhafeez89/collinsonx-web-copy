@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import { getPartnerBrands } from '@collinsonx/utils/queries';
 import { PartnerBrand } from '@collinsonx/utils';
 import colors from '@collinsonx/design-system/colour-constants-partner';
-import { CARDS_LIMIT, SECTION_ID } from 'config';
+import { CARDS_LIMIT } from 'config';
 import Table from '@components/PartnersTable';
 import {
   ColumnDef,
@@ -17,6 +17,7 @@ import {
 } from '@tanstack/react-table';
 import { useMemo } from 'react';
 import Spinner from '@components/Spinner';
+import Section from '@components/Section';
 
 const columnHelper = createColumnHelper<Partial<PartnerBrand>>();
 
@@ -80,36 +81,38 @@ export default function Partners() {
   });
 
   return (
-    <Stack gap={24} pb={24}>
-      {loadingPartners ? (
-        <>
-          <Title id={SECTION_ID}>Partners</Title>
-          <Spinner />
-        </>
-      ) : (
-        <>
-          <Stack gap={16}>
-            <Title id={SECTION_ID}>Partners</Title>
-            <Text style={{ fontSize: 18, color: colors['text-grey'] }}>
-              {`${partnersCount} ${
-                partnersCount === 1 ? 'partner brand' : 'partner brands'
-              }`}
-            </Text>
-          </Stack>
-          <Error error={errorPartners} />
-          {!loadingPartners && dataPartners && (
-            <Table
-              table={table}
-              columnsAlignment={{
-                name: 'left',
-                outlets: 'right',
-                action: 'center',
-              }}
-            />
-          )}
-        </>
-      )}
-    </Stack>
+    <Section>
+      <Stack gap={24} pb={24}>
+        {loadingPartners ? (
+          <>
+            <Title>Partners</Title>
+            <Spinner />
+          </>
+        ) : (
+          <>
+            <Stack gap={16}>
+              <Title>Partners</Title>
+              <Text style={{ fontSize: 18, color: colors['text-grey'] }}>
+                {`${partnersCount} ${
+                  partnersCount === 1 ? 'partner brand' : 'partner brands'
+                }`}
+              </Text>
+            </Stack>
+            <Error error={errorPartners} />
+            {!loadingPartners && dataPartners && (
+              <Table
+                table={table}
+                columnsAlignment={{
+                  name: 'left',
+                  outlets: 'right',
+                  action: 'center',
+                }}
+              />
+            )}
+          </>
+        )}
+      </Stack>
+    </Section>
   );
 }
 

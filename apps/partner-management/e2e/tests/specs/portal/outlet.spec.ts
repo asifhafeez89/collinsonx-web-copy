@@ -72,7 +72,7 @@ test.describe('outlet page', () => {
     const outlet = await catalogueApi.getOutletByID(outletId);
     await outletPage.goToURL(outletId);
 
-    const summarySection = outletPage.summarySection();
+    const summarySection = await outletPage.summarySection();
     const summarySectionInfo = await outletPage.summarySectionInfo();
 
     // UI should only display the expected categories

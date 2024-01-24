@@ -23,7 +23,13 @@ const CookieBanner = () => {
   return show ? (
     <Portal>
       <Box className={classes.container}>
-        <Flex h="100%" gap={48} align="center" justify="center">
+        <Flex
+          h="100%"
+          gap={{ base: 12, md: 48 }}
+          align="center"
+          justify="center"
+          wrap="wrap"
+        >
           <Text style={{ fontSize: 18 }}>
             This website uses cookies to ensure you get the best experience.{' '}
             <Anchor

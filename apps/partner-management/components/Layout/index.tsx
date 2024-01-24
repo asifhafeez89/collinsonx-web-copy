@@ -28,7 +28,6 @@ export default function Layout({
           height: 'auto',
           minHeight: 'calc(100% - 65px)',
           width: '100%',
-          backgroundColor: colors['bg-surface'],
         }}
       >
         {children}

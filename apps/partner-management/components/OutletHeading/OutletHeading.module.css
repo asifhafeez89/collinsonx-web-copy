@@ -1,12 +1,15 @@
 .outletHeadingContainer {
-  align-items: center;
   position: sticky;
   top: 0;
   background-color: var(--white);
   z-index: 1;
   border-bottom: 1px solid var(--grey-border);
   margin-bottom: 53px;
-  padding: 24px;
+}
+.section {
+  width: 1140px;
+  display: flex;
+  align-items: center;
   gap: 16px;
 }
 

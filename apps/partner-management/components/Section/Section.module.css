@@ -1,4 +1,7 @@
-.contentWrapper {
+.section {
+  max-width: 1140px;
+  margin: 0 auto;
+  box-sizing: content-box;
   padding: rem(24px);
   @media (max-width: $mantine-breakpoint-md) {
     padding: rem(16px);

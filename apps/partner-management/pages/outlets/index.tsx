@@ -1,22 +1,16 @@
-import {
-  Stack,
-  Pagination,
-  Center,
-  Box,
-  Flex,
-} from '@collinsonx/design-system/core';
+import { Stack, Pagination, Center } from '@collinsonx/design-system/core';
 import Title from '@collinsonx/design-system/components/title';
 import LayoutCatalogue from '@components/LayoutCatalogue';
 import { Outlet, PartnerBrand, PaginatedOutlets } from '@collinsonx/utils';
 import getOutlets from '@collinsonx/utils/queries/getOutlets';
 import getPartnerBrandByID from '@collinsonx/utils/queries/getPartnerBrandByID';
-import { useLazyQuery, useQuery } from '@collinsonx/utils/apollo';
+import { useLazyQuery } from '@collinsonx/utils/apollo';
 import Error from '@components/Error';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo } from 'react';
 import OutletGrid from '@components/OutletGrid';
 import { useSearchParams } from 'next/navigation';
-import { CARDS_LIMIT, SECTION_ID } from 'config';
+import { CARDS_LIMIT } from 'config';
 import { useState } from 'react';
 import Spinner from '@components/Spinner';
 
@@ -80,15 +74,19 @@ export default function Outlets() {
   };
 
   return (
-    <Stack gap={32}>
-      <Title id={SECTION_ID}>Outlets</Title>
+    <Stack gap={24} px={24} pt={32}>
+      <Title>Outlets</Title>
       <Error error={errorOutlets} />
       <Error error={errorPartnerBrand} />
       {(loadingOutlets || loadingPartnerBrand || !router.isReady) && (
         <Spinner />
       )}
       {data && data.length ? (
-        <OutletGrid outlets={data} onClickOutlet={handleClickOutlet} />
+        <OutletGrid
+          data-testid="outled-grid"
+          outlets={data}
+          onClickOutlet={handleClickOutlet}
+        />
       ) : null}
       {!partnerId && !loadingOutlets && !loadingPartnerBrand && (
         <Center>
