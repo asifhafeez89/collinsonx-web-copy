@@ -42,6 +42,7 @@ jobs:
 
       - name: Run partner portal tests
         run: |
+          pnpm run build --filter partner-management
           cd apps/partner-management
 
           attempt_counter=0
