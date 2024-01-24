@@ -393,6 +393,11 @@ export default {
       amendTitle: 'Modificaciones de reserva',
       notFoundError: 'Algo salió mal. Por favor, vuelva a intentarlo',
       btn: 'Verifique la disponibilidad',
+      confirmModal: {
+        title: 'La página se está cargando ',
+        description:
+          'Por favor, espere mientras la página carga.Estos pueden tardar unos segundos en completarse.Tu paciencia es apreciada',
+      },
     },
     failureBooking: {
       declined: {

@@ -387,6 +387,11 @@ export default {
       amendTitle: 'Booking amendments',
       notFoundError: 'Something went wrong, please try again',
       btn: 'CHECK AVAILABILITY',
+      confirmModal: {
+        title: 'Page is loading',
+        description:
+          'Please wait while the page is loading. These might take a few seconds to complete. Your patience is appreciated',
+      },
     },
     failureBooking: {
       declined: {

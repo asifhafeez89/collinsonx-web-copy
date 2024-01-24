@@ -53,6 +53,7 @@ import { FlightDetailsAndGuests } from '@components/FlightDetailsAndGuests';
 import useLocale from 'hooks/useLocale';
 
 import classes from '../styles/CheckAvailability.module.css';
+import LoaderLightBox from '@collinsonx/design-system/components/loaderlightbox';
 
 const { BAD_USER_INPUT } = BookingError;
 
@@ -71,6 +72,7 @@ export default function CheckAvailability() {
   const [airportMismatch, setAirportMismatch] = useState(false);
   const [terminalMismatch, setTerminalMismath] = useState(false);
   const [message, setMessage] = useState('');
+  const [open, setOpen] = useState(false);
 
   const booking = getBooking();
   const flightData = getFlight();
@@ -168,6 +170,7 @@ export default function CheckAvailability() {
     if (Booking_Mode === BOOKING_MODE.EDIT) {
       //Add code the Edit mutation
     } else {
+      setOpen(true);
       mutate({ variables: { bookingInput } }).then((response: any) => {
         log(
           '[createBooking] createBooking response: ',
@@ -180,7 +183,7 @@ export default function CheckAvailability() {
           booking.bookingId = response.data.createBooking.id;
 
           setBooking(booking);
-
+          setOpen(false);
           router.push({
             pathname: '/confirm-booking',
           });
@@ -328,6 +331,14 @@ export default function CheckAvailability() {
           </div>
         </BookingLightbox>
       )}
+      <LoaderLightBox open={open} title="" ctaAction="" onClose={() => {}}>
+        <div>
+          <h2>{translations.booking.checkAvailability.confirmModal.title}</h2>
+          <p>
+            {translations.booking.checkAvailability.confirmModal.description}
+          </p>
+        </div>
+      </LoaderLightBox>
       <Stack gap={8} className={classes.container}>
         <Stack w="100%">
           <TopBarLinks page={pageName} />

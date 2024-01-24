@@ -148,6 +148,7 @@ type BookingLang = {
     amendTitle: string;
     notFoundError: string;
     btn: string;
+    confirmModal: SmallScreenLang;
   };
   failureBooking: {
     declined: {
