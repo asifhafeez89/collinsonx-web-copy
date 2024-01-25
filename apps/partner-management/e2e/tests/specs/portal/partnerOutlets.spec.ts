@@ -29,10 +29,10 @@ test.describe('partner-specific outlets page', () => {
     const currentUrl = page.url();
     const partnerId = currentUrl.split('outlets?partner=')[1];
     const partnerBrand = await catalogueApi.getPartnerBrandByID(partnerId);
-    const title = outletsPage.title();
+    const title = await outletsPage.title();
     const outletCountAPI = partnerBrand.outlets.length;
 
-    await expect(title).toBeVisible();
+    expect(title).toBeVisible();
     await outletsPage.assertCorrectNumberOfOutletsAreDisplayed(outletCountAPI);
   });
 });

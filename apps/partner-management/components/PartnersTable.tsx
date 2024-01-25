@@ -18,7 +18,7 @@ function Table({
 }: PartnersTableProps) {
   return (
     <MantineTable.ScrollContainer minWidth={767}>
-      <MantineTable>
+      <MantineTable data-testid="partners-table">
         <table className={classes.table}>
           <thead className={classes.thead}>
             {table.getHeaderGroups().map((headerGroup) => (

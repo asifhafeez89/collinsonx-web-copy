@@ -23,13 +23,14 @@ test.describe('partners page', () => {
     await dashboardPage.clickViewAllPartnersButton();
 
     const title = partnersPage.title();
-    const partnerRow = partnersPage.partnerTableRow();
-    const tableHeaderRow = partnersPage.partnerTableHeaderRow();
+    const partnerRow = await partnersPage.partnerTableRow();
+    const tableHeaderRow = await partnersPage.partnerTableHeaderRow();
     const expectedHeaderCount = 3;
-    const partnerColumn = partnersPage.partnerTableHeader('Partner');
-    const numberOfOutletsColumn =
-      partnersPage.partnerTableHeader('Number of outlets');
-    const actionColumn = partnersPage.partnerTableHeader('Action');
+    const partnerColumn = await partnersPage.partnerTableHeader('Partner');
+    const numberOfOutletsColumn = await partnersPage.partnerTableHeader(
+      'Number of outlets'
+    );
+    const actionColumn = await partnersPage.partnerTableHeader('Action');
 
     await expect(title).toBeVisible();
     await expect(tableHeaderRow).toHaveCount(expectedHeaderCount);

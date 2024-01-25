@@ -9,14 +9,15 @@ export default class OutletsPage {
     this.page = page;
   }
 
-  title() {
+  async title() {
+    await this.page.getByTestId('outlet-listing-container');
     return this.page.getByRole('heading', {
       name: 'Outlets',
     });
   }
 
-  pagination() {
-    return this.page.getByTestId('outlets-pagination');
+  async pagination() {
+    return await this.page.getByTestId('outlets-pagination');
   }
 
   goToURL() {

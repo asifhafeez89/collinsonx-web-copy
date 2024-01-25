@@ -81,39 +81,37 @@ export default function OutletDetail() {
   );
 
   return (
-    <Stack
-      id="outlet-container"
-      gap={12}
-      styles={{ root: { backgroundColor: colors['bg-surface'] } }}
-    >
+    <>
       <OutletHeading
         name={name}
         locationName={location.name}
         terminal={location.terminal}
       />
-      <Error error={errorOutlet} />
-      <Section>
-        <SimpleGrid verticalSpacing="lg" cols={{ xs: 1, sm: 2 }}>
-          <OutletDetailsSummary
-            locationType={category}
-            legacyCode={legacyCode}
-            code={code}
-            status={status === OutletStatus.Live ? 'ACTIVE' : 'INACTIVE'}
-            productCategories={filteredProductCategories}
-            primaryProducts={primaryProducts}
-            disabledAccess={hasDisabledAccess}
-            email={reservationEmail}
-            lastEditedDate={meta?.lastEdited}
-            editor={meta?.editor}
-          />
-          <Box style={{ maxWidth: '768px', minWidth: '320px' }}>
-            <OutletImages
-              mediaCollection={content?.media?.mediaCollection?.items}
+      <Stack id="outlet-container" gap={12}>
+        <Error error={errorOutlet} />
+        <Section>
+          <SimpleGrid verticalSpacing="lg" cols={{ xs: 1, sm: 2 }}>
+            <OutletDetailsSummary
+              locationType={category}
+              legacyCode={legacyCode}
+              code={code}
+              status={status === OutletStatus.Live ? 'ACTIVE' : 'INACTIVE'}
+              productCategories={filteredProductCategories}
+              primaryProducts={primaryProducts}
+              disabledAccess={hasDisabledAccess}
+              email={reservationEmail}
+              lastEditedDate={meta?.lastEdited}
+              editor={meta?.editor}
             />
-          </Box>
-        </SimpleGrid>
-      </Section>
-    </Stack>
+            <Box style={{ maxWidth: '768px', minWidth: '320px' }}>
+              <OutletImages
+                mediaCollection={content?.media?.mediaCollection?.items}
+              />
+            </Box>
+          </SimpleGrid>
+        </Section>
+      </Stack>
+    </>
   );
 }
 

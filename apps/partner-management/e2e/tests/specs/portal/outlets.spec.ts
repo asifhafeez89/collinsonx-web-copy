@@ -21,8 +21,8 @@ test.describe('outlets page', () => {
 
     await dashboardPage.clickViewAllOutletsButton();
 
-    const title = outletsPage.title();
-    const pagination = outletsPage.pagination();
+    const title = await outletsPage.title();
+    const pagination = await outletsPage.pagination();
     const outlets = await catalogueApi.getOutlets(1, CARDS_LIMIT);
     const outletCards = await outletsPage.outletCards();
 

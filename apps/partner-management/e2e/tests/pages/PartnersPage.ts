@@ -17,26 +17,31 @@ export default class PartnersPage {
     return this.page.goto('/partners', { waitUntil: 'networkidle' });
   }
 
-  clickFirstPartnerRowViewOutletsButton() {
+  async clickFirstPartnerRowViewOutletsButton() {
+    await this.page.getByTestId('partners-table');
     return this.page
       .getByTestId('partner-row-action-0')
       .getByRole('button')
       .click();
   }
 
-  partnerTableHeaderRow() {
-    return this.partnerTable().locator('thead > tr > th');
+  async partnerTableHeaderRow() {
+    const partnerTable = await this.partnerTable();
+    return partnerTable.locator('thead > tr > th');
   }
 
-  partnerTableHeader(headerName: string) {
-    return this.partnerTable().getByRole('cell', { name: headerName });
+  async partnerTableHeader(headerName: string) {
+    const partnerTable = await this.partnerTable();
+    return partnerTable.getByRole('cell', { name: headerName });
   }
 
-  partnerTableRow() {
+  async partnerTableRow() {
+    await this.page.getByTestId('partners-table');
     return this.page.getByTestId('partner-row');
   }
 
-  partnerTable() {
+  async partnerTable() {
+    await this.page.getByTestId('partners-table');
     // should only be one table displayed on the page
     return this.page.getByRole('table');
   }

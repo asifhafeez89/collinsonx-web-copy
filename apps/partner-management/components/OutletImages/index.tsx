@@ -42,45 +42,48 @@ const OutletImages: React.FC<OutletImagesProps> = ({ mediaCollection }) => {
 
   return (
     <Box px="md">
-      <Group justify="space-between" align="baseline" gap="sm" mb={12}>
-        <Stack gap="xs">
-          <Title className={classes.title} order={2}>
-            Images
-          </Title>
-          <Text className={classes.subtitle}>Last edited:</Text>
-        </Stack>
-        <Button variant="outline" size="md" aria-label="Edit images">
-          Edit
-        </Button>
-      </Group>
-
-      <Carousel
-        activeIndex={activeIndex}
-        onSlideChange={setActiveIndex}
-        activeImgUrl={images[activeIndex].url}
-      >
-        {images.map((image, index) => (
-          <CarouselSlide
-            key={image.url}
-            slideIndex={index + 1}
-            numSlides={numImages}
+      {images && images[activeIndex] && (
+        <>
+          <Group justify="space-between" align="baseline" gap="sm" mb={12}>
+            <Stack gap="xs">
+              <Title className={classes.title} order={2}>
+                Images
+              </Title>
+              <Text className={classes.subtitle}>Last edited:</Text>
+            </Stack>
+            <Button variant="outline" size="md" aria-label="Edit images">
+              Edit
+            </Button>
+          </Group>
+          <Carousel
+            activeIndex={activeIndex}
+            onSlideChange={setActiveIndex}
+            activeImgUrl={images[activeIndex].url}
           >
-            <Image
-              src={image.url}
-              alt={image.description || image.title || 'Outlet image'}
-              className={classes.carouselImage}
-            />
-          </CarouselSlide>
-        ))}
-      </Carousel>
+            {images.map((image, index) => (
+              <CarouselSlide
+                key={image.url}
+                slideIndex={index + 1}
+                numSlides={numImages}
+              >
+                <Image
+                  src={image.url}
+                  alt={image.description || image.title || 'Outlet image'}
+                  className={classes.carouselImage}
+                />
+              </CarouselSlide>
+            ))}
+          </Carousel>
 
-      <ThumbnailList
-        thumbnails={images}
-        onThumbnailClick={handleThumbnailClick}
-        activeIndex={activeIndex}
-      />
+          <ThumbnailList
+            thumbnails={images}
+            onThumbnailClick={handleThumbnailClick}
+            activeIndex={activeIndex}
+          />
 
-      <Text>{imageCountText}</Text>
+          <Text>{imageCountText}</Text>
+        </>
+      )}
     </Box>
   );
 };

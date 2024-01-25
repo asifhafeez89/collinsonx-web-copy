@@ -168,8 +168,10 @@ export default class CatalogueApi {
         hasDisabledAccess
         reservationEmail
         products {
+          id
           category
           name
+          status
         }
         productCategories
       }
