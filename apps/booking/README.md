@@ -43,3 +43,8 @@ To ensure you are using the latest valid token schema and parameters for link ge
 6. Click 'Pre-book' button
 
 NOTE: The secret in the `.env.local` file in both **booking** and **placeholder-app** must be the same. **Please contact the team to obtain the correct secret.**
+
+## Update translations
+
+1. To generate a XLSX file with the English (base translations) translations, run `pnpm translations:generate:xlsx` a file called `generated_translations.xls` should be generated.
+2. To convert the updated translations to TS objects we can import, run `pnpm translations:generate:json` and it will update all new translations under `/locales/{language}.ts`;
