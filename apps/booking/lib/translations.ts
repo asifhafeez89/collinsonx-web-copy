@@ -32,7 +32,7 @@ const init = (format: string) => {
 
   if (format === 'json') {
     // read the xlsx file and get the worksheet
-    const workbook = readFile('./generated_translations.xls');
+    const workbook = readFile('./generated_translations.xlsx');
     const worksheet = workbook.Sheets['UI']; //always use the first sheet
     convertToJSON(worksheet);
   }
@@ -89,7 +89,7 @@ const convertToXLSX = (translations: any) => {
   const worksheet = utils.aoa_to_sheet(baseColumns);
 
   utils.book_append_sheet(workbook, worksheet, 'UI');
-  writeFile(workbook, `generated_translations.xls`);
+  writeFile(workbook, `generated_translations.xlsx`);
 };
 
 const flattenObject = (

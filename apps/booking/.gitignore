@@ -40,4 +40,4 @@ yarn-error.log*
 next-env.d.ts
 
 # generated translation excel
-generated_translations.xls
+*.xlsx
