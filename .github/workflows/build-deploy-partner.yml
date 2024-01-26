@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'apps/partner/**'
+      - 'apps/partner-management/**'
       - 'packages/**'
       - '.github/workflows/build-deploy-partner.yml'
 
