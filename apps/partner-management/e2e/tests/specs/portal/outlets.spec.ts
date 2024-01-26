@@ -4,6 +4,7 @@ import LoginPage from '../../pages/LoginPage';
 import OutletsPage from '../../pages/OutletsPage';
 import { CARDS_LIMIT } from 'config';
 import CatalogueApi from 'e2e/tests/utils/CatalogueApi';
+import Helper from 'e2e/tests/helpers/Helper';
 
 test.beforeEach(async ({ page }) => {
   const loginPage = new LoginPage(page);
@@ -25,7 +26,9 @@ test.describe('outlets page', () => {
     const pagination = await outletsPage.pagination();
     const outlets = await catalogueApi.getOutlets(1, CARDS_LIMIT);
     const outletCards = await outletsPage.outletCards();
+    const navSection = await Helper.navSection(page);
 
+    await expect(navSection).toHaveText('Catalogue');
     await expect(title).toBeVisible();
     await outletsPage.assertCorrectNumberOfOutletsAreDisplayed(CARDS_LIMIT);
     expect(outletCards).toHaveLength(CARDS_LIMIT);

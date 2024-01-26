@@ -18,4 +18,8 @@ export default class Helper {
   async acceptAlert() {
     await this.page.on('dialog', (dialog) => dialog.accept());
   }
+
+  static navSection(page: Page) {
+    return page.getByTestId('nav-section');
+  }
 }

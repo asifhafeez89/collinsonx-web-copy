@@ -82,19 +82,20 @@ function HeaderNav({
               <Text
                 visibleFrom="sm"
                 component="span"
+                data-testid="nav-section"
                 className={classes.section}
               >
                 {sections[section]}
               </Text>
               {client && <Separator />}
               {client === 'collinson' && (
-                <Box datatest-id="nav-client" visibleFrom="xs">
+                <Box data-testid="nav-client" visibleFrom="xs">
                   <BadgeCollinson />
                 </Box>
               )}
               {client && client !== 'collinson' && (
                 <Text
-                  datatest-id="nav-client"
+                  data-testid="nav-client"
                   component="span"
                   visibleFrom="xs"
                   className={classes.client}

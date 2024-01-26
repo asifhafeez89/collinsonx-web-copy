@@ -4,6 +4,7 @@ import LoginPage from '../../pages/LoginPage';
 import PartnersPage from 'e2e/tests/pages/PartnersPage';
 import CatalogueApi from 'e2e/tests/utils/CatalogueApi';
 import { CARDS_LIMIT } from 'config';
+import Helper from 'e2e/tests/helpers/Helper';
 
 test.beforeEach(async ({ page }) => {
   const loginPage = new LoginPage(page);
@@ -31,7 +32,9 @@ test.describe('partners page', () => {
       'Number of outlets'
     );
     const actionColumn = await partnersPage.partnerTableHeader('Action');
+    const navSection = await Helper.navSection(page);
 
+    await expect(navSection).toHaveText('Catalogue');
     await expect(title).toBeVisible();
     await expect(tableHeaderRow).toHaveCount(expectedHeaderCount);
     await expect(partnerColumn).toBeVisible();

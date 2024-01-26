@@ -5,6 +5,7 @@ import OutletPage from 'e2e/tests/pages/OutletPage';
 import CatalogueApi from 'e2e/tests/utils/CatalogueApi';
 import { toTitleCase } from 'utils/textUtils';
 import { Product, ProductCategory } from '@collinsonx/utils';
+import Helper from 'e2e/tests/helpers/Helper';
 
 test.beforeEach(async ({ page }) => {
   const loginPage = new LoginPage(page);
@@ -56,6 +57,10 @@ test.describe('outlet page', () => {
 
     const outletPageTitle = await outletPage.title();
     const outletPageSubtitle = await outletPage.subtitle();
+
+    const navSection = await Helper.navSection(page);
+
+    await expect(navSection).toHaveText('Catalogue');
 
     expect(outletsPageFirstCardTitle).toEqual(outletPageTitle);
     expect(outletsPageFirstCardSubtitle).toEqual(outletPageSubtitle);

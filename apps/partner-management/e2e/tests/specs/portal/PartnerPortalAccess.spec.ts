@@ -3,6 +3,7 @@ import LoginPage from '../../pages/LoginPage';
 import TestSetup from '../../utils/TestSetup';
 import PartnerPortalDashboardPage from '../../pages/PartnerPortalDashboardPage';
 import BookingOverviewPage from '../../pages/BookingOverviewPage';
+import Helper from 'e2e/tests/helpers/Helper';
 
 test.describe('partner portal dashboard', () => {
   test('super user has access to the catalogue widget', async ({ page }) => {
@@ -16,6 +17,9 @@ test.describe('partner portal dashboard', () => {
     const title = dashboardPage.title();
     const catalogueWidget = dashboardPage.catalogueWidget();
 
+    const navSection = await Helper.navSection(page);
+
+    await expect(navSection).toHaveText('Partner Portal');
     await expect(title).toBeVisible();
     await expect(catalogueWidget).toBeVisible();
   });
@@ -35,6 +39,9 @@ test.describe('partner portal dashboard', () => {
     const title = bookingOverviewPage.title();
     const catalogueWidget = dashboardPage.catalogueWidget();
 
+    const navSection = await Helper.navSection(page);
+
+    await expect(navSection).toHaveText('Bookings');
     await expect(title).toBeVisible();
     await expect(catalogueWidget).toHaveCount(0);
   });
