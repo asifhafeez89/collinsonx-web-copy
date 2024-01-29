@@ -3,6 +3,7 @@ import { readFile, utils, writeFile } from 'xlsx';
 import set from 'lodash/set';
 import process from 'process';
 import baseTranslation from '../locales/en';
+import existingTranslations from '../locales';
 
 const supportedLanguages = {
   English: 'en.ts',
@@ -78,11 +79,20 @@ const convertToJSON = (worksheet: any) => {
 const convertToXLSX = (translations: any) => {
   let baseColumns = [columnHeaders];
   const flatObj = flattenObject(translations);
-  const translationRows = Object.keys(flatObj);
-  const translationColumnValues = Object.values(flatObj) as any;
+  const baseTranslationRows = Object.keys(flatObj);
+  const baseTranslationColumnValues = Object.values(flatObj) as any; // base translation column values
+  const existingTranslationColumnValues = [] as any;
+  existingTranslations.forEach((language: any) => {
+    const flatten = flattenObject(language);
+    existingTranslationColumnValues.push(Object.values(flatten));
+  });
 
-  translationRows.forEach((row, index) => {
-    baseColumns.push([row, translationColumnValues[index].toString()]);
+  baseTranslationRows.forEach((row, index) => {
+    const currentRow = [row, baseTranslationColumnValues[index].toString()];
+    existingTranslationColumnValues.forEach((_element: any, key: any) => {
+      currentRow.push(existingTranslationColumnValues[key][index]);
+    });
+    baseColumns.push(currentRow);
   });
 
   const workbook = utils.book_new();

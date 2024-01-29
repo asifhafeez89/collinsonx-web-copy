@@ -122,7 +122,6 @@ export default {
         title: 'Terminals mismatch',
         description:
           'Please note, that the lounge you are booking is not in the terminal your flight is scheduled. Lounge terminal is at North Terminal. Flight departure terminal is from South TerminalDo you still want to book this lounge even it is not in the terminal of departure?',
-
         btn: {
           return: 'Return to lounges',
           continue: "'Continue booking',",
@@ -208,25 +207,27 @@ export default {
       },
       hsbcCancelationPolicy: {
         title: 'Please note a pre-booking fee applies for HSBC cardholders',
-        descriptionLine1: `For HSBC Premier cardholders, this pre-booking fee will be added on top of your and your guest(s)'s visit passes fees. When you arrive at the lounge you will still be required to pay £24 per visitor.`,
+        descriptionLine1:
+          "For HSBC Premier cardholders, this pre-booking fee will be added on top of your and your guest(s)'s visit passes fees. When you arrive at the lounge you will still be required to pay £24 per visitor.",
         descriptionLine2:
           'For HSBC Premier World Elite cardholders, please note whilst you do receive free visit passes for yourself and any additional cardholders (i.e., not your guests) - the pre-booking fee will act as a separate fee, and also apply to you and your guests. When you arrive at the lounge any guests who are not the primary or additional cardholder will be required to pay £24 per visitor.',
       },
       cancellationPolicy: {
         title: 'Cancellation policy',
-        descriptionLine1: `Cancel up to 48 hours before your booking to receive a full refund. Bookings cannot be cancelled within 48 hours of booking arrival time, including new bookings made within that time range.`,
+        descriptionLine1:
+          'Cancel up to 48 hours before your booking to receive a full refund. Bookings cannot be cancelled within 48 hours of booking arrival time, including new bookings made within that time range.',
         descriptionLine2:
           'Please confirm details are correct before making payment.',
       },
       btn: 'CONFIRM',
       errors: {
         airportMismatch: {
-          title: `Airports don't match`,
+          title: "Airports don't match",
           description:
             'The lounge you are booking is not in the same airport your flight is scheduled to depart from.',
         },
         terminalMismatch: {
-          title: `Terminals don't match`,
+          title: "Terminals don't match",
           description:
             'The lounge you are booking is not in the same terminal your flight is scheduled to depart from.',
         },
