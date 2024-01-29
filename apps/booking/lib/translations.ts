@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { readFile, utils, writeFile } from 'xlsx';
+import { readFile, utils, writeFile, WorkSheet } from 'xlsx';
 import set from 'lodash/set';
 import process from 'process';
 import baseTranslation from '../locales/en';
@@ -25,6 +25,8 @@ const supportedLanguages = {
 
 const columnHeaders = ['key', ...Object.keys(supportedLanguages)];
 
+const GENERATED_XLSX = 'generated_translations.xlsx';
+
 const init = (format: string) => {
   if (format === 'xlsx') {
     const translations = baseTranslation;
@@ -33,14 +35,14 @@ const init = (format: string) => {
 
   if (format === 'json') {
     // read the xlsx file and get the worksheet
-    const workbook = readFile('./generated_translations.xlsx');
+    const workbook = readFile(`./${GENERATED_XLSX}`);
     const worksheet = workbook.Sheets['UI']; //always use the first sheet
     convertToJSON(worksheet);
   }
 };
 
-const convertToJSON = (worksheet: any) => {
-  const jsa = utils.sheet_to_json(worksheet, { raw: true }) as any;
+const convertToJSON = (worksheet: WorkSheet) => {
+  const jsa = utils.sheet_to_json(worksheet, { raw: true }) as string[];
   let updatedLanguages = Object.keys(jsa[0]);
   const fileNameMapping: { [key: string]: any } = supportedLanguages;
   const filteredLanguages = updatedLanguages.filter((key) =>
@@ -48,7 +50,7 @@ const convertToJSON = (worksheet: any) => {
   );
 
   filteredLanguages.forEach((language: string) => {
-    const constructedJSON: any[] = [];
+    const constructedJSON: { [key: string]: [key: string] }[] = [];
     jsa.forEach((row: any) => {
       constructedJSON.push({ [row.key]: row[`${language}`] });
     });
@@ -80,9 +82,9 @@ const convertToXLSX = (translations: any) => {
   let baseColumns = [columnHeaders];
   const flatObj = flattenObject(translations);
   const baseTranslationRows = Object.keys(flatObj);
-  const baseTranslationColumnValues = Object.values(flatObj) as any; // base translation column values
-  const existingTranslationColumnValues = [] as any;
-  existingTranslations.forEach((language: any) => {
+  const baseTranslationColumnValues = Object.values(flatObj) as string[]; // base translation column values
+  const existingTranslationColumnValues: string[][] = [];
+  existingTranslations.forEach((language) => {
     const flatten = flattenObject(language);
     existingTranslationColumnValues.push(Object.values(flatten));
   });
@@ -99,13 +101,13 @@ const convertToXLSX = (translations: any) => {
   const worksheet = utils.aoa_to_sheet(baseColumns);
 
   utils.book_append_sheet(workbook, worksheet, 'UI');
-  writeFile(workbook, `generated_translations.xlsx`);
+  writeFile(workbook, `./${GENERATED_XLSX}`);
 };
 
 const flattenObject = (
   obj: object,
   parentProperty?: string,
-  propertyMap: Record<string, unknown> = {}
+  propertyMap: Record<string, string> = {}
 ) => {
   for (const [key, value] of Object.entries(obj)) {
     const property = parentProperty ? `${parentProperty}${'.'}${key}` : key;
@@ -118,7 +120,7 @@ const flattenObject = (
   return propertyMap;
 };
 
-const unflattenObject = (array: any[]) => {
+const unflattenObject = (array: { [key: string]: [key: string] }[]) => {
   return array.reduce((result, item) => {
     Object.entries(item).forEach(([key, value]) => {
       set(result, key, value);
