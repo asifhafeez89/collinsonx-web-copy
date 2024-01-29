@@ -10,11 +10,13 @@ interface AvailableSlotsProps {
   availableSlots: Availability;
   onSelectSlot: (value: string | null) => void;
   error?: string;
+  selectedSlot?: string;
 }
 const AvailableSlots = ({
   availableSlots,
   onSelectSlot,
   error,
+  selectedSlot,
 }: AvailableSlotsProps) => {
   const data = useMemo(
     () =>
@@ -22,7 +24,7 @@ const AvailableSlots = ({
         .map((slot) => {
           const startDate = formatDate(slot.startDate, TIME_FORMAT);
           const endDate = formatDate(slot.endDate, TIME_FORMAT);
-          const label = ` ${startDate}-${endDate}`;
+          const label = `${startDate}-${endDate}`;
           const value = label;
           return {
             value,
@@ -45,6 +47,7 @@ const AvailableSlots = ({
         onChange={onSelectSlot}
         error={error}
         classNames={classes}
+        value={selectedSlot ?? null}
       />
     </>
   );

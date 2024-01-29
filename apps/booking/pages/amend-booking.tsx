@@ -47,6 +47,9 @@ const AmendBooking = () => {
     adults: bookingDetails?.getBookingByID.guestAdultCount ?? 1,
     children: bookingDetails?.getBookingByID.guestChildrenCount ?? 0,
     price: bookingDetails?.getBookingByID.price ?? 0,
+    bookingId: bookingDetails?.getBookingByID.id ?? '',
+    existing_booking_slot: bookingDetails?.getBookingByID.lastArrival,
+    currentPrice: bookingDetails?.getBookingByID.price ?? 0,
   };
 
   return (

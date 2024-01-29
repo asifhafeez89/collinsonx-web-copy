@@ -35,6 +35,16 @@ const Price = ({ lounge, guests, currentPrice, title }: PriceProps) => {
     return sum.toFixed(2);
   };
 
+  let cPrice = currentPrice ? (currentPrice / 100).toFixed(2) : '0.00';
+
+  const loungePriceWithNoCurrency = useMemo(() => {
+    if (guests) {
+      return lounge?.pricing?.currency && lounge.pricing.reservationOnlyFee
+        ? getSumToPay(guests, lounge.pricing.reservationOnlyFee)
+        : '';
+    }
+  }, [lounge, guests]);
+
   const loungePrice = useMemo(() => {
     if (guests) {
       return lounge?.pricing?.currency && lounge.pricing.reservationOnlyFee
@@ -45,10 +55,12 @@ const Price = ({ lounge, guests, currentPrice, title }: PriceProps) => {
     }
   }, [lounge, guests]);
 
+  const isSame = cPrice === loungePriceWithNoCurrency;
+
   return (
     <>
-      {title && currentPrice !== loungePrice && <h3>{title}</h3>}
-      {currentPrice === loungePrice
+      {title && <h3>{title}</h3>}
+      {isSame
         ? translations.booking.availableSlots.totalPrice.samePrice
         : loungePrice}
     </>

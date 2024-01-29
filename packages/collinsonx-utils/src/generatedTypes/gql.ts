@@ -15,6 +15,8 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 const documents = {
   '\n  mutation AcceptInvitation($acceptInvitationInput: AcceptInvitationInput!) {\n    acceptInvitation(acceptInvitationInput: $acceptInvitationInput) {\n      createdAt\n      experience {\n        id\n      }\n      expiresAt\n      inviteeEmail\n      updatedAt\n      id\n    }\n  }\n':
     types.AcceptInvitationDocument,
+  '\n  mutation confirmAmendment($amendmentInput: AmendmentInput) {\n    confirmAmendment(amendmentInput: $amendmentInput) {\n      id\n      price\n      status\n      paymentOption\n    }\n  }\n':
+    types.ConfirmAmendmentDocument,
   '\n  mutation cancelBooking($cancelBookingId: ID!) {\n    cancelBooking(id: $cancelBookingId) {\n      bookedFrom\n      bookedTo\n      consumer {\n        id\n      }\n      createdAt\n      experience {\n        id\n      }\n      id\n      status\n      updatedAt\n    }\n  }\n':
     types.CancelBookingDocument,
   '\n  mutation CheckinBooking($checkinBookingId: ID!) {\n    checkinBooking(id: $checkinBookingId) {\n      bookedFrom\n      bookedTo\n      consumer {\n        id\n      }\n      createdAt\n      id\n      status\n      updatedAt\n    }\n  }\n':
@@ -93,6 +95,12 @@ export function graphql(source: string): unknown;
 export function graphql(
   source: '\n  mutation AcceptInvitation($acceptInvitationInput: AcceptInvitationInput!) {\n    acceptInvitation(acceptInvitationInput: $acceptInvitationInput) {\n      createdAt\n      experience {\n        id\n      }\n      expiresAt\n      inviteeEmail\n      updatedAt\n      id\n    }\n  }\n'
 ): (typeof documents)['\n  mutation AcceptInvitation($acceptInvitationInput: AcceptInvitationInput!) {\n    acceptInvitation(acceptInvitationInput: $acceptInvitationInput) {\n      createdAt\n      experience {\n        id\n      }\n      expiresAt\n      inviteeEmail\n      updatedAt\n      id\n    }\n  }\n'];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  mutation confirmAmendment($amendmentInput: AmendmentInput) {\n    confirmAmendment(amendmentInput: $amendmentInput) {\n      id\n      price\n      status\n      paymentOption\n    }\n  }\n'
+): (typeof documents)['\n  mutation confirmAmendment($amendmentInput: AmendmentInput) {\n    confirmAmendment(amendmentInput: $amendmentInput) {\n      id\n      price\n      status\n      paymentOption\n    }\n  }\n'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

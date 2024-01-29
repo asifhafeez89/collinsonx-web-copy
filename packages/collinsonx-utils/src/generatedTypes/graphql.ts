@@ -57,6 +57,7 @@ export type Amendment = {
   bookedFrom: Scalars['String']['output'];
   bookedTo: Scalars['String']['output'];
   booking?: Maybe<Booking>;
+  bookingID: Scalars['ID']['output'];
   createdAt: Scalars['Date']['output'];
   guestAdultCount: Scalars['Int']['output'];
   guestChildrenCount: Scalars['Int']['output'];
@@ -447,6 +448,11 @@ export enum BookingType {
   Reservation = 'RESERVATION',
   ReservationFeeOnly = 'RESERVATION_FEE_ONLY',
   WalkUp = 'WALK_UP',
+}
+
+export enum CatalogueProductType {
+  Ancillary = 'ANCILLARY',
+  Primary = 'PRIMARY',
 }
 
 /** [See type definition](https://app.contentful.com/spaces/687qsr16btly/content_types/conditions) */
@@ -2713,6 +2719,8 @@ export type ProductInput = {
   status: ProductStatus;
   /** The product tier for example Gold or Black */
   tier?: InputMaybe<Tier>;
+  /** Type of the product (PRIMARY or ANCILLARY) */
+  type?: InputMaybe<CatalogueProductType>;
 };
 
 export type ProductKey = {
@@ -3385,6 +3393,21 @@ export type AcceptInvitationMutation = {
     updatedAt: any;
     id: string;
     experience?: { __typename?: 'Experience'; id: string } | null;
+  } | null;
+};
+
+export type ConfirmAmendmentMutationVariables = Exact<{
+  amendmentInput?: InputMaybe<AmendmentInput>;
+}>;
+
+export type ConfirmAmendmentMutation = {
+  __typename?: 'Mutation';
+  confirmAmendment?: {
+    __typename?: 'Amendment';
+    id: string;
+    price: number;
+    status: AmendmentStatus;
+    paymentOption: PaymentOption;
   } | null;
 };
 
@@ -4212,6 +4235,63 @@ export const AcceptInvitationDocument = {
 } as unknown as DocumentNode<
   AcceptInvitationMutation,
   AcceptInvitationMutationVariables
+>;
+export const ConfirmAmendmentDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'confirmAmendment' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'amendmentInput' },
+          },
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'AmendmentInput' },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'confirmAmendment' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'amendmentInput' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'amendmentInput' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'paymentOption' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  ConfirmAmendmentMutation,
+  ConfirmAmendmentMutationVariables
 >;
 export const CancelBookingDocument = {
   kind: 'Document',

@@ -10,6 +10,9 @@ export interface Booking {
   arrivalTime?: string;
   infants: number;
   arrival?: string;
+  existing_booking_slot: string;
+  currentPrice: number | undefined;
+  amendmentID?: string;
 }
 
 interface BookingContextProps {
@@ -28,10 +31,6 @@ const defaultContext = {
 
 export const BookingContext =
   createContext<BookingContextProps>(defaultContext);
-
-interface BookingProviderProps {
-  children: ReactNode;
-}
 
 const BookingProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   return (

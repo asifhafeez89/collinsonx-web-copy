@@ -49,6 +49,9 @@ type reservationDetails = {
   adults?: number;
   children?: number;
   price: number;
+  existing_booking_slot?: string;
+  bookingId: string;
+  currentPrice: number | undefined;
 };
 
 interface CheckAvailabilityProps {
@@ -95,6 +98,9 @@ const CheckAvailability = ({
       adults: reservationDetails?.adults || 1,
       children: reservationDetails?.children || 0,
       infants: reservationDetails?.infants || 0,
+      existing_booking_slot: reservationDetails?.existing_booking_slot || '',
+      bookingId: reservationDetails?.bookingId || '',
+      currentPrice: reservationDetails?.price,
     },
     transformValues: (values) => ({
       ...values,
@@ -153,11 +159,18 @@ const CheckAvailability = ({
       } else if (form.isValid()) {
         const upperCaseFlight = form.values.flightNumber.toUpperCase();
         form.values.flightNumber = upperCaseFlight;
-        setBooking(form.values);
+        if (mode === BOOKING_MODE.EDIT) {
+          form.values.bookingId = reservationDetails?.bookingId ?? '';
+        }
+
+        const booking = form.values;
+        booking.currentPrice = reservationDetails?.price;
+
+        setBooking(booking);
         setFlight(flightInfoData.getFlightDetails[0]);
         const query = router.query;
         router.push({
-          pathname: '/check-availability',
+          pathname: '/check-slots',
           query: {
             ...query,
           },
@@ -257,6 +270,7 @@ const CheckAvailability = ({
                     children: form.getInputProps('children').value,
                     infants: form.getInputProps('infants').value,
                   }}
+                  currentPrice={reservationDetails?.price}
                 ></Price>
               </EditableTitle>
               <Center w="100%">

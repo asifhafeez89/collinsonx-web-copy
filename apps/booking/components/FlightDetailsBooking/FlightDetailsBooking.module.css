@@ -1,0 +1,11 @@
+.details {
+  @media (max-width: 768px) {
+    margintop: 10px;
+  }
+}
+
+.slotsTitle {
+  @media (max-width: 768px) {
+    background: var(--white);
+  }
+}
