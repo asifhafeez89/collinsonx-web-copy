@@ -1,4 +1,4 @@
-import { MouseEventHandler, ReactNode } from 'react';
+import { MouseEventHandler, ReactNode, forwardRef } from 'react';
 import { LogoHeaderCollinson } from '@collinsonx/design-system/assets/logo';
 import classes from './HeaderNav.module.css';
 import {
@@ -8,6 +8,8 @@ import {
   Box,
   ActionIcon,
   Button,
+  ButtonProps,
+  createPolymorphicComponent,
 } from '@collinsonx/design-system/core';
 import BadgeCollinson from './BadgeCollinson';
 import Link from 'next/link';
@@ -35,6 +37,14 @@ const Separator = () => (
   </Text>
 );
 
+const LinkButton = createPolymorphicComponent<'a', ButtonProps>(
+  forwardRef<HTMLAnchorElement, ButtonProps>(({ children, ...others }, ref) => (
+    <Button component="a" {...others} ref={ref}>
+      {children}
+    </Button>
+  ))
+);
+
 function HeaderNav({
   children,
   section,
@@ -51,15 +61,14 @@ function HeaderNav({
   const handleClickMenu = () => {};
   return (
     <header role="banner" className={classes.root}>
-      <Button
+      <LinkButton
         variant="outline"
-        component={Link}
         href={`#${titleID}`}
         onClick={handleClickSkipLink}
         className={classes.skipLinkButton}
       >
         Skip to main content
-      </Button>
+      </LinkButton>
       <Flex justify="space-between" align="center">
         <Anchor td="none" component={Link} href="/">
           <Flex align="center" gap={16} className={classes.infoContainer}>
@@ -73,19 +82,20 @@ function HeaderNav({
               <Text
                 visibleFrom="sm"
                 component="span"
+                data-testid="nav-section"
                 className={classes.section}
               >
                 {sections[section]}
               </Text>
               {client && <Separator />}
               {client === 'collinson' && (
-                <Box datatest-id="nav-client" visibleFrom="xs">
+                <Box data-testid="nav-client" visibleFrom="xs">
                   <BadgeCollinson />
                 </Box>
               )}
               {client && client !== 'collinson' && (
                 <Text
-                  datatest-id="nav-client"
+                  data-testid="nav-client"
                   component="span"
                   visibleFrom="xs"
                   className={classes.client}

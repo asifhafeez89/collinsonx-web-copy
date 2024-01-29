@@ -4,6 +4,7 @@ import LoginPage from '../../pages/LoginPage';
 import PartnersPage from 'e2e/tests/pages/PartnersPage';
 import CatalogueApi from 'e2e/tests/utils/CatalogueApi';
 import { CARDS_LIMIT } from 'config';
+import Helper from 'e2e/tests/helpers/Helper';
 
 test.beforeEach(async ({ page }) => {
   const loginPage = new LoginPage(page);
@@ -23,14 +24,17 @@ test.describe('partners page', () => {
     await dashboardPage.clickViewAllPartnersButton();
 
     const title = partnersPage.title();
-    const partnerRow = partnersPage.partnerTableRow();
-    const tableHeaderRow = partnersPage.partnerTableHeaderRow();
+    const partnerRow = await partnersPage.partnerTableRow();
+    const tableHeaderRow = await partnersPage.partnerTableHeaderRow();
     const expectedHeaderCount = 3;
-    const partnerColumn = partnersPage.partnerTableHeader('Partner');
-    const numberOfOutletsColumn =
-      partnersPage.partnerTableHeader('Number of outlets');
-    const actionColumn = partnersPage.partnerTableHeader('Action');
+    const partnerColumn = await partnersPage.partnerTableHeader('Partner');
+    const numberOfOutletsColumn = await partnersPage.partnerTableHeader(
+      'Number of outlets'
+    );
+    const actionColumn = await partnersPage.partnerTableHeader('Action');
+    const navSection = await Helper.navSection(page);
 
+    await expect(navSection).toHaveText('Catalogue');
     await expect(title).toBeVisible();
     await expect(tableHeaderRow).toHaveCount(expectedHeaderCount);
     await expect(partnerColumn).toBeVisible();

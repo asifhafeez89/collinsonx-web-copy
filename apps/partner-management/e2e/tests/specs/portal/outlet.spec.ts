@@ -4,7 +4,8 @@ import OutletsPage from '../../pages/OutletsPage';
 import OutletPage from 'e2e/tests/pages/OutletPage';
 import CatalogueApi from 'e2e/tests/utils/CatalogueApi';
 import { toTitleCase } from 'utils/textUtils';
-import { ProductCategory } from '@collinsonx/utils';
+import { Product, ProductCategory } from '@collinsonx/utils';
+import Helper from 'e2e/tests/helpers/Helper';
 
 test.beforeEach(async ({ page }) => {
   const loginPage = new LoginPage(page);
@@ -57,6 +58,10 @@ test.describe('outlet page', () => {
     const outletPageTitle = await outletPage.title();
     const outletPageSubtitle = await outletPage.subtitle();
 
+    const navSection = await Helper.navSection(page);
+
+    await expect(navSection).toHaveText('Catalogue');
+
     expect(outletsPageFirstCardTitle).toEqual(outletPageTitle);
     expect(outletsPageFirstCardSubtitle).toEqual(outletPageSubtitle);
   });
@@ -89,14 +94,19 @@ test.describe('outlet page', () => {
     // Format data received from the API response to display as it would in the UI
     if (outlet.status == 'LIVE') statusValue = 'ACTIVE';
     if (outlet.reservationEmail != null) emailValue = outlet.reservationEmail;
+
     if (outlet.products.length > 0) {
       primaryProductsValue = '';
-
-      for (let i = 0; i < outlet.products.length; i++) {
-        let newLine = i + 1 < outlet.products.length ? '\n\n' : '';
-        primaryProductsValue += `${toTitleCase(
-          outlet.products[i].category
-        )} / ${outlet.products[i].name}${newLine}`;
+      const filteredProducts = outlet.products.filter(
+        (product: Product) => !product
+      );
+      if (filteredProducts.length === 0) {
+        for (let i = 0; i < outlet.products.length; i++) {
+          let newLine = i + 1 < outlet.products.length ? '\n\n' : '';
+          primaryProductsValue += `${toTitleCase(
+            outlet.products[i].category
+          )} / ${outlet.products[i].name}${newLine}`;
+        }
       }
     }
 

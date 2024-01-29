@@ -3,6 +3,7 @@ import LoginPage from '../../pages/LoginPage';
 import PartnersPage from 'e2e/tests/pages/PartnersPage';
 import OutletsPage from 'e2e/tests/pages/OutletsPage';
 import CatalogueApi from 'e2e/tests/utils/CatalogueApi';
+import Helper from 'e2e/tests/helpers/Helper';
 
 test.beforeEach(async ({ page }) => {
   const loginPage = new LoginPage(page);
@@ -29,10 +30,13 @@ test.describe('partner-specific outlets page', () => {
     const currentUrl = page.url();
     const partnerId = currentUrl.split('outlets?partner=')[1];
     const partnerBrand = await catalogueApi.getPartnerBrandByID(partnerId);
-    const title = outletsPage.title();
+    const title = await outletsPage.title();
     const outletCountAPI = partnerBrand.outlets.length;
 
-    await expect(title).toBeVisible();
+    const navSection = await Helper.navSection(page);
+
+    expect(navSection).toHaveText('Catalogue');
+    expect(title).toBeVisible();
     await outletsPage.assertCorrectNumberOfOutletsAreDisplayed(outletCountAPI);
   });
 });

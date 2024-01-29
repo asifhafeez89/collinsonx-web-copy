@@ -72,6 +72,10 @@ export async function getLinkFromEmail(email) {
     process.env.MAILINATOR_API_TOKEN
   );
 
+  console.log(
+    'Sending request to receive the latest emails for user: ',
+    username
+  );
   try {
     let latestMessage;
     let count = 0;

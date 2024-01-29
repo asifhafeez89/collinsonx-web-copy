@@ -74,7 +74,7 @@ export default function Outlets() {
   };
 
   return (
-    <Stack gap={24} px={24} pt={32}>
+    <Stack gap={24} px={24} pt={32} data-testid="outlet-listing-container">
       <Title>Outlets</Title>
       <Error error={errorOutlets} />
       <Error error={errorPartnerBrand} />
@@ -82,11 +82,7 @@ export default function Outlets() {
         <Spinner />
       )}
       {data && data.length ? (
-        <OutletGrid
-          data-testid="outled-grid"
-          outlets={data}
-          onClickOutlet={handleClickOutlet}
-        />
+        <OutletGrid outlets={data} onClickOutlet={handleClickOutlet} />
       ) : null}
       {!partnerId && !loadingOutlets && !loadingPartnerBrand && (
         <Center>
