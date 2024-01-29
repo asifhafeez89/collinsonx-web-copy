@@ -25,7 +25,7 @@ import {
 
 async function fillStripeIframe(stripePaymentPage, id) {
   await stripePaymentPage.inputEmail(getEmailAddress(id));
-  await stripePaymentPage.inputCardNumber('4242424242424242');
+  await stripePaymentPage.inputCardNumber('378282246310005');
   await stripePaymentPage.inputExpiry('0225');
   await stripePaymentPage.inputCvc('444');
   await stripePaymentPage.inputCardName('James Jimmy');
@@ -46,7 +46,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('Confirm booking flow', () => {
-  test.describe('PAY-001 - Confirm Booking Happy Path', () => {
+  test.describe('CNB-001 - Confirm Booking Happy Path', () => {
     test('User should see payment confirmation message', async ({ page }) => {
       // Arrange
       const preBookPage = new PreBookPage(page);
