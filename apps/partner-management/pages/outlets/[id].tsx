@@ -1,4 +1,10 @@
-import { Box, SimpleGrid, Stack } from '@collinsonx/design-system/core';
+import {
+  Box,
+  Divider,
+  Flex,
+  SimpleGrid,
+  Stack,
+} from '@collinsonx/design-system/core';
 import { useQuery } from '@collinsonx/utils/apollo';
 import getOutletByID from '@collinsonx/utils/queries/getOutletByID';
 import { Outlet, OutletStatus, ProductCategory } from '@collinsonx/utils';
@@ -12,6 +18,8 @@ import OutletImages from '@components/OutletImages';
 import Spinner from '@components/Spinner';
 import { ValidProductCategory } from 'config/outletIcons';
 import Section from '@components/Section';
+import EditableArea from '@components/EditableArea';
+import OpeningTimes from '@components/OpeningTimes';
 
 const capitalizedCategoryMap: { [key in ProductCategory]: string } = {
   [ProductCategory.Eat]: 'Eat',
@@ -65,6 +73,7 @@ export default function OutletDetail() {
     products,
     productCategories,
     hasDisabledAccess,
+    openingTimes,
     reservationEmail,
     meta,
     content,
@@ -81,37 +90,39 @@ export default function OutletDetail() {
   );
 
   return (
-    <>
+    <Box id="outlet-container">
       <OutletHeading
         name={name}
         locationName={location.name}
         terminal={location.terminal}
       />
-      <Stack id="outlet-container" gap={12}>
-        <Error error={errorOutlet} />
-        <Section>
-          <SimpleGrid verticalSpacing="lg" cols={{ xs: 1, sm: 2 }}>
-            <OutletDetailsSummary
-              locationType={category}
-              legacyCode={legacyCode}
-              code={code}
-              status={status === OutletStatus.Live ? 'ACTIVE' : 'INACTIVE'}
-              productCategories={filteredProductCategories}
-              primaryProducts={primaryProducts}
-              disabledAccess={hasDisabledAccess}
-              email={reservationEmail}
-              lastEditedDate={meta?.lastEdited}
-              editor={meta?.editor}
-            />
-            <Box style={{ maxWidth: '768px', minWidth: '320px' }}>
-              <OutletImages
-                mediaCollection={content?.media?.mediaCollection?.items}
+      <Error error={errorOutlet} />
+      <Section>
+        <Stack gap={32}>
+          <Flex wrap="wrap" direction="row" justify="space-between" rowGap={32}>
+            <Box maw={500}>
+              <OutletDetailsSummary
+                locationType={category}
+                legacyCode={legacyCode}
+                code={code}
+                status={status === OutletStatus.Live ? 'ACTIVE' : 'INACTIVE'}
+                productCategories={filteredProductCategories}
+                primaryProducts={primaryProducts}
+                disabledAccess={hasDisabledAccess}
+                email={reservationEmail}
+                lastEditedDate={meta?.lastEdited}
+                editor={meta?.editor}
               />
             </Box>
-          </SimpleGrid>
-        </Section>
-      </Stack>
-    </>
+            <OutletImages
+              mediaCollection={content?.media?.mediaCollection?.items}
+            />
+          </Flex>
+          <Divider />
+          {openingTimes && <OpeningTimes openingTimes={openingTimes} />}
+        </Stack>
+      </Section>
+    </Box>
   );
 }
 

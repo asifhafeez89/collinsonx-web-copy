@@ -1,0 +1,16 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.subtitle {
+  width: 100%;
+  color: var(--text-grey);
+  font-size: rem(18px);
+}
+.container {
+  width: auto;
+  @media (max-width: $mantine-breakpoint-lg) {
+    width: 100%;
+  }
+}

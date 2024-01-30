@@ -41,7 +41,7 @@ const ThumbnailList: React.FC<ThumbnailListProps> = ({
   }, [activeIndex]);
 
   return (
-    <List className={classes.thumbnailList} aria-role="tablist">
+    <List className={classes.thumbnailList} role="tablist">
       {thumbnails.map((thumbnail, index) => (
         <List.Item
           key={thumbnail.url || index}

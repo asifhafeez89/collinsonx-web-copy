@@ -32,6 +32,14 @@ const getOutletByID = gql`
         status
       }
       openingTimes {
+        meta {
+          lastEdited
+          editor {
+            lastName
+            firstName
+            organisation
+          }
+        }
         exceptions
         schedules {
           MONDAY {

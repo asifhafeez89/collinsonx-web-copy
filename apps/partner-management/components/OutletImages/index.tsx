@@ -6,12 +6,14 @@ import {
   Text,
   Stack,
   Image,
+  Flex,
 } from '@collinsonx/design-system/core';
 import { Asset } from '@collinsonx/utils';
 import classes from './OutletImages.module.css';
 import { Button } from '@collinsonx/design-system';
 import ThumbnailList from '@components/ThumbnailList';
 import Carousel, { CarouselSlide } from '@components/Carousel';
+import EditableArea from '@components/EditableArea';
 
 interface OutletImagesProps {
   mediaCollection?: (Asset | null)[];
@@ -40,47 +42,33 @@ const OutletImages: React.FC<OutletImagesProps> = ({ mediaCollection }) => {
 
   const imageCountText = `${numImages} ${numImages === 1 ? 'image' : 'images'}`;
 
+  const slides = useMemo(() => {
+    return images.map((image, index) => (
+      <CarouselSlide
+        key={image.url}
+        slideIndex={index + 1}
+        numSlides={numImages}
+      >
+        <Image
+          src={image.url}
+          alt={image.description || image.title || 'Outlet image'}
+          className={classes.carouselImage}
+        />
+      </CarouselSlide>
+    ));
+  }, [images, numImages]);
+
   return (
-    <Box>
+    <EditableArea title="Images" subtitle="Last edited:">
       {images && images[activeIndex] && (
-        <>
-          <Group
-            justify="space-between"
-            align="baseline"
-            gap="sm"
-            mb={12}
-            wrap="nowrap"
-          >
-            <Stack gap="xs">
-              <Title className={classes.title} order={2}>
-                Images
-              </Title>
-              <Text className={classes.subtitle}>Last edited:</Text>
-            </Stack>
-            <Button variant="outline" size="md" aria-label="Edit images">
-              Edit
-            </Button>
-          </Group>
+        <Box style={{ maxWidth: '550px', minWidth: '320px' }} mx="auto">
           <Carousel
             activeIndex={activeIndex}
             onSlideChange={setActiveIndex}
             activeImgUrl={images[activeIndex].url}
           >
-            {images.map((image, index) => (
-              <CarouselSlide
-                key={image.url}
-                slideIndex={index + 1}
-                numSlides={numImages}
-              >
-                <Image
-                  src={image.url}
-                  alt={image.description || image.title || 'Outlet image'}
-                  className={classes.carouselImage}
-                />
-              </CarouselSlide>
-            ))}
+            {slides}
           </Carousel>
-
           <ThumbnailList
             thumbnails={images}
             onThumbnailClick={handleThumbnailClick}
@@ -88,9 +76,9 @@ const OutletImages: React.FC<OutletImagesProps> = ({ mediaCollection }) => {
           />
 
           <Text>{imageCountText}</Text>
-        </>
+        </Box>
       )}
-    </Box>
+    </EditableArea>
   );
 };
 

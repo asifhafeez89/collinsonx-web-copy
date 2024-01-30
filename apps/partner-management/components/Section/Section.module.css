@@ -1,9 +1,18 @@
 .section {
   max-width: 1140px;
-  margin: 0 auto;
   box-sizing: content-box;
   padding: rem(24px);
   @media (max-width: $mantine-breakpoint-md) {
     padding: rem(16px);
+  }
+}
+.margin {
+  margin: 0 auto;
+}
+
+.expandSection {
+  width: 1140px;
+  @media (max-width: 1188px) {
+    width: auto;
   }
 }

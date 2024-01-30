@@ -1,14 +1,32 @@
 import { Box } from '@collinsonx/design-system/core';
-import { FC, PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 
 import classes from './Section.module.css';
 import clsx from 'clsx';
 
-const Section: FC<PropsWithChildren & { className?: string }> = ({
+export interface SectionProps extends PropsWithChildren {
+  className?: string;
+  margin?: boolean;
+  expandSection?: boolean;
+}
+const Section = ({
   children,
   className,
-}) => {
-  return <Box className={clsx([classes.section, className])}>{children}</Box>;
+  margin = true,
+  expandSection,
+}: SectionProps) => {
+  return (
+    <Box
+      className={clsx([
+        classes.section,
+        { [classes.margin]: margin },
+        { [classes.expandSection]: expandSection },
+        className,
+      ])}
+    >
+      {children}
+    </Box>
+  );
 };
 
 export default Section;

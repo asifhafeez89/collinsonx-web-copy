@@ -4,7 +4,7 @@
   background-color: var(--white);
   z-index: 1;
   border-bottom: 1px solid var(--grey-border);
-  margin-bottom: 32px;
+  margin-bottom: 8px;
 }
 .section {
   width: 1140px;

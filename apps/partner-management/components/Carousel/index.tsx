@@ -62,13 +62,14 @@ export default function Carousel({
 
   useEffect(() => {
     if (emblaApi) {
+      emblaApi.reInit();
       emblaApi.on('select', onSelect);
     }
 
     return () => {
       emblaApi?.off('select', onSelect);
     };
-  }, [emblaApi, onSelect]);
+  }, [emblaApi, onSelect, children]);
 
   useEffect(() => {
     if (emblaApi && typeof activeIndex === 'number') {
