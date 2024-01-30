@@ -12,14 +12,14 @@ type Props = {
   canScrollNext: boolean;
   onPrev(): void;
   onNext(): void;
-  isHovered: boolean;
+  showControls: boolean;
 };
 const CarouselControls = (props: Props) => {
-  const { canScrollNext, canScrollPrev, isHovered, onNext, onPrev } = props;
+  const { canScrollNext, canScrollPrev, showControls, onNext, onPrev } = props;
 
   return (
     <Box
-      className={clsx(classes.container, { [classes.hidden]: !isHovered })}
+      className={clsx(classes.container, { [classes.hidden]: !showControls })}
       visibleFrom="sm"
     >
       <Button

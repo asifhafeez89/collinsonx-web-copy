@@ -41,10 +41,16 @@ const OutletImages: React.FC<OutletImagesProps> = ({ mediaCollection }) => {
   const imageCountText = `${numImages} ${numImages === 1 ? 'image' : 'images'}`;
 
   return (
-    <Box px="md">
+    <Box>
       {images && images[activeIndex] && (
         <>
-          <Group justify="space-between" align="baseline" gap="sm" mb={12}>
+          <Group
+            justify="space-between"
+            align="baseline"
+            gap="sm"
+            mb={12}
+            wrap="nowrap"
+          >
             <Stack gap="xs">
               <Title className={classes.title} order={2}>
                 Images

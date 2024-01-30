@@ -33,6 +33,7 @@ export default function Carousel({
 }: CarouselProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false, ...options });
   const [isHovered, setIsHovered] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
   const scrollPrev = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
@@ -47,6 +48,17 @@ export default function Carousel({
     const index = emblaApi.selectedScrollSnap();
     onSlideChange(index);
   }, [emblaApi, onSlideChange]);
+
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      if (event.key === 'ArrowLeft') {
+        scrollPrev();
+      } else if (event.key === 'ArrowRight') {
+        scrollNext();
+      }
+    },
+    [scrollPrev, scrollNext]
+  );
 
   useEffect(() => {
     if (emblaApi) {
@@ -74,13 +86,17 @@ export default function Carousel({
       ref={emblaRef}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onFocus={() => setIsFocused(true)}
+      onBlur={() => setIsFocused(false)}
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
       aria-roledescription="carousel"
       role="region"
     >
       <Box className={classes.emblaContainer}>{children}</Box>
       <Button
         className={clsx(classes.fullscreenButton, {
-          [classes.hidden]: !isHovered,
+          [classes.hidden]: !isHovered && !isFocused,
         })}
         aria-label="Enlarge image"
         visibleFrom="sm"
@@ -93,7 +109,7 @@ export default function Carousel({
         canScrollPrev={canScrollPrev}
         onNext={scrollNext}
         onPrev={scrollPrev}
-        isHovered={isHovered}
+        showControls={isHovered || isFocused}
       />
     </Box>
   );

@@ -33,7 +33,7 @@ describe('Slide Component', () => {
       </Slide>
     );
     const slide = screen.getByLabelText('2 of 5');
-    expect(slide).toHaveAttribute('aria-description', 'slide');
+    expect(slide).toHaveAttribute('aria-roledescription', 'slide');
   });
 
   it('shows tooltip with warning message on hover', async () => {

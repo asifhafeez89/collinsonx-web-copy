@@ -15,7 +15,7 @@ describe('CarouselControls Component', () => {
         canScrollPrev={true}
         onPrev={() => {}}
         onNext={() => {}}
-        isHovered={false}
+        showControls={false}
       />
     );
     expect(screen.getByLabelText('Previous image').parentNode).toHaveClass(
@@ -31,7 +31,7 @@ describe('CarouselControls Component', () => {
         canScrollPrev={true}
         onPrev={() => {}}
         onNext={() => {}}
-        isHovered={true}
+        showControls={true}
       />
     );
     expect(screen.getByLabelText('Previous image').parentNode).not.toHaveClass(
@@ -49,7 +49,7 @@ describe('CarouselControls Component', () => {
         canScrollPrev={true}
         onPrev={() => {}}
         onNext={() => {}}
-        isHovered={true}
+        showControls={true}
       />
     );
     expect(screen.getByLabelText('Previous image')).toBeEnabled();
@@ -66,7 +66,7 @@ describe('CarouselControls Component', () => {
         canScrollPrev={true}
         onPrev={handlePrev}
         onNext={handleNext}
-        isHovered={true}
+        showControls={true}
       />
     );
 
@@ -84,7 +84,7 @@ describe('CarouselControls Component', () => {
         canScrollPrev={true}
         onPrev={() => {}}
         onNext={() => {}}
-        isHovered={true}
+        showControls={true}
       />
     );
     expect(screen.getByLabelText('Previous image')).toBeInTheDocument();
@@ -98,7 +98,7 @@ describe('CarouselControls Component', () => {
         canScrollPrev={true}
         onPrev={() => {}}
         onNext={() => {}}
-        isHovered={true}
+        showControls={true}
       />
     );
     expect(screen.getByLabelText('Previous image')).toBeVisible();

@@ -1,5 +1,10 @@
 import React, { useEffect, useRef } from 'react';
-import { ActionIcon, Box, Image, List } from '@collinsonx/design-system/core';
+import {
+  ActionIcon,
+  Button,
+  Image,
+  List,
+} from '@collinsonx/design-system/core';
 import classes from './ThumbnailList.module.css';
 import { WarningAmber } from '@collinsonx/design-system/assets/icons';
 import colors from '@collinsonx/design-system/colour-constants-partner';
@@ -36,24 +41,24 @@ const ThumbnailList: React.FC<ThumbnailListProps> = ({
   }, [activeIndex]);
 
   return (
-    <List className={classes.thumbnailList}>
+    <List className={classes.thumbnailList} aria-role="tablist">
       {thumbnails.map((thumbnail, index) => (
         <List.Item
           key={thumbnail.url || index}
           className={classes.listItem}
-          onClick={() => onThumbnailClick(index)}
-          onKeyDown={(e) => e.key === 'Enter' && onThumbnailClick(index)}
-          tabIndex={0}
-          role="button"
-          aria-label={`Thumbnail ${index + 1}`}
           ref={(el) => {
             if (!thumbnailRefs.current[index]) {
               thumbnailRefs.current[index] = el;
             }
           }}
         >
-          <Box
-            className={classes.thumbnailContainer}
+          <Button
+            role="tab"
+            aria-label={`Thumbnail ${index + 1}`}
+            aria-selected={index === activeIndex}
+            aria-controls={`slide-${index}`}
+            onClick={() => onThumbnailClick(index)}
+            className={classes.thumbnailButton}
             data-active={index === activeIndex}
             data-testid={`thumbnail-${index}`}
           >
@@ -68,7 +73,7 @@ const ThumbnailList: React.FC<ThumbnailListProps> = ({
               alt={thumbnail.description || thumbnail.title || 'Outlet image'}
               className={classes.thumbnail}
             />
-          </Box>
+          </Button>
         </List.Item>
       ))}
     </List>

@@ -1,6 +1,7 @@
 .embla {
   overflow: hidden;
   position: relative;
+  border-radius: 8px;
 }
 
 .emblaContainer {

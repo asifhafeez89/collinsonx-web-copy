@@ -36,32 +36,33 @@
   scale: 0.8;
 }
 
-.thumbnailContainer {
+.thumbnailButton {
+  width: 80px;
+  height: 45px;
   position: relative;
   border: 2px solid transparent;
   border-radius: 4px;
   opacity: 0.5;
   transition: border 0.3s ease, opacity 0.3s ease;
+  padding: 0;
 }
 
-.thumbnailContainer:hover,
-.thumbnailContainer:focus-within,
-.thumbnailContainer[data-active='true'] {
+.thumbnailButton:hover,
+.thumbnailButton:focus-within,
+.thumbnailButton[data-active='true'] {
   opacity: 1;
 }
 
-.thumbnailContainer:hover,
-.thumbnailContainer:focus-within {
+.thumbnailButton:hover,
+.thumbnailButton:focus-within {
   border: 2px solid var(--text-default);
 }
 
-.thumbnailContainer[data-active='true'] {
+.thumbnailButton[data-active='true'] {
   border: 2px solid var(--brand-collinson);
 }
 
 .thumbnail {
-  width: 80px;
-  height: 45px;
   border-radius: 2px;
   opacity: 1;
   box-sizing: border-box;
