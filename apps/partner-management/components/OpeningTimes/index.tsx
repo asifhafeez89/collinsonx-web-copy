@@ -61,21 +61,19 @@ const OpeningTimes = ({ openingTimes }: OpeningTimesProps) => {
     }).filter((schedule) => !!schedule);
   }, [openingTimes]);
 
-  return (
+  return data || exceptions ? (
     <EditableArea title="Opening times" subtitle={`Last edited: ${lastEdited}`}>
-      {data && (
-        <dl className={classes.listContainer}>
-          {data}
-          {exceptions && (
-            <Box w="100%">
-              <dt className={classes.label}>Opening times description</dt>
-              <dd>{exceptions}</dd>
-            </Box>
-          )}
-        </dl>
-      )}
+      <dl className={classes.listContainer}>
+        {data}
+        {exceptions && (
+          <Box w="100%">
+            <dt className={classes.label}>Opening times description</dt>
+            <dd>{exceptions}</dd>
+          </Box>
+        )}
+      </dl>
     </EditableArea>
-  );
+  ) : null;
 };
 
 export default OpeningTimes;
