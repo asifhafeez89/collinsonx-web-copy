@@ -235,7 +235,9 @@ const CheckAvailability = ({
               {' '}
               <Center className={classes.titleWrapper}>
                 <Heading as="h3" padding={0} margin={0} lineHeight={1}>
-                  {translations.booking.flightAndGuests.title}
+                  {mode === BOOKING_MODE.EDIT
+                    ? translations.booking.flightAndGuests.amendTitle
+                    : translations.booking.flightAndGuests.title}
                 </Heading>
               </Center>
               <LoungeInfo lounge={lounge} loading={!lounge} />

@@ -27,7 +27,7 @@ export default function ConfirmAmendment() {
           <Stack className={classes.containerInner}>
             <Center className={classes.titleContainer}>
               <Heading as="h1" padding={0} margin={0} lineHeight={1}>
-                {translations.booking.confirmationPayment.title}
+                {translations.booking.confirmationPayment.amendTitle}
               </Heading>
             </Center>
 

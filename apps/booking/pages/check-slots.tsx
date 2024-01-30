@@ -71,7 +71,6 @@ export default function CheckAvailability() {
   const booking = getBooking();
   const flightData = getFlight();
   const Booking_Mode = getItem(BOKING_MODE_STATE);
-
   const existingSlotStart =
     Booking_Mode === BOOKING_MODE.EDIT
       ? booking.existing_booking_slot.split(' ')[1].substring(0, 5)
@@ -434,8 +433,8 @@ export default function CheckAvailability() {
             <Center className={classes.titleWrapper}>
               <Heading as="h3" padding={0} margin={0} lineHeight={1}>
                 {Booking_Mode === BOOKING_MODE.EDIT
-                  ? translations.booking.checkAvailability.arrivalTitle
-                  : translations.booking.checkAvailability.amendTitle}
+                  ? translations.booking.checkAvailability.amendTitle
+                  : translations.booking.checkAvailability.arrivalTitle}
               </Heading>
             </Center>
             <LoungeInfo lounge={lounge} loading={!lounge} />
