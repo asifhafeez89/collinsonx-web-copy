@@ -25,11 +25,52 @@ const getOutletByID = gql`
         }
         lastEdited
       }
+      ancillaryProducts {
+        tier
+        costs {
+          cost
+          costCurrency
+          programme
+          defaultTaxPercentage
+          projectedCost
+          reservationCost
+          type
+        }
+        salePrices {
+          programme
+          salePrice
+          salePriceCurrency
+          stripePriceID
+        }
+        name
+        id
+        salesforceID
+        status
+      }
       products {
         id
         name
-        category
+        tier
+        costs {
+          cost
+          costCurrency
+          programme
+          defaultTaxPercentage
+          projectedCost
+          reservationCost
+          type
+        }
+        salePrices {
+          programme
+          salePrice
+          salePriceCurrency
+          stripePriceID
+        }
         status
+        category
+        accessType
+        salesforceID
+        stage
       }
       openingTimes {
         meta {

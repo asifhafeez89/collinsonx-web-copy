@@ -26,10 +26,8 @@ const EditableArea = ({ title, subtitle, children }: EditableAreaProps) => {
         <Title order={2}>{title}</Title>
         {mode === 'view' && <Button variant="outline">Edit</Button>}
       </Box>
-      <Stack gap={24}>
-        {subtitle && <Text className={classes.subtitle}>{subtitle}</Text>}
-        {children}
-      </Stack>
+      {subtitle && <Text className={classes.subtitle}>{subtitle}</Text>}
+      <Box pt={24}>{children}</Box>
     </Flex>
   );
 };

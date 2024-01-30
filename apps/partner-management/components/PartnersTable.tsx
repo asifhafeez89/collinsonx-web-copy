@@ -1,7 +1,6 @@
 import { PartnerBrand } from '@collinsonx/utils';
 import { Table as MantineTable } from '@collinsonx/design-system/core';
 import { Table as ReactTable, flexRender } from '@tanstack/react-table';
-import colors from '@collinsonx/design-system/colour-constants-partner';
 import classes from './PartnersTable.module.css';
 
 interface PartnersTableProps {

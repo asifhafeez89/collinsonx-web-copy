@@ -1,7 +1,6 @@
 import {
   Box,
   Divider,
-  Flex,
   SimpleGrid,
   Stack,
 } from '@collinsonx/design-system/core';
@@ -13,6 +12,7 @@ import LayoutCatalogue from '@components/LayoutCatalogue';
 import { useRouter } from 'next/router';
 import OutletHeading from '@components/OutletHeading';
 import OutletDetailsSummary from '@components/OutletDetailsSummary';
+import OutletProducts from '@components/OutletProducts';
 import OutletImages from '@components/OutletImages';
 import Spinner from '@components/Spinner';
 import { ValidProductCategory } from 'config/outletIcons';
@@ -69,6 +69,7 @@ export default function OutletDetail() {
     legacyCode,
     code,
     products,
+    ancillaryProducts,
     productCategories,
     hasDisabledAccess,
     openingTimes,
@@ -77,7 +78,7 @@ export default function OutletDetail() {
     content,
   } = dataOutlet.getOutletByID;
 
-  const primaryProducts = products.map((product) => {
+  const primaryProductNames = products.map((product) => {
     return product
       ? `${capitalizedCategoryMap[product.category]} / ${product.name}`
       : '';
@@ -85,6 +86,10 @@ export default function OutletDetail() {
 
   const filteredProductCategories = productCategories.filter(
     isValidProductCategory
+  );
+
+  const ancillaryProductNames = ancillaryProducts.map((product) =>
+    product ? product.name : ''
   );
 
   return (
@@ -101,21 +106,27 @@ export default function OutletDetail() {
             <Box maw={500}>
               <OutletDetailsSummary
                 locationType={category}
-                legacyCode={legacyCode}
-                code={code}
+                legacyCode={legacyCode ?? undefined}
+                code={code ?? undefined}
                 status={status === OutletStatus.Live ? 'ACTIVE' : 'INACTIVE'}
                 productCategories={filteredProductCategories}
-                primaryProducts={primaryProducts}
+                primaryProductNames={primaryProductNames}
+                ancillaryProductNames={ancillaryProductNames}
                 disabledAccess={hasDisabledAccess}
-                email={reservationEmail}
+                email={reservationEmail ?? undefined}
                 lastEditedDate={meta?.lastEdited}
-                editor={meta?.editor}
+                editor={meta?.editor ?? undefined}
               />
             </Box>
             <OutletImages
               mediaCollection={content?.media?.mediaCollection?.items}
             />
           </SimpleGrid>
+          <Divider />
+          <OutletProducts
+            ancillaryProducts={ancillaryProducts}
+            products={products}
+          />
           <Divider />
           {openingTimes && <OpeningTimes openingTimes={openingTimes} />}
         </Stack>

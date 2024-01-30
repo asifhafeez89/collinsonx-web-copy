@@ -7,7 +7,6 @@ import classes from './OpeningTimes.module.css';
 import { Box } from '@collinsonx/design-system/core';
 import EditableArea from '@components/EditableArea';
 import { useMemo } from 'react';
-import dayjs from 'dayjs';
 import { formatDateString } from 'utils/dateUtils';
 
 export interface OpeningTimesProps {

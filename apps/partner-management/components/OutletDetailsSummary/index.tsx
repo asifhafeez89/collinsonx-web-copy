@@ -12,27 +12,28 @@ import Badge from '@collinsonx/design-system/components/badge/index';
 import SummaryItem from './SummaryItem';
 import TooltipIcon from '../../components/TooltipIcon';
 import { formatDateString } from 'utils/dateUtils';
-import outletIcons, { ValidProductCategory } from 'config/outletIcons';
+import outletIcons from 'config/outletIcons';
 import ProductCategoriesList from '@collinsonx/design-system/components/outletTypes/index';
 import classes from './OutletDetailsSummary.module.css';
-
-interface Editor {
-  firstName?: string | null;
-  lastName?: string | null;
-  organisation?: string | null;
-}
+import {
+  OutletCategory,
+  Editor,
+  ProductCategory,
+  Maybe,
+} from '@collinsonx/utils';
 
 export interface OutletDetailsSummaryProps {
-  locationType: string;
-  legacyCode?: string | null;
-  code?: string | null;
-  productCategories: Array<ValidProductCategory | null>;
+  locationType: OutletCategory;
+  legacyCode?: string;
+  code?: string;
+  productCategories: Maybe<ProductCategory>[];
   status: 'ACTIVE' | 'INACTIVE';
-  primaryProducts: string[];
+  primaryProductNames: string[];
+  ancillaryProductNames: string[];
   disabledAccess: boolean;
-  email?: string | null;
+  email?: string;
   lastEditedDate?: string;
-  editor?: Editor | null;
+  editor?: Editor;
 }
 
 const OutletDetailsSummary = ({
@@ -41,14 +42,15 @@ const OutletDetailsSummary = ({
   code: outletCode,
   productCategories: categories,
   status,
-  primaryProducts,
+  primaryProductNames,
+  ancillaryProductNames,
   disabledAccess,
   email,
   lastEditedDate,
   editor,
 }: OutletDetailsSummaryProps) => {
   const renderProducts = (products: string[]) => {
-    return products.length > 0 ? (
+    return products?.length > 0 ? (
       <Flex direction="column" gap={4}>
         {products.map((product) => (
           <Text key={product} size="lg" style={{ whiteSpace: 'nowrap' }}>
@@ -81,7 +83,7 @@ const OutletDetailsSummary = ({
   };
 
   const productCategories = categories
-    .filter((category): category is ValidProductCategory => category !== null)
+    .filter((category): category is ProductCategory => category !== null)
     .map((category) => {
       const Icon = outletIcons[category];
       return {
@@ -165,7 +167,12 @@ const OutletDetailsSummary = ({
         />
         <SummaryItem
           label="Primary products"
-          value={renderProducts(primaryProducts)}
+          value={renderProducts(primaryProductNames)}
+        />
+
+        <SummaryItem
+          label="Ancillary products"
+          value={renderProducts(ancillaryProductNames)}
         />
 
         <SummaryItem

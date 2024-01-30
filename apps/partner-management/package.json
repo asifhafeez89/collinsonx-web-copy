@@ -28,6 +28,7 @@
     "@types/react-dom": "^18.0.9"
   },
   "dependencies": {
+    "@automattic/format-currency": "^2.0.0",
     "@collinsonx/config": "workspace:*",
     "@collinsonx/design-system": "workspace:*",
     "@collinsonx/pages": "workspace:*",
