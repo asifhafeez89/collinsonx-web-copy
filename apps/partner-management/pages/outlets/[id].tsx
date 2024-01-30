@@ -12,13 +12,11 @@ import Error from '@components/Error';
 import LayoutCatalogue from '@components/LayoutCatalogue';
 import { useRouter } from 'next/router';
 import OutletHeading from '@components/OutletHeading';
-import colors from '@collinsonx/design-system/colour-constants-partner';
 import OutletDetailsSummary from '@components/OutletDetailsSummary';
 import OutletImages from '@components/OutletImages';
 import Spinner from '@components/Spinner';
 import { ValidProductCategory } from 'config/outletIcons';
 import Section from '@components/Section';
-import EditableArea from '@components/EditableArea';
 import OpeningTimes from '@components/OpeningTimes';
 
 const capitalizedCategoryMap: { [key in ProductCategory]: string } = {
@@ -99,7 +97,7 @@ export default function OutletDetail() {
       <Error error={errorOutlet} />
       <Section>
         <Stack gap={32}>
-          <Flex wrap="wrap" direction="row" justify="space-between" rowGap={32}>
+          <SimpleGrid verticalSpacing="lg" cols={{ xs: 1, md: 2 }}>
             <Box maw={500}>
               <OutletDetailsSummary
                 locationType={category}
@@ -117,7 +115,7 @@ export default function OutletDetail() {
             <OutletImages
               mediaCollection={content?.media?.mediaCollection?.items}
             />
-          </Flex>
+          </SimpleGrid>
           <Divider />
           {openingTimes && <OpeningTimes openingTimes={openingTimes} />}
         </Stack>

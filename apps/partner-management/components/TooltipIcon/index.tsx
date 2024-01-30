@@ -27,7 +27,13 @@ const TooltipIcon = ({
   iconProps,
 }: TooltipIconProps) => {
   return (
-    <Tooltip label={tooltipText} withArrow position="right" {...tooltipProps}>
+    <Tooltip
+      label={tooltipText}
+      withArrow
+      position="right"
+      events={{ hover: true, focus: true, touch: false }}
+      {...tooltipProps}
+    >
       <ActionIcon variant="subtle" color={color} size={size} {...iconProps}>
         {icon}
       </ActionIcon>
