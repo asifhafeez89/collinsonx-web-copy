@@ -59,6 +59,10 @@ const ThumbnailList: React.FC<ThumbnailListProps> = ({
             aria-controls={`slide-${index}`}
             onClick={() => onThumbnailClick(index)}
             className={classes.thumbnailButton}
+            classNames={{
+              inner: classes.thumbnailButtonInner,
+              label: classes.thumbnailButtonLabel,
+            }}
             data-active={index === activeIndex}
             data-testid={`thumbnail-${index}`}
           >
@@ -70,7 +74,7 @@ const ThumbnailList: React.FC<ThumbnailListProps> = ({
 
             <Image
               src={thumbnail.url}
-              alt={thumbnail.description || thumbnail.title || 'Outlet image'}
+              alt={thumbnail.title || ''}
               className={classes.thumbnail}
             />
           </Button>
