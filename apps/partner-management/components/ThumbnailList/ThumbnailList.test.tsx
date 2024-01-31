@@ -79,12 +79,7 @@ describe('ThumbnailList', () => {
     );
     const images = screen.getAllByRole('img');
     images.forEach((img, index) => {
-      expect(img).toHaveAttribute(
-        'alt',
-        mockThumbnails[index].description ||
-          mockThumbnails[index].title ||
-          'Outlet image'
-      );
+      expect(img).toHaveAttribute('alt', mockThumbnails[index].title || '');
     });
   });
 });
