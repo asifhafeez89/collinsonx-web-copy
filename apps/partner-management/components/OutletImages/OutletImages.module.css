@@ -1,9 +1,19 @@
 .title {
   color: var(--text-default);
+  font-size: rem(24px);
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    font-size: rem(20px);
+  }
 }
 
 .subtitle {
   color: var(--text-grey);
+  font-size: rem(18px);
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    font-size: rem(14px);
+  }
 }
 
 .carouselImage {

@@ -21,6 +21,7 @@ interface FlightDetailsAndGuestsProps {
   };
   lounge?: Experience;
   noEdit?: boolean;
+  currentPrice?: number;
 }
 
 export const FlightDetailsAndGuests = ({
@@ -29,6 +30,7 @@ export const FlightDetailsAndGuests = ({
   guestList,
   lounge,
   noEdit,
+  currentPrice,
 }: FlightDetailsAndGuestsProps) => {
   const translations = useLocale();
 
@@ -71,7 +73,11 @@ export const FlightDetailsAndGuests = ({
             as="h2"
             showBorder={false}
           >
-            <Price lounge={lounge} guests={guestList}></Price>
+            <Price
+              lounge={lounge}
+              guests={guestList}
+              currentPrice={currentPrice}
+            ></Price>
           </EditableTitle>
         </Box>
       </Flex>

@@ -1,4 +1,9 @@
-import { Box, SimpleGrid, Stack } from '@collinsonx/design-system/core';
+import {
+  Box,
+  Divider,
+  SimpleGrid,
+  Stack,
+} from '@collinsonx/design-system/core';
 import { useQuery } from '@collinsonx/utils/apollo';
 import getOutletByID from '@collinsonx/utils/queries/getOutletByID';
 import { Outlet, OutletStatus, ProductCategory } from '@collinsonx/utils';
@@ -6,12 +11,13 @@ import Error from '@components/Error';
 import LayoutCatalogue from '@components/LayoutCatalogue';
 import { useRouter } from 'next/router';
 import OutletHeading from '@components/OutletHeading';
-import colors from '@collinsonx/design-system/colour-constants-partner';
 import OutletDetailsSummary from '@components/OutletDetailsSummary';
+import OutletProducts from '@components/OutletProducts';
 import OutletImages from '@components/OutletImages';
 import Spinner from '@components/Spinner';
 import { ValidProductCategory } from 'config/outletIcons';
 import Section from '@components/Section';
+import OpeningTimes from '@components/OpeningTimes';
 
 const capitalizedCategoryMap: { [key in ProductCategory]: string } = {
   [ProductCategory.Eat]: 'Eat',
@@ -63,14 +69,16 @@ export default function OutletDetail() {
     legacyCode,
     code,
     products,
+    ancillaryProducts,
     productCategories,
     hasDisabledAccess,
+    openingTimes,
     reservationEmail,
     meta,
     content,
   } = dataOutlet.getOutletByID;
 
-  const primaryProducts = products.map((product) => {
+  const primaryProductNames = products.map((product) => {
     return product
       ? `${capitalizedCategoryMap[product.category]} / ${product.name}`
       : '';
@@ -80,38 +88,50 @@ export default function OutletDetail() {
     isValidProductCategory
   );
 
+  const ancillaryProductNames = ancillaryProducts.map((product) =>
+    product ? product.name : ''
+  );
+
   return (
-    <>
+    <Box id="outlet-container">
       <OutletHeading
         name={name}
         locationName={location.name}
         terminal={location.terminal}
       />
-      <Stack id="outlet-container" gap={12}>
-        <Error error={errorOutlet} />
-        <Section>
-          <SimpleGrid verticalSpacing="lg" cols={{ xs: 1, sm: 2 }}>
-            <OutletDetailsSummary
-              locationType={category}
-              legacyCode={legacyCode}
-              code={code}
-              status={status === OutletStatus.Live ? 'ACTIVE' : 'INACTIVE'}
-              productCategories={filteredProductCategories}
-              primaryProducts={primaryProducts}
-              disabledAccess={hasDisabledAccess}
-              email={reservationEmail}
-              lastEditedDate={meta?.lastEdited}
-              editor={meta?.editor}
-            />
-            <Box style={{ maxWidth: '768px', minWidth: '320px' }}>
-              <OutletImages
-                mediaCollection={content?.media?.mediaCollection?.items}
+      <Error error={errorOutlet} />
+      <Section>
+        <Stack gap={32}>
+          <SimpleGrid verticalSpacing="lg" cols={{ xs: 1, md: 2 }}>
+            <Box maw={500}>
+              <OutletDetailsSummary
+                locationType={category}
+                legacyCode={legacyCode ?? undefined}
+                code={code ?? undefined}
+                status={status === OutletStatus.Live ? 'ACTIVE' : 'INACTIVE'}
+                productCategories={filteredProductCategories}
+                primaryProductNames={primaryProductNames}
+                ancillaryProductNames={ancillaryProductNames}
+                disabledAccess={hasDisabledAccess}
+                email={reservationEmail ?? undefined}
+                lastEditedDate={meta?.lastEdited}
+                editor={meta?.editor ?? undefined}
               />
             </Box>
+            <OutletImages
+              mediaCollection={content?.media?.mediaCollection?.items}
+            />
           </SimpleGrid>
-        </Section>
-      </Stack>
-    </>
+          <Divider />
+          <OutletProducts
+            ancillaryProducts={ancillaryProducts}
+            products={products}
+          />
+          <Divider />
+          {openingTimes && <OpeningTimes openingTimes={openingTimes} />}
+        </Stack>
+      </Section>
+    </Box>
   );
 }
 

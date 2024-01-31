@@ -21,8 +21,9 @@ const Slide: FC<PropsWithChildren<SlideProps>> = ({
   return (
     <Box
       className={classes.emblaSlide}
-      aria-description="slide"
+      aria-roledescription="slide"
       aria-label={`${slideIndex} of ${numSlides}`}
+      id={`slide-${slideIndex}`}
     >
       {warning && (
         <Tooltip

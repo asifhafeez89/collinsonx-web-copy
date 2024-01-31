@@ -140,6 +140,7 @@ export default {
   booking: {
     flightAndGuests: {
       title: 'Entrada de vuelo e invitados',
+      amendTitle: 'Enmiendas de reserva',
     },
     flightDetails: {
       title: 'Detalles de mi vuelo',
@@ -269,6 +270,7 @@ export default {
     },
     confirmationPayment: {
       title: 'Confirmación de reserva',
+      amendTitle: 'Confirmación de enmienda de reserva',
       processing: {
         beingProcessed: {
           title: 'El pago se está procesando',
@@ -390,7 +392,7 @@ export default {
     },
     checkAvailability: {
       arrivalTitle: 'Selección de tiempo de llegada',
-      amendTitle: 'Modificaciones de reserva',
+      amendTitle: 'Enmienda de tiempo de llegada',
       notFoundError: 'Algo salió mal. Por favor, vuelva a intentarlo',
       btn: 'Verifique la disponibilidad',
       confirmModal: {

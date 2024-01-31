@@ -38,7 +38,7 @@ describe('ThumbnailList', () => {
         activeIndex={0}
       />
     );
-    const firstThumbnail = screen.getAllByRole('button')[0];
+    const firstThumbnail = screen.getAllByRole('tab')[0];
     await userEvent.click(firstThumbnail);
     expect(mockOnClick).toHaveBeenCalledWith(0);
   });
@@ -63,7 +63,7 @@ describe('ThumbnailList', () => {
         activeIndex={0}
       />
     );
-    const thumbnails = screen.getAllByRole('button');
+    const thumbnails = screen.getAllByRole('tab');
     thumbnails.forEach((thumbnail, index) => {
       expect(thumbnail).toHaveAttribute('aria-label', `Thumbnail ${index + 1}`);
     });

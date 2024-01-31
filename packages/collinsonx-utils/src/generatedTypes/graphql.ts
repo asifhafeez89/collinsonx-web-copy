@@ -57,6 +57,7 @@ export type Amendment = {
   bookedFrom: Scalars['String']['output'];
   bookedTo: Scalars['String']['output'];
   booking?: Maybe<Booking>;
+  bookingID: Scalars['ID']['output'];
   createdAt: Scalars['Date']['output'];
   guestAdultCount: Scalars['Int']['output'];
   guestChildrenCount: Scalars['Int']['output'];
@@ -447,6 +448,11 @@ export enum BookingType {
   Reservation = 'RESERVATION',
   ReservationFeeOnly = 'RESERVATION_FEE_ONLY',
   WalkUp = 'WALK_UP',
+}
+
+export enum CatalogueProductType {
+  Ancillary = 'ANCILLARY',
+  Primary = 'PRIMARY',
 }
 
 /** [See type definition](https://app.contentful.com/spaces/687qsr16btly/content_types/conditions) */
@@ -2280,6 +2286,8 @@ export type Outlet = {
   salesforceID: Scalars['String']['output'];
   /** The status of the outlet whether it is active or not */
   status: OutletStatus;
+  /** Object containing outlet tags (tier, isoCountryCode, category) */
+  tags?: Maybe<OutletTags>;
   /** The tier of the outlet for example Gold or Black */
   tier?: Maybe<Tier>;
 };
@@ -2445,8 +2453,8 @@ export type OutletKey = {
 };
 
 export enum OutletRegion {
+  Americas = 'AMERICAS',
   Apac = 'APAC',
-  Americas = 'Americas',
   Emea = 'EMEA',
   Global = 'GLOBAL',
 }
@@ -2457,6 +2465,14 @@ export enum OutletStatus {
 
 export type OutletTags = {
   __typename?: 'OutletTags';
+  category?: Maybe<OutletCategory>;
+  isoCountryCode?: Maybe<IsoCountryCode>;
+  region?: Maybe<OutletRegion>;
+  tier?: Maybe<Tier>;
+};
+
+export type OutletTagsList = {
+  __typename?: 'OutletTagsList';
   category?: Maybe<Array<Maybe<OutletCategory>>>;
   isoCountryCode?: Maybe<Array<Maybe<IsoCountryCode>>>;
   region?: Maybe<Array<Maybe<OutletRegion>>>;
@@ -2638,6 +2654,8 @@ export type Product = {
   stage: ProductStage;
   /** The status of the product */
   status: ProductStatus;
+  /** Object containing product tags (tier, accessType, category) */
+  tags?: Maybe<ProductTags>;
   /** The product tier for example Gold or Black */
   tier?: Maybe<Tier>;
 };
@@ -2713,6 +2731,8 @@ export type ProductInput = {
   status: ProductStatus;
   /** The product tier for example Gold or Black */
   tier?: InputMaybe<Tier>;
+  /** Type of the product (PRIMARY or ANCILLARY) */
+  type?: InputMaybe<CatalogueProductType>;
 };
 
 export type ProductKey = {
@@ -2758,6 +2778,13 @@ export enum ProductStatus {
 
 export type ProductTags = {
   __typename?: 'ProductTags';
+  accessType?: Maybe<PrimaryProductAccessType>;
+  category?: Maybe<ProductCategory>;
+  tier?: Maybe<Tier>;
+};
+
+export type ProductTagsList = {
+  __typename?: 'ProductTagsList';
   accessType?: Maybe<Array<Maybe<PrimaryProductAccessType>>>;
   category?: Maybe<Array<Maybe<ProductCategory>>>;
   tier?: Maybe<Array<Maybe<Tier>>>;
@@ -2775,6 +2802,7 @@ export enum Programme {
 
 export type Query = {
   __typename?: 'Query';
+  _node?: Maybe<_Node>;
   asset?: Maybe<Asset>;
   assetCollection?: Maybe<AssetCollection>;
   conditions?: Maybe<Conditions>;
@@ -2797,7 +2825,7 @@ export type Query = {
   getInvitations: Array<Invitation>;
   getOutletByID?: Maybe<Outlet>;
   getOutletBySalesforceID?: Maybe<Outlet>;
-  getOutletTags?: Maybe<OutletTags>;
+  getOutletTags?: Maybe<OutletTagsList>;
   getOutlets?: Maybe<PaginatedOutlets>;
   getPartner?: Maybe<Partner>;
   getPartnerBrandByID?: Maybe<PartnerBrand>;
@@ -2807,7 +2835,7 @@ export type Query = {
   getPartnerByID?: Maybe<Partner>;
   getProductByID?: Maybe<Product>;
   getProductBySalesforceID?: Maybe<Product>;
-  getProductTags?: Maybe<ProductTags>;
+  getProductTags?: Maybe<ProductTagsList>;
   isInvitationTokenValid?: Maybe<Scalars['Boolean']['output']>;
   locationSummary?: Maybe<LocationSummary>;
   locationSummaryCollection?: Maybe<LocationSummaryCollection>;
@@ -2818,6 +2846,12 @@ export type Query = {
   partnerBrandContent?: Maybe<PartnerBrandContent>;
   partnerBrandContentCollection?: Maybe<PartnerBrandContentCollection>;
   searchExperiences?: Maybe<Array<Maybe<Experience>>>;
+};
+
+export type Query_NodeArgs = {
+  id: Scalars['ID']['input'];
+  locale?: InputMaybe<Scalars['String']['input']>;
+  preview?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type QueryAssetArgs = {
@@ -3177,6 +3211,10 @@ export enum VariationType {
   DateSpecific = 'DATE_SPECIFIC',
 }
 
+export type _Node = {
+  _id: Scalars['ID']['output'];
+};
+
 export type CfConditionsNestedFilter = {
   AND?: InputMaybe<Array<InputMaybe<CfConditionsNestedFilter>>>;
   OR?: InputMaybe<Array<InputMaybe<CfConditionsNestedFilter>>>;
@@ -3385,6 +3423,21 @@ export type AcceptInvitationMutation = {
     updatedAt: any;
     id: string;
     experience?: { __typename?: 'Experience'; id: string } | null;
+  } | null;
+};
+
+export type ConfirmAmendmentMutationVariables = Exact<{
+  amendmentInput?: InputMaybe<AmendmentInput>;
+}>;
+
+export type ConfirmAmendmentMutation = {
+  __typename?: 'Mutation';
+  confirmAmendment?: {
+    __typename?: 'Amendment';
+    id: string;
+    price: number;
+    status: AmendmentStatus;
+    paymentOption: PaymentOption;
   } | null;
 };
 
@@ -3855,16 +3908,72 @@ export type GetOutletByIdQuery = {
         organisation?: string | null;
       } | null;
     } | null;
+    ancillaryProducts: Array<{
+      __typename?: 'AncillaryProduct';
+      tier?: string | null;
+      name: string;
+      id: string;
+      salesforceID: string;
+      status: ProductStatus;
+      costs: Array<{
+        __typename?: 'ProductCost';
+        cost?: number | null;
+        costCurrency: string;
+        programme: Programme;
+        defaultTaxPercentage: number;
+        projectedCost?: number | null;
+        reservationCost: number;
+        type: ProductCostType;
+      } | null>;
+      salePrices: Array<{
+        __typename?: 'ProductSalePrice';
+        programme: Programme;
+        salePrice: number;
+        salePriceCurrency: string;
+        stripePriceID?: string | null;
+      } | null>;
+    } | null>;
     products: Array<{
       __typename?: 'Product';
       id: string;
       name: string;
-      category: ProductCategory;
+      tier?: Tier | null;
       status: ProductStatus;
+      category: ProductCategory;
+      accessType: PrimaryProductAccessType;
+      salesforceID: string;
+      stage: ProductStage;
+      costs: Array<{
+        __typename?: 'ProductCost';
+        cost?: number | null;
+        costCurrency: string;
+        programme: Programme;
+        defaultTaxPercentage: number;
+        projectedCost?: number | null;
+        reservationCost: number;
+        type: ProductCostType;
+      } | null>;
+      salePrices: Array<{
+        __typename?: 'ProductSalePrice';
+        programme: Programme;
+        salePrice: number;
+        salePriceCurrency: string;
+        stripePriceID?: string | null;
+      } | null>;
     } | null>;
     openingTimes?: {
       __typename?: 'OpeningTimes';
       exceptions?: string | null;
+      meta?: {
+        __typename?: 'Meta';
+        lastEdited?: any | null;
+        editor?: {
+          __typename?: 'Editor';
+          lastName?: string | null;
+          firstName?: string | null;
+          organisation?: string | null;
+        } | null;
+      } | null;
       schedules?: {
         __typename?: 'DaySchedules';
         MONDAY?: Array<{
@@ -4212,6 +4321,63 @@ export const AcceptInvitationDocument = {
 } as unknown as DocumentNode<
   AcceptInvitationMutation,
   AcceptInvitationMutationVariables
+>;
+export const ConfirmAmendmentDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'confirmAmendment' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'amendmentInput' },
+          },
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'AmendmentInput' },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'confirmAmendment' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'amendmentInput' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'amendmentInput' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'paymentOption' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  ConfirmAmendmentMutation,
+  ConfirmAmendmentMutationVariables
 >;
 export const CancelBookingDocument = {
   kind: 'Document',
@@ -5968,15 +6134,84 @@ export const GetOutletByIdDocument = {
                 },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'products' },
+                  name: { kind: 'Name', value: 'ancillaryProducts' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'tier' } },
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'category' },
+                        name: { kind: 'Name', value: 'costs' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'cost' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'costCurrency' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'programme' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'defaultTaxPercentage',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projectedCost' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'reservationCost' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'type' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'salePrices' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'programme' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'salePrice' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'salePriceCurrency',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'stripePriceID' },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'salesforceID' },
                       },
                       {
                         kind: 'Field',
@@ -5987,10 +6222,144 @@ export const GetOutletByIdDocument = {
                 },
                 {
                   kind: 'Field',
+                  name: { kind: 'Name', value: 'products' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'tier' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'costs' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'cost' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'costCurrency' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'programme' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'defaultTaxPercentage',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'projectedCost' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'reservationCost' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'type' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'salePrices' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'programme' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'salePrice' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'salePriceCurrency',
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'stripePriceID' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'status' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'category' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'accessType' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'salesforceID' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'stage' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
                   name: { kind: 'Name', value: 'openingTimes' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'meta' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'lastEdited' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'editor' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'lastName' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'firstName' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'organisation',
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'exceptions' },

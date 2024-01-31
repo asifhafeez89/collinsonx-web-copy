@@ -127,6 +127,7 @@ type LoungeLang = {
 type BookingLang = {
   flightAndGuests: {
     title: string;
+    amendTitle: string;
   };
   flightDetails: FlightDetailsProps;
   guestDetails: GuestDetailsProps;
@@ -323,6 +324,7 @@ type ScreenProps = {
 
 type ConfirmationPaymentProps = {
   title: string;
+  amendTitle: string;
   processing: {
     beingProcessed: {
       title: string;

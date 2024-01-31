@@ -11,7 +11,7 @@ export interface BookingConfirmedPdfProps {
   flightNumber: string;
   infants: Booking['infants'];
   locale: string;
-  lounge: Experience;
+  lounge: Experience | undefined;
   reference: string | undefined;
   platform: string | undefined;
   loungeCode: string | undefined;
@@ -20,4 +20,5 @@ export interface BookingConfirmedPdfProps {
   accountProvider: AccountProvider | undefined;
   membershipType: Client | undefined;
   analyticsTag: string;
+  currentPrice?: number | undefined;
 }

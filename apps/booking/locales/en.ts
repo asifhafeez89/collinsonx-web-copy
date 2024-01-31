@@ -136,6 +136,7 @@ export default {
   booking: {
     flightAndGuests: {
       title: 'Flight and guests entry',
+      amendTitle: 'Booking amendments',
     },
     flightDetails: {
       title: 'My flight details',
@@ -265,6 +266,7 @@ export default {
     },
     confirmationPayment: {
       title: 'Booking confirmation',
+      amendTitle: 'Booking amendment confirmation',
       processing: {
         beingProcessed: {
           title: 'Payment is being processed',
@@ -385,7 +387,7 @@ export default {
     },
     checkAvailability: {
       arrivalTitle: 'Arrival time selection',
-      amendTitle: 'Booking amendments',
+      amendTitle: 'Arrival time amendment',
       notFoundError: 'Something went wrong, please try again',
       btn: 'CHECK AVAILABILITY',
       confirmModal: {

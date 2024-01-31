@@ -38,14 +38,21 @@ export default function ConfirmBooking() {
       pageName,
       Mode === BOOKING_MODE.EDIT
         ? ANALYTICS_TAGS.ON_CONFIRM_AMEND_PG
-        : ANALYTICS_TAGS.ON_PAYMENT_ENTER
+        : ANALYTICS_TAGS.ON_PAGE_ENTER_CONFIRMED
     );
   }, []);
 
   const translations = useLocale();
 
-  const { flightNumber, children, bookingId, adults, infants, arrival } =
-    getBooking();
+  const {
+    flightNumber,
+    children,
+    bookingId,
+    adults,
+    infants,
+    arrival,
+    amendmentID,
+  } = getBooking();
 
   const layoutRef = useRef<HTMLDivElement>(null);
 
@@ -74,6 +81,11 @@ export default function ConfirmBooking() {
         quantity: totalQuantity,
         locale,
       };
+
+      // TODO - Uncomment when Payment is ready...
+      // if(Mode === BOOKING_MODE.EDIT) {
+      //   paymentinput.amendmentID = amendmentID
+      // }
 
       const getSessionUrl = await getCheckoutSessionUrl(paymentinput);
 
