@@ -40,7 +40,7 @@
   width: 80px;
   height: 45px;
   position: relative;
-  border: 2px solid transparent;
+  border: 2px solid var(--grey-border);
   border-radius: 4px;
   opacity: 0.5;
   transition: border 0.3s ease, opacity 0.3s ease;
@@ -53,13 +53,20 @@
   opacity: 1;
 }
 
-.thumbnailButton:hover,
-.thumbnailButton:focus-within {
+.thumbnailButton:hover {
   border: 2px solid var(--text-default);
 }
 
 .thumbnailButton[data-active='true'] {
   border: 2px solid var(--brand-collinson);
+}
+
+.thumbnailButtonInner {
+  display: block;
+}
+
+.thumbnailButtonLabel {
+  display: block;
 }
 
 .thumbnail {
