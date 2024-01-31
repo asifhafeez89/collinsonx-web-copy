@@ -210,6 +210,9 @@ importers:
       '@types/http-proxy':
         specifier: ^1.17.14
         version: 1.17.14
+      '@types/lodash':
+        specifier: ^4.14.201
+        version: 4.14.202
       autoprefixer:
         specifier: ^10.4.16
         version: 10.4.16(postcss@8.4.32)
@@ -225,6 +228,9 @@ importers:
       local-ssl-proxy:
         specifier: ^2.0.5
         version: 2.0.5
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
       postcss:
         specifier: ^8.4.31
         version: 8.4.32
@@ -240,9 +246,15 @@ importers:
       postcss-simple-vars:
         specifier: ^7.0.1
         version: 7.0.1(postcss@8.4.32)
+      ts-node:
+        specifier: ^10.9.1
+        version: 10.9.2(@types/node@20.10.4)(typescript@5.2.2)
       typescript:
         specifier: 5.2.2
         version: 5.2.2
+      xlsx:
+        specifier: https://cdn.sheetjs.com/xlsx-0.20.1/xlsx-0.20.1.tgz
+        version: '@cdn.sheetjs.com/xlsx-0.20.1/xlsx-0.20.1.tgz'
 
   apps/partner-management:
     dependencies:
@@ -11766,7 +11778,6 @@ packages:
       {
         integrity: sha512-OvlIYQK9tNneDlS0VN54LLd5uiPCBOp7gS5Z0f1mjoJYBrtStzgmJBxONW3U6OZqdtNzZPmn9BS/7WI7BFFcFQ==,
       }
-    dev: false
 
   /@types/long@4.0.2:
     resolution:
@@ -27444,6 +27455,40 @@ packages:
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
 
+  /ts-node@10.9.2(@types/node@20.10.4)(typescript@5.2.2):
+    resolution:
+      {
+        integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==,
+      }
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.9
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 20.10.4
+      acorn: 8.11.2
+      acorn-walk: 8.3.1
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.2.2
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    dev: true
+
   /ts-pnp@1.2.0(typescript@5.2.2):
     resolution:
       {
@@ -29020,3 +29065,11 @@ packages:
         integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==,
       }
     dev: false
+
+  '@cdn.sheetjs.com/xlsx-0.20.1/xlsx-0.20.1.tgz':
+    resolution: { tarball: https://cdn.sheetjs.com/xlsx-0.20.1/xlsx-0.20.1.tgz }
+    name: xlsx
+    version: 0.20.1
+    engines: { node: '>=0.8' }
+    hasBin: true
+    dev: true
