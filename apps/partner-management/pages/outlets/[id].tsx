@@ -18,6 +18,9 @@ import Spinner from '@components/Spinner';
 import { ValidProductCategory } from 'config/outletIcons';
 import Section from '@components/Section';
 import OpeningTimes from '@components/OpeningTimes';
+import PageTitle from '@components/PageTitle';
+import getOutletPageTitle from 'lib/getOutletPageTitle';
+import { useMemo } from 'react';
 
 const capitalizedCategoryMap: { [key in ProductCategory]: string } = {
   [ProductCategory.Eat]: 'Eat',
@@ -54,11 +57,22 @@ export default function OutletDetail() {
     variables: { id },
   });
 
+  const fallbackTitle = useMemo(() => <PageTitle title="Outlet" />, []);
+
   if (loadingOutlet) {
-    return <Spinner />;
+    return (
+      <Box id="outlet-container">
+        {fallbackTitle}
+        <Spinner />
+      </Box>
+    );
   }
   if (!dataOutlet?.getOutletByID) {
-    return <div>Outlet not found</div>;
+    return (
+      <Box id="outlet-container">
+        <Box>Outlet not found</Box>;
+      </Box>
+    );
   }
 
   const {
@@ -92,8 +106,24 @@ export default function OutletDetail() {
     product ? product.name : ''
   );
 
+  const outletStatus = status === OutletStatus.Live ? 'ACTIVE' : 'INACTIVE';
+
   return (
     <Box id="outlet-container">
+      {name ? (
+        <PageTitle
+          customFormat
+          title={getOutletPageTitle({
+            name,
+            mode: 'view',
+            location: location.name ?? undefined,
+            terminal: location.terminal ?? undefined,
+            status: outletStatus,
+          })}
+        />
+      ) : (
+        <>{fallbackTitle}</>
+      )}
       <OutletHeading
         name={name}
         locationName={location.name}
@@ -108,7 +138,7 @@ export default function OutletDetail() {
                 locationType={category}
                 legacyCode={legacyCode ?? undefined}
                 code={code ?? undefined}
-                status={status === OutletStatus.Live ? 'ACTIVE' : 'INACTIVE'}
+                status={outletStatus}
                 productCategories={filteredProductCategories}
                 primaryProductNames={primaryProductNames}
                 ancillaryProductNames={ancillaryProductNames}
@@ -137,6 +167,6 @@ export default function OutletDetail() {
 
 OutletDetail.getLayout = (page: JSX.Element) => (
   <LayoutCatalogue headerNavProps={{ section: 'catalogue' }}>
-    {page}
+    <>{page}</>
   </LayoutCatalogue>
 );

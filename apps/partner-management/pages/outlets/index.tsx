@@ -13,6 +13,7 @@ import { useSearchParams } from 'next/navigation';
 import { CARDS_LIMIT } from 'config';
 import { useState } from 'react';
 import Spinner from '@components/Spinner';
+import PageTitle from '@components/PageTitle';
 
 export default function Outlets() {
   const router = useRouter();
@@ -73,9 +74,12 @@ export default function Outlets() {
     router.push(`/outlets/${id}`);
   };
 
+  const title = 'Outlets';
+
   return (
     <Stack gap={24} px={24} pt={32} data-testid="outlet-listing-container">
-      <Title>Outlets</Title>
+      <PageTitle title={title} section="Catalogue" />
+      <Title>{title}</Title>
       <Error error={errorOutlets} />
       <Error error={errorPartnerBrand} />
       {(loadingOutlets || loadingPartnerBrand || !router.isReady) && (

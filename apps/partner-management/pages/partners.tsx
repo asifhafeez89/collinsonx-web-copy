@@ -18,6 +18,7 @@ import {
 import { useMemo } from 'react';
 import Spinner from '@components/Spinner';
 import Section from '@components/Section';
+import PageTitle from '@components/PageTitle';
 
 const columnHelper = createColumnHelper<Partial<PartnerBrand>>();
 
@@ -80,12 +81,15 @@ export default function Partners() {
     getCoreRowModel: getCoreRowModel(),
   });
 
+  const title = 'Partners';
+
   return (
     <Section>
+      <PageTitle title={title} section="Catalogue" />
       <Stack gap={24} pb={24}>
         {loadingPartners ? (
           <>
-            <Title>Partners</Title>
+            <Title>{title}</Title>
             <Spinner />
           </>
         ) : (
