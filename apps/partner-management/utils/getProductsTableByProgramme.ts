@@ -1,6 +1,7 @@
 import { AncillaryProduct, Maybe, Product } from '@collinsonx/utils';
 import { GroupedProducts } from 'types/GroupedProducts';
 import formatCurrency from '@automattic/format-currency';
+import { toTitleCase } from './textUtils';
 
 const notNull = (
   value: Maybe<Product> | Maybe<AncillaryProduct>
@@ -31,9 +32,9 @@ export const getProductsTableByProgramme = (
 
       groupedProducts[programme] = groupedProducts[programme] || [];
       groupedProducts[programme].push({
-        category: product.category,
+        category: toTitleCase(product.category),
         name,
-        tier: tier || 'N/A',
+        tier: toTitleCase(tier) || 'N/A',
         status,
         salePrice: formatCurrency(
           salePrices[0]?.salePrice || 0,
@@ -41,7 +42,7 @@ export const getProductsTableByProgramme = (
         ),
         cost: formatCurrency(cost.cost || 0, cost.costCurrency || ''),
         tax: `${cost.defaultTaxPercentage}%`,
-        costType: cost.type,
+        costType: toTitleCase(cost.type),
       });
 
       return groupedProducts;

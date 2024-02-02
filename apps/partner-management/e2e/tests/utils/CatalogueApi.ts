@@ -171,7 +171,40 @@ export default class CatalogueApi {
           id
           category
           name
+          salePrices {
+            programme
+            salePrice
+            salePriceCurrency
+          }
           status
+          tier
+          costs {
+            programme
+            costCurrency
+            cost
+            defaultTaxPercentage
+            reservationCost
+            type
+          }
+        }
+        ancillaryProducts {
+          id
+          name
+          salePrices {
+            programme
+            salePrice
+            salePriceCurrency
+          }
+          status
+          tier
+          costs {
+            programme
+            costCurrency
+            cost
+            defaultTaxPercentage
+            reservationCost
+            type
+          }
         }
         productCategories
       }

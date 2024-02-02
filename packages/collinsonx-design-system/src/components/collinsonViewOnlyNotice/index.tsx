@@ -1,7 +1,7 @@
 import { Box } from '@mantine/core';
 import colors from '../../colour-constants-partner';
 
-function CollinsonViewOnlyNotice() {
+const CollinsonViewOnlyNotice = () => {
   return (
     <Box
       style={{
@@ -14,6 +14,6 @@ function CollinsonViewOnlyNotice() {
       *COLLINSON VIEW ONLY
     </Box>
   );
-}
+};
 
 export default CollinsonViewOnlyNotice;

@@ -30,4 +30,16 @@ describe('toTitleCase', () => {
     const expected = '1st place';
     expect(toTitleCase(input)).toBe(expected);
   });
+
+  it('should handle undefined', () => {
+    const input = undefined;
+    const expected = '';
+    expect(toTitleCase(input)).toBe(expected);
+  });
+
+  it('should handle null', () => {
+    const input = null;
+    const expected = '';
+    expect(toTitleCase(input)).toBe(expected);
+  });
 });
