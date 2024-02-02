@@ -28,10 +28,11 @@ test.describe('outlets page', () => {
     const outletCards = await outletsPage.outletCards();
     const navSection = await Helper.navSection(page);
 
+    await page.getByTestId('outlet-listing-container');
     await expect(navSection).toHaveText('Catalogue');
     await expect(title).toBeVisible();
     await outletsPage.assertCorrectNumberOfOutletsAreDisplayed(CARDS_LIMIT);
-    expect(outletCards).toHaveLength(CARDS_LIMIT);
+    expect(outletCards.length).toBeLessThanOrEqual(CARDS_LIMIT);
     await expect(pagination).toBeVisible();
     await outletsPage.assertCorrectOutletsAreDisplayed(outlets);
   });

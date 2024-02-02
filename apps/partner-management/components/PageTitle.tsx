@@ -3,7 +3,6 @@ import Head from 'next/head';
 import { useMemo } from 'react';
 
 import { useSessionContext } from 'supertokens-auth-react/recipe/session';
-import { AppSession } from 'types/Session';
 import { SUPER_USER } from 'config';
 
 export interface PageTitleProps {
@@ -16,19 +15,21 @@ const PageTitle = ({
   section,
   customFormat = false,
 }: PageTitleProps) => {
-  const session = useSessionContext() as AppSession;
+  const session = useSessionContext();
+  const isLoggedIn = !session.loading && session.doesSessionExist;
 
-  const isSuperUser = useMemo(
-    () => (session.accessTokenPayload ?? {}).userType === SUPER_USER,
-    [session]
-  );
+  const isSuperUser = useMemo(() => {
+    if (isLoggedIn) {
+      return (session.accessTokenPayload ?? {}).userType === SUPER_USER;
+    }
+  }, [session, isLoggedIn]);
 
   const { experience } = useExperience();
 
   const partnerName = isSuperUser ? 'Collinson' : experience?.loungeName ?? '';
 
   let result = title;
-  if (!customFormat) {
+  if (!customFormat && isLoggedIn) {
     result = `${title}${section ? ' | ' + section : ''}: ${partnerName}`;
   }
   return (

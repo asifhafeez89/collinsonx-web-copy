@@ -8,7 +8,7 @@ import classes from './auth.module.css';
 export default function Expired() {
   return (
     <>
-      <PageTitle title="Forgotten your email?" />
+      <PageTitle title="Forgotten your email?" customFormat />
       <Stack justify="center" align="center" gap={32}>
         <Stack justify="center" align="center" gap={8}>
           <Title className={classes.forgotEmail}>Forgotten your email?</Title>

@@ -85,7 +85,7 @@ export default function Login() {
 
   return (
     <>
-      <PageTitle title="Login" />
+      <PageTitle title="Login" customFormat />
       <Stack justify="center" align="center" gap={32}>
         <Stack justify="center" align="center" gap={8}>
           <Title className={classes.loginTitle}>Login</Title>

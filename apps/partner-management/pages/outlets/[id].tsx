@@ -21,6 +21,7 @@ import OpeningTimes from '@components/OpeningTimes';
 import PageTitle from '@components/PageTitle';
 import getOutletPageTitle from 'lib/getOutletPageTitle';
 import { useMemo } from 'react';
+import { getOutletStatus } from 'lib';
 
 const capitalizedCategoryMap: { [key in ProductCategory]: string } = {
   [ProductCategory.Eat]: 'Eat',
@@ -106,7 +107,7 @@ export default function OutletDetail() {
     product ? product.name : ''
   );
 
-  const outletStatus = status === OutletStatus.Live ? 'ACTIVE' : 'INACTIVE';
+  const outletStatus = getOutletStatus(status);
 
   return (
     <Box id="outlet-container">

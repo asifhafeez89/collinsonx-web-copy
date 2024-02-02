@@ -81,7 +81,7 @@ export default function ResetRequest() {
   };
   return (
     <>
-      <PageTitle title="Reset your password" />
+      <PageTitle title="Reset your password" customFormat />
       <Stack justify="center" align="center" gap={32}>
         <Title className={classes.logintTitle}>Forgotten your password?</Title>
         {!success ? (
