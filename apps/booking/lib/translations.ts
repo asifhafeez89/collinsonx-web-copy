@@ -49,12 +49,17 @@ const convertToJSON = (worksheet: WorkSheet) => {
     fileNameMapping.hasOwnProperty(key)
   );
 
-  filteredLanguages.forEach((language: string) => {
-    const constructedJSON: { [key: string]: [key: string] }[] = [];
-    jsa.forEach((row: any) => {
-      constructedJSON.push({ [row.key]: row[`${language}`] });
-    });
-    if (constructedJSON.length > 0) {
+  filteredLanguages
+    .map((language: string) => {
+      const constructedJSON: { [key: string]: [key: string] }[] = jsa.map(
+        (row: any) => ({
+          [row.key]: row[language],
+        })
+      );
+      return { language, constructedJSON };
+    })
+    .filter(({ constructedJSON }) => constructedJSON.length > 0)
+    .forEach(({ language, constructedJSON }) => {
       const stringify = JSON.stringify(
         unflattenObject(constructedJSON),
         (key, value) => {
@@ -69,13 +74,11 @@ const convertToJSON = (worksheet: WorkSheet) => {
         },
         2
       );
-      const parseFunctions = stringify.replace(/"([^"]*`[^"]*)"/g, '$1'); //just so we can keep the functions
-      fs.writeFileSync(
-        `locales/${fileNameMapping[language]}`,
-        `export default ${parseFunctions}`
-      );
-    }
-  });
+      const parseFunctions = stringify.replace(/"([^"]*`[^"]*)"/g, '$1');
+
+      const outputFileName = `locales/${fileNameMapping[language]}`;
+      fs.writeFileSync(outputFileName, `export default ${parseFunctions}`);
+    });
 };
 
 const convertToXLSX = (translations: any) => {
