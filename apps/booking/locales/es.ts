@@ -203,6 +203,8 @@ export default {
       },
       totalPrice: {
         title: 'Precio total',
+        titleAmend: 'Precio adicional a pagar',
+        titleRefund: 'Cantidad a recibir',
         samePrice: 'No se requiere tarifa adicional',
       },
       panelInfoHeader: {
@@ -290,6 +292,9 @@ export default {
       outcome: {
         succesful: {
           title: '¡Buenas noticias!Tu reserva ha sido confirmada',
+          titleAmend: '¡Buenas noticias! Su reserva ha sido modificada',
+          refundText:
+            'Has disminuido el número de huéspedes de tu reserva. Su reembolso se procesará en la tarjeta de pago utilizada para pagar la reserva original dentro de los 10 días hábiles.',
           reference: {
             label: 'Referencia de reserva',
           },

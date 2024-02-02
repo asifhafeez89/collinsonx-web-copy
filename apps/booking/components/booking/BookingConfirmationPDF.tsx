@@ -138,10 +138,10 @@ export const BookingConfirmationPDF = (props: BookingConfirmedPdfProps) => {
             </Text>{' '}
             {translations.booking.confirmationPDF.description.line2}{' '}
             <Text style={styles.strong}>
-              {props.lounge?.loungeName},{' '}
-              {props.lounge?.location?.terminal &&
-                props.lounge?.location?.terminal + ', '}
-              {props.lounge?.location?.airportName}
+              {props.lounge.loungeName},{' '}
+              {props.lounge.location?.terminal &&
+                props.lounge.location?.terminal + ', '}
+              {props.lounge.location?.airportName}
             </Text>{' '}
             {translations.booking.confirmationPDF.description.line3}
           </Text>

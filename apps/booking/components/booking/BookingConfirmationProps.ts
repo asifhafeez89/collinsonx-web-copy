@@ -11,7 +11,7 @@ export interface BookingConfirmedPdfProps {
   flightNumber: string;
   infants: Booking['infants'];
   locale: string;
-  lounge: Experience | undefined;
+  lounge: Experience;
   reference: string | undefined;
   platform: string | undefined;
   loungeCode: string | undefined;

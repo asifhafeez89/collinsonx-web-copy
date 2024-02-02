@@ -71,49 +71,29 @@ export default function CheckAvailability() {
   const booking = getBooking();
   const flightData = getFlight();
   const Booking_Mode = getItem(BOKING_MODE_STATE);
-  const existingSlotStart =
-    Booking_Mode === BOOKING_MODE.EDIT
-      ? booking.existing_booking_slot.split(' ')[1].substring(0, 5)
-      : '';
+
+  const slotStart = booking.existing_booking_slot
+    ?.split(' ')[1]
+    ?.substring(0, 5);
+  const slotMinutes = slotStart?.split(':')[1];
+  const slotHours = slotStart?.split(':')[0];
+
+  const existingSlotStart = Booking_Mode === BOOKING_MODE.EDIT ? slotStart : '';
 
   const existingSlotEnd =
-    Booking_Mode === BOOKING_MODE.EDIT
-      ? `${
-          Number.parseInt(
-            booking.existing_booking_slot
-              .split(' ')[1]
-              .substring(0, 5)
-              .split(':')[1]
-          ) === 45
-            ? Number.parseInt(
-                booking.existing_booking_slot
-                  .split(' ')[1]
-                  .substring(0, 5)
-                  .split(':')[0]
-              ) + 1
-            : booking.existing_booking_slot
-                .split(' ')[1]
-                .substring(0, 5)
-                .split(':')[0]
-        }:${(Number.parseInt(
-          booking.existing_booking_slot
-            .split(' ')[1]
-            .substring(0, 5)
-            .split(':')[1]
-        ) === 45
-          ? '00'
-          : Number.parseInt(
-              booking.existing_booking_slot
-                .split(' ')[1]
-                .substring(0, 5)
-                .split(':')[1]
-            ) + 15
-        ).toString()}`
-      : '';
+    Booking_Mode === BOOKING_MODE.EDIT &&
+    `${
+      Number.parseInt(slotMinutes) === 45
+        ? Number.parseInt(slotHours) + 1
+        : slotHours
+    }:${(Number.parseInt(slotMinutes) === 45
+      ? '00'
+      : Number.parseInt(slotMinutes) + 15
+    ).toString()}`;
 
   const [selectedslot, setSelectedslot] = useState<string>(
     Booking_Mode === BOOKING_MODE.EDIT
-      ? `${existingSlotStart}-${existingSlotEnd}`
+      ? `${existingSlotStart}-${existingSlotEnd ?? ''}`
       : ''
   );
 
@@ -132,9 +112,9 @@ export default function CheckAvailability() {
 
   setBooking(booking);
 
-  const [mutate, { loading: cbLoading }] = useMutation(
-    Booking_Mode === BOOKING_MODE.CREATE ? createBooking : amendBooking
-  );
+  const [createMutation, { loading: createLoading }] =
+    useMutation(createBooking);
+  const [amendMutation] = useMutation(amendBooking);
 
   const translations = useLocale();
 
@@ -187,46 +167,34 @@ export default function CheckAvailability() {
     );
     const endDateWithTimezone = formatTimezone(slot.endDate, flightTimezone);
 
-    if (!linkedAccountId) {
-      log(`[createBooking error] linkedAccountId == ${linkedAccountId}`);
-    }
-
-    const bookingInput = {
-      ...(linkedAccountId && { actingAccount: linkedAccountId }),
-      experience: { id: lounge?.id },
-      bookedFrom: startDateWithTimezone,
-      lastArrival: endDateWithTimezone,
-      bookedTo: departureTimeWithTimezone,
-      type: BookingType.ReservationFeeOnly,
-      guestAdultCount: adults,
-      guestChildrenCount: children,
-      guestInfantCount: infants,
-      metadata: {
-        flightNumber,
-        flightTime,
-      },
-    };
-
-    const amendmentInput = {
-      ...(linkedAccountId && { actingAccount: linkedAccountId }),
-      bookingID: booking.bookingId,
-      bookedFrom: startDateWithTimezone,
-      bookedTo: departureTimeWithTimezone,
-      lastArrival: endDateWithTimezone,
-      guestAdultCount: adults,
-      guestChildrenCount: children,
-      guestInfantCount: infants,
-    };
-
-    log('[createBooking] linkedAccountId: ', linkedAccountId);
-    log('[createBooking] bookingInput: ', JSON.stringify(bookingInput));
-    log(
-      '[createBooking] bookingInput.actingAccount: ',
-      bookingInput.actingAccount
-    );
-
     if (Booking_Mode === BOOKING_MODE.CREATE) {
-      mutate({
+      const bookingInput = {
+        ...(linkedAccountId && { actingAccount: linkedAccountId }),
+        experience: { id: lounge?.id },
+        bookedFrom: startDateWithTimezone,
+        lastArrival: endDateWithTimezone,
+        bookedTo: departureTimeWithTimezone,
+        type: BookingType.ReservationFeeOnly,
+        guestAdultCount: adults,
+        guestChildrenCount: children,
+        guestInfantCount: infants,
+        metadata: {
+          flightNumber,
+          flightTime,
+        },
+      };
+
+      if (!linkedAccountId) {
+        log(`[createBooking error] linkedAccountId == ${linkedAccountId}`);
+      }
+      log('[createBooking] linkedAccountId: ', linkedAccountId);
+      log('[createBooking] bookingInput: ', JSON.stringify(bookingInput));
+      log(
+        '[createBooking] bookingInput.actingAccount: ',
+        bookingInput.actingAccount
+      );
+
+      createMutation({
         variables: { bookingInput },
       }).then((response: any) => {
         log(
@@ -238,9 +206,7 @@ export default function CheckAvailability() {
           return setMessage(availabilityMessagess[BAD_USER_INPUT]);
         } else if (response.data?.createBooking) {
           booking.bookingId = response.data.createBooking.id;
-
           booking.arrival = selectedslot;
-
           setBooking(booking);
           setOpen(false);
           router.push({
@@ -249,11 +215,23 @@ export default function CheckAvailability() {
         }
       });
     } else {
-      mutate({ variables: { amendmentInput } }).then((response: any) => {
+      const amendmentInput = {
+        ...(linkedAccountId && { actingAccount: linkedAccountId }),
+        bookingID: booking.bookingId,
+        bookedFrom: startDateWithTimezone,
+        bookedTo: departureTimeWithTimezone,
+        lastArrival: endDateWithTimezone,
+        guestAdultCount: adults,
+        guestChildrenCount: children,
+        guestInfantCount: infants,
+      };
+
+      amendMutation({ variables: { amendmentInput } }).then((response: any) => {
         const { data } = response;
 
         // Todo - Add a check if the booking is less than 48hrs
-
+        booking.arrival = selectedslot;
+        setBooking(booking);
         if (
           data.confirmAmendment.paymentOption ===
           PaymentOption.NoPaymentRequired
@@ -265,7 +243,7 @@ export default function CheckAvailability() {
           data.confirmAmendment.paymentOption === PaymentOption.Refund
         ) {
           router.push({
-            pathname: '/confirm-refund-amendment',
+            pathname: '/confirm-amendment-refund',
           });
         } else {
           router.push({
@@ -458,6 +436,8 @@ export default function CheckAvailability() {
                         flightNumber={flightNumber}
                         guestList={{ adults, infants, children }}
                         lounge={lounge}
+                        currentPrice={booking.currentPrice}
+                        mode={Booking_Mode as BOOKING_MODE}
                       />
                       <EditableTitle
                         title={translations.booking.availableSlots.title}
@@ -562,7 +542,7 @@ export default function CheckAvailability() {
           <Button
             disabled={
               slotsLoading ||
-              cbLoading ||
+              createLoading ||
               availableSlotsPopUpIsVisible({
                 error: slotsError,
                 airportMismatch: airportMismatch,
