@@ -76,7 +76,7 @@ export default function ResetPassword() {
 
   return (
     <>
-      <PageTitle title="Create new password" />
+      <PageTitle title="Create new password" customFormat />
       <Stack justify="center" align="center" gap={32}>
         <FormContainer>
           <Text className={classes.createNewPassword} fw={600} mb={40}>

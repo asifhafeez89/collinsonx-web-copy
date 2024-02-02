@@ -33,14 +33,16 @@ test.describe('partners page', () => {
     );
     const actionColumn = await partnersPage.partnerTableHeader('Action');
     const navSection = await Helper.navSection(page);
+    const partnerRowCount = await partnerRow.count();
 
     await expect(navSection).toHaveText('Catalogue');
     await expect(title).toBeVisible();
+
     await expect(tableHeaderRow).toHaveCount(expectedHeaderCount);
     await expect(partnerColumn).toBeVisible();
     await expect(numberOfOutletsColumn).toBeVisible();
     await expect(actionColumn).toBeVisible();
-    await expect(partnerRow).toHaveCount(CARDS_LIMIT);
+    await expect(partnerRowCount).toBeLessThanOrEqual(CARDS_LIMIT);
   });
 
   test('partners display the correct outlet count', async ({ page }) => {

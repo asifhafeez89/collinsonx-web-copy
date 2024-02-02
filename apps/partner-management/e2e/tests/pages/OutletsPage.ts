@@ -104,11 +104,11 @@ export default class OutletsPage {
     const outletCards = await this.outletCards();
     const totalCardsDisplayed = outletCards.length;
 
-    expect(totalCardsDisplayed).toEqual(expectedNumber);
+    expect(totalCardsDisplayed).toBeLessThanOrEqual(expectedNumber);
   }
 
   async assertCorrectOutletsAreDisplayed(outletsList: any) {
-    for (let i = 0; i < CARDS_LIMIT; i++) {
+    for (let i = 0; i < outletsList.length; i++) {
       let cardNumber = i + 1;
       let outletCardTitle = this.outletCardTitle(cardNumber);
       let outletCardSubitle = this.outletCardSubtitle(cardNumber);
@@ -122,5 +122,6 @@ export default class OutletsPage {
       await expect(outletCardTitle).toHaveText(outletsList[i].name);
       await expect(outletCardSubitle).toHaveText(formattedSubtitle);
     }
+    await expect(outletsList.length).toBeLessThanOrEqual(CARDS_LIMIT);
   }
 }

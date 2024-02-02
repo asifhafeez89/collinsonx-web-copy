@@ -171,6 +171,8 @@ export default function OverviewBookings() {
     }
   }
 
+  const title = 'Booking overview';
+
   return (
     <>
       <Error error={errorPending} />
@@ -178,9 +180,9 @@ export default function OverviewBookings() {
       <Error error={errorCheckedIn} />
       <Error error={errorCancelled} />
       <Error error={errorDeclined} />
-      <PageTitle title="Booking overview" />
+      <PageTitle title={title} />
       <Title mb={8} size={32} data-testid="bookingOverviewTitle">
-        Booking overview
+        {title}
       </Title>
       {session.accessTokenPayload.userType !== 'SUPER_USER' && (
         <Text mb={33} className={classes.loungeTitle} data-testid="loungeTitle">
