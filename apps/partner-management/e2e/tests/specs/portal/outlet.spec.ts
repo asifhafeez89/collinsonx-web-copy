@@ -6,6 +6,8 @@ import CatalogueApi from 'e2e/tests/utils/CatalogueApi';
 import { toTitleCase } from 'utils/textUtils';
 import { Product, ProductCategory } from '@collinsonx/utils';
 import Helper from 'e2e/tests/helpers/Helper';
+import { getProductsTableByProgramme } from 'utils/getProductsTableByProgramme';
+import { getProgrammeDisplayName } from 'utils/getProgrammeDisplayName';
 
 test.beforeEach(async ({ page }) => {
   const loginPage = new LoginPage(page);
@@ -126,5 +128,85 @@ test.describe('outlet page', () => {
       .soft(summarySectionInfo['Disabled access'])
       .toBe(outlet.hasDisabledAccess ? 'Yes' : 'No');
     expect.soft(summarySectionInfo['Email']).toBe(emailValue);
+  });
+
+  test('product section displays the correct information', async ({ page }) => {
+    const outletPage = new OutletPage(page);
+    const catalogueApi = new CatalogueApi();
+
+    const outlets = await catalogueApi.getOutlets(1, 1);
+    const outletId = outlets[0].id;
+    await outletPage.goToURL(outletId);
+
+    const productsSectionHeading = await outletPage.productsSectionHeading();
+
+    // header should be correct
+    await expect(productsSectionHeading).toHaveText('Products');
+
+    const { products: primaryProducts, ancillaryProducts } =
+      await catalogueApi.getOutletByID(outletId);
+
+    const products = [...primaryProducts, ...ancillaryProducts];
+    const expectedProductsTableByProgramme =
+      getProductsTableByProgramme(products);
+    const expectedProgrammes = Object.keys(expectedProductsTableByProgramme);
+
+    // Should display correct number of programme tabs
+    const programmeTabs = await outletPage.programmeTabs();
+    const programmeTabsArray = await programmeTabs.all();
+    expect(programmeTabsArray.length).toBe(expectedProgrammes.length);
+
+    // Should display correct programme tab names
+    for (let i = 0; i < expectedProgrammes.length; i++) {
+      expect(await programmeTabsArray[i].innerText()).toBe(
+        getProgrammeDisplayName(expectedProgrammes[i])
+      );
+    }
+
+    // Should display correct number of table headers
+    const tableHeaders = [
+      'Product type',
+      'Product',
+      'Tier',
+      'Status',
+      'Sale price*',
+      'Cost*',
+      'Tax*',
+      'Type*',
+    ];
+
+    const productsTableHeadersLocator = await outletPage.productsTableHeaders();
+    const productsTableHeadersArray = await productsTableHeadersLocator.all();
+    expect(productsTableHeadersArray.length).toBe(
+      tableHeaders.length * expectedProgrammes.length
+    );
+
+    // Should display correct table headers
+    for (let i = 0; i < tableHeaders.length; i++) {
+      expect(await productsTableHeadersArray[i].innerText()).toBe(
+        tableHeaders[i]
+      );
+    }
+
+    // Should display correct table data for each programme
+    for (let i = 0; i < programmeTabsArray.length; i++) {
+      await outletPage.clickProductProgrammeTabByIndex(i);
+      const productsTableRowData =
+        await outletPage.productsTableRowDataByProgramme(expectedProgrammes[i]);
+
+      for (let j = 0; j < productsTableRowData.length; j++) {
+        const productRow = productsTableRowData[j];
+
+        const expectedProductObject =
+          expectedProductsTableByProgramme[expectedProgrammes[i]][j];
+        const expectedProductValues = Object.values(expectedProductObject);
+
+        for (let k = 0; k < productRow.length; k++) {
+          expect(await productRow[k].innerText()).toBe(
+            expectedProductValues[k]
+          );
+        }
+      }
+    }
   });
 });

@@ -7,21 +7,13 @@ import usePayload from 'hooks/payload';
 import TopBarLinks from '@components/TopBarLinks';
 import Layout from '@components/Layout';
 import FlightDetailsBooking from '@components/FlightDetailsBooking';
+import { BOOKING_MODE } from '../constants';
 
 export default function ConfirmAmendment() {
   const translations = useLocale();
   const pageName = 'confirmAmendment';
 
-  const {
-    locale,
-    lounge,
-    loungeCode,
-    referrerUrl,
-    consumerData,
-    platform,
-    jwt,
-    payload,
-  } = usePayload();
+  const { lounge } = usePayload();
 
   return (
     <Layout>
@@ -42,13 +34,14 @@ export default function ConfirmAmendment() {
             <Box className={classes.loungeInfo}>
               <LoungeInfo lounge={lounge} loading={!lounge} hideImageMobile />
             </Box>
-            <FlightDetailsBooking pageName="Amendment" isRefund={false} />
+            <FlightDetailsBooking
+              pageName="Amendment"
+              isRefund={false}
+              mode={BOOKING_MODE.EDIT}
+            />
           </Stack>
         </Flex>
       </Stack>
     </Layout>
   );
-}
-function getFlight() {
-  throw new Error('Function not implemented.');
 }

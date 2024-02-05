@@ -9,10 +9,8 @@ import {
 } from '@collinsonx/design-system/core';
 import { useRouter } from 'next/router';
 import LayoutLogin from '@components/LayoutLogin';
-import colors from 'ui/colour-constants';
 import { MaintenanceIcon } from '@collinsonx/design-system/assets/icons';
 import { useViewportSize } from '@collinsonx/design-system/hooks';
-import { FAQ_PP, FAQ_LK } from '../config/Constants';
 import usePayload from 'hooks/payload';
 import { AccountProvider } from '@collinsonx/constants/enums';
 import { verifyAccountProvider } from '../utils/VerifyAccountProvider';

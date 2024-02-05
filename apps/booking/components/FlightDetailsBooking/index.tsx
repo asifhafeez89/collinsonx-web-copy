@@ -1,17 +1,10 @@
-import {
-  Box,
-  Stack,
-  Title,
-  Text,
-  Flex,
-  Anchor,
-} from '@collinsonx/design-system/core';
+import { Box, Stack, Flex, Anchor } from '@collinsonx/design-system/core';
 import { Booking, Experience } from '@collinsonx/utils';
 import { FlightDetailsAndGuests } from '@components/FlightDetailsAndGuests';
 import classes from './FlightDetailsBooking.module.css';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import EstimatedTimeArrival from '@components/EstimatedTimeArrival';
-import { MouseEventHandler, useCallback, useContext } from 'react';
+import { MouseEventHandler, useCallback, useContext, useEffect } from 'react';
 import { BookingContext } from 'context/bookingContext';
 import { FlightContext } from 'context/flightContext';
 import useLocale from 'hooks/useLocale';
@@ -19,37 +12,45 @@ import Heading from '@collinsonx/design-system/components/heading/Heading';
 import { getItem } from '@collinsonx/utils/lib';
 import {
   ANALYTICS_TAGS,
+  BOOKING_MODE,
   MOBILE_ACTION_BACK,
   PDF_VERSION_ACCEPTED,
   VERSION,
 } from '../../constants';
-import ShowButtonByVersion from '@components/ShowDownloadButton';
 import { GenerateBookingConfirmedPdf } from '@components/booking/GenerateBookingConfirmedPdf';
 import usePayload from 'hooks/payload';
 import { logAction, sendMobileEvent } from '@lib';
 import colors from '@collinsonx/design-system/colour-constants-baas';
 import { useLazyQuery } from '@collinsonx/utils/apollo';
 import { getBookingByID } from '@collinsonx/utils/queries';
+import ShowButtonByVersion from '@components/ShowDownloadButton';
 
 interface FlightDetailsBookingProps {
   pageName: string;
   isRefund: Boolean;
+  mode: BOOKING_MODE;
 }
 
 const FlightDetailsBooking = ({
   pageName,
   isRefund,
+  mode,
 }: FlightDetailsBookingProps) => {
   const { getBooking } = useContext(BookingContext);
   const { getFlight } = useContext(FlightContext);
   const translations = useLocale();
   const version = getItem(VERSION);
 
+  const booking = getBooking();
   const { flightNumber, children, bookingId, adults, arrival, infants } =
-    getBooking();
+    booking;
 
   const flightData = getFlight();
   const departureTime = flightData?.departure?.dateTime?.local;
+
+  useEffect(() => {
+    fetchBookingDetails();
+  }, []);
 
   const {
     locale,
@@ -74,17 +75,16 @@ const FlightDetailsBooking = ({
     [referrerUrl]
   );
 
-  const [fetchBookingDetails, { loading: loadingBooking, data: dataBooking }] =
-    useLazyQuery<{
-      getBookingByID: Booking;
-    }>(getBookingByID, {
-      variables: {
-        getBookingById: bookingId,
-      },
-      fetchPolicy: 'network-only',
-      notifyOnNetworkStatusChange: true,
-      onCompleted: (data) => {},
-    });
+  const [fetchBookingDetails, { data: dataBooking }] = useLazyQuery<{
+    getBookingByID: Booking;
+  }>(getBookingByID, {
+    variables: {
+      getBookingById: bookingId,
+    },
+    fetchPolicy: 'network-only',
+    notifyOnNetworkStatusChange: true,
+    onCompleted: (data) => {},
+  });
 
   return (
     <>
@@ -101,7 +101,10 @@ const FlightDetailsBooking = ({
           lineHeight={1.3}
         >
           <Box className={classes.successfulTitle}>
-            {translations.booking.confirmationPayment.outcome.succesful.title}
+            {mode === BOOKING_MODE.CREATE
+              ? translations.booking.confirmationPayment.outcome.succesful.title
+              : translations.booking.confirmationPayment.outcome.succesful
+                  .titleAmend}
           </Box>
         </Heading>
         <EditableTitle
@@ -127,11 +130,12 @@ const FlightDetailsBooking = ({
             </span>
           </p>
           {isRefund && (
-            <div>
+            <div className={classes.refundText}>
               {' '}
-              You have decreased the number of guests from your booking. Your
-              refund will be processed onto the payment card used to pay for the
-              original booking within 10 working days.
+              {
+                translations.booking.confirmationPayment.outcome.succesful
+                  .refundText
+              }
             </div>
           )}
         </EditableTitle>
@@ -144,6 +148,8 @@ const FlightDetailsBooking = ({
             guestList={{ adults, infants, children }}
             lounge={lounge}
             noEdit={true}
+            mode={BOOKING_MODE.EDIT}
+            currentPrice={booking.currentPrice}
           />
           <Box className={classes.slotsTitle}>
             <EditableTitle
@@ -174,30 +180,32 @@ const FlightDetailsBooking = ({
         </Stack>
       )}
       <Flex justify={'center'} direction={'column'} align={'center'}>
-        {/* <ShowButtonByVersion
-          currentVersion={version ?? ''}
-          minVersion={PDF_VERSION_ACCEPTED}
-        > */}
-        <GenerateBookingConfirmedPdf
-          adults={adults}
-          arrival={arrival}
-          children={children}
-          departureTime={departureTime}
-          emailAddress={consumerData?.getConsumerByID.emailAddress}
-          flightNumber={flightNumber}
-          infants={infants}
-          lounge={lounge}
-          locale={locale}
-          reference={dataBooking?.getBookingByID.reference}
-          bookingId={dataBooking?.getBookingByID.id}
-          loungeCode={loungeCode}
-          linkAccountToken={jwt}
-          accountProvider={payload?.accountProvider}
-          membershipType={payload?.membershipType}
-          platform={platform}
-          analyticsTag={ANALYTICS_TAGS.ON_PAGE_CONFIRMED_BTN_DOWNLOAD}
-        />
-        {/* </ShowButtonByVersion> */}
+        {lounge && (
+          <ShowButtonByVersion
+            currentVersion={version ?? PDF_VERSION_ACCEPTED}
+            minVersion={PDF_VERSION_ACCEPTED}
+          >
+            <GenerateBookingConfirmedPdf
+              adults={adults}
+              arrival={arrival}
+              children={children}
+              departureTime={departureTime}
+              emailAddress={consumerData?.getConsumerByID.emailAddress}
+              flightNumber={flightNumber}
+              infants={infants}
+              lounge={lounge}
+              locale={locale}
+              reference={dataBooking?.getBookingByID.reference}
+              bookingId={dataBooking?.getBookingByID.id}
+              loungeCode={loungeCode}
+              linkAccountToken={jwt}
+              accountProvider={payload?.accountProvider}
+              membershipType={payload?.membershipType}
+              platform={platform}
+              analyticsTag={ANALYTICS_TAGS.ON_PAGE_CONFIRMED_BTN_DOWNLOAD}
+            />
+          </ShowButtonByVersion>
+        )}
 
         <Anchor
           target="_top"

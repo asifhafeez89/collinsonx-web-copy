@@ -35,6 +35,8 @@ import { AlertIcon } from '@collinsonx/design-system/assets/icons';
 import TopBarLinks from '@components/TopBarLinks';
 import {
   ANALYTICS_TAGS,
+  BOKING_MODE_STATE,
+  BOOKING_MODE,
   MOBILE_ACTION_BACK,
   PAGENAMES,
   PDF_VERSION_ACCEPTED,
@@ -87,7 +89,7 @@ export default function ConfirmPayment() {
     },
     [referrerUrl]
   );
-
+  const Mode = getItem(BOKING_MODE_STATE);
   const { getBooking } = useContext(BookingContext);
   const { getFlight } = useContext(FlightContext);
 
@@ -283,6 +285,7 @@ export default function ConfirmPayment() {
                         guestList={{ adults, infants, children }}
                         lounge={lounge}
                         noEdit={true}
+                        mode={Mode as BOOKING_MODE}
                       />
 
                       <Box className={classes.slotsTitle}>

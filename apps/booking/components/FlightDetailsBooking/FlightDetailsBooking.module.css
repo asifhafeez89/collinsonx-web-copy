@@ -9,3 +9,7 @@
     background: var(--white);
   }
 }
+
+.refundText {
+  font-weight: bold;
+}

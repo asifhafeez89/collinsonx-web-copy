@@ -1,3 +1,3 @@
-export function toTitleCase(string: string): string {
-  return string.toLowerCase().replace(/^\w/, (c) => c.toUpperCase());
+export function toTitleCase(string: string | undefined | null): string {
+  return string?.toLowerCase().replace(/^\w/, (c) => c.toUpperCase()) || '';
 }

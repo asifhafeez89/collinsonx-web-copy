@@ -2,7 +2,6 @@ import { Details } from '@collinsonx/design-system';
 import { InfoGroup } from '@collinsonx/design-system/components/details';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import { Box, Flex } from '@collinsonx/design-system/core';
-import colors from 'ui/colour-constants';
 import { InfoPanel } from 'utils/PanelInfo';
 import { GuestCount } from '../guest-count/GuestCount';
 import Price from '../Price';
@@ -10,6 +9,7 @@ import { Experience } from '@collinsonx/utils';
 import useLocale from 'hooks/useLocale';
 
 import classes from './FlightDetailsAndGuests.module.css';
+import { BOOKING_MODE } from '../../constants';
 
 interface FlightDetailsAndGuestsProps {
   departureTime?: string;
@@ -22,6 +22,7 @@ interface FlightDetailsAndGuestsProps {
   lounge?: Experience;
   noEdit?: boolean;
   currentPrice?: number;
+  mode?: BOOKING_MODE;
 }
 
 export const FlightDetailsAndGuests = ({
@@ -31,6 +32,7 @@ export const FlightDetailsAndGuests = ({
   lounge,
   noEdit,
   currentPrice,
+  mode,
 }: FlightDetailsAndGuestsProps) => {
   const translations = useLocale();
 
@@ -68,17 +70,12 @@ export const FlightDetailsAndGuests = ({
           <GuestCount guestList={guestList} />
         </EditableTitle>
         <Box className={classes.priceContainer}>
-          <EditableTitle
-            title={translations.booking.availableSlots.totalPrice.title}
-            as="h2"
-            showBorder={false}
-          >
-            <Price
-              lounge={lounge}
-              guests={guestList}
-              currentPrice={currentPrice}
-            ></Price>
-          </EditableTitle>
+          <Price
+            lounge={lounge}
+            guests={guestList}
+            currentPrice={currentPrice}
+            displaydifference={mode === BOOKING_MODE.EDIT}
+          ></Price>
         </Box>
       </Flex>
     </>

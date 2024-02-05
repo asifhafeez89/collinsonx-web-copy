@@ -45,9 +45,9 @@ describe('getProductsTableByProgramme', () => {
     const expected = {
       [Programme.Lk]: [
         {
-          category: 'EAT',
+          category: 'Eat',
           cost: '$100.00',
-          costType: 'FLAT',
+          costType: 'Flat',
           name: 'ProductA',
           salePrice: '$90.00',
           status: 'ACTIVE',
@@ -111,9 +111,9 @@ describe('getProductsTableByProgramme', () => {
     const expected = {
       [Programme.Lk]: [
         {
-          category: 'EAT',
+          category: 'Eat',
           cost: '$100.00',
-          costType: 'FLAT',
+          costType: 'Flat',
           name: 'ProductA',
           salePrice: '$90.00',
           status: 'ACTIVE',
@@ -121,9 +121,9 @@ describe('getProductsTableByProgramme', () => {
           tier: 'N/A',
         },
         {
-          category: 'EAT',
+          category: 'Eat',
           cost: '$100.00',
-          costType: 'FLAT',
+          costType: 'Flat',
           name: 'ProductB',
           salePrice: '$90.00',
           status: 'ACTIVE',
@@ -209,9 +209,9 @@ describe('getProductsTableByProgramme', () => {
     const expected = {
       [Programme.Lk]: [
         {
-          category: 'EAT',
+          category: 'Eat',
           cost: '$100.00',
-          costType: 'FLAT',
+          costType: 'Flat',
           name: 'ProductA',
           salePrice: '$90.00',
           status: 'ACTIVE',
@@ -219,9 +219,9 @@ describe('getProductsTableByProgramme', () => {
           tier: 'N/A',
         },
         {
-          category: 'EAT',
+          category: 'Eat',
           cost: '$100.00',
-          costType: 'FLAT',
+          costType: 'Flat',
           name: 'ProductB',
           salePrice: '$90.00',
           status: 'ACTIVE',
@@ -231,9 +231,9 @@ describe('getProductsTableByProgramme', () => {
       ],
       [Programme.Pp]: [
         {
-          category: 'EAT',
+          category: 'Eat',
           cost: '$100.00',
-          costType: 'FLAT',
+          costType: 'Flat',
           name: 'ProductC',
           salePrice: '$90.00',
           status: 'ACTIVE',

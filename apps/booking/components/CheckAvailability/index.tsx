@@ -20,7 +20,6 @@ import router from 'next/router';
 import { BookingContext } from 'context/bookingContext';
 import { ANALYTICS_TAGS, MAX_GUESTS, BOOKING_MODE } from '../../constants';
 import TopBarLinks from '@components/TopBarLinks';
-import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 import Price from '@components/Price';
 import { formatDate } from 'utils/DateFormatter';
 import { FlightContext } from 'context/flightContext';
@@ -29,6 +28,7 @@ import useLocale from 'hooks/useLocale';
 import { analyticsTag, logAction } from '@lib';
 
 import classes from './CheckAvailability.module.css';
+import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 
 interface DepartureFlightInfo {
   airport: { iata: string };
@@ -260,11 +260,7 @@ const CheckAvailability = ({
                 referreUrl={referrerUrl ?? '#'}
                 guestError={guestError}
               />
-              <EditableTitle
-                title={translations.booking.availableSlots.totalPrice.title}
-                as="h3"
-                showBorder={false}
-              >
+              <EditableTitle title="" as="h2" showBorder={false}>
                 <Price
                   lounge={lounge}
                   guests={{
@@ -273,6 +269,7 @@ const CheckAvailability = ({
                     infants: form.getInputProps('infants').value,
                   }}
                   currentPrice={reservationDetails?.price}
+                  displaydifference={mode === BOOKING_MODE.EDIT}
                 ></Price>
               </EditableTitle>
               <Center w="100%">

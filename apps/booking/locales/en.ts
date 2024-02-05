@@ -199,6 +199,8 @@ export default {
       },
       totalPrice: {
         title: 'Total price',
+        titleAmend: 'Additional price to pay',
+        titleRefund: 'Amount to receive',
         samePrice: 'No additional fee required',
       },
       panelInfoHeader: {
@@ -286,6 +288,9 @@ export default {
       outcome: {
         succesful: {
           title: 'Good news! Your booking has been confirmed',
+          titleAmend: 'Good news! Your booking has been amended',
+          refundText:
+            ' You have decreased the number of guests from your booking. Your refund will be processed onto the payment card used to pay for theoriginal booking within 10 working days.',
           reference: {
             label: 'Booking Reference',
           },

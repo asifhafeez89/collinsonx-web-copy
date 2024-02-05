@@ -237,7 +237,9 @@ type AvailableSlotsProps = {
   };
   totalPrice: {
     samePrice: string;
+    titleAmend: string;
     title: string;
+    titleRefund: string;
   };
   panelInfoHeader: {
     date: string;
@@ -339,6 +341,8 @@ type ConfirmationPaymentProps = {
   outcome: {
     succesful: {
       title: string;
+      titleAmend: string;
+      refundText: string;
       reference: {
         label: string;
       };

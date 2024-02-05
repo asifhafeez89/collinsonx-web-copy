@@ -1,6 +1,6 @@
 import { gql } from '../apollo';
 
-const createBooking = gql`
+const amendBooking = gql`
   mutation confirmAmendment($amendmentInput: AmendmentInput) {
     confirmAmendment(amendmentInput: $amendmentInput) {
       id
@@ -11,4 +11,4 @@ const createBooking = gql`
   }
 `;
 
-export default createBooking;
+export default amendBooking;

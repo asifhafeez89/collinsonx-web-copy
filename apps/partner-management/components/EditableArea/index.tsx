@@ -1,27 +1,30 @@
 import { PropsWithChildren, useState } from 'react';
-import {
-  Box,
-  Text,
-  Button,
-  Stack,
-  Flex,
-  Center,
-} from '@collinsonx/design-system/core';
+import { Box, Text, Button, Flex } from '@collinsonx/design-system/core';
 
 import classes from './EditableArea.module.css';
-import Title from '@collinsonx/design-system/components/title';
+import Title from '@collinsonx/design-system/components/title/index';
 
 export interface EditableAreaProps extends PropsWithChildren {
   title: string;
   subtitle?: string;
+  dataTestId?: string;
 }
 
 export type Mode = 'view' | 'edit';
 
-const EditableArea = ({ title, subtitle, children }: EditableAreaProps) => {
+const EditableArea = ({
+  title,
+  subtitle,
+  dataTestId,
+  children,
+}: EditableAreaProps) => {
   const [mode, setMode] = useState<Mode>('view');
   return (
-    <Flex direction="column" className={classes.container}>
+    <Flex
+      data-testid={dataTestId}
+      direction="column"
+      className={classes.container}
+    >
       <Box className={classes.header}>
         <Title order={2}>{title}</Title>
         {mode === 'view' && <Button variant="outline">Edit</Button>}

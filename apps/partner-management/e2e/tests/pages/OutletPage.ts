@@ -31,6 +31,7 @@ export default class OutletPage {
     await this.page.waitForSelector('#outlet-container');
     return this.page.getByTestId('outlet-summary-section');
   }
+
   /**
    *
    * @returns The outlet's summary section as an object
@@ -49,5 +50,50 @@ export default class OutletPage {
     }
 
     return summarySection;
+  }
+
+  async productsSectionHeading() {
+    await this.page.waitForSelector('#outlet-container');
+    return this.page
+      .getByTestId('outlet-products-section')
+      .getByRole('heading');
+  }
+
+  async programmeTabs() {
+    await this.page.waitForSelector('#outlet-container');
+    return this.page.getByTestId('outlet-products-programme-tab');
+  }
+
+  async productsTableHeaders() {
+    await this.page.waitForSelector('#outlet-container');
+    return this.page.getByTestId('outlet-products-table-header');
+  }
+
+  async clickProductProgrammeTabByIndex(index: number) {
+    await this.page.waitForSelector('#outlet-container');
+    const programmeTabs = await this.programmeTabs();
+    const programmeTabsArray = await programmeTabs.all();
+    return programmeTabsArray[index].click();
+  }
+
+  async productsTableRowDataByProgramme(programme: string) {
+    await this.page.waitForSelector('#outlet-container');
+    const tableBody = await this.page.getByTestId(
+      `outlet-products-table-body-${programme}`
+    );
+    const productTableRows = await tableBody.locator('tr').all();
+    const productTableData = [];
+
+    for (const row of productTableRows) {
+      let rowData = [];
+      const tableData = await row.locator('td').all();
+
+      for (const data of tableData) {
+        rowData.push(await data.innerText());
+      }
+      productTableData.push(tableData);
+    }
+
+    return productTableData;
   }
 }

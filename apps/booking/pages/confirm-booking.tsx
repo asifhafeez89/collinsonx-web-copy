@@ -150,6 +150,7 @@ export default function ConfirmBooking() {
                         flightNumber={flightNumber}
                         guestList={{ adults, infants, children }}
                         lounge={lounge}
+                        mode={Mode as BOOKING_MODE}
                       />
                       <EditableTitle
                         title={translations.booking.availableSlots.title}
