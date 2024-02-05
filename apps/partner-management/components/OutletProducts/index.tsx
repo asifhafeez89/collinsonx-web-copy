@@ -67,10 +67,10 @@ const OutletsProducts = ({
 
   return (
     <EditableArea dataTestId="outlet-products-section" title="Products">
-      <Stack>
+      <Stack gap={12}>
         <Tabs
           color={colors['brand-collinson']}
-          classNames={{ tab: classes.productTabs }}
+          classNames={{ tab: classes.tab, list: classes.tabsList }}
           defaultValue={programmes[0]}
         >
           <Tabs.List>

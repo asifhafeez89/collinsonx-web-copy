@@ -2,6 +2,7 @@ import {
   Anchor,
   Button,
   CSSVariablesResolver,
+  Divider,
   Input,
   InputWrapper,
   MantineThemeOverride,
@@ -110,6 +111,13 @@ const theme = (
       },
     },
     components: {
+      Divider: Divider.extend({
+        vars: () => ({
+          root: {
+            '--divider-color': colors['grey-border'],
+          },
+        }),
+      }),
       DatePickerInput: DatePickerInput.extend({
         classNames: classesDatePickerInput,
       }),

@@ -1,15 +1,29 @@
-.productTabs {
+.tab {
   padding: 10px 24px;
   font-size: rem(18px);
   font-weight: 400;
-
+  border-width: 0 0 1px 0;
+  &:hover {
+    border-width: 0 0 1px 0;
+    border-color: var(--grey-border);
+  }
   &[data-active] {
+    border-width: 0 0 4px 0;
+    border-color: var(--brand-collinson);
     font-weight: 600;
+  }
+}
+.tabsList {
+  border-color: var(--grey-border);
+  border-width: 1px;
+  &:before {
+    border-width: 0 0 1px 0;
+    border-color: var(--grey-border);
   }
 }
 
 .productTable {
-  margin-top: 20px;
+  margin-top: 16px;
   border: 1px solid var(--grey-border);
   border-radius: 8px;
   border-spacing: 0;
