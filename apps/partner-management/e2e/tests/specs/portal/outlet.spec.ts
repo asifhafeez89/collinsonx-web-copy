@@ -6,6 +6,8 @@ import CatalogueApi from 'e2e/tests/utils/CatalogueApi';
 import { toTitleCase } from 'utils/textUtils';
 import { Product, ProductCategory } from '@collinsonx/utils';
 import Helper from 'e2e/tests/helpers/Helper';
+import getOutletPageTitle from 'lib/getOutletPageTitle';
+import { getOutletStatus } from 'lib';
 import { getProductsTableByProgramme } from 'utils/getProductsTableByProgramme';
 import { getProgrammeDisplayName } from 'utils/getProgrammeDisplayName';
 
@@ -112,6 +114,17 @@ test.describe('outlet page', () => {
       }
     }
 
+    const { name, status, location } = outlet;
+    const outletStatus = getOutletStatus(status);
+    const pageTitle = getOutletPageTitle({
+      name,
+      status: outletStatus,
+      location: location?.name,
+      terminal: location?.terminal,
+      mode: 'view',
+    });
+
+    await expect(page).toHaveTitle(pageTitle);
     expect(summarySection).toBeVisible();
     expect
       .soft(summarySectionInfo['Location type'])

@@ -36,6 +36,7 @@ test.describe('partners page', () => {
     const partnerRowCount = await partnerRow.count();
 
     await expect(navSection).toHaveText('Catalogue');
+    await expect(page).toHaveTitle('Partners | Catalogue: Collinson');
     await expect(title).toBeVisible();
 
     await expect(tableHeaderRow).toHaveCount(expectedHeaderCount);

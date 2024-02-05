@@ -19,6 +19,7 @@ test.describe('partner portal dashboard', () => {
 
     const navSection = await Helper.navSection(page);
 
+    await expect(page).toHaveTitle('Partner Portal: Collinson');
     await expect(navSection).toHaveText('Partner Portal');
     await expect(title).toBeVisible();
     await expect(catalogueWidget).toBeVisible();

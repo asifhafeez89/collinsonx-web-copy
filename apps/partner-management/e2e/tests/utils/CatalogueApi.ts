@@ -153,6 +153,12 @@ export default class CatalogueApi {
   async getOutletByID(Id: string) {
     const query = `query Query($getOutletByIdId: ID!) {
       getOutletByID(id: $getOutletByIdId) {
+        name
+        status
+        location {
+          name
+          terminal
+        }
         category
         code
         status

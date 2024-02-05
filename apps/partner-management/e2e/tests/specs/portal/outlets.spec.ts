@@ -30,6 +30,7 @@ test.describe('outlets page', () => {
 
     await page.getByTestId('outlet-listing-container');
     await expect(navSection).toHaveText('Catalogue');
+    await expect(page).toHaveTitle('Outlets | Catalogue: Collinson');
     await expect(title).toBeVisible();
     await outletsPage.assertCorrectNumberOfOutletsAreDisplayed(CARDS_LIMIT);
     expect(outletCards.length).toBeLessThanOrEqual(CARDS_LIMIT);
