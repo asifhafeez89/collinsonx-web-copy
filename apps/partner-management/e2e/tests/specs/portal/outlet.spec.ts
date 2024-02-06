@@ -4,12 +4,20 @@ import OutletsPage from '../../pages/OutletsPage';
 import OutletPage from 'e2e/tests/pages/OutletPage';
 import CatalogueApi from 'e2e/tests/utils/CatalogueApi';
 import { toTitleCase } from 'utils/textUtils';
-import { Product, ProductCategory } from '@collinsonx/utils';
+import {
+  DaySchedules,
+  Outlet,
+  Product,
+  ProductCategory,
+  Schedule,
+} from '@collinsonx/utils';
 import Helper from 'e2e/tests/helpers/Helper';
 import getOutletPageTitle from 'lib/getOutletPageTitle';
 import { getOutletStatus } from 'lib';
 import { getProductsTableByProgramme } from 'utils/getProductsTableByProgramme';
 import { getProgrammeDisplayName } from 'utils/getProgrammeDisplayName';
+import { DAYS } from '../../../../config';
+import { formatDateString } from 'utils/dateUtils';
 
 test.beforeEach(async ({ page }) => {
   const loginPage = new LoginPage(page);
@@ -219,6 +227,54 @@ test.describe('outlet page', () => {
             expectedProductValues[k]
           );
         }
+      }
+    }
+  });
+
+  test('opening times displays the correct information', async ({ page }) => {
+    const outletPage = new OutletPage(page);
+    const catalogueApi = new CatalogueApi();
+
+    const outlets = await catalogueApi.getOutlets(1, 1);
+    const outletId = outlets[0].id;
+    await outletPage.goToURL(outletId);
+    const openingTimesHeading = await outletPage.openingTimesSectionHeading();
+    const { openingTimes } = await catalogueApi.getOutletByID(outletId);
+
+    if (openingTimes) {
+      const { meta, schedules, exceptions } = openingTimes;
+      if (schedules || exceptions) {
+        await expect(openingTimesHeading).toHaveText('Opening times');
+        if (meta && meta.lastEdited) {
+          const container = await page.getByTestId('outlet-opening-times');
+          await expect(
+            container.getByText(formatDateString(meta.lastEdited))
+          ).toBeVisible();
+        }
+      }
+      if (schedules) {
+        const items = page.getByTestId('opening-times-schedule');
+        for (let i = 0; i < DAYS.length; i++) {
+          const day = DAYS[i];
+          const daySchedule = schedules[day];
+          if (daySchedule && daySchedule.length) {
+            const group = items.nth(i);
+            const label = group.locator('dt');
+            const times = group.locator('dd');
+            await expect(label).toHaveText(day);
+            for (let i = 0; i < daySchedule.length; i++) {
+              const { startTime, endTime } = daySchedule[i];
+              await expect(times.nth(i)).toHaveText(`${startTime}-${endTime}`);
+            }
+          }
+        }
+      }
+      if (exceptions) {
+        const container = await page.getByTestId('opening-times-exceptions');
+        await expect(container.locator('dt')).toHaveText(
+          'Opening times description'
+        );
+        await expect(container.locator('dd')).toHaveText(exceptions);
       }
     }
   });

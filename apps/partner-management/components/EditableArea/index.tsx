@@ -7,7 +7,7 @@ import Title from '@collinsonx/design-system/components/title/index';
 export interface EditableAreaProps extends PropsWithChildren {
   title: string;
   subtitle?: string;
-  dataTestId?: string;
+  'data-testid'?: string;
 }
 
 export type Mode = 'view' | 'edit';
@@ -15,8 +15,8 @@ export type Mode = 'view' | 'edit';
 const EditableArea = ({
   title,
   subtitle,
-  dataTestId,
   children,
+  'data-testid': dataTestId,
 }: EditableAreaProps) => {
   const [mode, setMode] = useState<Mode>('view');
   return (

@@ -213,6 +213,47 @@ export default class CatalogueApi {
           }
         }
         productCategories
+        openingTimes {
+          meta {
+            lastEdited
+            editor {
+              lastName
+              firstName
+              organisation
+            }
+          }
+          exceptions
+          schedules {
+            MONDAY {
+              endTime
+              startTime
+            }
+            TUESDAY {
+              endTime
+              startTime
+            }
+            WEDNESDAY {
+              endTime
+              startTime
+            }
+            THURSDAY {
+              endTime
+              startTime
+            }
+            FRIDAY {
+              endTime
+              startTime
+            }
+            SATURDAY {
+              endTime
+              startTime
+            }
+            SUNDAY {
+              endTime
+              startTime
+            }
+          }
+        }
       }
     }`;
 

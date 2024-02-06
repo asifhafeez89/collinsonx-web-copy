@@ -1,3 +1,5 @@
+import { DaySchedules } from '@collinsonx/utils';
+
 export const SITE_NAME = 'Partner Management';
 export const PARTNER_ID = 'PARTNER_PORTAL_PARTNER_ID';
 export const SELECTED_LOUNGE = 'PARTNER_PORTAL_SELECTED_LOUNGE';
@@ -7,3 +9,13 @@ export const CONSENT = 'PARTNER_PORTAL_CONSENT';
 export const CARDS_LIMIT = 50;
 export const SECTION_ID = 'main';
 export const SUPER_USER = 'SUPER_USER';
+
+export const DAYS: Array<keyof DaySchedules> = [
+  'MONDAY',
+  'TUESDAY',
+  'WEDNESDAY',
+  'THURSDAY',
+  'FRIDAY',
+  'SATURDAY',
+  'SUNDAY',
+];

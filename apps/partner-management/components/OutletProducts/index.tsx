@@ -66,7 +66,7 @@ const OutletsProducts = ({
   };
 
   return (
-    <EditableArea dataTestId="outlet-products-section" title="Products">
+    <EditableArea data-testid="outlet-products-section" title="Products">
       <Stack gap={12}>
         <Tabs
           color={colors['brand-collinson']}

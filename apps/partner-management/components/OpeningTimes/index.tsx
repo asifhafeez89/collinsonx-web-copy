@@ -8,20 +8,11 @@ import { Box } from '@collinsonx/design-system/core';
 import EditableArea from '@components/EditableArea';
 import { useMemo } from 'react';
 import { formatDateString } from 'utils/dateUtils';
+import { DAYS } from 'config';
 
 export interface OpeningTimesProps {
   openingTimes: OpeningTimesType;
 }
-
-const DAYS: Array<keyof DaySchedules> = [
-  'MONDAY',
-  'TUESDAY',
-  'WEDNESDAY',
-  'THURSDAY',
-  'FRIDAY',
-  'SATURDAY',
-  'SUNDAY',
-];
 
 const OpeningTimes = ({ openingTimes }: OpeningTimesProps) => {
   const { exceptions } = openingTimes;
@@ -49,7 +40,7 @@ const OpeningTimes = ({ openingTimes }: OpeningTimesProps) => {
           )
         );
         return (
-          <Box key={day}>
+          <Box key={day} data-testid="opening-times-schedule">
             <dt className={classes.label}>{day}</dt>
             {times}
           </Box>
@@ -61,11 +52,15 @@ const OpeningTimes = ({ openingTimes }: OpeningTimesProps) => {
   }, [openingTimes]);
 
   return data || exceptions ? (
-    <EditableArea title="Opening times" subtitle={`Last edited: ${lastEdited}`}>
-      <dl className={classes.listContainer}>
+    <EditableArea
+      title="Opening times"
+      subtitle={`Last edited: ${lastEdited}`}
+      data-testid="outlet-opening-times"
+    >
+      <dl className={classes.listContainer} data-testid="opening-times-list">
         {data}
         {exceptions && (
-          <Box w="100%">
+          <Box w="100%" data-testid="opening-times-exceptions">
             <dt className={classes.label}>Opening times description</dt>
             <dd>{exceptions}</dd>
           </Box>
