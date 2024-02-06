@@ -92,9 +92,8 @@ jobs:
             sleep 5
           done
 
-          cd -
-          echo "${{ secrets.ENV_TESTS_FILE_BOOKING }}" > packages/collinsonx-tests-e2e/.env.tests
-          pnpm --filter "@collinsonx/tests-e2e" e2e:ci-booking-local
+          echo "${{ secrets.ENV_TESTS_FILE_BOOKING }}" > .env.tests
+          pnpm e2e:ci-booking-local
 
       - name: Archive npm failure logs
         uses: actions/upload-artifact@v2
@@ -108,11 +107,11 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: playwright-report
-          path: packages/collinsonx-tests-e2e/playwright-report
+          path: apps/booking/playwright-report
 
       - name: Upload coverage results
         if: always()
         uses: actions/upload-artifact@v3
         with:
           name: playwright-coverage
-          path: packages/collinsonx-tests-e2e/.nyc_output
+          path: apps/booking/.nyc_output

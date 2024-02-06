@@ -356,6 +356,7 @@ export default function CheckEmail() {
                       variant="outline"
                       disabled={count > 0}
                       onClick={handleClickResend}
+                      data-testid="resend"
                       classNames={{
                         root: classes.buttonRoot,
                         label: classes.buttonLabel,
