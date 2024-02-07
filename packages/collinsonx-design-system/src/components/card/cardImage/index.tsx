@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
-import { Status } from '../index';
+import { Status } from '@collinsonx/utils';
+
 import { Box, Tooltip, rgba } from '@mantine/core';
 import colors from '../../../colour-constants-partner';
 

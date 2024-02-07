@@ -1,7 +1,7 @@
 import { render, screen } from '@collinsonx/design-system/test-utils';
 import OutletDetailsSummary from './index';
 import { ComponentProps } from 'react';
-import { OutletCategory, ProductCategory } from '@collinsonx/utils';
+import { OutletCategory, ProductCategory, Status } from '@collinsonx/utils';
 import { toTitleCase } from 'utils/textUtils';
 
 describe('OutletDetailsSummary', () => {
@@ -10,7 +10,7 @@ describe('OutletDetailsSummary', () => {
     legacyCode: 'LHR10',
     code: '2E3FA1',
     productCategories: [ProductCategory.Eat, ProductCategory.Lounge],
-    status: 'ACTIVE',
+    status: Status.Active,
     primaryProductNames: ['Product 1', 'Product 2'],
     ancillaryProductNames: ['Product 3', 'Product 4'],
     disabledAccess: true,

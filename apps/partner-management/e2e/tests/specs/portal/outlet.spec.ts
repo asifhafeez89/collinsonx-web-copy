@@ -4,16 +4,9 @@ import OutletsPage from '../../pages/OutletsPage';
 import OutletPage from 'e2e/tests/pages/OutletPage';
 import CatalogueApi from 'e2e/tests/utils/CatalogueApi';
 import { toTitleCase } from 'utils/textUtils';
-import {
-  DaySchedules,
-  Outlet,
-  Product,
-  ProductCategory,
-  Schedule,
-} from '@collinsonx/utils';
+import { Product, ProductCategory } from '@collinsonx/utils';
 import Helper from 'e2e/tests/helpers/Helper';
 import getOutletPageTitle from 'lib/getOutletPageTitle';
-import { getOutletStatus } from 'lib';
 import { getProductsTableByProgramme } from 'utils/getProductsTableByProgramme';
 import { getProgrammeDisplayName } from 'utils/getProgrammeDisplayName';
 import { DAYS } from '../../../../config';
@@ -99,12 +92,9 @@ test.describe('outlet page', () => {
 
     // Default values for when the data is null
     if (categoriesValue.length == 0) categoriesValue = 'N/A';
-    let statusValue = 'INACTIVE';
     let primaryProductsValue = 'N/A';
     let emailValue = 'N/A';
 
-    // Format data received from the API response to display as it would in the UI
-    if (outlet.status == 'LIVE') statusValue = 'ACTIVE';
     if (outlet.reservationEmail != null) emailValue = outlet.reservationEmail;
 
     if (outlet.products.length > 0) {
@@ -123,10 +113,9 @@ test.describe('outlet page', () => {
     }
 
     const { name, status, location } = outlet;
-    const outletStatus = getOutletStatus(status);
     const pageTitle = getOutletPageTitle({
       name,
-      status: outletStatus,
+      status,
       location: location?.name,
       terminal: location?.terminal,
       mode: 'view',
@@ -141,7 +130,7 @@ test.describe('outlet page', () => {
     expect.soft(summarySectionInfo['Outlet code']).toBe(outlet.code);
     // Currently we expect an outlet to be of one category type e.g. "EAT"
     expect.soft(summarySectionInfo['Categories']).toBe(categoriesValue[0]);
-    expect.soft(summarySectionInfo['Status']).toBe(statusValue);
+    expect.soft(summarySectionInfo['Status']).toBe(status);
     expect
       .soft(summarySectionInfo['Primary products'])
       .toBe(primaryProductsValue);

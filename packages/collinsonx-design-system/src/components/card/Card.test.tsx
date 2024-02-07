@@ -1,6 +1,6 @@
+import { Status } from '@collinsonx/utils';
 import { render, screen } from '../../test-utils';
 import Card, { CardProps } from './';
-import { Status } from './';
 
 describe('<CardList />', () => {
   let props: CardProps = {

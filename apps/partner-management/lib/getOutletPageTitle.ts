@@ -1,14 +1,15 @@
+import { Status } from '@collinsonx/utils';
 import { toTitleCase } from '../utils/textUtils';
 
 export interface OutletPageTitleOptions {
   name: string;
   location?: string;
   terminal?: string;
-  status?: string;
+  status?: Status;
   mode: 'view' | 'edit';
 }
 
-export const formatStatus = (status: string): string =>
+export const formatStatus = (status: Status): string =>
   `(${toTitleCase(status)})`;
 
 /**

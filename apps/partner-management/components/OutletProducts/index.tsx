@@ -3,7 +3,6 @@ import { Table, Tabs, Stack } from '@collinsonx/design-system/core';
 import classes from './OutletProducts.module.css';
 import { getProgrammeDisplayName } from '../../utils/getProgrammeDisplayName';
 import { getProductsTableByProgramme } from '../../utils/getProductsTableByProgramme';
-import { toTitleCase } from '../../utils/textUtils';
 import { AncillaryProduct, Maybe, Product } from '@collinsonx/utils';
 import Badge from '@collinsonx/design-system/components/badge/index';
 import CollinsonViewOnlyNotice from '@collinsonx/design-system/components/collinsonViewOnlyNotice/index';
@@ -49,10 +48,7 @@ const OutletsProducts = ({
           <Table.Td>{name}</Table.Td>
           <Table.Td>{tier}</Table.Td>
           <Table.Td>
-            <Badge
-              type={`${status === 'ACTIVE' ? 'active' : 'inactive'}`}
-              size="large"
-            >
+            <Badge type={status} size="large">
               {status}
             </Badge>
           </Table.Td>

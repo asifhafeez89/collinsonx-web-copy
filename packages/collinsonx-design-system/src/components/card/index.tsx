@@ -1,13 +1,9 @@
 import styled from '@emotion/styled';
 import { Box, BoxProps, createPolymorphicComponent } from '@mantine/core';
+import { Status } from '@collinsonx/utils';
 import colors from '../../colour-constants-partner';
 import CardImage from './cardImage';
 import { ReactNode } from 'react';
-
-export enum Status {
-  'Active' = 'active',
-  'Inactive' = 'inactive',
-}
 
 export interface CardProps {
   onClick?: () => void;

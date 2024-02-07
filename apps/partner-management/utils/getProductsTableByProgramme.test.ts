@@ -5,8 +5,8 @@ import {
   ProductCategory,
   ProductCostType,
   ProductStage,
-  ProductStatus,
   Programme,
+  Status,
 } from '@collinsonx/utils';
 
 describe('getProductsTableByProgramme', () => {
@@ -38,7 +38,7 @@ describe('getProductsTableByProgramme', () => {
         salePrices: [
           { salePriceCurrency: 'USD', salePrice: 90, programme: Programme.Lk },
         ],
-        status: ProductStatus.Active,
+        status: Status.Active,
       },
     ];
 
@@ -82,7 +82,7 @@ describe('getProductsTableByProgramme', () => {
         salePrices: [
           { salePriceCurrency: 'USD', salePrice: 90, programme: Programme.Lk },
         ],
-        status: ProductStatus.Active,
+        status: Status.Active,
       },
       {
         id: '2345',
@@ -104,7 +104,7 @@ describe('getProductsTableByProgramme', () => {
         salePrices: [
           { salePriceCurrency: 'USD', salePrice: 90, programme: Programme.Lk },
         ],
-        status: ProductStatus.Active,
+        status: Status.Active,
       },
     ];
 
@@ -158,7 +158,7 @@ describe('getProductsTableByProgramme', () => {
         salePrices: [
           { salePriceCurrency: 'USD', salePrice: 90, programme: Programme.Lk },
         ],
-        status: ProductStatus.Active,
+        status: Status.Active,
       },
       {
         id: '2345',
@@ -180,7 +180,7 @@ describe('getProductsTableByProgramme', () => {
         salePrices: [
           { salePriceCurrency: 'USD', salePrice: 90, programme: Programme.Lk },
         ],
-        status: ProductStatus.Active,
+        status: Status.Active,
       },
       {
         id: '2344',
@@ -202,7 +202,7 @@ describe('getProductsTableByProgramme', () => {
         salePrices: [
           { salePriceCurrency: 'USD', salePrice: 90, programme: Programme.Pp },
         ],
-        status: ProductStatus.Active,
+        status: Status.Active,
       },
     ];
 

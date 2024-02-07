@@ -5,8 +5,8 @@ import {
   ProductCategory,
   ProductCostType,
   ProductStage,
-  ProductStatus,
   Programme,
+  Status,
   Tier,
 } from '@collinsonx/utils';
 
@@ -19,7 +19,7 @@ describe('OutletProducts', () => {
         category: ProductCategory.Eat,
         tier: Tier.Gold,
         salesforceID: '3323',
-        status: ProductStatus.Active,
+        status: Status.Active,
         salePrices: [
           {
             programme: Programme.Pp,
@@ -50,7 +50,7 @@ describe('OutletProducts', () => {
         name: 'product-name',
         category: ProductCategory.Eat,
         tier: Tier.Gold,
-        status: ProductStatus.Active,
+        status: Status.Active,
         salePrices: [
           {
             programme: Programme.Pp,

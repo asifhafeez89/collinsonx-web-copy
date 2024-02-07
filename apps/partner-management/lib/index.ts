@@ -1,4 +1,4 @@
-import { Booking, OutletStatus } from '@collinsonx/utils';
+import { Booking } from '@collinsonx/utils';
 import { ApolloError } from '@collinsonx/utils/apollo';
 import dayjs from 'dayjs';
 
@@ -12,9 +12,6 @@ export const colorMap: Record<Variant, string> = {
 };
 
 const whiteListedMessages = [`invalid input syntax for type uuid: "undefined"`];
-
-export const getOutletStatus = (status: OutletStatus) =>
-  status === OutletStatus.Live ? 'ACTIVE' : 'INACTIVE';
 
 export const isErrorValid = (error?: ApolloError) => {
   const everyErrorIsWhiteListed =

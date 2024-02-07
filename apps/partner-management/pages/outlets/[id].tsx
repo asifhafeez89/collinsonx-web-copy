@@ -6,7 +6,7 @@ import {
 } from '@collinsonx/design-system/core';
 import { useQuery } from '@collinsonx/utils/apollo';
 import getOutletByID from '@collinsonx/utils/queries/getOutletByID';
-import { Outlet, OutletStatus, ProductCategory } from '@collinsonx/utils';
+import { Outlet, ProductCategory } from '@collinsonx/utils';
 import Error from '@components/Error';
 import LayoutCatalogue from '@components/LayoutCatalogue';
 import { useRouter } from 'next/router';
@@ -21,7 +21,6 @@ import OpeningTimes from '@components/OpeningTimes';
 import PageTitle from '@components/PageTitle';
 import getOutletPageTitle from 'lib/getOutletPageTitle';
 import { useMemo } from 'react';
-import { getOutletStatus } from 'lib';
 
 const capitalizedCategoryMap: { [key in ProductCategory]: string } = {
   [ProductCategory.Eat]: 'Eat',
@@ -107,8 +106,6 @@ export default function OutletDetail() {
     product ? product.name : ''
   );
 
-  const outletStatus = getOutletStatus(status);
-
   return (
     <Box id="outlet-container">
       {name ? (
@@ -119,7 +116,7 @@ export default function OutletDetail() {
             mode: 'view',
             location: location.name ?? undefined,
             terminal: location.terminal ?? undefined,
-            status: outletStatus,
+            status,
           })}
         />
       ) : (
@@ -139,7 +136,7 @@ export default function OutletDetail() {
                 locationType={category}
                 legacyCode={legacyCode ?? undefined}
                 code={code ?? undefined}
-                status={outletStatus}
+                status={status}
                 productCategories={filteredProductCategories}
                 primaryProductNames={primaryProductNames}
                 ancillaryProductNames={ancillaryProductNames}

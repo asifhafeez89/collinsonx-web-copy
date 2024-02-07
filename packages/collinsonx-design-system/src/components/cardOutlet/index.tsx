@@ -1,4 +1,5 @@
-import { Text, Stack, Flex, Divider, List } from '@mantine/core';
+import { Text, Stack, Flex, Divider } from '@mantine/core';
+import { Status } from '@collinsonx/utils';
 import colors from '../../colour-constants-partner';
 import Rating, { RatingProps } from '../rating/index';
 import Badge from '../badge';
@@ -8,11 +9,6 @@ import Card from '../card';
 import CardField from '../card/cardField';
 import CardTitle from '../card/cardTitle';
 import ProductCategoriesList from '../outletTypes';
-
-export enum Status {
-  'Active' = 'active',
-  'Inactive' = 'inactive',
-}
 
 export interface WorkflowStage {
   type: BadgeProps['type'];
@@ -31,7 +27,6 @@ export interface CardOutletProps {
   lastEdit?: string;
   rating?: RatingProps;
   imageCount?: number;
-  workflowStage?: WorkflowStage;
   productCategories: Array<{
     label: string;
     IconComponent: any;
@@ -54,7 +49,6 @@ function CardOutlet({
   imageCount,
   imageUrl,
   width,
-  workflowStage,
   onClick = () => {},
   productCategories = [],
   'data-testid': dataTestId,
@@ -102,20 +96,11 @@ function CardOutlet({
 
         <Stack gap={24}>
           <Flex direction="row" gap={45}>
-            {workflowStage && (
-              <CardField label="Workflow stage">
-                <Badge type={workflowStage.type} size="small">
-                  {workflowStage.label}
-                </Badge>
-              </CardField>
-            )}
-            {status === Status.Inactive && (
-              <CardField label="Outlet status">
-                <Badge type={status} size="small">
-                  {status}
-                </Badge>
-              </CardField>
-            )}
+            <CardField label="Status">
+              <Badge type={status} size="small">
+                {status}
+              </Badge>
+            </CardField>
           </Flex>
           <Flex gap={24} wrap="wrap" style={{ rowGap: 10 }}>
             <ProductCategoriesList productCategories={productCategories} />

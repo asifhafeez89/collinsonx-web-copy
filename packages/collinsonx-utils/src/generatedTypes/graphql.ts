@@ -51,6 +51,32 @@ export type AcceptInvitationInput = {
   password: Scalars['String']['input'];
 };
 
+export type AffiliateProduct = {
+  __typename?: 'AffiliateProduct';
+  id: Scalars['ID']['output'];
+  /** The product name */
+  name: Scalars['String']['output'];
+  /** Urls for Affiliate Products */
+  urls: Array<Maybe<AffiliateUrls>>;
+};
+
+export type AffiliateProductInput = {
+  name: Scalars['String']['input'];
+  type: CatalogueProductType;
+  urls: Array<InputMaybe<AffiliateUrlsInput>>;
+};
+
+export type AffiliateUrls = {
+  __typename?: 'AffiliateUrls';
+  programme: Programme;
+  url: Scalars['String']['output'];
+};
+
+export type AffiliateUrlsInput = {
+  programme: Programme;
+  url: Scalars['String']['input'];
+};
+
 export type Amendment = {
   __typename?: 'Amendment';
   actingAccount?: Maybe<Scalars['String']['output']>;
@@ -67,6 +93,8 @@ export type Amendment = {
   paymentOption: PaymentOption;
   price: Scalars['Int']['output'];
   reference: Scalars['String']['output'];
+  refundStatus?: Maybe<Scalars['String']['output']>;
+  refundedAt?: Maybe<Scalars['Date']['output']>;
   status: AmendmentStatus;
   updatedAt: Scalars['Date']['output'];
 };
@@ -108,12 +136,15 @@ export type AmendmentInput = {
 
 /** The lifecycle statuses of an amendment */
 export enum AmendmentStatus {
+  ChargeCompleted = 'CHARGE_COMPLETED',
+  ChargeFailed = 'CHARGE_FAILED',
+  ChargeInitialized = 'CHARGE_INITIALIZED',
   Confirmed = 'CONFIRMED',
   FailedToUpdateBookingRecord = 'FAILED_TO_UPDATE_BOOKING_RECORD',
   Initialized = 'INITIALIZED',
-  PaymentFailed = 'PAYMENT_FAILED',
   RefundFailed = 'REFUND_FAILED',
   SnaplogicAmendmentFailed = 'SNAPLOGIC_AMENDMENT_FAILED',
+  SnaplogicDataIsIncorrect = 'SNAPLOGIC_DATA_IS_INCORRECT',
 }
 
 export type AncillaryProduct = {
@@ -132,7 +163,7 @@ export type AncillaryProduct = {
   /** The relevant Salesforce ID of the product */
   salesforceID: Scalars['String']['output'];
   /** The status of the product */
-  status: ProductStatus;
+  status: Status;
   /** The product tier for example Gold or Black */
   tier?: Maybe<Scalars['String']['output']>;
 };
@@ -451,6 +482,7 @@ export enum BookingType {
 }
 
 export enum CatalogueProductType {
+  Affiliate = 'AFFILIATE',
   Ancillary = 'ANCILLARY',
   Primary = 'PRIMARY',
 }
@@ -650,6 +682,7 @@ export type Consumer = {
   linkedAccounts: Array<LinkedAccount>;
   /** Consumers preferred langauge */
   locale?: Maybe<Scalars['String']['output']>;
+  mobileAppsData?: Maybe<Array<Maybe<MobileAppData>>>;
   phone?: Maybe<Scalars['String']['output']>;
   updatedAt: Scalars['Date']['output'];
 };
@@ -2022,6 +2055,26 @@ export enum MediaOrder {
   SysPublishedVersionDesc = 'sys_publishedVersion_DESC',
 }
 
+export type MembershipPlan = {
+  __typename?: 'MembershipPlan';
+  createdAt: Scalars['Date']['output'];
+  dealName?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  endDate: Scalars['Date']['output'];
+  externalID?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  startDate: Scalars['Date']['output'];
+  updatedAt: Scalars['Date']['output'];
+};
+
+export type MembershipPlanInput = {
+  dealName?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  endDate: Scalars['Date']['input'];
+  externalID?: InputMaybe<Scalars['String']['input']>;
+  startDate: Scalars['Date']['input'];
+};
+
 export type Meta = {
   __typename?: 'Meta';
   /** The editor who last edited the object */
@@ -2035,6 +2088,34 @@ export type MetaInput = {
   editor?: InputMaybe<EditorInput>;
 };
 
+/** Mobile app data stores data about an instance of mobile app used by consumer. A consumer can have multiple app instances. */
+export type MobileAppData = {
+  __typename?: 'MobileAppData';
+  appId: Scalars['String']['output'];
+  appName: Scalars['String']['output'];
+  appVersion: Scalars['String']['output'];
+  consumer: Consumer;
+  createdAt: Scalars['Date']['output'];
+  deviceMaker?: Maybe<Scalars['String']['output']>;
+  deviceModel?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  os: Scalars['String']['output'];
+  osVersion?: Maybe<Scalars['String']['output']>;
+  pushNotificationId?: Maybe<Scalars['String']['output']>;
+  updatedAt: Scalars['Date']['output'];
+};
+
+export type MobileAppDataInput = {
+  appId: Scalars['String']['input'];
+  appName?: InputMaybe<Scalars['String']['input']>;
+  appVersion?: InputMaybe<Scalars['String']['input']>;
+  deviceMaker?: InputMaybe<Scalars['String']['input']>;
+  deviceModel?: InputMaybe<Scalars['String']['input']>;
+  os?: InputMaybe<Scalars['String']['input']>;
+  osVersion?: InputMaybe<Scalars['String']['input']>;
+  pushNotificationId?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   acceptInvitation?: Maybe<Invitation>;
@@ -2044,9 +2125,11 @@ export type Mutation = {
   checkinBooking?: Maybe<Booking>;
   confirmAmendment?: Maybe<Amendment>;
   confirmBooking?: Maybe<Booking>;
+  createAffiliateProduct?: Maybe<AffiliateProduct>;
   createBooking?: Maybe<Booking>;
   createEntitlement?: Maybe<Entitlement>;
   createInvitation?: Maybe<Invitation>;
+  createMembershipPlan?: Maybe<MembershipPlan>;
   createOutlet?: Maybe<Outlet>;
   createPartnerBrand?: Maybe<PartnerBrand>;
   createProduct?: Maybe<Product>;
@@ -2058,6 +2141,8 @@ export type Mutation = {
   deleteProduct?: Maybe<Product>;
   /** This is used to generate a consumer, but if they are already created we will return their details */
   findOrCreateConsumer?: Maybe<Consumer>;
+  /** Create a mobile app data record for a new app instance against consumer */
+  findOrCreateMobileAppData?: Maybe<MobileAppData>;
   /** This is used to generate a partner, but if they are already created we will return their details */
   findOrCreatePartner?: Maybe<Partner>;
   /** Link the currently logged in cergea consumer account to an existing Collinson account */
@@ -2071,9 +2156,12 @@ export type Mutation = {
   payForBooking?: Maybe<Booking>;
   redeemEntitlement?: Maybe<Entitlement>;
   unlinkExperience?: Maybe<Partner>;
+  updateAffiliateProduct?: Maybe<AffiliateProduct>;
   /** Change or update the consumer record with additional information */
   updateConsumer?: Maybe<Consumer>;
   updateEntitlement?: Maybe<Entitlement>;
+  /** Update mobile app data record with additional information */
+  updateMobileAppData?: Maybe<MobileAppData>;
   updateOutlet?: Maybe<Outlet>;
   updatePartner?: Maybe<Partner>;
   updatePartnerBrand?: Maybe<PartnerBrand>;
@@ -2109,6 +2197,10 @@ export type MutationConfirmBookingArgs = {
   id: Scalars['ID']['input'];
 };
 
+export type MutationCreateAffiliateProductArgs = {
+  productInput?: InputMaybe<AffiliateProductInput>;
+};
+
 export type MutationCreateBookingArgs = {
   bookingInput?: InputMaybe<BookingInput>;
 };
@@ -2119,6 +2211,10 @@ export type MutationCreateEntitlementArgs = {
 
 export type MutationCreateInvitationArgs = {
   invitationInput?: InputMaybe<InvitationInput>;
+};
+
+export type MutationCreateMembershipPlanArgs = {
+  membershipPlanInput: MembershipPlanInput;
 };
 
 export type MutationCreateOutletArgs = {
@@ -2161,6 +2257,10 @@ export type MutationFindOrCreateConsumerArgs = {
   consumerInput?: InputMaybe<ConsumerInput>;
 };
 
+export type MutationFindOrCreateMobileAppDataArgs = {
+  mobileAppDataInput?: InputMaybe<MobileAppDataInput>;
+};
+
 export type MutationFindOrCreatePartnerArgs = {
   partnerInput?: InputMaybe<PartnerInput>;
 };
@@ -2193,6 +2293,11 @@ export type MutationUnlinkExperienceArgs = {
   partnerKey?: InputMaybe<PartnerKey>;
 };
 
+export type MutationUpdateAffiliateProductArgs = {
+  id: Scalars['ID']['input'];
+  productInput?: InputMaybe<AffiliateProductInput>;
+};
+
 export type MutationUpdateConsumerArgs = {
   consumerInput?: InputMaybe<ConsumerInput>;
 };
@@ -2200,6 +2305,10 @@ export type MutationUpdateConsumerArgs = {
 export type MutationUpdateEntitlementArgs = {
   entitlementInput: EntitlementInput;
   id: Scalars['ID']['input'];
+};
+
+export type MutationUpdateMobileAppDataArgs = {
+  mobileAppDataInput?: InputMaybe<MobileAppDataInput>;
 };
 
 export type MutationUpdateOutletArgs = {
@@ -2284,12 +2393,17 @@ export type Outlet = {
   reservationEmail?: Maybe<Scalars['String']['output']>;
   /** The Salesforce ID of the outlet */
   salesforceID: Scalars['String']['output'];
-  /** The status of the outlet whether it is active or not */
-  status: OutletStatus;
+  /** The status of the outlet */
+  status: Status;
   /** Object containing outlet tags (tier, isoCountryCode, category) */
   tags?: Maybe<OutletTags>;
   /** The tier of the outlet for example Gold or Black */
   tier?: Maybe<Tier>;
+};
+
+export type OutletAndProductFilters = {
+  outlet?: InputMaybe<OutletFilters>;
+  product?: InputMaybe<ProductFilters>;
 };
 
 export enum OutletCategory {
@@ -2419,6 +2533,13 @@ export enum OutletContentOrder {
   SysPublishedVersionDesc = 'sys_publishedVersion_DESC',
 }
 
+export type OutletFilters = {
+  category?: InputMaybe<Array<InputMaybe<OutletCategory>>>;
+  isoCountryCode?: InputMaybe<Array<InputMaybe<IsoCountryCode>>>;
+  region?: InputMaybe<Array<InputMaybe<OutletRegion>>>;
+  tier?: InputMaybe<Array<InputMaybe<Tier>>>;
+};
+
 export type OutletInput = {
   /** The category of outlet eg AIRPORT, FERRY_STATION, RAILWAY_STATION */
   category: OutletCategory;
@@ -2442,8 +2563,8 @@ export type OutletInput = {
   reservationEmail?: InputMaybe<Scalars['String']['input']>;
   /** The Salesforce ID of the outlet */
   salesforceID: Scalars['String']['input'];
-  /** The status of the outlet whether it is active or not */
-  status: OutletStatus;
+  /** The status of the outlet */
+  status: Status;
   /** The tier of the outlet for example Gold or Black */
   tier?: InputMaybe<Tier>;
 };
@@ -2457,10 +2578,6 @@ export enum OutletRegion {
   Apac = 'APAC',
   Emea = 'EMEA',
   Global = 'GLOBAL',
-}
-
-export enum OutletStatus {
-  Live = 'LIVE',
 }
 
 export type OutletTags = {
@@ -2650,10 +2767,10 @@ export type Product = {
   salePrices: Array<Maybe<ProductSalePrice>>;
   /** The relevant Salesforce ID of the product */
   salesforceID: Scalars['String']['output'];
-  /** The stage of the product based on Saleforce stage */
+  /** The stage of the product */
   stage: ProductStage;
   /** The status of the product */
-  status: ProductStatus;
+  status: Status;
   /** Object containing product tags (tier, accessType, category) */
   tags?: Maybe<ProductTags>;
   /** The product tier for example Gold or Black */
@@ -2708,6 +2825,12 @@ export enum ProductCostType {
   Tiered = 'TIERED',
 }
 
+export type ProductFilters = {
+  accessType?: InputMaybe<Array<InputMaybe<PrimaryProductAccessType>>>;
+  category?: InputMaybe<Array<InputMaybe<ProductCategory>>>;
+  tier?: InputMaybe<Array<InputMaybe<Tier>>>;
+};
+
 export type ProductInput = {
   /** The access type of the product */
   accessType: PrimaryProductAccessType;
@@ -2725,10 +2848,10 @@ export type ProductInput = {
   salePrices: Array<InputMaybe<ProductSalePriceInput>>;
   /** The relevant Salesforce ID of the product */
   salesforceID: Scalars['String']['input'];
-  /** The stage of the product based on Saleforce stage */
+  /** The stage of the product */
   stage: ProductStage;
   /** The status of the product */
-  status: ProductStatus;
+  status: Status;
   /** The product tier for example Gold or Black */
   tier?: InputMaybe<Tier>;
   /** Type of the product (PRIMARY or ANCILLARY) */
@@ -2768,12 +2891,6 @@ export enum ProductStage {
   Draft = 'DRAFT',
   Live = 'LIVE',
   Onboarding = 'ONBOARDING',
-}
-
-export enum ProductStatus {
-  Active = 'ACTIVE',
-  Inactive = 'INACTIVE',
-  StopSale = 'STOP_SALE',
 }
 
 export type ProductTags = {
@@ -2823,6 +2940,8 @@ export type Query = {
   getFlightDetailsHealthCheck: Array<FlightDetails>;
   getInvitationByID?: Maybe<Invitation>;
   getInvitations: Array<Invitation>;
+  getMembershipPlanByID?: Maybe<MembershipPlan>;
+  getMobileAppDataByAppId?: Maybe<MobileAppData>;
   getOutletByID?: Maybe<Outlet>;
   getOutletBySalesforceID?: Maybe<Outlet>;
   getOutletTags?: Maybe<OutletTagsList>;
@@ -2957,6 +3076,14 @@ export type QueryGetInvitationsArgs = {
   experienceID?: InputMaybe<Scalars['ID']['input']>;
 };
 
+export type QueryGetMembershipPlanByIdArgs = {
+  id: Scalars['ID']['input'];
+};
+
+export type QueryGetMobileAppDataByAppIdArgs = {
+  appId: Scalars['ID']['input'];
+};
+
 export type QueryGetOutletByIdArgs = {
   id: Scalars['ID']['input'];
 };
@@ -2966,6 +3093,7 @@ export type QueryGetOutletBySalesforceIdArgs = {
 };
 
 export type QueryGetOutletsArgs = {
+  filters?: InputMaybe<OutletAndProductFilters>;
   page?: InputMaybe<Scalars['Int']['input']>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -3123,6 +3251,12 @@ export type Slots = {
   maxDuration?: Maybe<Scalars['String']['output']>;
   startDate?: Maybe<Scalars['Date']['output']>;
 };
+
+export enum Status {
+  Active = 'ACTIVE',
+  Inactive = 'INACTIVE',
+  StopSale = 'STOP_SALE',
+}
 
 export type Sys = {
   __typename?: 'Sys';
@@ -3885,7 +4019,7 @@ export type GetOutletByIdQuery = {
     hasDisabledAccess: boolean;
     tier?: Tier | null;
     productCategories: Array<ProductCategory | null>;
-    status: OutletStatus;
+    status: Status;
     salesforceID: string;
     reservationEmail?: string | null;
     location: {
@@ -3914,7 +4048,7 @@ export type GetOutletByIdQuery = {
       name: string;
       id: string;
       salesforceID: string;
-      status: ProductStatus;
+      status: Status;
       costs: Array<{
         __typename?: 'ProductCost';
         cost?: number | null;
@@ -3938,7 +4072,7 @@ export type GetOutletByIdQuery = {
       id: string;
       name: string;
       tier?: Tier | null;
-      status: ProductStatus;
+      status: Status;
       category: ProductCategory;
       accessType: PrimaryProductAccessType;
       salesforceID: string;
@@ -4054,7 +4188,7 @@ export type GetOutletsQuery = {
       id: string;
       name: string;
       legacyCode?: string | null;
-      status: OutletStatus;
+      status: Status;
       productCategories: Array<ProductCategory | null>;
       location: {
         __typename?: 'Location';
@@ -4112,7 +4246,7 @@ export type GetPartnerBrandByIdQuery = {
       category: OutletCategory;
       name: string;
       legacyCode?: string | null;
-      status: OutletStatus;
+      status: Status;
       productCategories: Array<ProductCategory | null>;
       location: {
         __typename?: 'Location';

@@ -1,7 +1,8 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { Status } from '@collinsonx/utils';
 import { Box, Button } from '@mantine/core';
-import CardOutlet, { Status } from './index';
+import CardOutlet from './index';
 import { OutletLoungeIcon } from '../../assets/icons';
 
 export default {
@@ -16,7 +17,7 @@ export default {
     status: {
       control: {
         type: 'radio',
-        options: ['active', 'inactive'],
+        options: Object.values(Status),
       },
     },
     imageCount: {
@@ -75,37 +76,21 @@ const commonArgs = {
 export const PartnerAttention = Template.bind({});
 PartnerAttention.args = {
   ...commonArgs,
-  workflowStage: {
-    type: 'denied',
-    label: 'Partner attention',
-  },
 };
 
 export const Draft = Template.bind({});
 Draft.args = {
   ...commonArgs,
-  workflowStage: {
-    type: 'draft',
-    label: 'Draft',
-  },
 };
 
 export const AwaitingApproval = Template.bind({});
 AwaitingApproval.args = {
   ...commonArgs,
   status: Status.Inactive,
-  workflowStage: {
-    type: 'review',
-    label: 'Awaiting Approval',
-  },
 };
 
 export const Incomplete = Template.bind({});
 Incomplete.args = {
   ...commonArgs,
   status: Status.Inactive,
-  workflowStage: {
-    type: 'draft',
-    label: 'Incomplete',
-  },
 };

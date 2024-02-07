@@ -1,8 +1,8 @@
 import { render, screen } from 'test-utils';
 import '@testing-library/jest-dom';
+import { Status } from '@collinsonx/utils';
 
 import CardImage, { CardImageProps } from '.';
-import { Status } from '..';
 
 describe('<CardImage />', () => {
   let props: CardImageProps = {

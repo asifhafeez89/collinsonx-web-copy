@@ -1,3 +1,4 @@
+import { Status } from '@collinsonx/utils';
 import getOutletPageTitle, {
   formatStatus,
   OutletPageTitleOptions,
@@ -26,15 +27,16 @@ describe('getOutletPageTitle', () => {
     ).toBeTruthy();
   });
   it('should render outlet status', () => {
-    const status = 'DRAFT';
+    const status = Status.Active;
     expect(
       getOutletPageTitle({ ...mock, status }).includes(formatStatus(status))
     ).toBeTruthy();
   });
 });
+
 describe('formatStatus', () => {
   it('should format status', () => {
-    const status = 'DRAFT';
+    const status = Status.Inactive;
     expect(formatStatus(status)).toBe(
       `(${
         status[0].toUpperCase() + status.slice(1, status.length).toLowerCase()

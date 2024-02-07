@@ -1,15 +1,9 @@
 import Link from 'next/link';
 import { OutletLoungeIcon } from '@collinsonx/design-system/assets/icons';
-import { Status } from '@collinsonx/design-system/components/card';
 import CardTitle from '@collinsonx/design-system/components/card/cardTitle';
 import CardOutlet from '@collinsonx/design-system/components/cardOutlet';
 import { Anchor, Button, SimpleGrid } from '@collinsonx/design-system/core';
-import {
-  Maybe,
-  Outlet,
-  OutletStatus,
-  ProductCategory,
-} from '@collinsonx/utils';
+import { Maybe, Outlet, ProductCategory, Status } from '@collinsonx/utils';
 import outletIcons, { ValidProductCategory } from 'config/outletIcons';
 import { toTitleCase } from 'utils/textUtils';
 
@@ -30,7 +24,7 @@ const OutletGrid = ({
           id,
           name,
           legacyCode,
-          status,
+          status = Status.Active,
           location,
           productCategories,
           content,
@@ -62,7 +56,6 @@ const OutletGrid = ({
                 <CardTitle data-testid={'outlet-card-title'}>{name}</CardTitle>
               </Anchor>
             }
-            workflowStage={{ type: 'draft', label: 'Draft' }}
             legacyCode={legacyCode ?? undefined}
             locationName={location?.name ?? undefined}
             terminal={location?.terminal ?? undefined}
@@ -88,9 +81,7 @@ const OutletGrid = ({
                     })
                 : []
             }
-            status={
-              status === OutletStatus.Live ? Status.Active : Status.Inactive
-            }
+            status={status}
           >
             <Button
               aria-hidden="true"

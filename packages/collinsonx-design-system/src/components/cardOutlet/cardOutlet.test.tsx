@@ -1,7 +1,8 @@
 import { render, screen } from 'test-utils';
 import '@testing-library/jest-dom';
+import { Status } from '@collinsonx/utils';
 
-import CardOutlet, { CardOutletProps, Status } from '.';
+import CardOutlet, { CardOutletProps } from '.';
 import { Button } from '@mantine/core';
 
 describe('<CardOutlet />', () => {
@@ -19,10 +20,6 @@ describe('<CardOutlet />', () => {
       ratingCount: 99,
     },
     imageUrl: '#',
-    workflowStage: {
-      type: 'draft',
-      label: 'Draft',
-    },
   };
   it('should render', () => {
     render(<CardOutlet {...props} />);

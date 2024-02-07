@@ -2,20 +2,25 @@ import { Box, BoxProps, createPolymorphicComponent } from '@mantine/core';
 import { ReactNode } from 'react';
 import colors from '../../colour-constants-partner';
 import styled from '@emotion/styled';
+import { Status } from '@collinsonx/utils';
 
 export interface BadgeProps {
-  type: 'active' | 'draft' | 'review' | 'denied' | 'inactive';
+  type: Status;
   size: 'large' | 'small';
   children?: ReactNode;
 }
 
 const badgesColors = {
-  active: { bg: colors['bg-green'], text: colors['accent-green'] },
-  draft: { bg: colors['bg-amber'], text: colors['accent-amber'] },
-  review: { bg: colors['bg-blue'], text: colors['accent-blue'] },
-  denied: { bg: colors['bg-red'], text: colors['accent-red'] },
-  inactive: {
+  [Status.Active]: {
+    bg: colors['bg-green'],
+    text: colors['accent-green'],
+  },
+  [Status.Inactive]: {
     bg: colors['bg-surface-dark'],
+    text: colors['text-grey'],
+  },
+  [Status.StopSale]: {
+    bg: colors['white'],
     text: colors['text-grey'],
   },
 };

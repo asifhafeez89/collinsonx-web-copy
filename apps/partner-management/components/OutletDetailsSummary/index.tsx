@@ -20,6 +20,7 @@ import {
   Editor,
   ProductCategory,
   Maybe,
+  Status,
 } from '@collinsonx/utils';
 
 export interface OutletDetailsSummaryProps {
@@ -27,7 +28,7 @@ export interface OutletDetailsSummaryProps {
   legacyCode?: string;
   code?: string;
   productCategories: Maybe<ProductCategory>[];
-  status: 'ACTIVE' | 'INACTIVE';
+  status: Status;
   primaryProductNames: string[];
   ancillaryProductNames: string[];
   disabledAccess: boolean;
@@ -156,10 +157,7 @@ const OutletDetailsSummary = ({
           label="Status"
           value={
             <Flex align="center">
-              <Badge
-                type={`${status === 'ACTIVE' ? 'active' : 'inactive'}`}
-                size="large"
-              >
+              <Badge type={status} size="large">
                 {status}
               </Badge>
             </Flex>
