@@ -154,11 +154,15 @@ export default function OutletDetail() {
             />
           </SimpleGrid>
           <Divider />
-          <OutletProducts
-            ancillaryProducts={ancillaryProducts}
-            products={products}
-          />
-          <Divider />
+          {products && (
+            <>
+              <OutletProducts
+                ancillaryProducts={ancillaryProducts}
+                products={products}
+              />
+              <Divider />
+            </>
+          )}
           {openingTimes && <OpeningTimes openingTimes={openingTimes} />}
         </Stack>
       </Section>
