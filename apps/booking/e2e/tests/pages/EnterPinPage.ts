@@ -16,6 +16,10 @@ export default class EnterPinPage extends BasePage {
     return await verifyButton.click();
   }
 
+  async clickResend() {
+    return await this.page.getByTestId('resend').click();
+  }
+
   async invalidCodeError() {
     const errorText = 'Passcode may be incorrect or expired.';
     return this.page.getByText(errorText);

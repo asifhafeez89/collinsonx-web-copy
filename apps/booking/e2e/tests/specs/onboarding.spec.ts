@@ -223,6 +223,46 @@ test.describe('Onboarding flow', () => {
     });
   });
 
+  test.describe('ONB-007 - Resend code functionality', () => {
+    test('User should be navigated to the pre-booking page', async ({
+      page,
+    }) => {
+      // Arrange
+      const { enterEmailPage, enterPinPage, preBookPage } =
+        await getPageObjectModel(page);
+      const id = 'alreadyregisteredconsumerwithlinkaccount4';
+      const email = getEmailAddress(id);
+
+      const payload = {
+        externalId: '89760499',
+        email,
+        membershipType,
+        accountProvider,
+      };
+      const jwt = await signJWT(payload, secret);
+
+      // Act
+      await redirectToBaas(page, jwt, lounge);
+      await enterEmailPage.clickContinue();
+      await page.waitForTimeout(5000);
+      const pin = await getPinFromEmail(email);
+
+      // Can resend after 20 seconds
+      await page.waitForTimeout(20000);
+      await enterPinPage.clickResend();
+
+      await page.waitForTimeout(5000);
+      const pin2 = await getPinFromEmail(email);
+      await enterPinPage.enterPin(pin2);
+
+      await enterPinPage.clickVerify();
+
+      // Assert
+      const loungeTitle = await preBookPage.loungeTitle();
+      await expect(loungeTitle).toEqual('Aspire Lounge');
+    });
+  });
+
   test.describe('ONB-011- User enters incorrect confirmation code', () => {
     test('User should see an error message  indicating that the code is incorrect.', async ({
       page,
