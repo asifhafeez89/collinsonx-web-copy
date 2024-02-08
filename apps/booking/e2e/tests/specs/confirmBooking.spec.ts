@@ -25,9 +25,9 @@ import {
 
 async function fillStripeIframe(
   stripePaymentPage: StripePaymentPage,
-  id: string
+  email: string
 ) {
-  await stripePaymentPage.inputEmail(getEmailAddress(id));
+  await stripePaymentPage.inputEmail(email);
   await stripePaymentPage.inputCardNumber('378282246310005');
   await stripePaymentPage.inputExpiry('0225');
   await stripePaymentPage.inputCvc('444');
@@ -37,6 +37,10 @@ async function fillStripeIframe(
   await stripePaymentPage.inputAddressTown('Kingston');
   await stripePaymentPage.inputAddressPostalCode('KT1 1HL');
 }
+
+const id = getIdWithPrefix();
+const email = getEmailAddress(id);
+bookingGQLResponse.getBookingByID.consumer.emailAddress = email;
 
 test.beforeEach(async ({ page }) => {
   // mock: gets through the available slots every time
@@ -56,7 +60,6 @@ test.describe('Confirm booking flow', () => {
       const selectLoungeTimePage = new SelectLoungeTimePage(page);
       const confirmBookingPage = new ConfirmBookingPage(page);
 
-      const id = getIdWithPrefix();
       const membershipNumber = getIdWithPrefix();
       const externalId = getIdWithPrefix();
       const flightNumber = 'BA1417';
@@ -99,7 +102,7 @@ test.describe('Confirm booking flow', () => {
       expect(title).toEqual('Payment information');
 
       await stripePaymentPage.setStripeIframe();
-      await fillStripeIframe(stripePaymentPage, id);
+      await fillStripeIframe(stripePaymentPage, email);
 
       // Assert before pay: button is in 'complete' class
       const payButton = await stripePaymentPage.getPayButton();
@@ -124,7 +127,7 @@ test.describe('Confirm booking flow', () => {
       if (!process.env.GITHUB_ACTIONS) {
         // Wait for payment confirmation message and then get cancellation link from email
         await page.waitForTimeout(10000);
-        const linkToCancel = await getLinkFromEmail(getEmailAddress(id));
+        const linkToCancel = await getLinkFromEmail(email);
 
         expect(linkToCancel).toContain('cancel-booking');
 
@@ -139,7 +142,7 @@ test.describe('Confirm booking flow', () => {
         if (iframe) {
           // Email & Pin confirmation again, wait for email
           await page.waitForTimeout(30000);
-          await getAndEnterPin(iframe, getEmailAddress(id));
+          await getAndEnterPin(iframe, email);
 
           const cancelBookingPage = new CancelBookingPage(iframe);
           await cancelBookingPage.clickCancelBooking();

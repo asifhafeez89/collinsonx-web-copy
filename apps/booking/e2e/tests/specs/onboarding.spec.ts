@@ -111,8 +111,8 @@ test.describe('Onboarding flow', () => {
       await enterPinPage.enterPin(pin);
       await enterPinPage.clickVerify();
       await assertRegistrationPageDetails(registrationPage, null, null, email);
-      await (await registrationPage.firstNameInput()).type(firstName);
-      await (await registrationPage.lastNameInput()).type(lastName);
+      await (await registrationPage.firstNameInput()).fill(firstName);
+      await (await registrationPage.lastNameInput()).fill(lastName);
       await registrationPage.clickLogin();
 
       // Assert
@@ -146,8 +146,8 @@ test.describe('Onboarding flow', () => {
       await enterPinPage.enterPin(pin);
       await enterPinPage.clickVerify();
       await assertRegistrationPageDetails(registrationPage, null, null, email);
-      await (await registrationPage.firstNameInput()).type(firstName);
-      await (await registrationPage.lastNameInput()).type(lastName);
+      await (await registrationPage.firstNameInput()).fill(firstName);
+      await (await registrationPage.lastNameInput()).fill(lastName);
       await registrationPage.clickLogin();
 
       // Assert
@@ -180,6 +180,8 @@ test.describe('Onboarding flow', () => {
       // Act
       await redirectToBaas(page, jwt, lounge);
       await enterEmailPage.clickContinue();
+
+      // Waiting for the latest email (only for existing users)
       await page.waitForTimeout(5000);
       const pin = await getPinFromEmail(email);
       await enterPinPage.enterPin(pin);
@@ -212,6 +214,8 @@ test.describe('Onboarding flow', () => {
       // Act
       await redirectToBaas(page, jwt, lounge);
       await enterEmailPage.clickContinue();
+
+      // Waiting for the latest email (only for existing users)
       await page.waitForTimeout(5000);
       const pin = await getPinFromEmail(email);
       await enterPinPage.enterPin(pin);
@@ -244,22 +248,46 @@ test.describe('Onboarding flow', () => {
       // Act
       await redirectToBaas(page, jwt, lounge);
       await enterEmailPage.clickContinue();
-      await page.waitForTimeout(5000);
-      const pin = await getPinFromEmail(email);
 
       // Can resend after 20 seconds
       await page.waitForTimeout(20000);
       await enterPinPage.clickResend();
 
+      // Waiting for the latest email (only for existing users)
       await page.waitForTimeout(5000);
-      const pin2 = await getPinFromEmail(email);
-      await enterPinPage.enterPin(pin2);
-
+      const pin = await getPinFromEmail(email);
+      await enterPinPage.enterPin(pin);
       await enterPinPage.clickVerify();
 
       // Assert
       const loungeTitle = await preBookPage.loungeTitle();
       await expect(loungeTitle).toEqual('Aspire Lounge');
+    });
+  });
+
+  test.describe('ONB-008 - Error message for invalid email format', () => {
+    test('A small error message should appear under the text box, indicating that the email format is invalid.', async ({
+      page,
+    }) => {
+      // Arrange
+      const enterEmailPage = new EnterEmailPage(page);
+      const email = 'emailAddressInWrongFormat';
+      const payload = {
+        membershipNumber: getIdWithPrefix(),
+        externalId: getIdWithPrefix(),
+        membershipType,
+        accountProvider,
+      };
+      const jwt = await signJWT(payload, secret);
+
+      // Act
+      await redirectToBaas(page, jwt, lounge);
+      await enterEmailPage.enterEmail(email);
+      await enterEmailPage.clickContinue();
+
+      // Assert
+      const errorElement = await enterEmailPage.wrongEmailFormatError();
+      await expect(errorElement).toBeVisible();
     });
   });
 
@@ -360,7 +388,7 @@ test.describe('Onboarding flow', () => {
       const pin = await getPinFromEmail(newEmail);
       await enterPinPage.enterPin(pin);
       await enterPinPage.clickVerify();
-      await page.waitForTimeout(2000);
+
       await assertRegistrationPageDetails(
         registrationPage,
         firstName,
@@ -508,7 +536,6 @@ test.describe('Onboarding flow', () => {
       // Act
       await redirectToBaas(page, jwt, lounge);
       await enterEmailPage.clickContinue();
-      await page.waitForTimeout(5000);
       const pin = await getPinFromEmail(email);
       await enterPinPage.enterPin(pin);
       await enterPinPage.clickVerify();

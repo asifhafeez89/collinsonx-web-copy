@@ -1,4 +1,5 @@
 import BasePage from './BasePage';
+import baseTranslation from '../../../locales/en';
 
 export default class EnterEmailPage extends BasePage {
   async title() {
@@ -19,8 +20,12 @@ export default class EnterEmailPage extends BasePage {
   }
 
   async incorrectEmailError() {
-    const errorText =
-      'Please enter the correct email address or call support as this account is already linked to a different email address';
+    const errorText = baseTranslation.auth.login.error.emailError;
+    return this.page.getByText(errorText);
+  }
+
+  async wrongEmailFormatError() {
+    const errorText = baseTranslation.auth.login.error.emailFormat;
     return this.page.getByText(errorText);
   }
 }
