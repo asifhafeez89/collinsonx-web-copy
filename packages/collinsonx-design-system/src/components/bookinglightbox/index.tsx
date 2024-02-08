@@ -46,27 +46,29 @@ function BookingLightbox({
           gap={10}
           direction={{ base: 'column', lg: 'row' }}
         >
-          <Button
-            onClick={onClose}
-            color="dark"
-            variant="outline"
-            styles={{
-              root: {
-                border: 'solid',
-                backgroundColor: 'transparent',
-                borderColor: '#000',
-                fontSize: '1em',
-                borderWidth: 2,
-                color: '#fff',
-              },
-              label: {
-                color: '#000',
-                fontSize: '0.895em',
-              },
-            }}
-          >
-            {ctaCancel}
-          </Button>
+          {ctaCancel && ctaCancel.length && (
+            <Button
+              onClick={onClose}
+              color="dark"
+              variant="outline"
+              styles={{
+                root: {
+                  border: 'solid',
+                  backgroundColor: 'transparent',
+                  borderColor: '#000',
+                  fontSize: '1em',
+                  borderWidth: 2,
+                  color: '#fff',
+                },
+                label: {
+                  color: '#000',
+                  fontSize: '0.895em',
+                },
+              }}
+            >
+              {ctaCancel}
+            </Button>
+          )}
 
           <Button
             onClick={ctaForwardCall}

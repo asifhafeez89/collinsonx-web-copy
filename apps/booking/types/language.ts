@@ -257,9 +257,19 @@ type AvailableSlotsProps = {
     descriptionLine2: string;
   };
   btn: string;
+  amendBtn: string;
   errors: {
     airportMismatch: ScreenProps;
-    terminalMismatch: ScreenProps;
+    terminalMismatch: {
+      title: string;
+      description?: string;
+      continueBtn: string;
+    };
+    noAmendChanges: {
+      title: string;
+      description?: string;
+      btn: string;
+    };
     confirmation: string;
     estimatedTime: string;
     availabilityUnknown: {

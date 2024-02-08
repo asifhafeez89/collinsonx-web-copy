@@ -5,6 +5,7 @@ import {
   ANALYTICS_TAGS,
   BOKING_MODE_STATE,
   BOOKING_MODE,
+  ORIGINAL_BOOKING_DETAILS,
   PAGENAMES,
 } from '../constants';
 import useLocale from 'hooks/useLocale';
@@ -51,6 +52,7 @@ const AmendBooking = () => {
     existing_booking_slot: bookingDetails?.getBookingByID.lastArrival,
     currentPrice: bookingDetails?.getBookingByID.price ?? 0,
   };
+  setItem(ORIGINAL_BOOKING_DETAILS, JSON.stringify(reservationDetails));
 
   return (
     <>

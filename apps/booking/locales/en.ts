@@ -223,6 +223,7 @@ export default {
           'Please confirm details are correct before making payment.',
       },
       btn: 'CONFIRM',
+      amendBtn: 'PROCEED WITH CHANGES',
       errors: {
         airportMismatch: {
           title: "Airports don't match",
@@ -233,6 +234,13 @@ export default {
           title: "Terminals don't match",
           description:
             'The lounge you are booking is not in the same terminal your flight is scheduled to depart from.',
+          continueBtn: 'CONTINUE BOOKING',
+        },
+        noAmendChanges: {
+          title: 'Select other details',
+          description:
+            'You haven’t made any changes. Amend your booking or exit the amendment',
+          btn: 'AMEND booking',
         },
         confirmation: 'Do you still want to go ahead with this booking?',
         estimatedTime: 'Select estimated arrival time',

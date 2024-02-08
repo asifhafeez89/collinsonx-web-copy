@@ -227,6 +227,7 @@ export default {
           'Para los titulares de tarjetas HSBC Premier World Elite, tenga en cuenta que, si bien recibe pases de visita gratuitos para usted y cualquier titular de tarjeta adicional (es decir, no para sus invitados), la tarifa de reserva previa actuará como una tarifa separada y también se aplicará a usted y a sus invitados. . Cuando llegue a la sala VIP, los invitados que no sean el titular principal o adicional de la tarjeta deberán pagar £24 por visitante.',
       },
       btn: 'CONFIRMAR',
+      amendBtn: 'Proceder con los cambios',
       errors: {
         airportMismatch: {
           title: `Los aeropuertos no coinciden`,
@@ -237,6 +238,13 @@ export default {
           title: `Las terminales no coinciden`,
           description:
             'El salón que está reservando no está en la misma terminal de que su vuelo está programado para partir.',
+          continueBtn: 'Continuar reservando',
+        },
+        noAmendChanges: {
+          title: 'Seleccione otros detalles',
+          description:
+            'No has realizado ningún cambio.Enmendar su reserva o salir de la enmienda',
+          btn: 'Modificar reserva',
         },
         confirmation: '¿Todavía quieres seguir adelante con esta reserva?',
         estimatedTime: 'Seleccione la hora de llegada estimada',

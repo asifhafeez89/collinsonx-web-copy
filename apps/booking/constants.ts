@@ -21,6 +21,7 @@ export const VERSION = 'VERSION';
 export const ALLOW_LOCAL = 'ALLOW_LOCAL';
 export const PATH_NAME = 'PATH_NAME';
 export const BOKING_MODE_STATE = 'MODE';
+export const ORIGINAL_BOOKING_DETAILS = 'ORIGINAL_BOOKING_DETAILS';
 
 export const MOBILE_ACTION_BACK = 1;
 export const MOBILE_ACTION_DATA_URI = 'DATA_URI';

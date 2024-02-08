@@ -42,6 +42,7 @@ import {
   BOKING_MODE_STATE,
   constants,
   PAGENAMES,
+  ORIGINAL_BOOKING_DETAILS,
 } from '../constants';
 import TopBarLinks from '@components/TopBarLinks';
 import BookingLightbox from '@collinsonx/design-system/components/bookinglightbox';
@@ -100,6 +101,7 @@ export default function CheckAvailability() {
   const { referrerUrl, lounge, linkedAccountId } = usePayload();
   const [airportMismatch, setAirportMismatch] = useState(false);
   const [terminalMismatch, setTerminalMismath] = useState(false);
+  const [noAmendmentChanges, setNoAmendmentChanges] = useState(false);
   const [message, setMessage] = useState('');
   const [open, setOpen] = useState(false);
 
@@ -135,6 +137,12 @@ export default function CheckAvailability() {
       return slotLabel === value;
     });
     return slot;
+  };
+
+  const redirectTo = (path: string) => {
+    router.push({
+      pathname: path,
+    });
   };
 
   const handleSubmit = () => {
@@ -193,7 +201,7 @@ export default function CheckAvailability() {
         '[createBooking] bookingInput.actingAccount: ',
         bookingInput.actingAccount
       );
-
+      setOpen(true);
       createMutation({
         variables: { bookingInput },
       }).then((response: any) => {
@@ -203,6 +211,7 @@ export default function CheckAvailability() {
         );
         const badUserInputError = getError(response, BAD_USER_INPUT);
         if (badUserInputError) {
+          setOpen(false);
           return setMessage(availabilityMessagess[BAD_USER_INPUT]);
         } else if (response.data?.createBooking) {
           booking.bookingId = response.data.createBooking.id;
@@ -215,44 +224,71 @@ export default function CheckAvailability() {
         }
       });
     } else {
-      const amendmentInput = {
-        ...(linkedAccountId && { actingAccount: linkedAccountId }),
-        bookingID: booking.bookingId,
-        bookedFrom: startDateWithTimezone,
-        bookedTo: departureTimeWithTimezone,
-        lastArrival: endDateWithTimezone,
-        guestAdultCount: adults,
-        guestChildrenCount: children,
-        guestInfantCount: infants,
-      };
+      if (changesForAmendment()) {
+        const amendmentInput = {
+          ...(linkedAccountId && { actingAccount: linkedAccountId }),
+          bookingID: booking.bookingId,
+          bookedFrom: startDateWithTimezone,
+          bookedTo: departureTimeWithTimezone,
+          lastArrival: endDateWithTimezone,
+          guestAdultCount: adults,
+          guestChildrenCount: children,
+          guestInfantCount: infants,
+        };
 
-      amendMutation({ variables: { amendmentInput } }).then((response: any) => {
-        const { data } = response;
+        amendMutation({ variables: { amendmentInput } }).then(
+          (response: any) => {
+            const { data } = response;
 
-        // Todo - Add a check if the booking is less than 48hrs
-        booking.arrival = selectedslot;
-        setBooking(booking);
-        if (
-          data.confirmAmendment.paymentOption ===
-          PaymentOption.NoPaymentRequired
-        ) {
-          router.push({
-            pathname: '/confirm-amendment',
-          });
-        } else if (
-          data.confirmAmendment.paymentOption === PaymentOption.Refund
-        ) {
-          router.push({
-            pathname: '/confirm-amendment-refund',
-          });
-        } else {
-          router.push({
-            pathname: '/confirm-booking',
-          });
-          booking.amendmentID = response.id;
-        }
-      });
+            // Todo - Add a check if the booking is less than 48hrs
+            booking.arrival = selectedslot;
+            setBooking(booking);
+            if (
+              data.confirmAmendment.paymentOption ===
+              PaymentOption.NoPaymentRequired
+            ) {
+              redirectTo('/confirm-amendment');
+            } else if (
+              data.confirmAmendment.paymentOption === PaymentOption.Refund
+            ) {
+              redirectTo('/confirm-amendment-refund');
+            } else {
+              redirectTo('/confirm-booking');
+              booking.amendmentID = response.id;
+            }
+          }
+        );
+      } else {
+        setNoAmendmentChanges(true);
+      }
     }
+  };
+
+  const changesForAmendment = () => {
+    const originalBookingDetails: any = JSON.parse(
+      getItem(ORIGINAL_BOOKING_DETAILS) ?? '{}'
+    );
+    const amendInput: any = {
+      departureDate: booking.departureDate,
+      flightNumber,
+      adults,
+      children,
+      infants,
+      selectedslot,
+    };
+    var result = Object.keys(amendInput).every((key) => {
+      if (key == 'selectedslot') {
+        return amendInput[key] == `${existingSlotStart}-${existingSlotEnd}`;
+      }
+      if (key == 'departureDate') {
+        return (
+          new Date(String(amendInput[key])).toString() ==
+          new Date(String(originalBookingDetails[key])).toString()
+        );
+      }
+      return amendInput[key] === originalBookingDetails[key];
+    });
+    return !result;
   };
 
   const [
@@ -329,7 +365,7 @@ export default function CheckAvailability() {
     setSelectedslot(value ?? '');
   };
 
-  const showAlert = airportMismatch || terminalMismatch;
+  const showAlert = airportMismatch || terminalMismatch || noAmendmentChanges;
 
   const handleClickBack = useCallback(() => {
     if (top) {
@@ -347,11 +383,21 @@ export default function CheckAvailability() {
       {showAlert && (
         <BookingLightbox
           open={true}
-          ctaCancel="RETURN TO LOUNGE"
-          ctaForward="CONTINUE BOOKING"
+          ctaCancel={
+            noAmendmentChanges
+              ? ''
+              : translations.auth.notFound.btn.returnToLounge
+          }
+          ctaForward={
+            noAmendmentChanges
+              ? translations.booking.availableSlots.errors.noAmendChanges.btn
+              : translations.booking.availableSlots.errors.terminalMismatch
+                  .continueBtn
+          }
           ctaForwardCall={() => {
             setAirportMismatch(false);
             setTerminalMismath(false);
+            setNoAmendmentChanges(false);
           }}
           onClose={handleClickBack}
         >
@@ -368,6 +414,14 @@ export default function CheckAvailability() {
               <h1>
                 {
                   translations.booking.availableSlots.errors.terminalMismatch
+                    .title
+                }
+              </h1>
+            )}
+            {noAmendmentChanges && (
+              <h1>
+                {
+                  translations.booking.availableSlots.errors.noAmendChanges
                     .title
                 }
               </h1>
@@ -389,7 +443,18 @@ export default function CheckAvailability() {
                   }{' '}
                 </p>
               )}
-              <p>{translations.booking.availableSlots.errors.confirmation}</p>
+              {noAmendmentChanges && (
+                <p>
+                  {
+                    translations.booking.availableSlots.errors.noAmendChanges
+                      .description
+                  }{' '}
+                </p>
+              )}
+              <p>
+                {!noAmendmentChanges &&
+                  translations.booking.availableSlots.errors.confirmation}
+              </p>
             </div>
           </div>
         </BookingLightbox>
@@ -553,7 +618,10 @@ export default function CheckAvailability() {
             onClick={handleSubmit}
             className={classes.availableSlotsButton}
           >
-            {translations.booking.availableSlots.btn}
+            {Booking_Mode === BOOKING_MODE.EDIT
+              ? translations.booking.availableSlots.amendBtn
+              : translations.booking.availableSlots.btn}
+            {}
           </Button>
         </Center>
       </Stack>
