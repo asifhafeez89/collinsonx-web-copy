@@ -16,4 +16,8 @@ export { default as ResultsContainer } from './components/resultsContainer';
 export { default as LoungeImageTitle } from './components/loungeImageTitle';
 export { default as Details } from './components/details';
 export { default as TableX } from './components/table';
+export { default as DescriptionList } from './components/descriptionList';
+export { default as Badge } from './components/badge';
+export { default as CollinsonViewOnlyNotice } from './components/collinsonViewOnlyNotice';
+
 export * from './themes';

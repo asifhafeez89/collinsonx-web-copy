@@ -21,6 +21,7 @@ import OpeningTimes from '@components/OpeningTimes';
 import PageTitle from '@components/PageTitle';
 import getOutletPageTitle from 'lib/getOutletPageTitle';
 import { useMemo } from 'react';
+import Conditions from '@components/Conditions';
 
 const capitalizedCategoryMap: { [key in ProductCategory]: string } = {
   [ProductCategory.Eat]: 'Eat',
@@ -106,6 +107,14 @@ export default function OutletDetail() {
     product ? product.name : ''
   );
 
+  const hasProducts =
+    products && (products.length > 0 || ancillaryProducts.length > 0);
+
+  const hasOpeningTimes =
+    openingTimes && (openingTimes.schedules || openingTimes.exceptions);
+
+  const hasConditions = content?.conditions;
+
   return (
     <Box id="outlet-container">
       {name ? (
@@ -151,7 +160,7 @@ export default function OutletDetail() {
             />
           </SimpleGrid>
           <Divider />
-          {products && (
+          {hasProducts && (
             <>
               <OutletProducts
                 ancillaryProducts={ancillaryProducts}
@@ -160,7 +169,13 @@ export default function OutletDetail() {
               <Divider />
             </>
           )}
-          {openingTimes && <OpeningTimes openingTimes={openingTimes} />}
+          {hasOpeningTimes && (
+            <>
+              <OpeningTimes openingTimes={openingTimes} />
+              <Divider />
+            </>
+          )}
+          {hasConditions && <Conditions conditions={content.conditions} />}
         </Stack>
       </Section>
     </Box>

@@ -6,6 +6,19 @@ import {
 } from '@collinsonx/design-system/test-utils';
 import Carousel, { CarouselSlide } from './index';
 
+jest.mock('@collinsonx/design-system/assets/icons', () => ({
+  __esModule: true,
+  FitScreen: () => {
+    return 'icon';
+  },
+  ChevronRight: () => {
+    return 'icon';
+  },
+  ChevronLeft: () => {
+    return 'icon';
+  },
+}));
+
 const slides = Array.from({ length: 4 }, (_, index) => (
   <CarouselSlide key={index} numSlides={4} slideIndex={index + 1}>
     {index + 1}

@@ -1,14 +1,11 @@
-import {
-  DaySchedules,
-  OpeningTimes as OpeningTimesType,
-  Schedule,
-} from '@collinsonx/utils';
-import classes from './OpeningTimes.module.css';
-import { Box } from '@collinsonx/design-system/core';
+import { OpeningTimes as OpeningTimesType, Schedule } from '@collinsonx/utils';
 import EditableArea from '@components/EditableArea';
 import { useMemo } from 'react';
 import { formatDateString } from 'utils/dateUtils';
 import { DAYS } from 'config';
+import { DescriptionList } from '@collinsonx/design-system';
+
+const { Term, Description, Group } = DescriptionList;
 
 export interface OpeningTimesProps {
   openingTimes: OpeningTimesType;
@@ -34,16 +31,16 @@ const OpeningTimes = ({ openingTimes }: OpeningTimesProps) => {
       if (daySchedule && daySchedule.length) {
         const times = (daySchedule as Schedule[]).map(
           ({ startTime, endTime }, idx) => (
-            <dd key={idx}>
+            <Description key={idx}>
               {startTime}-{endTime}
-            </dd>
+            </Description>
           )
         );
         return (
-          <Box key={day} data-testid="opening-times-schedule">
-            <dt className={classes.label}>{day}</dt>
+          <Group key={day} data-testid="opening-times-schedule">
+            <Term>{day}</Term>
             {times}
-          </Box>
+          </Group>
         );
       } else {
         return null;
@@ -57,15 +54,15 @@ const OpeningTimes = ({ openingTimes }: OpeningTimesProps) => {
       subtitle={`Last edited: ${lastEdited}`}
       data-testid="outlet-opening-times"
     >
-      <dl className={classes.listContainer} data-testid="opening-times-list">
+      <DescriptionList data-testid="opening-times-list">
         {data}
         {exceptions && (
-          <Box w="100%" data-testid="opening-times-exceptions">
-            <dt className={classes.label}>Opening times description</dt>
-            <dd>{exceptions}</dd>
-          </Box>
+          <Group fw data-testid="opening-times-exceptions">
+            <Term>Opening times description</Term>
+            <Description>{exceptions}</Description>
+          </Group>
         )}
-      </dl>
+      </DescriptionList>
     </EditableArea>
   ) : null;
 };

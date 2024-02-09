@@ -7,6 +7,16 @@ import {
 import CarouselControls from './';
 import '@testing-library/jest-dom';
 
+jest.mock('@collinsonx/design-system/assets/icons', () => ({
+  __esModule: true,
+  ChevronRight: () => {
+    return 'icon';
+  },
+  ChevronLeft: () => {
+    return 'icon';
+  },
+}));
+
 describe('CarouselControls Component', () => {
   it('toggles visibility based on isHovered prop', () => {
     const { rerender } = render(

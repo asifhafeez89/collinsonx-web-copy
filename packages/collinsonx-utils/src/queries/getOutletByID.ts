@@ -117,6 +117,9 @@ const getOutletByID = gql`
       tier
       productCategories
       content {
+        conditions {
+          legacyConditions
+        }
         media {
           mainImage {
             url

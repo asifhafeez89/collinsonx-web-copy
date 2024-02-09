@@ -4,8 +4,7 @@ import classes from './OutletProducts.module.css';
 import { getProgrammeDisplayName } from '../../utils/getProgrammeDisplayName';
 import { getProductsTableByProgramme } from '../../utils/getProductsTableByProgramme';
 import { AncillaryProduct, Maybe, Product } from '@collinsonx/utils';
-import Badge from '@collinsonx/design-system/components/badge/index';
-import CollinsonViewOnlyNotice from '@collinsonx/design-system/components/collinsonViewOnlyNotice/index';
+import { Badge, CollinsonViewOnlyNotice } from '@collinsonx/design-system';
 import colors from '@collinsonx/design-system/colour-constants-partner';
 import EditableArea from '@components/EditableArea';
 

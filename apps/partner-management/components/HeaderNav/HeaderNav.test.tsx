@@ -9,6 +9,13 @@ jest.mock('hooks/experience', () => ({
   default: jest.fn(() => ({ userDetails: {}, client: 'collinson' })),
 }));
 
+jest.mock('@collinsonx/design-system/assets/logo', () => ({
+  __esModule: true,
+  LogoHeaderCollinson: () => {
+    return 'logo';
+  },
+}));
+
 describe('<HeaderNav />', () => {
   const mockData: HeaderNavProps = {
     section: 'catalogue',

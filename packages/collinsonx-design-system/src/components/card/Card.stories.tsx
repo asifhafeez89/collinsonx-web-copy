@@ -1,7 +1,8 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { Box, Text } from '@mantine/core';
-import Card, { Status } from './index';
+import Card from './index';
+import { Status } from '@collinsonx/utils';
 
 export default {
   title: 'Partner/Card',

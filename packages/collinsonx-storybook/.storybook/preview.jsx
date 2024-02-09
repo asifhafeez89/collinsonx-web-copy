@@ -13,17 +13,22 @@ import {
   dinersClub,
   amexBlack,
   amexPlatinum,
+  partnerTheme,
+  partnerThemeResolver,
 } from '../../collinsonx-design-system/src/themes';
 
 import '../style.css';
 
 const themes = {
   experienceX,
+  partnerTheme,
 };
 
 const withTheme = (StoryFn, context) => {
   const themeName = context.parameters.theme || context.globals.theme;
   const storyTheme = createTheme(themes[themeName]() ?? experienceX());
+  const resolver =
+    themeName === 'partnerTheme' ? partnerThemeResolver : undefined;
 
   return (
     <MantineProvider theme={storyTheme} cssVariablesResolver={resolver}>
@@ -42,7 +47,10 @@ export const globalTypes = {
       //icon: 'circlehollow',
       title: 'Theme',
       // Array of options
-      items: [{ title: 'Experience X', value: 'experienceX' }],
+      items: [
+        { title: 'Experience X', value: 'experienceX' },
+        { title: 'Partner', value: 'partnerTheme' },
+      ],
       dynamicTitle: true,
     },
   },

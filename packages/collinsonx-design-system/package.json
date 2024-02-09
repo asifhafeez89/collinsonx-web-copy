@@ -27,6 +27,7 @@
   "sideEffects": false,
   "exports": {
     ".": "./dist/index.js",
+    "./assets": "./dist/assets",
     "./*": [
       "./dist/*.js",
       "./dist/*/index.js"

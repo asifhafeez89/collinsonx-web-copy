@@ -11,7 +11,7 @@ describe('<Badge />', () => {
   };
   it('should render', () => {
     render(<Badge {...props} />);
-    expect(screen.getByText('Active')).toBeInTheDocument();
+    expect(screen.getByText('ACTIVE')).toBeInTheDocument();
   });
   it('should render children', () => {
     render(<Badge {...props}>foobar</Badge>);

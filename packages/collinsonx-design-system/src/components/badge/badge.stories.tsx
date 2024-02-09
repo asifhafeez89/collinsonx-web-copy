@@ -2,6 +2,7 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { Box } from '@mantine/core';
 import Badge from './index';
+import { Status } from '@collinsonx/utils';
 
 export default {
   title: 'Partner/Badge',
@@ -11,7 +12,7 @@ export default {
     type: {
       control: {
         type: 'select',
-        options: ['active', 'draft', 'review', 'denied', 'inactive'],
+        options: [Status.Active, Status.Inactive, Status.StopSale],
       },
     },
     children: {
@@ -30,16 +31,10 @@ const Template: ComponentStory<typeof Badge> = (args) => (
 );
 
 export const Active = Template.bind({});
-Active.args = { size: 'small', type: 'active', children: '' };
-
-export const Draft = Template.bind({});
-Draft.args = { size: 'small', type: 'draft', children: '' };
-
-export const Review = Template.bind({});
-Review.args = { size: 'small', type: 'review', children: '' };
-
-export const Denied = Template.bind({});
-Denied.args = { size: 'small', type: 'denied', children: '' };
+Active.args = { size: 'small', type: Status.Active, children: '' };
 
 export const Inactive = Template.bind({});
-Inactive.args = { size: 'small', type: 'inactive', children: '' };
+Inactive.args = { size: 'small', type: Status.Inactive, children: '' };
+
+export const StopSale = Template.bind({});
+StopSale.args = { size: 'small', type: Status.StopSale, children: '' };

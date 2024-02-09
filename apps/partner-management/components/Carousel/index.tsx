@@ -10,7 +10,7 @@ import {
 import { Box, Button } from '@collinsonx/design-system/core';
 import CarouselControls from './CarouselControls/index';
 import CarouselDots from './CarouselDots/index';
-import { FitScreen } from '@collinsonx/design-system/assets/icons/index';
+import { FitScreen } from '@collinsonx/design-system/assets/icons';
 import classes from './Carousel.module.css';
 
 export { default as CarouselSlide } from './CarouselSlide/index';

@@ -7,6 +7,13 @@ import {
 import Slide from '.';
 import '@testing-library/jest-dom';
 
+jest.mock('@collinsonx/design-system/assets/icons', () => ({
+  __esModule: true,
+  WarningAmber: () => {
+    return 'icon';
+  },
+}));
+
 describe('Slide Component', () => {
   it('renders correctly', () => {
     render(

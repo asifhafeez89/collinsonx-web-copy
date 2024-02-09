@@ -4149,6 +4149,10 @@ export type GetOutletByIdQuery = {
     } | null;
     content?: {
       __typename?: 'OutletContent';
+      conditions?: {
+        __typename?: 'Conditions';
+        legacyConditions?: string | null;
+      } | null;
       media?: {
         __typename?: 'Media';
         mainImage?: {
@@ -6644,6 +6648,19 @@ export const GetOutletByIdDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'conditions' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'legacyConditions' },
+                            },
+                          ],
+                        },
+                      },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'media' },
