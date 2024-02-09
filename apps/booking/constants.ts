@@ -117,6 +117,7 @@ export enum ANALYTICS_TAGS {
   ON_SLOT_AMEND_CONFIRMED = 'CK_BTN_Confirm_Pick_Slot_Amnd',
   ON_CONFIRM_AMEND_PG = 'On_PG_Sv_Chng_Amnd',
   ON_CONFIRM_AMEND_SAVE = 'CK_BTN_Sv_Chng_Amnd',
+  ON_REFUND_FAILED_AMEND = 'CK_BTN__Amnd_Cfnd_Rfnd_Err',
 }
 
 export const PAGENAMES = {
@@ -128,6 +129,7 @@ export const PAGENAMES = {
   BOOKING_AMEND: 'Chk_Avl_Amnd',
   CONFIRM_AMEND: 'Sv_Chng_Amnd',
   CONFIRM_CREATE: 'G_T_Pmt',
+  FAILURE_AMEND_REFUND: 'Refund_fail',
 };
 
 export const PRODUCTION_DOMAIN = 'booking.cergea.com';

@@ -12,6 +12,7 @@ import {
   BookingType,
   PaymentOption,
   ProductType,
+  RefundStatus,
 } from '@collinsonx/utils/generatedTypes/graphql';
 import { useRouter } from 'next/router';
 import { LoungeInfo } from '@components/LoungeInfo';
@@ -251,7 +252,13 @@ export default function CheckAvailability() {
             } else if (
               data.confirmAmendment.paymentOption === PaymentOption.Refund
             ) {
-              redirectTo('/confirm-amendment-refund');
+              if (
+                data.confirmAmendment.refundStatus === RefundStatus.Succeeded
+              ) {
+                redirectTo('/confirm-amendment-refund');
+              } else {
+                redirectTo('/failure-amendment-refund');
+              }
             } else {
               redirectTo('/confirm-booking');
               booking.amendmentID = response.id;

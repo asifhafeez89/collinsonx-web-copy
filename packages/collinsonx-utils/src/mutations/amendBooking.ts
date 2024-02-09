@@ -7,6 +7,8 @@ const amendBooking = gql`
       price
       status
       paymentOption
+      refundStatus
+      refundedAt
     }
   }
 `;

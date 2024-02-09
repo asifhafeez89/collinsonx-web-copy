@@ -461,6 +461,10 @@ export default {
       error:
         '¡Se produjo un error al generar su confirmación de reserva!Inténtalo de nuevo.',
     },
+    failureAmendmentRefund: {
+      title: 'Sus enmiendas de reserva han sido rechazadas',
+      description: `Lamentamos durante el proceso de enmienda que cambió la capacidad para el salón y ya no podemos confirmar su enmienda de reserva.Tu reserva sigue siendo la misma.Si aún desea cambiar su reserva, intente nuevamente`,
+    },
   },
   generic: {
     error: {

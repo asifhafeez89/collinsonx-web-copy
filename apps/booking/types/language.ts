@@ -163,6 +163,7 @@ type BookingLang = {
     };
   };
   confirmationPDF: confirmationPDFProps;
+  failureAmendmentRefund: SmallScreenLang;
 };
 
 type confirmationPDFProps = {

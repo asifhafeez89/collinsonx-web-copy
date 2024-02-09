@@ -456,6 +456,10 @@ export default {
       error:
         'An error occurred while generating your booking confirmation! Please try again.',
     },
+    failureAmendmentRefund: {
+      title: 'Your booking amendments has been declined',
+      description: `We're sorry during the amendment process the capacity for the lounge changed and we are no longer able to confirm your booking amendment.  Your booking remains the same.  If you still want to change your booking, please try again`,
+    },
   },
   generic: {
     error: {

@@ -2740,6 +2740,7 @@ export enum PaymentOption {
   Charge = 'Charge',
   NoPaymentRequired = 'NoPaymentRequired',
   Refund = 'Refund',
+  RefundFailed = 'failed',
 }
 
 export enum PrimaryProductAccessType {
@@ -3572,6 +3573,8 @@ export type ConfirmAmendmentMutation = {
     price: number;
     status: AmendmentStatus;
     paymentOption: PaymentOption;
+    refundStatus: string;
+    refundedAt: Date;
   } | null;
 };
 
