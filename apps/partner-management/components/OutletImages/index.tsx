@@ -61,7 +61,7 @@ const OutletImages: React.FC<OutletImagesProps> = ({ mediaCollection }) => {
   return (
     <EditableArea title="Images" subtitle="Last edited:">
       {images && images[activeIndex] && (
-        <Box style={{ maxWidth: '550px', minWidth: 'min-content' }} mx="auto">
+        <Box style={{ maxWidth: '550px', minWidth: '275px' }} mx="auto">
           <Carousel
             activeIndex={activeIndex}
             onSlideChange={setActiveIndex}
