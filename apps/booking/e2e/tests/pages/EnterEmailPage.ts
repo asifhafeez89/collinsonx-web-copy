@@ -28,4 +28,8 @@ export default class EnterEmailPage extends BasePage {
     const errorText = baseTranslation.auth.login.error.emailFormat;
     return this.page.getByText(errorText);
   }
+
+  emailTitleText() {
+    return baseTranslation.auth.login.email.title;
+  }
 }

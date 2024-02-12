@@ -1,4 +1,5 @@
 import BasePage from './BasePage';
+import baseTranslation from '../../../locales/en';
 
 export default class PaymentConfirmationPage extends BasePage {
   async checkPaymentStatus(message: string) {
@@ -7,7 +8,8 @@ export default class PaymentConfirmationPage extends BasePage {
   }
 
   async paymentConfirmationMessage() {
-    const successText = 'Good news! Your booking has been confirmed';
+    const successText =
+      baseTranslation.booking.confirmationPayment.outcome.succesful.title;
     return this.checkPaymentStatus(successText);
   }
 }

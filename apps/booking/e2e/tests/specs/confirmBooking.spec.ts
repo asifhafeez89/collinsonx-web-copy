@@ -99,7 +99,7 @@ test.describe('Confirm booking flow', () => {
       // fill Stripe iframe inputs
       const stripePaymentPage = new StripePaymentPage(page);
       const title = await stripePaymentPage.getTitle();
-      expect(title).toEqual('Payment information');
+      expect(title).toEqual(stripePaymentPage.paymentTitleText());
 
       await stripePaymentPage.setStripeIframe();
       await fillStripeIframe(stripePaymentPage, email);

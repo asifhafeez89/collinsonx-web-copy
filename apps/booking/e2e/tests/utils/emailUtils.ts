@@ -87,8 +87,7 @@ export async function getLinkFromEmail(email: string) {
   try {
     let latestMessage;
     let count = 0;
-    // find msg 'from' = 'Priority Pass Lounges'
-    // the 2nd option is to use subject 'Good news - your lounge booking is confirmed'
+
     const subject = 'Good news - your lounge booking is confirmed';
 
     while (latestMessage === undefined && count < 3) {

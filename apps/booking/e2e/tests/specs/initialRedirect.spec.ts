@@ -29,7 +29,7 @@ test.describe('Initial Redirect to BAAS page', () => {
 
       // Assert
       const emailPageTitle = await enterEmailPage.title();
-      expect(emailPageTitle).toEqual('Enter your email');
+      expect(emailPageTitle).toEqual(enterEmailPage.emailTitleText());
     });
   });
 
@@ -51,7 +51,7 @@ test.describe('Initial Redirect to BAAS page', () => {
 
       // Assert
       const emailPageTitle = await enterEmailPage.title();
-      expect(emailPageTitle).toEqual('Enter your email');
+      expect(emailPageTitle).toEqual(enterEmailPage.emailTitleText());
     });
   });
 
@@ -117,7 +117,7 @@ test.describe('Initial Redirect to BAAS page', () => {
       // Assert
       const emailPageTitle = await enterEmailPage.title();
       const emailInputValue = await enterEmailPage.emailInputValue();
-      expect(emailPageTitle).toEqual('Enter your email');
+      expect(emailPageTitle).toEqual(enterEmailPage.emailTitleText());
       expect(emailInputValue).toEqual(email);
     });
   });
@@ -145,7 +145,7 @@ test.describe('Initial Redirect to BAAS page', () => {
 
       // Assert
       const emailPageTitle = await enterEmailPage.title();
-      expect(emailPageTitle).toEqual('Enter your email');
+      expect(emailPageTitle).toEqual(enterEmailPage.emailTitleText());
     });
   });
 
@@ -213,7 +213,7 @@ test.describe('Initial Redirect to BAAS page', () => {
 
       // Assert
       const emailPageTitle = await enterEmailPage.title();
-      expect(emailPageTitle).toEqual('Enter your email');
+      expect(emailPageTitle).toEqual(enterEmailPage.emailTitleText());
     });
   });
 

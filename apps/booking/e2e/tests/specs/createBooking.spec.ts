@@ -146,7 +146,6 @@ test.describe('Create booking flow', () => {
         flightNumber
       );
       const whosComing = await confirmBookingPage.whosComing('Adults 5');
-      const loungeTime = await confirmBookingPage.loungeTime();
 
       await expect(confirmedFlightNumber).toBeVisible();
       await expect(dateSelected).toBeVisible();

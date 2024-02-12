@@ -219,12 +219,12 @@ importers:
       '@types/http-proxy':
         specifier: ^1.17.14
         version: 1.17.14
-      '@types/uuid':
-        specifier: ^9.0.7
-        version: 9.0.7
       '@types/lodash':
         specifier: ^4.14.201
         version: 4.14.202
+      '@types/uuid':
+        specifier: ^9.0.7
+        version: 9.0.7
       autoprefixer:
         specifier: ^10.4.16
         version: 10.4.16(postcss@8.4.32)
@@ -237,6 +237,9 @@ importers:
       dd-trace:
         specifier: ^4.18.0
         version: 4.20.0
+      dotenv:
+        specifier: ^16.3.1
+        version: 16.3.1
       eslint:
         specifier: 8.53.0
         version: 8.53.0
@@ -246,12 +249,12 @@ importers:
       local-ssl-proxy:
         specifier: ^2.0.5
         version: 2.0.5
-      mailinator-client:
-        specifier: ^1.0.3
-        version: 1.0.3
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
+      mailinator-client:
+        specifier: ^1.0.3
+        version: 1.0.3
       postcss:
         specifier: ^8.4.31
         version: 8.4.32
@@ -270,15 +273,15 @@ importers:
       stripe:
         specifier: ^12.18.0
         version: 12.18.0
+      ts-node:
+        specifier: ^10.9.1
+        version: 10.9.2(@types/node@20.10.4)(typescript@5.2.2)
       typescript:
         specifier: 5.2.2
         version: 5.2.2
       uuid:
         specifier: ^9.0.0
         version: 9.0.1
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.2(@types/node@20.10.4)(typescript@5.2.2)
       xlsx:
         specifier: https://cdn.sheetjs.com/xlsx-0.20.1/xlsx-0.20.1.tgz
         version: '@cdn.sheetjs.com/xlsx-0.20.1/xlsx-0.20.1.tgz'

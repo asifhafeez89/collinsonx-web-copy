@@ -1,4 +1,5 @@
 import BasePage from './BasePage';
+import baseTranslation from '../../../locales/en';
 
 export default class PreBookPage extends BasePage {
   async loungeTitle() {
@@ -69,17 +70,18 @@ export default class PreBookPage extends BasePage {
 
   async invalidFlightError() {
     const errorText =
-      'Flight details not recognised. Please check and try again.';
+      baseTranslation.booking.flightDetails.errors.invalid_flight;
     return this.page.getByText(errorText);
   }
 
   async flightDateError() {
-    const errorText = 'Must provide date of flight.';
+    const errorText = baseTranslation.booking.flightDetails.errors.invalid_date;
     return this.page.getByText(errorText);
   }
 
   async airportMismatchWarning() {
-    const warningText = `Airports don't match`;
+    const warningText =
+      baseTranslation.booking.availableSlots.errors.airportMismatch.title;
     return this.page.getByText(warningText);
   }
 }

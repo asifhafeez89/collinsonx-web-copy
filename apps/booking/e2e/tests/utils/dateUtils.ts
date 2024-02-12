@@ -2,9 +2,9 @@ export function getOneMonthFromToday() {
   // Get today's date
   var today = new Date();
 
-  // Add 1 month to the current date, and plus 0..2 additional months to decrease capacity issue risk
+  // Add 1 month to the current date
   var nextMonth = new Date(today);
-  nextMonth.setMonth(today.getMonth() + 1 + Math.floor(Math.random() * 3));
+  nextMonth.setMonth(today.getMonth() + 1);
 
   // Define months and their names
   const months = [

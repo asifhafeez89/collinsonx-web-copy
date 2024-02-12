@@ -1,4 +1,5 @@
 import BasePage from './BasePage';
+import baseTranslation from '../../../locales/en';
 
 export default class EnterPinPage extends BasePage {
   async enterPin(code: string | undefined) {
@@ -21,7 +22,7 @@ export default class EnterPinPage extends BasePage {
   }
 
   async invalidCodeError() {
-    const errorText = 'Passcode may be incorrect or expired.';
+    const errorText = baseTranslation.auth.checkCode.error.wrongCode;
     return this.page.getByText(errorText);
   }
 
@@ -31,7 +32,8 @@ export default class EnterPinPage extends BasePage {
   }
 
   async clickReEnterEmailLink() {
-    const reEnterEmailLinkText = 'Re-enter your email address';
+    const reEnterEmailLinkText =
+      baseTranslation.auth.checkCode.reEnterEmailLabel;
     const reEnterEmailLinkSelector = `text=${reEnterEmailLinkText}`;
     await this.page.waitForSelector(reEnterEmailLinkSelector);
     const reEnterEmailLinkElement = await this.page.$(reEnterEmailLinkSelector);

@@ -1,5 +1,6 @@
 import BasePage from './BasePage';
 import { Page, Frame } from '@playwright/test';
+import baseTranslation from '../../../locales/en';
 
 export default class StripePaymentPage extends BasePage {
   stripeIframe: Frame;
@@ -98,5 +99,9 @@ export default class StripePaymentPage extends BasePage {
   async clickPay() {
     const payButton = await this.getPayButton();
     await payButton.click();
+  }
+
+  paymentTitleText() {
+    return baseTranslation.booking.payment.title;
   }
 }
