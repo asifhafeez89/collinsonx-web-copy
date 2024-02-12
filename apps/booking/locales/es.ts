@@ -268,6 +268,10 @@ export default {
         },
       },
     },
+    declineAmend: {
+      title:
+        'Lo sentimos, esta reserva no se puede modificar dentro de las 48 horas posteriores a la hora de llegada de la reserva.',
+    },
     confirmBooking: {
       title: 'Resumen de reservas',
       amendTitle: 'Resumen de reserva',

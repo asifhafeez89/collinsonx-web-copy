@@ -39,7 +39,6 @@ import {
   BOOKING_MODE,
   MOBILE_ACTION_BACK,
   PAGENAMES,
-  PDF_VERSION_ACCEPTED,
   POLLING_TIME,
   VERSION,
 } from '../constants';
@@ -109,8 +108,15 @@ export default function ConfirmPayment() {
     return () => clearInterval(interval.current);
   }, []);
 
-  const { flightNumber, children, bookingId, adults, arrival, infants } =
-    getBooking();
+  const {
+    flightNumber,
+    children,
+    bookingId,
+    adults,
+    arrival,
+    infants,
+    currentPrice,
+  } = getBooking();
 
   const flightData = getFlight();
 
@@ -173,7 +179,6 @@ export default function ConfirmPayment() {
     <Layout>
       <Stack gap={8} className={classes.container}>
         <TopBarLinks page={pageName} />
-
         <LoaderLightBox
           open={open}
           title=""
@@ -222,7 +227,9 @@ export default function ConfirmPayment() {
           <Stack className={classes.containerInner}>
             <Center className={classes.titleContainer}>
               <Heading as="h1" padding={0} margin={0} lineHeight={1}>
-                {translations.booking.confirmationPayment.title}
+                {Mode === BOOKING_MODE.EDIT
+                  ? translations.booking.confirmationPayment.amendTitle
+                  : translations.booking.confirmationPayment.title}
               </Heading>
             </Center>
             <Box className={classes.loungeInfo}>
@@ -247,10 +254,11 @@ export default function ConfirmPayment() {
                       lineHeight={1.3}
                     >
                       <Box className={classes.successfulTitle}>
-                        {
-                          translations.booking.confirmationPayment.outcome
-                            .succesful.title
-                        }
+                        {Mode === BOOKING_MODE.EDIT
+                          ? translations.booking.confirmationPayment.outcome
+                              .succesful.titleAmend
+                          : translations.booking.confirmationPayment.outcome
+                              .succesful.title}
                       </Box>
                     </Heading>
                     <EditableTitle
@@ -286,6 +294,7 @@ export default function ConfirmPayment() {
                         lounge={lounge}
                         noEdit={true}
                         mode={Mode as BOOKING_MODE}
+                        currentPrice={currentPrice}
                       />
 
                       <Box className={classes.slotsTitle}>
@@ -325,7 +334,7 @@ export default function ConfirmPayment() {
                   >
                     <ShowButtonByVersion
                       currentVersion={version ?? ''}
-                      minVersion={PDF_VERSION_ACCEPTED}
+                      minVersion={process.env.NEXT_PUBLIC_VERSION ?? ''}
                     >
                       <GenerateBookingConfirmedPdf
                         adults={adults}
@@ -349,6 +358,8 @@ export default function ConfirmPayment() {
                         analyticsTag={
                           ANALYTICS_TAGS.ON_PAGE_CONFIRMED_BTN_DOWNLOAD
                         }
+                        currentPrice={currentPrice}
+                        mode={Mode as BOOKING_MODE}
                       />
                     </ShowButtonByVersion>
                     <Anchor

@@ -264,6 +264,10 @@ export default {
         },
       },
     },
+    declineAmend: {
+      title:
+        "We're sorry, this booking cannot be amended within 48 hours of booking arrival time.",
+    },
     confirmBooking: {
       title: 'Booking summary',
       amendTitle: 'Booking amendment summary',

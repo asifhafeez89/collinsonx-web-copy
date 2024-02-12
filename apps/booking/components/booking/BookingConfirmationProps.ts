@@ -1,6 +1,7 @@
 import { Booking } from 'context/bookingContext';
 import { Experience } from '@collinsonx/utils';
 import { AccountProvider, Client } from '@collinsonx/constants/enums';
+import { BOOKING_MODE } from '../../constants';
 
 export interface BookingConfirmedPdfProps {
   adults: Booking['adults'];
@@ -21,4 +22,6 @@ export interface BookingConfirmedPdfProps {
   membershipType: Client | undefined;
   analyticsTag: string;
   currentPrice?: number | undefined;
+  currentUnitAttendees?: number;
+  mode: BOOKING_MODE;
 }

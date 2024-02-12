@@ -7,13 +7,19 @@ import usePayload from 'hooks/payload';
 import TopBarLinks from '@components/TopBarLinks';
 import Layout from '@components/Layout';
 import FlightDetailsBooking from '@components/FlightDetailsBooking';
-import { BOOKING_MODE } from '../constants';
+import { ANALYTICS_TAGS, BOOKING_MODE } from '../constants';
+import { useEffect } from 'react';
+import { logAction } from '@lib';
 
 export default function ConfirmAmendment() {
   const translations = useLocale();
   const pageName = 'confirmAmendment';
 
   const { lounge } = usePayload();
+
+  useEffect(() => {
+    logAction(pageName, ANALYTICS_TAGS.ON_REFUND_AMENDMENT_ENTER);
+  }, []);
 
   return (
     <Layout>

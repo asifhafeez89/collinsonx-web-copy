@@ -58,6 +58,7 @@ import useLocale from 'hooks/useLocale';
 
 import classes from '../styles/CheckAvailability.module.css';
 import LoaderLightBox from '@collinsonx/design-system/components/loaderlightbox';
+import { redirectTo } from '../lib';
 
 const { BAD_USER_INPUT } = BookingError;
 
@@ -113,8 +114,6 @@ export default function CheckAvailability() {
 
   const { flightNumber, children, adults, infants } = booking;
 
-  setBooking(booking);
-
   const [createMutation, { loading: createLoading }] =
     useMutation(createBooking);
   const [amendMutation] = useMutation(amendBooking);
@@ -138,12 +137,6 @@ export default function CheckAvailability() {
       return slotLabel === value;
     });
     return slot;
-  };
-
-  const redirectTo = (path: string) => {
-    router.push({
-      pathname: path,
-    });
   };
 
   const handleSubmit = () => {

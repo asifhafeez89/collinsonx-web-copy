@@ -14,6 +14,7 @@ interface PriceProps {
   lounge?: Experience;
   currentPrice?: number;
   displaydifference?: boolean;
+  confirmationDisplay?: boolean;
 }
 
 const Price = ({
@@ -21,6 +22,7 @@ const Price = ({
   guests,
   currentPrice,
   displaydifference = false,
+  confirmationDisplay = false,
 }: PriceProps) => {
   const currencyMap: Record<string, string> = {
     GBP: String.fromCharCode(163),
@@ -99,14 +101,21 @@ const Price = ({
         </div>
       )}
 
-      <div>
-        <h3>{translations.booking.availableSlots.totalPrice.title}</h3>
-        <p>
-          {priceDifference === 0
-            ? translations.booking.availableSlots.totalPrice.samePrice
-            : loungePrice}
-        </p>
-      </div>
+      {priceDifference === 0 && displaydifference && (
+        <div className={classes.topPrice}>
+          <div>
+            <h3>{translations.booking.availableSlots.totalPrice.titleAmend}</h3>
+            <p>{translations.booking.availableSlots.totalPrice.samePrice}</p>
+          </div>
+        </div>
+      )}
+
+      {(priceDifference !== 0 || confirmationDisplay) && (
+        <div className={classes.whiteBg}>
+          <h3>{translations.booking.availableSlots.totalPrice.title}</h3>
+          <p>{loungePrice}</p>
+        </div>
+      )}
     </>
   );
 };

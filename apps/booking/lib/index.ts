@@ -1,8 +1,9 @@
 import { experienceX } from '@collinsonx/design-system/themes';
-
+import dayjs from 'dayjs';
 import { Be_Vietnam_Pro } from 'next/font/google';
 import { MantineThemeOverride } from '@collinsonx/design-system/core';
 import {
+  ANALYTICS_TAGS,
   BOOKING_MODE,
   PRODUCTION_DOMAIN,
   STORAGE_NAMESPACE,
@@ -23,6 +24,7 @@ import {
 } from '@collinsonx/utils/lib/analytics';
 import { datadogLogs } from '@datadog/browser-logs';
 import { datadogRum } from '@datadog/browser-rum';
+import router from 'next/router';
 
 export const getLoungeArrivalTime = (date: Date): string =>
   dayjsTz(date).subtract(LOUNGE_HOURS_OFFSET, 'hours').format('HH:mm');
@@ -157,10 +159,18 @@ export const logAction = async (
   action: string,
   data?: unknown
 ) => {
-  console.log(action);
   loggerAction(file, action, data, datadogRum);
 };
 
-export function analyticsTag(mode: BOOKING_MODE, tag: string) {
-  return mode === BOOKING_MODE.CREATE ? tag + '_EDIT' : tag;
-}
+export const redirectTo = (path: string) => {
+  router.push({
+    pathname: path,
+  });
+};
+
+export const checkHoursDiff = (startDate: string, endDate: string) => {
+  const date = dayjs(startDate);
+  const difference = date.diff(endDate, 'hour', true);
+
+  return difference;
+};

@@ -25,10 +25,9 @@ import { formatDate } from 'utils/DateFormatter';
 import { FlightContext } from 'context/flightContext';
 import Heading from '@collinsonx/design-system/components/heading/Heading';
 import useLocale from 'hooks/useLocale';
-import { analyticsTag, logAction } from '@lib';
+import { logAction } from '@lib';
 
 import classes from './CheckAvailability.module.css';
-import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
 
 interface DepartureFlightInfo {
   airport: { iata: string };
@@ -101,6 +100,7 @@ const CheckAvailability = ({
       existing_booking_slot: reservationDetails?.existing_booking_slot || '',
       bookingId: reservationDetails?.bookingId || '',
       currentPrice: reservationDetails?.price,
+      amendmentCurrentAttendees: 0,
     },
     transformValues: (values) => ({
       ...values,
@@ -110,7 +110,9 @@ const CheckAvailability = ({
       departureDate: (value) => {
         logAction(
           trackingPageName,
-          analyticsTag(mode, ANALYTICS_TAGS.ON_CHANGE_DATE_ERROR)
+          mode === BOOKING_MODE.CREATE
+            ? ANALYTICS_TAGS.ON_CHANGE_DATE_ERROR
+            : ANALYTICS_TAGS.ON_CHANGE_DATE_ERROR_EDIT
         );
 
         return value !== null
@@ -129,7 +131,9 @@ const CheckAvailability = ({
           error = translations.booking.flightDetails.errors.invalid_flight;
           logAction(
             trackingPageName,
-            analyticsTag(mode, ANALYTICS_TAGS.ON_CHANGE_FLIGHT_NUMBER_ERROR)
+            mode === BOOKING_MODE.CREATE
+              ? ANALYTICS_TAGS.ON_CHANGE_FLIGHT_NUMBER_ERROR
+              : ANALYTICS_TAGS.ON_CHANGE_FLIGHT_NUMBER_ERROR_EDIT
           );
         }
 
@@ -154,7 +158,9 @@ const CheckAvailability = ({
         );
         logAction(
           trackingPageName,
-          analyticsTag(mode, ANALYTICS_TAGS.ON_CHANGE_FLIGHT_NUMBER_ERROR)
+          mode === BOOKING_MODE.CREATE
+            ? ANALYTICS_TAGS.ON_CHANGE_FLIGHT_NUMBER_ERROR
+            : ANALYTICS_TAGS.ON_CHANGE_FLIGHT_NUMBER_ERROR_EDIT
         );
       } else if (form.isValid()) {
         const upperCaseFlight = form.values.flightNumber.toUpperCase();
@@ -165,6 +171,9 @@ const CheckAvailability = ({
 
         const booking = form.values;
         booking.currentPrice = reservationDetails?.price;
+        booking.amendmentCurrentAttendees =
+          Number(reservationDetails?.adults) +
+          Number(reservationDetails?.children);
 
         setBooking(booking);
         setFlight(flightInfoData.getFlightDetails[0]);
@@ -183,13 +192,17 @@ const CheckAvailability = ({
   const handleClickCheckAvailability = async (values: FormValues) => {
     logAction(
       trackingPageName,
-      analyticsTag(mode, ANALYTICS_TAGS.ON_CONTINUE_BUTTON_AVI)
+      mode === BOOKING_MODE.CREATE
+        ? ANALYTICS_TAGS.ON_CONTINUE_BUTTON_AVI
+        : ANALYTICS_TAGS.ON_CONTINUE_BUTTON_AVI_EDIT
     );
     if (values.children + values.adults > MAX_GUESTS) {
       setGuestError(true);
       logAction(
         trackingPageName,
-        analyticsTag(mode, ANALYTICS_TAGS.ON_CHANGE_ERROR_ATTENDEES_AVL)
+        mode === BOOKING_MODE.CREATE
+          ? ANALYTICS_TAGS.ON_CHANGE_ERROR_ATTENDEES_AVL
+          : ANALYTICS_TAGS.ON_CHANGE_ERROR_ATTENDEES_AVL_EDIT
       );
       return false;
     } else {
@@ -260,18 +273,16 @@ const CheckAvailability = ({
                 referreUrl={referrerUrl ?? '#'}
                 guestError={guestError}
               />
-              <EditableTitle title="" as="h2" showBorder={false}>
-                <Price
-                  lounge={lounge}
-                  guests={{
-                    adults: form.getInputProps('adults').value,
-                    children: form.getInputProps('children').value,
-                    infants: form.getInputProps('infants').value,
-                  }}
-                  currentPrice={reservationDetails?.price}
-                  displaydifference={mode === BOOKING_MODE.EDIT}
-                ></Price>
-              </EditableTitle>
+              <Price
+                lounge={lounge}
+                guests={{
+                  adults: form.getInputProps('adults').value,
+                  children: form.getInputProps('children').value,
+                  infants: form.getInputProps('infants').value,
+                }}
+                currentPrice={reservationDetails?.price}
+                displaydifference={mode === BOOKING_MODE.EDIT}
+              ></Price>
               <Center w="100%">
                 <Button disabled={!lounge} type="submit">
                   {translations.booking.checkAvailability.btn}

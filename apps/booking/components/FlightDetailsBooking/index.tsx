@@ -14,7 +14,6 @@ import {
   ANALYTICS_TAGS,
   BOOKING_MODE,
   MOBILE_ACTION_BACK,
-  PDF_VERSION_ACCEPTED,
   VERSION,
 } from '../../constants';
 import { GenerateBookingConfirmedPdf } from '@components/booking/GenerateBookingConfirmedPdf';
@@ -29,12 +28,14 @@ interface FlightDetailsBookingProps {
   pageName: string;
   isRefund: Boolean;
   mode: BOOKING_MODE;
+  declineBooking?: Boolean;
 }
 
 const FlightDetailsBooking = ({
   pageName,
   isRefund,
   mode,
+  declineBooking = false,
 }: FlightDetailsBookingProps) => {
   const { getBooking } = useContext(BookingContext);
   const { getFlight } = useContext(FlightContext);
@@ -86,50 +87,96 @@ const FlightDetailsBooking = ({
     onCompleted: (data) => {},
   });
 
+  const emailConfirmation = () => (
+    <>
+      {
+        translations.booking.confirmationPayment.outcome.succesful.reference
+          .label
+      }{' '}
+      {''} {dataBooking?.getBookingByID.reference}
+      <p>
+        {
+          translations.booking.confirmationPayment.outcome.succesful
+            .emailConfirmationLabel
+        }{' '}
+        <span style={{ fontWeight: 700 }}>
+          {consumerData?.getConsumerByID.emailAddress}
+        </span>
+      </p>
+    </>
+  );
+
   return (
     <>
-      <Box className={classes.headingContainer}>
-        <Heading
-          style={{
-            fontSize: '1.5rem',
-            lineHeight: '2.25rem',
-            fontWeight: '700',
-          }}
-          as="h2"
-          padding={0}
-          margin={0}
-          lineHeight={1.3}
-        >
-          <Box className={classes.successfulTitle}>
-            {mode === BOOKING_MODE.CREATE
-              ? translations.booking.confirmationPayment.outcome.succesful.title
-              : translations.booking.confirmationPayment.outcome.succesful
-                  .titleAmend}
-          </Box>
-        </Heading>
-        <EditableTitle
-          title={
-            translations.booking.confirmationPayment.outcome.succesful.reference
-              .label
-          }
-          as="h3"
-          showBorder={true}
-        >
-          {
-            translations.booking.confirmationPayment.outcome.succesful.reference
-              .label
-          }{' '}
-          {''} {dataBooking?.getBookingByID.reference}
-          <p>
-            {
+      {!declineBooking && (
+        <Box className={classes.headingContainer}>
+          <Heading
+            style={{
+              fontSize: '1.5rem',
+              lineHeight: '2.25rem',
+              fontWeight: '700',
+            }}
+            as="h2"
+            padding={0}
+            margin={0}
+            lineHeight={1.3}
+          >
+            <Box className={classes.successfulTitle}>
+              {mode === BOOKING_MODE.CREATE
+                ? translations.booking.confirmationPayment.outcome.succesful
+                    .title
+                : translations.booking.confirmationPayment.outcome.succesful
+                    .titleAmend}
+            </Box>
+          </Heading>
+          <EditableTitle
+            title={
               translations.booking.confirmationPayment.outcome.succesful
-                .emailConfirmationLabel
-            }{' '}
-            <span style={{ fontWeight: 700 }}>
-              {consumerData?.getConsumerByID.emailAddress}
-            </span>
-          </p>
-          {isRefund && (
+                .reference.label
+            }
+            as="h3"
+            showBorder={true}
+          >
+            {emailConfirmation()}
+
+            {isRefund && (
+              <div className={classes.refundText}>
+                {' '}
+                {
+                  translations.booking.confirmationPayment.outcome.succesful
+                    .refundText
+                }
+              </div>
+            )}
+          </EditableTitle>
+        </Box>
+      )}
+
+      {declineBooking && (
+        <Box className={classes.headingContainer}>
+          <EditableTitle
+            title={
+              translations.booking.confirmationPayment.outcome.succesful
+                .reference.label
+            }
+            as="h3"
+            showBorder={true}
+          >
+            {emailConfirmation()}
+          </EditableTitle>
+        </Box>
+      )}
+
+      {isRefund && !declineBooking && (
+        <Box className={classes.headingContainer}>
+          <EditableTitle
+            title={
+              translations.booking.confirmationPayment.outcome.succesful
+                .reference.label
+            }
+            as="h3"
+            showBorder={true}
+          >
             <div className={classes.refundText}>
               {' '}
               {
@@ -137,9 +184,10 @@ const FlightDetailsBooking = ({
                   .refundText
               }
             </div>
-          )}
-        </EditableTitle>
-      </Box>
+          </EditableTitle>
+        </Box>
+      )}
+
       {!!lounge && (
         <Stack className={classes.details} gap={8}>
           <FlightDetailsAndGuests
@@ -182,8 +230,8 @@ const FlightDetailsBooking = ({
       <Flex justify={'center'} direction={'column'} align={'center'}>
         {lounge && (
           <ShowButtonByVersion
-            currentVersion={version ?? PDF_VERSION_ACCEPTED}
-            minVersion={PDF_VERSION_ACCEPTED}
+            currentVersion={version ?? process.env.NEXT_PUBLIC_VERSION ?? ''}
+            minVersion={process.env.NEXT_PUBLIC_VERSION ?? ''}
           >
             <GenerateBookingConfirmedPdf
               adults={adults}
@@ -202,11 +250,16 @@ const FlightDetailsBooking = ({
               accountProvider={payload?.accountProvider}
               membershipType={payload?.membershipType}
               platform={platform}
-              analyticsTag={ANALYTICS_TAGS.ON_PAGE_CONFIRMED_BTN_DOWNLOAD}
+              analyticsTag={
+                isRefund
+                  ? ANALYTICS_TAGS.ON_PAGE_CONFIRMED_BTN_RFUND_DOWNLOAD
+                  : ANALYTICS_TAGS.ON_PAGE_CONFIRMED_BTN_DOWNLOAD
+              }
+              currentPrice={booking.currentPrice}
+              mode={BOOKING_MODE.EDIT}
             />
           </ShowButtonByVersion>
         )}
-
         <Anchor
           target="_top"
           href={referrerUrl ? referrerUrl : '#'}

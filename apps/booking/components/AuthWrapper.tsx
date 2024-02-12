@@ -9,7 +9,6 @@ import {
   PLATFORM,
   LANGUAGE,
   VERSION,
-  PDF_VERSION_ACCEPTED,
   PATH_NAME,
 } from '../constants';
 import { BookingQueryParams } from '@collinsonx/constants/enums';
@@ -64,7 +63,10 @@ const SysAuth = ({ children }: AuthWrapperProps) => {
           setItem(JWT, tokenParam);
           setItem(PLATFORM, platformParam ?? '');
           setItem(LANGUAGE, platln ?? 'en');
-          setItem(VERSION, platVersion ?? PDF_VERSION_ACCEPTED);
+          setItem(
+            VERSION,
+            platVersion ?? process.env.NEXT_PUBLIC_VERSION ?? ''
+          );
           setItem(PATH_NAME, JSON.stringify(router));
         }
 

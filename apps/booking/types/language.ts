@@ -143,6 +143,7 @@ type BookingLang = {
     title: string;
   };
   confirmationPayment: ConfirmationPaymentProps;
+  declineAmend: declineAmendProps;
   cancellation: CancellationProps;
   checkAvailability: {
     arrivalTitle: string;
@@ -396,4 +397,8 @@ type SmallScreenLang = {
   title: string;
   description?: string;
   btn?: string | { [key: string]: string };
+};
+
+type declineAmendProps = {
+  title: string;
 };

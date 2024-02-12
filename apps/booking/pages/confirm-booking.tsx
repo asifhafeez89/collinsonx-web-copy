@@ -52,6 +52,8 @@ export default function ConfirmBooking() {
     infants,
     arrival,
     amendmentID,
+    amendmentCurrentAttendees,
+    currentPrice,
   } = getBooking();
 
   const layoutRef = useRef<HTMLDivElement>(null);
@@ -63,7 +65,10 @@ export default function ConfirmBooking() {
       ? PAGENAMES.CONFIRM_AMEND
       : PAGENAMES.CONFIRM_CREATE;
 
-  const totalQuantity: number = Number(adults + children);
+  const totalQuantity: number =
+    Mode === BOOKING_MODE.EDIT
+      ? Number(adults + children) - amendmentCurrentAttendees
+      : Number(adults + children);
 
   const handleSubmit = async () => {
     logAction(
@@ -80,12 +85,8 @@ export default function ConfirmBooking() {
         returnUrl: `${process.env.NEXT_PUBLIC_URL}/confirm-payment`,
         quantity: totalQuantity,
         locale,
+        amendmentID,
       };
-
-      // TODO - Uncomment when Payment is ready...
-      // if(Mode === BOOKING_MODE.EDIT) {
-      //   paymentinput.amendmentID = amendmentID
-      // }
 
       const getSessionUrl = await getCheckoutSessionUrl(paymentinput);
 
@@ -151,6 +152,7 @@ export default function ConfirmBooking() {
                         guestList={{ adults, infants, children }}
                         lounge={lounge}
                         mode={Mode as BOOKING_MODE}
+                        currentPrice={currentPrice}
                       />
                       <EditableTitle
                         title={translations.booking.availableSlots.title}
