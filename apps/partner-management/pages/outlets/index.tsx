@@ -1,4 +1,9 @@
-import { Stack, Pagination, Center } from '@collinsonx/design-system/core';
+import {
+  Stack,
+  Pagination,
+  Center,
+  Group,
+} from '@collinsonx/design-system/core';
 import Title from '@collinsonx/design-system/components/title';
 import LayoutCatalogue from '@components/LayoutCatalogue';
 import { Outlet, PartnerBrand, PaginatedOutlets } from '@collinsonx/utils';
@@ -90,14 +95,20 @@ export default function Outlets() {
       ) : null}
       {!partnerId && !loadingOutlets && !loadingPartnerBrand && (
         <Center>
-          <Pagination
+          <Pagination.Root
             total={totalPages || 1}
             value={activePage}
             onChange={handlePaginationClick}
             mb="sm"
             mt="sm"
             data-testid="outlets-pagination"
-          />
+          >
+            <Group gap={8} justify="center">
+              <Pagination.Previous aria-label="Previous page" />
+              <Pagination.Items />
+              <Pagination.Next aria-label="Next page" />
+            </Group>
+          </Pagination.Root>
         </Center>
       )}
     </Stack>
