@@ -1,68 +1,77 @@
-import { Anchor, Button, Popover, Text } from '@collinsonx/design-system/core';
+import { Button, Menu, Text } from '@collinsonx/design-system/core';
 import {
   AccountCircleIcon,
   KeyboardArrowDownIcon,
   Logout,
 } from '@collinsonx/design-system/assets/icons';
-import { useState } from 'react';
+import { forwardRef } from 'react';
 import Link from 'next/link';
 
 import classes from './AccountSettings.module.css';
 
 export interface AccountSettingsProps {
   fullName?: string;
-  role?: string;
+  accountRole?: string;
 }
-const AccountSettings = ({ fullName, role }: AccountSettingsProps) => {
-  const [opened, setOpened] = useState(false);
-  const handleClick = () => setOpened((o) => !o);
 
+const Target = forwardRef<
+  HTMLButtonElement,
+  React.ComponentPropsWithoutRef<'button'> & AccountSettingsProps
+>(({ fullName, accountRole, ...props }, ref) => {
   return (
-    <Popover
-      opened={opened}
-      onChange={setOpened}
-      position="bottom"
-      offset={-2}
-      withArrow
+    <Button
+      ref={ref}
+      variant="transparent"
+      aria-label="Account menu"
+      classNames={{
+        root: classes.buttonRoot,
+        label: classes.buttonLabel,
+        section: classes.buttonSection,
+      }}
+      leftSection={
+        <AccountCircleIcon aria-hidden="true" className={classes.iconLarge} />
+      }
+      rightSection={
+        <KeyboardArrowDownIcon
+          aria-hidden="true"
+          className={classes.iconSmall}
+        />
+      }
+      {...props}
     >
-      <Popover.Target>
-        <Button
-          variant="transparent"
-          onClick={handleClick}
-          classNames={{
-            root: classes.buttonRoot,
-            label: classes.buttonLabel,
-            section: classes.buttonSection,
-          }}
-          leftSection={<AccountCircleIcon className={classes.iconLarge} />}
-          rightSection={<KeyboardArrowDownIcon className={classes.iconSmall} />}
-        >
-          {fullName && role && (
-            <>
-              <Text component="span" fw={600} size="sm">
-                {fullName}
-              </Text>
-              <Text component="span" className={classes.role}>
-                {role}
-              </Text>
-            </>
-          )}
-        </Button>
-      </Popover.Target>
-      <Popover.Dropdown className={classes.dropdown}>
-        <Anchor
-          variant="transparent"
-          td="none"
-          className={classes.logout}
+      {!!fullName && !!accountRole && (
+        <>
+          <Text component="span" fw={600} size="sm">
+            {fullName}
+          </Text>
+          <Text component="span" className={classes.role}>
+            {accountRole}
+          </Text>
+        </>
+      )}
+    </Button>
+  );
+});
+
+const AccountSettings = (props: AccountSettingsProps) => {
+  return (
+    <Menu withinPortal={false}>
+      <Menu.Target>
+        <Target {...props} />
+      </Menu.Target>
+      <Menu.Dropdown>
+        <Menu.Item
           component={Link}
-          onClick={handleClick}
           href="/auth/signout"
+          className={classes.logout}
+          td="none"
+          variant="transparent"
+          leftSection={<Logout aria-hidden="true" />}
         >
-          <Logout />
-          Log out
-        </Anchor>
-      </Popover.Dropdown>
-    </Popover>
+          Logout
+        </Menu.Item>
+      </Menu.Dropdown>
+    </Menu>
   );
 };
 

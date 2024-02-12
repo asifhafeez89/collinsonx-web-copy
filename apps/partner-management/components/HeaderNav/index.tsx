@@ -109,7 +109,7 @@ function HeaderNav({
 
         <nav aria-label="Header" className={classes.nav}>
           {children}
-          <AccountSettings fullName={fullName} role={role} />
+          <AccountSettings fullName={fullName} accountRole={role} />
         </nav>
       </Flex>
     </header>
