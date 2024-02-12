@@ -23,6 +23,7 @@ interface FlightDetailsAndGuestsProps {
   noEdit?: boolean;
   currentPrice?: number;
   mode?: BOOKING_MODE;
+  confirmationDisplay?: boolean;
 }
 
 export const FlightDetailsAndGuests = ({
@@ -33,6 +34,7 @@ export const FlightDetailsAndGuests = ({
   noEdit,
   currentPrice,
   mode,
+  confirmationDisplay = false,
 }: FlightDetailsAndGuestsProps) => {
   const translations = useLocale();
 
@@ -75,6 +77,7 @@ export const FlightDetailsAndGuests = ({
             guests={guestList}
             currentPrice={currentPrice}
             displaydifference={mode === BOOKING_MODE.EDIT}
+            confirmationDisplay={confirmationDisplay}
           ></Price>
         </Box>
       </Flex>

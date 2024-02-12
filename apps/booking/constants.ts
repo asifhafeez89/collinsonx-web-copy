@@ -79,6 +79,7 @@ export enum ANALYTICS_TAGS {
   ON_HIT_BACK_BUTTON = 'CK_BTN_Back_',
   ON_PAGE_ENTER_CONFIRMED = 'On_PG_Bk_Cfnd',
   ON_PAGE_CONFIRMED_BTN_DOWNLOAD = 'CK_BTN__Bk_Cfnd',
+  ON_PAGE_CONFIRMED_BTN_RFUND_DOWNLOAD = 'CK_BTN__Amnd_Cfnd_Rfnd',
   ON_PAGE_CONFIRMED_BACK_BTN = 'Ck_BTN_Back_Bk_Cfnd',
   ON_PAGE_ENTER_CHECKAVAILABILITY = 'On_PG_Chk_Avl',
   ON_PAGE_ENTER_CHECKAVAILABILITY_EDIT = 'On_PG_Chk_Avl_Amnd',
@@ -117,8 +118,9 @@ export enum ANALYTICS_TAGS {
   ON_SLOT_AMEND_CONFIRMED = 'CK_BTN_Confirm_Pick_Slot_Amnd',
   ON_CONFIRM_AMEND_PG = 'On_PG_Sv_Chng_Amnd',
   ON_CONFIRM_AMEND_SAVE = 'CK_BTN_Sv_Chng_Amnd',
+  ON_REFUND_AMENDMENT_ENTER = 'On_PG_Amnd_Cfnd_Rfnd',
   ON_REFUND_FAILED_AMEND = 'CK_BTN__Amnd_Cfnd_Rfnd_Err',
-}
+};
 
 export const PAGENAMES = {
   INDEX: 'Chk_Avl',
@@ -138,8 +140,6 @@ export const VALIDATION_RULES = {
   MAX_LENGTH: 255,
 };
 
-export const PDF_VERSION_ACCEPTED = '6.31.0';
-
 export enum SWITCHES {
   LOCAL_SWITCH_OFF = 'OFF',
   LOCAL_SWITCH_ON = 'ON',
@@ -149,3 +149,5 @@ export enum BOOKING_MODE {
   EDIT = 'EDIT',
   CREATE = 'CREATE',
 }
+
+export const TIMELIMITTOAMEND = 48;

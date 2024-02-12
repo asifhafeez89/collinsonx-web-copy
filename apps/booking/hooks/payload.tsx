@@ -50,7 +50,6 @@ import {
   PLATFORM,
   LANGUAGE,
   VERSION,
-  PDF_VERSION_ACCEPTED,
   ALLOW_LOCAL,
 } from '../constants';
 import { Consumer } from 'types/consumer';
@@ -193,7 +192,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
       let jwt: string = '';
       let loungeCode: string = '';
       let language: string = 'en';
-      let versionPDF: string = PDF_VERSION_ACCEPTED;
+      let versionPDF: string = process.env.NEXT_PUBLIC_VERSION ?? '';
       let referrer: string = '';
       let platform: string = 'web';
       let localSwitch: string = 'OFF';
@@ -206,7 +205,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         referrer = queryReferrer || '';
         platform = queryPlatform || 'web';
         language = queryLanguage || 'en';
-        versionPDF = queryVersion || PDF_VERSION_ACCEPTED;
+        versionPDF = queryVersion || process.env.NEXT_PUBLIC_VERSION || '';
         localSwitch = queryLocalSwitch || 'OFF';
       } else if (hasStoredData) {
         jwt = getItem(JWT)!;
@@ -215,7 +214,7 @@ export const PayloadProvider = (props: PropsWithChildren) => {
         platform = getItem(PLATFORM) || 'web';
         language = getItem(LANGUAGE) || 'en';
         localSwitch = getItem(ALLOW_LOCAL) || 'OFF';
-        versionPDF = getItem(VERSION) || PDF_VERSION_ACCEPTED;
+        versionPDF = getItem(VERSION) || process.env.NEXT_PUBLIC_VERSION || '';
         log(`Retrieved ${jwtParam} and ${lcParam} from storage`);
         log('referrer:', referrer);
         log('platform:', platform);

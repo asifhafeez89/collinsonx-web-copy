@@ -2,3 +2,11 @@
   background-color: var(--white);
   border-bottom: 1px solid var(--grey-border);
 }
+.title {
+  color: var(----mantine-color-black);
+  font-size: rem(48px);
+  font-weight: 300;
+  @media (max-width: $mantine-breakpoint-sm) {
+    font-size: rem(40px);
+  }
+}

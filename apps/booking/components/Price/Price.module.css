@@ -1,5 +1,14 @@
 .topPrice {
   @media (max-width: 768px) {
     margin-bottom: 10px;
+    background: #fff;
+    padding: 1rem;
+  }
+}
+
+.whiteBg {
+  @media (max-width: 768px) {
+    background: #fff;
+    padding: 1rem;
   }
 }

@@ -1,5 +1,5 @@
 import { LogoCollinson } from '@collinsonx/design-system/assets/logo';
-import Title from '@collinsonx/design-system/components/title';
+import { Title } from '@collinsonx/design-system/core';
 import { Box, Flex } from '@collinsonx/design-system/core';
 
 import classes from './HeaderHome.module.css';
@@ -11,17 +11,18 @@ const HeaderHome = () => {
       <Section>
         <Flex
           justify="space-between"
+          wrap="wrap"
           align="center"
+          gap={32}
+          rowGap={32}
           py={29}
           maw={1140}
           mx="auto"
         >
-          <Title mb={8} size={48} data-testid="overviewTitle">
+          <Title className={classes.title} data-testid="overviewTitle">
             Partner Portal
           </Title>
-          <Box>
-            <LogoCollinson />
-          </Box>
+          <LogoCollinson />
         </Flex>
       </Section>
     </Box>

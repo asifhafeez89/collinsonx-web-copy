@@ -1,4 +1,5 @@
-import { Flex, Skeleton, Stack, Text } from '../../core';
+import { Flex, Skeleton, Text } from '@mantine/core';
+import classes from 'assets/components/overviewMetric.module.css';
 
 export interface OverviewMetricProps {
   label: string;
@@ -16,19 +17,16 @@ export default function OverviewMetric({
   'data-testid': dataTestId,
 }: OverviewMetricProps) {
   return (
-    <Skeleton visible={loading}>
-      <Flex direction="column">
-        <Text
-          color="dark.6"
-          size="xxl"
-          style={{ fontWeight: 600 }}
-          data-testid={dataTestId}
-        >
-          {value}
-        </Text>
-        <Text mb="lg" color="#9b9ca0" size="md">
-          {label}
-        </Text>
+    <Skeleton visible={loading} w="fit-content">
+      <Flex direction="column" gap={24}>
+        <Flex direction="column" p={8}>
+          <Text className={classes.value} size="xxl" data-testid={dataTestId}>
+            {value}
+          </Text>
+          <Text className={classes.label} size="md">
+            {label}
+          </Text>
+        </Flex>
         {children}
       </Flex>
     </Skeleton>

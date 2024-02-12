@@ -73,42 +73,40 @@ export default function OverviewDashboard() {
         icon={<CatalogueIcon />}
         data-testid="catalogueOverviewCard"
       >
-        <>
-          <Flex gap="xs" maw="27%">
-            <OverviewMetric
-              loading={loadingOutlets}
-              label="Outlets"
-              value={dataOutlets?.getOutlets?.totalItemCount || 0}
-              data-testid="outletsRequestsCount"
+        <Flex direction="row" gap={24} rowGap={24} wrap="wrap">
+          <OverviewMetric
+            loading={loadingOutlets}
+            label="Outlets"
+            value={dataOutlets?.getOutlets?.totalItemCount || 0}
+            data-testid="outletsRequestsCount"
+          >
+            <Button
+              variant="default"
+              className={classes.fitContent}
+              component={Link}
+              data-testid="viewAllOutlets"
+              href="/outlets"
             >
-              <Button
-                variant="default"
-                className={classes.fitContent}
-                component={Link}
-                data-testid="viewAllOutlets"
-                href="/outlets"
-              >
-                View all outlets
-              </Button>
-            </OverviewMetric>
-            <OverviewMetric
-              loading={loadingPartnerBrands}
-              label="Partners"
-              value={dataPartnerBrands?.getPartnerBrands?.length || 0}
-              data-testid="partnersRequestsCount"
+              View all outlets
+            </Button>
+          </OverviewMetric>
+          <OverviewMetric
+            loading={loadingPartnerBrands}
+            label="Partners"
+            value={dataPartnerBrands?.getPartnerBrands?.length || 0}
+            data-testid="partnersRequestsCount"
+          >
+            <Button
+              variant="default"
+              className={classes.fitContent}
+              data-testid="viewAllPartners"
+              component={Link}
+              href="/partners"
             >
-              <Button
-                variant="default"
-                className={classes.fitContent}
-                data-testid="viewAllPartners"
-                component={Link}
-                href="/partners"
-              >
-                View all partners
-              </Button>
-            </OverviewMetric>
-          </Flex>
-        </>
+              View all partners
+            </Button>
+          </OverviewMetric>
+        </Flex>
       </OverviewCard>
 
       <Text mb={33} mt={33} className={classes.lastUpdated}>

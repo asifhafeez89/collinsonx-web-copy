@@ -1,6 +1,12 @@
 .container {
   background-color: var(--background);
 }
+
+.nonLayoutGapTop {
+  margin-top: 8rem;
+  background-color: var(--background);
+}
+
 .containerOuter {
   justify-content: center;
 
@@ -45,7 +51,7 @@
 .containerInner {
   width: 591px;
   gap: 0.5rem;
-  @media (max-width: 768px) : {
+  @media (max-width: 768px) {
     width: 100%;
   }
 }

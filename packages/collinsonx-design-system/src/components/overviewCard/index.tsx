@@ -52,7 +52,7 @@ export default function OverviewCard({
           </Title>
         </Flex>
       </Box>
-      <Box style={{ padding: '32px', minHeight: '150px' }}>{children}</Box>
+      <Box style={{ padding: '24px', minHeight: '150px' }}>{children}</Box>
     </Container>
   );
 }

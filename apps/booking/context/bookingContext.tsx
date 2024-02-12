@@ -13,6 +13,7 @@ export interface Booking {
   existing_booking_slot: string;
   currentPrice: number | undefined;
   amendmentID?: string;
+  amendmentCurrentAttendees: number;
 }
 
 interface BookingContextProps {

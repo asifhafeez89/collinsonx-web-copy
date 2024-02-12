@@ -16,6 +16,7 @@ import { BookingConfirmedPdfProps } from './BookingConfirmationProps';
 import { getLogo } from './helpers/getLogo';
 import Price from '@components/Price';
 import useLocale from 'hooks/useLocale';
+import { BOOKING_MODE } from '../../constants';
 
 Font.register({
   family: 'Open Sans Regular',
@@ -211,6 +212,8 @@ export const BookingConfirmationPDF = (props: BookingConfirmedPdfProps) => {
                 infants: props.infants,
                 children: props.children,
               }}
+              currentPrice={props.currentPrice}
+              displaydifference={props.mode === BOOKING_MODE.EDIT}
             ></Price>
           </Text>
           <Text
