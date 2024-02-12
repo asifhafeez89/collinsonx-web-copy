@@ -1,0 +1,7 @@
+.value {
+  color: var(--mantine-color-dark-6);
+  font-weight: 600;
+}
+.label {
+  color: var(--text-grey);
+}
