@@ -44,6 +44,9 @@ jobs:
         env:
           STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}
         run: |
+          pnpm run build --filter booking
+          cd apps/booking
+            
           attempt_counter=0
           max_attempts=5
 
@@ -58,7 +61,6 @@ jobs:
             sleep 5
           done
 
-          cd -
           echo "${{ secrets.ENV_TESTS_FILE_BOOKING }}" > .env.tests
           pnpm e2e:ci-booking
 
