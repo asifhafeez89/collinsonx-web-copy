@@ -1,6 +1,6 @@
 .details {
   @media (max-width: 768px) {
-    margintop: 10px;
+    margintop: 1rem;
   }
 }
 
@@ -12,4 +12,11 @@
 
 .refundText {
   font-weight: bold;
+}
+
+.successfulTitle {
+  @media (max-width: 768px) {
+    padding: 1rem;
+    background-color: #fff;
+  }
 }

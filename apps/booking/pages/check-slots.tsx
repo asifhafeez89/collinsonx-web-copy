@@ -237,6 +237,7 @@ export default function CheckAvailability() {
             // Todo - Add a check if the booking is less than 48hrs
             booking.arrival = selectedslot;
             setBooking(booking);
+
             if (
               data.confirmAmendment.paymentOption.toLowerCase() ===
               PaymentOption.NoPaymentRequired.toLowerCase()
@@ -256,7 +257,8 @@ export default function CheckAvailability() {
               }
             } else {
               redirectTo('/confirm-booking');
-              booking.amendmentID = response.id;
+              booking.amendmentID = data.confirmAmendment.id;
+              setBooking(booking);
             }
           }
         );

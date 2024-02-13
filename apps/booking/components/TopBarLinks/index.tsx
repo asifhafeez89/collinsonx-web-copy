@@ -3,8 +3,13 @@ import { Anchor, Flex, NavLink } from '@collinsonx/design-system/core';
 import usePayload from 'hooks/payload';
 import { useCallback } from 'react';
 import { FAQLink } from 'utils/FAQLinks';
-import { ANALYTICS_TAGS, MOBILE_ACTION_BACK } from '../../constants';
-import { logAction, sendMobileEvent } from '@lib';
+import {
+  ANALYTICS_TAGS,
+  BOKING_MODE_STATE,
+  BOOKING_MODE,
+  MOBILE_ACTION_BACK,
+} from '../../constants';
+import { getItem, logAction, sendMobileEvent } from '@lib';
 
 import useLocale from 'hooks/useLocale';
 
@@ -28,6 +33,7 @@ function TopBarLinks({ page }: TopBarLinksProps) {
     );
   }, [referrerUrl]);
 
+  const Booking_Mode = getItem(BOKING_MODE_STATE);
   const translations = useLocale();
 
   return (

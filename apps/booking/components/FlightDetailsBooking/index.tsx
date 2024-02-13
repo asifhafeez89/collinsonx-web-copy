@@ -167,27 +167,6 @@ const FlightDetailsBooking = ({
         </Box>
       )}
 
-      {isRefund && !declineBooking && (
-        <Box className={classes.headingContainer}>
-          <EditableTitle
-            title={
-              translations.booking.confirmationPayment.outcome.succesful
-                .reference.label
-            }
-            as="h3"
-            showBorder={true}
-          >
-            <div className={classes.refundText}>
-              {' '}
-              {
-                translations.booking.confirmationPayment.outcome.succesful
-                  .refundText
-              }
-            </div>
-          </EditableTitle>
-        </Box>
-      )}
-
       {!!lounge && (
         <Stack className={classes.details} gap={8}>
           <FlightDetailsAndGuests

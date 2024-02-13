@@ -116,6 +116,7 @@ export default function ConfirmPayment() {
     arrival,
     infants,
     currentPrice,
+    amendmentID,
   } = getBooking();
 
   const flightData = getFlight();
@@ -146,6 +147,12 @@ export default function ConfirmPayment() {
       notifyOnNetworkStatusChange: true,
       onCompleted: (data) => {
         setTimer(timer + 1);
+
+        // if (Mode === BOOKING_MODE.EDIT) {
+        //   if (data.getBookingByID.status === BookingStatus.Amended) {
+
+        //   }
+        // }
 
         if (data.getBookingByID === null && timer > 30) {
           router.push({
@@ -293,7 +300,7 @@ export default function ConfirmPayment() {
                         guestList={{ adults, infants, children }}
                         lounge={lounge}
                         noEdit={true}
-                        mode={Mode as BOOKING_MODE}
+                        mode={BOOKING_MODE.CREATE}
                         currentPrice={currentPrice}
                       />
 

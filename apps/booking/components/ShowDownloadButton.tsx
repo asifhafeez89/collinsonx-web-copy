@@ -15,7 +15,7 @@ const ShowButtonByVersion = ({
   const isWithinVersion = isHigherVersion >= 0;
 
   if (!isWithinVersion) {
-    return false;
+    return <div />;
   }
 
   return <>{children}</>;

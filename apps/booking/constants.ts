@@ -120,7 +120,7 @@ export enum ANALYTICS_TAGS {
   ON_CONFIRM_AMEND_SAVE = 'CK_BTN_Sv_Chng_Amnd',
   ON_REFUND_AMENDMENT_ENTER = 'On_PG_Amnd_Cfnd_Rfnd',
   ON_REFUND_FAILED_AMEND = 'CK_BTN__Amnd_Cfnd_Rfnd_Err',
-};
+}
 
 export const PAGENAMES = {
   INDEX: 'Chk_Avl',

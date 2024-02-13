@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useMemo } from 'react';
 import {
   Document,
   Page,
@@ -14,9 +14,10 @@ import { formatDate } from 'utils/DateFormatter';
 import { DATE_READABLE_FORMAT } from 'config/Constants';
 import { BookingConfirmedPdfProps } from './BookingConfirmationProps';
 import { getLogo } from './helpers/getLogo';
-import Price from '@components/Price';
 import useLocale from 'hooks/useLocale';
 import { BOOKING_MODE } from '../../constants';
+import { Experience } from '@collinsonx/utils';
+import { getCurrencySymbol } from 'utils/currencysymbol';
 
 Font.register({
   family: 'Open Sans Regular',
@@ -101,6 +102,44 @@ const GuestCount = ({ label, count }: GuestCountProps) => (
     {label}: <Text style={styles.strong}>{count} </Text>
   </>
 );
+interface PriceProps {
+  lounge: Experience;
+  guests?: {
+    adults: number;
+    children: number;
+    infants: number;
+  };
+}
+
+const GetPrice = ({ lounge, guests }: PriceProps) => {
+  const getSumToPay = (
+    guests: {
+      adults: number;
+      children: number;
+      infants: number;
+    },
+    reservationOnlyFee: number
+  ) => {
+    const sum = reservationOnlyFee * (guests.adults + guests.children);
+    return sum.toFixed(2);
+  };
+
+  const loungePriceWithCurrency = useMemo(() => {
+    if (guests) {
+      return lounge?.pricing?.currency && lounge.pricing.reservationOnlyFee
+        ? getCurrencySymbol(lounge.pricing.currency) +
+            ' ' +
+            getSumToPay(guests, lounge.pricing.reservationOnlyFee)
+        : '';
+    }
+  }, [lounge, guests]);
+
+  return (
+    <>
+      <Text>{loungePriceWithCurrency}</Text>
+    </>
+  );
+};
 
 export const BookingConfirmationPDF = (props: BookingConfirmedPdfProps) => {
   const {
@@ -199,23 +238,24 @@ export const BookingConfirmationPDF = (props: BookingConfirmedPdfProps) => {
               />
             )}
           </Text>
+
           <Text
             style={[styles.text, styles.h3, styles.marginTop, styles.padding]}
           >
             {translations.booking.confirmationPDF.price}
           </Text>
+
           <Text style={[styles.text, styles.padding]}>
-            <Price
+            <GetPrice
               lounge={props.lounge}
               guests={{
                 adults: props.adults,
-                infants: props.infants,
                 children: props.children,
+                infants: props.infants,
               }}
-              currentPrice={props.currentPrice}
-              displaydifference={props.mode === BOOKING_MODE.EDIT}
-            ></Price>
+            />
           </Text>
+
           <Text
             style={[styles.text, styles.h3, styles.marginTop, styles.padding]}
           >
