@@ -238,15 +238,17 @@ export default function CheckAvailability() {
             booking.arrival = selectedslot;
             setBooking(booking);
             if (
-              data.confirmAmendment.paymentOption ===
-              PaymentOption.NoPaymentRequired
+              data.confirmAmendment.paymentOption.toLowerCase() ===
+              PaymentOption.NoPaymentRequired.toLowerCase()
             ) {
               redirectTo('/confirm-amendment');
             } else if (
-              data.confirmAmendment.paymentOption === PaymentOption.Refund
+              data.confirmAmendment.paymentOption.toLowerCase() ===
+              PaymentOption.Refund.toLowerCase()
             ) {
               if (
-                data.confirmAmendment.refundStatus === RefundStatus.Succeeded
+                data.confirmAmendment.refundStatus.toLowerCase() ===
+                RefundStatus.Succeeded.toLowerCase()
               ) {
                 redirectTo('/confirm-amendment-refund');
               } else {
