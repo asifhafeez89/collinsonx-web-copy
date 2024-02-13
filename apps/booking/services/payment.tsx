@@ -7,6 +7,7 @@ export interface ReqBody {
   returnUrl: string;
   quantity: number;
   locale: string;
+  amendmentID?: string;
 }
 
 export const getCheckoutSessionUrl = async ({
@@ -16,6 +17,7 @@ export const getCheckoutSessionUrl = async ({
   returnUrl,
   quantity,
   locale,
+  amendmentID,
 }: ReqBody) =>
   axios.post(
     `${process.env.NEXT_PUBLIC_STRIPE_URL}`,
@@ -26,6 +28,7 @@ export const getCheckoutSessionUrl = async ({
       locale,
       quantity,
       returnUrl,
+      amendmentID,
     },
     {
       headers: {
