@@ -109,7 +109,7 @@ export default function ConfirmBooking() {
     <Layout ref={layoutRef}>
       <Stack gap={8} className={classes.container}>
         <Stack>
-          <TopBarLinks page={pageName} />
+          <TopBarLinks page={pageName} showBackButton={true} />
         </Stack>
         <Flex
           justify="center"

@@ -15,13 +15,18 @@ import useLocale from 'hooks/useLocale';
 
 import classes from './TopBarLinks.module.css';
 import clsx from 'clsx';
+import { useRouter } from 'next/router';
 
 interface TopBarLinksProps {
   page?: string;
+  showBackButton?: boolean;
 }
 
-function TopBarLinks({ page }: TopBarLinksProps) {
+function TopBarLinks({ page, showBackButton }: TopBarLinksProps) {
   const { referrerUrl, payload, lounge } = usePayload();
+  const Booking_Mode = getItem(BOKING_MODE_STATE);
+  const router = useRouter();
+
   const handleClickBack = useCallback(() => {
     if (window && !referrerUrl) {
       sendMobileEvent(window, MOBILE_ACTION_BACK);
@@ -33,23 +38,41 @@ function TopBarLinks({ page }: TopBarLinksProps) {
     );
   }, [referrerUrl]);
 
-  const Booking_Mode = getItem(BOKING_MODE_STATE);
+  const handleClickAmendBack = () => {
+    router.back();
+  };
+
   const translations = useLocale();
 
   return (
     <Flex justify="space-between">
-      <NavLink
-        target="_top"
-        href={referrerUrl ? referrerUrl : '#'}
-        onClick={handleClickBack}
-        label={
-          translations.lounge.topBarLinks.backToLounge +
-          ' ' +
-          (lounge?.loungeName || '').toUpperCase()
-        }
-        leftSection={<ArrowLeft size="1rem" stroke={1.5} />}
-        className={clsx([classes.navLink, classes.anchor])}
-      />
+      {Booking_Mode === BOOKING_MODE.EDIT ? (
+        showBackButton ? (
+          <NavLink
+            target="_top"
+            href="#"
+            onClick={handleClickAmendBack}
+            label={translations.lounge.topBarLinks.back}
+            leftSection={<ArrowLeft size="1rem" stroke={1.5} />}
+            className={clsx([classes.navLink, classes.anchor])}
+          />
+        ) : (
+          <div></div>
+        )
+      ) : (
+        <NavLink
+          target="_top"
+          href={referrerUrl ? referrerUrl : '#'}
+          onClick={handleClickBack}
+          label={
+            translations.lounge.topBarLinks.backToLounge +
+            ' ' +
+            (lounge?.loungeName || '').toUpperCase()
+          }
+          leftSection={<ArrowLeft size="1rem" stroke={1.5} />}
+          className={clsx([classes.navLink, classes.anchor])}
+        />
+      )}
       <NavLink
         href={FAQLink(
           payload?.accountProvider,

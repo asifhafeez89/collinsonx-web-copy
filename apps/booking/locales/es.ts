@@ -135,6 +135,7 @@ export default {
     topBarLinks: {
       backToLounge: 'DE REGRESO',
       faqs: 'Preguntas frecuentes',
+      back: 'ATRÁS',
     },
   },
   booking: {

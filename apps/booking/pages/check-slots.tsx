@@ -473,7 +473,7 @@ export default function CheckAvailability() {
       </LoaderLightBox>
       <Stack gap={8} className={classes.container}>
         <Stack w="100%">
-          <TopBarLinks page={pageName} />
+          <TopBarLinks page={pageName} showBackButton={true} />
         </Stack>
         <Flex direction="column" w="100%">
           <Stack gap={10} className={classes.outerContainer}>

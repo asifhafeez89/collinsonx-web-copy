@@ -121,6 +121,7 @@ type LoungeLang = {
   topBarLinks: {
     backToLounge: string;
     faqs: string;
+    back: string;
   };
 };
 

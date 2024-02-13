@@ -131,6 +131,7 @@ export default {
     topBarLinks: {
       backToLounge: 'BACK TO ',
       faqs: 'FAQs',
+      back: 'BACK',
     },
   },
   booking: {
