@@ -44,6 +44,7 @@ const AmendBooking = () => {
     bookingId: bookingDetails?.getBookingByID.id ?? '',
     existing_booking_slot: bookingDetails?.getBookingByID.lastArrival,
     currentPrice: bookingDetails?.getBookingByID.price ?? 0,
+    reference: bookingDetails?.getBookingByID.reference,
   };
 
   useEffect(() => {

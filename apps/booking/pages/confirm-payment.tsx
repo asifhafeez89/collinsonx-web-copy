@@ -98,8 +98,6 @@ export default function ConfirmPayment() {
   const translations = useLocale();
 
   useEffect(() => {
-    // Check if the booking state is incompleted and]
-
     fetchBookingDetails();
     interval.current = setInterval(() => {
       fetchBookingDetails();
@@ -116,7 +114,7 @@ export default function ConfirmPayment() {
     arrival,
     infants,
     currentPrice,
-    amendmentID,
+    reference,
   } = getBooking();
 
   const flightData = getFlight();
@@ -125,16 +123,34 @@ export default function ConfirmPayment() {
 
   const loungeLocation = useMemo(
     () =>
-      lounge && lounge.location
-        ? lounge.location.airportName
-          ? lounge.location.airportName +
-            `${lounge.location.terminal ? ', ' + lounge.location.terminal : ''}`
-          : ''
+      lounge?.location
+        ? lounge.location.airportName +
+          `${lounge.location.terminal ? ', ' + lounge.location.terminal : ''}`
         : '-',
     [lounge]
   );
 
   const departureTime = flightData?.departure?.dateTime?.local;
+
+  const continueToFetchOrFail = () => {
+    if (timer > 10) {
+      clearInterval(interval.current);
+      setOpen(false);
+      setAlert(true);
+    }
+
+    if (timer > 30) {
+      router.push({
+        pathname: '/failure-booking',
+      });
+    }
+  };
+
+  const confirmedBooking = () => {
+    setOpen(false);
+    setAlert(false);
+    clearInterval(interval.current);
+  };
 
   const [fetchBookingDetails, { loading: loadingBooking, data: dataBooking }] =
     useLazyQuery<{
@@ -146,38 +162,27 @@ export default function ConfirmPayment() {
       fetchPolicy: 'network-only',
       notifyOnNetworkStatusChange: true,
       onCompleted: (data) => {
+        const { getBookingByID } = data;
         setTimer(timer + 1);
 
-        // if (Mode === BOOKING_MODE.EDIT) {
-        //   if (data.getBookingByID.status === BookingStatus.Amended) {
-
-        //   }
-        // }
-
-        if (data.getBookingByID === null && timer > 30) {
+        if (
+          (getBookingByID === null && timer > 30) ||
+          getBookingByID.status === BookingStatus.Declined
+        ) {
           router.push({
             pathname: '/failure-booking',
           });
-        } else if (data.getBookingByID.status === BookingStatus.Declined) {
-          router.push({
-            pathname: '/failure-booking',
-          });
-        } else if (data.getBookingByID.status === BookingStatus.Pending) {
-          if (timer > 10) {
-            clearInterval(interval.current);
-            setOpen(false);
-            setAlert(true);
+        } else if (getBookingByID.status === BookingStatus.Pending) {
+          continueToFetchOrFail();
+        } else if (getBookingByID.status === BookingStatus.Amended) {
+          // need to check the references are different to ensure the booking has been successful
+          if (reference === getBookingByID.reference) {
+            continueToFetchOrFail();
+          } else {
+            confirmedBooking();
           }
-
-          if (timer > 30) {
-            router.push({
-              pathname: '/failure-booking',
-            });
-          }
-        } else if (data.getBookingByID.status === BookingStatus.Confirmed) {
-          setOpen(false);
-          setAlert(false);
-          clearInterval(interval.current);
+        } else if (getBookingByID.status === BookingStatus.Confirmed) {
+          confirmedBooking();
         }
       },
     });

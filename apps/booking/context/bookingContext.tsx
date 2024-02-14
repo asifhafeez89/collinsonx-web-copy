@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, createContext, useState } from 'react';
+import React, { ReactNode, createContext } from 'react';
 
 export interface Booking {
   bookingId?: string;
@@ -14,6 +14,7 @@ export interface Booking {
   currentPrice: number | undefined;
   amendmentID?: string;
   amendmentCurrentAttendees: number;
+  reference: string | undefined;
 }
 
 interface BookingContextProps {

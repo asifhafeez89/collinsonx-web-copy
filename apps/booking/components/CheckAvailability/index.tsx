@@ -51,6 +51,7 @@ type reservationDetails = {
   existing_booking_slot?: string;
   bookingId: string;
   currentPrice: number | undefined;
+  reference?: string;
 };
 
 interface CheckAvailabilityProps {
@@ -64,7 +65,6 @@ interface CheckAvailabilityProps {
 const CheckAvailability = ({
   handleClick,
   trackingPageName = '',
-  pageTitle,
   mode,
   reservationDetails,
 }: CheckAvailabilityProps) => {
@@ -101,6 +101,7 @@ const CheckAvailability = ({
       bookingId: reservationDetails?.bookingId || '',
       currentPrice: reservationDetails?.price,
       amendmentCurrentAttendees: 0,
+      reference: reservationDetails?.reference ?? '',
     },
     transformValues: (values) => ({
       ...values,
@@ -174,6 +175,7 @@ const CheckAvailability = ({
         booking.amendmentCurrentAttendees =
           Number(reservationDetails?.adults) +
           Number(reservationDetails?.children);
+        booking.reference = reservationDetails?.reference ?? '';
 
         setBooking(booking);
         setFlight(flightInfoData.getFlightDetails[0]);
