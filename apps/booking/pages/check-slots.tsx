@@ -8,7 +8,6 @@ import {
   Center,
 } from '@collinsonx/design-system/core';
 import {
-  AmendmentStatus,
   BookingType,
   PaymentOption,
   ProductType,
@@ -18,10 +17,10 @@ import { useRouter } from 'next/router';
 import { LoungeInfo } from '@components/LoungeInfo';
 import createBooking from '@collinsonx/utils/mutations/createBooking';
 import amendBooking from '@collinsonx/utils/mutations/amendBooking';
-import { useState, useContext, useEffect, useCallback, FC } from 'react';
+import { useState, useContext, useEffect, useCallback } from 'react';
 import BookingFormSkeleton from '@components/BookingFormSkeleton';
 import EditableTitle from '@collinsonx/design-system/components/editabletitles/EditableTitle';
-import { Availability } from '@collinsonx/utils';
+import { Availability, Slots } from '@collinsonx/utils';
 import {
   AvailableSlots,
   AvailableSlotsErrorHandling,
@@ -29,7 +28,6 @@ import {
 } from '@components/flightInfo/availability';
 
 import getAvailableSlots from '@collinsonx/utils/queries/getAvailableSlots';
-import { Slots } from '@collinsonx/utils';
 import { TIME_FORMAT, TRAVEL_TYPE } from '../config/Constants';
 import { formatDate, formatTimezone } from '../utils/DateFormatter';
 import usePayload from 'hooks/payload';
@@ -256,9 +254,9 @@ export default function CheckAvailability() {
                 redirectTo('/failure-amendment-refund');
               }
             } else {
-              redirectTo('/confirm-booking');
               booking.amendmentID = data.confirmAmendment.id;
               setBooking(booking);
+              redirectTo('/confirm-booking');
             }
           }
         );
