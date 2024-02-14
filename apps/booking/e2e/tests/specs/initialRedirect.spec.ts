@@ -3,7 +3,12 @@ import { signJWT } from '@collinsonx/jwt';
 import { redirectToBaas } from '../utils/redirectToBaas';
 import EnterEmailPage from '../pages/EnterEmailPage';
 import ErrorPage from '../pages/ErrorPage';
-import { getEmailAddress, getIdWithPrefix } from '../utils/loginUtils';
+import {
+  generateEmailAddress,
+  generateIdWithPrefix,
+  generateNewUser,
+  generateNewUserWithoutName,
+} from '../utils/mockData';
 
 const secret = process.env.NEXT_PUBLIC_JWT_SECRET || '';
 const lounge = 'MAN6';
@@ -15,13 +20,7 @@ test.describe('Initial Redirect to BAAS page', () => {
       // Arrange
       const enterEmailPage = new EnterEmailPage(page);
 
-      const membershipNumber = getIdWithPrefix();
-      const externalId = getIdWithPrefix();
-      const payload = {
-        membershipNumber,
-        externalId,
-        accountProvider,
-      };
+      const payload = generateNewUser();
       const jwt = await signJWT(payload, secret);
 
       // Act
@@ -37,12 +36,11 @@ test.describe('Initial Redirect to BAAS page', () => {
     test('should redirect successfully', async ({ page }) => {
       // Arrange
       const enterEmailPage = new EnterEmailPage(page);
-      const externalId = getIdWithPrefix();
 
-      const payload = {
-        externalId,
-        accountProvider,
-      };
+      const fullPayload = generateNewUser();
+      const payload = Object.fromEntries(
+        Object.entries(fullPayload).filter((e) => e[0] != 'membershipNumber')
+      );
 
       const jwt = await signJWT(payload, secret);
 
@@ -59,12 +57,12 @@ test.describe('Initial Redirect to BAAS page', () => {
     test('should redirect to service not available page', async ({ page }) => {
       // Arrange
       const errorPage = new ErrorPage(page);
-      const membershipNumber = getIdWithPrefix();
-      const externalId = getIdWithPrefix();
-      const payload = {
-        membershipNumber,
-        externalId,
-      };
+
+      const fullPayload = generateNewUser();
+      const payload = Object.fromEntries(
+        Object.entries(fullPayload).filter((e) => e[0] != 'accountProvider')
+      );
+
       const jwt = await signJWT(payload, secret);
 
       // Act
@@ -80,8 +78,12 @@ test.describe('Initial Redirect to BAAS page', () => {
     test('should redirect to service not available page', async ({ page }) => {
       // Arrange
       const errorPage = new ErrorPage(page);
-      const membershipNumber = getIdWithPrefix();
-      const payload = { membershipNumber, accountProvider };
+
+      const fullPayload = generateNewUser();
+      const payload = Object.fromEntries(
+        Object.entries(fullPayload).filter((e) => e[0] != 'externalId')
+      );
+
       const jwt = await signJWT(payload, secret);
 
       // Act
@@ -98,17 +100,12 @@ test.describe('Initial Redirect to BAAS page', () => {
       page,
     }) => {
       const enterEmailPage = new EnterEmailPage(page);
-      const membershipNumber = getIdWithPrefix();
-      const externalId = getIdWithPrefix();
-      const id = getIdWithPrefix();
-      const email = getEmailAddress(id);
+
       // Arrange
-      const payload = {
-        externalId,
-        membershipNumber,
-        accountProvider,
-        email,
-      };
+      const id = generateIdWithPrefix();
+      const email = generateEmailAddress(id);
+      const payload = generateNewUserWithoutName(email);
+
       const jwt = await signJWT(payload, secret);
 
       // Act
@@ -124,20 +121,10 @@ test.describe('Initial Redirect to BAAS page', () => {
 
   test.describe('RDR-008 - Valid JWT and optional firstName and lastName', () => {
     test('should redirect successfully', async ({ page }) => {
-      // Arrange
       const enterEmailPage = new EnterEmailPage(page);
-      const membershipNumber = getIdWithPrefix();
-      const externalId = getIdWithPrefix();
-      const firstName = 'Mac';
-      const lastName = 'Mohan';
 
-      const payload = {
-        firstName,
-        lastName,
-        externalId,
-        membershipNumber,
-        accountProvider,
-      };
+      // Arrange
+      const payload = generateNewUser();
       const jwt = await signJWT(payload, secret);
 
       // Act
@@ -170,13 +157,9 @@ test.describe('Initial Redirect to BAAS page', () => {
       page,
     }) => {
       const errorPage = new ErrorPage(page);
-      const membershipNumber = getIdWithPrefix();
-      const externalId = getIdWithPrefix();
-      const payload = {
-        membershipNumber,
-        externalId,
-        accountProvider,
-      };
+
+      // Arrange
+      const payload = generateNewUser();
       const jwt = await signJWT(payload, secret);
       const lounge = 'invalid';
 
@@ -195,14 +178,8 @@ test.describe('Initial Redirect to BAAS page', () => {
     }) => {
       // Arrange
       const enterEmailPage = new EnterEmailPage(page);
-      const membershipNumber = getIdWithPrefix();
-      const externalId = getIdWithPrefix();
 
-      const payload = {
-        externalId,
-        membershipNumber,
-        accountProvider,
-      };
+      const payload = generateNewUser();
       const jwt = await signJWT(payload, secret);
 
       // Act
@@ -223,8 +200,8 @@ test.describe('Initial Redirect to BAAS page', () => {
     }) => {
       // Arrange
       const errorPage = new ErrorPage(page);
-      const membershipNumber = getIdWithPrefix();
-      const externalId = getIdWithPrefix();
+      const membershipNumber = generateIdWithPrefix();
+      const externalId = generateIdWithPrefix();
       const invalidAccountProvider = 'INVALID';
 
       const payload = {
@@ -247,14 +224,8 @@ test.describe('Initial Redirect to BAAS page', () => {
     test('should redirect to service not available page', async ({ page }) => {
       // Arrange
       const errorPage = new ErrorPage(page);
-      const membershipNumber = getIdWithPrefix();
-      const externalId = getIdWithPrefix();
 
-      const payload = {
-        externalId,
-        membershipNumber,
-        accountProvider,
-      };
+      const payload = generateNewUser();
       const jwt = await signJWT(payload, secret);
 
       // Act

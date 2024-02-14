@@ -1,5 +1,6 @@
 import { test, expect } from '../baseFixtures';
 import { getOneMonthFromToday } from '../utils/dateUtils';
+import RegistrationPage from '../pages/RegistrationPage';
 import PreBookPage from '../pages/PreBookPage';
 import PaymentConfirmationPage from '../pages/PaymentConfirmationPage';
 import SelectLoungeTimePage from '../pages/SelectLoungeTimePage';
@@ -7,12 +8,7 @@ import ConfirmBookingPage from '../pages/ConfirmBookingPage';
 import StripePaymentPage from '../pages/StripePaymentPage';
 import CancelBookingPage from '../pages/CancelBookingPage';
 import CancelledBookingConfirmationPage from '../pages/CancelledBookingConfirmationPage';
-import {
-  loginAsNewUser,
-  getEmailAddress,
-  getIdWithPrefix,
-  getAndEnterPin,
-} from '../utils/loginUtils';
+import { createAndLoginUser, getAndEnterPin } from '../utils/loginUtils';
 import { getLinkFromEmail } from '../utils/emailUtils';
 import {
   slotsGQLResponse,
@@ -22,6 +18,7 @@ import {
   paymentIntentResponse,
   paymentConfirmResponse,
 } from '../utils/mockUtils';
+import { generateEmailAddress, generateIdWithPrefix } from '../utils/mockData';
 
 async function fillStripeIframe(
   stripePaymentPage: StripePaymentPage,
@@ -38,8 +35,8 @@ async function fillStripeIframe(
   await stripePaymentPage.inputAddressPostalCode('KT1 1HL');
 }
 
-const id = getIdWithPrefix();
-const email = getEmailAddress(id);
+const id = generateIdWithPrefix();
+const email = generateEmailAddress(id);
 bookingGQLResponse.getBookingByID.consumer.emailAddress = email;
 
 test.beforeEach(async ({ page }) => {
@@ -56,16 +53,16 @@ test.describe('Confirm booking flow', () => {
   test.describe('CNB-001 - Confirm Booking Happy Path', () => {
     test('User should see payment confirmation message', async ({ page }) => {
       // Arrange
+      const registrationPage = new RegistrationPage(page);
       const preBookPage = new PreBookPage(page);
       const selectLoungeTimePage = new SelectLoungeTimePage(page);
       const confirmBookingPage = new ConfirmBookingPage(page);
 
-      const membershipNumber = getIdWithPrefix();
-      const externalId = getIdWithPrefix();
       const flightNumber = 'BA1417';
 
       // Act
-      await loginAsNewUser(page, id, membershipNumber, externalId);
+      await createAndLoginUser(page);
+      await registrationPage.clickLogin();
 
       const oneMonthFromNow = getOneMonthFromToday();
       await preBookPage.openDatePicker();
@@ -93,7 +90,6 @@ test.describe('Confirm booking flow', () => {
       await expect(whosComing).toBeVisible();
 
       // Go to payment
-      await page.waitForTimeout(10000);
       await confirmBookingPage.clickGoToPayment();
 
       // fill Stripe iframe inputs

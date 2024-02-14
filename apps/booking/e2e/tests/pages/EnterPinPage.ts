@@ -41,4 +41,9 @@ export default class EnterPinPage extends BasePage {
       await reEnterEmailLinkElement.click();
     }
   }
+
+  async alreadyUsedCodeError() {
+    const errorText = baseTranslation.auth.checkCode.error.wrongCode;
+    return this.page.getByText(errorText);
+  }
 }

@@ -3,7 +3,8 @@ import PreBookPage from '../pages/PreBookPage';
 import { test, expect } from '../baseFixtures';
 import SelectLoungeTimePage from '../pages/SelectLoungeTimePage';
 import ConfirmBookingPage from '../pages/ConfirmBookingPage';
-import { loginAsExistingUser } from '../utils/loginUtils';
+import RegistrationPage from '../pages/RegistrationPage';
+import { createAndLoginUser } from '../utils/loginUtils';
 import { interceptGQLOperation, slotsGQLResponse } from '../utils/mockUtils';
 
 test.beforeEach(async ({ page }) => {
@@ -12,7 +13,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('Create booking flow', () => {
-  test.skip('BKG-001 - Create Booking with all valid data', () => {
+  test.describe('BKG-001 - Create Booking with all valid data', () => {
     test('User should be navigated to the final details page with the correct flight details, time slot, number of adults/children/infants and time arrival selected', async ({
       page,
     }) => {
@@ -20,14 +21,13 @@ test.describe('Create booking flow', () => {
       const preBookPage = new PreBookPage(page);
       const selectLoungeTimePage = new SelectLoungeTimePage(page);
       const confirmBookingPage = new ConfirmBookingPage(page);
+      const registrationPage = new RegistrationPage(page);
 
-      const id = 'alreadyregisteredconsumerwithlinkaccount4';
-      const membershipNumber = '89760499';
-      const externalId = '89760499';
       const flightNumber = 'BA1417';
 
       // Act
-      await loginAsExistingUser(page, id, membershipNumber, externalId);
+      await createAndLoginUser(page);
+      await registrationPage.clickLogin();
 
       const oneMonthFromNow = getOneMonthFromToday();
       await preBookPage.openDatePicker();
@@ -41,7 +41,7 @@ test.describe('Create booking flow', () => {
       await selectLoungeTimePage.selectFirstLoungeTime();
       await selectLoungeTimePage.clickConfirmButton();
 
-      // Assert confirm Booking Page
+      // Assert
       const dateSelected = await confirmBookingPage.dateSelected(
         oneMonthFromNow.String
       );
@@ -64,13 +64,13 @@ test.describe('Create booking flow', () => {
     }) => {
       // Arrange
       const preBookPage = new PreBookPage(page);
-      const id = 'alreadyregisteredconsumerwithlinkaccount5';
-      const membershipNumber = '9487777';
-      const externalId = '9487777';
+      const registrationPage = new RegistrationPage(page);
       const flightNumber = 'ET666';
-      await loginAsExistingUser(page, id, membershipNumber, externalId);
 
       // Act
+      await createAndLoginUser(page);
+      await registrationPage.clickLogin();
+
       const oneMonthFromNow = getOneMonthFromToday();
       await preBookPage.openDatePicker();
       await preBookPage.clickNextMonth(oneMonthFromNow.Date);
@@ -91,13 +91,13 @@ test.describe('Create booking flow', () => {
     }) => {
       // Arrange
       const preBookPage = new PreBookPage(page);
-      const id = 'alreadyregisteredconsumerwithlinkaccount6';
-      const membershipNumber = '15008';
-      const externalId = '15008';
+      const registrationPage = new RegistrationPage(page);
       const flightNumber = 'BA1417';
-      await loginAsExistingUser(page, id, membershipNumber, externalId);
 
-      // Arrange
+      // Act
+      await createAndLoginUser(page);
+      await registrationPage.clickLogin();
+
       await preBookPage.inputFlightNumber(flightNumber);
       await preBookPage.increaseAdultGuests();
       await preBookPage.clickSubmit();
@@ -114,15 +114,14 @@ test.describe('Create booking flow', () => {
     }) => {
       // Arrange
       const preBookPage = new PreBookPage(page);
+      const registrationPage = new RegistrationPage(page);
       const selectLoungeTimePage = new SelectLoungeTimePage(page);
       const confirmBookingPage = new ConfirmBookingPage(page);
-      const id = 'alreadyregisteredconsumerwithlinkaccount7';
-      const membershipNumber = '83425';
-      const externalId = '83425';
       const flightNumber = 'BA1417';
 
       // Act
-      await loginAsExistingUser(page, id, membershipNumber, externalId);
+      await createAndLoginUser(page);
+      await registrationPage.clickLogin();
 
       const oneMonthFromNow = getOneMonthFromToday();
       await preBookPage.openDatePicker();
@@ -157,13 +156,13 @@ test.describe('Create booking flow', () => {
     test('User should see airport mismatch error popup', async ({ page }) => {
       // Arrange
       const preBookPage = new PreBookPage(page);
-      const id = 'alreadyregisteredconsumerwithlinkaccount8';
-      const membershipNumber = '7432100';
-      const externalId = '7432100';
+      const registrationPage = new RegistrationPage(page);
       const flightNumber = 'BA169';
 
       // Act
-      await loginAsExistingUser(page, id, membershipNumber, externalId);
+      await createAndLoginUser(page);
+      await registrationPage.clickLogin();
+
       const oneMonthFromNow = getOneMonthFromToday();
       await preBookPage.openDatePicker();
       await preBookPage.clickNextMonth(oneMonthFromNow.Date);
@@ -185,13 +184,13 @@ test.describe('Create booking flow', () => {
     }) => {
       // Arrange
       const preBookPage = new PreBookPage(page);
-      const id = 'alreadyregisteredconsumerwithlinkaccount9';
-      const membershipNumber = '954732118';
-      const externalId = '954732118';
+      const registrationPage = new RegistrationPage(page);
       const flightNumber = 'INVALID';
 
       // Act
-      await loginAsExistingUser(page, id, membershipNumber, externalId);
+      await createAndLoginUser(page);
+      await registrationPage.clickLogin();
+
       const oneMonthFromNow = getOneMonthFromToday();
       await preBookPage.openDatePicker();
       await preBookPage.clickNextMonth(oneMonthFromNow.Date);

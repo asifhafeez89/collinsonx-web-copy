@@ -1,20 +1,16 @@
 import { signJWT } from '@collinsonx/jwt';
-import { mailinatorAddress } from '../config';
 import { redirectToBaas } from './redirectToBaas';
 import EnterEmailPage from '../pages/EnterEmailPage';
 import EnterPinPage from '../pages/EnterPinPage';
 import { getPinFromEmail } from './emailUtils';
 import RegistrationPage from '../pages/RegistrationPage';
-import { v4 as uuidv4 } from 'uuid';
 import { Page } from '@playwright/test';
-
-export function getIdWithPrefix() {
-  return 'e2e-' + (process.env.ENV || 'test').toLowerCase() + '-' + uuidv4();
-}
-
-export function getEmailAddress(id: string) {
-  return `${id}@${mailinatorAddress}`;
-}
+import {
+  generateEmailAddress,
+  generateNewUser,
+  generateExistingUser,
+} from '../utils/mockData';
+import { getIdFromEmail } from '../utils/emailUtils';
 
 export async function getAndEnterPin(page: any, email: string) {
   const enterEmailPage = new EnterEmailPage(page);
@@ -33,23 +29,15 @@ export async function getAndEnterPin(page: any, email: string) {
   await enterPinPage.clickVerify();
 }
 
-export async function loginAsExistingUser(
+export async function loginUser(
   page: Page,
   id: string,
   membershipNumber: string,
   externalId: string
 ) {
   const secret = process.env.NEXT_PUBLIC_JWT_SECRET || '';
-  const email = getEmailAddress(id);
-  const payload = {
-    membershipNumber,
-    externalId,
-    email,
-    firstName: 'Alice',
-    lastName: 'Smith',
-    membershipType: 'MASTERCARD_HSBC',
-    accountProvider: 'PRIORITY_PASS',
-  };
+  const email = generateEmailAddress(id);
+  const payload = generateExistingUser(email, membershipNumber, externalId);
   const jwt = await signJWT(payload, secret);
   const lounge = 'BHD1';
 
@@ -58,30 +46,10 @@ export async function loginAsExistingUser(
   await getAndEnterPin(page, email);
 }
 
-export async function loginAsNewUser(
-  page: Page,
-  id: string,
-  membershipNumber: string,
-  externalId: string
-) {
-  const secret = process.env.NEXT_PUBLIC_JWT_SECRET || '';
-  const email = getEmailAddress(id);
-  const payload = {
-    membershipNumber,
-    externalId,
-    email,
-    firstName: 'Alice',
-    lastName: 'Smith',
-    membershipType: 'MASTERCARD_HSBC',
-    accountProvider: 'PRIORITY_PASS',
-  };
-  const jwt = await signJWT(payload, secret);
-  const lounge = 'BHD1';
+export async function createAndLoginUser(page: Page) {
+  const payload = generateNewUser();
+  const id = getIdFromEmail(payload.email || '');
+  await loginUser(page, id, payload.membershipNumber, payload.externalId);
 
-  await redirectToBaas(page, jwt, lounge);
-
-  await getAndEnterPin(page, email);
-
-  const registrationPage = new RegistrationPage(page);
-  await registrationPage.clickLogin();
+  return payload;
 }

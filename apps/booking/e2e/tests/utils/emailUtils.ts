@@ -18,8 +18,12 @@ import axios from 'axios';
  * @example
  * const pin = await getPinFromEmail('username@mailinator.com');
  */
+export function getIdFromEmail(email: string) {
+  return email.split('@')[0];
+}
+
 export async function getPinFromEmail(email: string) {
-  const username = email.split('@')[0];
+  const username = getIdFromEmail(email);
 
   const mailinatorClient = new MailinatorClient(
     process.env.MAILINATOR_API_TOKEN || ''

@@ -208,7 +208,7 @@ importers:
         specifier: ^4.7.3
         version: 4.8.2(playwright-core@1.40.1)
       '@playwright/test':
-        specifier: ^1.37.0
+        specifier: ^1.40.1
         version: 1.40.1
       '@testing-library/react':
         specifier: ^14.1.0

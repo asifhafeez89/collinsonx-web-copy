@@ -7,15 +7,20 @@ import RegistrationPage from '../pages/RegistrationPage';
 import PreBookPage from '../pages/PreBookPage';
 import ErrorPage from '../pages/ErrorPage';
 import { test, expect } from '../baseFixtures';
-import { getEmailAddress, getIdWithPrefix } from '../utils/loginUtils';
 import { Page } from '@playwright/test';
+import {
+  generateIdWithPrefix,
+  generateEmailAddress,
+  generateFirstName,
+  generateLastName,
+  generateNewUser,
+  generateNewUserWithoutName,
+  generateNewUserWithoutNameAndEmail,
+} from '../utils/mockData';
+import { createAndLoginUser, loginUser } from '../utils/loginUtils';
 
 const secret = process.env.NEXT_PUBLIC_JWT_SECRET || '';
 const lounge = 'MAN6';
-const membershipType = 'MASTERCARD_HSBC';
-const accountProvider = 'PRIORITY_PASS';
-const firstName = 'Alice';
-const lastName = 'Smith';
 
 async function getPageObjectModel(page: Page) {
   return {
@@ -31,7 +36,7 @@ async function assertRegistrationPageDetails(
   registrationPage: RegistrationPage,
   expectedFirstName: string | null,
   expectedLastName: string | null,
-  expectedEmail: string
+  expectedEmail: string | null
 ) {
   const firstNameValue = await registrationPage.firstNameValue();
   const lastNameValue = await registrationPage.lastNameValue();
@@ -48,33 +53,15 @@ test.describe('Onboarding flow', () => {
       page,
     }) => {
       // Arrange
-      const { enterEmailPage, enterPinPage, registrationPage, preBookPage } =
-        await getPageObjectModel(page);
-      const id = getIdWithPrefix();
-      const email = getEmailAddress(id);
-      const payload = {
-        membershipNumber: getIdWithPrefix(),
-        externalId: getIdWithPrefix(),
-        email,
-        firstName,
-        lastName,
-        membershipType,
-        accountProvider,
-      };
-      const jwt = await signJWT(payload, secret);
+      const { registrationPage, preBookPage } = await getPageObjectModel(page);
 
       // Act
-      await redirectToBaas(page, jwt, lounge);
-      await enterEmailPage.enterEmail(email);
-      await enterEmailPage.clickContinue();
-      const pin = await getPinFromEmail(email);
-      await enterPinPage.enterPin(pin);
-      await enterPinPage.clickVerify();
+      const user = await createAndLoginUser(page);
       await assertRegistrationPageDetails(
         registrationPage,
-        firstName,
-        lastName,
-        email
+        user.firstName || '',
+        user.lastName || '',
+        user.email || ''
       );
       await registrationPage.clickLogin();
 
@@ -91,16 +78,9 @@ test.describe('Onboarding flow', () => {
       // Arrange
       const { enterEmailPage, enterPinPage, registrationPage, preBookPage } =
         await getPageObjectModel(page);
-      const id = getIdWithPrefix();
-      const email = getEmailAddress(id);
-
-      const payload = {
-        membershipNumber: getIdWithPrefix(),
-        externalId: getIdWithPrefix(),
-        email,
-        membershipType,
-        accountProvider,
-      };
+      const id = generateIdWithPrefix();
+      const email = generateEmailAddress(id);
+      const payload = generateNewUserWithoutName(email);
       const jwt = await signJWT(payload, secret);
 
       // Act
@@ -110,9 +90,10 @@ test.describe('Onboarding flow', () => {
       const pin = await getPinFromEmail(email);
       await enterPinPage.enterPin(pin);
       await enterPinPage.clickVerify();
+
       await assertRegistrationPageDetails(registrationPage, null, null, email);
-      await (await registrationPage.firstNameInput()).fill(firstName);
-      await (await registrationPage.lastNameInput()).fill(lastName);
+      await (await registrationPage.firstNameInput()).fill(generateFirstName());
+      await (await registrationPage.lastNameInput()).fill(generateLastName());
       await registrationPage.clickLogin();
 
       // Assert
@@ -128,14 +109,9 @@ test.describe('Onboarding flow', () => {
       // Arrange
       const { enterEmailPage, enterPinPage, registrationPage, preBookPage } =
         await getPageObjectModel(page);
-      const id = getIdWithPrefix();
-      const email = getEmailAddress(id);
-      const payload = {
-        membershipNumber: getIdWithPrefix(),
-        externalId: getIdWithPrefix(),
-        membershipType,
-        accountProvider,
-      };
+      const id = generateIdWithPrefix();
+      const email = generateEmailAddress(id);
+      const payload = generateNewUserWithoutNameAndEmail();
       const jwt = await signJWT(payload, secret);
 
       // Act
@@ -145,9 +121,10 @@ test.describe('Onboarding flow', () => {
       const pin = await getPinFromEmail(email);
       await enterPinPage.enterPin(pin);
       await enterPinPage.clickVerify();
+
       await assertRegistrationPageDetails(registrationPage, null, null, email);
-      await (await registrationPage.firstNameInput()).fill(firstName);
-      await (await registrationPage.lastNameInput()).fill(lastName);
+      await (await registrationPage.firstNameInput()).fill(generateFirstName());
+      await (await registrationPage.lastNameInput()).fill(generateLastName());
       await registrationPage.clickLogin();
 
       // Assert
@@ -161,31 +138,13 @@ test.describe('Onboarding flow', () => {
       page,
     }) => {
       // Arrange
-      const { enterEmailPage, enterPinPage, preBookPage } =
-        await getPageObjectModel(page);
+      const { preBookPage } = await getPageObjectModel(page);
       const id = 'alreadyregisteredconsumerwithlinkaccount1';
-      const email = getEmailAddress(id);
-
-      const payload = {
-        membershipNumber: '888111356',
-        externalId: '888111356',
-        email,
-        firstName: 'Alice',
-        lastName: 'Smith',
-        membershipType,
-        accountProvider,
-      };
-      const jwt = await signJWT(payload, secret);
+      const membershipNumber = '888111356';
+      const externalId = '888111356';
 
       // Act
-      await redirectToBaas(page, jwt, lounge);
-      await enterEmailPage.clickContinue();
-
-      // Waiting for the latest email (only for existing users)
-      await page.waitForTimeout(5000);
-      const pin = await getPinFromEmail(email);
-      await enterPinPage.enterPin(pin);
-      await enterPinPage.clickVerify();
+      await loginUser(page, id, membershipNumber, externalId);
 
       // Assert
       const loungeTitle = await preBookPage.loungeTitle();
@@ -201,25 +160,10 @@ test.describe('Onboarding flow', () => {
       const { enterEmailPage, enterPinPage, preBookPage } =
         await getPageObjectModel(page);
       const id = 'alreadyregisteredconsumerwithlinkaccount55';
-      const email = getEmailAddress(id);
-
-      const payload = {
-        externalId: '127643578',
-        email,
-        membershipType,
-        accountProvider,
-      };
-      const jwt = await signJWT(payload, secret);
+      const externalId = '127643578';
 
       // Act
-      await redirectToBaas(page, jwt, lounge);
-      await enterEmailPage.clickContinue();
-
-      // Waiting for the latest email (only for existing users)
-      await page.waitForTimeout(5000);
-      const pin = await getPinFromEmail(email);
-      await enterPinPage.enterPin(pin);
-      await enterPinPage.clickVerify();
+      await loginUser(page, id, '', externalId);
 
       // Assert
       const loungeTitle = await preBookPage.loungeTitle();
@@ -234,15 +178,9 @@ test.describe('Onboarding flow', () => {
       // Arrange
       const { enterEmailPage, enterPinPage, preBookPage } =
         await getPageObjectModel(page);
-      const id = 'alreadyregisteredconsumerwithlinkaccount4';
-      const email = getEmailAddress(id);
-
-      const payload = {
-        externalId: '89760499',
-        email,
-        membershipType,
-        accountProvider,
-      };
+      const id = generateIdWithPrefix();
+      const email = generateEmailAddress(id);
+      const payload = generateNewUser(email);
       const jwt = await signJWT(payload, secret);
 
       // Act
@@ -259,6 +197,9 @@ test.describe('Onboarding flow', () => {
       await enterPinPage.enterPin(pin);
       await enterPinPage.clickVerify();
 
+      const registrationPage = new RegistrationPage(page);
+      await registrationPage.clickLogin();
+
       // Assert
       const loungeTitle = await preBookPage.loungeTitle();
       await expect(loungeTitle).toEqual('Aspire Lounge');
@@ -272,12 +213,7 @@ test.describe('Onboarding flow', () => {
       // Arrange
       const enterEmailPage = new EnterEmailPage(page);
       const email = 'emailAddressInWrongFormat';
-      const payload = {
-        membershipNumber: getIdWithPrefix(),
-        externalId: getIdWithPrefix(),
-        membershipType,
-        accountProvider,
-      };
+      const payload = generateNewUser(email);
       const jwt = await signJWT(payload, secret);
 
       // Act
@@ -291,21 +227,48 @@ test.describe('Onboarding flow', () => {
     });
   });
 
+  test.describe('ONB-009 - User registration with already used confirmation code', () => {
+    test('User should see an error message indicating that the code has been already used.', async ({
+      page,
+    }) => {
+      // Arrange
+      const { enterEmailPage, enterPinPage } = await getPageObjectModel(page);
+      const id = generateIdWithPrefix();
+      const email = generateEmailAddress(id);
+      const payload = generateNewUser(email);
+      const jwt = await signJWT(payload, secret);
+
+      // Act
+      await redirectToBaas(page, jwt, lounge);
+      await enterEmailPage.clickContinue();
+
+      // Waiting for the latest email (only for existing users)
+      await page.waitForTimeout(5000);
+      const pin = await getPinFromEmail(email);
+      await enterPinPage.enterPin(pin);
+      await enterPinPage.clickVerify();
+
+      // Enter an already used confirmation code
+      await redirectToBaas(page, jwt, lounge);
+      await enterEmailPage.clickContinue();
+      await enterPinPage.enterPin(pin);
+      await enterPinPage.clickVerify();
+
+      // Assert
+      const errorElement = await enterPinPage.alreadyUsedCodeError();
+      await expect(errorElement).toBeVisible();
+    });
+  });
+
   test.describe('ONB-011- User enters incorrect confirmation code', () => {
     test('User should see an error message  indicating that the code is incorrect.', async ({
       page,
     }) => {
       // Arrange
       const { enterEmailPage, enterPinPage } = await getPageObjectModel(page);
-      const id = getIdWithPrefix();
-      const email = getEmailAddress(id);
-
-      const payload = {
-        membershipNumber: getIdWithPrefix(),
-        externalId: getIdWithPrefix(),
-        membershipType,
-        accountProvider,
-      };
+      const id = generateIdWithPrefix();
+      const email = generateEmailAddress(id);
+      const payload = generateNewUser(email);
       const jwt = await signJWT(payload, secret);
 
       // Act
@@ -328,15 +291,9 @@ test.describe('Onboarding flow', () => {
     }) => {
       // Arrange
       const { enterEmailPage, enterPinPage } = await getPageObjectModel(page);
-      const id = getIdWithPrefix();
-      const email = getEmailAddress(id);
-
-      const payload = {
-        membershipNumber: getIdWithPrefix(),
-        externalId: getIdWithPrefix(),
-        membershipType,
-        accountProvider,
-      };
+      const id = generateIdWithPrefix();
+      const email = generateEmailAddress(id);
+      const payload = generateNewUser(email);
       const jwt = await signJWT(payload, secret);
 
       // Act
@@ -363,26 +320,17 @@ test.describe('Onboarding flow', () => {
       // Arrange
       const { enterEmailPage, enterPinPage, registrationPage, preBookPage } =
         await getPageObjectModel(page);
-      const id = getIdWithPrefix();
-      const email = getEmailAddress(id);
-
-      const payload = {
-        membershipNumber: getIdWithPrefix(),
-        externalId: getIdWithPrefix(),
-        email,
-        firstName,
-        lastName,
-        membershipType,
-        accountProvider,
-      };
+      const id = generateIdWithPrefix();
+      const email = generateEmailAddress(id);
+      const payload = generateNewUser(email);
       const jwt = await signJWT(payload, secret);
 
       // Act
       await redirectToBaas(page, jwt, lounge);
       await enterEmailPage.clickContinue();
       await enterPinPage.clickReEnterEmailLink();
-      const newId = getIdWithPrefix();
-      const newEmail = getEmailAddress(newId);
+      const newId = generateIdWithPrefix();
+      const newEmail = generateEmailAddress(newId);
       await enterEmailPage.enterEmail(newEmail);
       await enterEmailPage.clickContinue();
       const pin = await getPinFromEmail(newEmail);
@@ -391,8 +339,8 @@ test.describe('Onboarding flow', () => {
 
       await assertRegistrationPageDetails(
         registrationPage,
-        firstName,
-        lastName,
+        generateFirstName(),
+        generateLastName(),
         newEmail
       );
       await registrationPage.clickLogin();
@@ -410,22 +358,15 @@ test.describe('Onboarding flow', () => {
       // Arrange
       const { enterEmailPage, enterPinPage, registrationPage, preBookPage } =
         await getPageObjectModel(page);
-      const id = getIdWithPrefix();
-      const email = getEmailAddress(id);
 
-      const payload = {
-        membershipNumber: getIdWithPrefix(),
-        externalId: getIdWithPrefix(),
-        email,
-        firstName,
-        lastName,
-        membershipType,
-        accountProvider,
-      };
+      const id = generateIdWithPrefix();
+      const email = generateEmailAddress(id);
+      const payload = generateNewUser(email);
       const jwt = await signJWT(payload, secret);
 
       // Act
-      await redirectToBaas(page, jwt, lounge);
+      await redirectToBaas(page, jwt, 'MAN6');
+      await enterEmailPage.enterEmail(email);
       await enterEmailPage.clickContinue();
       const pin = await getPinFromEmail(email);
       await enterPinPage.enterPin(pin);
@@ -451,19 +392,13 @@ test.describe('Onboarding flow', () => {
       page,
     }) => {
       // Arrange
-      const { enterEmailPage, enterPinPage, registrationPage } =
-        await getPageObjectModel(page);
-      const id = getIdWithPrefix();
-      const email = getEmailAddress(id);
-      const payload = {
-        membershipNumber: '98794810',
-        externalId: getIdWithPrefix(),
-        email,
-        firstName,
-        lastName,
-        membershipType,
-        accountProvider,
-      };
+      const { enterEmailPage, enterPinPage } = await getPageObjectModel(page);
+      const id = generateIdWithPrefix();
+      const email = generateEmailAddress(id);
+      const payload = generateNewUser(email);
+
+      payload.membershipNumber = '98794810';
+
       const jwt = await signJWT(payload, secret);
 
       // Act
@@ -484,20 +419,13 @@ test.describe('Onboarding flow', () => {
       page,
     }) => {
       // Arrange
-      const { enterEmailPage, enterPinPage, registrationPage } =
-        await getPageObjectModel(page);
-      const id = getIdWithPrefix();
-      const email = getEmailAddress(id);
+      const { enterEmailPage, enterPinPage } = await getPageObjectModel(page);
+      const id = generateIdWithPrefix();
+      const email = generateEmailAddress(id);
+      const payload = generateNewUser(email);
 
-      const payload = {
-        membershipNumber: getIdWithPrefix(),
-        externalId: '071189',
-        email,
-        firstName,
-        lastName,
-        membershipType,
-        accountProvider,
-      };
+      payload.externalId = '071189';
+
       const jwt = await signJWT(payload, secret);
 
       // Act
@@ -518,19 +446,10 @@ test.describe('Onboarding flow', () => {
       // Arrange
       const { enterEmailPage, enterPinPage, errorPage } =
         await getPageObjectModel(page);
-      const membershipNumber = getIdWithPrefix();
       const secret = 'invalid';
-      const externalId = getIdWithPrefix();
-      const id = getIdWithPrefix();
-      const email = getEmailAddress(id);
-      const payload = {
-        membershipNumber,
-        externalId,
-        accountProvider,
-        email,
-        firstName,
-        lastName,
-      };
+      const id = generateIdWithPrefix();
+      const email = generateEmailAddress(id);
+      const payload = generateNewUser(email);
       const jwt = await signJWT(payload, secret);
 
       // Act

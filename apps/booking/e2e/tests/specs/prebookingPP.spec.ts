@@ -7,10 +7,10 @@ import DashboardPage from '../pages/DashboardPage';
 import PreBookPage from '../pages/PreBookPage';
 import SelectLoungeTimePage from '../pages/SelectLoungeTimePage';
 import ConfirmBookingPage from '../pages/ConfirmBookingPage';
-import { getEmailAddress } from '../utils/loginUtils';
 import { getPinFromEmail } from '../utils/emailUtils';
 import { getOneMonthFromToday } from '../utils/dateUtils';
 import { slotsGQLResponse, interceptGQLOperation } from '../utils/mockUtils';
+import { generateEmailAddress } from '../utils/mockData';
 import { Page } from '@playwright/test';
 
 async function getPageObjectModel(page: Page) {
@@ -40,7 +40,7 @@ test.describe('Confirm booking flow in PP env', () => {
       const existingUserPassword = '******'; // specify password
       const flightNumber = 'BA1417';
       // email must be linked to username
-      const email = getEmailAddress(existingUsername);
+      const email = generateEmailAddress(existingUsername);
 
       // open login page
       await page.goto(startUrl, {
