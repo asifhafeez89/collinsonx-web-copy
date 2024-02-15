@@ -47,13 +47,12 @@ const AmendBooking = () => {
     reference: bookingDetails?.getBookingByID.reference,
   };
 
+  setItem(ORIGINAL_BOOKING_DETAILS, JSON.stringify(reservationDetails));
   useEffect(() => {
     logAction(
       trackingPageName,
       ANALYTICS_TAGS.ON_PAGE_ENTER_CHECKAVAILABILITY_EDIT
     );
-
-    setItem(ORIGINAL_BOOKING_DETAILS, JSON.stringify(reservationDetails));
 
     const departureDate = bookingDetails?.getBookingByID.bookedFrom;
 

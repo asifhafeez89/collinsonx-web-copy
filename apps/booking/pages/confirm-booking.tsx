@@ -122,8 +122,8 @@ export default function ConfirmBooking() {
               {!clientSecret && (
                 <Heading as="h3" padding={0} margin={0} lineHeight={1}>
                   {Mode === BOOKING_MODE.EDIT
-                    ? translations.booking.confirmBooking.title
-                    : translations.booking.confirmBooking.amendTitle}
+                    ? translations.booking.confirmBooking.amendTitle
+                    : translations.booking.confirmBooking.title}
                 </Heading>
               )}
             </Center>
