@@ -81,8 +81,7 @@ export default function OverviewDashboard() {
             data-testid="outletsRequestsCount"
           >
             <Button
-              variant="default"
-              className={classes.fitContent}
+              variant="outline"
               component={Link}
               data-testid="viewAllOutlets"
               href="/outlets"
@@ -97,8 +96,7 @@ export default function OverviewDashboard() {
             data-testid="partnersRequestsCount"
           >
             <Button
-              variant="default"
-              className={classes.fitContent}
+              variant="outline"
               data-testid="viewAllPartners"
               component={Link}
               href="/partners"

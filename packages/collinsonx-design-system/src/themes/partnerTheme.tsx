@@ -140,6 +140,12 @@ const theme = (
         classNames: classesAnchor,
       }),
       Button: Button.extend({
+        styles: (theme, props) => ({
+          root: {
+            fontSize: rem(theme.fontSizes.md),
+            paddingInline: theme.spacing.md,
+          },
+        }),
         classNames: (theme, props) => {
           if (props.variant === 'outline') {
             return {
