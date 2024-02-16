@@ -63,6 +63,10 @@ export default class OutletPage {
     return this.page.getByTestId('outlet-opening-times').getByRole('heading');
   }
 
+  async conditionsSectionHeading() {
+    return this.page.getByTestId('outlet-conditions').getByRole('heading');
+  }
+
   async programmeTabs() {
     await this.page.waitForSelector('#outlet-container');
     return this.page.getByTestId('outlet-products-programme-tab');

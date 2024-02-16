@@ -159,6 +159,11 @@ export default class CatalogueApi {
           name
           terminal
         }
+        content {
+          conditions {
+            legacyConditions
+          }
+        }
         category
         code
         status

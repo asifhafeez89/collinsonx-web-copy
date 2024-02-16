@@ -276,3 +276,31 @@ test.describe('outlet page', () => {
     }
   });
 });
+
+test('conditions section displays the correct information', async ({
+  page,
+}) => {
+  const outletPage = new OutletPage(page);
+  const catalogueApi = new CatalogueApi();
+
+  const outlets = await catalogueApi.getOutlets(1, 1);
+  const outletId = outlets[0].id;
+  await outletPage.goToURL(outletId);
+  const conditionsSectionHeading = await outletPage.conditionsSectionHeading();
+
+  const { content } = await catalogueApi.getOutletByID(outletId);
+
+  const { conditions } = content ?? {};
+  const { legacyConditions } = conditions ?? {};
+
+  if (legacyConditions) {
+    await expect(conditionsSectionHeading).toHaveText('Conditions');
+
+    const container = page.getByTestId('outlet-conditions');
+    const label = container.locator('dt');
+    const value = container.locator('dd');
+
+    await expect(label).toHaveText('Conditions description');
+    await expect(value).toHaveText(legacyConditions);
+  }
+});
