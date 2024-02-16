@@ -20,4 +20,5 @@ export { default as ErrorNotification } from './components/errorNotification';
 export { default as DescriptionList } from './components/descriptionList';
 export { default as Badge } from './components/badge';
 export { default as CollinsonViewOnlyNotice } from './components/collinsonViewOnlyNotice';
+export { default as Title } from './components/title';
 export * from './themes';

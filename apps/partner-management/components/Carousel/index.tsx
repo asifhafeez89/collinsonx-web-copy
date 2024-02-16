@@ -19,6 +19,7 @@ type CustomCarouselOptions = {
   activeIndex: number;
   activeImgUrl?: string | null;
   onSlideChange: (index: number) => void;
+  onClickFull?: (index: number) => void;
 };
 
 export type CarouselProps = PropsWithChildren<CustomCarouselOptions> &
@@ -28,6 +29,7 @@ export default function Carousel({
   activeIndex,
   activeImgUrl,
   onSlideChange,
+  onClickFull,
   children,
   ...options
 }: CarouselProps) {
@@ -77,6 +79,13 @@ export default function Carousel({
     }
   }, [activeIndex, emblaApi]);
 
+  const handleClickFull = useCallback(() => {
+    if (emblaApi && onClickFull) {
+      const slideIndex = emblaApi.selectedScrollSnap();
+      onClickFull(slideIndex);
+    }
+  }, [emblaApi]);
+
   const length = Children.count(children);
   const canScrollNext = !!emblaApi?.canScrollNext();
   const canScrollPrev = !!emblaApi?.canScrollPrev();
@@ -96,6 +105,7 @@ export default function Carousel({
     >
       <Box className={classes.emblaContainer}>{children}</Box>
       <Button
+        onClick={handleClickFull}
         className={clsx(classes.fullscreenButton, {
           [classes.hidden]: !isHovered && !isFocused,
         })}

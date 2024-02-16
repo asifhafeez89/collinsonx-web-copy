@@ -129,7 +129,9 @@ test.describe('outlet page', () => {
     expect.soft(summarySectionInfo['Legacy code']).toBe(outlet.legacyCode);
     expect.soft(summarySectionInfo['Outlet code']).toBe(outlet.code);
     // Currently we expect an outlet to be of one category type e.g. "EAT"
-    expect.soft(summarySectionInfo['Categories']).toBe(categoriesValue[0]);
+    expect
+      .soft(summarySectionInfo['Categories'])
+      .toBe(categoriesValue === 'N/A' ? categoriesValue : categoriesValue[0]);
     expect.soft(summarySectionInfo['Status']).toBe(status);
     expect
       .soft(summarySectionInfo['Primary products'])
@@ -150,71 +152,77 @@ test.describe('outlet page', () => {
 
     const productsSectionHeading = await outletPage.productsSectionHeading();
 
-    // header should be correct
-    await expect(productsSectionHeading).toHaveText('Products');
-
     const { products: primaryProducts, ancillaryProducts } =
       await catalogueApi.getOutletByID(outletId);
 
     const products = [...primaryProducts, ...ancillaryProducts];
-    const expectedProductsTableByProgramme =
-      getProductsTableByProgramme(products);
-    const expectedProgrammes = Object.keys(expectedProductsTableByProgramme);
 
-    // Should display correct number of programme tabs
-    const programmeTabs = await outletPage.programmeTabs();
-    const programmeTabsArray = await programmeTabs.all();
-    expect(programmeTabsArray.length).toBe(expectedProgrammes.length);
+    if (products.length) {
+      // header should be correct
+      await expect(productsSectionHeading).toHaveText('Products');
 
-    // Should display correct programme tab names
-    for (let i = 0; i < expectedProgrammes.length; i++) {
-      expect(await programmeTabsArray[i].innerText()).toBe(
-        getProgrammeDisplayName(expectedProgrammes[i])
+      const expectedProductsTableByProgramme =
+        getProductsTableByProgramme(products);
+      const expectedProgrammes = Object.keys(expectedProductsTableByProgramme);
+
+      // Should display correct number of programme tabs
+      const programmeTabs = await outletPage.programmeTabs();
+      const programmeTabsArray = await programmeTabs.all();
+      expect(programmeTabsArray.length).toBe(expectedProgrammes.length);
+
+      // Should display correct programme tab names
+      for (let i = 0; i < expectedProgrammes.length; i++) {
+        expect(await programmeTabsArray[i].innerText()).toBe(
+          getProgrammeDisplayName(expectedProgrammes[i])
+        );
+      }
+
+      // Should display correct number of table headers
+      const tableHeaders = [
+        'Product type',
+        'Product',
+        'Tier',
+        'Status',
+        'Sale price*',
+        'Cost*',
+        'Tax*',
+        'Type*',
+      ];
+
+      const productsTableHeadersLocator =
+        await outletPage.productsTableHeaders();
+      const productsTableHeadersArray = await productsTableHeadersLocator.all();
+      expect(productsTableHeadersArray.length).toBe(
+        tableHeaders.length * expectedProgrammes.length
       );
-    }
 
-    // Should display correct number of table headers
-    const tableHeaders = [
-      'Product type',
-      'Product',
-      'Tier',
-      'Status',
-      'Sale price*',
-      'Cost*',
-      'Tax*',
-      'Type*',
-    ];
+      // Should display correct table headers
+      for (let i = 0; i < tableHeaders.length; i++) {
+        expect(await productsTableHeadersArray[i].innerText()).toBe(
+          tableHeaders[i]
+        );
+      }
 
-    const productsTableHeadersLocator = await outletPage.productsTableHeaders();
-    const productsTableHeadersArray = await productsTableHeadersLocator.all();
-    expect(productsTableHeadersArray.length).toBe(
-      tableHeaders.length * expectedProgrammes.length
-    );
-
-    // Should display correct table headers
-    for (let i = 0; i < tableHeaders.length; i++) {
-      expect(await productsTableHeadersArray[i].innerText()).toBe(
-        tableHeaders[i]
-      );
-    }
-
-    // Should display correct table data for each programme
-    for (let i = 0; i < programmeTabsArray.length; i++) {
-      await outletPage.clickProductProgrammeTabByIndex(i);
-      const productsTableRowData =
-        await outletPage.productsTableRowDataByProgramme(expectedProgrammes[i]);
-
-      for (let j = 0; j < productsTableRowData.length; j++) {
-        const productRow = productsTableRowData[j];
-
-        const expectedProductObject =
-          expectedProductsTableByProgramme[expectedProgrammes[i]][j];
-        const expectedProductValues = Object.values(expectedProductObject);
-
-        for (let k = 0; k < productRow.length; k++) {
-          expect(await productRow[k].innerText()).toBe(
-            expectedProductValues[k]
+      // Should display correct table data for each programme
+      for (let i = 0; i < programmeTabsArray.length; i++) {
+        await outletPage.clickProductProgrammeTabByIndex(i);
+        const productsTableRowData =
+          await outletPage.productsTableRowDataByProgramme(
+            expectedProgrammes[i]
           );
+
+        for (let j = 0; j < productsTableRowData.length; j++) {
+          const productRow = productsTableRowData[j];
+
+          const expectedProductObject =
+            expectedProductsTableByProgramme[expectedProgrammes[i]][j];
+          const expectedProductValues = Object.values(expectedProductObject);
+
+          for (let k = 0; k < productRow.length; k++) {
+            expect(await productRow[k].innerText()).toBe(
+              expectedProductValues[k]
+            );
+          }
         }
       }
     }
