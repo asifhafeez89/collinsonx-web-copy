@@ -72,9 +72,15 @@ export default function ConfirmPayment() {
   } = usePayload();
 
   const pageName = PAGENAMES.BOOKING_CONFIRMED;
+  const Mode = getItem(BOKING_MODE_STATE);
 
   useEffect(() => {
-    logAction(pageName, ANALYTICS_TAGS.ON_PAGE_ENTER_CONFIRMED);
+    logAction(
+      pageName,
+      Mode === BOOKING_MODE.EDIT
+        ? ANALYTICS_TAGS.ON_PAGE_ENTER_CONFIRMED_AMEND
+        : ANALYTICS_TAGS.ON_PAGE_ENTER_CONFIRMED
+    );
   }, []);
 
   const handleClickBack: MouseEventHandler<HTMLAnchorElement> = useCallback(
@@ -88,7 +94,7 @@ export default function ConfirmPayment() {
     },
     [referrerUrl]
   );
-  const Mode = getItem(BOKING_MODE_STATE);
+
   const { getBooking } = useContext(BookingContext);
   const { getFlight } = useContext(FlightContext);
 
@@ -164,7 +170,6 @@ export default function ConfirmPayment() {
       onCompleted: (data) => {
         const { getBookingByID } = data;
         setTimer(timer + 1);
-
         if (
           (getBookingByID === null && timer > 30) ||
           getBookingByID.status === BookingStatus.Declined
@@ -368,7 +373,9 @@ export default function ConfirmPayment() {
                         membershipType={payload?.membershipType}
                         platform={platform}
                         analyticsTag={
-                          ANALYTICS_TAGS.ON_PAGE_CONFIRMED_BTN_DOWNLOAD
+                          Mode === BOOKING_MODE.EDIT
+                            ? ANALYTICS_TAGS.ON_CONFIRMED_BTN_DOWNLOAD_AMEND
+                            : ANALYTICS_TAGS.ON_PAGE_CONFIRMED_BTN_DOWNLOAD
                         }
                         currentPrice={currentPrice}
                         mode={Mode as BOOKING_MODE}

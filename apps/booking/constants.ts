@@ -120,6 +120,9 @@ export enum ANALYTICS_TAGS {
   ON_CONFIRM_AMEND_SAVE = 'CK_BTN_Sv_Chng_Amnd',
   ON_REFUND_AMENDMENT_ENTER = 'On_PG_Amnd_Cfnd_Rfnd',
   ON_REFUND_FAILED_AMEND = 'CK_BTN__Amnd_Cfnd_Rfnd_Err',
+  ON_PAGE_ENTER_CONFIRMED_AMEND = 'On_PG_Amnd_Cfnd',
+  ON_CONFIRMED_BTN_DOWNLOAD_AMEND = 'CK_BTN__Amnd_Cfnd',
+  ON_CONFIRMED_BTN_DECLINE = 'On_PG_Amnd_Dclnd',
 }
 
 export const PAGENAMES = {

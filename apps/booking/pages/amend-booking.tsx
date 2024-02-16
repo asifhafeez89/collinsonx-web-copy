@@ -68,7 +68,7 @@ const AmendBooking = () => {
     }
 
     setItem(BOKING_MODE_STATE, BOOKING_MODE.EDIT);
-  }, []);
+  }, [bookingDetails]);
 
   return (
     <>
