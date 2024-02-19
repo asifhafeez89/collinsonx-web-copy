@@ -45,7 +45,13 @@ var mockTranslation = {
     },
   },
 };
+const mockPayload = {
+  locale: 'en',
+  loungeCode: 'BHD1',
+  jwt: '',
+};
 jest.mock('hooks/useLocale', () => jest.fn(() => mockTranslation));
+jest.mock('hooks/payload', () => jest.fn(() => mockPayload));
 
 describe('<FlightDetailsAndGuests/>', () => {
   it('render', () => {

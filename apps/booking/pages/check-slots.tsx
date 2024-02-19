@@ -505,6 +505,7 @@ export default function CheckAvailability() {
                         lounge={lounge}
                         currentPrice={booking.currentPrice}
                         mode={Booking_Mode as BOOKING_MODE}
+                        bookingId={booking.bookingId}
                       />
                       <EditableTitle
                         title={translations.booking.availableSlots.title}

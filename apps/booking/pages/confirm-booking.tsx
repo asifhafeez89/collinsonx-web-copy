@@ -153,6 +153,7 @@ export default function ConfirmBooking() {
                         lounge={lounge}
                         mode={Mode as BOOKING_MODE}
                         currentPrice={currentPrice}
+                        bookingId={bookingId}
                       />
                       <EditableTitle
                         title={translations.booking.availableSlots.title}

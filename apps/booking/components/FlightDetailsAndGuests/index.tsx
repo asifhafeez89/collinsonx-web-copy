@@ -10,6 +10,7 @@ import useLocale from 'hooks/useLocale';
 
 import classes from './FlightDetailsAndGuests.module.css';
 import { BOOKING_MODE } from '../../constants';
+import usePayload from 'hooks/payload';
 
 interface FlightDetailsAndGuestsProps {
   departureTime?: string;
@@ -24,6 +25,7 @@ interface FlightDetailsAndGuestsProps {
   currentPrice?: number;
   mode?: BOOKING_MODE;
   confirmationDisplay?: boolean;
+  bookingId?: string;
 }
 
 export const FlightDetailsAndGuests = ({
@@ -35,14 +37,36 @@ export const FlightDetailsAndGuests = ({
   currentPrice,
   mode,
   confirmationDisplay = false,
+  bookingId,
 }: FlightDetailsAndGuestsProps) => {
   const translations = useLocale();
 
+  const { locale, loungeCode, jwt } = usePayload();
+
+  const handleEdit = () => {
+    let url = '';
+    if (noEdit) {
+      return null;
+    }
+    if (mode === BOOKING_MODE.EDIT) {
+      const amendBookingUrl = new URL(
+        process.env.NEXT_PUBLIC_PRIORITY_PASS_ENDPOINT + '/amend-booking'
+      );
+      amendBookingUrl.searchParams.set('loungeCode', loungeCode!);
+      amendBookingUrl.searchParams.set('bookingId', bookingId || '');
+      amendBookingUrl.searchParams.set('linkAccountToken', jwt!);
+      amendBookingUrl.searchParams.set('ln', locale);
+      url = amendBookingUrl.toString();
+    } else {
+      url = '/';
+    }
+    return url;
+  };
   return (
     <>
       <EditableTitle
         title={translations.booking.flightDetails.title}
-        to={noEdit ? null : '/'}
+        to={handleEdit()}
         as="h2"
       >
         {departureTime && (
