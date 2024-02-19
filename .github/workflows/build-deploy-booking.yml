@@ -62,7 +62,7 @@ jobs:
           done
 
           echo "${{ secrets.ENV_TESTS_FILE_BOOKING }}" > .env.tests
-          pnpm e2e:ci-booking
+          pnpm e2e:uat-booking
 
       - name: Upload test results
         if: failure()

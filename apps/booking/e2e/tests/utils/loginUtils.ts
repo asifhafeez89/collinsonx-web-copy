@@ -48,7 +48,7 @@ export async function loginUser(
 
 export async function createAndLoginUser(page: Page) {
   const payload = generateNewUser();
-  const id = getIdFromEmail(payload.email || '');
+  const id = getIdFromEmail(<string>payload.email);
   await loginUser(page, id, payload.membershipNumber, payload.externalId);
 
   return payload;

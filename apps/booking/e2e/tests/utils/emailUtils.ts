@@ -5,6 +5,7 @@ import {
 } from 'mailinator-client';
 import { mailinatorAddress } from '../config';
 import axios from 'axios';
+import { chromium } from '@playwright/test';
 
 /**
  * Retrieves a PIN from an email using the Mailinator API. This function polls the Mailinator inbox up
@@ -18,7 +19,7 @@ import axios from 'axios';
  * @example
  * const pin = await getPinFromEmail('username@mailinator.com');
  */
-export function getIdFromEmail(email: string) {
+export function getIdFromEmail(email: string): string {
   return email.split('@')[0];
 }
 
@@ -77,7 +78,7 @@ export async function getPinFromEmail(email: string) {
   }
 }
 
-export async function getLinkFromEmail(email: string) {
+export async function getLinksFromEmail(email: string) {
   const username = email.split('@')[0];
 
   const mailinatorClient = new MailinatorClient(
@@ -125,15 +126,29 @@ export async function getLinkFromEmail(email: string) {
       headers: { Authorization: process.env.MAILINATOR_API_TOKEN },
     });
 
-    // find cancel-booking link
     const links = res.data.links;
-    const pattern = 'cancel-booking';
-    const linkToCancel = links.filter((name: string) =>
-      name.includes(pattern)
-    )[0];
 
-    return linkToCancel;
+    return links;
   } catch (err) {
     throw err;
   }
+}
+
+export async function getLink(email: string, pattern: string): Promise<string> {
+  const links = await getLinksFromEmail(email);
+
+  const browser = await chromium.launch();
+
+  for (let i = 0; i < links.length; i += 1) {
+    const page = await browser.newPage();
+    await page.goto(links[i]);
+
+    const url = await page.url();
+
+    if (url.includes(pattern)) {
+      return url;
+    }
+    page.close();
+  }
+  return '';
 }

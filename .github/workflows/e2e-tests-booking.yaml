@@ -56,7 +56,7 @@ jobs:
         run: |
           apt-get update -y
           apt-get install sudo -y
-          sudo echo "127.0.0.1 booking-local.test.cergea.com" | sudo tee -a /etc/hosts
+          sudo echo "127.0.0.1 booking-local.uat.cergea.com" | sudo tee -a /etc/hosts
 
       - name: Booking webapp SSL cert creation (required by cors)
         run: |
@@ -65,7 +65,7 @@ jobs:
           mv mkcert-v1.4.3-linux-amd64 /usr/bin/mkcert
           chmod +x /usr/bin/mkcert
           cd apps/booking
-          mkcert -key-file booking-local.test.cergea.com-key.pem -cert-file booking-local.test.cergea.com.pem booking-local.test.cergea.com
+          mkcert -key-file booking-local.uat.cergea.com-key.pem -cert-file booking-local.uat.cergea.com.pem booking-local.uat.cergea.com
           echo "${{ secrets.ENV_TESTS_FILE_BOOKING }}" > .env.local
 
       - name: Run Booking webapp tests
@@ -76,7 +76,7 @@ jobs:
           pnpm run build --filter booking
           pnpm add --global pm2
           cd apps/booking
-          pm2 --name dev-server --interpreter bash start pnpm -- dev:test
+          pm2 --name dev-server --interpreter bash start pnpm -- dev:uat
 
           attempt_counter=0
           max_attempts=5
@@ -93,7 +93,7 @@ jobs:
           done
 
           echo "${{ secrets.ENV_TESTS_FILE_BOOKING }}" > .env.tests
-          pnpm e2e:ci-booking-local
+          pnpm e2e:uat-booking-local
 
       - name: Archive npm failure logs
         uses: actions/upload-artifact@v2

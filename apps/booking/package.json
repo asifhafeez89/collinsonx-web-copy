@@ -19,7 +19,9 @@
     "e2e:test-booking": "cross-env ENV=TEST playwright test --config=./e2e/tests/ --project=booking --headed",
     "e2e:test-booking-safari": "cross-env ENV=TEST playwright test --config=./e2e/tests/ --project=booking-safari --headed",
     "e2e:test-booking-mobile-safari": "cross-env ENV=TEST playwright test --config=./e2e/tests/ --project=booking-mobile-safari --headed",
-    "e2e:uat-booking": "cross-env ENV=UAT playwright test --config=./e2e/tests/ --project=booking --headed",
+    "e2e:uat-booking": "DEPLOYED=true cross-env ENV=UAT playwright test --config=./e2e/tests/ --project=booking",
+    "e2e:uat-booking-local": "cross-env ENV=UAT playwright test --config=./e2e/tests/ --project=booking",
+    "e2e:uat-booking-headed": "cross-env ENV=UAT playwright test --config=./e2e/tests/ --project=booking --headed",
     "translations:generate:xlsx": "ts-node lib/translations.ts --file=xlsx",
     "translations:generate:json": "ts-node lib/translations.ts --file=json && prettier locales --write"
   },

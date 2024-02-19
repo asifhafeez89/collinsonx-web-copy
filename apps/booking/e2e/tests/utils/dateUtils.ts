@@ -32,3 +32,38 @@ export function getOneMonthFromToday() {
 
   return { Date: nextMonth, String: formattedDate };
 }
+
+export function getTomorrow() {
+  // Get today's date
+  var today = new Date();
+
+  // Add 1 day to the current date
+  var nextDay = new Date(today);
+  nextDay.setDate(today.getDate() + 1);
+
+  // Define months and their names
+  const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
+  // Get day, month, and year
+  var day = nextDay.getDate();
+  var monthIndex = nextDay.getMonth();
+  var year = nextDay.getFullYear();
+
+  // Format the date string
+  var formattedDate = day + ' ' + months[monthIndex] + ' ' + year;
+
+  return { Date: nextDay, String: formattedDate };
+}

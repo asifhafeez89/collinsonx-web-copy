@@ -15,11 +15,11 @@ export interface BridgePayload extends JWTPayload {
   membershipType?: Client;
 }
 
-export function generateIdWithPrefix() {
+export function generateIdWithPrefix(): string {
   return 'e2e-' + (process.env.ENV || 'test').toLowerCase() + '-' + uuidv4();
 }
 
-export function generateEmailAddress(id: string) {
+export function generateEmailAddress(id: string): string {
   return `${id}@${mailinatorAddress}`;
 }
 

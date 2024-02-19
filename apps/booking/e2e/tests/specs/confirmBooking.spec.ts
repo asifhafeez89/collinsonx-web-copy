@@ -8,8 +8,8 @@ import ConfirmBookingPage from '../pages/ConfirmBookingPage';
 import StripePaymentPage from '../pages/StripePaymentPage';
 import CancelBookingPage from '../pages/CancelBookingPage';
 import CancelledBookingConfirmationPage from '../pages/CancelledBookingConfirmationPage';
-import { createAndLoginUser, getAndEnterPin } from '../utils/loginUtils';
-import { getLinkFromEmail } from '../utils/emailUtils';
+import { loginUser, getAndEnterPin } from '../utils/loginUtils';
+import { getIdFromEmail, getLink } from '../utils/emailUtils';
 import {
   slotsGQLResponse,
   bookingGQLResponse,
@@ -18,7 +18,7 @@ import {
   paymentIntentResponse,
   paymentConfirmResponse,
 } from '../utils/mockUtils';
-import { generateEmailAddress, generateIdWithPrefix } from '../utils/mockData';
+import { generateNewUser } from '../utils/mockData';
 
 async function fillStripeIframe(
   stripePaymentPage: StripePaymentPage,
@@ -35,8 +35,10 @@ async function fillStripeIframe(
   await stripePaymentPage.inputAddressPostalCode('KT1 1HL');
 }
 
-const id = generateIdWithPrefix();
-const email = generateEmailAddress(id);
+const payload = generateNewUser();
+const email = <string>payload.email;
+const id = getIdFromEmail(email);
+
 bookingGQLResponse.getBookingByID.consumer.emailAddress = email;
 
 test.beforeEach(async ({ page }) => {
@@ -61,7 +63,7 @@ test.describe('Confirm booking flow', () => {
       const flightNumber = 'BA1417';
 
       // Act
-      await createAndLoginUser(page);
+      await loginUser(page, id, payload.membershipNumber, payload.externalId);
       await registrationPage.clickLogin();
 
       const oneMonthFromNow = getOneMonthFromToday();
@@ -90,6 +92,7 @@ test.describe('Confirm booking flow', () => {
       await expect(whosComing).toBeVisible();
 
       // Go to payment
+      await page.waitForTimeout(10000);
       await confirmBookingPage.clickGoToPayment();
 
       // fill Stripe iframe inputs
@@ -123,7 +126,8 @@ test.describe('Confirm booking flow', () => {
       if (!process.env.GITHUB_ACTIONS) {
         // Wait for payment confirmation message and then get cancellation link from email
         await page.waitForTimeout(10000);
-        const linkToCancel = await getLinkFromEmail(email);
+
+        const linkToCancel = await getLink(email, 'cancel-booking');
 
         expect(linkToCancel).toContain('cancel-booking');
 
