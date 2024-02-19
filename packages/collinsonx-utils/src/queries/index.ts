@@ -7,4 +7,6 @@ export { default as getFlightDetails } from './getFlightDetails';
 export { default as getPartnerByID } from './getPartnerByID';
 export { default as getConsumerByID } from './getConsumerByID';
 export { default as getPartnerBrands } from './getPartnerBrands';
+export { default as getPartnerBrandsCount } from './getPartnerBrandsCount';
 export { default as getOutlets } from './getOutlets';
+export { default as getOutletsCount } from './getOutletsCount';

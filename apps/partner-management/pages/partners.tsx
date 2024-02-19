@@ -5,7 +5,7 @@ import { useQuery } from '@collinsonx/utils/apollo';
 import Error from '@components/Error';
 import { useRouter } from 'next/router';
 import { getPartnerBrands } from '@collinsonx/utils/queries';
-import { PartnerBrand } from '@collinsonx/utils';
+import { Maybe, PartnerBrand, PartnerBrands } from '@collinsonx/utils';
 import colors from '@collinsonx/design-system/colour-constants-partner';
 import { CARDS_LIMIT } from 'config';
 import Table from '@components/PartnersTable';
@@ -22,17 +22,21 @@ import PageTitle from '@components/PageTitle';
 
 const columnHelper = createColumnHelper<Partial<PartnerBrand>>();
 
+const isPartner = (partner: Maybe<PartnerBrand>): partner is PartnerBrand =>
+  partner !== null;
+
 export default function Partners() {
   const router = useRouter();
   const {
     loading: loadingPartners,
     error: errorPartners,
     data: dataPartners,
-  } = useQuery<{ getPartnerBrands: PartnerBrand[] }>(getPartnerBrands, {
+  } = useQuery<{ getPartnerBrands: PartnerBrands }>(getPartnerBrands, {
     variables: { limit: CARDS_LIMIT },
   });
 
-  const partnersCount = dataPartners?.getPartnerBrands.length || 0;
+  const partnersCount = dataPartners?.getPartnerBrands.totalItemCount || 0;
+  const partners = dataPartners?.getPartnerBrands.items || [];
 
   const columns = useMemo(() => {
     const columns: ColumnDef<Partial<PartnerBrand>, any>[] = [
@@ -75,8 +79,13 @@ export default function Partners() {
     return columns;
   }, [router]);
 
+  const filteredPartners = useMemo(
+    () => partners.filter(isPartner),
+    [partners]
+  );
+
   const table = useReactTable<Partial<PartnerBrand>>({
-    data: dataPartners?.getPartnerBrands || [],
+    data: filteredPartners,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });

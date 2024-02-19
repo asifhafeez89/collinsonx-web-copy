@@ -1,8 +1,8 @@
-import { Text, Button, Flex, Box } from '@collinsonx/design-system/core';
+import { Text, Button, Flex } from '@collinsonx/design-system/core';
 import OverviewCard from '@collinsonx/design-system/components/overviewCard';
 import OverviewMetric from '@collinsonx/design-system/components/overviewMetric';
 import { useQuery } from '@collinsonx/utils/apollo';
-import { PartnerBrand } from '@collinsonx/utils';
+import { PartnerBrands, PaginatedOutlets } from '@collinsonx/utils';
 import getOutletsCount from '@collinsonx/utils/queries/getOutletsCount';
 import getPartnerBrandsCount from '@collinsonx/utils/queries/getPartnerBrandsCount';
 
@@ -10,18 +10,13 @@ import Error from '@components/Error';
 
 import { useState } from 'react';
 import Link from 'next/link';
-import {
-  attemptRefreshingSession,
-  useSessionContext,
-} from 'supertokens-auth-react/recipe/session';
+import { attemptRefreshingSession } from 'supertokens-auth-react/recipe/session';
 import PageTitle from '@components/PageTitle';
 import { CatalogueIcon } from '@collinsonx/design-system/assets/icons';
 import classes from './OverviewDashboard.module.css';
 import Section from '@components/Section';
 
 export default function OverviewDashboard() {
-  const session: any = useSessionContext();
-
   const [lastUpdate, setLastUpdate] = useState<String>();
 
   const {
@@ -29,7 +24,7 @@ export default function OverviewDashboard() {
     data: dataOutlets,
     error: errorOutlets,
   } = useQuery<{
-    getOutlets: any;
+    getOutlets: PaginatedOutlets;
   }>(getOutletsCount, {
     pollInterval: 300000,
     fetchPolicy: 'network-only',
@@ -47,11 +42,8 @@ export default function OverviewDashboard() {
     data: dataPartnerBrands,
     error: errorPartnerBrands,
   } = useQuery<{
-    getPartnerBrands: PartnerBrand[];
+    getPartnerBrands: PartnerBrands;
   }>(getPartnerBrandsCount, {
-    variables: {
-      limit: 3000,
-    },
     pollInterval: 300000,
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
@@ -92,7 +84,7 @@ export default function OverviewDashboard() {
           <OverviewMetric
             loading={loadingPartnerBrands}
             label="Partners"
-            value={dataPartnerBrands?.getPartnerBrands?.length || 0}
+            value={dataPartnerBrands?.getPartnerBrands?.totalItemCount || 0}
             data-testid="partnersRequestsCount"
           >
             <Button

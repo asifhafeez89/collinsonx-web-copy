@@ -3,11 +3,14 @@ import { gql } from '../apollo';
 const getPartnerBrands = gql`
   query GetPartnerBrands($limit: Int) {
     getPartnerBrands(limit: $limit) {
-      id
-      name
-      outlets {
+      items {
         id
+        name
+        outlets {
+          id
+        }
       }
+      totalItemCount
     }
   }
 `;

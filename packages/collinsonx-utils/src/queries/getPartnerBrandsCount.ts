@@ -1,11 +1,11 @@
 import { gql } from '../apollo';
 
-const getPartnerBrands = gql`
-  query GetPartnerBrandsCount($limit: Int) {
-    getPartnerBrands(limit: $limit) {
-      id
+const getPartnerBrandsCount = gql`
+  query GetPartnerBrandsCount {
+    getPartnerBrands {
+      totalItemCount
     }
   }
 `;
 
-export default getPartnerBrands;
+export default getPartnerBrandsCount;

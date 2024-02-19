@@ -18,10 +18,12 @@ export default class CatalogueApi {
   async getPartnerBrands(limit: number) {
     const query = `query GetPartnerBrands($limit: Int) {
       getPartnerBrands(limit: $limit) {
-        id
-        name
-        outlets {
+        items {
           id
+          name
+          outlets {
+            id
+          }
         }
       }
     }`;
@@ -39,7 +41,7 @@ export default class CatalogueApi {
 
     const response = await axios.post(apiURL, request, { headers });
 
-    return response.data.data.getPartnerBrands;
+    return response.data.data.getPartnerBrands.items;
   }
 
   async getPartnerBrandByID(id: string) {

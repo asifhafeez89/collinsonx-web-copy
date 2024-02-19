@@ -168,6 +168,25 @@ export type AncillaryProduct = {
   tier?: Maybe<Scalars['String']['output']>;
 };
 
+export type AncillaryProductInput = {
+  /** A list of costs for the product by programme */
+  costs: Array<InputMaybe<ProductCostInput>>;
+  /** The product name generated from the accessType */
+  name: Scalars['String']['input'];
+  /** The Outlet ID of the product */
+  outlet: OutletKey;
+  /** The Stripe ID of the product */
+  ppStripeID?: InputMaybe<Scalars['String']['input']>;
+  /** A list of sale prices for the product by programme */
+  salePrices: Array<InputMaybe<ProductSalePriceInput>>;
+  /** The relevant Salesforce ID of the product */
+  salesforceID: Scalars['String']['input'];
+  /** The status of the product */
+  status: Status;
+  /** The product tier for example Gold or Black */
+  tier?: InputMaybe<Tier>;
+};
+
 export type Arrival = {
   __typename?: 'Arrival';
   airport?: Maybe<Scalars['String']['output']>;
@@ -451,6 +470,7 @@ export type BookingInput = {
   invoice?: InputMaybe<Scalars['String']['input']>;
   lastArrival?: InputMaybe<Scalars['Date']['input']>;
   metadata?: InputMaybe<Scalars['JSONObject']['input']>;
+  pdfVersion: Scalars['String']['input'];
   stripePaymentID?: InputMaybe<Scalars['String']['input']>;
   type: BookingType;
 };
@@ -668,6 +688,7 @@ export enum ConditionsOrder {
 export type Consumer = {
   __typename?: 'Consumer';
   bookings: Array<Booking>;
+  countryOfResidence?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['Date']['output'];
   /** In salesforce we have a record of our consumer to manage their lifecycle and manage marketing */
   crmId?: Maybe<Scalars['String']['output']>;
@@ -688,6 +709,7 @@ export type Consumer = {
 };
 
 export type ConsumerInput = {
+  countryOfResidence?: InputMaybe<Scalars['String']['input']>;
   dateOfBirth?: InputMaybe<Scalars['Date']['input']>;
   emailAddress: Scalars['String']['input'];
   firstName?: InputMaybe<Scalars['String']['input']>;
@@ -778,9 +800,9 @@ export type Entitlement = {
   expiryDate: Scalars['Date']['output'];
   id: Scalars['ID']['output'];
   issueDate: Scalars['Date']['output'];
-  redeemableProducts: Array<Maybe<EntitlementProductType>>;
+  redeemableTags: Array<Maybe<Tag>>;
   redeemed: Scalars['Boolean']['output'];
-  redeemedProduct?: Maybe<EntitlementProductType>;
+  redeemedProduct?: Maybe<Scalars['String']['output']>;
   redemptionDate?: Maybe<Scalars['Date']['output']>;
   updatedAt: Scalars['Date']['output'];
 };
@@ -790,15 +812,11 @@ export type EntitlementInput = {
   expiryDate: Scalars['Date']['input'];
   externalID: Scalars['String']['input'];
   issueDate?: InputMaybe<Scalars['Date']['input']>;
-  redeemableProducts: Array<InputMaybe<EntitlementProductType>>;
+  redeemableTags: Array<InputMaybe<TagInput>>;
   redeemed?: InputMaybe<Scalars['Boolean']['input']>;
-  redeemedProduct?: InputMaybe<EntitlementProductType>;
+  redeemedProduct?: InputMaybe<Scalars['String']['input']>;
   redemptionDate?: InputMaybe<Scalars['Date']['input']>;
 };
-
-export enum EntitlementProductType {
-  Lounge = 'LOUNGE',
-}
 
 export type Entry = {
   contentfulMetadata: ContentfulMetadata;
@@ -1335,9 +1353,9 @@ export type Geoloc = {
 export type GetEntitlementsFilter = {
   consumerID?: InputMaybe<Scalars['String']['input']>;
   expired?: InputMaybe<Scalars['Boolean']['input']>;
-  redeemableProducts?: InputMaybe<EntitlementProductType>;
   redeemed?: InputMaybe<Scalars['Boolean']['input']>;
-  redeemedProduct?: InputMaybe<EntitlementProductType>;
+  redeemedProduct?: InputMaybe<Scalars['String']['input']>;
+  tags?: InputMaybe<TagInput>;
 };
 
 export type Guests = {
@@ -2126,6 +2144,7 @@ export type Mutation = {
   confirmAmendment?: Maybe<Amendment>;
   confirmBooking?: Maybe<Booking>;
   createAffiliateProduct?: Maybe<AffiliateProduct>;
+  createAncillaryProduct?: Maybe<AncillaryProduct>;
   createBooking?: Maybe<Booking>;
   createEntitlement?: Maybe<Entitlement>;
   createInvitation?: Maybe<Invitation>;
@@ -2199,6 +2218,10 @@ export type MutationConfirmBookingArgs = {
 
 export type MutationCreateAffiliateProductArgs = {
   productInput?: InputMaybe<AffiliateProductInput>;
+};
+
+export type MutationCreateAncillaryProductArgs = {
+  productInput?: InputMaybe<AncillaryProductInput>;
 };
 
 export type MutationCreateBookingArgs = {
@@ -2285,7 +2308,7 @@ export type MutationPayForBookingArgs = {
 
 export type MutationRedeemEntitlementArgs = {
   id: Scalars['ID']['input'];
-  redeemedProduct: EntitlementProductType;
+  redeemedProduct: Scalars['String']['input'];
 };
 
 export type MutationUnlinkExperienceArgs = {
@@ -2625,7 +2648,6 @@ export type Partner = {
 
 export type PartnerBrand = {
   __typename?: 'PartnerBrand';
-  content?: Maybe<PartnerBrandContent>;
   id: Scalars['ID']['output'];
   /** The name of the partner brand */
   name: Scalars['String']['output'];
@@ -2719,6 +2741,12 @@ export type PartnerBrandKey = {
   id: Scalars['ID']['input'];
 };
 
+export type PartnerBrands = {
+  __typename?: 'PartnerBrands';
+  items?: Maybe<Array<Maybe<PartnerBrand>>>;
+  totalItemCount?: Maybe<Scalars['Int']['output']>;
+};
+
 export type PartnerInput = {
   emailAddress: Scalars['String']['input'];
   firstName?: InputMaybe<Scalars['String']['input']>;
@@ -2740,7 +2768,6 @@ export enum PaymentOption {
   Charge = 'Charge',
   NoPaymentRequired = 'NoPaymentRequired',
   Refund = 'Refund',
-  RefundFailed = 'failed',
 }
 
 export enum PrimaryProductAccessType {
@@ -2915,6 +2942,7 @@ export enum ProductType {
 export enum Programme {
   Lk = 'LK',
   Lp = 'LP',
+  Mcae = 'MCAE',
   Pp = 'PP',
 }
 
@@ -2928,6 +2956,7 @@ export type Query = {
   entryCollection?: Maybe<EntryCollection>;
   facilities?: Maybe<Facilities>;
   facilitiesCollection?: Maybe<FacilitiesCollection>;
+  getAffiliateProducts?: Maybe<Array<Maybe<AffiliateProduct>>>;
   getAvailableSlots: Availability;
   getBookingByID?: Maybe<Booking>;
   getBookings: Array<Booking>;
@@ -2936,6 +2965,7 @@ export type Query = {
   getConsumerByID?: Maybe<Consumer>;
   getEntitlement?: Maybe<Entitlement>;
   getEntitlements: Array<Entitlement>;
+  getEntitlementsForProduct: Array<Entitlement>;
   getExperienceByID?: Maybe<Experience>;
   getFlightDetails: Array<FlightDetails>;
   getFlightDetailsHealthCheck: Array<FlightDetails>;
@@ -2950,7 +2980,7 @@ export type Query = {
   getPartner?: Maybe<Partner>;
   getPartnerBrandByID?: Maybe<PartnerBrand>;
   getPartnerBrandBySalesforceID?: Maybe<PartnerBrand>;
-  getPartnerBrands?: Maybe<Array<Maybe<PartnerBrand>>>;
+  getPartnerBrands?: Maybe<PartnerBrands>;
   getPartnerByEmailAddress?: Maybe<Partner>;
   getPartnerByID?: Maybe<Partner>;
   getProductByID?: Maybe<Product>;
@@ -3055,6 +3085,11 @@ export type QueryGetEntitlementArgs = {
 
 export type QueryGetEntitlementsArgs = {
   filter?: InputMaybe<GetEntitlementsFilter>;
+};
+
+export type QueryGetEntitlementsForProductArgs = {
+  consumerId?: InputMaybe<Scalars['ID']['input']>;
+  productId: Scalars['ID']['input'];
 };
 
 export type QueryGetExperienceByIdArgs = {
@@ -3318,6 +3353,19 @@ export type SysFilter = {
   >;
 };
 
+export type Tag = {
+  __typename?: 'Tag';
+  accessType?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  category?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  tier?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+};
+
+export type TagInput = {
+  accessType?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  category?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  tier?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
 export enum Tier {
   Black = 'BLACK',
   Gold = 'GOLD',
@@ -3573,8 +3621,8 @@ export type ConfirmAmendmentMutation = {
     price: number;
     status: AmendmentStatus;
     paymentOption: PaymentOption;
-    refundStatus: string;
-    refundedAt: Date;
+    refundStatus?: string | null;
+    refundedAt?: any | null;
   } | null;
 };
 
@@ -4284,24 +4332,27 @@ export type GetPartnerBrandsQueryVariables = Exact<{
 
 export type GetPartnerBrandsQuery = {
   __typename?: 'Query';
-  getPartnerBrands?: Array<{
-    __typename?: 'PartnerBrand';
-    id: string;
-    name: string;
-    outlets: Array<{ __typename?: 'Outlet'; id: string } | null>;
-  } | null> | null;
+  getPartnerBrands?: {
+    __typename?: 'PartnerBrands';
+    items?: Array<{
+      __typename?: 'PartnerBrand';
+      id: string;
+      name: string;
+      outlets: Array<{ __typename?: 'Outlet'; id: string } | null>;
+    } | null> | null;
+  } | null;
 };
 
 export type GetPartnerBrandsCountQueryVariables = Exact<{
-  limit?: InputMaybe<Scalars['Int']['input']>;
+  [key: string]: never;
 }>;
 
 export type GetPartnerBrandsCountQuery = {
   __typename?: 'Query';
-  getPartnerBrands?: Array<{
-    __typename?: 'PartnerBrand';
-    id: string;
-  } | null> | null;
+  getPartnerBrands?: {
+    __typename?: 'PartnerBrands';
+    totalItemCount?: number | null;
+  } | null;
 };
 
 export type GetPartnerByIdQueryVariables = Exact<{
@@ -4509,6 +4560,11 @@ export const ConfirmAmendmentDocument = {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'paymentOption' },
                 },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'refundStatus' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'refundedAt' } },
               ],
             },
           },
@@ -7177,15 +7233,27 @@ export const GetPartnerBrandsDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'outlets' },
+                  name: { kind: 'Name', value: 'items' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'outlets' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
                     ],
                   },
                 },
@@ -7207,36 +7275,19 @@ export const GetPartnerBrandsCountDocument = {
       kind: 'OperationDefinition',
       operation: 'query',
       name: { kind: 'Name', value: 'GetPartnerBrandsCount' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'limit' },
-          },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
-        },
-      ],
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'getPartnerBrands' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'limit' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'limit' },
-                },
-              },
-            ],
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'totalItemCount' },
+                },
               ],
             },
           },

@@ -48,7 +48,6 @@ test.describe('partners page', () => {
 
   test('partners display the correct outlet count', async ({ page }) => {
     const dashboardPage = new PartnerPortalDashboardPage(page);
-    const partnersPage = new PartnersPage(page);
     const catalogueApi = new CatalogueApi();
 
     await dashboardPage.clickViewAllPartnersButton();

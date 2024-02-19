@@ -15,7 +15,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 const documents = {
   '\n  mutation AcceptInvitation($acceptInvitationInput: AcceptInvitationInput!) {\n    acceptInvitation(acceptInvitationInput: $acceptInvitationInput) {\n      createdAt\n      experience {\n        id\n      }\n      expiresAt\n      inviteeEmail\n      updatedAt\n      id\n    }\n  }\n':
     types.AcceptInvitationDocument,
-  '\n  mutation confirmAmendment($amendmentInput: AmendmentInput) {\n    confirmAmendment(amendmentInput: $amendmentInput) {\n      id\n      price\n      status\n      paymentOption\n    }\n  }\n':
+  '\n  mutation confirmAmendment($amendmentInput: AmendmentInput) {\n    confirmAmendment(amendmentInput: $amendmentInput) {\n      id\n      price\n      status\n      paymentOption\n      refundStatus\n      refundedAt\n    }\n  }\n':
     types.ConfirmAmendmentDocument,
   '\n  mutation cancelBooking($cancelBookingId: ID!) {\n    cancelBooking(id: $cancelBookingId) {\n      bookedFrom\n      bookedTo\n      consumer {\n        id\n      }\n      createdAt\n      experience {\n        id\n      }\n      id\n      status\n      updatedAt\n    }\n  }\n':
     types.CancelBookingDocument,
@@ -63,9 +63,9 @@ const documents = {
     types.GetOutletsCountDocument,
   '\n  query GetPartnerBrandByID($id: ID!) {\n    getPartnerBrandByID(id: $id) {\n      id\n      name\n      outlets {\n        id\n        category\n        name\n        legacyCode\n        status\n        location {\n          name\n          terminal\n        }\n        productCategories\n        content {\n          media {\n            mainImage {\n              url\n            }\n            mediaCollection {\n              items {\n                contentType\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n':
     types.GetPartnerBrandByIdDocument,
-  '\n  query GetPartnerBrands($limit: Int) {\n    getPartnerBrands(limit: $limit) {\n      id\n      name\n      outlets {\n        id\n      }\n    }\n  }\n':
+  '\n  query GetPartnerBrands($limit: Int) {\n    getPartnerBrands(limit: $limit) {\n      items {\n        id\n        name\n        outlets {\n          id\n        }\n      }\n    }\n  }\n':
     types.GetPartnerBrandsDocument,
-  '\n  query GetPartnerBrandsCount($limit: Int) {\n    getPartnerBrands(limit: $limit) {\n      id\n    }\n  }\n':
+  '\n  query GetPartnerBrandsCount {\n    getPartnerBrands {\n      totalItemCount\n    }\n  }\n':
     types.GetPartnerBrandsCountDocument,
   '\n  query GetPartnerByID($getPartnerById: ID!) {\n    getPartnerByID(id: $getPartnerById) {\n      experiences {\n        id\n        loungeName\n        location {\n          airportName\n          terminal\n        }\n      }\n      id\n      lastName\n      updatedAt\n      firstName\n      fullName\n      createdAt\n      emailAddress\n    }\n  }\n':
     types.GetPartnerByIdDocument,
@@ -99,8 +99,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  mutation confirmAmendment($amendmentInput: AmendmentInput) {\n    confirmAmendment(amendmentInput: $amendmentInput) {\n      id\n      price\n      status\n      paymentOption\n    }\n  }\n'
-): (typeof documents)['\n  mutation confirmAmendment($amendmentInput: AmendmentInput) {\n    confirmAmendment(amendmentInput: $amendmentInput) {\n      id\n      price\n      status\n      paymentOption\n    }\n  }\n'];
+  source: '\n  mutation confirmAmendment($amendmentInput: AmendmentInput) {\n    confirmAmendment(amendmentInput: $amendmentInput) {\n      id\n      price\n      status\n      paymentOption\n      refundStatus\n      refundedAt\n    }\n  }\n'
+): (typeof documents)['\n  mutation confirmAmendment($amendmentInput: AmendmentInput) {\n    confirmAmendment(amendmentInput: $amendmentInput) {\n      id\n      price\n      status\n      paymentOption\n      refundStatus\n      refundedAt\n    }\n  }\n'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -243,14 +243,14 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  query GetPartnerBrands($limit: Int) {\n    getPartnerBrands(limit: $limit) {\n      id\n      name\n      outlets {\n        id\n      }\n    }\n  }\n'
-): (typeof documents)['\n  query GetPartnerBrands($limit: Int) {\n    getPartnerBrands(limit: $limit) {\n      id\n      name\n      outlets {\n        id\n      }\n    }\n  }\n'];
+  source: '\n  query GetPartnerBrands($limit: Int) {\n    getPartnerBrands(limit: $limit) {\n      items {\n        id\n        name\n        outlets {\n          id\n        }\n      }\n    }\n  }\n'
+): (typeof documents)['\n  query GetPartnerBrands($limit: Int) {\n    getPartnerBrands(limit: $limit) {\n      items {\n        id\n        name\n        outlets {\n          id\n        }\n      }\n    }\n  }\n'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  query GetPartnerBrandsCount($limit: Int) {\n    getPartnerBrands(limit: $limit) {\n      id\n    }\n  }\n'
-): (typeof documents)['\n  query GetPartnerBrandsCount($limit: Int) {\n    getPartnerBrands(limit: $limit) {\n      id\n    }\n  }\n'];
+  source: '\n  query GetPartnerBrandsCount {\n    getPartnerBrands {\n      totalItemCount\n    }\n  }\n'
+): (typeof documents)['\n  query GetPartnerBrandsCount {\n    getPartnerBrands {\n      totalItemCount\n    }\n  }\n'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
