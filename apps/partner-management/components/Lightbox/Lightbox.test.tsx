@@ -4,8 +4,10 @@ import { render, setup } from '@collinsonx/design-system/test-utils';
 
 describe('<Lightbox />', () => {
   const onClose = jest.fn();
+  const onKeyDown = jest.fn();
   let props = {
     onClose,
+    onKeyDown,
     opened: true,
     title: 'foo',
     subtitle: 'description text',
@@ -31,5 +33,24 @@ describe('<Lightbox />', () => {
     const { user, ...component } = setup(<Lightbox {...props} />);
     await user.click(component.getByLabelText('Close modal'));
     expect(onClose).toHaveBeenCalledTimes(1);
+  });
+  it('should render left side element', () => {
+    const text = 'elementFoo';
+    const component = render(<Lightbox {...props} leftSide={<>{text}</>} />);
+    expect(component.getByText(text)).toBeInTheDocument();
+  });
+  it('should render right side element', () => {
+    const text = 'elementFoo';
+    const component = render(<Lightbox {...props} rightSide={<>{text}</>} />);
+    expect(component.getByText(text)).toBeInTheDocument();
+  });
+  it('should handle key down events', async () => {
+    const { user, ...component } = setup(<Lightbox {...props} />);
+    await user.keyboard('[Enter]');
+    expect(onKeyDown).toHaveBeenCalledWith(
+      expect.objectContaining({
+        key: 'Enter',
+      })
+    );
   });
 });

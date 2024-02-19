@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { KeyboardEvent, ReactNode } from 'react';
 import {
   ActionIcon,
   Box,
@@ -10,17 +10,23 @@ import {
 
 import classes from './Lightbox.module.css';
 
-interface LightboxProps {
+export interface LightboxProps {
   children: ReactNode;
   opened: boolean;
   title?: string;
   subtitle?: string;
+  leftSide?: JSX.Element;
+  rightSide?: JSX.Element;
+  onKeyDown?: (e: KeyboardEvent) => void;
   onClose: () => void;
 }
 const Lightbox = ({
   children,
   opened,
   onClose,
+  leftSide,
+  rightSide,
+  onKeyDown,
   title,
   subtitle,
 }: LightboxProps) => {
@@ -31,6 +37,7 @@ const Lightbox = ({
       fullScreen
       withinPortal
       zIndex={9999}
+      onKeyDown={onKeyDown}
     >
       <Modal.Content className={classes.modalContent}>
         <Modal.Header className={classes.modalHeader}>
@@ -55,7 +62,11 @@ const Lightbox = ({
           </ActionIcon>
         </Modal.Header>
         <Modal.Body className={classes.modalBody}>
-          <Box className={classes.modalBodyInner}>{children}</Box>
+          <Box className={classes.modalBodyControlsContainer}>
+            {!!leftSide && leftSide}
+            <Box className={classes.modalBodyInner}>{children}</Box>
+            {!!rightSide && rightSide}
+          </Box>
         </Modal.Body>
       </Modal.Content>
     </Modal.Root>
