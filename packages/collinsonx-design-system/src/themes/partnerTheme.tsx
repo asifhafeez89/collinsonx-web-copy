@@ -140,12 +140,6 @@ const theme = (
         classNames: classesAnchor,
       }),
       Button: Button.extend({
-        styles: (theme, props) => ({
-          root: {
-            fontSize: rem(theme.fontSizes.md),
-            paddingInline: theme.spacing.md,
-          },
-        }),
         classNames: (theme, props) => {
           if (props.variant === 'outline') {
             return {
@@ -155,21 +149,28 @@ const theme = (
           return {};
         },
         vars: (theme, props) => {
+          const baseVars = {
+            '--button-padding-x': theme.spacing.md,
+            '--button-fz': rem(theme.fontSizes.md),
+            '--button-height': rem(44),
+          };
+
+          let variantVars = {};
+
           if (props.variant === 'outline') {
-            return {
-              root: {
-                '--button-color': colors['text-default'],
-                '--button-bd': `1px solid ${colors['text-default']}`,
-              },
+            variantVars = {
+              '--button-color': colors['text-default'],
+              '--button-bd': `1px solid ${colors['text-default']}`,
             };
           } else if (props.variant === 'transparent') {
-            return {
-              root: {
-                '--button-color': colors['text-default'],
-              },
+            variantVars = {
+              '--button-color': colors['text-default'],
             };
           }
-          return { root: {} };
+
+          const combinedVars = { ...baseVars, ...variantVars };
+
+          return { root: combinedVars };
         },
       }),
       Pagination: Pagination.extend({
