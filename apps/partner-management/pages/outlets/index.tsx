@@ -19,6 +19,7 @@ import { CARDS_LIMIT } from 'config';
 import { useState } from 'react';
 import Spinner from '@components/Spinner';
 import PageTitle from '@components/PageTitle';
+import { attemptRefreshingSession } from 'supertokens-auth-react/recipe/session';
 
 export default function Outlets() {
   const router = useRouter();
@@ -39,7 +40,13 @@ export default function Outlets() {
   const [
     fetchOutlets,
     { loading: loadingOutlets, error: errorOutlets, data: dataOutlets },
-  ] = useLazyQuery<{ getOutlets: PaginatedOutlets }>(getOutlets);
+  ] = useLazyQuery<{ getOutlets: PaginatedOutlets }>(getOutlets, {
+    fetchPolicy: 'network-only',
+    notifyOnNetworkStatusChange: true,
+    onCompleted: () => {
+      attemptRefreshingSession().then((success: any) => {});
+    },
+  });
 
   const [
     fetchPartnerBrands,
@@ -48,7 +55,13 @@ export default function Outlets() {
       error: errorPartnerBrand,
       data: dataPartnerBrand,
     },
-  ] = useLazyQuery<{ getPartnerBrandByID: PartnerBrand }>(getPartnerBrandByID);
+  ] = useLazyQuery<{ getPartnerBrandByID: PartnerBrand }>(getPartnerBrandByID, {
+    fetchPolicy: 'network-only',
+    notifyOnNetworkStatusChange: true,
+    onCompleted: () => {
+      attemptRefreshingSession().then((success: any) => {});
+    },
+  });
 
   useEffect(() => {
     if (isReady && window) {

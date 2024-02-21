@@ -22,6 +22,7 @@ import PageTitle from '@components/PageTitle';
 import getOutletPageTitle from 'lib/getOutletPageTitle';
 import { useMemo } from 'react';
 import Conditions from '@components/Conditions';
+import { attemptRefreshingSession } from 'supertokens-auth-react/recipe/session';
 
 const capitalizedCategoryMap: { [key in ProductCategory]: string } = {
   [ProductCategory.Eat]: 'Eat',
@@ -56,6 +57,11 @@ export default function OutletDetail() {
     data: dataOutlet,
   } = useQuery<{ getOutletByID: Outlet }>(getOutletByID, {
     variables: { id },
+    fetchPolicy: 'network-only',
+    notifyOnNetworkStatusChange: true,
+    onCompleted: () => {
+      attemptRefreshingSession().then((success: any) => {});
+    },
   });
 
   const fallbackTitle = useMemo(() => <PageTitle title="Outlet" />, []);
@@ -71,7 +77,7 @@ export default function OutletDetail() {
   if (!dataOutlet?.getOutletByID) {
     return (
       <Box id="outlet-container">
-        <Box>Outlet not found</Box>;
+        <Box>Outlet not found</Box>
       </Box>
     );
   }

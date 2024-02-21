@@ -19,6 +19,7 @@ import { useMemo } from 'react';
 import Spinner from '@components/Spinner';
 import Section from '@components/Section';
 import PageTitle from '@components/PageTitle';
+import { attemptRefreshingSession } from 'supertokens-auth-react/recipe/session';
 
 const columnHelper = createColumnHelper<Partial<PartnerBrand>>();
 
@@ -33,6 +34,11 @@ export default function Partners() {
     data: dataPartners,
   } = useQuery<{ getPartnerBrands: PartnerBrands }>(getPartnerBrands, {
     variables: { limit: CARDS_LIMIT },
+    fetchPolicy: 'network-only',
+    notifyOnNetworkStatusChange: true,
+    onCompleted: () => {
+      attemptRefreshingSession().then((success: any) => {});
+    },
   });
 
   const partnersCount = dataPartners?.getPartnerBrands.totalItemCount || 0;
