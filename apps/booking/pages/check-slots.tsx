@@ -182,6 +182,7 @@ export default function CheckAvailability() {
           flightNumber,
           flightTime,
         },
+        pdfVersion: process.env.NEXT_PUBLIC_VERSION ?? '',
       };
 
       if (!linkedAccountId) {

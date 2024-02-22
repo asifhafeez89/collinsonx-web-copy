@@ -331,13 +331,13 @@ export const PayloadProvider = (props: PropsWithChildren) => {
             JSON.stringify(data || null)
           );
 
-          const consumer = data.getConsumerByID;
+          const consumer = data?.getConsumerByID;
 
-          if (language !== consumer.locale) {
+          if (language !== consumer?.locale) {
             updateConsumerCall({
               variables: {
                 consumerInput: {
-                  emailAddress: consumer.emailAddress,
+                  emailAddress: consumer?.emailAddress,
                   locale: language,
                 },
               },
