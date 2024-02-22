@@ -331,7 +331,6 @@ export default function CheckEmail() {
                     onChange={handleChange}
                     placeholder="-"
                     length={6}
-                    size="xl"
                     gap="8px"
                     className={classes.pinInput}
                     inputMode="numeric"

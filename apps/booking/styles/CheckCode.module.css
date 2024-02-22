@@ -12,10 +12,16 @@
 }
 .pinInput {
   padding: 0.5rem 0 0.5rem 0;
+  --pin-input-size: var(--pin-input-size-xl);
   & input {
     border-radius: 8px;
     font-size: 18px;
     font-weight: bold;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    --pin-input-size: var(--pin-input-size-lg);
   }
 }
 .buttonRoot {

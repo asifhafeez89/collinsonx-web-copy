@@ -2593,8 +2593,10 @@ export type Mutation = {
   createBooking?: Maybe<Booking>;
   createEntitlement?: Maybe<Entitlement>;
   createInvitation?: Maybe<Invitation>;
+
   /** Create a mobile app data record for a new app instance against consumer */
   createMobileAppData?: Maybe<MobileAppData>;
+
   createOutlet?: Maybe<Outlet>;
   createPartnerBrand?: Maybe<PartnerBrand>;
   createProduct?: Maybe<Product>;
