@@ -63,12 +63,15 @@ const CardContainer = ({
       parentSection={
         partner ? (
           <Anchor
-            className={clsx({ [classes.partnerAnchorUnderline]: hovered })}
+            classNames={{
+              root: clsx(classes.partnerAnchorRoot, {
+                [classes.partnerAnchorUnderline]: hovered,
+              }),
+            }}
             component={Link}
             href={`/outlets?partner=${partner.id}`}
             onClick={handleClickLink}
             data-testid="outlet-card-partner-name"
-            c={colors['text-grey']}
           >
             {partner?.name}
           </Anchor>
