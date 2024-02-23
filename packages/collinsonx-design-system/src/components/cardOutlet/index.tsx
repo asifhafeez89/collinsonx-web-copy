@@ -17,7 +17,10 @@ export interface WorkflowStage {
 
 export interface CardOutletProps {
   onClick?: () => void;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
   title: string | ReactNode;
+  parentSection?: string | ReactNode;
   locationName?: string;
   terminal?: string;
   imageUrl?: string;
@@ -40,6 +43,7 @@ export interface CardOutletProps {
 function CardOutlet({
   legacyCode,
   status,
+  parentSection,
   title,
   children,
   locationName,
@@ -50,6 +54,8 @@ function CardOutlet({
   imageUrl,
   width,
   onClick = () => {},
+  onMouseEnter = () => {},
+  onMouseLeave = () => {},
   productCategories = [],
   'data-testid': dataTestId,
   index,
@@ -64,20 +70,29 @@ function CardOutlet({
       width={width}
       imageAlt={imageAlt}
       onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
       <Stack gap={24}>
         <Stack gap={6}>
-          <Flex gap={6} align="baseline">
-            {typeof title !== 'string' ? title : <CardTitle>{title}</CardTitle>}
-            {legacyCode && (
-              <Text
-                size="md"
-                color={colors['text-grey']}
-                style={{ lineHeight: '20.24px' }}
-              >
-                {legacyCode}
-              </Text>
-            )}
+          <Flex gap={6} direction="column">
+            {parentSection}
+            <Flex w="100%" align="baseline" gap={6}>
+              {typeof title !== 'string' ? (
+                title
+              ) : (
+                <CardTitle>{title}</CardTitle>
+              )}
+              {legacyCode && (
+                <Text
+                  size="md"
+                  color={colors['text-grey']}
+                  style={{ lineHeight: '20.24px' }}
+                >
+                  {legacyCode}
+                </Text>
+              )}
+            </Flex>
           </Flex>
           {locationName && (
             <Text

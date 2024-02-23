@@ -123,6 +123,10 @@ export default class CatalogueApi {
         items {
           id
           name
+          partnerBrand {
+            id
+            name
+          }
           legacyCode
           location {
             terminal
@@ -165,6 +169,10 @@ export default class CatalogueApi {
           conditions {
             legacyConditions
           }
+        }
+        partnerBrand {
+          id
+          name
         }
         category
         code

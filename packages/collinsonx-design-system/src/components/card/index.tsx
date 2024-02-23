@@ -7,6 +7,8 @@ import { ReactNode } from 'react';
 
 export interface CardProps {
   onClick?: () => void;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
   imageUrl?: string;
   status: Status;
   width?: string;
@@ -51,9 +53,18 @@ function Card({
   imageAlt,
   'data-testid': dataTestId,
   onClick = () => {},
+  onMouseEnter = () => {},
+  onMouseLeave = () => {},
 }: CardProps) {
   return (
-    <StyledCard p={0} width={width} onClick={onClick} data-testid={dataTestId}>
+    <StyledCard
+      p={0}
+      width={width}
+      onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      data-testid={dataTestId}
+    >
       <CardImage
         src={imageUrl}
         hasPadding={hasImagePadding}

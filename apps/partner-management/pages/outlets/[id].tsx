@@ -87,6 +87,7 @@ export default function OutletDetail() {
     location,
     category,
     status,
+    partnerBrand,
     legacyCode,
     code,
     products,
@@ -150,6 +151,7 @@ export default function OutletDetail() {
               <OutletDetailsSummary
                 locationType={category}
                 legacyCode={legacyCode ?? undefined}
+                partnerBrand={partnerBrand}
                 code={code ?? undefined}
                 status={status}
                 productCategories={filteredProductCategories}

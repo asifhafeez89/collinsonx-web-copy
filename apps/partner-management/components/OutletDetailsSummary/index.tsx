@@ -21,7 +21,9 @@ import {
   ProductCategory,
   Maybe,
   Status,
+  PartnerBrand,
 } from '@collinsonx/utils';
+import Link from 'next/link';
 
 export interface OutletDetailsSummaryProps {
   locationType: OutletCategory;
@@ -33,6 +35,7 @@ export interface OutletDetailsSummaryProps {
   ancillaryProductNames: string[];
   disabledAccess: boolean;
   email?: string;
+  partnerBrand?: PartnerBrand;
   lastEditedDate?: string;
   editor?: Editor;
 }
@@ -41,6 +44,7 @@ const OutletDetailsSummary = ({
   locationType,
   legacyCode,
   code: outletCode,
+  partnerBrand,
   productCategories: categories,
   status,
   primaryProductNames,
@@ -176,6 +180,22 @@ const OutletDetailsSummary = ({
         <SummaryItem
           label="Disabled access"
           value={disabledAccess ? 'Yes' : 'No'}
+        />
+
+        <SummaryItem
+          label="Partner"
+          value={
+            partnerBrand?.name ? (
+              <Link
+                className={classes.partnerName}
+                href={`/outlets?partner=${partnerBrand.id}`}
+              >
+                {partnerBrand.name}
+              </Link>
+            ) : (
+              'N/A'
+            )
+          }
         />
 
         <SummaryItem label="Email" value={email ?? 'N/A'} />

@@ -8,6 +8,10 @@ const getOutletByID = gql`
       category
       code
       legacyCode
+      partnerBrand {
+        id
+        name
+      }
       location {
         city
         code

@@ -82,6 +82,14 @@ export default function Outlets() {
     return partnerId ? 1 : dataOutlets?.getOutlets?.pageInfo?.totalPages;
   }, [partnerId, dataOutlets]);
 
+  const partnerBrand = useMemo(() => {
+    const partner = dataPartnerBrand?.getPartnerBrandByID;
+    if (partnerId && partner) {
+      const { id, name } = partner;
+      return { id, name } as PartnerBrand;
+    }
+  }, [partnerId, dataPartnerBrand]);
+
   const data = useMemo(() => {
     return partnerId
       ? (dataPartnerBrand?.getPartnerBrandByID.outlets as Outlet[])
@@ -94,17 +102,21 @@ export default function Outlets() {
 
   const title = 'Outlets';
 
+  const loading = loadingOutlets || loadingPartnerBrand;
+
   return (
     <Stack gap={24} px={24} pt={32} data-testid="outlet-listing-container">
       <PageTitle title={title} section="Catalogue" />
       <Title>{title}</Title>
       <Error error={errorOutlets} />
       <Error error={errorPartnerBrand} />
-      {(loadingOutlets || loadingPartnerBrand || !router.isReady) && (
-        <Spinner />
-      )}
-      {data && data.length ? (
-        <OutletGrid outlets={data} onClickOutlet={handleClickOutlet} />
+      {(loading || !router.isReady) && <Spinner />}
+      {!loading && data && data.length ? (
+        <OutletGrid
+          outlets={data}
+          onClickOutlet={handleClickOutlet}
+          partnerBrand={partnerBrand}
+        />
       ) : null}
       {!partnerId && !loadingOutlets && !loadingPartnerBrand && (
         <Center>

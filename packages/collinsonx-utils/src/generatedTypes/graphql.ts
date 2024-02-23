@@ -2593,10 +2593,8 @@ export type Mutation = {
   createBooking?: Maybe<Booking>;
   createEntitlement?: Maybe<Entitlement>;
   createInvitation?: Maybe<Invitation>;
-
   /** Create a mobile app data record for a new app instance against consumer */
   createMobileAppData?: Maybe<MobileAppData>;
-
   createOutlet?: Maybe<Outlet>;
   createPartnerBrand?: Maybe<PartnerBrand>;
   createProduct?: Maybe<Product>;
@@ -3966,6 +3964,7 @@ export enum TimezoneType {
 }
 
 export type UpdateMobileAppDataInput = {
+  appId: Scalars['String']['input'];
   appName?: InputMaybe<Scalars['String']['input']>;
   appVersion?: InputMaybe<Scalars['String']['input']>;
   deviceMaker?: InputMaybe<Scalars['String']['input']>;
@@ -4681,6 +4680,7 @@ export type GetOutletByIdQuery = {
     status: Status;
     salesforceID: string;
     reservationEmail?: string | null;
+    partnerBrand: { __typename?: 'PartnerBrand'; name: string };
     location: {
       __typename?: 'Location';
       city?: string | null;
@@ -4831,7 +4831,6 @@ export type GetOutletByIdQuery = {
         } | null;
       } | null;
     } | null;
-    partnerBrand: { __typename?: 'PartnerBrand'; name: string };
   } | null;
 };
 
@@ -4858,6 +4857,7 @@ export type GetOutletsQuery = {
         name?: string | null;
         terminal?: string | null;
       };
+      partnerBrand: { __typename?: 'PartnerBrand'; name: string };
       content?: {
         __typename?: 'OutletContent';
         media?: {
@@ -6878,6 +6878,16 @@ export const GetOutletByIdDocument = {
                 { kind: 'Field', name: { kind: 'Name', value: 'legacyCode' } },
                 {
                   kind: 'Field',
+                  name: { kind: 'Name', value: 'partnerBrand' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
                   name: { kind: 'Name', value: 'location' },
                   selectionSet: {
                     kind: 'SelectionSet',
@@ -7510,6 +7520,19 @@ export const GetOutletsDocument = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'terminal' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'partnerBrand' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
                             },
                           ],
                         },

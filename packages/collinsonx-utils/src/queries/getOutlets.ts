@@ -13,6 +13,10 @@ const getOutlets = gql`
           name
           terminal
         }
+        partnerBrand {
+          id
+          name
+        }
         productCategories
         content {
           media {

@@ -112,7 +112,7 @@ test.describe('outlet page', () => {
       }
     }
 
-    const { name, status, location } = outlet;
+    const { name, status, location, partnerBrand } = outlet;
     const pageTitle = getOutletPageTitle({
       name,
       status,
@@ -140,6 +140,9 @@ test.describe('outlet page', () => {
       .soft(summarySectionInfo['Disabled access'])
       .toBe(outlet.hasDisabledAccess ? 'Yes' : 'No');
     expect.soft(summarySectionInfo['Email']).toBe(emailValue);
+    expect
+      .soft(summarySectionInfo['Partner'])
+      .toBe(partnerBrand?.name ?? 'N/A');
   });
 
   test('product section displays the correct information', async ({ page }) => {

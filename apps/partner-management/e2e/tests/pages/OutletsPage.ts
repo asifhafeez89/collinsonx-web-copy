@@ -66,6 +66,14 @@ export default class OutletsPage {
    *
    * @param number Outlet number in terms of the order they are displayed in the UI e.g. number 1 will be the first outlet card in the list
    */
+  outletCardPartnerName(number: number) {
+    return this.outletCard(number).getByTestId('outlet-card-partner-name');
+  }
+
+  /**
+   *
+   * @param number Outlet number in terms of the order they are displayed in the UI e.g. number 1 will be the first outlet card in the list
+   */
   outletCard(number: number) {
     return this.page.getByTestId('outlet-card').nth(number - 1);
   }
@@ -104,7 +112,7 @@ export default class OutletsPage {
     const outletCards = await this.outletCards();
     const totalCardsDisplayed = outletCards.length;
 
-    expect(totalCardsDisplayed).toBeLessThanOrEqual(expectedNumber);
+    expect(totalCardsDisplayed).toBe(expectedNumber);
   }
 
   async assertCorrectOutletsAreDisplayed(outletsList: any) {
@@ -112,6 +120,7 @@ export default class OutletsPage {
       let cardNumber = i + 1;
       let outletCardTitle = this.outletCardTitle(cardNumber);
       let outletCardSubitle = this.outletCardSubtitle(cardNumber);
+      let outletCardPartnerName = this.outletCardPartnerName(cardNumber);
 
       // mimic the front-end conditional logic for displaying the subtitle
       let outletLocation = outletsList[i].location;
@@ -121,6 +130,9 @@ export default class OutletsPage {
 
       await expect(outletCardTitle).toHaveText(outletsList[i].name);
       await expect(outletCardSubitle).toHaveText(formattedSubtitle);
+      await expect(outletCardPartnerName).toHaveText(
+        outletsList[i].partnerBrand.name
+      );
     }
     await expect(outletsList.length).toBeLessThanOrEqual(CARDS_LIMIT);
   }

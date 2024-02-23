@@ -1,3 +1,8 @@
 .boxContainer > :not(:last-child) {
   padding-bottom: 16px;
 }
+.partnerName {
+  color: var(--text-default);
+  size: rem(18px);
+  text-decoration: underline;
+}
