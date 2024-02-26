@@ -28,7 +28,9 @@
     "changeset": "changeset",
     "version-packages": "changeset version",
     "release": "turbo run build --filter=main... && changeset publish",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "techdocs": "techdocs-cli generate --no-docker && techdocs-cli publish --publisher-type awsS3 --storage-name $TECHDOCS_S3_BUCKET_NAME --entity default/Component/backend-apps",
+    "techdocs:all": "turbo run techdocs"
   },
   "devDependencies": {
     "@changesets/cli": "^2.26.2",

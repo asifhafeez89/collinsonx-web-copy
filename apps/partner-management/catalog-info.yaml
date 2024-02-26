@@ -1,0 +1,20 @@
+---
+# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-api
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  description: Partner Management
+  name: partner-management
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - javascript
+    - nextjs
+    - frontend
+    - booking
+    - nodejs
+spec:
+  lifecycle: production
+  owner: platform-team
+  system: frontend
+  type: website

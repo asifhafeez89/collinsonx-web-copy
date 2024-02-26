@@ -1,0 +1,5 @@
+site_name: partner-management
+nav:
+  - README: README.md
+plugins:
+  - techdocs-core
