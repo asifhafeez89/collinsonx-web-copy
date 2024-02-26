@@ -22,6 +22,7 @@
     "e2e:uat-booking": "DEPLOYED=true cross-env ENV=UAT playwright test --config=./e2e/tests/ --project=booking",
     "e2e:uat-booking-local": "cross-env ENV=UAT playwright test --config=./e2e/tests/ --project=booking",
     "e2e:uat-booking-headed": "cross-env ENV=UAT playwright test --config=./e2e/tests/ --project=booking --headed",
+    "techdocs": "techdocs-cli generate --no-docker && techdocs-cli publish --publisher-type awsS3 --storage-name $TECHDOCS_S3_BUCKET_NAME --entity default/component/booking",
     "translations:generate:xlsx": "ts-node lib/translations.ts --file=xlsx",
     "translations:generate:json": "ts-node lib/translations.ts --file=json && prettier locales --write"
   },

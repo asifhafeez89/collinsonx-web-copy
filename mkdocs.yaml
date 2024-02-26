@@ -1,0 +1,8 @@
+site_name: collinsonx-web
+
+plugins:
+  - techdocs-core
+
+nav:
+  - Intro: index.md
+  - Web Apps: '*include ./apps/*/mkdocs.yaml'

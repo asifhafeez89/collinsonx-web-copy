@@ -146,6 +146,9 @@
     },
     "clean": {
       "cache": false
+    },
+    "techdocs": {
+      "cache": false
     }
   }
 }

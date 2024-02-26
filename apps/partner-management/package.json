@@ -21,7 +21,8 @@
     "e2e:uat-partner-portal-accessibility": "cross-env ENV=UAT playwright test --config=./e2e/tests/ --project=partner-portal-accessibility-tests --headed",
     "e2e:partner-portal": "cross-env ENV=TEST playwright test --config=./e2e/tests/ --project=partner-portal --headed",
     "e2e:ci-partner-portal": "DEPLOYED=true cross-env ENV=TEST playwright test --config=./e2e/tests/ --project=partner-portal",
-    "e2e:ci-partner-portal-local": "cross-env ENV=TEST playwright test --config=./e2e/tests/ --project=partner-portal"
+    "e2e:ci-partner-portal-local": "cross-env ENV=TEST playwright test --config=./e2e/tests/ --project=partner-portal",
+    "techdocs": "techdocs-cli generate --no-docker && techdocs-cli publish --publisher-type awsS3 --storage-name $TECHDOCS_S3_BUCKET_NAME --entity default/component/booking"
   },
   "resolutions": {
     "@types/react": "^18.0.26",
