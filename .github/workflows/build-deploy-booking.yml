@@ -40,6 +40,22 @@ jobs:
       - name: Install dependencies
         run: pnpm i
 
+      - name: Define host mappings (required by cors)
+        run: |
+          apt-get update -y
+          apt-get install sudo -y
+          sudo echo "127.0.0.1 booking-local.uat.cergea.com" | sudo tee -a /etc/hosts
+
+      - name: Booking webapp SSL cert creation (required by cors)
+        run: |
+          apt-get install wget libnss3-tools lsof -y
+          wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.3/mkcert-v1.4.3-linux-amd64
+          mv mkcert-v1.4.3-linux-amd64 /usr/bin/mkcert
+          chmod +x /usr/bin/mkcert
+          cd apps/booking
+          mkcert -key-file booking-local.uat.cergea.com-key.pem -cert-file booking-local.uat.cergea.com.pem booking-local.uat.cergea.com
+          echo "${{ secrets.ENV_TESTS_FILE_BOOKING }}" > .env.local
+
       - name: Run Booking webapp tests
         env:
           STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}
@@ -50,7 +66,7 @@ jobs:
           attempt_counter=0
           max_attempts=5
 
-          until $(curl --output /dev/null --silent --head --fail https://booking.test.cergea.com); do
+          until $(curl --output /dev/null --silent --head --fail http://localhost:3011); do
             if [ ${attempt_counter} -eq ${max_attempts} ];then
               echo "Max attempts reached"
               exit 1
@@ -62,7 +78,7 @@ jobs:
           done
 
           echo "${{ secrets.ENV_TESTS_FILE_BOOKING }}" > .env.tests
-          pnpm e2e:uat-booking
+          pnpm e2e:uat-booking-local
 
       - name: Upload test results
         if: failure()
